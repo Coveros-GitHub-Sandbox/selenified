@@ -12,6 +12,12 @@
         <javadoc sourcepath="${src-dir}" destdir="${doc-dir}"/>
     </target>
 
+    <target name="jar" depends="compile" description="generate an executable jar">
+        <jar destfile="stf.jar"
+                basedir="${com-dir}"
+                includes="secureci/exceptions/**,tools/**" />
+    </target>
+
     <target name="clean">
         <delete dir="${out-dir}" />
     </target>
