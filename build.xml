@@ -1,0 +1,65 @@
+<project name="SecureCI Testing Framework" basedir="." default="run">
+    <property name="jars" value="lib" />
+    <property name="rootdir" value="./" />
+    <property name="src-dir" value="./src" />
+    <property name="out-dir" value="./test-output" />
+    <property name="com-dir" value="${out-dir}/classes" />
+    <property name="doc-dir" value="./doc" />
+
+    <target name="doc" description="generate documentation">
+        <delete dir="${doc-dir}" />
+        <mkdir dir="${doc-dir}" />
+        <javadoc sourcepath="${src-dir}" destdir="${doc-dir}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${out-dir}" />
+    </target>
+
+    <target name="classpath">
+        <path id="classpath">
+            <fileset dir="${jars}">
+                <include name="*.jar"/>
+            </fileset>
+            <pathelement location="${com-dir}"/>
+        </path>
+    </target>
+
+    <target name="compile" depends="classpath">
+        <mkdir dir="${com-dir}" />
+        <javac srcdir="${src-dir}" destdir="${com-dir}" classpathref="classpath" includeantruntime="false" />
+    </target>
+    
+    <target name="run" depends="compile" description="Run tests in parallel">
+        <java classpathref="classpath" classname="org.testng.TestNG" failonerror="true">
+            <sysproperty key="browser" value="${browser}" />
+            <sysproperty key="hubAddress" value="${hubAddress}" />
+            <sysproperty key="appURL" value="${appURL}" />
+            <arg value="-d" />
+            <arg value="${basedir}/test-output" />
+            <arg value="-suitename" />
+            <arg value="Default suite" />
+            <arg value="-parallel"/>
+            <arg value="methods"/>
+            <arg value="-threadcount"/>
+            <arg value="20"/>
+            <arg value="${test-suite}"/>
+        </java>
+    </target>
+
+    <target name="replace">
+        <replaceregexp
+               match="ZZZFIRSTPARTZZZ"
+               replace="&lt;br/&gt;&lt;br/&gt;&lt;b&gt;See detailed test case &lt;"
+               byline="true">
+            <fileset dir="${out-dir}" includes="**/*.html"/>
+        </replaceregexp>
+        <replaceregexp
+               match="ZZZSECONDPARTZZZ"
+               replace="&gt;here&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;"
+               byline="true">
+            <fileset dir="${out-dir}" includes="**/*.html"/>
+        </replaceregexp>
+    </target>
+
+</project>
