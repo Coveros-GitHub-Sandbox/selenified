@@ -15,6 +15,7 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
@@ -1292,6 +1293,113 @@ public class SeleniumHelper {
 				+ type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
+	
+	/**
+	 * our generic selenium type functionality implemented for specific keys
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param key
+	 *            : the key to be pressed
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws InvalidActionException
+	 *             , InvalidLocatorTypeException
+	 */
+	public int type(Locators type, String locator, Keys key)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		String action = "Typing text '" + key + "' in " + type + " " + locator;
+		String expected = type + " " + locator
+				+ " is present, displayed, and enabled to have text " + key
+				+ " typed in";
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to type in " + type
+					+ " " + locator + " as it is not present", Result.FAILURE);
+			return 1; // indicates element not present
+		}
+		// wait for element to be displayed
+		if (!isElementDisplayed(type, locator, false)) {
+			waitForElementDisplayed(type, locator);
+		}
+		if (!isElementDisplayed(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to type in " + type
+					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			return 1; // indicates element not displayed
+		}
+		// wait for element to be enabled
+		if (!isElementEnabled(type, locator, false)) {
+			waitForElementEnabled(type, locator);
+		}
+		if (!isElementEnabled(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to type in " + type
+					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			return 1; // indicates element not enabled
+		}
+		WebElement element = getWebElement(type, locator);
+		element.sendKeys(key);
+		output.recordAction(action, expected, "Typed text '" + key + "' in "
+				+ type + " " + locator, Result.SUCCESS);
+		return 0;
+	}
+	
+	/**
+	 * our generic selenium clear functionality implemented
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param text
+	 *            : the text to be typed in
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws InvalidActionException
+	 *             , InvalidLocatorTypeException
+	 */
+	public int clear(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		String action = "Clearing text in " + type + " " + locator;
+		String expected = type + " " + locator
+				+ " is present, displayed, and enabled to have text cleared";
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to clear " + type
+					+ " " + locator + " as it is not present", Result.FAILURE);
+			return 1; // indicates element not present
+		}
+		// wait for element to be displayed
+		if (!isElementDisplayed(type, locator, false)) {
+			waitForElementDisplayed(type, locator);
+		}
+		if (!isElementDisplayed(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to clear " + type
+					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			return 1; // indicates element not displayed
+		}
+		// wait for element to be enabled
+		if (!isElementEnabled(type, locator, false)) {
+			waitForElementEnabled(type, locator);
+		}
+		if (!isElementEnabled(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to clear " + type
+					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			return 1; // indicates element not enabled
+		}
+		WebElement element = getWebElement(type, locator);
+		element.clear();
+		output.recordAction(action, expected, "Cleared text in "
+				+ type + " " + locator, Result.SUCCESS);
+		return 0;
+	}
 
 	/**
 	 * our generic select selenium functionality
@@ -1517,7 +1625,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		output.recordAction(action, expected, "Clicked 'OK' on the alert",
 				Result.SUCCESS);
 		return 0;
@@ -1544,7 +1652,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		output.recordAction(action, expected,
 				"Clicked 'OK' on the confirmation", Result.SUCCESS);
 		return 0;
@@ -1571,7 +1679,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.dismiss();
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		output.recordAction(action, expected,
 				"Clicked 'Cancel' on the confirmation", Result.SUCCESS);
 		return 0;
@@ -1598,7 +1706,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		output.recordAction(action, expected, "Clicked 'OK' on the prompt",
 				Result.SUCCESS);
 		return 0;
@@ -1625,7 +1733,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.dismiss();
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		output.recordAction(action, expected, "Clicked 'Cancel' on the prompt",
 				Result.SUCCESS);
 		return 0;
@@ -1653,7 +1761,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.sendKeys(text);
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		output.recordAction(action, expected, "Typed text '" + text
 				+ "' into prompt", Result.SUCCESS);
 		return 0;
@@ -1815,7 +1923,7 @@ public class SeleniumHelper {
 		if (print) {
 			output.recordExpected("Checking for alert to be present");
 		}
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -1859,7 +1967,7 @@ public class SeleniumHelper {
 				(seconds * 1000) - (end - System.currentTimeMillis()),
 				seconds * 1000);
 		timetook = timetook / 1000;
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		if (!isAlertPresent(false)) {
 			output.recordAction(action, expected, "After waiting " + timetook
 					+ " seconds, an alert is not present", Result.FAILURE);
@@ -1883,7 +1991,7 @@ public class SeleniumHelper {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
@@ -1913,7 +2021,7 @@ public class SeleniumHelper {
 		if (print) {
 			output.recordExpected("Checking for confirmation to be present");
 		}
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -1957,7 +2065,7 @@ public class SeleniumHelper {
 				(seconds * 1000) - (end - System.currentTimeMillis()),
 				seconds * 1000);
 		timetook = timetook / 1000;
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		if (!isConfirmationPresent(false)) {
 			output.recordAction(action, expected, "After waiting " + timetook
 					+ " seconds, a confirmation is not present", Result.FAILURE);
@@ -1981,7 +2089,7 @@ public class SeleniumHelper {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
@@ -2011,7 +2119,7 @@ public class SeleniumHelper {
 		if (print) {
 			output.recordExpected("Checking for prompt to be present");
 		}
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -2055,7 +2163,7 @@ public class SeleniumHelper {
 				(seconds * 1000) - (end - System.currentTimeMillis()),
 				seconds * 1000);
 		timetook = timetook / 1000;
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		if (!isPromptPresent(false)) {
 			output.recordAction(action, expected, "After waiting " + timetook
 					+ " seconds, a prompt is not present", Result.FAILURE);
@@ -2079,7 +2187,7 @@ public class SeleniumHelper {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		driver.switchTo().defaultContent();
+		//driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
