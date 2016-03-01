@@ -8,12 +8,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import tools.TestBase;
 import tools.logging.TestOutput;
 import tools.selenium.SeleniumHelper.Locators;
 import tools.selenium.SeleniumHelper;
-import tools.selenium.SeleniumTestBase;
 
-public class SampleTests extends SeleniumTestBase {
+public class SampleTests extends TestBase {
 	
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() throws Exception {
