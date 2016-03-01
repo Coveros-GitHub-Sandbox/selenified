@@ -19,6 +19,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -694,7 +695,8 @@ public class SeleniumHelper {
 		try {
 			getWebElement(type, locator).getText();
 			isPresent = true;
-		} catch (NoSuchElementException e) {
+		} catch (NoSuchElementException e){
+		} catch (StaleElementReferenceException e) {
 		}
 		if (print) {
 			output.recordExpected("Checking for " + type + " " + locator
@@ -1138,7 +1140,9 @@ public class SeleniumHelper {
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
-		element.click();
+		//element.click();
+		Actions selAction = new Actions(driver);
+		selAction.click(element).perform();
 		output.recordAction(action, expected,
 				"Clicked " + type + " " + locator, Result.SUCCESS);
 		return 0;
