@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -12,6 +13,7 @@ import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -695,7 +697,7 @@ public class SeleniumHelper {
 		try {
 			getWebElement(type, locator).getText();
 			isPresent = true;
-		} catch (NoSuchElementException e){
+		} catch (NoSuchElementException e) {
 		} catch (StaleElementReferenceException e) {
 		}
 		if (print) {
@@ -1140,7 +1142,7 @@ public class SeleniumHelper {
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
-		//element.click();
+		// element.click();
 		Actions selAction = new Actions(driver);
 		selAction.click(element).perform();
 		output.recordAction(action, expected,
@@ -1297,7 +1299,7 @@ public class SeleniumHelper {
 				+ type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
-	
+
 	/**
 	 * our generic selenium type functionality implemented for specific keys
 	 * 
@@ -1351,7 +1353,7 @@ public class SeleniumHelper {
 				+ type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
-	
+
 	/**
 	 * our generic selenium clear functionality implemented
 	 * 
@@ -1400,8 +1402,8 @@ public class SeleniumHelper {
 		}
 		WebElement element = getWebElement(type, locator);
 		element.clear();
-		output.recordAction(action, expected, "Cleared text in "
-				+ type + " " + locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Cleared text in " + type + " "
+				+ locator, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1473,14 +1475,19 @@ public class SeleniumHelper {
 					+ " " + locator + " as it is not enabled", Result.FAILURE);
 			return 1; // indicates element not enabled
 		}
-		WebElement element = getWebElement(type, locator);
-		List<WebElement> allOptions = element
-				.findElements(By.tagName("option"));
-		for (WebElement option : allOptions) {
-			if (option.getText().equals(value)) { // getAttribute("value")
-				option.click();
-			}
+		// ensure the option exists
+		if (!Arrays.asList(getSelectOptions(type, locator)).contains(value)) {
+			output.recordAction(action, expected, "Unable to select " + value
+					+ " in " + type + " " + locator
+					+ " as that option isn't present. Available options are:<i><br/>"
+					+ "&nbsp;&nbsp;&nbsp;"+String.join("<br/>&nbsp;&nbsp;&nbsp;", 
+							getSelectOptions(type, locator))+"</i>", Result.FAILURE);
+			return 1;
 		}
+		//do the select
+		WebElement element = getWebElement(type, locator);
+		Select dropdown = new Select(element);
+		dropdown.selectByValue(value);
 		output.recordAction(action, expected, "Selected " + value + " in "
 				+ type + " " + locator, Result.SUCCESS);
 		return 0;
@@ -1629,7 +1636,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		output.recordAction(action, expected, "Clicked 'OK' on the alert",
 				Result.SUCCESS);
 		return 0;
@@ -1656,7 +1663,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		output.recordAction(action, expected,
 				"Clicked 'OK' on the confirmation", Result.SUCCESS);
 		return 0;
@@ -1683,7 +1690,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.dismiss();
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		output.recordAction(action, expected,
 				"Clicked 'Cancel' on the confirmation", Result.SUCCESS);
 		return 0;
@@ -1710,7 +1717,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		output.recordAction(action, expected, "Clicked 'OK' on the prompt",
 				Result.SUCCESS);
 		return 0;
@@ -1737,7 +1744,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.dismiss();
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		output.recordAction(action, expected, "Clicked 'Cancel' on the prompt",
 				Result.SUCCESS);
 		return 0;
@@ -1765,7 +1772,7 @@ public class SeleniumHelper {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.sendKeys(text);
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		output.recordAction(action, expected, "Typed text '" + text
 				+ "' into prompt", Result.SUCCESS);
 		return 0;
@@ -1927,7 +1934,7 @@ public class SeleniumHelper {
 		if (print) {
 			output.recordExpected("Checking for alert to be present");
 		}
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -1971,7 +1978,7 @@ public class SeleniumHelper {
 				(seconds * 1000) - (end - System.currentTimeMillis()),
 				seconds * 1000);
 		timetook = timetook / 1000;
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		if (!isAlertPresent(false)) {
 			output.recordAction(action, expected, "After waiting " + timetook
 					+ " seconds, an alert is not present", Result.FAILURE);
@@ -1995,7 +2002,7 @@ public class SeleniumHelper {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
@@ -2025,7 +2032,7 @@ public class SeleniumHelper {
 		if (print) {
 			output.recordExpected("Checking for confirmation to be present");
 		}
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -2069,7 +2076,7 @@ public class SeleniumHelper {
 				(seconds * 1000) - (end - System.currentTimeMillis()),
 				seconds * 1000);
 		timetook = timetook / 1000;
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		if (!isConfirmationPresent(false)) {
 			output.recordAction(action, expected, "After waiting " + timetook
 					+ " seconds, a confirmation is not present", Result.FAILURE);
@@ -2093,7 +2100,7 @@ public class SeleniumHelper {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
@@ -2123,7 +2130,7 @@ public class SeleniumHelper {
 		if (print) {
 			output.recordExpected("Checking for prompt to be present");
 		}
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -2167,7 +2174,7 @@ public class SeleniumHelper {
 				(seconds * 1000) - (end - System.currentTimeMillis()),
 				seconds * 1000);
 		timetook = timetook / 1000;
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		if (!isPromptPresent(false)) {
 			output.recordAction(action, expected, "After waiting " + timetook
 					+ " seconds, a prompt is not present", Result.FAILURE);
@@ -2191,7 +2198,7 @@ public class SeleniumHelper {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		//driver.switchTo().defaultContent();
+		// driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
@@ -2263,7 +2270,6 @@ public class SeleniumHelper {
 		return element.getText();
 	}
 
-	
 	/**
 	 * our generic selenium get value from an element functionality implemented
 	 * 
@@ -2273,7 +2279,8 @@ public class SeleniumHelper {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return String - the text of the element
 	 */
-	public String getValue(Locators type, String locator) throws InvalidLocatorTypeException {
+	public String getValue(Locators type, String locator)
+			throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		return element.getAttribute("value");
 	}
