@@ -8,10 +8,10 @@ import java.util.Date;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-//import org.testng.annotations.AfterClass;
-//import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -86,15 +86,6 @@ public class TestBase {
 		}
 	}
 
-	// @BeforeClass(alwaysRun = true, description = "")
-	// protected void setupSystemForTests() throws Exception {
-	// }
-	//
-	// @AfterClass(alwaysRun = true, description = "")
-	// protected void cleanUpSystemFromTests() throws Exception {
-	// }
-
-	// @BeforeMethod (alwaysRun = false)
 	protected void startTest(Object[] dataProvider, Method method,
 			ITestContext test, boolean selenium) throws Exception {
 		String testName = getTestName(method, dataProvider);
@@ -135,64 +126,56 @@ public class TestBase {
 	@AfterMethod(alwaysRun = true)
 	protected void endTest(Object[] dataProvider, Method method,
 			ITestContext test, ITestResult result) throws Exception {
-		// System.out.println("GOT TO LINE 1");
 		String testLink = getTestName(method, dataProvider);
-		// System.out.println("GOT TO LINE 2");
 		String testName = method.getName();
-		// System.out.println("GOT TO LINE 3");
 		if (dataProvider != null) {
-			// System.out.println("GOT TO LINE 4");
 			testName += " : ";
-			// System.out.println("GOT TO LINE 5");
 			for (Object data : dataProvider) {
-				// System.out.println("GOT TO LINE 6");
 				if (data == null || data.toString().startsWith("public")) {
-					// System.out.println("GOT TO LINE 7");
 					break;
 				}
-				// System.out.println("GOT TO LINE 8");
 				testName += data.toString() + ", ";
-				// System.out.println("GOT TO LINE 9");
 			}
-			// System.out.println("GOT TO LINE 10");
 			testName.substring(0, testName.length() - 2);
-			// System.out.println("GOT TO LINE 11");
 		}
-		// System.out.println("GOT TO LINE 12");
 		if (test.getAttribute(testLink + "SelHelper") != null) {
-			// System.out.println("GOT TO LINE 13");
 			SeleniumHelper selHelper = (SeleniumHelper) test
 					.getAttribute(testLink + "SelHelper");
-			// System.out.println("GOT TO LINE 14");
 			selHelper.killDriver();
-			// System.out.println("GOT TO LINE 15");
 		}
-		// System.out.println("GOT TO LINE 16");
 
 		String colClass = "";
-		// System.out.println("GOT TO LINE 17");
 		if (result.getStatus() == 1) {
 			colClass = "invocation-passed";
-			// System.out.println("GOT TO LINE 18");
 		}
-		// System.out.println("GOT TO LINE 19");
 		if (result.getStatus() == 2) {
-			// System.out.println("GOT TO LINE 20");
 			colClass = "invocation-failed";
 		}
-		// System.out.println("GOT TO LINE 21");
 		if (result.getStatus() == 3) {
-			// System.out.println("GOT TO LINE 22");
 			colClass = "invocation-skipped";
 		}
-		// System.out.println("GOT TO LINE 23");
 		Reporter.log("<span class='" + colClass + "'>"
 				+ Result.values()[result.getStatus()] + "</span></td><td>"
 				+ "<a href='" + testLink + ".html'>" + testName + "</a>"
 				+ "</td><td>"
 				+ (result.getEndMillis() - result.getStartMillis()) / 1000
 				+ " seconds");
-		// System.out.println("GOT TO LINE 24");
+		System.out.println("Finished test " + testLink);
+	}
+
+	@AfterClass(alwaysRun = true)
+	protected void endClass() throws Exception {
+		System.out.println("Finished class" );
+	}
+	
+	@AfterTest(alwaysRun = true)
+	protected void endTest() throws Exception {
+		System.out.println("Finished testing group" );
+	}
+
+	@AfterSuite(alwaysRun = true)
+	protected void archiveTestResults() throws Exception {
+		System.out.println("\nREMEMBER TO ARCHIVE YOUR TESTS!\n\n");
 	}
 
 	protected static String getTestName(Method method, Object... dataProvider) {
@@ -214,10 +197,5 @@ public class TestBase {
 			}
 		}
 		return testName;
-	}
-
-	@AfterSuite(alwaysRun = true)
-	protected void archiveTestResults() throws Exception {
-		System.out.println("\nREMEMBER TO ARCHIVE YOUR TESTS!\n\n");
 	}
 }
