@@ -1477,14 +1477,23 @@ public class SeleniumHelper {
 		}
 		// ensure the option exists
 		if (!Arrays.asList(getSelectOptions(type, locator)).contains(value)) {
-			output.recordAction(action, expected, "Unable to select " + value
-					+ " in " + type + " " + locator
-					+ " as that option isn't present. Available options are:<i><br/>"
-					+ "&nbsp;&nbsp;&nbsp;"+String.join("<br/>&nbsp;&nbsp;&nbsp;", 
-							getSelectOptions(type, locator))+"</i>", Result.FAILURE);
+			output.recordAction(
+					action,
+					expected,
+					"Unable to select "
+							+ value
+							+ " in "
+							+ type
+							+ " "
+							+ locator
+							+ " as that option isn't present. Available options are:<i><br/>"
+							+ "&nbsp;&nbsp;&nbsp;"
+							+ String.join("<br/>&nbsp;&nbsp;&nbsp;",
+									getSelectOptions(type, locator)) + "</i>",
+					Result.FAILURE);
 			return 1;
 		}
-		//do the select
+		// do the select
 		WebElement element = getWebElement(type, locator);
 		Select dropdown = new Select(element);
 		dropdown.selectByValue(value);
@@ -2222,14 +2231,50 @@ public class SeleniumHelper {
 		return false;
 	}
 
-	public String getSelectedLabel(Locators type, String locator) {
-		// TODO Auto-generated method stub
-		return "NOT YET IMPLEMENTED";
+	/**
+	 * get the options from the select drop down
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return String[]: the options from the select element
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
+	 *             , InvalidLocatorTypeException
+	 */
+	public String getSelectedLabel(Locators type, String locator)
+			throws InvalidLocatorTypeException, InvalidActionException {
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			return "";
+		}
+		WebElement element = getWebElement(type, locator);
+		Select dropdown = new Select(element);
+		WebElement option = dropdown.getFirstSelectedOption();
+		return option.getText();
 	}
 
-	public String[] getSelectedLabels(Locators type, String locator) {
-		// TODO Auto-generated method stub
-		return new String[] { "NOT YET IMPLEMENTED" };
+	public String[] getSelectedLabels(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			return new String[0];
+		}
+		WebElement element = getWebElement(type, locator);
+		Select dropdown = new Select(element);
+		List<WebElement> options = dropdown.getAllSelectedOptions();
+		String[] s_options = new String[options.size()];
+		for(int i=0; i < options.size(); i++ ) {
+			s_options[i] = options.get(i).getText();
+		}
+		return s_options;
 	}
 
 	/**
