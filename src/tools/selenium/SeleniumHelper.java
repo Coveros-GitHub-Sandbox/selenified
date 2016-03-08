@@ -316,6 +316,7 @@ public class SeleniumHelper {
 				getWebElement(type, locator).getText();
 				break;
 			} catch (NoSuchElementException e) {
+			} catch (StaleElementReferenceException e) {
 			}
 		}
 		double timetook = Math.min(
@@ -1245,6 +1246,60 @@ public class SeleniumHelper {
 				+ locator, Result.SUCCESS);
 		return 0;
 	}
+	
+	/**
+	 * a custom selenium functionality to apply a blur to an element
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
+	 */
+	public int blur(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		String action = "Focusing, then unfocusing (blurring) on " + type + " " + locator;
+		String expected = type + " " + locator
+				+ " is present, displayed, and enabled to be blurred";
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to focus on " + type
+					+ " " + locator + " as it is not present", Result.FAILURE);
+			return 1; // indicates element not present
+		}
+		// wait for element to be displayed
+		if (!isElementDisplayed(type, locator, false)) {
+			waitForElementDisplayed(type, locator);
+		}
+		if (!isElementDisplayed(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to focus on " + type
+					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			return 1; // indicates element not displayed
+		}
+		// wait for element to be enabled
+		if (!isElementEnabled(type, locator, false)) {
+			waitForElementEnabled(type, locator);
+		}
+		if (!isElementEnabled(type, locator, false)) {
+			output.recordAction(action, expected, "Unable to focus on " + type
+					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			return 1; // indicates element not enabled
+		}
+		WebElement element = getWebElement(type, locator);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].focus(); arguments[0].blur(); return true", element);
+		// element.click();
+		output.recordAction(action, expected,
+				"Focused, then unfocused (blurred) on " + type + " " + locator, Result.SUCCESS);
+		return 0;
+	}
+
 
 	/**
 	 * our generic selenium type functionality implemented
