@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.Cookie;
 
 import secureci.exceptions.InvalidActionException;
 import secureci.exceptions.InvalidBrowserException;
@@ -139,7 +141,9 @@ public class SeleniumHelper {
 		} else {
 			switch (browser) { // check our browser
 			case HtmlUnit: {
-				driver = new HtmlUnitDriver(true);	//to disable javascript, remove true in constructor
+				driver = new HtmlUnitDriver(true); // to disable javascript,
+													// remove true in
+													// constructor
 				break;
 			}
 			case Firefox: {
@@ -678,8 +682,8 @@ public class SeleniumHelper {
 	}
 
 	/**
-	 * a method for checking if an element is an input; it needs to be an input
-	 * or textarea
+	 * a method for checking if an element is an input; it needs to be an input,
+	 * select, or textarea
 	 * 
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
@@ -695,8 +699,8 @@ public class SeleniumHelper {
 	}
 
 	/**
-	 * a method for checking if an element is an input; it needs to be an input
-	 * or textarea
+	 * a method for checking if an element is an input; it needs to be an input,
+	 * select, or textarea
 	 * 
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
@@ -713,7 +717,8 @@ public class SeleniumHelper {
 		boolean isInput = false;
 		try {
 			WebElement element = getWebElement(type, locator);
-			if (element.getTagName().equalsIgnoreCase("input") || element.getTagName().equalsIgnoreCase("textarea")) {
+			if (element.getTagName().equalsIgnoreCase("input") || element.getTagName().equalsIgnoreCase("textarea")
+					|| element.getTagName().equalsIgnoreCase("select")) {
 				isInput = true;
 			}
 		} catch (NoSuchElementException e) {
@@ -2197,23 +2202,94 @@ public class SeleniumHelper {
 		return alert.getText();
 	}
 
+	/**
+	 * a method to determine if a cookie by a particular name is present or not
+	 * 
+	 * @param expectedCookieName
+	 *            - the name of the cookie
+	 * @return boolean - if the cookie is present
+	 */
 	public boolean isCookiePresent(String expectedCookieName) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean isCookiePresent = false;
+		if (driver.manage().getCookieNamed(expectedCookieName) != null) {
+			isCookiePresent = true;
+		}
+		return isCookiePresent;
 	}
 
-	public String getCookieByName(String expectedCookieName) {
-		// TODO Auto-generated method stub
-		return "NOT YET IMPLEMENTED";
+	/**
+	 * a method to get the full cookie by a particular name
+	 * 
+	 * @param expectedCookieName
+	 *            - the name of the cookie
+	 * @return Cookie - the cookie
+	 */
+	public Cookie getCookie(String expectedCookieName) {
+		return driver.manage().getCookieNamed(expectedCookieName);
 	}
 
-	public boolean isOrdered(String firstObject, String secondObject) {
-		// TODO Auto-generated method stub
-		return false;
+	/**
+	 * a method to get the value of a particular cookie
+	 * 
+	 * @param expectedCookieName
+	 *            - the name of the cookie
+	 * @return String - the value of the cookie
+	 */
+	public String getCookieValue(String expectedCookieName) {
+		return getCookie(expectedCookieName).getValue();
 	}
 
-	public boolean isSomethingSelected(Locators type, String locator) {
-		// TODO Auto-generated method stub
+	/**
+	 * a method to get the path of a particular cookie
+	 * 
+	 * @param expectedCookieName
+	 *            - the name of the cookie
+	 * @return String - the path of the cookie
+	 */
+	public String getCookiePath(String expectedCookieName) {
+		return getCookie(expectedCookieName).getPath();
+	}
+
+	/**
+	 * a method to get the domain of a particular cookie
+	 * 
+	 * @param expectedCookieName
+	 *            - the name of the cookie
+	 * @return String - the domain of the cookie
+	 */
+	public String getCookieDomain(String expectedCookieName) {
+		return getCookie(expectedCookieName).getDomain();
+	}
+
+	/**
+	 * a method to get the expriation of a particular cookie
+	 * 
+	 * @param expectedCookieName
+	 *            - the name of the cookie
+	 * @return String - the expiration of the cookie
+	 */
+	public Date getCookieExpiration(String expectedCookieName) {
+		return getCookie(expectedCookieName).getExpiry();
+	}
+
+	// public boolean isOrdered(String firstObject, String secondObject) {
+	// Auto-generated method stub
+	// return false;
+	// }
+
+	public boolean isSomethingSelected(Locators type, String locator)
+			throws InvalidLocatorTypeException, InvalidActionException {
+		WebElement element = getWebElement(type, locator);
+		if (element.getTagName().equalsIgnoreCase("input")) {
+			if (element.isSelected()) {
+				return true;
+			}
+		}
+		if (element.getTagName().equalsIgnoreCase("select")) {
+			if (getSelectedValues(type, locator).length > 0) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -2445,8 +2521,24 @@ public class SeleniumHelper {
 		return driver.getPageSource();
 	}
 
-	public String getEval(String javascriptFunction) {
-		// TODO Auto-generated method stub
-		return "NOT YET IMPLEMENTED";
+	/**
+	 * a way to execute custom javascript functions
+	 * 
+	 * @param javascriptFunction
+	 */
+	public void getEval(String javascriptFunction) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript(javascriptFunction);
+	}
+	/**
+	 * a way to execute custom javascript functions
+	 * @param 
+	 * @param javascriptFunction
+	 * @throws InvalidLocatorTypeException 
+	 */
+	public void getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
+		WebElement element = getWebElement(type, locator);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript(javascriptFunction, element);
 	}
 }

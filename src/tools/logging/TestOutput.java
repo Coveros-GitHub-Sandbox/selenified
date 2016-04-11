@@ -922,7 +922,7 @@ public class TestOutput {
 		String cookieValue = "";
 		boolean isCookiePresent = selHelper.isCookiePresent(cookieName);
 		if (isCookiePresent) {
-			cookieValue = selHelper.getCookieByName(cookieName);
+			cookieValue = selHelper.getCookieValue(cookieName);
 		}
 		if (!isCookiePresent) {
 			recordActual("No cookie with the name <b>" + cookieName + "</b> is stored for the page", Success.FAIL);
@@ -953,7 +953,7 @@ public class TestOutput {
 		String cookieValue = "";
 		boolean isCookiePresent = selHelper.isCookiePresent(expectedCookieName);
 		if (isCookiePresent) {
-			cookieValue = selHelper.getCookieByName(expectedCookieName);
+			cookieValue = selHelper.getCookieValue(expectedCookieName);
 		}
 		if (!isCookiePresent) {
 			recordActual("No cookie with the name <b>" + expectedCookieName + "</b> is stored for the page",
