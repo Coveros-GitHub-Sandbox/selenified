@@ -1174,7 +1174,7 @@ public class TestOutput {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> editable on the page");
 		// check for our object to the editable
-		if (!isInput(type, locator)) {
+		if (!selHelper.isElementInput(type, locator)) {
 			recordActual("The element with " + type + " <i>" + locator + "</i> is present but not an input on the page",
 					Success.FAIL);
 			return 1;
@@ -1210,7 +1210,7 @@ public class TestOutput {
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> not editable on the page");
 		// check for our object to the editable
 		boolean isElementEnabled = false;
-		boolean isInput = isInput(type, locator);
+		boolean isInput = selHelper.isElementInput(type, locator);
 		if (isInput) {
 			isElementEnabled = selHelper.isElementEnabled(type, locator);
 		}
@@ -1245,7 +1245,7 @@ public class TestOutput {
 		recordExpected(
 				"Expected to find element with " + type + " <i>" + locator + "</i> visible and editable on the page");
 		// check for our object to the editable
-		if (!isInput(type, locator)) {
+		if (!selHelper.isElementInput(type, locator)) {
 			recordActual("The element with " + type + " <i>" + locator + "</i> is visible but not an input on the page",
 					Success.FAIL);
 			return 1;
@@ -1282,7 +1282,7 @@ public class TestOutput {
 				+ "</i> visible and not editable on the page");
 		// check for our object to the editable
 		boolean isElementEnabled = false;
-		boolean isInput = isInput(type, locator);
+		boolean isInput = selHelper.isElementInput(type, locator);
 		if (isInput) {
 			isElementEnabled = selHelper.isElementEnabled(type, locator);
 		}
@@ -1835,7 +1835,7 @@ public class TestOutput {
 		boolean isInput = false;
 		boolean isElementEnabled = false;
 		if (isPresent) {
-			isInput = isInput(type, locator);
+			isInput = selHelper.isElementInput(type, locator);
 		}
 		if (!isPresent) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
@@ -1890,7 +1890,7 @@ public class TestOutput {
 		boolean isInput = false;
 		boolean isElementEnabled = false;
 		if (isPresent) {
-			isInput = isInput(type, locator);
+			isInput = selHelper.isElementInput(type, locator);
 		}
 		if (!isPresent) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
@@ -1946,7 +1946,7 @@ public class TestOutput {
 		boolean isInput = false;
 		boolean isElementEnabled = false;
 		if (isPresent) {
-			isInput = isInput(type, locator);
+			isInput = selHelper.isElementInput(type, locator);
 		}
 		if (!isPresent) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
@@ -2003,7 +2003,7 @@ public class TestOutput {
 		boolean isInput = false;
 		boolean isElementEnabled = false;
 		if (isPresent) {
-			isInput = isInput(type, locator);
+			isInput = selHelper.isElementInput(type, locator);
 		}
 		if (!isPresent) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
@@ -2060,7 +2060,7 @@ public class TestOutput {
 		boolean isInput = false;
 		boolean isElementEnabled = false;
 		if (isPresent) {
-			isInput = isInput(type, locator);
+			isInput = selHelper.isElementInput(type, locator);
 		}
 		if (!isPresent) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
@@ -2118,7 +2118,7 @@ public class TestOutput {
 		boolean isInput = false;
 		boolean isElementEnabled = false;
 		if (isPresent) {
-			isInput = isInput(type, locator);
+			isInput = selHelper.isElementInput(type, locator);
 		}
 		if (!isPresent) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
@@ -2167,21 +2167,6 @@ public class TestOutput {
 	// //////////////////////////////////////////
 	// some custom made selenium helper methods
 	// ////////////////////////////////////////
-
-	/**
-	 * A custom selenium functionality to determine if an element is an input
-	 * type
-	 * 
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @return boolean - is the element an input or not
-	 */
-	public boolean isInput(Locators type, String locator) {
-		boolean isInput = true; // TODO need to fix this
-		return isInput;
-	}
 	
 	/**
 	 * A method to count the number of occurrence of a string within a file

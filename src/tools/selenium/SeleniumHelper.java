@@ -87,14 +87,12 @@ public class SeleniumHelper {
 	 * @throws InvalidBrowserException
 	 * @throws MalformedURLException
 	 */
-	public SeleniumHelper(TestOutput output) throws InvalidBrowserException,
-			MalformedURLException {
+	public SeleniumHelper(TestOutput output) throws InvalidBrowserException, MalformedURLException {
 		browser = Browsers.valueOf(System.getProperty("browser"));
 		this.output = output;
 		if (System.getProperty("hubAddress") != "LOCAL") {
 			DesiredCapabilities capability;
-			String hubAddress = "http://" + System.getProperty("hubAddress")
-					+ ":4444/wd/hub";
+			String hubAddress = "http://" + System.getProperty("hubAddress") + ":4444/wd/hub";
 			switch (browser) { // check our browser
 			case HtmlUnit: {
 				capability = DesiredCapabilities.htmlUnit();
@@ -132,21 +130,18 @@ public class SeleniumHelper {
 				capability = DesiredCapabilities.opera();
 				break;
 			}
-			// if our browser is not listed, throw an error
+				// if our browser is not listed, throw an error
 			default: {
-				throw new InvalidBrowserException("The selected browser "
-						+ browser);
+				throw new InvalidBrowserException("The selected browser " + browser);
 			}
 			}
 			driver = new RemoteWebDriver(new URL(hubAddress), capability);
 		} else {
 			switch (browser) { // check our browser
 			case HtmlUnit: {
-				driver = new HtmlUnitDriver();
+				driver = new HtmlUnitDriver(true);	//to disable javascript, remove true in constructor
 				break;
 			}
-			// TODO - do we enable javascript - will emulate firefox 3.6's
-			// javascript handling - new HtmlUnitDriver(true)
 			case Firefox: {
 				driver = new FirefoxDriver();
 				break;
@@ -159,9 +154,9 @@ public class SeleniumHelper {
 				driver = new InternetExplorerDriver();
 				break;
 			}
-			// case Android: { driver = new AndroidDriver(); break; }
-			// case Iphone: { driver = new IPhoneDriver(); break; }
-			// case Ipad: { driver = new IPadDriver(); break; }
+				// case Android: { driver = new AndroidDriver(); break; }
+				// case Iphone: { driver = new IPhoneDriver(); break; }
+				// case Ipad: { driver = new IPadDriver(); break; }
 			case Safari: {
 				driver = new SafariDriver();
 				break;
@@ -170,10 +165,9 @@ public class SeleniumHelper {
 				driver = new OperaDriver();
 				break;
 			}
-			// if our browser is not listed, throw an error
+				// if our browser is not listed, throw an error
 			default: {
-				throw new InvalidBrowserException("The selected browser "
-						+ browser);
+				throw new InvalidBrowserException("The selected browser " + browser);
 			}
 			}
 		}
@@ -226,14 +220,12 @@ public class SeleniumHelper {
 		try {
 			driver.get(URL);
 		} catch (Exception e) {
-			output.recordAction(action, expected, "Fail to Load " + URL,
-					Result.FAILURE);
+			output.recordAction(action, expected, "Fail to Load " + URL, Result.FAILURE);
 			return 1;
 		}
 		double timetook = System.currentTimeMillis() - start;
 		timetook = timetook / 1000;
-		output.recordAction(action, expected, "Loaded " + URL + " in "
-				+ timetook + " seconds", Result.SUCCESS);
+		output.recordAction(action, expected, "Loaded " + URL + " in " + timetook + " seconds", Result.SUCCESS);
 		return 0;
 	}
 
@@ -263,12 +255,10 @@ public class SeleniumHelper {
 		try {
 			Thread.sleep((long) (seconds * 1000));
 		} catch (InterruptedException e) {
-			output.recordAction(action, expected, "Failed to wait " + seconds
-					+ " seconds", Result.FAILURE);
+			output.recordAction(action, expected, "Failed to wait " + seconds + " seconds", Result.FAILURE);
 			return 1;
 		}
-		output.recordAction(action, expected, "Waited " + seconds + " seconds",
-				Result.SUCCESS);
+		output.recordAction(action, expected, "Waited " + seconds + " seconds", Result.SUCCESS);
 		return 0;
 	}
 
@@ -306,8 +296,7 @@ public class SeleniumHelper {
 	 */
 	public int waitForElementPresent(Locators type, String locator, int seconds)
 			throws InvalidActionException, InvalidLocatorTypeException {
-		String action = "Wait up to " + seconds + " seconds for " + type + " "
-				+ locator + " to be present";
+		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be present";
 		String expected = type + " " + locator + " is present";
 		// wait for up to XX seconds for our error message
 		long end = System.currentTimeMillis() + (seconds * 1000);
@@ -320,19 +309,16 @@ public class SeleniumHelper {
 			} catch (StaleElementReferenceException e) {
 			}
 		}
-		double timetook = Math.min(
-				(seconds * 1000) - (end - System.currentTimeMillis()),
-				seconds * 1000);
+		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds for " + type + " " + locator
-					+ " is not present", Result.FAILURE);
+			output.recordAction(action, expected,
+					"After waiting " + timetook + " seconds for " + type + " " + locator + " is not present",
+					Result.FAILURE);
 			return 1;
 		}
-		output.recordAction(action, expected, "Waited " + timetook
-				+ " seconds for " + type + " " + locator + " to be present",
-				Result.SUCCESS);
+		output.recordAction(action, expected,
+				"Waited " + timetook + " seconds for " + type + " " + locator + " to be present", Result.SUCCESS);
 		return 0;
 	}
 
@@ -368,11 +354,9 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int waitForElementNotPresent(Locators type, String locator,
-			int seconds) throws InvalidActionException,
-			InvalidLocatorTypeException {
-		String action = "Wait up to " + seconds + " seconds for " + type + " "
-				+ locator + " to not be present";
+	public int waitForElementNotPresent(Locators type, String locator, int seconds)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be present";
 		String expected = type + " " + locator + " is not present";
 		// wait for up to XX seconds for our error message
 		long end = System.currentTimeMillis() + (seconds * 1000);
@@ -381,19 +365,16 @@ public class SeleniumHelper {
 				break;
 			}
 		}
-		double timetook = Math.min(
-				(seconds * 1000) - (end - System.currentTimeMillis()),
-				seconds * 1000);
+		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		if (isElementPresent(type, locator)) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds for " + type + " " + locator
-					+ " is still present", Result.FAILURE);
+			output.recordAction(action, expected,
+					"After waiting " + timetook + " seconds for " + type + " " + locator + " is still present",
+					Result.FAILURE);
 			return 1;
 		}
 		output.recordAction(action, expected,
-				"Waited " + timetook + " seconds for " + type + " " + locator
-						+ " to not be present", Result.SUCCESS);
+				"Waited " + timetook + " seconds for " + type + " " + locator + " to not be present", Result.SUCCESS);
 		return 0;
 	}
 
@@ -429,11 +410,9 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementDisplayed(Locators type, String locator,
-			int seconds) throws InvalidActionException,
-			InvalidLocatorTypeException {
-		String action = "Wait up to " + seconds + " seconds for " + type + " "
-				+ locator + " to be displayed";
+	public int waitForElementDisplayed(Locators type, String locator, int seconds)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be displayed";
 		String expected = type + " " + locator + " is displayed";
 		long start = System.currentTimeMillis();
 		if (!isElementPresent(type, locator, false)) {
@@ -454,14 +433,13 @@ public class SeleniumHelper {
 		}
 		double timetook = (System.currentTimeMillis() - start) / 1000;
 		if (!element.isDisplayed()) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds for " + type + " " + locator
-					+ " is not displayed", Result.FAILURE);
+			output.recordAction(action, expected,
+					"After waiting " + timetook + " seconds for " + type + " " + locator + " is not displayed",
+					Result.FAILURE);
 			return 1;
 		}
-		output.recordAction(action, expected, "Waited " + timetook
-				+ " seconds for " + type + " " + locator + " to be displayed",
-				Result.SUCCESS);
+		output.recordAction(action, expected,
+				"Waited " + timetook + " seconds for " + type + " " + locator + " to be displayed", Result.SUCCESS);
 		return 0;
 	}
 
@@ -497,12 +475,10 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementNotDisplayed(Locators type, String locator,
-			int seconds) throws InvalidActionException,
-			InvalidLocatorTypeException {
+	public int waitForElementNotDisplayed(Locators type, String locator, int seconds)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// TODO - this might fail if the element disappears completely
-		String action = "Wait up to " + seconds + " seconds for " + type + " "
-				+ locator + " to not be displayed";
+		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be displayed";
 		String expected = type + " " + locator + " is not displayed";
 		long start = System.currentTimeMillis();
 		WebElement element = getWebElement(type, locator);
@@ -517,14 +493,13 @@ public class SeleniumHelper {
 		}
 		double timetook = (System.currentTimeMillis() - start) / 1000;
 		if (element.isDisplayed()) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds for " + type + " " + locator
-					+ " is still displayed", Result.FAILURE);
+			output.recordAction(action, expected,
+					"After waiting " + timetook + " seconds for " + type + " " + locator + " is still displayed",
+					Result.FAILURE);
 			return 1;
 		}
-		output.recordAction(action, expected, "Waited " + timetook
-				+ " seconds for " + type + " " + locator
-				+ " to not be displayed", Result.SUCCESS);
+		output.recordAction(action, expected,
+				"Waited " + timetook + " seconds for " + type + " " + locator + " to not be displayed", Result.SUCCESS);
 		return 0;
 	}
 
@@ -562,8 +537,7 @@ public class SeleniumHelper {
 	 */
 	public int waitForElementEnabled(Locators type, String locator, int seconds)
 			throws InvalidLocatorTypeException, InvalidActionException {
-		String action = "Wait up to " + seconds + " seconds for " + type + " "
-				+ locator + " to be enabled";
+		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be enabled";
 		String expected = type + " " + locator + " is enabled";
 		long start = System.currentTimeMillis();
 		if (!isElementEnabled(type, locator, false)) {
@@ -585,14 +559,13 @@ public class SeleniumHelper {
 		}
 		double timetook = (System.currentTimeMillis() - start) / 1000;
 		if (!isElementEnabled(type, locator, false)) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds for " + type + " " + locator
-					+ " is not enabled", Result.FAILURE);
+			output.recordAction(action, expected,
+					"After waiting " + timetook + " seconds for " + type + " " + locator + " is not enabled",
+					Result.FAILURE);
 			return 1;
 		}
-		output.recordAction(action, expected, "Waited " + timetook
-				+ " seconds for " + type + " " + locator + " to be enabled",
-				Result.SUCCESS);
+		output.recordAction(action, expected,
+				"Waited " + timetook + " seconds for " + type + " " + locator + " to be enabled", Result.SUCCESS);
 		return 0;
 	}
 
@@ -628,13 +601,10 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementNotEnabled(Locators type, String locator,
-			int seconds) throws InvalidLocatorTypeException,
-			InvalidActionException {
+	public int waitForElementNotEnabled(Locators type, String locator, int seconds)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// TODO - this might fail if the element is no longer present
-
-		String action = "Wait up to " + seconds + " seconds for " + type + " "
-				+ locator + " to not be enabled";
+		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be enabled";
 		String expected = type + " " + locator + " is not enabled";
 		long start = System.currentTimeMillis();
 		WebElement element = getWebElement(type, locator);
@@ -649,14 +619,13 @@ public class SeleniumHelper {
 		}
 		double timetook = (System.currentTimeMillis() - start) / 1000;
 		if (element.isDisplayed()) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds for " + type + " " + locator
-					+ " is still enabled", Result.FAILURE);
+			output.recordAction(action, expected,
+					"After waiting " + timetook + " seconds for " + type + " " + locator + " is still enabled",
+					Result.FAILURE);
 			return 1;
 		}
 		output.recordAction(action, expected,
-				"Waited " + timetook + " seconds for " + type + " " + locator
-						+ " to not be enabled", Result.SUCCESS);
+				"Waited " + timetook + " seconds for " + type + " " + locator + " to not be enabled", Result.SUCCESS);
 		return 0;
 	}
 
@@ -703,10 +672,56 @@ public class SeleniumHelper {
 		} catch (StaleElementReferenceException e) {
 		}
 		if (print) {
-			output.recordExpected("Checking for " + type + " " + locator
-					+ " to be present");
+			output.recordExpected("Checking for " + type + " " + locator + " to be present");
 		}
 		return isPresent;
+	}
+
+	/**
+	 * a method for checking if an element is an input; it needs to be an input
+	 * or textarea
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return boolean: whether the element is an input or not
+	 * @throws InvalidActionException
+	 *             , InvalidLocatorTypeException
+	 */
+	public boolean isElementInput(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		return isElementInput(type, locator, false);
+	}
+
+	/**
+	 * a method for checking if an element is an input; it needs to be an input
+	 * or textarea
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param print
+	 *            : whether or not to printout the action
+	 * @return boolean: whether the element is present or not
+	 * @throws InvalidActionException
+	 *             , InvalidLocatorTypeException
+	 */
+	public boolean isElementInput(Locators type, String locator, boolean print)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		boolean isInput = false;
+		try {
+			WebElement element = getWebElement(type, locator);
+			if (element.getTagName().equalsIgnoreCase("input") || element.getTagName().equalsIgnoreCase("textarea")) {
+				isInput = true;
+			}
+		} catch (NoSuchElementException e) {
+		}
+		if (print) {
+			output.recordExpected("Checking for " + type + " " + locator + " to be an input element");
+		}
+		return isInput;
 	}
 
 	/**
@@ -746,8 +761,7 @@ public class SeleniumHelper {
 		} catch (NoSuchElementException e) {
 		}
 		if (print) {
-			output.recordExpected("Checking for " + type + " " + locator
-					+ " to be enabled");
+			output.recordExpected("Checking for " + type + " " + locator + " to be enabled");
 		}
 		return isEnabled;
 	}
@@ -789,8 +803,7 @@ public class SeleniumHelper {
 		} catch (NoSuchElementException e) {
 		}
 		if (print) {
-			output.recordExpected("Checking for " + type + " " + locator
-					+ " to be checked");
+			output.recordExpected("Checking for " + type + " " + locator + " to be checked");
 		}
 		return isChecked;
 	}
@@ -824,17 +837,15 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementDisplayed(Locators type, String locator,
-			boolean print) throws InvalidActionException,
-			InvalidLocatorTypeException {
+	public boolean isElementDisplayed(Locators type, String locator, boolean print)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		boolean isDisplayed = false;
 		try {
 			isDisplayed = getWebElement(type, locator).isDisplayed();
 		} catch (NoSuchElementException e) {
 		}
 		if (print) {
-			output.recordExpected("Checking for " + type + " " + locator
-					+ " to be displayed");
+			output.recordExpected("Checking for " + type + " " + locator + " to be displayed");
 		}
 		return isDisplayed;
 	}
@@ -864,8 +875,7 @@ public class SeleniumHelper {
 			return 0;
 		}
 		WebElement element = getWebElement(type, locator);
-		List<WebElement> allOptions = element
-				.findElements(By.tagName("option"));
+		List<WebElement> allOptions = element.findElements(By.tagName("option"));
 		return allOptions.size();
 	}
 
@@ -890,8 +900,7 @@ public class SeleniumHelper {
 			return new String[0];
 		}
 		WebElement element = getWebElement(type, locator);
-		List<WebElement> allOptions = element
-				.findElements(By.tagName("option"));
+		List<WebElement> allOptions = element.findElements(By.tagName("option"));
 		String[] options = new String[allOptions.size()];
 		for (int i = 0; i < allOptions.size(); i++) {
 			options[i] = allOptions.get(i).getAttribute("value");
@@ -1013,8 +1022,7 @@ public class SeleniumHelper {
 			int counter = 1;
 			for (WebElement row : rows) {
 				// TODO - might want to redo this logical check
-				if (row.findElement(By.xpath(".//td[1]|.//th[1]")).getText()
-						.equals(header)) {
+				if (row.findElement(By.xpath(".//td[1]|.//th[1]")).getText().equals(header)) {
 					return counter;
 				}
 				counter++;
@@ -1037,9 +1045,8 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public List<WebElement> getTableColumn(Locators type, String locator,
-			int colNum) throws InvalidActionException,
-			InvalidLocatorTypeException {
+	public List<WebElement> getTableColumn(Locators type, String locator, int colNum)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -1048,12 +1055,12 @@ public class SeleniumHelper {
 			return new ArrayList<WebElement>(); // indicates table not found
 		}
 		List<WebElement> tables = getWebElements(type, locator);
-		List<WebElement> column = tables.get(0).findElements(
-				By.className("NONEEXISTS")); // cludge to initialize
+		List<WebElement> column = tables.get(0).findElements(By.className("NONEEXISTS")); // cludge
+																							// to
+																							// initialize
 		for (WebElement table : tables) {
 			// TODO - this locator may need to be updated
-			List<WebElement> cells = table.findElements(By.xpath(".//th["
-					+ colNum + "]|.//td[" + colNum + "]"));
+			List<WebElement> cells = table.findElements(By.xpath(".//th[" + colNum + "]|.//td[" + colNum + "]"));
 			column.addAll(cells);
 		}
 		return column;
@@ -1077,8 +1084,8 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public WebElement getTableCell(Locators type, String locator, int row,
-			int col) throws InvalidActionException, InvalidLocatorTypeException {
+	public WebElement getTableCell(Locators type, String locator, int row, int col)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -1089,8 +1096,7 @@ public class SeleniumHelper {
 		List<WebElement> tables = getWebElements(type, locator);
 		for (WebElement table : tables) {
 			// TODO - this locator may need to be updated
-			return table.findElement(By.xpath(".//tr[" + row + "]/td[" + col
-					+ "]"));
+			return table.findElement(By.xpath(".//tr[" + row + "]/td[" + col + "]"));
 		}
 		return null; // indicates cell not present
 	}
@@ -1111,18 +1117,16 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int click(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int click(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Clicking " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is present, displayed, and enabled to be clicked";
+		String expected = type + " " + locator + " is present, displayed, and enabled to be clicked";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to click " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not present",
+					Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
@@ -1130,8 +1134,8 @@ public class SeleniumHelper {
 			waitForElementDisplayed(type, locator);
 		}
 		if (!isElementDisplayed(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to click " + type
-					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not displayed",
+					Result.FAILURE);
 			return 1; // indicates element not displayed
 		}
 		// wait for element to be enabled
@@ -1139,16 +1143,15 @@ public class SeleniumHelper {
 			waitForElementEnabled(type, locator);
 		}
 		if (!isElementEnabled(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to click " + type
-					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not enabled",
+					Result.FAILURE);
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
 		// element.click();
 		Actions selAction = new Actions(driver);
 		selAction.click(element).perform();
-		output.recordAction(action, expected,
-				"Clicked " + type + " " + locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Clicked " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1164,18 +1167,16 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int submit(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int submit(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Submitting " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is present, displayed, and enabled to be submitted	";
+		String expected = type + " " + locator + " is present, displayed, and enabled to be submitted	";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to submit " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to submit " + type + " " + locator + " as it is not present",
+					Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
@@ -1183,8 +1184,8 @@ public class SeleniumHelper {
 			waitForElementDisplayed(type, locator);
 		}
 		if (!isElementDisplayed(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to submit " + type
-					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to submit " + type + " " + locator + " as it is not displayed", Result.FAILURE);
 			return 1; // indicates element not displayed
 		}
 		// wait for element to be enabled
@@ -1192,14 +1193,13 @@ public class SeleniumHelper {
 			waitForElementEnabled(type, locator);
 		}
 		if (!isElementEnabled(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to submit " + type
-					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to submit " + type + " " + locator + " as it is not enabled",
+					Result.FAILURE);
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
 		element.submit();
-		output.recordAction(action, expected, "Submitted " + type + " "
-				+ locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Submitted " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1215,19 +1215,16 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int hover(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int hover(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Hovering over " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is present, and displayed to be hovered over";
+		String expected = type + " " + locator + " is present, and displayed to be hovered over";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to hover over "
-					+ type + " " + locator + " as it is not present",
-					Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to hover over " + type + " " + locator + " as it is not present", Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
@@ -1235,19 +1232,17 @@ public class SeleniumHelper {
 			waitForElementDisplayed(type, locator);
 		}
 		if (!isElementDisplayed(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to hover over "
-					+ type + " " + locator + " as it is not displayed",
-					Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to hover over " + type + " " + locator + " as it is not displayed", Result.FAILURE);
 			return 1; // indicates element not displayed
 		}
 		Actions selAction = new Actions(driver);
 		WebElement element = getWebElement(type, locator);
 		selAction.moveToElement(element).perform();
-		output.recordAction(action, expected, "Hovered over " + type + " "
-				+ locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Hovered over " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
-	
+
 	/**
 	 * a custom selenium functionality to apply a blur to an element
 	 * 
@@ -1260,18 +1255,16 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int blur(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int blur(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Focusing, then unfocusing (blurring) on " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is present, displayed, and enabled to be blurred";
+		String expected = type + " " + locator + " is present, displayed, and enabled to be blurred";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to focus on " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to focus on " + type + " " + locator + " as it is not present", Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
@@ -1279,8 +1272,8 @@ public class SeleniumHelper {
 			waitForElementDisplayed(type, locator);
 		}
 		if (!isElementDisplayed(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to focus on " + type
-					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to focus on " + type + " " + locator + " as it is not displayed", Result.FAILURE);
 			return 1; // indicates element not displayed
 		}
 		// wait for element to be enabled
@@ -1288,19 +1281,18 @@ public class SeleniumHelper {
 			waitForElementEnabled(type, locator);
 		}
 		if (!isElementEnabled(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to focus on " + type
-					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to focus on " + type + " " + locator + " as it is not enabled", Result.FAILURE);
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].focus(); arguments[0].blur(); return true", element);
 		// element.click();
-		output.recordAction(action, expected,
-				"Focused, then unfocused (blurred) on " + type + " " + locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
+				Result.SUCCESS);
 		return 0;
 	}
-
 
 	/**
 	 * our generic selenium type functionality implemented
@@ -1319,16 +1311,15 @@ public class SeleniumHelper {
 	public int type(Locators type, String locator, String text)
 			throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Typing text '" + text + "' in " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is present, displayed, and enabled to have text " + text
+		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + text
 				+ " typed in";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to type in " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not present",
+					Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
@@ -1336,8 +1327,8 @@ public class SeleniumHelper {
 			waitForElementDisplayed(type, locator);
 		}
 		if (!isElementDisplayed(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to type in " + type
-					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to type in " + type + " " + locator + " as it is not displayed", Result.FAILURE);
 			return 1; // indicates element not displayed
 		}
 		// wait for element to be enabled
@@ -1345,14 +1336,13 @@ public class SeleniumHelper {
 			waitForElementEnabled(type, locator);
 		}
 		if (!isElementEnabled(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to type in " + type
-					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not enabled",
+					Result.FAILURE);
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
 		element.sendKeys(text);
-		output.recordAction(action, expected, "Typed text '" + text + "' in "
-				+ type + " " + locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Typed text '" + text + "' in " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1373,16 +1363,15 @@ public class SeleniumHelper {
 	public int type(Locators type, String locator, Keys key)
 			throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Typing text '" + key + "' in " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is present, displayed, and enabled to have text " + key
+		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + key
 				+ " typed in";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to type in " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not present",
+					Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
@@ -1390,8 +1379,8 @@ public class SeleniumHelper {
 			waitForElementDisplayed(type, locator);
 		}
 		if (!isElementDisplayed(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to type in " + type
-					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to type in " + type + " " + locator + " as it is not displayed", Result.FAILURE);
 			return 1; // indicates element not displayed
 		}
 		// wait for element to be enabled
@@ -1399,14 +1388,13 @@ public class SeleniumHelper {
 			waitForElementEnabled(type, locator);
 		}
 		if (!isElementEnabled(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to type in " + type
-					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not enabled",
+					Result.FAILURE);
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
 		element.sendKeys(key);
-		output.recordAction(action, expected, "Typed text '" + key + "' in "
-				+ type + " " + locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Typed text '" + key + "' in " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1424,18 +1412,16 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int clear(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int clear(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Clearing text in " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is present, displayed, and enabled to have text cleared";
+		String expected = type + " " + locator + " is present, displayed, and enabled to have text cleared";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to clear " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not present",
+					Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
@@ -1443,8 +1429,8 @@ public class SeleniumHelper {
 			waitForElementDisplayed(type, locator);
 		}
 		if (!isElementDisplayed(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to clear " + type
-					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not displayed",
+					Result.FAILURE);
 			return 1; // indicates element not displayed
 		}
 		// wait for element to be enabled
@@ -1452,14 +1438,13 @@ public class SeleniumHelper {
 			waitForElementEnabled(type, locator);
 		}
 		if (!isElementEnabled(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to clear " + type
-					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not enabled",
+					Result.FAILURE);
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
 		element.clear();
-		output.recordAction(action, expected, "Cleared text in " + type + " "
-				+ locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Cleared text in " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1501,16 +1486,15 @@ public class SeleniumHelper {
 	public int select(Locators type, String locator, String value)
 			throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Selecting " + value + " in " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is present, displayed, and enabled to have the value "
-				+ value + " selected";
+		String expected = type + " " + locator + " is present, displayed, and enabled to have the value " + value
+				+ " selected";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to select " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to select " + type + " " + locator + " as it is not present",
+					Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
@@ -1518,8 +1502,8 @@ public class SeleniumHelper {
 			waitForElementDisplayed(type, locator);
 		}
 		if (!isElementDisplayed(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to select " + type
-					+ " " + locator + " as it is not displayed", Result.FAILURE);
+			output.recordAction(action, expected,
+					"Unable to select " + type + " " + locator + " as it is not displayed", Result.FAILURE);
 			return 1; // indicates element not displayed
 		}
 		// wait for element to be enabled
@@ -1527,25 +1511,16 @@ public class SeleniumHelper {
 			waitForElementEnabled(type, locator);
 		}
 		if (!isElementEnabled(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to select " + type
-					+ " " + locator + " as it is not enabled", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to select " + type + " " + locator + " as it is not enabled",
+					Result.FAILURE);
 			return 1; // indicates element not enabled
 		}
 		// ensure the option exists
 		if (!Arrays.asList(getSelectOptions(type, locator)).contains(value)) {
-			output.recordAction(
-					action,
-					expected,
-					"Unable to select "
-							+ value
-							+ " in "
-							+ type
-							+ " "
-							+ locator
-							+ " as that option isn't present. Available options are:<i><br/>"
-							+ "&nbsp;&nbsp;&nbsp;"
-							+ String.join("<br/>&nbsp;&nbsp;&nbsp;",
-									getSelectOptions(type, locator)) + "</i>",
+			output.recordAction(action, expected,
+					"Unable to select " + value + " in " + type + " " + locator
+							+ " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
+							+ String.join("<br/>&nbsp;&nbsp;&nbsp;", getSelectOptions(type, locator)) + "</i>",
 					Result.FAILURE);
 			return 1;
 		}
@@ -1553,8 +1528,7 @@ public class SeleniumHelper {
 		WebElement element = getWebElement(type, locator);
 		Select dropdown = new Select(element);
 		dropdown.selectByValue(value);
-		output.recordAction(action, expected, "Selected " + value + " in "
-				+ type + " " + locator, Result.SUCCESS);
+		output.recordAction(action, expected, "Selected " + value + " in " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1571,18 +1545,16 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int move(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int move(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
 		String action = "Moving screen to " + type + " " + locator;
-		String expected = type + " " + locator
-				+ " is now present on the visible page";
+		String expected = type + " " + locator + " is now present on the visible page";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to move to " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to move to " + type + " " + locator + " as it is not present",
+					Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		WebElement element = getWebElement(type, locator);
@@ -1590,12 +1562,11 @@ public class SeleniumHelper {
 		builder.moveToElement(element);
 
 		if (!isElementDisplayed(type, locator)) {
-			output.recordAction(action, expected, type + " " + locator
-					+ " is not present on visible page", Result.FAILURE);
+			output.recordAction(action, expected, type + " " + locator + " is not present on visible page",
+					Result.FAILURE);
 			return 1; // indicates element not visible
 		}
-		output.recordAction(action, expected, type + " " + locator
-				+ " is present on visible page", Result.SUCCESS);
+		output.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
 		return 0; // indicates element successfully moved to
 	}
 
@@ -1616,17 +1587,15 @@ public class SeleniumHelper {
 	 */
 	public int move(Locators type, String locator, int position)
 			throws InvalidActionException, InvalidLocatorTypeException {
-		String action = "Moving screen to " + position + " pixels above "
-				+ type + " " + locator;
-		String expected = type + " " + locator
-				+ " is now present on the visible page";
+		String action = "Moving screen to " + position + " pixels above " + type + " " + locator;
+		String expected = type + " " + locator + " is now present on the visible page";
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			output.recordAction(action, expected, "Unable to move to " + type
-					+ " " + locator + " as it is not present", Result.FAILURE);
+			output.recordAction(action, expected, "Unable to move to " + type + " " + locator + " as it is not present",
+					Result.FAILURE);
 			return 1; // indicates element not present
 		}
 
@@ -1637,12 +1606,11 @@ public class SeleniumHelper {
 		jse.executeScript("window.scrollBy(0, " + newPosition + ")");
 
 		if (!isElementDisplayed(type, locator)) {
-			output.recordAction(action, expected, type + " " + locator
-					+ " is not present on visible page", Result.FAILURE);
+			output.recordAction(action, expected, type + " " + locator + " is not present on visible page",
+					Result.FAILURE);
 			return 1; // indicates element not visible
 		}
-		output.recordAction(action, expected, type + " " + locator
-				+ " is present on visible page", Result.SUCCESS);
+		output.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
 		return 0; // indicates element successfully moved to
 	}
 
@@ -1658,22 +1626,18 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int scroll(int position) throws InvalidActionException,
-			InvalidLocatorTypeException {
+	public int scroll(int position) throws InvalidActionException, InvalidLocatorTypeException {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
-		Long initialPosition = (Long) jse
-				.executeScript("return window.scrollY;");
+		Long initialPosition = (Long) jse.executeScript("return window.scrollY;");
 
-		String action = "Scrolling page from " + initialPosition + " to "
-				+ position;
+		String action = "Scrolling page from " + initialPosition + " to " + position;
 		String expected = "Page is now set at position " + position;
 
 		jse.executeScript("window.scrollBy(0, " + position + ")");
 
 		Long newPosition = (Long) jse.executeScript("return window.scrollY;");
 
-		output.recordAction(action, expected, "Page is now set at position "
-				+ newPosition, Result.FAILURE);
+		output.recordAction(action, expected, "Page is now set at position " + newPosition, Result.FAILURE);
 		if (newPosition != position) {
 			return 1; // indicates page didn't scroll properly
 		}
@@ -1694,16 +1658,13 @@ public class SeleniumHelper {
 			waitForAlertPresent();
 		}
 		if (!isAlertPresent(false)) {
-			output.recordAction(action, expected,
-					"Unable to click alert as it is not present",
-					Result.FAILURE);
+			output.recordAction(action, expected, "Unable to click alert as it is not present", Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
 		// driver.switchTo().defaultContent();
-		output.recordAction(action, expected, "Clicked 'OK' on the alert",
-				Result.SUCCESS);
+		output.recordAction(action, expected, "Clicked 'OK' on the alert", Result.SUCCESS);
 		return 0;
 	}
 
@@ -1721,16 +1682,13 @@ public class SeleniumHelper {
 			waitForConfirmationPresent();
 		}
 		if (!isConfirmationPresent(false)) {
-			output.recordAction(action, expected,
-					"Unable to click confirmation as it is not present",
-					Result.FAILURE);
+			output.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
 		// driver.switchTo().defaultContent();
-		output.recordAction(action, expected,
-				"Clicked 'OK' on the confirmation", Result.SUCCESS);
+		output.recordAction(action, expected, "Clicked 'OK' on the confirmation", Result.SUCCESS);
 		return 0;
 	}
 
@@ -1748,16 +1706,13 @@ public class SeleniumHelper {
 			waitForConfirmationPresent();
 		}
 		if (!isConfirmationPresent(false)) {
-			output.recordAction(action, expected,
-					"Unable to click confirmation as it is not present",
-					Result.FAILURE);
+			output.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.dismiss();
 		// driver.switchTo().defaultContent();
-		output.recordAction(action, expected,
-				"Clicked 'Cancel' on the confirmation", Result.SUCCESS);
+		output.recordAction(action, expected, "Clicked 'Cancel' on the confirmation", Result.SUCCESS);
 		return 0;
 	}
 
@@ -1775,16 +1730,13 @@ public class SeleniumHelper {
 			waitForPromptPresent();
 		}
 		if (!isPromptPresent(false)) {
-			output.recordAction(action, expected,
-					"Unable to click prompt as it is not present",
-					Result.FAILURE);
+			output.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
 		// driver.switchTo().defaultContent();
-		output.recordAction(action, expected, "Clicked 'OK' on the prompt",
-				Result.SUCCESS);
+		output.recordAction(action, expected, "Clicked 'OK' on the prompt", Result.SUCCESS);
 		return 0;
 	}
 
@@ -1802,16 +1754,13 @@ public class SeleniumHelper {
 			waitForPromptPresent();
 		}
 		if (!isPromptPresent(false)) {
-			output.recordAction(action, expected,
-					"Unable to click prompt as it is not present",
-					Result.FAILURE);
+			output.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.dismiss();
 		// driver.switchTo().defaultContent();
-		output.recordAction(action, expected, "Clicked 'Cancel' on the prompt",
-				Result.SUCCESS);
+		output.recordAction(action, expected, "Clicked 'Cancel' on the prompt", Result.SUCCESS);
 		return 0;
 	}
 
@@ -1823,23 +1772,19 @@ public class SeleniumHelper {
 	 */
 	public int typeIntoPrompt(String text) {
 		String action = "Typing text '" + text + "' into prompt";
-		String expected = "Prompt is present and enabled to have text " + text
-				+ " typed in";
+		String expected = "Prompt is present and enabled to have text " + text + " typed in";
 		// wait for element to be present
 		if (!isPromptPresent(false)) {
 			waitForPromptPresent();
 		}
 		if (!isPromptPresent(false)) {
-			output.recordAction(action, expected,
-					"Unable to type in prompt as it is not present",
-					Result.FAILURE);
+			output.recordAction(action, expected, "Unable to type in prompt as it is not present", Result.FAILURE);
 			return 1; // indicates element not present
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.sendKeys(text);
 		// driver.switchTo().defaultContent();
-		output.recordAction(action, expected, "Typed text '" + text
-				+ "' into prompt", Result.SUCCESS);
+		output.recordAction(action, expected, "Typed text '" + text + "' into prompt", Result.SUCCESS);
 		return 0;
 	}
 
@@ -1857,8 +1802,7 @@ public class SeleniumHelper {
 	 * @return By: the selenium object
 	 * @throws InvalidLocatorTypeException
 	 */
-	private By defineByElement(Locators type, String locator)
-			throws InvalidLocatorTypeException {
+	private By defineByElement(Locators type, String locator) throws InvalidLocatorTypeException {
 		// TODO - consider adding strengthening
 		By byElement;
 		switch (type) { // determine which locator type we are interested in
@@ -1891,8 +1835,7 @@ public class SeleniumHelper {
 			break;
 		}
 		default: {
-			throw new InvalidLocatorTypeException(type
-					+ " is not a valid locator type");
+			throw new InvalidLocatorTypeException(type + " is not a valid locator type");
 		}
 		}
 		return byElement;
@@ -1908,8 +1851,7 @@ public class SeleniumHelper {
 	 * @return WebElement: the element object, and all associated values with it
 	 * @throws InvalidLocatorTypeException
 	 */
-	public WebElement getWebElement(Locators type, String locator)
-			throws InvalidLocatorTypeException {
+	public WebElement getWebElement(Locators type, String locator) throws InvalidLocatorTypeException {
 		By byElement = defineByElement(type, locator);
 		WebElement query = driver.findElement(byElement); // grab our element
 															// based on the
@@ -1928,8 +1870,7 @@ public class SeleniumHelper {
 	 *         values with them
 	 * @throws InvalidLocatorTypeException
 	 */
-	private List<WebElement> getWebElements(Locators type, String locator)
-			throws InvalidLocatorTypeException {
+	private List<WebElement> getWebElements(Locators type, String locator) throws InvalidLocatorTypeException {
 		By byElement = defineByElement(type, locator);
 		List<WebElement> query = driver.findElements(byElement); // grab our
 																	// element
@@ -1956,11 +1897,9 @@ public class SeleniumHelper {
 			File srcFile = new File("");
 			if (System.getProperty("hubAddress") != "LOCAL") {
 				WebDriver augemented = new Augmenter().augment(driver);
-				srcFile = ((TakesScreenshot) augemented)
-						.getScreenshotAs(OutputType.FILE);
+				srcFile = ((TakesScreenshot) augemented).getScreenshotAs(OutputType.FILE);
 			} else {
-				srcFile = ((TakesScreenshot) driver)
-						.getScreenshotAs(OutputType.FILE);
+				srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			}
 			// now we need to save the file
 			FileUtils.copyFile(srcFile, new File(imageName));
@@ -2026,8 +1965,7 @@ public class SeleniumHelper {
 	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForAlertPresent(int seconds) {
-		String action = "Wait up to " + seconds
-				+ " seconds for an alert to be present";
+		String action = "Wait up to " + seconds + " seconds for an alert to be present";
 		String expected = "An alert is present";
 		// wait for up to XX seconds for our error message
 		long end = System.currentTimeMillis() + (seconds * 1000);
@@ -2039,18 +1977,16 @@ public class SeleniumHelper {
 			} catch (NoAlertPresentException e) {
 			}
 		}
-		double timetook = Math.min(
-				(seconds * 1000) - (end - System.currentTimeMillis()),
-				seconds * 1000);
+		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		// driver.switchTo().defaultContent();
 		if (!isAlertPresent(false)) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds, an alert is not present", Result.FAILURE);
+			output.recordAction(action, expected, "After waiting " + timetook + " seconds, an alert is not present",
+					Result.FAILURE);
 			return 1;
 		}
-		output.recordAction(action, expected, "Waited " + timetook
-				+ " seconds for an alert to be present", Result.SUCCESS);
+		output.recordAction(action, expected, "Waited " + timetook + " seconds for an alert to be present",
+				Result.SUCCESS);
 		return 0;
 	}
 
@@ -2124,8 +2060,7 @@ public class SeleniumHelper {
 	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForConfirmationPresent(int seconds) {
-		String action = "Wait up to " + seconds
-				+ " seconds for a confirmation to be present";
+		String action = "Wait up to " + seconds + " seconds for a confirmation to be present";
 		String expected = "An alert is present";
 		// wait for up to XX seconds for our error message
 		long end = System.currentTimeMillis() + (seconds * 1000);
@@ -2137,18 +2072,16 @@ public class SeleniumHelper {
 			} catch (NoAlertPresentException e) {
 			}
 		}
-		double timetook = Math.min(
-				(seconds * 1000) - (end - System.currentTimeMillis()),
-				seconds * 1000);
+		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		// driver.switchTo().defaultContent();
 		if (!isConfirmationPresent(false)) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds, a confirmation is not present", Result.FAILURE);
+			output.recordAction(action, expected,
+					"After waiting " + timetook + " seconds, a confirmation is not present", Result.FAILURE);
 			return 1;
 		}
-		output.recordAction(action, expected, "Waited " + timetook
-				+ " seconds for a confirmation to be present", Result.SUCCESS);
+		output.recordAction(action, expected, "Waited " + timetook + " seconds for a confirmation to be present",
+				Result.SUCCESS);
 		return 0;
 	}
 
@@ -2222,8 +2155,7 @@ public class SeleniumHelper {
 	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForPromptPresent(int seconds) {
-		String action = "Wait up to " + seconds
-				+ " seconds for a prompt to be present";
+		String action = "Wait up to " + seconds + " seconds for a prompt to be present";
 		String expected = "An alert is present";
 		// wait for up to XX seconds for our error message
 		long end = System.currentTimeMillis() + (seconds * 1000);
@@ -2235,18 +2167,16 @@ public class SeleniumHelper {
 			} catch (NoAlertPresentException e) {
 			}
 		}
-		double timetook = Math.min(
-				(seconds * 1000) - (end - System.currentTimeMillis()),
-				seconds * 1000);
+		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		// driver.switchTo().defaultContent();
 		if (!isPromptPresent(false)) {
-			output.recordAction(action, expected, "After waiting " + timetook
-					+ " seconds, a prompt is not present", Result.FAILURE);
+			output.recordAction(action, expected, "After waiting " + timetook + " seconds, a prompt is not present",
+					Result.FAILURE);
 			return 1;
 		}
-		output.recordAction(action, expected, "Waited " + timetook
-				+ " seconds for a prompt to be present", Result.SUCCESS);
+		output.recordAction(action, expected, "Waited " + timetook + " seconds for a prompt to be present",
+				Result.SUCCESS);
 		return 0;
 	}
 
@@ -2327,12 +2257,12 @@ public class SeleniumHelper {
 		Select dropdown = new Select(element);
 		List<WebElement> options = dropdown.getAllSelectedOptions();
 		String[] s_options = new String[options.size()];
-		for(int i=0; i < options.size(); i++ ) {
+		for (int i = 0; i < options.size(); i++) {
 			s_options[i] = options.get(i).getText();
 		}
 		return s_options;
 	}
-	
+
 	/**
 	 * get the options from the select drop down
 	 * 
@@ -2373,7 +2303,7 @@ public class SeleniumHelper {
 		Select dropdown = new Select(element);
 		List<WebElement> options = dropdown.getAllSelectedOptions();
 		String[] s_options = new String[options.size()];
-		for(int i=0; i < options.size(); i++ ) {
+		for (int i = 0; i < options.size(); i++) {
 			s_options[i] = options.get(i).getAttribute("value");
 		}
 		return s_options;
@@ -2411,8 +2341,7 @@ public class SeleniumHelper {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return String - the text of the element
 	 */
-	public String getText(Locators type, String locator)
-			throws InvalidLocatorTypeException {
+	public String getText(Locators type, String locator) throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		return element.getText();
 	}
@@ -2426,8 +2355,7 @@ public class SeleniumHelper {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return String - the text of the element
 	 */
-	public String getValue(Locators type, String locator)
-			throws InvalidLocatorTypeException {
+	public String getValue(Locators type, String locator) throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		return element.getAttribute("value");
 	}
@@ -2444,12 +2372,11 @@ public class SeleniumHelper {
 	 * @return String - the value of the css attribute
 	 * @throws InvalidLocatorTypeException
 	 */
-	public String getCss(Locators type, String locator, String attribute)
-			throws InvalidLocatorTypeException {
+	public String getCss(Locators type, String locator, String attribute) throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		return element.getCssValue(attribute);
 	}
-	
+
 	/**
 	 * a function to return one attribute of the provided element
 	 * 
@@ -2462,12 +2389,11 @@ public class SeleniumHelper {
 	 * @return String - the value of the css attribute
 	 * @throws InvalidLocatorTypeException
 	 */
-	public String getAttribute(Locators type, String locator, String attribute)
-			throws InvalidLocatorTypeException {
+	public String getAttribute(Locators type, String locator, String attribute) throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		return element.getAttribute(attribute);
 	}
-	
+
 	/**
 	 * a function to return all attributes of the provided element
 	 * 
@@ -2481,11 +2407,12 @@ public class SeleniumHelper {
 	 * @throws InvalidLocatorTypeException
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, String> getAllAttributes(Locators type, String locator)
-			throws InvalidLocatorTypeException {
+	public Map<String, String> getAllAttributes(Locators type, String locator) throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		return (Map<String, String>) js.executeScript("var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;", element);
+		return (Map<String, String>) js.executeScript(
+				"var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;",
+				element);
 	}
 
 	/**
