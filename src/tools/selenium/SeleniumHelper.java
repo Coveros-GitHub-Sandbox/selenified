@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.opera.OperaDriver;
@@ -2298,7 +2299,7 @@ public class SeleniumHelper {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public String getSelectedLabel(Locators type, String locator)
+	public String getSelectedText(Locators type, String locator)
 			throws InvalidLocatorTypeException, InvalidActionException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
@@ -2313,7 +2314,7 @@ public class SeleniumHelper {
 		return option.getText();
 	}
 
-	public String[] getSelectedLabels(Locators type, String locator)
+	public String[] getSelectedTexts(Locators type, String locator)
 			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
@@ -2328,6 +2329,52 @@ public class SeleniumHelper {
 		String[] s_options = new String[options.size()];
 		for(int i=0; i < options.size(); i++ ) {
 			s_options[i] = options.get(i).getText();
+		}
+		return s_options;
+	}
+	
+	/**
+	 * get the options from the select drop down
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return String[]: the options from the select element
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
+	 *             , InvalidLocatorTypeException
+	 */
+	public String getSelectedValue(Locators type, String locator)
+			throws InvalidLocatorTypeException, InvalidActionException {
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			return "";
+		}
+		WebElement element = getWebElement(type, locator);
+		Select dropdown = new Select(element);
+		WebElement option = dropdown.getFirstSelectedOption();
+		return option.getAttribute("value");
+	}
+
+	public String[] getSelectedValues(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			return new String[0];
+		}
+		WebElement element = getWebElement(type, locator);
+		Select dropdown = new Select(element);
+		List<WebElement> options = dropdown.getAllSelectedOptions();
+		String[] s_options = new String[options.size()];
+		for(int i=0; i < options.size(); i++ ) {
+			s_options[i] = options.get(i).getAttribute("value");
 		}
 		return s_options;
 	}
@@ -2401,6 +2448,44 @@ public class SeleniumHelper {
 			throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		return element.getCssValue(attribute);
+	}
+	
+	/**
+	 * a function to return one attribute of the provided element
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param attribute
+	 *            - the css attribute to be returned
+	 * @return String - the value of the css attribute
+	 * @throws InvalidLocatorTypeException
+	 */
+	public String getAttribute(Locators type, String locator, String attribute)
+			throws InvalidLocatorTypeException {
+		WebElement element = getWebElement(type, locator);
+		return element.getAttribute(attribute);
+	}
+	
+	/**
+	 * a function to return all attributes of the provided element
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param attribute
+	 *            - the css attribute to be returned
+	 * @return String - the value of the css attribute
+	 * @throws InvalidLocatorTypeException
+	 */
+	@SuppressWarnings("unchecked")
+	public Map<String, String> getAllAttributes(Locators type, String locator)
+			throws InvalidLocatorTypeException {
+		WebElement element = getWebElement(type, locator);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		return (Map<String, String>) js.executeScript("var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;", element);
 	}
 
 	/**
