@@ -89,6 +89,7 @@ public class TestBase {
 	protected void startTest(Object[] dataProvider, Method method,
 			ITestContext test, boolean selenium) throws Exception {
 		String testName = getTestName(method, dataProvider);
+		System.out.println("Starting test " + testName);
 		String suite = test.getName();
 		String outputDir = test.getOutputDirectory();
 		String extClass = test.getCurrentXmlTest().getXmlClasses().get(0)
@@ -160,7 +161,7 @@ public class TestBase {
 				+ "</td><td>"
 				+ (result.getEndMillis() - result.getStartMillis()) / 1000
 				+ " seconds");
-		System.out.println("Finished test " + testLink);
+		System.out.println("Finished test " + testLink + " with status " + result.getStatus());
 	}
 
 	@AfterClass(alwaysRun = true)
