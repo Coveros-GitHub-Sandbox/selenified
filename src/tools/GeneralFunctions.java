@@ -13,17 +13,17 @@ public class GeneralFunctions {
 	 * tests went, overall passed or failed
 	 * 
 	 * @param output
-	 *            the TestOutput class that is instantiated
+	 *            - the TestOutput class that is instantiated
 	 * @param errors
-	 *            the error count from all performed functions
+	 *            - the error count from all performed functions
 	 * @throws IOException
+	 *             - an IOException
 	 */
 	public void stopTest(TestOutput output, int errors) throws IOException {
 		output.endTestTemplateOutputFile();
 		// new PDFOutput( output.getOutputFileName() );
-		assertEquals("ZZZFIRSTPARTZZZa href='" + output.getFileName()
-				+ "'ZZZSECONDPARTZZZ", "0 errors", Integer.toString(errors)
-				+ " errors");
+		assertEquals("ZZZFIRSTPARTZZZa href='" + output.getFileName() + "'ZZZSECONDPARTZZZ", "0 errors",
+				Integer.toString(errors) + " errors");
 	}
 
 	public String getMethodName(StackTraceElement e[]) {

@@ -46,8 +46,8 @@ import tools.logging.TestOutput.Result;
  * the output file
  * 
  * @author Max Saperstone
- * @version 1.0.2
- * @lastupdate 1/3/2014
+ * @version 1.0.4
+ * @lastupdate 4/11/2016
  */
 public class SeleniumHelper {
 
@@ -920,7 +920,7 @@ public class SeleniumHelper {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @return List<WebElement>: a list of the table rows
+	 * @return List: a list of the table rows as WebElements
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
@@ -962,7 +962,7 @@ public class SeleniumHelper {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @return List<WebElement>: a list of the table columns
+	 * @return List: a list of the table columns as WebElements
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
@@ -1046,7 +1046,7 @@ public class SeleniumHelper {
 	 * @param colNum
 	 *            : the column number of the table to obtain - note, column
 	 *            numbering starts at 1, NOT 0
-	 * @return List<WebElement>: a list of the table cells in the columns
+	 * @return List: a list of the table cells in the columns as WebElements
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
@@ -1410,8 +1410,6 @@ public class SeleniumHelper {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param text
-	 *            : the text to be typed in
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws InvalidActionException
@@ -1622,10 +1620,8 @@ public class SeleniumHelper {
 	/**
 	 * An custom script to scroll to a given position on the page
 	 * 
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param position
+	 *            - the position on the page to scroll to
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws InvalidActionException
@@ -1952,8 +1948,6 @@ public class SeleniumHelper {
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForAlertPresent() {
 		return waitForAlertPresent(5);
@@ -1966,8 +1960,6 @@ public class SeleniumHelper {
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForAlertPresent(int seconds) {
 		String action = "Wait up to " + seconds + " seconds for an alert to be present";
@@ -2047,8 +2039,6 @@ public class SeleniumHelper {
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForConfirmationPresent() {
 		return waitForConfirmationPresent(5);
@@ -2061,8 +2051,6 @@ public class SeleniumHelper {
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForConfirmationPresent(int seconds) {
 		String action = "Wait up to " + seconds + " seconds for a confirmation to be present";
@@ -2142,8 +2130,6 @@ public class SeleniumHelper {
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForPromptPresent() {
 		return waitForPromptPresent(5);
@@ -2156,8 +2142,6 @@ public class SeleniumHelper {
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
 	 */
 	public int waitForPromptPresent(int seconds) {
 		String action = "Wait up to " + seconds + " seconds for a prompt to be present";
@@ -2477,8 +2461,6 @@ public class SeleniumHelper {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param attribute
-	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
 	 * @throws InvalidLocatorTypeException
 	 */
@@ -2530,11 +2512,12 @@ public class SeleniumHelper {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript(javascriptFunction);
 	}
+
 	/**
 	 * a way to execute custom javascript functions
-	 * @param 
+	 * 
 	 * @param javascriptFunction
-	 * @throws InvalidLocatorTypeException 
+	 * @throws InvalidLocatorTypeException
 	 */
 	public void getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);

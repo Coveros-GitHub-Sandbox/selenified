@@ -27,8 +27,8 @@ import tools.selenium.SeleniumHelper.Locators;
  * Test Output A custom generated output file recording all actions taken
  * 
  * @author Max Saperstone
- * @version 1.0.2
- * @lastupdate 1/3/2014
+ * @version 1.0.4
+ * @lastupdate 4/11/2016
  */
 public class TestOutput {
 
@@ -74,7 +74,7 @@ public class TestOutput {
 	 * the basic test output constructor, providing access to the output file
 	 * and all page elements
 	 * 
-	 * @param testName
+	 * @param testsName
 	 *            - the name of the file we will write out all commands to
 	 * @param outputDir
 	 *            - the output directory to store the test results
@@ -107,7 +107,7 @@ public class TestOutput {
 	 *            the output directory to store the results
 	 * @param pageURL
 	 *            the initial URL to load up/log
-	 * @param testSuite
+	 * @param testsSuite
 	 *            the suite of tests the test belongs to
 	 * @param testsGroup
 	 *            the group of tests the test belongs to
@@ -176,9 +176,10 @@ public class TestOutput {
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws Exception
+	 * @throws IOException
+	 *             - an IOException
 	 */
-	public int startTestTemplateOutputFile(boolean selenium) throws Exception {
+	public int startTestTemplateOutputFile(boolean selenium) throws IOException {
 		createOutputHeader(selenium);
 		if (selenium) {
 			selHelper.getDriver().get(pageURL);
@@ -251,7 +252,6 @@ public class TestOutput {
 	 * 
 	 * @param expectedOutcome
 	 *            what the expected outcome is
-	 * @throws IOException
 	 */
 	public void recordExpected(String expectedOutcome) {
 		stepNum++;
@@ -348,9 +348,11 @@ public class TestOutput {
 	/**
 	 * Creates the specially formatted output header
 	 * 
-	 * @throws Exception
+	 * @throws IOException
+	 *             - an IOException
+	 * 
 	 */
-	public void createOutputHeader(boolean selenium) throws Exception {
+	public void createOutputHeader(boolean selenium) throws IOException {
 		// Open file
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy");
 		SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
@@ -523,7 +525,6 @@ public class TestOutput {
 	 *            the result that actually occurred
 	 * @param result
 	 *            the result of the action
-	 * @throws Exception
 	 */
 	public void recordAction(String action, String expectedResult, String actualResult, Result result) {
 		stepNum++;
@@ -685,9 +686,8 @@ public class TestOutput {
 	 * @param expectedAlert
 	 *            the expected text of the alert
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkAlert(String expectedAlert) throws Exception {
+	public int checkAlert(String expectedAlert) {
 		// record our action
 		recordExpected("Expected to find alert with the text <b>" + expectedAlert + "</b> on the page");
 		// check for our object to the visible
@@ -724,9 +724,8 @@ public class TestOutput {
 	 * checks to see if an alert is present on the page
 	 * 
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkAlertPresent() throws Exception {
+	public int checkAlertPresent() {
 		// record our action
 		recordExpected("Expected to find an alert on the page");
 		// check for our object to the visible
@@ -747,9 +746,8 @@ public class TestOutput {
 	 * checks to see if an alert is not present on the page
 	 * 
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkAlertNotPresent() throws Exception {
+	public int checkAlertNotPresent() {
 		// record our action
 		recordExpected("Expected not to find an alert on the page");
 		// check for our object to the visible
@@ -768,9 +766,8 @@ public class TestOutput {
 	 * @param expectedConfirmation
 	 *            the expected text of the confirmation
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkConfirmation(String expectedConfirmation) throws Exception {
+	public int checkConfirmation(String expectedConfirmation) {
 		// record our action
 		recordExpected("Expected to find confirmation with the text <b>" + expectedConfirmation + "</b> on the page");
 		// check for our object to the visible
@@ -795,9 +792,8 @@ public class TestOutput {
 	 * checks to see if a confirmation is present on the page
 	 * 
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkConfirmationPresent() throws Exception {
+	public int checkConfirmationPresent() {
 		// record our action
 		recordExpected("Expected to find a confirmation on the page");
 		// check for our object to the visible
@@ -818,9 +814,8 @@ public class TestOutput {
 	 * checks to see if a confirmation is not present on the page
 	 * 
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkConfirmationNotPresent() throws Exception {
+	public int checkConfirmationNotPresent() {
 		// record our action
 		recordExpected("Expected to find a confirmation on the page");
 		// check for our object to the visible
@@ -836,12 +831,11 @@ public class TestOutput {
 	/**
 	 * checks to see if a prompt is correct on the page
 	 * 
-	 * @param expectedConfirmation
+	 * @param expectedPrompt
 	 *            the expected text of the confirmation
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkPrompt(String expectedPrompt) throws Exception {
+	public int checkPrompt(String expectedPrompt) {
 		// record our action
 		recordExpected("Expected to find prompt with the text <b>" + expectedPrompt + "</b> on the page");
 		// check for our object to the visible
@@ -866,9 +860,8 @@ public class TestOutput {
 	 * checks to see if a prompt is present on the page
 	 * 
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkPromptPresent() throws Exception {
+	public int checkPromptPresent() {
 		// record our action
 		recordExpected("Expected to find prompt on the page");
 		// check for our object to the visible
@@ -889,9 +882,8 @@ public class TestOutput {
 	 * checks to see if a prompt is not present on the page
 	 * 
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkPromptNotPresent() throws Exception {
+	public int checkPromptNotPresent() {
 		// record our action
 		recordExpected("Expected not to find prompt on the page");
 		// check for our object to the visible
@@ -912,9 +904,8 @@ public class TestOutput {
 	 * @param expectedCookieValue
 	 *            the expected value of the cookie
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkCookie(String cookieName, String expectedCookieValue) throws Exception {
+	public int checkCookie(String cookieName, String expectedCookieValue) {
 		// record our action
 		recordExpected("Expected to find cookie with the name <b>" + cookieName + "</b> and a value of <b>"
 				+ expectedCookieValue + "</b> stored for the page");
@@ -944,9 +935,8 @@ public class TestOutput {
 	 * @param expectedCookieName
 	 *            the name of the cookie
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkCookiePresent(String expectedCookieName) throws Exception {
+	public int checkCookiePresent(String expectedCookieName) {
 		// record our action
 		recordExpected("Expected to find cookie with the name <b>" + expectedCookieName + "</b> stored for the page");
 		// check for our object to the visible
@@ -971,9 +961,8 @@ public class TestOutput {
 	 * @param unexpectedCookieName
 	 *            the name of the cookie
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkCookieNotPresent(String unexpectedCookieName) throws Exception {
+	public int checkCookieNotPresent(String unexpectedCookieName) {
 		// record our action
 		recordExpected(
 				"Expected to find no cookie with the name <b>" + unexpectedCookieName + "</b> stored for the page");
@@ -997,9 +986,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementDisplayed(Locators type, String locator) throws Exception {
+	public int checkElementDisplayed(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementDisplayed(type, locator)) {
 			if (selHelper.waitForElementDisplayed(type, locator) == 1) {
@@ -1021,9 +1012,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementNotDisplayed(Locators type, String locator) throws Exception {
+	public int checkElementNotDisplayed(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (selHelper.isElementDisplayed(type, locator)) {
 			if (selHelper.waitForElementNotDisplayed(type, locator) == 1) {
@@ -1046,9 +1039,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int checkElementChecked(Locators type, String locator) throws Exception {
+	public int checkElementChecked(Locators type, String locator)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
@@ -1075,9 +1070,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int checkElementNotChecked(Locators type, String locator) throws Exception {
+	public int checkElementNotChecked(Locators type, String locator)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
@@ -1103,9 +1100,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementDisplayedAndChecked(Locators type, String locator) throws Exception {
+	public int checkElementDisplayedAndChecked(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementDisplayed(type, locator)) {
 			if (selHelper.waitForElementDisplayed(type, locator) == 1) {
@@ -1133,9 +1132,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementDisplayedAndUnchecked(Locators type, String locator) throws Exception {
+	public int checkElementDisplayedAndUnchecked(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementDisplayed(type, locator)) {
 			if (selHelper.waitForElementDisplayed(type, locator) == 1) {
@@ -1162,9 +1163,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int checkElementEditable(Locators type, String locator) throws Exception {
+	public int checkElementEditable(Locators type, String locator)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
@@ -1197,9 +1200,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int checkElementNotEditable(Locators type, String locator) throws Exception {
+	public int checkElementNotEditable(Locators type, String locator)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
@@ -1232,9 +1237,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementDisplayedAndEditable(Locators type, String locator) throws Exception {
+	public int checkElementDisplayedAndEditable(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementDisplayed(type, locator)) {
 			if (selHelper.waitForElementDisplayed(type, locator) == 1) {
@@ -1268,9 +1275,11 @@ public class TestOutput {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementDisplayedAndNotEditable(Locators type, String locator) throws Exception {
+	public int checkElementDisplayedAndNotEditable(Locators type, String locator)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementDisplayed(type, locator)) {
 			if (selHelper.waitForElementDisplayed(type, locator) == 1) {
@@ -1306,33 +1315,33 @@ public class TestOutput {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws InvalidLocatorTypeException 
-	 * @throws InvalidActionException 
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementHasAttribute(Locators type, String locator, String attribute) throws InvalidActionException, InvalidLocatorTypeException {
+	public int checkElementHasAttribute(Locators type, String locator, String attribute)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
 				return 1;
 			}
 		}
-		recordExpected("Expected to find element with " + type + " <i>" + locator
-				+ "</i> with attribute <b>" + attribute + "</b>");
-		Map<String,String> attributes = selHelper.getAllAttributes(type, locator);
+		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with attribute <b>"
+				+ attribute + "</b>");
+		Map<String, String> attributes = selHelper.getAllAttributes(type, locator);
 		Set<String> keys = attributes.keySet();
 		String[] array = keys.toArray(new String[keys.size()]);
 		// record our action
 		if (gen.doesArrayContain(array, attribute)) {
-			recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>" + attribute
-					+ "</b>", Success.PASS);
+			recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>"
+					+ attribute + "</b>", Success.PASS);
 			return 0;
 		}
 		recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the attribute of <b>"
 				+ attribute + "</b>" + ", only the values <b>" + array.toString() + "</b>", Success.FAIL);
 		return 1;
 	}
-	
+
 	/**
 	 * checks to see if an element has an attribute associated with it
 	 * 
@@ -1343,33 +1352,33 @@ public class TestOutput {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws InvalidLocatorTypeException 
-	 * @throws InvalidActionException 
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementDoesntHaveAttribute(Locators type, String locator, String attribute) throws InvalidActionException, InvalidLocatorTypeException {
+	public int checkElementDoesntHaveAttribute(Locators type, String locator, String attribute)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
 				return 1;
 			}
 		}
-		recordExpected("Expected to find element with " + type + " <i>" + locator
-				+ "</i> without attribute <b>" + attribute + "</b>");
-		Map<String,String> attributes = selHelper.getAllAttributes(type, locator);
+		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without attribute <b>"
+				+ attribute + "</b>");
+		Map<String, String> attributes = selHelper.getAllAttributes(type, locator);
 		Set<String> keys = attributes.keySet();
 		String[] array = keys.toArray(new String[keys.size()]);
 		// record our action
 		if (gen.doesArrayContain(array, attribute)) {
-			recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>" + attribute
-					+ "</b>", Success.FAIL);
+			recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>"
+					+ attribute + "</b>", Success.FAIL);
 			return 1;
 		}
 		recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the attribute of <b>"
 				+ attribute + "</b>" + ", only the values <b>" + array.toString() + "</b>", Success.PASS);
 		return 0;
 	}
-	
+
 	/**
 	 * checks to see if an element has a particular class
 	 * 
@@ -1380,31 +1389,32 @@ public class TestOutput {
 	 * @param expectedClass
 	 *            - the full expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws InvalidLocatorTypeException 
-	 * @throws InvalidActionException 
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementHasClass(Locators type, String locator, String expectedClass) throws InvalidActionException, InvalidLocatorTypeException {
+	public int checkElementHasClass(Locators type, String locator, String expectedClass)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
 				return 1;
 			}
 		}
-		recordExpected("Expected to find element with " + type + " <i>" + locator
-				+ "</i> with class <b>" + expectedClass + "</b>");
+		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with class <b>"
+				+ expectedClass + "</b>");
 		String actualClass = selHelper.getAttribute(type, locator, "class");
 		// record our action
 		if (actualClass.equals(expectedClass)) {
-			recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + expectedClass
-					+ "</b>", Success.PASS);
+			recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>"
+					+ expectedClass + "</b>", Success.PASS);
 			return 0;
 		}
-		recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>"
-				+ actualClass + "</b>", Success.FAIL);
+		recordActual(
+				"The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + actualClass + "</b>",
+				Success.FAIL);
 		return 1;
 	}
-	
+
 	/**
 	 * checks to see if an element contains a particular class
 	 * 
@@ -1415,19 +1425,19 @@ public class TestOutput {
 	 * @param expectedClass
 	 *            - the expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws InvalidLocatorTypeException 
-	 * @throws InvalidActionException 
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementContainsClass(Locators type, String locator, String expectedClass) throws InvalidActionException, InvalidLocatorTypeException {
+	public int checkElementContainsClass(Locators type, String locator, String expectedClass)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
 				return 1;
 			}
 		}
-		recordExpected("Expected to find element with " + type + " <i>" + locator
-				+ "</i> containing class <b>" + expectedClass + "</b>");
+		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> containing class <b>"
+				+ expectedClass + "</b>");
 		String actualClass = selHelper.getAttribute(type, locator, "class");
 		// record our action
 		if (actualClass.contains(expectedClass)) {
@@ -1435,11 +1445,12 @@ public class TestOutput {
 					+ "</b>, which contains <b>" + expectedClass + "</b>", Success.PASS);
 			return 0;
 		}
-		recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>"
-				+ actualClass + "</b>", Success.FAIL);
+		recordActual(
+				"The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + actualClass + "</b>",
+				Success.FAIL);
 		return 1;
 	}
-	
+
 	/**
 	 * checks to see if an element does not contain a particular class
 	 * 
@@ -1450,19 +1461,19 @@ public class TestOutput {
 	 * @param unexpectedClass
 	 *            - the unexpected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws InvalidLocatorTypeException 
-	 * @throws InvalidActionException 
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkElementDoesntContainClass(Locators type, String locator, String unexpectedClass) throws InvalidActionException, InvalidLocatorTypeException {
+	public int checkElementDoesntContainClass(Locators type, String locator, String unexpectedClass)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementPresent(type, locator)) {
 			if (selHelper.waitForElementPresent(type, locator) == 1) {
 				return 1;
 			}
 		}
-		recordExpected("Expected to find element with " + type + " <i>" + locator
-				+ "</i> without class <b>" + unexpectedClass + "</b>");
+		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without class <b>"
+				+ unexpectedClass + "</b>");
 		String actualClass = selHelper.getAttribute(type, locator, "class");
 		// record our action
 		if (actualClass.contains(unexpectedClass)) {
@@ -1485,9 +1496,11 @@ public class TestOutput {
 	 * @param option
 	 *            the option expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkIfOptionInSelect(Locators type, String locator, String option) throws Exception {
+	public int checkIfOptionInSelect(Locators type, String locator, String option)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementEnabled(type, locator)) {
 			if (selHelper.waitForElementEnabled(type, locator) == 1) {
@@ -1521,9 +1534,11 @@ public class TestOutput {
 	 * @param option
 	 *            the option not expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidLocatorTypeException
+	 * @throws InvalidActionException
 	 */
-	public int checkIfOptionNotInSelect(Locators type, String locator, String option) throws Exception {
+	public int checkIfOptionNotInSelect(Locators type, String locator, String option)
+			throws InvalidActionException, InvalidLocatorTypeException {
 		// wait for the element
 		if (!selHelper.isElementEnabled(type, locator)) {
 			if (selHelper.waitForElementEnabled(type, locator) == 1) {
@@ -1552,12 +1567,11 @@ public class TestOutput {
 	/**
 	 * checks to see if text is visible on the page
 	 * 
-	 * @param expectedText
+	 * @param expectedTexts
 	 *            the expected text to be visible
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkTextVisible(String... expectedTexts) throws Exception {
+	public int checkTextVisible(String... expectedTexts) {
 		// record our action
 		int errors = 0;
 		for (String expectedText : expectedTexts) {
@@ -1577,12 +1591,11 @@ public class TestOutput {
 	/**
 	 * checks to see if text is not visible on the page
 	 * 
-	 * @param expectedText
+	 * @param expectedTexts
 	 *            the expected text to be invisible
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkTextNotVisible(String... expectedTexts) throws Exception {
+	public int checkTextNotVisible(String... expectedTexts) {
 		// record our action
 		int errors = 0;
 		for (String expectedText : expectedTexts) {
@@ -1602,12 +1615,11 @@ public class TestOutput {
 	/**
 	 * checks to see if text is visible on the page
 	 * 
-	 * @param expectedText
+	 * @param expectedTexts
 	 *            the expected text to be visible
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int checkTextVisibleOR(String... expectedTexts) throws Exception {
+	public int checkTextVisibleOR(String... expectedTexts) {
 		// record our action
 		int errors = 0;
 		boolean isPresent = false;
@@ -1646,9 +1658,11 @@ public class TestOutput {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int compareTextValue(Locators type, String locator, String expectedValue) throws Exception {
+	public int compareTextValue(Locators type, String locator, String expectedValue)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a value of <b>"
 				+ expectedValue + "</b>");
@@ -1685,9 +1699,11 @@ public class TestOutput {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int compareTextValueContains(Locators type, String locator, String expectedValue) throws Exception {
+	public int compareTextValueContains(Locators type, String locator, String expectedValue)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> contains the value of <b>"
 				+ expectedValue + "</b>");
@@ -1717,12 +1733,11 @@ public class TestOutput {
 	/**
 	 * compares the actual URL a page is on to the expected URL
 	 * 
-	 * @param expectedLocation
+	 * @param expectedTitle
 	 *            the friendly name of the page
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
 	 */
-	public int compareTitle(String expectedTitle) throws Exception {
+	public int compareTitle(String expectedTitle) {
 		// record our action
 		recordExpected("Expected to be on page with the title of <i>" + expectedTitle + "</i>");
 		String actualTitle = selHelper.getTitle();
@@ -1745,9 +1760,11 @@ public class TestOutput {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int compareInputValue(Locators type, String locator, String expectedValue) throws Exception {
+	public int compareInputValue(Locators type, String locator, String expectedValue)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a value of <b>"
 				+ expectedValue + "</b>");
@@ -1786,9 +1803,11 @@ public class TestOutput {
 	 * @param expectedValue
 	 *            the expected css value of the passed attribute of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int compareCssValue(Locators type, String locator, String attribute, String expectedValue) throws Exception {
+	public int compareCssValue(Locators type, String locator, String attribute, String expectedValue)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a css attribute of <i>"
 				+ attribute + "</i> with a value of <b>" + expectedValue + "</b>");
@@ -1823,9 +1842,11 @@ public class TestOutput {
 	 * @param selectValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int checkSelectValuePresent(Locators type, String locator, String selectValue) throws Exception {
+	public int checkSelectValuePresent(Locators type, String locator, String selectValue)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a select value of <b>"
 				+ selectValue + "</b>");
@@ -1878,9 +1899,11 @@ public class TestOutput {
 	 * @param selectValue
 	 *            the unexpected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int checkSelectValueNotPresent(Locators type, String locator, String selectValue) throws Exception {
+	public int checkSelectValueNotPresent(Locators type, String locator, String selectValue)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without a select value of <b>"
 				+ selectValue + "</b>");
@@ -1934,9 +1957,11 @@ public class TestOutput {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int compareSelectedValue(Locators type, String locator, String expectedValue) throws Exception {
+	public int compareSelectedValue(Locators type, String locator, String expectedValue)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator
 				+ "</i> having a selected value of <b>" + expectedValue + "</b>");
@@ -1991,12 +2016,14 @@ public class TestOutput {
 	 * @param expectedText
 	 *            the expected input text of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int compareSelectedText(Locators type, String locator, String expectedText) throws Exception {
+	public int compareSelectedText(Locators type, String locator, String expectedText)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
-		recordExpected("Expected to find element with " + type + " <i>" + locator
-				+ "</i> having a selected text of <b>" + expectedText + "</b>");
+		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a selected text of <b>"
+				+ expectedText + "</b>");
 		// check for our object to the present on the page
 		String elementText = "";
 		boolean isPresent = selHelper.isElementPresent(type, locator);
@@ -2027,8 +2054,9 @@ public class TestOutput {
 			return 1;
 		}
 		if (!elementText.equals(expectedText)) {
-			recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementText
-					+ "</b>", Success.FAIL);
+			recordActual(
+					"The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementText + "</b>",
+					Success.FAIL);
 			return 1;
 		}
 		recordActual(
@@ -2036,7 +2064,7 @@ public class TestOutput {
 				Success.PASS);
 		return 0;
 	}
-	
+
 	/**
 	 * compares the expected element select value with the actual value from an
 	 * element
@@ -2048,9 +2076,11 @@ public class TestOutput {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int compareSelectedValueNotEqual(Locators type, String locator, String expectedValue) throws Exception {
+	public int compareSelectedValueNotEqual(Locators type, String locator, String expectedValue)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		recordExpected("Expected to find element with " + type + " <i>" + locator
 				+ "</i> not having a selected value of <b>" + expectedValue + "</b>");
@@ -2102,12 +2132,14 @@ public class TestOutput {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param expectedValue
+	 * @param expectedValues
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws Exception
+	 * @throws InvalidActionException
+	 * @throws InvalidLocatorTypeException
 	 */
-	public int compareSelectValues(Locators type, String locator, String... expectedValues) throws Exception {
+	public int compareSelectValues(Locators type, String locator, String... expectedValues)
+			throws InvalidLocatorTypeException, InvalidActionException {
 		// record our action
 		int errors = 0;
 		recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with select values of <b>"
@@ -2167,7 +2199,7 @@ public class TestOutput {
 	// //////////////////////////////////////////
 	// some custom made selenium helper methods
 	// ////////////////////////////////////////
-	
+
 	/**
 	 * A method to count the number of occurrence of a string within a file
 	 * 
