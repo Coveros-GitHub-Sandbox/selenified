@@ -78,17 +78,17 @@ Coming Soon
 ## Running Tests
 ### Parameters
 The testing framework requires one parameter, and takes several optional input parameters.
- * Test Suite
+#### Test Suite
 As the SecureCI Testing Framework is built on top of TestNG, it follows the testng testing suite example for determining which tests to execute. An XML file must exist following the guidelines outlined [here](http://testng.org/doc/documentation-main.html#testng-xml). The path to this file must be provided, or no tests will be executed.  
- * Application URL
+#### Application URL
 This is the default URL that all tests should run against. This value can be overridden in each test, class, or even suite (see below).
- * Browser
+#### Browser
 If unspecified the default browser of HTMLUnit will be used. Other supported browsers are Firefox, Chrome, InternetExplorer, Android, Ipad (only locally - not on grid), Iphone (only locally, not on grid), Opera, and Safari. To run most other browsers additional drivers may need to be added to the browser install directory. Multiple drivers can be found in the 'lib' directory.
- * Hub Address
+#### Hub Address
 If unspecified the tests will run in standalone mode. If a hub address is specified, then tests will run via Selenium Grid on the specified grid address. Just list the IP or DNS, not ports, or protocol should be provided.
- * Proxy Server
+#### Proxy Server
 If this is specified AND the proxy port is specified, then the tests will be run through a proxy server at the specified address
- * Proxy Port
+#### Proxy Port
 If this is specified AND the proxy server is specified, then the tests will be run through a proxy server on the specified port
 
 ### Eclipse
