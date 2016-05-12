@@ -1,4 +1,4 @@
-# SecureCI WebDriver Testing Framework
+# SecureCI™ Testing Framework
 
 ## Writing Tests
 ###Create A New Test Suite
@@ -79,7 +79,7 @@ Coming Soon
 ### Parameters
 The testing framework requires one parameter, and takes several optional input parameters.
 #### Test Suite
-As the SecureCI Testing Framework is built on top of TestNG, it follows the testng testing suite example for determining which tests to execute. An XML file must exist following the guidelines outlined [here](http://testng.org/doc/documentation-main.html#testng-xml). The path to this file must be provided, or no tests will be executed.  
+As the SecureCI™ Testing Framework is built on top of TestNG, it follows the testng testing suite example for determining which tests to execute. An XML file must exist following the guidelines outlined [here](http://testng.org/doc/documentation-main.html#testng-xml). The path to this file must be provided, or no tests will be executed.  
 #### Application URL
 This is the default URL that all tests should run against. This value can be overridden in each test, class, or even suite (see below).
 #### Browser
