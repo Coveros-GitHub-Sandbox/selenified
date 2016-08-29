@@ -1,15 +1,16 @@
 <project name="SecureCI Testing Framework" basedir="." default="run">
     <property name="jars" value="lib" />
     <property name="rootdir" value="./" />
-    <property name="src-dir" value="./src" />
+    <property name="test-dir" value="./src" />
     <property name="out-dir" value="./test-output" />
+    <property name="junit-dir" value="${out-dir}/JUnit" />
     <property name="com-dir" value="${out-dir}/classes" />
     <property name="doc-dir" value="./doc" />
 
     <target name="doc" description="generate documentation">
         <delete dir="${doc-dir}" />
         <mkdir dir="${doc-dir}" />
-        <javadoc sourcepath="${src-dir}" destdir="${doc-dir}"/>
+        <javadoc sourcepath="${test-dir}" destdir="${doc-dir}"/>
     </target>
 
     <target name="jar" depends="compile" description="generate an executable jar">
@@ -33,16 +34,18 @@
 
     <target name="compile" depends="classpath">
         <mkdir dir="${com-dir}" />
-        <javac srcdir="${src-dir}" destdir="${com-dir}" classpathref="classpath" includeantruntime="false" />
+        <javac srcdir="${test-dir}" destdir="${com-dir}" classpathref="classpath" includeantruntime="false" />
     </target>
-    
-    <target name="run" depends="compile" description="Run tests in parallel">
+
+    <target name="test" depends="compile" description="Run tests in parallel">
         <java classpathref="classpath" classname="org.testng.TestNG" failonerror="true">
             <sysproperty key="browser" value="${browser}" />
             <sysproperty key="hubAddress" value="${hubAddress}" />
             <sysproperty key="appURL" value="${appURL}" />
+            <sysproperty key="proxyServer" value="${proxyServer}" />
+            <sysproperty key="proxyPort" value="${proxyProxy}" />
             <arg value="-d" />
-            <arg value="${basedir}/test-output" />
+            <arg value="${out-dir}" />
             <arg value="-suitename" />
             <arg value="Default suite" />
             <arg value="-parallel"/>
@@ -66,6 +69,31 @@
                byline="true">
             <fileset dir="${out-dir}" includes="**/*.html"/>
         </replaceregexp>
+        <replaceregexp
+               match=", public void.*"
+               replace="&lt;/td&gt;"
+               byline="true">
+            <fileset dir="${out-dir}" includes="**/*.html"/>
+        </replaceregexp>
+        <replaceregexp
+               match="&lt;br&gt;Parameters: null&lt;/td&gt;"
+               replace="&lt;/td&gt;"
+               byline="true">
+            <fileset dir="${out-dir}" includes="**/*.html"/>
+        </replaceregexp>
+    </target>
+
+    <target name="junit-report">
+        <delete dir="${junit-dir}"></delete>
+        <mkdir dir="${junit-dir}"></mkdir>
+        <junitreport todir="${junit-dir}">
+            <fileset dir="${out-dir}">
+                <include name="*/*.xml">
+                </include>
+            </fileset>
+            <report format="noframes" todir="${junit-dir}">
+            </report>
+        </junitreport>
     </target>
 
 </project>

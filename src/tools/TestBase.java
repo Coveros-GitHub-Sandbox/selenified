@@ -1,6 +1,7 @@
 package tools;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,6 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -64,6 +66,11 @@ public class TestBase {
 	public void beforeSuite() throws Exception {
 		MasterSuiteSetupConfigurator.getInstance().doSetup();
 	}
+	
+    @BeforeMethod(alwaysRun = true)
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test) throws Exception {
+        startTest(dataProvider, method, test, true);
+    }
 
 	protected static void initializeSystem() throws Exception {
 		// check our browser
@@ -126,8 +133,8 @@ public class TestBase {
 
 	@AfterMethod(alwaysRun = true)
 	protected void endTest(Object[] dataProvider, Method method,
-			ITestContext test, ITestResult result) throws Exception {
-		String testLink = getTestName(method, dataProvider);
+			ITestContext test, ITestResult result) throws Exception {	    
+	    String testLink = getTestName(method, dataProvider);
 		String testName = method.getName();
 		if (dataProvider != null) {
 			testName += " : ";
@@ -144,6 +151,9 @@ public class TestBase {
 					.getAttribute(testLink + "SelHelper");
 			selHelper.killDriver();
 		}
+//		TestOutput output = (TestOutput) test
+//                .getAttribute(testLink + "Output");
+//        genFun.stopTest(output);
 
 		String colClass = "";
 		if (result.getStatus() == 1) {
@@ -162,6 +172,10 @@ public class TestBase {
 				+ (result.getEndMillis() - result.getStartMillis()) / 1000
 				+ " seconds");
 		System.out.println("Finished test " + testLink + " with status " + result.getStatus());
+	}
+	
+	protected void finalize(TestOutput output) throws IOException {
+	    genFun.stopTest(output);
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -198,5 +212,20 @@ public class TestBase {
 			}
 		}
 		return testName;
+	}
+	
+	protected static SeleniumHelper getSelHelper(Method method, ITestContext test, Object... dataProvider) {
+	    String testName = getTestName( method, dataProvider );
+        return (SeleniumHelper) test.getAttribute( testName + "SelHelper" );
+	}
+	
+	protected static TestOutput getTestOutput(Method method, ITestContext test, Object... dataProvider) {
+	    String testName = getTestName( method, dataProvider );
+	    return (TestOutput) test.getAttribute( testName + "Output" );
+	}
+	
+	protected static int getErrors(Method method, ITestContext test, Object... dataProvider) {
+	    String testName = getTestName( method, dataProvider );
+	    return (Integer) test.getAttribute( testName + "Errors" );
 	}
 }

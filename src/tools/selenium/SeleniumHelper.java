@@ -50,8 +50,8 @@ import tools.logging.TestOutput.Result;
  * the output file
  * 
  * @author Max Saperstone
- * @version 1.0.4
- * @lastupdate 4/11/2016
+ * @version 1.0.5
+ * @lastupdate 8/29/2016
  */
 public class SeleniumHelper {
 
@@ -150,7 +150,7 @@ public class SeleniumHelper {
                 capability = DesiredCapabilities.phantomjs();
                 break;
             }
-            // if our browser is not listed, throw an error
+                // if our browser is not listed, throw an error
             default: {
                 throw new InvalidBrowserException("The selected browser " + browser);
             }
@@ -195,9 +195,11 @@ public class SeleniumHelper {
                 driver = new EdgeDriver(capability);
                 break;
             }
-//            case Android: { driver = new AndroidDriver(capability); break; }
-//            case Iphone: { driver = new IPhoneDriver(capability); break; }
-//            case Ipad: { driver = new IPadDriver(capability); break; }
+                // case Android: { driver = new AndroidDriver(capability);
+                // break; }
+                // case Iphone: { driver = new IPhoneDriver(capability); break;
+                // }
+                // case Ipad: { driver = new IPadDriver(capability); break; }
             case Safari: {
                 driver = new SafariDriver(capability);
                 break;
@@ -266,6 +268,7 @@ public class SeleniumHelper {
             driver.get(URL);
         } catch (Exception e) {
             output.recordAction(action, expected, "Fail to Load " + URL, Result.FAILURE);
+            output.addError();
             return 1;
         }
         double timetook = System.currentTimeMillis() - start;
@@ -301,6 +304,7 @@ public class SeleniumHelper {
             Thread.sleep((long) (seconds * 1000));
         } catch (InterruptedException e) {
             output.recordAction(action, expected, "Failed to wait " + seconds + " seconds", Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected, "Waited " + seconds + " seconds", Result.SUCCESS);
@@ -360,6 +364,7 @@ public class SeleniumHelper {
             output.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is not present",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected,
@@ -416,6 +421,7 @@ public class SeleniumHelper {
             output.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is still present",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected,
@@ -481,6 +487,7 @@ public class SeleniumHelper {
             output.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is not displayed",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected,
@@ -541,6 +548,7 @@ public class SeleniumHelper {
             output.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is still displayed",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected,
@@ -607,6 +615,7 @@ public class SeleniumHelper {
             output.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is not enabled",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected,
@@ -667,6 +676,7 @@ public class SeleniumHelper {
             output.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is still enabled",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected,
@@ -1173,6 +1183,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1182,6 +1193,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator, false)) {
             output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not displayed",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1191,6 +1203,7 @@ public class SeleniumHelper {
         if (!isElementEnabled(type, locator, false)) {
             output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
@@ -1223,6 +1236,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected, "Unable to submit " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1232,6 +1246,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to submit " + type + " " + locator + " as it is not displayed", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1241,6 +1256,7 @@ public class SeleniumHelper {
         if (!isElementEnabled(type, locator, false)) {
             output.recordAction(action, expected, "Unable to submit " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
@@ -1271,6 +1287,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to hover over " + type + " " + locator + " as it is not present", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1280,6 +1297,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to hover over " + type + " " + locator + " as it is not displayed", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not displayed
         }
         Actions selAction = new Actions(driver);
@@ -1311,6 +1329,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to focus on " + type + " " + locator + " as it is not present", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1320,6 +1339,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to focus on " + type + " " + locator + " as it is not displayed", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1329,6 +1349,7 @@ public class SeleniumHelper {
         if (!isElementEnabled(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to focus on " + type + " " + locator + " as it is not enabled", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
@@ -1366,6 +1387,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1375,6 +1397,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to type in " + type + " " + locator + " as it is not displayed", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1384,6 +1407,7 @@ public class SeleniumHelper {
         if (!isElementEnabled(type, locator, false)) {
             output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
@@ -1418,6 +1442,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1427,6 +1452,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to type in " + type + " " + locator + " as it is not displayed", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1436,6 +1462,7 @@ public class SeleniumHelper {
         if (!isElementEnabled(type, locator, false)) {
             output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
@@ -1466,6 +1493,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1475,6 +1503,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator, false)) {
             output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not displayed",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1484,6 +1513,7 @@ public class SeleniumHelper {
         if (!isElementEnabled(type, locator, false)) {
             output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
@@ -1539,6 +1569,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected, "Unable to select " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1548,6 +1579,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator, false)) {
             output.recordAction(action, expected,
                     "Unable to select " + type + " " + locator + " as it is not displayed", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1557,6 +1589,7 @@ public class SeleniumHelper {
         if (!isElementEnabled(type, locator, false)) {
             output.recordAction(action, expected, "Unable to select " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not enabled
         }
         // ensure the option exists
@@ -1566,6 +1599,7 @@ public class SeleniumHelper {
                             + " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
                             + String.join("<br/>&nbsp;&nbsp;&nbsp;", getSelectOptions(type, locator)) + "</i>",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         // do the select
@@ -1599,6 +1633,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected, "Unable to move to " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         WebElement element = getWebElement(type, locator);
@@ -1608,6 +1643,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator)) {
             output.recordAction(action, expected, type + " " + locator + " is not present on visible page",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not visible
         }
         output.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
@@ -1640,6 +1676,7 @@ public class SeleniumHelper {
         if (!isElementPresent(type, locator, false)) {
             output.recordAction(action, expected, "Unable to move to " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
 
@@ -1652,6 +1689,7 @@ public class SeleniumHelper {
         if (!isElementDisplayed(type, locator)) {
             output.recordAction(action, expected, type + " " + locator + " is not present on visible page",
                     Result.FAILURE);
+            output.addError();
             return 1; // indicates element not visible
         }
         output.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
@@ -1681,6 +1719,7 @@ public class SeleniumHelper {
 
         output.recordAction(action, expected, "Page is now set at position " + newPosition, Result.FAILURE);
         if (newPosition != position) {
+            output.addError();
             return 1; // indicates page didn't scroll properly
         }
         return 0; // indicates page didn't scroll properly
@@ -1701,6 +1740,7 @@ public class SeleniumHelper {
         }
         if (!isAlertPresent(false)) {
             output.recordAction(action, expected, "Unable to click alert as it is not present", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
@@ -1725,6 +1765,7 @@ public class SeleniumHelper {
         }
         if (!isConfirmationPresent(false)) {
             output.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
@@ -1749,6 +1790,7 @@ public class SeleniumHelper {
         }
         if (!isConfirmationPresent(false)) {
             output.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
@@ -1773,6 +1815,7 @@ public class SeleniumHelper {
         }
         if (!isPromptPresent(false)) {
             output.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
@@ -1797,6 +1840,7 @@ public class SeleniumHelper {
         }
         if (!isPromptPresent(false)) {
             output.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
@@ -1821,6 +1865,7 @@ public class SeleniumHelper {
         }
         if (!isPromptPresent(false)) {
             output.recordAction(action, expected, "Unable to type in prompt as it is not present", Result.FAILURE);
+            output.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
@@ -2021,6 +2066,7 @@ public class SeleniumHelper {
         if (!isAlertPresent(false)) {
             output.recordAction(action, expected, "After waiting " + timetook + " seconds, an alert is not present",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected, "Waited " + timetook + " seconds for an alert to be present",
@@ -2112,6 +2158,7 @@ public class SeleniumHelper {
         if (!isConfirmationPresent(false)) {
             output.recordAction(action, expected,
                     "After waiting " + timetook + " seconds, a confirmation is not present", Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected, "Waited " + timetook + " seconds for a confirmation to be present",
@@ -2203,6 +2250,7 @@ public class SeleniumHelper {
         if (!isPromptPresent(false)) {
             output.recordAction(action, expected, "After waiting " + timetook + " seconds, a prompt is not present",
                     Result.FAILURE);
+            output.addError();
             return 1;
         }
         output.recordAction(action, expected, "Waited " + timetook + " seconds for a prompt to be present",

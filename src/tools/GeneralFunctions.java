@@ -8,6 +8,18 @@ import tools.logging.TestOutput;
 
 public class GeneralFunctions {
 
+    /**
+     * Closes out the output file and checks the error count to see how the
+     * tests went, overall passed or failed
+     * 
+     * @param output
+     *            - the TestOutput class that is instantiated
+     * @throws IOException
+     *             - an IOException
+     */
+    public void stopTest(TestOutput output) throws IOException {
+        stopTest(output, output.getErrors());
+    }
 	/**
 	 * Closes out the output file and checks the error count to see how the
 	 * tests went, overall passed or failed

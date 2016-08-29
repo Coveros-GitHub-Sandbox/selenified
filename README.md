@@ -121,15 +121,15 @@ Once that completes, run the following command to execute the tests:
 ```
 ant -Dtest-suite=../acceptance.xml -appURL=google.com -Dbrowser=Firefox -DhubAddress=localhost -DproxyServer=localhost -DproxyPort=8080
 ```
-The default task is 'run,' which can alternatively be executed, or could be chained with other commands.
+The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean run -Dtest-suite=./suites/all.xml -appURL=google.com -Dbrowser=Android -DhubAddress=172.16.3.12 -DproxyServer=172.16.3.12 -DproxyPort=8080
+ant clean test -Dtest-suite=./suites/all.xml -appURL=google.com -Dbrowser=Android -DhubAddress=172.16.3.12 -DproxyServer=172.16.3.12 -DproxyPort=8080
 ```
 All test results will be stored in the target-output folder.
 
 A replace task also exists to provide easy links in the test reports. This should be executed after the tests are completed.
 ```
-ant clean run replace -k -Dtest-suite=./suites/non-destructive.xml -appURL=google.com -Dbrowser=IPhone
+ant clean test replace -k -Dtest-suite=./suites/non-destructive.xml -appURL=google.com -Dbrowser=IPhone
 ```
 The -k option ensure this task is always run, even if some of the tests fail.
 
