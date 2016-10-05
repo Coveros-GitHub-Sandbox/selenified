@@ -32,13 +32,6 @@ public class SampleTests extends TestBase {
                 new Object[] { "bash", method, test }, };
     }
 
-    // @BeforeMethod(alwaysRun = true)
-    // protected void startTest(Object[] dataProvider, Method method,
-    // ITestContext test) throws Exception {
-    // super.startTest(dataProvider, method, test, false); //how to tell the
-    // framework not to launch a Selenium Browser
-    // }
-
     @Test(groups = { "sample" }, description = "A sample test to check a title")
     public void sampleTest(Object[] dataProvider, Method method, ITestContext test) throws Exception {
         TestOutput output = getTestOutput(method, test, dataProvider);

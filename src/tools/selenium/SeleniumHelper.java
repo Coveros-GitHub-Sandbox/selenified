@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
+//import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -33,7 +33,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+//import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.Cookie;
@@ -175,10 +175,10 @@ public class SeleniumHelper {
                 capability.setJavascriptEnabled(true);
             }
             switch (browser) { // check our browser
-            case HtmlUnit: {
-                driver = new HtmlUnitDriver(capability);
-                break;
-            }
+//            case HtmlUnit: {
+//                driver = new HtmlUnitDriver(capability);
+//                break;
+//            }
             case Firefox: {
                 driver = new FirefoxDriver(capability);
                 break;
@@ -208,10 +208,10 @@ public class SeleniumHelper {
                 driver = new OperaDriver(capability);
                 break;
             }
-            case PhantomJS: {
-                driver = new PhantomJSDriver(capability);
-                break;
-            }
+//            case PhantomJS: {
+//                driver = new PhantomJSDriver(capability);
+//                break;
+//            }
                 // if our browser is not listed, throw an error
             default: {
                 throw new InvalidBrowserException("The selected browser " + browser);

@@ -1665,6 +1665,7 @@ public class TestOutput {
             boolean isPresent = selHelper.isTextPresent(expectedText);
             if (!isPresent) {
                 recordActual("The text <b>" + expectedText + "</b> is not visible on the page", Success.FAIL);
+                addError();
                 errors++;
             } else {
                 recordActual("The text <b>" + expectedText + "</b> is visible on the page", Success.PASS);
@@ -1689,6 +1690,7 @@ public class TestOutput {
             boolean isPresent = selHelper.isTextPresent(expectedText);
             if (isPresent) {
                 recordActual("The text <b>" + expectedText + "</b> is visible on the page", Success.FAIL);
+                addError();
                 errors++;
             } else {
                 recordActual("The text <b>" + expectedText + "</b> is not visible on the page", Success.PASS);
@@ -1726,6 +1728,7 @@ public class TestOutput {
         if (!isPresent) {
             recordActual("None of the texts " + allTexts.replace(" or ", ", ") + " are visible on the page",
                     Success.FAIL);
+            addError();
             errors++;
             return errors;
         }
@@ -2294,6 +2297,7 @@ public class TestOutput {
             if (!Arrays.asList(elementValues).contains(entry)) {
                 recordActual("The element  with " + type + " <i>" + locator
                         + "</i> does not have the select value of <b>" + entry + "</b>", Success.FAIL);
+                addError();
                 errors++;
             }
         }
@@ -2301,6 +2305,7 @@ public class TestOutput {
             if (!Arrays.asList(expectedValues).contains(entry)) {
                 recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + entry
                         + "</b> which was not expected", Success.FAIL);
+                addError();
                 errors++;
             }
         }
