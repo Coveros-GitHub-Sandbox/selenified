@@ -30,7 +30,9 @@ public class GeneralFunctions {
 	 *            - the error count from all performed functions
 	 * @throws IOException
 	 *             - an IOException
+	 * @deprecated use {@link #finalize()} instead
 	 */
+    @Deprecated
 	public void stopTest(TestOutput output, int errors) throws IOException {
 		output.endTestTemplateOutputFile();
 		// new PDFOutput( output.getOutputFileName() );
