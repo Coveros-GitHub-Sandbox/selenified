@@ -330,7 +330,7 @@ public class TestOutput {
             // get a screen shot of our action
             String imageLink = "";
             if (selHelper.getBrowser() != Browsers.HtmlUnit) {
-                imageLink = captureImage(actualOutcome);
+                imageLink = captureImage();
             }
             // determine time differences
             Date currentTime = new Date();
@@ -569,7 +569,7 @@ public class TestOutput {
         }
         if (selHelper != null && success.equals("Fail") && selHelper.getBrowser() != Browsers.HtmlUnit) {
             // get a screen shot of our action
-            imageLink = captureImage(action);
+            imageLink = captureImage();
         }
         // determine time differences
         Date currentTime = new Date();
@@ -605,17 +605,13 @@ public class TestOutput {
     /**
      * generates a unique image name
      * 
-     * @param checkPerformed
-     *            this is the action being checked for
      * @return String the name of the image file as a PNG
      */
-    public String generateImageName(String checkPerformed) {
+    public String generateImageName() {
         long timeInSeconds = new Date().getTime();
         SecureRandom random = new SecureRandom();
-        String randomChars = new BigInteger(130, random).toString(32);
-        checkPerformed = checkPerformed.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        String imageName = outputDir + "/" + timeInSeconds + "_" + randomChars + "_" + checkPerformed + "_" + ".png";
-        return imageName;
+        String randomChars = new BigInteger(130, random).toString(10);
+        return outputDir + "/" + timeInSeconds + "_" + randomChars + ".png";
     }
 
     /**
@@ -669,13 +665,10 @@ public class TestOutput {
      * random string, creates an image using that name, and returns a processed
      * link to be included in an HTML file
      * 
-     * @param checkPerformed
-     *            the check action being performed, the image will be tagged
-     *            with this action
      * @return a processed link to be included in an HTML file
      */
-    public String captureImage(String checkPerformed) {
-        String imageName = generateImageName(checkPerformed);
+    public String captureImage() {
+        String imageName = generateImageName();
         String imageLink = generateImageLink(imageName);
         imageLink = captureEntirePageScreenshot(imageLink, imageName);
         return imageLink;
@@ -697,17 +690,6 @@ public class TestOutput {
             imageLink = "<br><b><font color=red>No Screenshot Available</font></b>";
         }
         return imageLink;
-    }
-
-    /**
-     * generates a unique image name based the time, and a unique random string,
-     * creates an image using that name, and returns a processed link to be
-     * included in an HTML file
-     * 
-     * @return a processed link to be included in an HTML file
-     */
-    public String captureImage() {
-        return captureImage("");
     }
 
     // /////////////////////////////////////////////////////////////////////////
