@@ -1,0 +1,33 @@
+apply plugin: "java"
+
+
+dependencies {
+  testCompile files('lib/com.sun.net.ssl.jar')
+  testCompile files('lib/jackson-all-1.9.0.jar')
+  testCompile files('lib/selenium-java-2.52.0.jar')
+  testCompile files('lib/selenium-server-standalone-2.52.0.jar')
+  testCompile files('lib/stf-1.4.0.jar')
+  testCompile files('lib/testng-5.7-jdk15.jar')
+
+}
+
+
+// Set source directory
+sourceSets {
+  test {
+    java {
+      srcDir 'test/'
+    }
+  }
+}
+
+test{
+  useTestNG{  
+    suites "$suite"
+  }
+}
+
+repositories {
+    mavenCentral()
+}
+

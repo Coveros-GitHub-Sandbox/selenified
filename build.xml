@@ -1,4 +1,4 @@
-<project name="SecureCI Testing Framework" basedir="." default="run">
+<project name="SecureCI Testing Framework" basedir="." default="test">
     <property name="jars" value="lib" />
     <property name="rootdir" value="./" />
     <property name="test-dir" value="./src" />
