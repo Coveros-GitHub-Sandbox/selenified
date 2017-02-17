@@ -33,6 +33,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 //import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -221,7 +222,24 @@ public class SeleniumHelper {
         // driver.manage().window().maximize();
         output.setSelHelper(this);
     }
-
+    
+    /**
+     * a method to allow changing our driver instance
+     * 
+     * @return WebDriver: set new driver controlling our browser via
+     *         webdriver
+     */
+    public WebDriver setNewDriver(FirefoxProfile profile) {
+    	if (driver != null) {
+            driver.quit();
+        }
+    	DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+    	capabilities.setCapability(FirefoxDriver.PROFILE, profile);
+    	capabilities.setCapability(CapabilityType.ELEMENT_SCROLL_BEHAVIOR, 1);
+    	driver = new FirefoxDriver(capabilities);
+        return driver;
+    }
+    
     /**
      * a method to allow retrieving our driver instance
      * 

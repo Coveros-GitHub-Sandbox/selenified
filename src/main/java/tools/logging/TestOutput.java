@@ -161,8 +161,7 @@ public class TestOutput {
         outputFile = new File(outputDir, fileName);
         if (!new File(outputDir).exists()) {
             // System.out.println( "Making directory '" + outputDir + "'" );
-            while (!new File(outputDir).mkdirs()) {
-            }
+            new File(outputDir).mkdirs();
         }
         if (!outputFile.exists()) {
             try {
