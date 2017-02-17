@@ -16,13 +16,6 @@
         <artifactId>jsse</artifactId>
         <version>2.1.0</version>
     </dependency>
-    <dependency>
-      <groupId>secureci-testing-framework</groupId>
-      <artifactId>stf</artifactId>
-      <version>1.0.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/stf.jar</systemPath>
-    </dependency>
     <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
     <dependency>
         <groupId>org.codehaus.jackson</groupId>
