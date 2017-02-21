@@ -3,7 +3,7 @@
 <suite name="Sample Suite" parallel="methods" thread-count="20" verbose="3" >
   <test name="Sample Test" >
     <packages>
-      <package name="test.java.samples" />
+      <package name="src.test.java.samples" />
    </packages>
  </test>
 </suite>
