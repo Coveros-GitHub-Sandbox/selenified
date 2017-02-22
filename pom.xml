@@ -36,7 +36,7 @@
     </dependency>
   </dependencies>
   <build>
-    <testSourceDirectory>test</testSourceDirectory>
+    <testSourceDirectory>src/test/java/samples</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
