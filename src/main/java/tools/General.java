@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package main.java.tools;
+package tools;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

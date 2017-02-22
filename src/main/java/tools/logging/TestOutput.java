@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package main.java.tools.logging;
+package tools.logging;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,12 +36,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import main.java.selenified.exceptions.InvalidActionException;
-import main.java.selenified.exceptions.InvalidLocatorTypeException;
-import main.java.tools.General;
-import main.java.tools.selenium.SeleniumHelper;
-import main.java.tools.selenium.SeleniumHelper.Browsers;
-import main.java.tools.selenium.SeleniumHelper.Locators;
+import selenified.exceptions.InvalidActionException;
+import selenified.exceptions.InvalidLocatorTypeException;
+import tools.General;
+import tools.selenium.SeleniumHelper;
+import tools.selenium.SeleniumHelper.Browsers;
+import tools.selenium.SeleniumHelper.Locators;
 
 /**
  * Test Output A custom generated output file recording all actions taken
