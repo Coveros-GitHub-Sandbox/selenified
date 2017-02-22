@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package main.java.tools.selenium;
+package tools.selenium;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -59,11 +59,11 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.Cookie;
 
-import main.java.selenified.exceptions.InvalidActionException;
-import main.java.selenified.exceptions.InvalidBrowserException;
-import main.java.selenified.exceptions.InvalidLocatorTypeException;
-import main.java.tools.logging.TestOutput;
-import main.java.tools.logging.TestOutput.Result;
+import selenified.exceptions.InvalidActionException;
+import selenified.exceptions.InvalidBrowserException;
+import selenified.exceptions.InvalidLocatorTypeException;
+import tools.logging.TestOutput;
+import tools.logging.TestOutput.Result;
 
 /**
  * Selenium Webdriver Before each action is performed a screenshot is taken

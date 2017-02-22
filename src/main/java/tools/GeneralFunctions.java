@@ -18,13 +18,13 @@
  * under the License.
  */
 
-package main.java.tools;
+package tools;
 
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.IOException;
 
-import main.java.tools.logging.TestOutput;
+import tools.logging.TestOutput;
 
 public class GeneralFunctions {
 

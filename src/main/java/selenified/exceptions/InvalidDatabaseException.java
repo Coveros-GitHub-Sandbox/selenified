@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package main.java.selenified.exceptions;
+package selenified.exceptions;
 
 import java.io.IOException;
 

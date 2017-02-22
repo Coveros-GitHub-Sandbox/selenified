@@ -1,4 +1,4 @@
-package test.java.samples;
+package samples;
 
 import java.lang.reflect.Method;
 
@@ -8,10 +8,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import main.java.tools.TestBase;
-import main.java.tools.logging.TestOutput;
-import main.java.tools.selenium.SeleniumHelper.Locators;
-import main.java.tools.selenium.SeleniumHelper;
+import tools.TestBase;
+import tools.logging.TestOutput;
+import tools.selenium.SeleniumHelper.Locators;
+import tools.selenium.SeleniumHelper;
 
 public class SampleTest extends TestBase {
 

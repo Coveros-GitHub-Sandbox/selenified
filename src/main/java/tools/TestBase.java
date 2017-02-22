@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package main.java.tools;
+package tools;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,10 +38,10 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import main.java.tools.logging.TestOutput;
-import main.java.tools.selenium.SeleniumHelper;
-import main.java.tools.selenium.SeleniumHelper.Browsers;
-import main.java.tools.logging.TestOutput.Result;
+import tools.logging.TestOutput;
+import tools.selenium.SeleniumHelper;
+import tools.selenium.SeleniumHelper.Browsers;
+import tools.logging.TestOutput.Result;
 
 public class TestBase {
 
