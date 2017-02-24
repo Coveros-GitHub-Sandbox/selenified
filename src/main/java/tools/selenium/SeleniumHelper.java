@@ -31,13 +31,21 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.opera.OperaDriver;
-//import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.Select;
+
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.EdgeDriverManager;
+import io.github.bonigarcia.wdm.FirefoxDriverManager;
+import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
+import io.github.bonigarcia.wdm.OperaDriverManager;
+import io.github.bonigarcia.wdm.PhantomJsDriverManager;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -54,7 +62,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
-//import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.Cookie;
@@ -196,23 +204,27 @@ public class SeleniumHelper {
                 capability.setJavascriptEnabled(true);
             }
             switch (browser) { // check our browser
-//            case HtmlUnit: {
-//                driver = new HtmlUnitDriver(capability);
-//                break;
-//            }
+            case HtmlUnit: {
+                driver = new HtmlUnitDriver(capability);
+                break;
+            }
             case Firefox: {
+            	FirefoxDriverManager.getInstance().setup();
                 driver = new FirefoxDriver(capability);
                 break;
             }
             case Chrome: {
+            	ChromeDriverManager.getInstance().setup();
                 driver = new ChromeDriver(capability);
                 break;
             }
             case InternetExplorer: {
+            	InternetExplorerDriverManager.getInstance().setup();
                 driver = new InternetExplorerDriver(capability);
                 break;
             }
             case Edge: {
+            	EdgeDriverManager.getInstance().setup();
                 driver = new EdgeDriver(capability);
                 break;
             }
@@ -226,13 +238,16 @@ public class SeleniumHelper {
                 break;
             }
             case Opera: {
+            	OperaDriverManager.getInstance().setup();
                 driver = new OperaDriver(capability);
                 break;
             }
-//            case PhantomJS: {
-//                driver = new PhantomJSDriver(capability);
-//                break;
-//            }
+            case PhantomJS: {
+            	System.setProperty("wdm.phantomjsDriverVersion", "1.9.7");
+            	PhantomJsDriverManager.getInstance().setup();
+                driver = new PhantomJSDriver(capability);
+                break;
+            }
                 // if our browser is not listed, throw an error
             default: {
                 throw new InvalidBrowserException("The selected browser " + browser);
