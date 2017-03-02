@@ -1,6 +1,6 @@
-<project name="SecureCI Testing Framework" basedir="." default="test">
-    <property name="jars" value="lib" />
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="SecureCI Testing Framework" basedir="." default="test">
     <property name="rootdir" value="./" />
+    <property name="lib.dir"     value="./lib"/>
     <property name="test-dir" value="./src" />
     <property name="out-dir" value="./test-output" />
     <property name="junit-dir" value="${out-dir}/JUnit" />
@@ -14,22 +14,27 @@
     </target>
 
     <target name="jar" depends="compile" description="generate an executable jar">
-        <jar destfile="stf.jar"
+        <jar destfile="selenified.jar"
                 basedir="${com-dir}"
-                includes="secureci/exceptions/**,tools/**" />
+                includes="/main/java/selenified/exceptions/**,/main/java/tools/**" />
     </target>
 
     <target name="clean">
         <delete dir="${out-dir}" />
     </target>
 
-    <target name="classpath">
+    <target name="classpath" depends="resolve">
         <path id="classpath">
-            <fileset dir="${jars}">
-                <include name="*.jar"/>
-            </fileset>
+            <fileset dir="${lib.dir}" includes="**/*.jar"/>
             <pathelement location="${com-dir}"/>
         </path>
+    </target>
+
+    <!-- ================================= 
+          target: resolve              
+         ================================= -->
+    <target name="resolve" description="--> retrieve dependencies with ivy">
+        <ivy:retrieve />
     </target>
 
     <target name="compile" depends="classpath">
