@@ -1,33 +1,44 @@
-apply plugin: "java"
+apply plugin: 'java'
+apply plugin: 'maven'
 
+group = 'Selenified'
+version = '0.0.1-SNAPSHOT'
 
+description = "Gradle build for Selenified"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
 dependencies {
-  testCompile files('lib/com.sun.net.ssl.jar')
-  testCompile files('lib/jackson-all-1.9.0.jar')
-  testCompile files('lib/selenium-java-2.52.0.jar')
-  testCompile files('lib/selenium-server-standalone-2.52.0.jar')
-  testCompile files('lib/stf-1.4.0.jar')
-  testCompile files('lib/testng-5.7-jdk15.jar')
-
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:'2.52.0'
+    compile group: 'org.jglobus', name: 'jsse', version:'2.1.0'
+    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version:'1.9.13'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version:'2.52.0'
+    compile group: 'org.testng', name: 'testng', version:'6.10'
 }
 
-
-// Set source directory
+// Set source directory for tests
 sourceSets {
-  test {
+  main {
+        java {
+            srcDirs = ['src/main/java','src/test/java']
+        }
+    }
+  seleniumTest {
     java {
-      srcDir 'test/'
+      srcDir 'src/test/java/samples/'
     }
   }
 }
 
-test{
-  useTestNG{  
-    suites "$suite"
+task(seleniumTest, type: Test) {
+  outputs.upToDateWhen { false }
+  useTestNG{
+    systemProperties System.getProperties()
+    suites 'sample.xml'
   }
 }
-
-repositories {
-    mavenCentral()
-}
-
