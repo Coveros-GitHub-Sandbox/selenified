@@ -31,7 +31,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
+//import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -62,6 +62,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.MarionetteDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -210,7 +211,7 @@ public class SeleniumHelper {
             }
             case Firefox: {
             	FirefoxDriverManager.getInstance().setup();
-                driver = new FirefoxDriver(capability);
+                driver = new MarionetteDriver(capability);
                 break;
             }
             case Chrome: {
@@ -242,12 +243,12 @@ public class SeleniumHelper {
                 driver = new OperaDriver(capability);
                 break;
             }
-            case PhantomJS: {
+         /* case PhantomJS: {
             	System.setProperty("wdm.phantomjsDriverVersion", "1.9.7");
             	PhantomJsDriverManager.getInstance().setup();
                 driver = new PhantomJSDriver(capability);
                 break;
-            }
+            }*/
                 // if our browser is not listed, throw an error
             default: {
                 throw new InvalidBrowserException("The selected browser " + browser);
