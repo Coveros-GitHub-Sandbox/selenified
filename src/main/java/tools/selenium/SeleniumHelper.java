@@ -142,6 +142,7 @@ public class SeleniumHelper {
             }
             case Firefox: {
                 capability = DesiredCapabilities.firefox();
+                capability.setCapability("marionette", true);
                 break;
             }
             case Chrome: {
@@ -272,7 +273,7 @@ public class SeleniumHelper {
     	DesiredCapabilities capabilities = DesiredCapabilities.firefox();
     	capabilities.setCapability(FirefoxDriver.PROFILE, profile);
     	capabilities.setCapability(CapabilityType.ELEMENT_SCROLL_BEHAVIOR, 1);
-    	driver = new FirefoxDriver(capabilities);
+    	driver = new MarionetteDriver(capabilities);
         return driver;
     }
     
