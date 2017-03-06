@@ -28,11 +28,8 @@ import java.util.Date;
 
 import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
@@ -41,7 +38,6 @@ import org.testng.annotations.Test;
 import tools.logging.TestOutput;
 import tools.selenium.SeleniumHelper;
 import tools.selenium.SeleniumHelper.Browsers;
-import tools.logging.TestOutput.Result;
 
 public class TestBase {
 
@@ -77,7 +73,6 @@ public class TestBase {
 				return;
 			}
 			initializeSystem();
-			// System.out.println("beforeSuite executed");
 			wasInvoked = true;
 		}
 	}
@@ -113,7 +108,6 @@ public class TestBase {
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, boolean selenium)
 			throws Exception {
 		String testName = getTestName(method, dataProvider);
-		System.out.println("Starting test " + testName);
 		String suite = test.getName();
 		String outputDir = test.getOutputDirectory();
 		String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
@@ -164,38 +158,10 @@ public class TestBase {
 			SeleniumHelper selHelper = (SeleniumHelper) test.getAttribute(testLink + "SelHelper");
 			selHelper.killDriver();
 		}
-		// TestOutput output = (TestOutput) test
-		// .getAttribute(testLink + "Output");
-		// genFun.stopTest(output);
-
-		String colClass = "";
-		if (result.getStatus() == 1) {
-			colClass = "invocation-passed";
-		}
-		if (result.getStatus() == 2) {
-			colClass = "invocation-failed";
-		}
-		if (result.getStatus() == 3) {
-			colClass = "invocation-skipped";
-		}
-		Reporter.log("<span class='" + colClass + "'>" + Result.values()[result.getStatus()] + "</span></td><td>"
-				+ "<a href='" + testLink + ".html'>" + testName + "</a>" + "</td><td>"
-				+ (result.getEndMillis() - result.getStartMillis()) / 1000 + " seconds");
-		System.out.println("Finished test " + testLink + " with status " + result.getStatus());
 	}
 
 	protected void finalize(TestOutput output) throws IOException {
 		genFun.stopTest(output);
-	}
-
-	@AfterClass(alwaysRun = true)
-	protected void endClass() throws Exception {
-		System.out.println("Finished class");
-	}
-
-	@AfterTest(alwaysRun = true)
-	protected void endTest() throws Exception {
-		System.out.println("Finished testing group");
 	}
 
 	@AfterSuite(alwaysRun = true)
