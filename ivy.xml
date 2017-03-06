@@ -2,13 +2,13 @@
     <info organisation="coveros" module="selenified"/>
     <dependencies>
       <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
-      <dependency org="org.seleniumhq.selenium" name="selenium-java" rev="2.52.0"/>
+      <dependency org="org.seleniumhq.selenium" name="selenium-java" rev="2.53.1"/>
       <!-- https://mvnrepository.com/artifact/org.jglobus/jsse -->
       <dependency org="org.jglobus" name="jsse" rev="2.1.0"/>
       <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
       <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13"/>
       <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server -->
-      <dependency org="org.seleniumhq.selenium" name="selenium-server" rev="2.52.0"/>
+      <dependency org="org.seleniumhq.selenium" name="selenium-server" rev="2.53.1"/>
       <!-- https://mvnrepository.com/artifact/org.testng/testng -->
       <dependency org="org.testng" name="testng" rev="6.10"/>
     </dependencies>
