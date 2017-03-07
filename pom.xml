@@ -53,7 +53,6 @@
     </dependency>
   </dependencies>
   <build>
-    <testSourceDirectory>src/test/java/samples</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -61,7 +60,7 @@
         <version>2.19.1</version>
         <configuration>
           <excludes>
-            <exclude>**/*.java</exclude>
+            <exclude>**/SampleTest.java</exclude>
           </excludes>
         </configuration>
       </plugin>
