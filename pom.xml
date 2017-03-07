@@ -60,7 +60,7 @@
         <version>2.19.1</version>
         <configuration>
           <excludes>
-            <exclude>**/SampleTest.java</exclude>
+            <exclude>samples/SampleTest.java</exclude>
           </excludes>
         </configuration>
       </plugin>
