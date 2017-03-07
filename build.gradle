@@ -14,12 +14,13 @@ repositories {
      maven { url "http://repo.maven.apache.org/maven2" }
 }
 dependencies {
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-htmlunit-driver', version: '2.52.0'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.23'
     compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '1.6.0'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:'2.53.1'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:'2.52.0'
     compile group: 'org.jglobus', name: 'jsse', version:'2.1.0'
     compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version:'1.9.13'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version:'2.53.1'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version:'2.52.0'
     compile group: 'org.testng', name: 'testng', version:'6.10'
 }
 
