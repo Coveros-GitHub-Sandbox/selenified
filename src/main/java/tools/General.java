@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,9 +35,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.testng.log4testng.Logger;
+
 public class General {
 
 	GeneralFunctions gen = new GeneralFunctions();
+	private static final Logger log = Logger.getLogger(General.class);
 
 	/**
 	 * a method to recursively retrieve all the files in a folder
@@ -78,7 +82,7 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
-	public String padRightSpace(String input, int length) {
+	public static String padRightSpace(String input, int length) {
 		return padRight(input, length, " ");
 	}
 
@@ -91,7 +95,7 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
-	public String padRightZeros(long input, int length) {
+	public static String padRightZeros(long input, int length) {
 		return padRight(String.valueOf(input), length, "0");
 	}
 
@@ -104,7 +108,7 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
-	public String padRightZeros(int input, int length) {
+	public static String padRightZeros(int input, int length) {
 		return padRight(String.valueOf(input), length, "0");
 	}
 
@@ -117,7 +121,7 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
-	public String padRight(int input, int length, String value) {
+	public static String padRight(int input, int length, String value) {
 		return padRight(String.valueOf(input), length, value);
 	}
 
@@ -130,14 +134,12 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
-	public String padRight(String input, int length, String value) {
-		if (input == null) {
-			input = "";
+	public static String padRight(String input, int length, String value) {
+		StringBuilder output = new StringBuilder(input);
+		while (output.toString().length() < length) {
+			output.append(value);
 		}
-		while (input.length() < length) {
-			input = input + value;
-		}
-		return input;
+		return output.toString();
 	}
 
 	/**
@@ -202,13 +204,11 @@ public class General {
 	 * @return string: the input supplied with zeros on the left
 	 */
 	public String padLeft(String input, int length, String value) {
-		if (input == null) {
-			input = "";
+		StringBuilder output = new StringBuilder(input);
+		while (output.toString().length() < length) {
+			output.insert(0, value);
 		}
-		while (input.length() < length) {
-			input = value + input;
-		}
-		return input;
+		return output.toString();
 	}
 
 	/**
@@ -281,6 +281,7 @@ public class General {
 	 */
 	public Object copy(Object orig) {
 		Object obj = null;
+		ObjectInputStream in = null;
 		try {
 			// Write the object out to a byte array
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -291,12 +292,20 @@ public class General {
 
 			// Make an input stream from the byte array and read
 			// a copy of the object back in.
-			ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+			in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
 			obj = in.readObject();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
+			log.error(e.getMessage());
+		} catch (ClassNotFoundException e) {
+			log.error(e.getMessage());
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					log.error(e.getMessage());
+				}
+			}
 		}
 		return obj;
 	}
@@ -315,7 +324,7 @@ public class General {
 	 * @throws IOException
 	 *             - an IOException
 	 */
-	public void copyDirectory(File srcPath, File dstPath) throws IOException {
+	public void copyDirectory(File srcPath, File dstPath) {
 		if (srcPath.isDirectory()) {
 			if (!dstPath.exists()) {
 				dstPath.mkdir();
@@ -330,16 +339,37 @@ public class General {
 			if (!srcPath.exists()) {
 				return;
 			} else {
-				InputStream in = new FileInputStream(srcPath);
-				OutputStream out = new FileOutputStream(dstPath);
-				// Transfer bytes from in to out
-				byte[] buf = new byte[1024];
-				int len;
-				while ((len = in.read(buf)) > 0) {
-					out.write(buf, 0, len);
+				InputStream in = null;
+				OutputStream out = null;
+				try {
+					in = new FileInputStream(srcPath);
+					out = new FileOutputStream(dstPath);
+					// Transfer bytes from in to out
+					byte[] buf = new byte[1024];
+					int len;
+					while ((len = in.read(buf)) > 0) {
+						out.write(buf, 0, len);
+					}
+				} catch (FileNotFoundException e) {
+					log.error(e.getMessage());
+				} catch (IOException e) {
+					log.error(e.getMessage());
+				} finally {
+					if (in != null) {
+						try {
+							in.close();
+						} catch (IOException e) {
+							log.error(e.getMessage());
+						}
+					}
+					if (out != null) {
+						try {
+							out.close();
+						} catch (IOException e) {
+							log.error(e.getMessage());
+						}
+					}
 				}
-				in.close();
-				out.close();
 			}
 		}
 	}
@@ -348,20 +378,36 @@ public class General {
 		if (!oldFile.exists()) {
 			return 1;
 		} else {
+			InputStream in = null;
+			OutputStream out = null;
 			try {
-				InputStream in = new FileInputStream(oldFile);
-				OutputStream out = new FileOutputStream(newFile);
+				in = new FileInputStream(oldFile);
+				out = new FileOutputStream(newFile);
 				// Transfer bytes from in to out
 				byte[] buf = new byte[1024];
 				int len;
 				while ((len = in.read(buf)) > 0) {
 					out.write(buf, 0, len);
 				}
-				in.close();
-				out.close();
 				return 0;
 			} catch (Exception e) {
+				log.error(e.getMessage());
 				return 1;
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						log.error(e.getMessage());
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						log.error(e.getMessage());
+					}
+				}
 			}
 		}
 	}
@@ -411,13 +457,7 @@ public class General {
 	 * @return - the reversed string
 	 */
 	public String reverseIt(String source) {
-		int i, len = source.length();
-		StringBuffer dest = new StringBuffer(len);
-
-		for (i = (len - 1); i >= 0; i--) {
-			dest.append(source.charAt(i));
-		}
-		return dest.toString();
+		return new StringBuilder(source).reverse().toString();
 	}
 
 	/**
@@ -428,11 +468,11 @@ public class General {
 	 *            our input string
 	 * @return our fixed string
 	 */
-	public String wordToSentence(String s) {
-		s = capitalizeFirstLetters(s);
-		s = s.replaceAll(String.format("%s|%s|%s", "(?<=[A-Z])(?=[A-Z][a-z])", "(?<=[^A-Z])(?=[A-Z])",
+	public String wordToSentence(String word) {
+		String out = capitalizeFirstLetters(word);
+		out = out.replaceAll(String.format("%s|%s|%s", "(?<=[A-Z])(?=[A-Z][a-z])", "(?<=[^A-Z])(?=[A-Z])",
 				"(?<=[A-Za-z])(?=[^A-Za-z])"), " ");
-		return s;
+		return out;
 	}
 
 	/**
@@ -443,22 +483,21 @@ public class General {
 	 *            the string to be capitalized on
 	 * @return String: the new string
 	 */
-	public String capitalizeFirstLetters(String s) {
-		for (int i = 0; i < s.length(); i++) {
+	public String capitalizeFirstLetters(String word) {
+		String out = "";
+		for (int i = 0; i < word.length(); i++) {
 			if (i == 0) {
 				// Capitalize the first letter of the string.
-				s = String.format("%s%s", Character.toUpperCase(s.charAt(0)), s.substring(1));
+				out = String.format("%s%s", Character.toUpperCase(word.charAt(0)), word.substring(1));
 			}
 			// Is this character a non-letter or non-digit? If so
 			// then this is probably a word boundary so let's capitalize
 			// the next character in the sequence.
-			if (!Character.isLetterOrDigit(s.charAt(i))) {
-				if (i + 1 < s.length()) {
-					s = String.format("%s%s%s", s.subSequence(0, i + 1), Character.toUpperCase(s.charAt(i + 1)),
-							s.substring(i + 2));
-				}
+			if (!Character.isLetterOrDigit(out.charAt(i)) && (i + 1) < out.length()) {
+				out = String.format("%s%s%s", out.subSequence(0, i + 1), Character.toUpperCase(out.charAt(i + 1)),
+						out.substring(i + 2));
 			}
 		}
-		return s;
+		return out;
 	}
 }
