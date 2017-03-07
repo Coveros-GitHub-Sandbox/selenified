@@ -105,7 +105,7 @@ public class SeleniumHelper {
      * locally - not on grid), Iphone (only locally, not on grid, Opera, Safari
      */
     public enum Browsers {
-        None, HtmlUnit, Firefox, Chrome, InternetExplorer, Edge, Android, Ipad, Iphone, Opera, Safari, PhantomJS
+        None, HtmlUnit, Firefox, Marionette, Chrome, InternetExplorer, Edge, Android, Ipad, Iphone, Opera, Safari, PhantomJS
     };
 
     // this is our driver that will be used for all selenium actions
@@ -141,6 +141,10 @@ public class SeleniumHelper {
                 break;
             }
             case Firefox: {
+                capability = DesiredCapabilities.firefox();
+                break;
+            }
+            case Marionette: {
                 capability = DesiredCapabilities.firefox();
                 capability.setCapability("marionette", true);
                 break;
@@ -211,6 +215,11 @@ public class SeleniumHelper {
                 break;
             }
             case Firefox: {
+            	FirefoxDriverManager.getInstance().setup();
+                driver = new FirefoxDriver(capability);
+                break;
+            }
+            case Marionette: {
             	FirefoxDriverManager.getInstance().setup();
                 driver = new MarionetteDriver(capability);
                 break;
