@@ -1,6 +1,8 @@
 <ivy-module version="2.0">
     <info organisation="coveros" module="selenified"/>
     <dependencies>
+      <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+      <dependency org="io.github.bonigarcia" name="webdrivermanager" rev="1.6.0"/>
       <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
       <dependency org="org.seleniumhq.selenium" name="selenium-java" rev="2.53.1"/>
       <!-- https://mvnrepository.com/artifact/org.jglobus/jsse -->
