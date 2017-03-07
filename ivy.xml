@@ -1,6 +1,8 @@
 <ivy-module version="2.0">
     <info organisation="coveros" module="selenified"/>
     <dependencies>
+      <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+      <dependency org="org.slf4j" name="slf4j-simple" rev="1.7.23"/>
       <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
       <dependency org="io.github.bonigarcia" name="webdrivermanager" rev="1.6.0"/>
       <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
