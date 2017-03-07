@@ -1,6 +1,6 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="Selenified" basedir="." default="test">
     <property name="rootdir" value="./" />
-    <property name="lib.dir"     value="./lib"/>
+    <property name="lib-dir" value="./lib"/>
     <property name="test-dir" value="./src" />
     <property name="out-dir" value="./target" />
     <property name="junit-dir" value="${out-dir}/JUnit" />
@@ -37,7 +37,7 @@
          ================================= -->
     <target name="classpath" depends="resolve">
         <path id="classpath">
-            <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            <fileset dir="${lib-dir}" includes="**/*.jar"/>
             <pathelement location="${com-dir}"/>
         </path>
     </target>
