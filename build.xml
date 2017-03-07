@@ -1,28 +1,40 @@
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="SecureCI Testing Framework" basedir="." default="test">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="Selenified" basedir="." default="test">
     <property name="rootdir" value="./" />
     <property name="lib.dir"     value="./lib"/>
     <property name="test-dir" value="./src" />
-    <property name="out-dir" value="./test-output" />
+    <property name="out-dir" value="./target" />
     <property name="junit-dir" value="${out-dir}/JUnit" />
     <property name="com-dir" value="${out-dir}/classes" />
     <property name="doc-dir" value="./doc" />
 
+    <!-- =================================
+          target: doc
+         ================================= -->
     <target name="doc" description="generate documentation">
         <delete dir="${doc-dir}" />
         <mkdir dir="${doc-dir}" />
         <javadoc sourcepath="${test-dir}" destdir="${doc-dir}"/>
     </target>
 
+    <!-- =================================
+          target: jar
+         ================================= -->
     <target name="jar" depends="compile" description="generate an executable jar">
         <jar destfile="selenified.jar"
                 basedir="${com-dir}"
                 includes="/main/java/selenified/exceptions/**,/main/java/tools/**" />
     </target>
 
+    <!-- =================================
+          target: clean
+         ================================= -->
     <target name="clean">
         <delete dir="${out-dir}" />
     </target>
 
+    <!-- =================================
+          target: classpath
+         ================================= -->
     <target name="classpath" depends="resolve">
         <path id="classpath">
             <fileset dir="${lib.dir}" includes="**/*.jar"/>
@@ -37,11 +49,17 @@
         <ivy:retrieve />
     </target>
 
+    <!-- =================================
+          target: compile
+         ================================= -->
     <target name="compile" depends="classpath">
         <mkdir dir="${com-dir}" />
         <javac srcdir="${test-dir}" destdir="${com-dir}" classpathref="classpath" includeantruntime="false" />
     </target>
 
+    <!-- =================================
+          target: test
+         ================================= -->
     <target name="test" depends="compile" description="Run tests in parallel">
         <java classpathref="classpath" classname="org.testng.TestNG" failonerror="true">
             <sysproperty key="browser" value="${browser}" />
@@ -61,6 +79,9 @@
         </java>
     </target>
 
+    <!-- =================================
+          target: replace
+         ================================= -->
     <target name="replace">
         <replaceregexp
                match="ZZZFIRSTPARTZZZ"
@@ -88,6 +109,9 @@
         </replaceregexp>
     </target>
 
+    <!-- =================================
+          target: junit-report
+         ================================= -->
     <target name="junit-report">
         <delete dir="${junit-dir}"></delete>
         <mkdir dir="${junit-dir}"></mkdir>
