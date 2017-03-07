@@ -135,7 +135,10 @@ public class General {
 	 * @return string: the input supplied with zeros on the right
 	 */
 	public static String padRight(String input, int length, String value) {
-		StringBuilder output = new StringBuilder(input);
+		StringBuilder output = new StringBuilder(length);
+		if( input != null) {
+			output.append(input);
+		}
 		while (output.toString().length() < length) {
 			output.append(value);
 		}
@@ -151,7 +154,7 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
-	public String padLeftSpace(String input, int length) {
+	public static String padLeftSpace(String input, int length) {
 		return padLeft(input, length, " ");
 	}
 
@@ -164,7 +167,7 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
-	public String padLeftZeros(long input, int length) {
+	public static String padLeftZeros(long input, int length) {
 		return padLeft(String.valueOf(input), length, "0");
 	}
 
@@ -177,7 +180,7 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
-	public String padLeftZeros(int input, int length) {
+	public static String padLeftZeros(int input, int length) {
 		return padLeft(String.valueOf(input), length, "0");
 	}
 
@@ -190,7 +193,7 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
-	public String padLeft(int input, int length, String value) {
+	public static String padLeft(int input, int length, String value) {
 		return padLeft(String.valueOf(input), length, value);
 	}
 
@@ -203,8 +206,11 @@ public class General {
 	 *            the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
-	public String padLeft(String input, int length, String value) {
-		StringBuilder output = new StringBuilder(input);
+	public static String padLeft(String input, int length, String value) {
+		StringBuilder output = new StringBuilder(length);
+		if( input != null) {
+			output.append(input);
+		}
 		while (output.toString().length() < length) {
 			output.insert(0, value);
 		}
