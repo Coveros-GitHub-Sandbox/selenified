@@ -222,7 +222,7 @@ public class General {
 	 * 
 	 * @return random character
 	 */
-	public String getRandomChar() {
+	public static String getRandomChar() {
 		return getRandomString(1);
 	}
 
@@ -231,7 +231,7 @@ public class General {
 	 * 
 	 * @return random string of 32 characters
 	 */
-	public String getRandomString() {
+	public static String getRandomString() {
 		return getRandomString(32);
 	}
 
@@ -242,7 +242,10 @@ public class General {
 	 *            the length of the random string
 	 * @return random string of characters
 	 */
-	public String getRandomString(int length) {
+	public static String getRandomString(int length) {
+		if ( length <= 0 ) {
+			return "";
+		}
 		String stringChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		Random rnd = new Random();
 		StringBuilder sb = new StringBuilder(length);
@@ -257,7 +260,7 @@ public class General {
 	 * 
 	 * @return random string of 9 numbers
 	 */
-	public String getRandomInt() {
+	public static String getRandomInt() {
 		return getRandomInt(9);
 	}
 
@@ -268,7 +271,10 @@ public class General {
 	 *            the length of the random string
 	 * @return random string of numbers
 	 */
-	public String getRandomInt(int length) {
+	public static String getRandomInt(int length) {
+		if ( length <= 0 ) {
+			return "";
+		}
 		String stringChars = "0123456789";
 		Random rnd = new Random();
 		StringBuilder sb = new StringBuilder(length);
@@ -462,7 +468,10 @@ public class General {
 	 *            - the string to reverse
 	 * @return - the reversed string
 	 */
-	public String reverseIt(String source) {
+	public static String reverseIt(String source) {
+		if (source == null ) {
+			return source;
+		}
 		return new StringBuilder(source).reverse().toString();
 	}
 
