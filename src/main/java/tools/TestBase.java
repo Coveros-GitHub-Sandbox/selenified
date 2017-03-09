@@ -33,12 +33,14 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import tools.logging.TestOutput;
 import tools.selenium.SeleniumHelper;
 import tools.selenium.SeleniumHelper.Browsers;
 
+@Listeners({ tools.Listener.class })
 public class TestBase {
 
 	public static GeneralFunctions genFun = new GeneralFunctions();
