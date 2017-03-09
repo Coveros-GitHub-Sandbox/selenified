@@ -43,7 +43,6 @@ import tools.selenium.SeleniumHelper.Browsers;
 @Listeners({ tools.Listener.class })
 public class TestBase {
 
-	public static General gen = new General();
 	public static GeneralFunctions genFun = new GeneralFunctions();
 
 	public static String testSite = "http://www.google.com/";
@@ -93,11 +92,8 @@ public class TestBase {
 		// check our browser
 		if (System.getProperty("browser") == null || System.getProperty("browser").equals("${browser}")) {
 			System.setProperty("browser", Browsers.HtmlUnit.toString());
-			// throw new InvalidBrowserException(
-			// "Please indicate which browser to test with by passing in the " +
-			// "browser as a '-Dbrowser' argument" );
 		}
-		// see if we are using a selenium hub
+		// see if we are using a Selenium hub
 		if (System.getProperty("hubAddress") == null || System.getProperty("hubAddress").equals("${hubAddress}")) {
 			System.setProperty("hubAddress", "LOCAL");
 		}
@@ -129,7 +125,7 @@ public class TestBase {
 			group = group.substring(1, group.length() - 1);
 		}
 
-		TestOutput output = new TestOutput(testName, outputDir, testSite, suite, gen.wordToSentence(group),
+		TestOutput output = new TestOutput(testName, outputDir, testSite, suite, General.wordToSentence(group),
 				lastModified, version, author, description);
 		long time = (new Date()).getTime();
 		output.setStartTime(time);
@@ -173,17 +169,14 @@ public class TestBase {
 
 	protected static String getTestName(Method method, Object... dataProvider) {
 		String testName = method.getName();
-		if (dataProvider != null) {
-			if (dataProvider.length > 0) {
-				if (dataProvider[0] != null && !dataProvider[0].toString().startsWith("public")) {
-					testName += "WithOption";
-					for (Object data : dataProvider) {
-						if (data == null || data.toString().startsWith("public")) {
-							break;
-						}
-						testName += gen.capitalizeFirstLetters(gen.removeNonWordCharacters(data.toString()));
-					}
+		if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
+				&& !dataProvider[0].toString().startsWith("public")) {
+			testName += "WithOption";
+			for (Object data : dataProvider) {
+				if (data == null || data.toString().startsWith("public")) {
+					break;
 				}
+				testName += General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString()));
 			}
 		}
 		return testName;

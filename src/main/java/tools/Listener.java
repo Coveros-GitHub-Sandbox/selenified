@@ -47,7 +47,7 @@ public class Listener extends TestListenerAdapter {
 				if (data == null || data.toString().startsWith("public")) {
 					break;
 				}
-				testName += gen.capitalizeFirstLetters(gen.removeNonWordCharacters(data.toString()));
+				testName += General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString()));
 			}
 		}
 
