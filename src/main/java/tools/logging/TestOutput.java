@@ -183,17 +183,14 @@ public class TestOutput {
 		fileName = testsName + ".html";
 		outputFile = new File(outputDir, fileName);
 		if (!new File(outputDir).exists()) {
-			// System.out.println( "Making directory '" + outputDir + "'" );
 			new File(outputDir).mkdirs();
 		}
 		if (!outputFile.exists()) {
 			try {
-				// System.out.println( "Making file '" +
-				// outputFile.getAbsolutePath() + "'" );
 				while (!outputFile.createNewFile()) {
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.error(e);
 			}
 		}
 		browser = System.getProperty("browser").substring(0, 1).toUpperCase()
@@ -313,9 +310,11 @@ public class TestOutput {
 		stepNum++;
 
 		BufferedWriter out = null;
+		FileWriter fw = null;
 		try {
 			// reopen our log file
-			out = new BufferedWriter(new FileWriter(outputFile, true));
+			fw = new FileWriter(outputFile, true);
+			out = new BufferedWriter(fw);
 			// start our row
 			out.write("   <tr>\n");
 			// log our step number
@@ -330,6 +329,13 @@ public class TestOutput {
 			if (out != null) {
 				try {
 					out.close();
+				} catch (IOException e) {
+					log.error(e);
+				}
+			}
+			if (fw != null) {
+				try {
+					fw.close();
 				} catch (IOException e) {
 					log.error(e);
 				}
@@ -349,8 +355,10 @@ public class TestOutput {
 	public void recordActual(String actualOutcome, Success result) {
 		// reopen our log file
 		BufferedWriter out = null;
+		FileWriter fw = null;
 		try {
-			out = new BufferedWriter(new FileWriter(outputFile, true));
+			fw = new FileWriter(outputFile, true);
+			out = new BufferedWriter(fw);
 			// get a screen shot of our action
 			String imageLink = "";
 			if (selHelper.getBrowser() != Browsers.HtmlUnit) {
@@ -378,6 +386,13 @@ public class TestOutput {
 			if (out != null) {
 				try {
 					out.close();
+				} catch (IOException e) {
+					log.error(e);
+				}
+			}
+			if (fw != null) {
+				try {
+					fw.close();
 				} catch (IOException e) {
 					log.error(e);
 				}
@@ -600,9 +615,11 @@ public class TestOutput {
 		long tTime = (currentTime.getTime() - startTime);
 		lastTime = currentTime.getTime();
 		// Reopen file
+		FileWriter fw = null;
 		BufferedWriter out = null;
 		try {
-			out = new BufferedWriter(new FileWriter(outputFile, true));
+			fw = new FileWriter(outputFile, true);
+			out = new BufferedWriter(fw);
 			// record our action
 			out.write("   <tr>\n");
 			out.write("    <td align='center'>" + stepNum + ".</td>\n");
@@ -619,6 +636,13 @@ public class TestOutput {
 			if (out != null) {
 				try {
 					out.close();
+				} catch (IOException e) {
+					log.error(e);
+				}
+			}
+			if (fw != null) {
+				try {
+					fw.close();
 				} catch (IOException e) {
 					log.error(e);
 				}

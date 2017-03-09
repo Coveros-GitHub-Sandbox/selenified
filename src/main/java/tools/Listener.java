@@ -8,7 +8,7 @@ import tools.logging.TestOutput.Result;
 
 public class Listener extends TestListenerAdapter {
 
-	public static General gen = new General();
+	public static final General gen = new General();
 
 	@Override
 	public void onTestFailure(ITestResult test) {

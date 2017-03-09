@@ -23,6 +23,7 @@ package tools;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -35,7 +36,9 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
 
+import selenified.exceptions.InvalidBrowserException;
 import tools.logging.TestOutput;
 import tools.selenium.SeleniumHelper;
 import tools.selenium.SeleniumHelper.Browsers;
@@ -43,11 +46,12 @@ import tools.selenium.SeleniumHelper.Browsers;
 @Listeners({ tools.Listener.class })
 public class TestBase {
 
-	public static GeneralFunctions genFun = new GeneralFunctions();
+	private static final Logger log = Logger.getLogger(General.class);
+	protected static GeneralFunctions genFun = new GeneralFunctions();
 
-	public static String testSite = "http://www.google.com/";
-	public String author = "Max Saperstone";
-	public static String version;
+	protected static String testSite = "http://www.google.com/";
+	protected String author = "Max Saperstone";
+	protected static String version;
 
 	@DataProvider(name = "no options", parallel = true)
 	public Object[][] NoOptions() {
@@ -88,7 +92,7 @@ public class TestBase {
 		startTest(dataProvider, method, test, true);
 	}
 
-	protected static void initializeSystem() throws Exception {
+	protected static void initializeSystem() {
 		// check our browser
 		if (System.getProperty("browser") == null || System.getProperty("browser").equals("${browser}")) {
 			System.setProperty("browser", Browsers.HtmlUnit.toString());
@@ -104,7 +108,7 @@ public class TestBase {
 	}
 
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, boolean selenium)
-			throws Exception {
+			throws IOException {
 		String testName = getTestName(method, dataProvider);
 		String suite = test.getName();
 		String outputDir = test.getOutputDirectory();
@@ -130,16 +134,20 @@ public class TestBase {
 		long time = (new Date()).getTime();
 		output.setStartTime(time);
 		if (selenium) {
-			SeleniumHelper selHelper = new SeleniumHelper(output);
-			test.setAttribute(testName + "SelHelper", selHelper);
+			SeleniumHelper selHelper;
+			try {
+				selHelper = new SeleniumHelper(output);
+				test.setAttribute(testName + "SelHelper", selHelper);
+			} catch (InvalidBrowserException | MalformedURLException e) {
+				log.error(e);
+			}
 		}
 		test.setAttribute(testName + "Output", output);
 		test.setAttribute(testName + "Errors", output.startTestTemplateOutputFile(selenium));
 	}
 
 	@AfterMethod(alwaysRun = true)
-	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result)
-			throws Exception {
+	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
 		String testLink = getTestName(method, dataProvider);
 		String testName = method.getName();
 		if (dataProvider != null) {
@@ -163,7 +171,7 @@ public class TestBase {
 	}
 
 	@AfterSuite(alwaysRun = true)
-	protected void archiveTestResults() throws Exception {
+	protected void archiveTestResults() {
 		System.out.println("\nREMEMBER TO ARCHIVE YOUR TESTS!\n\n");
 	}
 
