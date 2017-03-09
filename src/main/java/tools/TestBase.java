@@ -41,7 +41,6 @@ import tools.selenium.SeleniumHelper.Browsers;
 
 public class TestBase {
 
-	public static General gen = new General();
 	public static GeneralFunctions genFun = new GeneralFunctions();
 
 	public static String testSite = "http://www.google.com/";
@@ -127,7 +126,7 @@ public class TestBase {
 			group = group.substring(1, group.length() - 1);
 		}
 
-		TestOutput output = new TestOutput(testName, outputDir, testSite, suite, gen.wordToSentence(group),
+		TestOutput output = new TestOutput(testName, outputDir, testSite, suite, General.wordToSentence(group),
 				lastModified, version, author, description);
 		long time = (new Date()).getTime();
 		output.setStartTime(time);
@@ -179,7 +178,7 @@ public class TestBase {
 						if (data == null || data.toString().startsWith("public")) {
 							break;
 						}
-						testName += gen.capitalizeFirstLetters(gen.removeNonWordCharacters(data.toString()));
+						testName += General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString()));
 					}
 				}
 			}
