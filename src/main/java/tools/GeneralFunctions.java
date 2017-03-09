@@ -57,7 +57,7 @@ public class GeneralFunctions {
 	public void stopTest(TestOutput output, int errors) throws IOException {
 		output.endTestTemplateOutputFile();
 		// new PDFOutput( output.getOutputFileName() );
-		assertEquals("ZZZFIRSTPARTZZZa href='" + output.getFileName() + "'ZZZSECONDPARTZZZ", "0 errors",
+		assertEquals("Detailed results found at: " + output.getFileName(), "0 errors",
 				Integer.toString(errors) + " errors");
 	}
 

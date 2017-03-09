@@ -24,7 +24,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -306,16 +305,14 @@ public class General {
 			// a copy of the object back in.
 			in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
 			obj = in.readObject();
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		} catch (ClassNotFoundException e) {
-			log.error(e.getMessage());
+		} catch (IOException|ClassNotFoundException e) {
+			log.error(e);
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
-					log.error(e.getMessage());
+					log.error(e);
 				}
 			}
 		}
@@ -365,23 +362,21 @@ public class General {
 					while ((len = in.read(buf)) > 0) {
 						out.write(buf, 0, len);
 					}
-				} catch (FileNotFoundException e) {
-					log.error(e.getMessage());
 				} catch (IOException e) {
-					log.error(e.getMessage());
+					log.error(e);
 				} finally {
 					if (in != null) {
 						try {
 							in.close();
 						} catch (IOException e) {
-							log.error(e.getMessage());
+							log.error(e);
 						}
 					}
 					if (out != null) {
 						try {
 							out.close();
 						} catch (IOException e) {
-							log.error(e.getMessage());
+							log.error(e);
 						}
 					}
 				}
@@ -406,21 +401,21 @@ public class General {
 				}
 				return 0;
 			} catch (Exception e) {
-				log.error(e.getMessage());
+				log.error(e);
 				return 1;
 			} finally {
 				if (in != null) {
 					try {
 						in.close();
 					} catch (IOException e) {
-						log.error(e.getMessage());
+						log.error(e);
 					}
 				}
 				if (out != null) {
 					try {
 						out.close();
 					} catch (IOException e) {
-						log.error(e.getMessage());
+						log.error(e);
 					}
 				}
 			}
