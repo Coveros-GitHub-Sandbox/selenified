@@ -322,7 +322,10 @@ public class General {
 		return obj;
 	}
 
-	public String removeNonWordCharacters(String value) {
+	public static String removeNonWordCharacters(String value) {
+		if ( value == null ) {
+			return value;
+		}
 		return value.replaceAll("[^a-zA-Z0-9]+", "");
 	}
 
@@ -483,10 +486,14 @@ public class General {
 	 *            our input string
 	 * @return our fixed string
 	 */
-	public String wordToSentence(String word) {
+	public static String wordToSentence(String word) {
+		if (word == null ) {
+			return word;
+		}
 		String out = capitalizeFirstLetters(word);
 		out = out.replaceAll(String.format("%s|%s|%s", "(?<=[A-Z])(?=[A-Z][a-z])", "(?<=[^A-Z])(?=[A-Z])",
 				"(?<=[A-Za-z])(?=[^A-Za-z])"), " ");
+		out = out.replaceAll("[ ]{2,}", " ");
 		return out;
 	}
 
@@ -498,17 +505,20 @@ public class General {
 	 *            the string to be capitalized on
 	 * @return String: the new string
 	 */
-	public String capitalizeFirstLetters(String word) {
+	public static String capitalizeFirstLetters(String word) {
+		if (word == null ) {
+			return word;
+		}
 		String out = "";
 		for (int i = 0; i < word.length(); i++) {
 			if (i == 0) {
 				// Capitalize the first letter of the string.
 				out = String.format("%s%s", Character.toUpperCase(word.charAt(0)), word.substring(1));
 			}
-			// Is this character a non-letter or non-digit? If so
+			// Is this character a non-letter? If so
 			// then this is probably a word boundary so let's capitalize
 			// the next character in the sequence.
-			if (!Character.isLetterOrDigit(out.charAt(i)) && (i + 1) < out.length()) {
+			if (!Character.isLetter(out.charAt(i)) && (i + 1) < out.length()) {
 				out = String.format("%s%s%s", out.subSequence(0, i + 1), Character.toUpperCase(out.charAt(i + 1)),
 						out.substring(i + 2));
 			}
