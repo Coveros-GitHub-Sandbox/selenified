@@ -426,164 +426,182 @@ public class TestOutput {
 	 *             - an IOException
 	 * 
 	 */
-	public void createOutputHeader(boolean selenium) throws IOException {
+	public void createOutputHeader(boolean selenium) {
 		// Open file
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy");
 		SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
 		String DatePart = sdf.format(new Date());
 		String sTime = stf.format(startTime);
-		FileWriter fw = new FileWriter(outputFile);
-		BufferedWriter out = new BufferedWriter(fw);
-		out.write("<html>\n");
-		out.write(" <head>\n");
-		out.write("  <title>" + testName + "</title>\n");
-		out.write("  <style type='text/css'>\n");
-		out.write("   table {\n");
-		out.write("    margin-left:auto;margin-right:auto;\n");
-		out.write("    width:90%;\n");
-		out.write("    border-collapse:collapse;\n");
-		out.write("   }\n");
-		out.write("   table, td, th {\n");
-		out.write("    border:1px solid black;\n");
-		out.write("    padding:0px 10px;\n");
-		out.write("   }\n");
-		out.write("   th {\n");
-		out.write("    text-align:right;\n");
-		out.write("   }\n");
-		out.write("   td {\n");
-		out.write("    word-wrap: break-word;\n");
-		out.write("   }\n");
-		out.write("   td.warning {\n");
-		out.write("    color:yellow;\n");
-		out.write("    font-weight:bold;\n");
-		out.write("   }\n");
-		out.write("   td.fail {\n");
-		out.write("    color:red;\n");
-		out.write("    font-weight:bold;\n");
-		out.write("   }\n");
-		out.write("   td.pass {\n");
-		out.write("    color:green;\n");
-		out.write("    font-weight:bold;\n");
-		out.write("   }\n");
-		out.write("  </style>\n");
-		out.write("  <script type='text/javascript'>\n");
-		out.write("   function toggleImage( imageName ) {\n");
-		out.write("    var element = document.getElementById( imageName );\n");
-		out.write("    element.src = location.href.match(/^.*\\//) + imageName;\n");
-		out.write("    element.style.display = (element.style.display != 'none' ? 'none' : '' );\n");
-		out.write("   }\n");
-		out.write("   function displayImage( imageName ) {\n");
-		out.write("    window.open( location.href.match(/^.*\\//) + imageName )\n");
-		out.write("   }\n");
-		out.write("   function toggleVis(col_no, do_show) {\n");
-		out.write("    var stl;\n");
-		out.write("    if (do_show) stl = ''\n");
-		out.write("    else         stl = 'none';\n");
-		out.write("    var tbl  = document.getElementById('all_results');\n");
-		out.write("    var rows = tbl.getElementsByTagName('tr');\n");
-		out.write("    var cels = rows[0].getElementsByTagName('th')\n");
-		out.write("    cels[col_no].style.display=stl;\n");
-		out.write("    for (var row=1; row<rows.length;row++) {\n");
-		out.write("     var cels = rows[row].getElementsByTagName('td')\n");
-		out.write("     cels[col_no].style.display=stl;\n");
-		out.write("    }\n");
-		out.write("   }\n");
-		out.write("   function getElementsByClassName(oElm, strTagName, strClassName){\n");
-		out.write(
-				"    var arrElements = (strTagName == '*' && document.all)? document.all : oElm.getElementsByTagName(strTagName);\n");
-		out.write("    var arrReturnElements = new Array();\n");
-		out.write("    strClassName = strClassName.replace(/\\-/g, '\\\\-');\n");
-		out.write("    var oRegExp = new RegExp('(^|\\s)' + strClassName + '(\\s|$)');\n");
-		out.write("    var oElement;\n");
-		out.write("    for(var i=0; i<arrElements.length; i++){\n");
-		out.write("     oElement = arrElements[i];\n");
-		out.write("     if(oRegExp.test(oElement.className)){\n");
-		out.write("      arrReturnElements.push(oElement);\n");
-		out.write("     }\n");
-		out.write("    }\n");
-		out.write("    return (arrReturnElements)\n");
-		out.write("   }\n");
-		out.write("   function fixImages( imageName ) {\n");
-		out.write("    top.document.title = document.title;\n");
-		out.write("    allImgIcons = getElementsByClassName( document, 'img', 'imgIcon' );\n");
-		out.write("    for( var element in allImgIcons ) {\n");
-		out.write("     element.src = location.href.match(/^.*\\//) + element.src;\n");
-		out.write("    }\n");
-		out.write("   }\n");
-		out.write("  </script>\n");
-		out.write(" </head>\n");
-		out.write(" <body onLoad='fixImages()'>\n");
-		out.write("  <table>\n");
-		out.write("   <tr>\n");
-		out.write("    <th bgcolor='lightblue'><font size='5'>Test</font></th>\n");
-		out.write("    <td bgcolor='lightblue' colspan=3>" + "<font size='5'>" + testName + " </font></td>\n");
-		out.write("   </tr><tr>\n");
-		out.write("    <th>Tester</th>\n");
-		out.write("    <td>Automated</td>\n");
-		out.write("    <th>Version</th>\n");
-		out.write("    <td>" + version + "</td>\n");
-		out.write("   </tr><tr>\n");
-		out.write("    <th>Author</th>\n");
-		out.write("    <td>" + author + "</td>\n");
-		out.write("    <th>Date Test Last Modified</th>\n");
-		out.write("    <td>" + sdf.format(dateLastModified) + "</td>\n");
-		out.write("   </tr><tr>\n");
-		out.write("    <th>Date Tested</th>\n");
-		out.write("    <td>" + DatePart + "</td>\n");
-		if (selenium) {
-			out.write("    <th>Browser</th>\n");
-			out.write("    <td>" + browser + "</td>\n");
+		FileWriter fw = null;
+		BufferedWriter out = null;
+		try {
+			fw = new FileWriter(outputFile);
+			out = new BufferedWriter(fw);
+			out.write("<html>\n");
+			out.write(" <head>\n");
+			out.write("  <title>" + testName + "</title>\n");
+			out.write("  <style type='text/css'>\n");
+			out.write("   table {\n");
+			out.write("    margin-left:auto;margin-right:auto;\n");
+			out.write("    width:90%;\n");
+			out.write("    border-collapse:collapse;\n");
+			out.write("   }\n");
+			out.write("   table, td, th {\n");
+			out.write("    border:1px solid black;\n");
+			out.write("    padding:0px 10px;\n");
+			out.write("   }\n");
+			out.write("   th {\n");
+			out.write("    text-align:right;\n");
+			out.write("   }\n");
+			out.write("   td {\n");
+			out.write("    word-wrap: break-word;\n");
+			out.write("   }\n");
+			out.write("   td.warning {\n");
+			out.write("    color:yellow;\n");
+			out.write("    font-weight:bold;\n");
+			out.write("   }\n");
+			out.write("   td.fail {\n");
+			out.write("    color:red;\n");
+			out.write("    font-weight:bold;\n");
+			out.write("   }\n");
+			out.write("   td.pass {\n");
+			out.write("    color:green;\n");
+			out.write("    font-weight:bold;\n");
+			out.write("   }\n");
+			out.write("  </style>\n");
+			out.write("  <script type='text/javascript'>\n");
+			out.write("   function toggleImage( imageName ) {\n");
+			out.write("    var element = document.getElementById( imageName );\n");
+			out.write("    element.src = location.href.match(/^.*\\//) + imageName;\n");
+			out.write("    element.style.display = (element.style.display != 'none' ? 'none' : '' );\n");
+			out.write("   }\n");
+			out.write("   function displayImage( imageName ) {\n");
+			out.write("    window.open( location.href.match(/^.*\\//) + imageName )\n");
+			out.write("   }\n");
+			out.write("   function toggleVis(col_no, do_show) {\n");
+			out.write("    var stl;\n");
+			out.write("    if (do_show) stl = ''\n");
+			out.write("    else         stl = 'none';\n");
+			out.write("    var tbl  = document.getElementById('all_results');\n");
+			out.write("    var rows = tbl.getElementsByTagName('tr');\n");
+			out.write("    var cels = rows[0].getElementsByTagName('th')\n");
+			out.write("    cels[col_no].style.display=stl;\n");
+			out.write("    for (var row=1; row<rows.length;row++) {\n");
+			out.write("     var cels = rows[row].getElementsByTagName('td')\n");
+			out.write("     cels[col_no].style.display=stl;\n");
+			out.write("    }\n");
+			out.write("   }\n");
+			out.write("   function getElementsByClassName(oElm, strTagName, strClassName){\n");
+			out.write(
+					"    var arrElements = (strTagName == '*' && document.all)? document.all : oElm.getElementsByTagName(strTagName);\n");
+			out.write("    var arrReturnElements = new Array();\n");
+			out.write("    strClassName = strClassName.replace(/\\-/g, '\\\\-');\n");
+			out.write("    var oRegExp = new RegExp('(^|\\s)' + strClassName + '(\\s|$)');\n");
+			out.write("    var oElement;\n");
+			out.write("    for(var i=0; i<arrElements.length; i++){\n");
+			out.write("     oElement = arrElements[i];\n");
+			out.write("     if(oRegExp.test(oElement.className)){\n");
+			out.write("      arrReturnElements.push(oElement);\n");
+			out.write("     }\n");
+			out.write("    }\n");
+			out.write("    return (arrReturnElements)\n");
+			out.write("   }\n");
+			out.write("   function fixImages( imageName ) {\n");
+			out.write("    top.document.title = document.title;\n");
+			out.write("    allImgIcons = getElementsByClassName( document, 'img', 'imgIcon' );\n");
+			out.write("    for( var element in allImgIcons ) {\n");
+			out.write("     element.src = location.href.match(/^.*\\//) + element.src;\n");
+			out.write("    }\n");
+			out.write("   }\n");
+			out.write("  </script>\n");
+			out.write(" </head>\n");
+			out.write(" <body onLoad='fixImages()'>\n");
+			out.write("  <table>\n");
+			out.write("   <tr>\n");
+			out.write("    <th bgcolor='lightblue'><font size='5'>Test</font></th>\n");
+			out.write("    <td bgcolor='lightblue' colspan=3>" + "<font size='5'>" + testName + " </font></td>\n");
+			out.write("   </tr><tr>\n");
+			out.write("    <th>Tester</th>\n");
+			out.write("    <td>Automated</td>\n");
+			out.write("    <th>Version</th>\n");
+			out.write("    <td>" + version + "</td>\n");
+			out.write("   </tr><tr>\n");
+			out.write("    <th>Author</th>\n");
+			out.write("    <td>" + author + "</td>\n");
+			out.write("    <th>Date Test Last Modified</th>\n");
+			out.write("    <td>" + sdf.format(dateLastModified) + "</td>\n");
+			out.write("   </tr><tr>\n");
+			out.write("    <th>Date Tested</th>\n");
+			out.write("    <td>" + DatePart + "</td>\n");
+			if (selenium) {
+				out.write("    <th>Browser</th>\n");
+				out.write("    <td>" + browser + "</td>\n");
+			}
+			out.write("   </tr><tr>\n");
+			out.write("    <th>Test Run Time</th>\n");
+			out.write("    <td colspan=3>\n");
+			out.write("     Start:\t" + sTime + " <br/>\n");
+			out.write("     End:\tTIMEFINISHED <br/>\n");
+			out.write("     Run Time:\tRUNTIME \n");
+			out.write("    </td>\n");
+			out.write("   </tr><tr>\n");
+			out.write("    <th>Testing Group</th>\n");
+			out.write("    <td>" + testGroup + "</td>\n");
+			out.write("    <th>Testing Suite</th>\n");
+			out.write("    <td>" + testSuite + "</td>\n");
+			out.write("   </tr><tr>\n");
+			out.write("    <th>Test Objectives</th>\n");
+			out.write("    <td colspan=3>" + testObjectives + "</td>\n");
+			out.write("   </tr><tr>\n");
+			out.write("    <th>Overall Results</th>\n");
+			out.write("    <td colspan=3 style='padding: 0px;'>\n");
+			out.write("     <table style='width: 100%;'><tr>\n");
+			out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
+			out.write(
+					"      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" + "<td><b>Steps Failed</b></td>\n");
+			out.write("     </tr><tr>\n");
+			out.write("      <td>STEPSPERFORMED</td><td>STEPSPASSED</td><td>STEPSFAILED</td>\n");
+			out.write("     </tr></table>\n");
+			out.write("    </td>\n");
+			out.write("   </tr><tr>\n");
+			out.write("    <th>View Results</th>\n");
+			out.write("    <td colspan=3>\n");
+			out.write("     <input type=checkbox name='step' onclick='toggleVis(0,this.checked)' checked>Step\n");
+			out.write("     <input type=checkbox name='action' onclick='toggleVis(1,this.checked)' checked>Action \n");
+			out.write(
+					"     <input type=checkbox name='expected' onclick='toggleVis(2,this.checked)' checked>Expected Results \n");
+			out.write(
+					"     <input type=checkbox name='actual' onclick='toggleVis(3,this.checked)' checked>Actual Results \n");
+			out.write("     <input type=checkbox name='times' onclick='toggleVis(4,this.checked)' checked>Step Times \n");
+			out.write("     <input type=checkbox name='result' onclick='toggleVis(5,this.checked)' checked>Results\n");
+			out.write("    </td>\n");
+			out.write("   </tr>\n");
+			out.write("  </table>\n");
+			out.write("  <table id='all_results'>\n");
+			out.write("   <tr>\n");
+			out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>"
+					+ "<th style='text-align:center'>Expected Result</th>"
+					+ "<th style='text-align:center'>Actual Result</th>" + "<th style='text-align:center'>Step Times</th>"
+					+ "<th style='text-align:center'>Pass/Fail</th>\n");
+			out.write("   </tr>\n");
+		} catch (IOException e) {
+			log.error(e);
+		} finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+					log.error(e);
+				}
+			}
+			if (fw != null) {
+				try {
+					fw.close();
+				} catch (IOException e) {
+					log.error(e);
+				}
+			}
 		}
-		out.write("   </tr><tr>\n");
-		out.write("    <th>Test Run Time</th>\n");
-		out.write("    <td colspan=3>\n");
-		out.write("     Start:\t" + sTime + " <br/>\n");
-		out.write("     End:\tTIMEFINISHED <br/>\n");
-		out.write("     Run Time:\tRUNTIME \n");
-		out.write("    </td>\n");
-		out.write("   </tr><tr>\n");
-		out.write("    <th>Testing Group</th>\n");
-		out.write("    <td>" + testGroup + "</td>\n");
-		out.write("    <th>Testing Suite</th>\n");
-		out.write("    <td>" + testSuite + "</td>\n");
-		out.write("   </tr><tr>\n");
-		out.write("    <th>Test Objectives</th>\n");
-		out.write("    <td colspan=3>" + testObjectives + "</td>\n");
-		out.write("   </tr><tr>\n");
-		out.write("    <th>Overall Results</th>\n");
-		out.write("    <td colspan=3 style='padding: 0px;'>\n");
-		out.write("     <table style='width: 100%;'><tr>\n");
-		out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
-		out.write(
-				"      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" + "<td><b>Steps Failed</b></td>\n");
-		out.write("     </tr><tr>\n");
-		out.write("      <td>STEPSPERFORMED</td><td>STEPSPASSED</td><td>STEPSFAILED</td>\n");
-		out.write("     </tr></table>\n");
-		out.write("    </td>\n");
-		out.write("   </tr><tr>\n");
-		out.write("    <th>View Results</th>\n");
-		out.write("    <td colspan=3>\n");
-		out.write("     <input type=checkbox name='step' onclick='toggleVis(0,this.checked)' checked>Step\n");
-		out.write("     <input type=checkbox name='action' onclick='toggleVis(1,this.checked)' checked>Action \n");
-		out.write(
-				"     <input type=checkbox name='expected' onclick='toggleVis(2,this.checked)' checked>Expected Results \n");
-		out.write(
-				"     <input type=checkbox name='actual' onclick='toggleVis(3,this.checked)' checked>Actual Results \n");
-		out.write("     <input type=checkbox name='times' onclick='toggleVis(4,this.checked)' checked>Step Times \n");
-		out.write("     <input type=checkbox name='result' onclick='toggleVis(5,this.checked)' checked>Results\n");
-		out.write("    </td>\n");
-		out.write("   </tr>\n");
-		out.write("  </table>\n");
-		out.write("  <table id='all_results'>\n");
-		out.write("   <tr>\n");
-		out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>"
-				+ "<th style='text-align:center'>Expected Result</th>"
-				+ "<th style='text-align:center'>Actual Result</th>" + "<th style='text-align:center'>Step Times</th>"
-				+ "<th style='text-align:center'>Pass/Fail</th>\n");
-		out.write("   </tr>\n");
-		// Close the output stream
-		out.close();
-		fw.close();
 	}
 
 	/**

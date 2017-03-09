@@ -73,7 +73,7 @@ public class TestBase {
 			return instance;
 		}
 
-		public void doSetup() throws Exception {
+		public void doSetup() {
 			if (wasInvoked) {
 				return;
 			}
@@ -83,12 +83,12 @@ public class TestBase {
 	}
 
 	@BeforeSuite(alwaysRun = true)
-	public void beforeSuite() throws Exception {
+	public void beforeSuite() {
 		MasterSuiteSetupConfigurator.getInstance().doSetup();
 	}
 
 	@BeforeMethod(alwaysRun = true)
-	protected void startTest(Object[] dataProvider, Method method, ITestContext test) throws Exception {
+	protected void startTest(Object[] dataProvider, Method method, ITestContext test) throws IOException {
 		startTest(dataProvider, method, test, true);
 	}
 
