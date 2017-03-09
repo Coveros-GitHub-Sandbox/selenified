@@ -12,7 +12,7 @@ import tools.logging.TestOutput;
 import tools.selenium.SeleniumHelper.Locators;
 import tools.selenium.SeleniumHelper;
 
-public class SampleTest extends TestBase {
+public class SampleIT extends TestBase {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() throws Exception {

@@ -31,7 +31,6 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.opera.OperaDriver;
-//import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -44,8 +43,6 @@ import io.github.bonigarcia.wdm.EdgeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import io.github.bonigarcia.wdm.OperaDriverManager;
-import io.github.bonigarcia.wdm.PhantomJsDriverManager;
-
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -327,7 +324,7 @@ public class SeleniumHelper {
     public int goToURL(String URL) {
         String action = "Loading " + URL;
         String expected = "Loaded " + URL;
-        long start = System.currentTimeMillis();
+        double start = System.currentTimeMillis();
         try {
             driver.get(URL);
         } catch (Exception e) {
@@ -369,6 +366,7 @@ public class SeleniumHelper {
         } catch (InterruptedException e) {
             output.recordAction(action, expected, "Failed to wait " + seconds + " seconds", Result.FAILURE);
             output.addError();
+            Thread.currentThread().interrupt();
             return 1;
         }
         output.recordAction(action, expected, "Waited " + seconds + " seconds", Result.SUCCESS);
@@ -407,7 +405,7 @@ public class SeleniumHelper {
      * @throws InvalidActionException
      * @throws InvalidLocatorTypeException
      */
-    public int waitForElementPresent(Locators type, String locator, int seconds)
+    public int waitForElementPresent(Locators type, String locator, long seconds)
             throws InvalidActionException, InvalidLocatorTypeException {
         String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be present";
         String expected = type + " " + locator + " is present";
@@ -468,7 +466,7 @@ public class SeleniumHelper {
      * @throws InvalidActionException
      * @throws InvalidLocatorTypeException
      */
-    public int waitForElementNotPresent(Locators type, String locator, int seconds)
+    public int waitForElementNotPresent(Locators type, String locator, long seconds)
             throws InvalidActionException, InvalidLocatorTypeException {
         String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be present";
         String expected = type + " " + locator + " is not present";
@@ -529,7 +527,7 @@ public class SeleniumHelper {
             throws InvalidActionException, InvalidLocatorTypeException {
         String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be displayed";
         String expected = type + " " + locator + " is displayed";
-        long start = System.currentTimeMillis();
+        double start = System.currentTimeMillis();
         if (!isElementPresent(type, locator, false)) {
             int success = waitForElementPresent(type, locator, seconds);
             if (success == 1) {
@@ -596,7 +594,7 @@ public class SeleniumHelper {
         // TODO - this might fail if the element disappears completely
         String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be displayed";
         String expected = type + " " + locator + " is not displayed";
-        long start = System.currentTimeMillis();
+        double start = System.currentTimeMillis();
         WebElement element = getWebElement(type, locator);
         if (element.isDisplayed()) {
             // wait for up to XX seconds
@@ -656,7 +654,7 @@ public class SeleniumHelper {
             throws InvalidLocatorTypeException, InvalidActionException {
         String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be enabled";
         String expected = type + " " + locator + " is enabled";
-        long start = System.currentTimeMillis();
+        double start = System.currentTimeMillis();
         if (!isElementEnabled(type, locator, false)) {
             if (!isElementPresent(type, locator, false)) {
                 waitForElementPresent(type, locator, seconds);
@@ -724,7 +722,7 @@ public class SeleniumHelper {
         // TODO - this might fail if the element is no longer present
         String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be enabled";
         String expected = type + " " + locator + " is not enabled";
-        long start = System.currentTimeMillis();
+        double start = System.currentTimeMillis();
         WebElement element = getWebElement(type, locator);
         if (element.isEnabled()) {
             // wait for up to XX seconds
@@ -2111,7 +2109,7 @@ public class SeleniumHelper {
      * @return Integer - the number of errors encountered while executing these
      *         steps
      */
-    public int waitForAlertPresent(int seconds) {
+    public int waitForAlertPresent(long seconds) {
         String action = "Wait up to " + seconds + " seconds for an alert to be present";
         String expected = "An alert is present";
         // wait for up to XX seconds for our error message
@@ -2203,7 +2201,7 @@ public class SeleniumHelper {
      * @return Integer - the number of errors encountered while executing these
      *         steps
      */
-    public int waitForConfirmationPresent(int seconds) {
+    public int waitForConfirmationPresent(long seconds) {
         String action = "Wait up to " + seconds + " seconds for a confirmation to be present";
         String expected = "An alert is present";
         // wait for up to XX seconds for our error message
@@ -2295,7 +2293,7 @@ public class SeleniumHelper {
      * @return Integer - the number of errors encountered while executing these
      *         steps
      */
-    public int waitForPromptPresent(int seconds) {
+    public int waitForPromptPresent(long seconds) {
         String action = "Wait up to " + seconds + " seconds for a prompt to be present";
         String expected = "An alert is present";
         // wait for up to XX seconds for our error message
