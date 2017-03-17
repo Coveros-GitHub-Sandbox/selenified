@@ -25,16 +25,25 @@ dependencies {
 
 // Set source directory for tests
 sourceSets {
-  main {
+    main {
         java {
-            srcDirs = ['src/main/java','src/test/java']
+            srcDirs = ['src/main/java/']
         }
     }
-  seleniumTest {
-    java {
-      srcDir 'src/test/java/samples/'
+    test {
+        java {
+            srcDirs = ['src/test/java/unit/']
+        }
     }
-  }
+    seleniumTest {
+        java {
+          srcDir 'src/test/java/samples/'
+        }
+    }
+}
+
+test {
+    useTestNG()
 }
 
 task(seleniumTest, type: Test) {
