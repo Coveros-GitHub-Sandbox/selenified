@@ -1,33 +1,55 @@
-apply plugin: "java"
+apply plugin: 'java'
+apply plugin: 'maven'
 
+group = 'Selenified'
+version = '0.0.1-SNAPSHOT'
 
-dependencies {
-  testCompile files('lib/com.sun.net.ssl.jar')
-  testCompile files('lib/jackson-all-1.9.0.jar')
-  testCompile files('lib/selenium-java-2.52.0.jar')
-  testCompile files('lib/selenium-server-standalone-2.52.0.jar')
-  testCompile files('lib/stf-1.4.0.jar')
-  testCompile files('lib/testng-5.7-jdk15.jar')
+description = "Gradle build for Selenified"
 
-}
-
-
-// Set source directory
-sourceSets {
-  test {
-    java {
-      srcDir 'test/'
-    }
-  }
-}
-
-test{
-  useTestNG{  
-    suites "$suite"
-  }
-}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.23'
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '1.6.0'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:'2.52.0'
+    compile group: 'org.jglobus', name: 'jsse', version:'2.1.0'
+    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version:'1.9.13'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version:'2.52.0'
+    compile group: 'org.testng', name: 'testng', version:'6.10'
 }
 
+// Set source directory for tests
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java/']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java/unit/']
+        }
+    }
+    seleniumTest {
+        java {
+          srcDir 'src/test/java/samples/'
+        }
+    }
+}
+
+test {
+    useTestNG()
+}
+
+task(seleniumTest, type: Test) {
+  outputs.upToDateWhen { false }
+  useTestNG{
+    systemProperties System.getProperties()
+    suites 'sample.xml'
+  }
+}
