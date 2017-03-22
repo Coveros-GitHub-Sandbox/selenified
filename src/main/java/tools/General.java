@@ -24,7 +24,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class General {
@@ -330,5 +332,22 @@ public class General {
 			}
 		}
 		return out;
+	}
+
+	/**
+	 * a function that breaks up a string, and places it into a map
+	 * 
+	 * @param input
+	 *            a string, with key and values separated by '=' and pairs
+	 *            separated by '&'
+	 * @return Map: a map with values
+	 */
+	public static Map<String, String> parseMap(final String input) {
+		final Map<String, String> map = new HashMap<>();
+		for (String pair : input.split("&")) {
+			String[] kv = pair.split("=");
+			map.put(kv[0], kv[1]);
+		}
+		return map;
 	}
 }
