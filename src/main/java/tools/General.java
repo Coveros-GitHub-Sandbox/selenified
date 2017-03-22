@@ -32,6 +32,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import org.testng.log4testng.Logger;
@@ -50,26 +51,18 @@ public class General {
 	 * @throws IOException
 	 *             - an IOException
 	 */
-	public ArrayList<String> listFilesForFolder(File folder) {
-		ArrayList<String> files = new ArrayList<String>();
-		for (final File fileEntry : folder.listFiles()) {
-			if (fileEntry.isDirectory()) {
-				files.addAll(listFilesForFolder(fileEntry));
-			} else {
-				files.add(fileEntry.getPath());
+	public static List<String> listFilesForFolder(File folder) {
+		List<String> files = new ArrayList<>();
+		if (folder != null && folder.exists()) {
+			for (final File fileEntry : folder.listFiles()) {
+				if (fileEntry.isDirectory()) {
+					files.addAll(listFilesForFolder(fileEntry));
+				} else {
+					files.add(fileEntry.getPath());
+				}
 			}
 		}
 		return files;
-	}
-
-	public Object[] removeElements(Object[] input, Object deleteMe) {
-		ArrayList<Object> result = new ArrayList<Object>();
-
-		for (Object item : input)
-			if (!deleteMe.equals(item))
-				result.add(item);
-
-		return result.toArray(input);
 	}
 
 	/**
@@ -122,7 +115,7 @@ public class General {
 	 */
 	public static String padRight(String input, int length, String value) {
 		StringBuilder output = new StringBuilder(length);
-		if( input != null) {
+		if (input != null) {
 			output.append(input);
 		}
 		while (output.toString().length() < length) {
@@ -181,7 +174,7 @@ public class General {
 	 */
 	public static String padLeft(String input, int length, String value) {
 		StringBuilder output = new StringBuilder(length);
-		if( input != null) {
+		if (input != null) {
 			output.append(input);
 		}
 		while (output.toString().length() < length) {
@@ -216,7 +209,7 @@ public class General {
 	 * @return random string of characters
 	 */
 	public static String getRandomString(int length) {
-		if ( length <= 0 ) {
+		if (length <= 0) {
 			return "";
 		}
 		String stringChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -245,7 +238,7 @@ public class General {
 	 * @return random string of numbers
 	 */
 	public static String getRandomInt(int length) {
-		if ( length <= 0 ) {
+		if (length <= 0) {
 			return "";
 		}
 		String stringChars = "0123456789";
@@ -257,180 +250,11 @@ public class General {
 		return sb.toString();
 	}
 
-	/**
-	 * Returns a copy of the object, or null if the object cannot be serialized.
-	 * 
-	 * @param orig
-	 *            - the object to copy
-	 * @return Object - a copy of the original
-	 */
-	public Object copy(Object orig) {
-		Object obj = null;
-		ObjectInputStream in = null;
-		try {
-			// Write the object out to a byte array
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream out = new ObjectOutputStream(bos);
-			out.writeObject(orig);
-			out.flush();
-			out.close();
-
-			// Make an input stream from the byte array and read
-			// a copy of the object back in.
-			in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
-			obj = in.readObject();
-		} catch (IOException|ClassNotFoundException e) {
-			log.error(e);
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-					log.error(e);
-				}
-			}
-		}
-		return obj;
-	}
-
 	public static String removeNonWordCharacters(String value) {
-		if ( value == null ) {
+		if (value == null) {
 			return value;
 		}
 		return value.replaceAll("[^a-zA-Z0-9]+", "");
-	}
-
-	/**
-	 * Copies a directory and all of the contained files
-	 * 
-	 * @param srcPath
-	 *            - the source directory to copy
-	 * @param dstPath
-	 *            - the destination to copy the folder to
-	 * @throws IOException
-	 *             - an IOException
-	 */
-	public void copyDirectory(File srcPath, File dstPath) {
-		if (srcPath.isDirectory()) {
-			if (!dstPath.exists()) {
-				dstPath.mkdir();
-			}
-
-			String files[] = srcPath.list();
-
-			for (int i = 0; i < files.length; i++) {
-				copyDirectory(new File(srcPath, files[i]), new File(dstPath, files[i]));
-			}
-		} else {
-			if (!srcPath.exists()) {
-				return;
-			} else {
-				InputStream in = null;
-				OutputStream out = null;
-				try {
-					in = new FileInputStream(srcPath);
-					out = new FileOutputStream(dstPath);
-					// Transfer bytes from in to out
-					byte[] buf = new byte[1024];
-					int len;
-					while ((len = in.read(buf)) > 0) {
-						out.write(buf, 0, len);
-					}
-				} catch (IOException e) {
-					log.error(e);
-				} finally {
-					if (in != null) {
-						try {
-							in.close();
-						} catch (IOException e) {
-							log.error(e);
-						}
-					}
-					if (out != null) {
-						try {
-							out.close();
-						} catch (IOException e) {
-							log.error(e);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	public int copyFile(File oldFile, File newFile) {
-		if (!oldFile.exists()) {
-			return 1;
-		} else {
-			InputStream in = null;
-			OutputStream out = null;
-			try {
-				in = new FileInputStream(oldFile);
-				out = new FileOutputStream(newFile);
-				// Transfer bytes from in to out
-				byte[] buf = new byte[1024];
-				int len;
-				while ((len = in.read(buf)) > 0) {
-					out.write(buf, 0, len);
-				}
-				return 0;
-			} catch (Exception e) {
-				log.error(e);
-				return 1;
-			} finally {
-				if (in != null) {
-					try {
-						in.close();
-					} catch (IOException e) {
-						log.error(e);
-					}
-				}
-				if (out != null) {
-					try {
-						out.close();
-					} catch (IOException e) {
-						log.error(e);
-					}
-				}
-			}
-		}
-	}
-
-	public int deleteFile(String fileName) {
-		File thisFile = new File(fileName);
-		if (!thisFile.exists()) {
-			return 1;
-		}
-		if (!thisFile.delete()) {
-			return 1;
-		}
-		return 0;
-	}
-
-	public boolean doesValueStartWithAnyArrayEntry(String[] array, String value) {
-		for (String entry : array) {
-			if (value.startsWith(entry)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean doesValueEndWithAnyArrayEntry(String[] array, String value) {
-		for (String entry : array) {
-			if (value.endsWith(entry)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean doesArrayContain(String[] array, String value) {
-		return Arrays.asList(array).contains(value);
-	}
-
-	public boolean doesArrayContain(Object[] array, Object value) {
-		return Arrays.asList(array).contains(value);
 	}
 
 	/**
@@ -441,7 +265,7 @@ public class General {
 	 * @return - the reversed string
 	 */
 	public static String reverseIt(String source) {
-		if (source == null ) {
+		if (source == null) {
 			return source;
 		}
 		return new StringBuilder(source).reverse().toString();
@@ -456,7 +280,7 @@ public class General {
 	 * @return our fixed string
 	 */
 	public static String wordToSentence(String word) {
-		if (word == null ) {
+		if (word == null) {
 			return word;
 		}
 		String out = capitalizeFirstLetters(word);
@@ -475,7 +299,7 @@ public class General {
 	 * @return String: the new string
 	 */
 	public static String capitalizeFirstLetters(String word) {
-		if (word == null ) {
+		if (word == null) {
 			return word;
 		}
 		String out = "";

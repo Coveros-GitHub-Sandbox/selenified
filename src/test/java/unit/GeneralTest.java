@@ -1,11 +1,25 @@
 package unit;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.testng.Assert;
 import org.testng.annotations.*;
 import tools.General;
 
 public class GeneralTest {
 
+	@Test
+	public void listFilesForFolderTest() {
+		Assert.assertEquals(General.listFilesForFolder(null), new ArrayList<String>());
+		Assert.assertEquals(General.listFilesForFolder(new File("/bad-folder")), new ArrayList<String>());
+		Assert.assertEquals(General.listFilesForFolder(new File("src/test/java/locators")), Arrays.asList("src/test/java/locators/Sample.xml"));
+		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators")), Arrays.asList("./src/test/java/locators/Sample.xml"));
+		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators/")), Arrays.asList("./src/test/java/locators/Sample.xml"));
+		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/samples")), Arrays.asList("./src/test/java/samples/SampleIT.java"));
+	}
+	
 	@Test
 	public void padRightSpaceTest() {
 		Assert.assertEquals(General.padRightSpace(null, 0), "");
