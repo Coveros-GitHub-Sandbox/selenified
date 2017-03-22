@@ -124,6 +124,8 @@ public class SeleniumHelper {
 	public SeleniumHelper(TestOutput output) throws InvalidBrowserException, MalformedURLException {
 		this.output = output;
 
+		setBrowser();
+
 		// are we running remotely on a hub
 		String hubHost = null;
 		String hubPort = null;
@@ -135,57 +137,18 @@ public class SeleniumHelper {
 		}
 		// if we want to test remotely
 		if (hubHost != null && hubPort != null) {
-			getBrowserCapability();
+			setupBrowserCapability();
 		}
 
-		// are we running through a proxy
-		String proxyHost = null;
-		String proxyPort = null;
-		if (System.getProperty("proxyHost") != null && !System.getProperty("proxyHost").equals("${proxyHost}")) {
-			proxyHost = System.getProperty("proxyHost");
-		}
-		if (System.getProperty("proxyPort") != null && !System.getProperty("proxyPort").equals("${proxyPort}")) {
-			proxyPort = System.getProperty("proxyPort");
-		}
-		// if we want to run things through a proxy
-		if (proxyHost != null && proxyPort != null) {
-			// get our proxy information
-			Proxy proxy = new Proxy();
-			proxy.setHttpProxy(proxyHost + ":" + proxyPort);
-			capabilities.setCapability(CapabilityType.PROXY, proxy);
-		}
-
-		// determine our browser information
-		if (System.getProperty("browser") != null && !System.getProperty("browser").equals("${browser}")) {
-			if (System.getProperty("browser").chars().allMatch(Character::isLetter)) {
-				browser = Browsers.valueOf(System.getProperty("browser"));
-			} else {
-				Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
-				if (browserDetails.containsKey("browserName")) {
-					browser = Browsers.valueOf(browserDetails.get("browserName"));
-					capabilities.setCapability(CapabilityType.BROWSER_NAME, browserDetails.get("browserName"));
-				}
-				if (browserDetails.containsKey("browserVersion")) {
-					capabilities.setCapability(CapabilityType.VERSION, browserDetails.get("browserVersion"));
-				}
-				if (browserDetails.containsKey("deviceName")) {
-					capabilities.setCapability("deviceName", browserDetails.get("deviceName"));
-				}
-				if (browserDetails.containsKey("deviceOrientation")) {
-					capabilities.setCapability("device-orientation", browserDetails.get("deviceOrientation"));
-				}
-				if (browserDetails.containsKey("devicePlatform")) {
-					capabilities.setCapability(CapabilityType.PLATFORM, browserDetails.get("devicePlatform"));
-				}
-			}
-		}
-		capabilities.setJavascriptEnabled(true);
+		setupProxy();
+		setupBrowserDetails();
 
 		// if we want to test remotely
 		if (hubHost != null && hubPort != null) {
 			driver = new RemoteWebDriver(new URL(hubHost + ":" + hubPort + "/wd/hub"), capabilities);
 		} else {
-			switch (browser) { // check our browser
+			// check our browser
+			switch (browser) {
 			case HtmlUnit: {
 				driver = new HtmlUnitDriver(capabilities);
 				break;
@@ -229,12 +192,70 @@ public class SeleniumHelper {
 				throw new InvalidBrowserException("The selected browser " + browser);
 			}
 			}
+			capabilities.setJavascriptEnabled(true);
 		}
 		// driver.manage().window().maximize();
 		output.setSelHelper(this);
 	}
 
-	private void getBrowserCapability() throws InvalidBrowserException {
+	private void setupProxy() {
+		// are we running through a proxy
+		String proxyHost = null;
+		String proxyPort = null;
+		if (System.getProperty("proxyHost") != null && !System.getProperty("proxyHost").equals("${proxyHost}")) {
+			proxyHost = System.getProperty("proxyHost");
+		}
+		if (System.getProperty("proxyPort") != null && !System.getProperty("proxyPort").equals("${proxyPort}")) {
+			proxyPort = System.getProperty("proxyPort");
+		}
+		// if we want to run things through a proxy
+		if (proxyHost != null && proxyPort != null) {
+			// get our proxy information
+			Proxy proxy = new Proxy();
+			proxy.setHttpProxy(proxyHost + ":" + proxyPort);
+			capabilities.setCapability(CapabilityType.PROXY, proxy);
+		}
+	}
+
+	private boolean areBrowserDetailsSet() {
+		return (!System.getProperty("browser").chars().allMatch(Character::isLetter));
+
+	}
+
+	private void setBrowser() {
+		if (!areBrowserDetailsSet()) {
+			browser = Browsers.valueOf(System.getProperty("browser"));
+		} else {
+			Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
+			if (browserDetails.containsKey("browserName")) {
+				browser = Browsers.valueOf(browserDetails.get("browserName"));
+			}
+		}
+	}
+
+	private void setupBrowserDetails() {
+		// determine our browser information
+		if (areBrowserDetailsSet()) {
+			Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
+			if (browserDetails.containsKey("browserName")) {
+				capabilities.setCapability(CapabilityType.BROWSER_NAME, browserDetails.get("browserName"));
+			}
+			if (browserDetails.containsKey("browserVersion")) {
+				capabilities.setCapability(CapabilityType.VERSION, browserDetails.get("browserVersion"));
+			}
+			if (browserDetails.containsKey("deviceName")) {
+				capabilities.setCapability("deviceName", browserDetails.get("deviceName"));
+			}
+			if (browserDetails.containsKey("deviceOrientation")) {
+				capabilities.setCapability("device-orientation", browserDetails.get("deviceOrientation"));
+			}
+			if (browserDetails.containsKey("devicePlatform")) {
+				capabilities.setCapability(CapabilityType.PLATFORM, browserDetails.get("devicePlatform"));
+			}
+		}
+	}
+
+	private void setupBrowserCapability() throws InvalidBrowserException {
 		switch (browser) { // check our browser
 		case HtmlUnit: {
 			capabilities = DesiredCapabilities.htmlUnitWithJs();
@@ -310,7 +331,7 @@ public class SeleniumHelper {
 	public Browsers getBrowser() {
 		return browser;
 	}
-	
+
 	/**
 	 * a method to allow retreiving our set capabilities
 	 * 
