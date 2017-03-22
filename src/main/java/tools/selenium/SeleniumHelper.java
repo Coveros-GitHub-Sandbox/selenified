@@ -124,193 +124,27 @@ public class SeleniumHelper {
 	public SeleniumHelper(TestOutput output) throws InvalidBrowserException, MalformedURLException {
 		this.output = output;
 
-		setBrowser();
+		browser = SeleniumSetup.setBrowser();
 
 		// are we running remotely on a hub
-		String hubHost = null;
-		String hubPort = null;
-		if (System.getProperty("hubHost") != null && !System.getProperty("hubHost").equals("${hubHost}")) {
-			hubHost = System.getProperty("hubHost");
-		}
-		if (System.getProperty("hubPort") != null && !System.getProperty("hubPort").equals("${hubPort}")) {
-			hubPort = System.getProperty("hubPort");
-		}
-		// if we want to test remotely
-		if (hubHost != null && hubPort != null) {
-			setupBrowserCapability();
+		String hub = null;
+		if (System.getProperty("hub") != null && !System.getProperty("hub").equals("${hub}")) {
+			hub = System.getProperty("hub");
+			capabilities = SeleniumSetup.setupBrowserCapability(browser);
 		}
 
-		setupProxy();
-		setupBrowserDetails();
+		capabilities = SeleniumSetup.setupProxy(capabilities);
+		capabilities = SeleniumSetup.setupBrowserDetails(capabilities);
 
 		// if we want to test remotely
-		if (hubHost != null && hubPort != null) {
-			driver = new RemoteWebDriver(new URL(hubHost + ":" + hubPort + "/wd/hub"), capabilities);
+		if (hub != null) {
+			driver = new RemoteWebDriver(new URL(hub + "/wd/hub"), capabilities);
 		} else {
-			// check our browser
-			switch (browser) {
-			case HtmlUnit: {
-				driver = new HtmlUnitDriver(capabilities);
-				break;
-			}
-			case Firefox: {
-				FirefoxDriverManager.getInstance().setup();
-				driver = new FirefoxDriver(capabilities);
-				break;
-			}
-			case Marionette: {
-				FirefoxDriverManager.getInstance().setup();
-				driver = new MarionetteDriver(capabilities);
-				break;
-			}
-			case Chrome: {
-				ChromeDriverManager.getInstance().setup();
-				driver = new ChromeDriver(capabilities);
-				break;
-			}
-			case InternetExplorer: {
-				InternetExplorerDriverManager.getInstance().setup();
-				driver = new InternetExplorerDriver(capabilities);
-				break;
-			}
-			case Edge: {
-				EdgeDriverManager.getInstance().setup();
-				driver = new EdgeDriver(capabilities);
-				break;
-			}
-			case Safari: {
-				driver = new SafariDriver(capabilities);
-				break;
-			}
-			case Opera: {
-				OperaDriverManager.getInstance().setup();
-				driver = new OperaDriver(capabilities);
-				break;
-			}
-			// if our browser is not listed, throw an error
-			default: {
-				throw new InvalidBrowserException("The selected browser " + browser);
-			}
-			}
 			capabilities.setJavascriptEnabled(true);
+			driver = SeleniumSetup.setupDriver(browser, capabilities);
 		}
 		// driver.manage().window().maximize();
 		output.setSelHelper(this);
-	}
-
-	private void setupProxy() {
-		// are we running through a proxy
-		String proxyHost = null;
-		String proxyPort = null;
-		if (System.getProperty("proxyHost") != null && !System.getProperty("proxyHost").equals("${proxyHost}")) {
-			proxyHost = System.getProperty("proxyHost");
-		}
-		if (System.getProperty("proxyPort") != null && !System.getProperty("proxyPort").equals("${proxyPort}")) {
-			proxyPort = System.getProperty("proxyPort");
-		}
-		// if we want to run things through a proxy
-		if (proxyHost != null && proxyPort != null) {
-			// get our proxy information
-			Proxy proxy = new Proxy();
-			proxy.setHttpProxy(proxyHost + ":" + proxyPort);
-			capabilities.setCapability(CapabilityType.PROXY, proxy);
-		}
-	}
-
-	private boolean areBrowserDetailsSet() {
-		return (!System.getProperty("browser").chars().allMatch(Character::isLetter));
-
-	}
-
-	private void setBrowser() {
-		if (!areBrowserDetailsSet()) {
-			browser = Browsers.valueOf(System.getProperty("browser"));
-		} else {
-			Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
-			if (browserDetails.containsKey("browserName")) {
-				browser = Browsers.valueOf(browserDetails.get("browserName"));
-			}
-		}
-	}
-
-	private void setupBrowserDetails() {
-		// determine our browser information
-		if (areBrowserDetailsSet()) {
-			Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
-			if (browserDetails.containsKey("browserName")) {
-				capabilities.setCapability(CapabilityType.BROWSER_NAME, browserDetails.get("browserName"));
-			}
-			if (browserDetails.containsKey("browserVersion")) {
-				capabilities.setCapability(CapabilityType.VERSION, browserDetails.get("browserVersion"));
-			}
-			if (browserDetails.containsKey("deviceName")) {
-				capabilities.setCapability("deviceName", browserDetails.get("deviceName"));
-			}
-			if (browserDetails.containsKey("deviceOrientation")) {
-				capabilities.setCapability("device-orientation", browserDetails.get("deviceOrientation"));
-			}
-			if (browserDetails.containsKey("devicePlatform")) {
-				capabilities.setCapability(CapabilityType.PLATFORM, browserDetails.get("devicePlatform"));
-			}
-		}
-	}
-
-	private void setupBrowserCapability() throws InvalidBrowserException {
-		switch (browser) { // check our browser
-		case HtmlUnit: {
-			capabilities = DesiredCapabilities.htmlUnitWithJs();
-			break;
-		}
-		case Firefox: {
-			capabilities = DesiredCapabilities.firefox();
-			break;
-		}
-		case Marionette: {
-			capabilities = DesiredCapabilities.firefox();
-			capabilities.setCapability("marionette", true);
-			break;
-		}
-		case Chrome: {
-			capabilities = DesiredCapabilities.chrome();
-			break;
-		}
-		case InternetExplorer: {
-			capabilities = DesiredCapabilities.internetExplorer();
-			break;
-		}
-		case Edge: {
-			capabilities = DesiredCapabilities.edge();
-			break;
-		}
-		case Android: {
-			capabilities = DesiredCapabilities.android();
-			break;
-		}
-		case Iphone: {
-			capabilities = DesiredCapabilities.iphone();
-			break;
-		}
-		case Ipad: {
-			capabilities = DesiredCapabilities.ipad();
-			break;
-		}
-		case Safari: {
-			capabilities = DesiredCapabilities.safari();
-			break;
-		}
-		case Opera: {
-			capabilities = DesiredCapabilities.operaBlink();
-			break;
-		}
-		case PhantomJS: {
-			capabilities = DesiredCapabilities.phantomjs();
-			break;
-		}
-		// if our browser is not listed, throw an error
-		default: {
-			throw new InvalidBrowserException("The selected browser " + browser);
-		}
-		}
 	}
 
 	/**
