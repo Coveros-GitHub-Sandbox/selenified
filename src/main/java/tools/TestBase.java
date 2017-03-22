@@ -97,10 +97,6 @@ public class TestBase {
 		if (System.getProperty("browser") == null || System.getProperty("browser").equals("${browser}")) {
 			System.setProperty("browser", Browsers.HtmlUnit.toString());
 		}
-		// see if we are using a Selenium hub
-		if (System.getProperty("hubAddress") == null || System.getProperty("hubAddress").equals("${hubAddress}")) {
-			System.setProperty("hubAddress", "LOCAL");
-		}
 		// check to see if we are passing in a site address
 		if (System.getProperty("appURL") != null && !System.getProperty("appURL").equals("${appURL}")) {
 			testSite = System.getProperty("appURL");

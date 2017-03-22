@@ -3,6 +3,7 @@ package unit;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -161,4 +162,17 @@ public class GeneralTest {
 		Assert.assertEquals(General.capitalizeFirstLetters("hello123world"), "Hello123World");
 		Assert.assertEquals(General.capitalizeFirstLetters("helloWorld123"), "HelloWorld123");
 	}
+	
+	@Test
+    public void parseMapTest() {
+        Map<String, String> map = General.parseMap("A=B&C=D&E=F");
+        Assert.assertTrue(map.containsKey("A"));
+        Assert.assertEquals("B", map.get("A"));
+
+        Assert.assertTrue(map.containsKey("C"));
+        Assert.assertEquals("D", map.get("C"));
+
+        Assert.assertTrue(map.containsKey("E"));
+        Assert.assertEquals("F", map.get("E"));
+    }
 }
