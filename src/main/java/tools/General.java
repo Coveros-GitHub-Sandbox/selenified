@@ -99,19 +99,6 @@ public class General {
 	}
 
 	/**
-	 * A function to right pad the input value with zeros
-	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
-	 * @return string: the input supplied with zeros on the right
-	 */
-	public static String padRightZeros(int input, int length) {
-		return padRight(String.valueOf(input), length, "0");
-	}
-
-	/**
 	 * A function to right pad the input value with a value
 	 * 
 	 * @param input:
@@ -167,19 +154,6 @@ public class General {
 	 * @return string: the input supplied with zeros on the left
 	 */
 	public static String padLeftZeros(long input, int length) {
-		return padLeft(String.valueOf(input), length, "0");
-	}
-
-	/**
-	 * A function to left pad the input value with zeros
-	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
-	 * @return string: the input supplied with zeros on the left
-	 */
-	public static String padLeftZeros(int input, int length) {
 		return padLeft(String.valueOf(input), length, "0");
 	}
 

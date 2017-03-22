@@ -60,26 +60,4 @@ public class GeneralFunctions {
 		assertEquals("Detailed results found at: " + output.getFileName(), "0 errors",
 				Integer.toString(errors) + " errors");
 	}
-
-	public String getMethodName(StackTraceElement e[]) {
-		boolean doNext = false;
-		for (StackTraceElement s : e) {
-			if (doNext) {
-				return s.getMethodName();
-			}
-			doNext = s.getMethodName().equals("getStackTrace");
-		}
-		return "UNKOWN";
-	}
-
-	public String getClassName(StackTraceElement e[]) {
-		boolean doNext = false;
-		for (StackTraceElement s : e) {
-			if (doNext) {
-				return s.getClassName();
-			}
-			doNext = s.getClassName().equals("getStackTrace");
-		}
-		return "UNKOWN";
-	}
 }
