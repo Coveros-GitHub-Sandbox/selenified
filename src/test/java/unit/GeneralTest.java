@@ -23,6 +23,14 @@ public class GeneralTest {
 		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/samples")),
 				Arrays.asList("./src/test/java/samples/SampleIT.java"));
 	}
+	
+	@Test
+	public void listFilesForFolderDirectoryTest() {
+		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java")).size(), 3 );
+		Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("./src/test/java/locators/Sample.xml"));
+		Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("./src/test/java/samples/SampleIT.java"));
+		Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("./src/test/java/unit/GeneralTest.java"));
+	}
 
 	@Test
 	public void padRightSpaceTest() {
@@ -129,7 +137,7 @@ public class GeneralTest {
 		Assert.assertTrue(General.doesArrayContain(strings, "hello"));
 		Assert.assertFalse(General.doesArrayContain(strings, "HELLO"));
 		Assert.assertFalse(General.doesArrayContain(strings, ""));
-		
+
 		Object integers[] = { 0, 1, 2, 3 };
 		Assert.assertTrue(General.doesArrayContain(integers, 0));
 		Assert.assertFalse(General.doesArrayContain(integers, "HELLO"));
