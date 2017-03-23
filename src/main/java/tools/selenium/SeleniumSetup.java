@@ -185,7 +185,7 @@ public class SeleniumSetup {
 		}
 		// if our browser is not listed, throw an error
 		default: {
-			throw new InvalidBrowserException("The selected browser " + browser);
+			throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
 		}
 		}
 		return driver;

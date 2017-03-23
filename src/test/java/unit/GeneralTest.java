@@ -27,10 +27,12 @@ public class GeneralTest {
 	
 	@Test
 	public void listFilesForFolderDirectoryTest() {
-		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java")).size(), 3 );
+		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java")).size(), 5 );
 		Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("./src/test/java/locators/Sample.xml"));
 		Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("./src/test/java/samples/SampleIT.java"));
+		Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("./src/test/java/unit/ExceptionTest.java"));
 		Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("./src/test/java/unit/GeneralTest.java"));
+		Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("./src/test/java/unit/SeleniumSetupTest.java"));
 	}
 
 	@Test
@@ -187,17 +189,17 @@ public class GeneralTest {
 		Assert.assertEquals(General.capitalizeFirstLetters("hello123world"), "Hello123World");
 		Assert.assertEquals(General.capitalizeFirstLetters("helloWorld123"), "HelloWorld123");
 	}
-	
+
 	@Test
-    public void parseMapTest() {
-        Map<String, String> map = General.parseMap("A=B&C=D&E=F");
-        Assert.assertTrue(map.containsKey("A"));
-        Assert.assertEquals("B", map.get("A"));
+	public void parseMapTest() {
+		Map<String, String> map = General.parseMap("A=B&C=D&E=F");
+		Assert.assertTrue(map.containsKey("A"));
+		Assert.assertEquals("B", map.get("A"));
 
-        Assert.assertTrue(map.containsKey("C"));
-        Assert.assertEquals("D", map.get("C"));
+		Assert.assertTrue(map.containsKey("C"));
+		Assert.assertEquals("D", map.get("C"));
 
-        Assert.assertTrue(map.containsKey("E"));
-        Assert.assertEquals("F", map.get("E"));
-    }
+		Assert.assertTrue(map.containsKey("E"));
+		Assert.assertEquals("F", map.get("E"));
+	}
 }
