@@ -34,7 +34,7 @@ import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
-
+import org.testng.log4testng.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -52,6 +52,7 @@ import org.openqa.selenium.Cookie;
 import selenified.exceptions.InvalidActionException;
 import selenified.exceptions.InvalidBrowserException;
 import selenified.exceptions.InvalidLocatorTypeException;
+import tools.General;
 import tools.logging.TestOutput;
 import tools.logging.TestOutput.Result;
 
@@ -65,6 +66,8 @@ import tools.logging.TestOutput.Result;
  * @lastupdate 8/29/2016
  */
 public class SeleniumHelper {
+
+	private static final Logger log = Logger.getLogger(General.class);
 
 	// this will be the name of the file we write all commands out to
 	private TestOutput output;
@@ -186,6 +189,7 @@ public class SeleniumHelper {
 		try {
 			driver.get(URL);
 		} catch (Exception e) {
+			log.error(e);
 			output.recordAction(action, expected, "Fail to Load " + URL, Result.FAILURE);
 			output.addError();
 			return 1;
@@ -222,6 +226,7 @@ public class SeleniumHelper {
 		try {
 			Thread.sleep((long) (seconds * 1000));
 		} catch (InterruptedException e) {
+			log.error(e);
 			output.recordAction(action, expected, "Failed to wait " + seconds + " seconds", Result.FAILURE);
 			output.addError();
 			Thread.currentThread().interrupt();
@@ -274,8 +279,8 @@ public class SeleniumHelper {
 					// a drop down.
 				getWebElement(type, locator).getText();
 				break;
-			} catch (NoSuchElementException e) {
-			} catch (StaleElementReferenceException e) {
+			} catch (NoSuchElementException | StaleElementReferenceException e) {
+				log.error(e);
 			}
 		}
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
@@ -643,8 +648,8 @@ public class SeleniumHelper {
 		try {
 			getWebElement(type, locator).getText();
 			isPresent = true;
-		} catch (NoSuchElementException e) {
-		} catch (StaleElementReferenceException e) {
+		} catch (NoSuchElementException | StaleElementReferenceException e) {
+			log.error(e);
 		}
 		if (print) {
 			output.recordExpected("Checking for " + type + " " + locator + " to be present");
@@ -693,6 +698,7 @@ public class SeleniumHelper {
 				isInput = true;
 			}
 		} catch (NoSuchElementException e) {
+			log.error(e);
 		}
 		if (print) {
 			output.recordExpected("Checking for " + type + " " + locator + " to be an input element");
@@ -735,6 +741,7 @@ public class SeleniumHelper {
 		try {
 			isEnabled = getWebElement(type, locator).isEnabled();
 		} catch (NoSuchElementException e) {
+			log.error(e);
 		}
 		if (print) {
 			output.recordExpected("Checking for " + type + " " + locator + " to be enabled");
@@ -777,6 +784,7 @@ public class SeleniumHelper {
 		try {
 			isChecked = getWebElement(type, locator).isSelected();
 		} catch (NoSuchElementException e) {
+			log.error(e);
 		}
 		if (print) {
 			output.recordExpected("Checking for " + type + " " + locator + " to be checked");
@@ -819,6 +827,7 @@ public class SeleniumHelper {
 		try {
 			isDisplayed = getWebElement(type, locator).isDisplayed();
 		} catch (NoSuchElementException e) {
+			log.error(e);
 		}
 		if (print) {
 			output.recordExpected("Checking for " + type + " " + locator + " to be displayed");
@@ -1911,7 +1920,7 @@ public class SeleniumHelper {
 			// now we need to save the file
 			FileUtils.copyFile(srcFile, new File(imageName));
 		} catch (Exception e) {
-			System.out.println("Error taking screenshot:" + e.getMessage());
+			log.error("Error taking screenshot: " + e);
 		}
 	}
 
@@ -1941,6 +1950,7 @@ public class SeleniumHelper {
 			driver.switchTo().alert();
 			isPresent = true;
 		} catch (NoAlertPresentException e) {
+			log.error(e);
 		}
 		if (print) {
 			output.recordExpected("Checking for alert to be present");
@@ -1978,6 +1988,7 @@ public class SeleniumHelper {
 				driver.switchTo().alert();
 				break;
 			} catch (NoAlertPresentException e) {
+				log.error(e);
 			}
 		}
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
@@ -2033,6 +2044,7 @@ public class SeleniumHelper {
 			driver.switchTo().alert();
 			isPresent = true;
 		} catch (NoAlertPresentException e) {
+			log.error(e);
 		}
 		if (print) {
 			output.recordExpected("Checking for confirmation to be present");
@@ -2070,6 +2082,7 @@ public class SeleniumHelper {
 				driver.switchTo().alert();
 				break;
 			} catch (NoAlertPresentException e) {
+				log.error(e);
 			}
 		}
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
@@ -2125,6 +2138,7 @@ public class SeleniumHelper {
 			driver.switchTo().alert();
 			isPresent = true;
 		} catch (NoAlertPresentException e) {
+			log.error(e);
 		}
 		if (print) {
 			output.recordExpected("Checking for prompt to be present");
@@ -2162,6 +2176,7 @@ public class SeleniumHelper {
 				driver.switchTo().alert();
 				break;
 			} catch (NoAlertPresentException e) {
+				log.error(e);
 			}
 		}
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
