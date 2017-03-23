@@ -7,8 +7,8 @@ import org.testng.TestListenerAdapter;
 import tools.logging.TestOutput.Result;
 
 public class Listener extends TestListenerAdapter {
-
-	public static final General gen = new General();
+	
+	//TODO - set folder to relative, instead of absolute
 
 	@Override
 	public void onTestFailure(ITestResult test) {
