@@ -38,18 +38,20 @@ public class SeleniumSetup {
 	}
 
 	public static boolean areBrowserDetailsSet() {
-		return !System.getProperty("browser").chars().allMatch(Character::isLetter);
-
+		return System.getProperty("browser") != null && !System.getProperty("browser").equals("${browser}") && 
+				!System.getProperty("browser").chars().allMatch(Character::isLetter);
 	}
 
 	public static Browsers setBrowser() {
 		Browsers browser = null;
-		if (!areBrowserDetailsSet()) {
-			browser = Browsers.valueOf(System.getProperty("browser"));
-		} else {
-			Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
-			if (browserDetails.containsKey("browserName")) {
-				browser = Browsers.valueOf(browserDetails.get("browserName"));
+		if( System.getProperty("browser") != null && !System.getProperty("browser").equals("${browser}") ) {
+			if (!areBrowserDetailsSet()) {
+				browser = Browsers.valueOf(System.getProperty("browser"));
+			} else {
+				Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
+				if (browserDetails.containsKey("browserName")) {
+					browser = Browsers.valueOf(browserDetails.get("browserName"));
+				}
 			}
 		}
 		return browser;
@@ -188,5 +190,4 @@ public class SeleniumSetup {
 		}
 		return driver;
 	}
-
 }
