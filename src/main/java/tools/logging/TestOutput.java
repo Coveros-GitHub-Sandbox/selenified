@@ -54,7 +54,6 @@ import tools.selenium.SeleniumHelper.Locators;
  */
 public class TestOutput {
 
-	public General gen = new General();
 	private static final Logger log = Logger.getLogger(General.class);
 
 	private SeleniumHelper selHelper;
@@ -1452,7 +1451,7 @@ public class TestOutput {
 		Set<String> keys = attributes.keySet();
 		String[] array = keys.toArray(new String[keys.size()]);
 		// record our action
-		if (gen.doesArrayContain(array, attribute)) {
+		if (General.doesArrayContain(array, attribute)) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>"
 					+ attribute + "</b>", Success.PASS);
 			return 0;
@@ -1491,7 +1490,7 @@ public class TestOutput {
 		Set<String> keys = attributes.keySet();
 		String[] array = keys.toArray(new String[keys.size()]);
 		// record our action
-		if (gen.doesArrayContain(array, attribute)) {
+		if (General.doesArrayContain(array, attribute)) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>"
 					+ attribute + "</b>", Success.FAIL);
 			addError();
@@ -2027,7 +2026,7 @@ public class TestOutput {
 			addError();
 			return 1;
 		}
-		if (gen.doesArrayContain(elementValues, selectValue)) {
+		if (General.doesArrayContain(elementValues, selectValue)) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> contains the value of <b>" + selectValue
 					+ "</b>", Success.PASS);
 			return 0;
@@ -2089,7 +2088,7 @@ public class TestOutput {
 			addError();
 			return 1;
 		}
-		if (gen.doesArrayContain(elementValues, selectValue)) {
+		if (General.doesArrayContain(elementValues, selectValue)) {
 			recordActual("The element  with " + type + " <i>" + locator + "</i> contains the value of <b>" + selectValue
 					+ "</b>", Success.FAIL);
 			addError();

@@ -54,7 +54,7 @@ public class TestBase {
 	protected static String version;
 
 	@DataProvider(name = "no options", parallel = true)
-	public Object[][] NoOptions() {
+	public Object[][] noOptions() {
 		return new Object[][] { new Object[] { "" }, };
 	}
 
@@ -94,15 +94,15 @@ public class TestBase {
 
 	protected static void initializeSystem() {
 		// check our browser
-		if (System.getProperty("browser") == null || System.getProperty("browser").equals("${browser}")) {
+		if (System.getProperty("browser") == null || "${browser}".equals(System.getProperty("browser"))) {
 			System.setProperty("browser", Browsers.HtmlUnit.toString());
 		}
 		// see if we are using a Selenium hub
-		if (System.getProperty("hubAddress") == null || System.getProperty("hubAddress").equals("${hubAddress}")) {
+		if (System.getProperty("hubAddress") == null || "${hubAddress}".equals(System.getProperty("hubAddress"))) {
 			System.setProperty("hubAddress", "LOCAL");
 		}
 		// check to see if we are passing in a site address
-		if (System.getProperty("appURL") != null && !System.getProperty("appURL").equals("${appURL}")) {
+		if (System.getProperty("appURL") != null && !"${appURL}".equals(System.getProperty("appURL"))) {
 			testSite = System.getProperty("appURL");
 		}
 	}
@@ -149,17 +149,6 @@ public class TestBase {
 	@AfterMethod(alwaysRun = true)
 	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
 		String testLink = getTestName(method, dataProvider);
-		String testName = method.getName();
-		if (dataProvider != null) {
-			testName += " : ";
-			for (Object data : dataProvider) {
-				if (data == null || data.toString().startsWith("public")) {
-					break;
-				}
-				testName += data.toString() + ", ";
-			}
-			testName.substring(0, testName.length() - 2);
-		}
 		if (test.getAttribute(testLink + "SelHelper") != null) {
 			SeleniumHelper selHelper = (SeleniumHelper) test.getAttribute(testLink + "SelHelper");
 			selHelper.killDriver();

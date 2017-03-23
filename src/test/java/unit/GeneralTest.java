@@ -14,12 +14,16 @@ public class GeneralTest {
 	public void listFilesForFolderTest() {
 		Assert.assertEquals(General.listFilesForFolder(null), new ArrayList<String>());
 		Assert.assertEquals(General.listFilesForFolder(new File("/bad-folder")), new ArrayList<String>());
-		Assert.assertEquals(General.listFilesForFolder(new File("src/test/java/locators")), Arrays.asList("src/test/java/locators/Sample.xml"));
-		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators")), Arrays.asList("./src/test/java/locators/Sample.xml"));
-		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators/")), Arrays.asList("./src/test/java/locators/Sample.xml"));
-		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/samples")), Arrays.asList("./src/test/java/samples/SampleIT.java"));
+		Assert.assertEquals(General.listFilesForFolder(new File("src/test/java/locators")),
+				Arrays.asList("src/test/java/locators/Sample.xml"));
+		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators")),
+				Arrays.asList("./src/test/java/locators/Sample.xml"));
+		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators/")),
+				Arrays.asList("./src/test/java/locators/Sample.xml"));
+		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/samples")),
+				Arrays.asList("./src/test/java/samples/SampleIT.java"));
 	}
-	
+
 	@Test
 	public void padRightSpaceTest() {
 		Assert.assertEquals(General.padRightSpace(null, 0), "");
@@ -117,6 +121,19 @@ public class GeneralTest {
 	public void getRandomIntTest() {
 		Assert.assertEquals(General.getRandomInt().length(), 9);
 		Assert.assertTrue(General.getRandomInt().matches("^[0-9]{9}$"));
+	}
+
+	@Test
+	public void doesArrayContainTest() {
+		String strings[] = { "hello", "world" };
+		Assert.assertTrue(General.doesArrayContain(strings, "hello"));
+		Assert.assertFalse(General.doesArrayContain(strings, "HELLO"));
+		Assert.assertFalse(General.doesArrayContain(strings, ""));
+		
+		Object integers[] = { 0, 1, 2, 3 };
+		Assert.assertTrue(General.doesArrayContain(integers, 0));
+		Assert.assertFalse(General.doesArrayContain(integers, "HELLO"));
+		Assert.assertFalse(General.doesArrayContain(integers, 4));
 	}
 
 	@Test

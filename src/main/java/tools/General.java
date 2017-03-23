@@ -257,6 +257,14 @@ public class General {
 		return value.replaceAll("[^a-zA-Z0-9]+", "");
 	}
 
+	public static boolean doesArrayContain(String[] array, String value) {
+		return Arrays.asList(array).contains(value);
+	}
+
+	public static boolean doesArrayContain(Object[] array, Object value) {
+		return Arrays.asList(array).contains(value);
+	}
+
 	/**
 	 * A function to reverse a string
 	 * 
