@@ -132,7 +132,7 @@ public class TestBase {
 		if (selenium) {
 			SeleniumHelper selHelper;
 			try {
-				selHelper = new SeleniumHelper(output);
+				selHelper = new SeleniumHelper(output, testName);
 				test.setAttribute(testName + "SelHelper", selHelper);
 			} catch (InvalidBrowserException | MalformedURLException e) {
 				log.error(e);

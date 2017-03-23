@@ -121,7 +121,7 @@ public class SeleniumHelper {
 	 * @throws InvalidBrowserException
 	 * @throws MalformedURLException
 	 */
-	public SeleniumHelper(TestOutput output) throws InvalidBrowserException, MalformedURLException {
+	public SeleniumHelper(TestOutput output, String testName) throws InvalidBrowserException, MalformedURLException {
 		this.output = output;
 
 		browser = SeleniumSetup.setBrowser();
@@ -135,6 +135,7 @@ public class SeleniumHelper {
 
 		capabilities = SeleniumSetup.setupProxy(capabilities);
 		capabilities = SeleniumSetup.setupBrowserDetails(capabilities);
+		capabilities.setCapability("name", testName);
 
 		// if we want to test remotely
 		if (hub != null) {
