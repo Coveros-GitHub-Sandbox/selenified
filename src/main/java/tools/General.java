@@ -20,27 +20,14 @@
 
 package tools;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import org.testng.log4testng.Logger;
-
 public class General {
-
-	GeneralFunctions gen = new GeneralFunctions();
-	private static final Logger log = Logger.getLogger(General.class);
 
 	/**
 	 * a method to recursively retrieve all the files in a folder
@@ -257,10 +244,28 @@ public class General {
 		return value.replaceAll("[^a-zA-Z0-9]+", "");
 	}
 
+	/**
+	 * A function to determine if a value is present in an array
+	 * 
+	 * @param array
+	 *            - the array to check for values
+	 * @param value
+	 *            - value to check for in the array
+	 * @return boolean
+	 */
 	public static boolean doesArrayContain(String[] array, String value) {
 		return Arrays.asList(array).contains(value);
 	}
 
+	/**
+	 * A function to determine if a value is present in an array
+	 * 
+	 * @param array
+	 *            - the array to check for values
+	 * @param value
+	 *            - value to check for in the array
+	 * @return boolean
+	 */
 	public static boolean doesArrayContain(Object[] array, Object value) {
 		return Arrays.asList(array).contains(value);
 	}
