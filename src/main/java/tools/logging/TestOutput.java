@@ -752,6 +752,7 @@ public class TestOutput {
 		try {
 			selHelper.takeScreenshot(imageName);
 		} catch (Exception e1) {
+			log.error(e1);
 			imageLink = "<br><b><font color=red>No Screenshot Available</font></b>";
 		}
 		return imageLink;
