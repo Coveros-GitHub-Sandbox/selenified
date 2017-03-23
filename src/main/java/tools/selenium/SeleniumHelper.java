@@ -115,7 +115,7 @@ public class SeleniumHelper {
 
 		// are we running remotely on a hub
 		String hub = null;
-		if (System.getProperty("hub") != null && !System.getProperty("hub").equals("${hub}")) {
+		if (System.getProperty("hub") != null) {
 			hub = System.getProperty("hub");
 			capabilities = SeleniumSetup.setupBrowserCapability(browser);
 		}

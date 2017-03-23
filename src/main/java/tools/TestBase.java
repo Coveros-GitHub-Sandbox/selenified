@@ -94,11 +94,11 @@ public class TestBase {
 
 	protected static void initializeSystem() {
 		// check our browser
-		if (System.getProperty("browser") == null || "${browser}".equals(System.getProperty("browser"))) {
+		if (System.getProperty("browser") == null) {
 			System.setProperty("browser", Browsers.HtmlUnit.toString());
 		}
 		// check to see if we are passing in a site address
-		if (System.getProperty("appURL") != null && !"${appURL}".equals(System.getProperty("appURL"))) {
+		if (System.getProperty("appURL") != null) {
 			testSite = System.getProperty("appURL");
 		}
 	}

@@ -28,7 +28,7 @@ public class SeleniumSetup {
 
 	public static DesiredCapabilities setupProxy(DesiredCapabilities capabilities) {
 		// are we running through a proxy
-		if (System.getProperty("proxy") != null && !System.getProperty("proxy").equals("${proxy}")) {
+		if (System.getProperty("proxy") != null) {
 			// set our proxy information
 			Proxy proxy = new Proxy();
 			proxy.setHttpProxy(System.getProperty("proxy"));
@@ -38,13 +38,13 @@ public class SeleniumSetup {
 	}
 
 	public static boolean areBrowserDetailsSet() {
-		return System.getProperty("browser") != null && !System.getProperty("browser").equals("${browser}") && 
+		return System.getProperty("browser") != null &&
 				!System.getProperty("browser").chars().allMatch(Character::isLetter);
 	}
 
 	public static Browsers setBrowser() {
 		Browsers browser = null;
-		if( System.getProperty("browser") != null && !System.getProperty("browser").equals("${browser}") ) {
+		if (System.getProperty("browser") != null) {
 			if (!areBrowserDetailsSet()) {
 				browser = Browsers.valueOf(System.getProperty("browser"));
 			} else {
