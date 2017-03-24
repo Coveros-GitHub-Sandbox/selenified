@@ -15,18 +15,18 @@ import tools.selenium.SeleniumSetup;
 public class SeleniumSetupTest {
 
     private DesiredCapabilities capabilities = new DesiredCapabilities();
-    private String setBrowser;
+    private String setBrowser = null;
 
     @BeforeClass
     public void saveBrowser() {
-        if (!System.getProperty("browser").isEmpty()) {
+        if (System.getProperty("browser") != null ) {
             setBrowser = System.getProperty("browser");
         }
     }
 
     @AfterClass
     public void restoreBrowser() {
-        if (!setBrowser.isEmpty()) {
+        if (setBrowser != null) {
             System.setProperty("browser", setBrowser);
         }
     }
