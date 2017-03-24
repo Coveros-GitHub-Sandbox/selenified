@@ -1,4 +1,4 @@
-# Selenified Testing Framework™
+# Selenified Testing Framework
 
 ## Writing Tests
 ###Create A New Test Suite
