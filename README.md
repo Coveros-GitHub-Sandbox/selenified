@@ -68,12 +68,29 @@ Finally, in order to track errors within the tests, the last step of each test i
 
 If a class has multiple tests that are similar, but simply require one or two different inputs, a dataProvider should be used. Instead of writing multiple tests, one test can be written instead. This will reduce the amount of code being written, and make updates quicker and cleaner. A full example test can be seen in the included SampleTests.java class in the framework.
 
-###Update testng.xml
-When tests are executed via Ant, the build file testng.xml dictates which tests to execute. When a new package, class or method is added to the test suite, they need to be included in the XML file if you want them to run. More details on how to update this file can be found on the ​TestNG Documentation site.
+###Update testng build file
+When tests are executed from the commandline, the build file dictates which tests to execute. When a new package, class or method is added to the test suite, they need to be included in the XML file if you want them to run. More details on how to update this file can be found on the [​TestNG Documentation site](http://testng.org/doc/documentation-main.html#testng-xml).
 
 ## Configuring within an IDE
 ### Eclipse
 Coming Soon
+### IntelliJ
+#### Clone from GitHub
+Select `File -> New -> Project From Version Control -> GitHub`, then log in to your github account.
+Enter `https://github.com/msaperst/selenified-testing-framework.git` as the project location.
+#### With code already cloned locally
+Select ```File -> New -> Project From Existing Sources```.
+Navigate to wherever you cloned the project, and select OK
+
+Click OK to open the project.
+Right click on `pom.xml`
+Select `Add as Maven Project`
+
+#### You might need to select a Module SDK
+Right click on the project
+Select `Open Module Settings` or click F4
+Click the dependencies tab
+Select 1.8 as the Module SDK
 
 ## Running Tests
 ### Parameters
@@ -83,6 +100,7 @@ As the Selenified Testing Framework is built on top of TestNG, it follows the te
 ```
 -Dtest-suite=my-test-suite.xml
 ```
+There is a sample testng build file included named `sample.xml` which points to the included sample tests
 #### Application URL
 This is the default URL that all tests should run against. This value can be overridden in each test, class, or even suite (see below).
 ```
@@ -111,8 +129,7 @@ If this is specified, then the tests will be run through a proxy server at the s
 ```
 
 ### Eclipse
-#### TestNG
-Open up the Eclipse IDE. Expand the project in the left side navigational panel. Right-click on the Java file containing the tests (for our example it is SampleTests.java) and select the Run As menu item, and click on the TestNG Test sub-item. This will launch the tests.
+Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is SampleTests.java), and select the Run As menu item, and click on the TestNG Test sub-item. This will launch the tests.
 
 Once the tests have completed running, TestNG results will be displayed under the TestNG tab at the lower section of the screen.
 
@@ -120,21 +137,44 @@ If you want to provide inputs to the tests being run, when right clicking on the
 ```
 -Dtest-suite=smoke.xml -appURL=www.google.com -Dbrowser=Chrome -Dhub=localhost -Dproxy=localhost:8082
 ```
-#### Ant
-Open up the Eclipse IDE. Expand the project in the left side navigational panel. Right-click on the build.xml file and select the Run As menu item, and click on the Ant-Build sub-item. This will launch the tests.
+### IntelliJ
+Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is SampleTests.java), and select the Run (package, class, or method) menu item. This will launch the tests.
 
-If you want to provide inputs to the tests being run, when right clicking on the build.xml file select the Ant Build... sub-item. On the option screen, select the Main tab on the upper left of the screen. In the Arguments input area, enter in the feature file to be tested as below:
+If you want to provide inputs to the tests being run, select Run -> Edit Configurations... from the top menu. On the option menu, under JDK Settings tab, add your options into the VM options field as below:
 ```
 -Dtest-suite=./suites/regression.xml -appURL=google.com -Dbrowser=InternetExplorer -Dhub=192.168.1.10
 ```
-#### Maven
-TBD
-#### Gradle
-TBD
+You can enter these values under either your already created tests, or as the default, if you want all tests to use them.
 
 ### Command Line
 #### TestNG
-Coming Soon
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the cd command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+``` 
+rm -rf bin/*
+```
+Create a directory for your dependencies, and download all of the required dependencies.
+```
+mkdir target/dependency
+cd target/dependency
+wget http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-java/2.53.1/selenium-java-2.53.1.jar
+wget http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-server/2.53.1/selenium-server-2.53.1.jar
+wget http://central.maven.org/maven2/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar
+wget http://central.maven.org/maven2/org/testng/testng/6.10/testng-6.10.jar
+wget http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-htmlunit-driver/2.52.0/selenium-htmlunit-driver-2.52.0.jar
+wget http://central.maven.org/maven2/org/slf4j/slf4j-simple/1.7.23/slf4j-simple-1.7.23.jar
+```
+Create the folder to hold our compiled classes
+```
+mkdir bin
+```
+Compile your tests
+```
+javac  -cp "target/dependency/*" -d bin test/*.java
+```
+Finally, launch your tests
+```
+java -cp "bin;target/dependency/*" -DappURL=http://localhost/ org.testng.TestNG sample.xml
+```
 #### Ant
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the cd command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
 ```
@@ -142,21 +182,21 @@ ant clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-ant -Dtest-suite=../acceptance.xml -appURL=google.com -Dbrowser=Firefox -DhubAddress=localhost -DproxyServer=localhost -DproxyPort=8080
+ant -Dtest-suite=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
 ```
 The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean test -Dtest-suite=./suites/all.xml -appURL=google.com -Dbrowser=Android -DhubAddress=172.16.3.12 -DproxyServer=172.16.3.12 -DproxyPort=8080
+ant clean test -Dtest-suite=./suites/all.xml -DappURL=google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
-All test results will be stored in the target-output folder.
-
-A replace task also exists to provide easy links in the test reports. This should be executed after the tests are completed.
-```
-ant clean test replace -k -Dtest-suite=./suites/non-destructive.xml -appURL=google.com -Dbrowser=IPhone
-```
-The -k option ensure this task is always run, even if some of the tests fail.
 #### Maven
-TBD
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the cd command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+```
+mvn clean
+```
+Once that completes, run the following command to execute the tests:
+```
+mvn verify -Dtest-suite=../acceptance.xml -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
+```
 #### Gradle
 TBD
 
