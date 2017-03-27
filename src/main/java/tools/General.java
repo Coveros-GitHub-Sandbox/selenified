@@ -46,6 +46,8 @@ public class General {
 			for (final File fileEntry : folder.listFiles()) {
 				if (fileEntry.isDirectory()) {
 					files.addAll(listFilesForFolder(fileEntry));
+				} else if (".DS_Store".equals(fileEntry.getName())) {
+					
 				} else {
 					files.add(fileEntry.getPath());
 				}
