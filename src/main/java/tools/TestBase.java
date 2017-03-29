@@ -84,38 +84,19 @@ public class TestBase {
 			capabilities.add(capability);
 		}
 	}
-
-	protected static String getTestName(Method method, Object... dataProvider) {
-		return getTestName(method.getName(), dataProvider);
-	}
-
-	public static String getTestName(String methodName, Object... dataProvider) {
-		String testName = methodName;
-		if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-				&& !dataProvider[0].toString().startsWith("public")) {
-			testName += "WithOption";
-			for (Object data : dataProvider) {
-				if (data == null || data.toString().startsWith("public")) {
-					break;
-				}
-				testName += General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString()));
-			}
-		}
-		return testName;
-	}
-
+	
 	protected static SeleniumHelper getSelHelper(Method method, ITestContext test, Object... dataProvider) {
-		String testName = getTestName(method, dataProvider);
+		String testName = General.getTestName(method, dataProvider);
 		return (SeleniumHelper) test.getAttribute(testName + "SelHelper");
 	}
 
 	protected static TestOutput getTestOutput(Method method, ITestContext test, Object... dataProvider) {
-		String testName = getTestName(method, dataProvider);
+		String testName = General.getTestName(method, dataProvider);
 		return (TestOutput) test.getAttribute(testName + "Output");
 	}
 
 	protected static int getErrors(Method method, ITestContext test, Object... dataProvider) {
-		String testName = getTestName(method, dataProvider);
+		String testName = General.getTestName(method, dataProvider);
 		return (Integer) test.getAttribute(testName + "Errors");
 	}
 
@@ -136,7 +117,7 @@ public class TestBase {
 
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, boolean selenium)
 			throws IOException {
-		String testName = getTestName(method, dataProvider);
+		String testName = General.getTestName(method, dataProvider);
 		String suite = test.getName();
 		String outputDir = test.getOutputDirectory();
 		String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
@@ -186,7 +167,7 @@ public class TestBase {
 
 	@AfterMethod(alwaysRun = true)
 	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-		String testName = getTestName(method, dataProvider);
+		String testName = General.getTestName(method, dataProvider);
 		if (test.getAttribute(testName + "SelHelper") != null) {
 			SeleniumHelper selHelper = (SeleniumHelper) test.getAttribute(testName + "SelHelper");
 			selHelper.killDriver();

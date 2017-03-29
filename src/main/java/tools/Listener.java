@@ -14,7 +14,7 @@ public class Listener extends TestListenerAdapter {
     }
 
     private static String getTestName(ITestResult result) {
-        return TestBase.getTestName( result.getName(), result.getParameters() );
+        return General.getTestName( result.getName(), result.getParameters() );
     }
 
     @Override

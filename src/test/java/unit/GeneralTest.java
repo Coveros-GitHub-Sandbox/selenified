@@ -6,6 +6,7 @@ import tools.General;
 import tools.selenium.SeleniumSetup;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -195,6 +196,16 @@ public class GeneralTest {
         Assert.assertEquals(General.capitalizeFirstLetters("123helloWorld"), "123HelloWorld");
         Assert.assertEquals(General.capitalizeFirstLetters("hello123world"), "Hello123World");
         Assert.assertEquals(General.capitalizeFirstLetters("helloWorld123"), "HelloWorld123");
+    }
+    
+    @Test
+    public void getTestNameTest(Method method) {
+    	Assert.assertEquals(General.getTestName(method), "getTestNameTest");
+
+    	Assert.assertEquals(General.getTestName("helloWorld"), "helloWorld");
+    	Assert.assertEquals(General.getTestName("helloWorld","python"), "helloWorldWithOptionPython");
+    	Assert.assertEquals(General.getTestName("helloWorld","Python"), "helloWorldWithOptionPython");
+    	Assert.assertEquals(General.getTestName("helloWorld", "Python", "Perl"), "helloWorldWithOptionPythonPerl");
     }
 
     @Test
