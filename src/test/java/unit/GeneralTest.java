@@ -3,18 +3,24 @@ package unit;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tools.General;
+import tools.selenium.SeleniumSetup;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class GeneralTest {
 
     @Test
     public void listFilesForFolderTest() {
+    	Assert.assertTrue(General.listFilesForFolder(null).isEmpty());
         Assert.assertEquals(General.listFilesForFolder(null), new ArrayList<String>());
+        
+        Assert.assertTrue(General.listFilesForFolder(new File("/bad-folder")).isEmpty());
         Assert.assertEquals(General.listFilesForFolder(new File("/bad-folder")), new ArrayList<String>());
+        
         Assert.assertEquals(General.listFilesForFolder(new File("src/test/java/locators")),
                 Arrays.asList("src" + File.separator + "test" + File.separator + "java" + File.separator + "locators" + File.separator + "Sample.xml"));
         Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators")),
@@ -27,12 +33,13 @@ public class GeneralTest {
 
     @Test
     public void listFilesForFolderDirectoryTest() {
-        Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java")).size(), 5);
-        Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "locators" + File.separator + "Sample.xml"));
-        Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "samples" + File.separator + "SampleIT.java"));
-        Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "unit" + File.separator + "ExceptionTest.java"));
-        Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "unit" + File.separator + "GeneralTest.java"));
-        Assert.assertTrue(General.listFilesForFolder(new File("./src/test/java")).contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "unit" + File.separator + "SeleniumSetupTest.java"));
+    	List<String> files = General.listFilesForFolder(new File("./src/test/java"));
+        Assert.assertEquals(files.size(), 5);
+        Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "locators" + File.separator + "Sample.xml"));
+        Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "samples" + File.separator + "SampleIT.java"));
+        Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "unit" + File.separator + "ExceptionTest.java"));
+        Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "unit" + File.separator + "GeneralTest.java"));
+        Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "unit" + File.separator + "SeleniumSetupTest.java"));
     }
 
     @Test

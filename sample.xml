@@ -1,6 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Sample Suite" parallel="methods" thread-count="20" verbose="3" >
+  <listeners>
+    <listener class-name="tools.Transformer" />
+  </listeners>
+
   <test name="Sample Test" >
     <packages>
       <package name="samples" />

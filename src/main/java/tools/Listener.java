@@ -6,7 +6,6 @@ import org.testng.TestListenerAdapter;
 import tools.logging.TestOutput.Result;
 
 import java.io.File;
-import java.lang.reflect.Method;
 
 public class Listener extends TestListenerAdapter {
 
