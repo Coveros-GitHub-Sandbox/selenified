@@ -31,6 +31,8 @@ import tools.selenium.SeleniumHelper;
 import tools.selenium.SeleniumSetup;
 import tools.selenium.SeleniumHelper.Browsers;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -45,11 +47,10 @@ import java.util.Map;
 public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);
-	protected static GeneralFunctions genFun = new GeneralFunctions();
 
 	protected static String testSite = "http://www.google.com/";
 	protected static String version;
-	protected String author = "Max Saperstone";
+	protected static String author = "Max Saperstone";
 
 	// some passed in system params
 	protected static List<Browsers> browsers;
@@ -95,21 +96,6 @@ public class TestBase {
 			}
 			capabilities.add(capability);
 		}
-	}
-
-	protected static SeleniumHelper getSelHelper(Method method, ITestContext test, Object... dataProvider) {
-		String testName = General.getTestName(method, dataProvider);
-		return (SeleniumHelper) test.getAttribute(testName + "SelHelper");
-	}
-
-	protected static TestOutput getTestOutput(Method method, ITestContext test, Object... dataProvider) {
-		String testName = General.getTestName(method, dataProvider);
-		return (TestOutput) test.getAttribute(testName + "Output");
-	}
-
-	protected static int getErrors(Method method, ITestContext test, Object... dataProvider) {
-		String testName = General.getTestName(method, dataProvider);
-		return (Integer) test.getAttribute(testName + "Errors");
 	}
 
 	@DataProvider(name = "no options", parallel = true)
@@ -189,7 +175,10 @@ public class TestBase {
 	}
 
 	protected void finish() throws IOException {
-		genFun.stopTest(this.output.get());
+		TestOutput myOutput = this.output.get();
+		myOutput.endTestTemplateOutputFile();
+		assertEquals("Detailed results found at: " + myOutput.getFileName(), "0 errors",
+				Integer.toString(myOutput.getErrors()) + " errors");
 	}
 
 	@AfterSuite(alwaysRun = true)
