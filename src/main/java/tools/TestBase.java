@@ -51,20 +51,25 @@ public class TestBase {
 	protected static String version;
 	protected String author = "Max Saperstone";
 
+	// some passed in system params
 	protected static List<Browsers> browsers;
 	protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
-	
-	// for our individual tests
+
+	// for individual tests
 	protected ThreadLocal<Browsers> browser = new ThreadLocal<>();
 	protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
 	protected ThreadLocal<TestOutput> output = new ThreadLocal<>();
 	protected ThreadLocal<SeleniumHelper> selHelper = new ThreadLocal<>();
 	protected ThreadLocal<Integer> errors = new ThreadLocal<>();
-	
+
+	// constants
+	private static final String BROWSER_INPUT = "browser";
+	private static final String INVOCATION_COUNT = "InvocationCount";
+
 	protected static void initializeSystem() {
 		// check our browser
-		if (System.getProperty("browser") == null) {
-			System.setProperty("browser", Browsers.HtmlUnit.toString());
+		if (System.getProperty(BROWSER_INPUT) == null) {
+			System.setProperty(BROWSER_INPUT, Browsers.HtmlUnit.toString());
 		}
 		// check to see if we are passing in a site address
 		if (System.getProperty("appURL") != null) {
@@ -85,13 +90,13 @@ public class TestBase {
 			}
 			capability = SeleniumSetup.setupProxy(capability);
 			if (SeleniumSetup.areBrowserDetailsSet()) {
-				Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
+				Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
 				capability = SeleniumSetup.setupBrowserDetails(capability, browserDetails);
 			}
 			capabilities.add(capability);
 		}
 	}
-	
+
 	protected static SeleniumHelper getSelHelper(Method method, ITestContext test, Object... dataProvider) {
 		String testName = General.getTestName(method, dataProvider);
 		return (SeleniumHelper) test.getAttribute(testName + "SelHelper");
@@ -118,12 +123,13 @@ public class TestBase {
 	}
 
 	@BeforeMethod(alwaysRun = true)
-	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
+	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result)
+			throws IOException {
 		startTest(dataProvider, method, test, result, true);
 	}
 
-	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result, boolean selenium)
-			throws IOException {
+	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
+			boolean selenium) throws IOException {
 		String testName = General.getTestName(method, dataProvider);
 		String suite = test.getName();
 		String outputDir = test.getOutputDirectory();
@@ -144,36 +150,32 @@ public class TestBase {
 			group = group.substring(1, group.length() - 1);
 		}
 
-		if (test.getAttribute(testName + "InvocationCount") == null) {
-			test.setAttribute(testName + "InvocationCount", 0);
+		if (test.getAttribute(testName + INVOCATION_COUNT) == null) {
+			test.setAttribute(testName + INVOCATION_COUNT, 0);
 		}
-		int invocationCount = (int) test.getAttribute(testName + "InvocationCount");
-		
-		Browsers browser = browsers.get(invocationCount);
-		this.browser.set(browser);
-		result.setAttribute("browser", browser);
-		
-		DesiredCapabilities capability = capabilities.get(invocationCount);
-		capability.setCapability("name", testName);
-		this.capability.set(capability);
+		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
-		TestOutput output = new TestOutput(testName, browser, outputDir, testSite, suite, General.wordToSentence(group),
-				lastModified, version, author, description);
+		Browsers myBrowser = browsers.get(invocationCount);
+		this.browser.set(myBrowser);
+		result.setAttribute(BROWSER_INPUT, myBrowser);
+
+		DesiredCapabilities myCapability = capabilities.get(invocationCount);
+		myCapability.setCapability("name", testName);
+		this.capability.set(myCapability);
+
+		TestOutput myOutput = new TestOutput(testName, myBrowser, outputDir, testSite, suite,
+				General.wordToSentence(group), lastModified, version, author, description);
 		long time = (new Date()).getTime();
-		output.setStartTime(time);
+		myOutput.setStartTime(time);
 		if (selenium) {
-			SeleniumHelper selHelper;
-
 			try {
-				selHelper = new SeleniumHelper(browser, capability, output);
-				this.selHelper.set(selHelper);
+				this.selHelper.set(new SeleniumHelper(myBrowser, myCapability, myOutput));
 			} catch (InvalidBrowserException | MalformedURLException e) {
 				log.error(e);
 			}
 		}
-		this.output.set(output);
-		int errors = output.startTestTemplateOutputFile(selenium);
-		this.errors.set(errors);
+		this.output.set(myOutput);
+		this.errors.set(myOutput.startTestTemplateOutputFile(selenium));
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -182,12 +184,12 @@ public class TestBase {
 		if (this.selHelper.get() != null) {
 			this.selHelper.get().killDriver();
 		}
-		int invocationCount = (int) test.getAttribute(testName + "InvocationCount");
-		test.setAttribute(testName + "InvocationCount", invocationCount + 1);
+		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
+		test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
 	}
 
-	protected void finalize(TestOutput output) throws IOException {
-		genFun.stopTest(output);
+	protected void finish() throws IOException {
+		genFun.stopTest(this.output.get());
 	}
 
 	@AfterSuite(alwaysRun = true)

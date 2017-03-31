@@ -34,7 +34,7 @@ public class SampleIT extends TestBase {
         // perform some actions
         output.compareTitle("Google");
         // verify no issues
-        finalize(output);
+        finish();
     }
 
     @Test(dataProvider = "google search terms", groups = {
@@ -48,6 +48,6 @@ public class SampleIT extends TestBase {
         selHelper.waitForElementDisplayed(Locators.id, "resultStats");
         output.compareTitle(searchTerm + " - Google Search");
         // verify no issues
-        finalize(output);
+        finish();
     }
 }
