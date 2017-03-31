@@ -24,7 +24,7 @@ public class SampleIT extends TestBase {
 
 	@DataProvider(name = "google search terms", parallel = true)
 	public Object[][] DataSetOptions() {
-		return new Object[][] { new Object[] { "python" }, new Object[] { "perl" }, new Object[] { "bash" }, };
+		return new Object[][] { new Object[] { "python" }, new Object[] { "perl" }, new Object[] { "bash" } };
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check a title")
