@@ -29,6 +29,8 @@ import tools.General;
 import tools.selenium.SeleniumHelper.Browsers;
 
 public class SeleniumSetup {
+	
+	private SeleniumSetup() {}
 
 	public static DesiredCapabilities setupProxy(DesiredCapabilities capabilities) {
 		// are we running through a proxy
