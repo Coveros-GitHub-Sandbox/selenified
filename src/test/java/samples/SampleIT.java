@@ -1,8 +1,5 @@
 package samples;
 
-import java.lang.reflect.Method;
-
-import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -26,14 +23,14 @@ public class SampleIT extends TestBase {
     }
 
     @DataProvider(name = "google search terms", parallel = true)
-    public Object[][] DataSetOptions(Method method, ITestContext test) {
-        return new Object[][] { new Object[] { "python", method, test }, new Object[] { "perl", method, test },
-                new Object[] { "bash", method, test }, };
+    public Object[][] DataSetOptions() {
+        return new Object[][] { new Object[] { "python"}, new Object[] { "perl"},
+                new Object[] { "bash"}, };
     }
 
     @Test(groups = { "sample" }, description = "A sample test to check a title")
-    public void sampleTest(Object[] dataProvider, Method method, ITestContext test) throws Exception {
-        TestOutput output = getTestOutput(method, test, dataProvider);
+    public void sampleTest() throws Exception {
+        TestOutput output = this.output.get();
         // perform some actions
         output.compareTitle("Google");
         // verify no issues
@@ -42,9 +39,9 @@ public class SampleIT extends TestBase {
 
     @Test(dataProvider = "google search terms", groups = {
             "sample" }, description = "A sample test using a data provider to perform searches")
-    public void sampleTestWDataProvider(String searchTerm, Method method, ITestContext test) throws Exception {
-        SeleniumHelper selHelper = getSelHelper(method, test, searchTerm);
-        TestOutput output = getTestOutput(method, test, searchTerm);
+    public void sampleTestWDataProvider(String searchTerm) throws Exception {
+        SeleniumHelper selHelper = this.selHelper.get();
+        TestOutput output = this.output.get();
         // perform some actions
         selHelper.type(Locators.name, "q", searchTerm);
         selHelper.click(Locators.name, "btnG");

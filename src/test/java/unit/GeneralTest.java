@@ -3,7 +3,6 @@ package unit;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tools.General;
-import tools.selenium.SeleniumSetup;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -202,6 +201,7 @@ public class GeneralTest {
     public void getTestNameTest(Method method) {
     	Assert.assertEquals(General.getTestName(method), "getTestNameTest");
 
+    	Assert.assertEquals(General.getTestName("helloWorld"), "helloWorld");
     	Assert.assertEquals(General.getTestName("helloWorld"), "helloWorld");
     	Assert.assertEquals(General.getTestName("helloWorld","python"), "helloWorldWithOptionPython");
     	Assert.assertEquals(General.getTestName("helloWorld","Python"), "helloWorldWithOptionPython");

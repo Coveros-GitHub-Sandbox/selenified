@@ -85,13 +85,12 @@ public class TestOutput {
      * @param outputDir - the output directory to store the test results
      * @param pageURL   - the initial URL to load up/log
      */
-    public TestOutput(String testsName, String outputDir, String pageURL) {
+    public TestOutput(String testsName, Browsers browsers, String outputDir, String pageURL) {
         this.pageURL = pageURL;
         this.outputDir = outputDir;
-        fileName = testsName + ".html";
+        fileName = testsName + browsers + ".html";
         outputFile = new File(outputDir, fileName);
-        browser = System.getProperty("browser").substring(0, 1).toUpperCase()
-                + System.getProperty("browser").substring(1);
+        browser = browsers.toString();
         testSuite = null;
         testGroup = null;
         testName = General.wordToSentence(testsName);
@@ -115,11 +114,11 @@ public class TestOutput {
      * @param iAuthor         the author of the tests
      * @param iTestObjectives the test objectives
      */
-    public TestOutput(String testsName, String outputDir, String pageURL, String testsSuite, String testsGroup,
+    public TestOutput(String testsName, Browsers browsers, String outputDir, String pageURL, String testsSuite, String testsGroup,
                       Date iDateModified, String iVersion, String iAuthor, String iTestObjectives) {
         this.pageURL = pageURL;
         this.outputDir = outputDir;
-        fileName = testsName + ".html";
+        fileName = testsName + browsers + ".html";
         outputFile = new File(outputDir, fileName);
         if (!new File(outputDir).exists()) {
             new File(outputDir).mkdirs();
@@ -132,8 +131,7 @@ public class TestOutput {
                 log.error(e);
             }
         }
-        browser = System.getProperty("browser").substring(0, 1).toUpperCase()
-                + System.getProperty("browser").substring(1);
+        browser = browsers.toString();
         testName = General.wordToSentence(testsName);
         testSuite = testsSuite;
         testGroup = testsGroup;
