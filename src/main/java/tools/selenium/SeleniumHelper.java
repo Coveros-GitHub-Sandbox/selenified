@@ -47,8 +47,8 @@ import java.util.*;
  * the output file
  *
  * @author Max Saperstone
- * @version 1.0.5
- * @lastupdate 8/29/2016
+ * @version 2.0.0
+ * @lastupdate 3/29/2017
  */
 public class SeleniumHelper {
 
@@ -65,6 +65,7 @@ public class SeleniumHelper {
     // this is the browser that we are using
     private Browsers browser;
     private DesiredCapabilities capabilities;
+    
     /**
      * our constructor, determining which browser use and how to run the
      * browser: either grid or standalone

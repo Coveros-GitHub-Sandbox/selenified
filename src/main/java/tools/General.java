@@ -22,6 +22,7 @@ package tools;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,6 +31,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class General {
+	
+	private General() {}
 
 	/**
 	 * a method to recursively retrieve all the files in a folder
@@ -332,6 +335,45 @@ public class General {
 			}
 		}
 		return out;
+	}
+	
+	/**
+	 * this method determines the unique test name, based on the parameters
+	 * passed in
+	 * 
+	 * @param methodName
+	 *            the name of the test method as a method
+	 * @param dataProvider
+	 *            an array of objects being passed to the test as data providers
+	 * @return String: a unique name
+	 */	
+	public static String getTestName(Method method, Object... dataProvider) {
+		return getTestName(method.getName(), dataProvider);
+	}
+
+	/**
+	 * this method determines the unique test name, based on the parameters
+	 * passed in
+	 * 
+	 * @param methodName
+	 *            the name of the test method as a string
+	 * @param dataProvider
+	 *            an array of objects being passed to the test as data providers
+	 * @return String: a unique name
+	 */
+	public static String getTestName(String methodName, Object... dataProvider) {
+		String testName = methodName;
+		if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
+				&& !dataProvider[0].toString().startsWith("public")) {
+			testName += "WithOption";
+			for (Object data : dataProvider) {
+				if (data == null || data.toString().startsWith("public")) {
+					break;
+				}
+				testName += General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString()));
+			}
+		}
+		return testName;
 	}
 
 	/**
