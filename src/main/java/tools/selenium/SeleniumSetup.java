@@ -1,6 +1,10 @@
 package tools.selenium;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
@@ -25,6 +29,8 @@ import tools.General;
 import tools.selenium.SeleniumHelper.Browsers;
 
 public class SeleniumSetup {
+	
+	private SeleniumSetup() {}
 
 	public static DesiredCapabilities setupProxy(DesiredCapabilities capabilities) {
 		// are we running through a proxy
@@ -38,31 +44,37 @@ public class SeleniumSetup {
 	}
 
 	public static boolean areBrowserDetailsSet() {
-		return System.getProperty("browser") != null &&
-				!System.getProperty("browser").chars().allMatch(Character::isLetter);
+		return System.getProperty("browser") != null && !System.getProperty("browser").matches("^[a-zA-Z,]+$");
 	}
 
-	public static Browsers setBrowser() {
-		Browsers browser = null;
+	public static List<Browsers> setBrowser() {
+		List<Browsers> browsers = new ArrayList<>();
 		if (System.getProperty("browser") != null) {
 			if (!areBrowserDetailsSet()) {
-				browser = Browsers.valueOf(System.getProperty("browser"));
+				browsers = Arrays.asList(System.getProperty("browser").split(",")).stream().map(Browsers::valueOf)
+						.collect(Collectors.toList());
 			} else {
-				Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
-				if (browserDetails.containsKey("browserName")) {
-					browser = Browsers.valueOf(browserDetails.get("browserName"));
+				String[] allDetails = System.getProperty("browser").split(",");
+				for (String details : allDetails) {
+					Map<String, String> browserDetails = General.parseMap(details);
+					if (browserDetails.containsKey("browserName")) {
+						browsers.add(Browsers.valueOf(browserDetails.get("browserName")));
+					} else {
+						browsers.add(null);
+					}
 				}
 			}
 		}
-		return browser;
+		return browsers;
 	}
 
-	public static DesiredCapabilities setupBrowserDetails(DesiredCapabilities capabilities) {
-		// determine our browser information
-		if (areBrowserDetailsSet()) {
-			Map<String, String> browserDetails = General.parseMap(System.getProperty("browser"));
+	public static DesiredCapabilities setupBrowserDetails(DesiredCapabilities capabilities,
+			Map<String, String> browserDetails) {
+		if (browserDetails != null) {
+			// determine our browser information
 			if (browserDetails.containsKey("browserName")) {
-				capabilities.setCapability(CapabilityType.BROWSER_NAME, browserDetails.get("browserName"));
+				capabilities.setCapability(CapabilityType.BROWSER_NAME,
+						Browsers.valueOf(browserDetails.get("browserName")).toString());
 			}
 			if (browserDetails.containsKey("browserVersion")) {
 				capabilities.setCapability(CapabilityType.VERSION, browserDetails.get("browserVersion"));

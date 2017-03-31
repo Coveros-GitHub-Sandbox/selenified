@@ -20,6 +20,7 @@
 
 package tools;
 
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -27,163 +28,186 @@ import org.testng.log4testng.Logger;
 import selenified.exceptions.InvalidBrowserException;
 import tools.logging.TestOutput;
 import tools.selenium.SeleniumHelper;
+import tools.selenium.SeleniumSetup;
 import tools.selenium.SeleniumHelper.Browsers;
+
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-@Listeners({tools.Listener.class})
+@Listeners({ tools.Listener.class, tools.Transformer.class })
 public class TestBase {
 
-    private static final Logger log = Logger.getLogger(General.class);
-    protected static GeneralFunctions genFun = new GeneralFunctions();
+	private static final Logger log = Logger.getLogger(General.class);
 
-    protected static String testSite = "http://www.google.com/";
-    protected static String version;
-    protected String author = "Max Saperstone";
+	protected static String testSite = "http://www.google.com/";
+	protected static String version;
+	protected static String author = "Max Saperstone";
 
-    protected static void initializeSystem() {
-        // check our browser
-        if (System.getProperty("browser") == null) {
-            System.setProperty("browser", Browsers.HtmlUnit.toString());
-        }
-        // check to see if we are passing in a site address
-        if (System.getProperty("appURL") != null) {
-            testSite = System.getProperty("appURL");
-        }
-    }
+	// some passed in system params
+	protected static List<Browsers> browsers;
+	protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
 
-    protected static String getTestName(Method method, Object... dataProvider) {
-        return getTestName(method.getName(), dataProvider);
-    }
+	// for individual tests
+	protected ThreadLocal<Browsers> browser = new ThreadLocal<>();
+	protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
+	protected ThreadLocal<TestOutput> output = new ThreadLocal<>();
+	protected ThreadLocal<SeleniumHelper> selHelper = new ThreadLocal<>();
+	protected ThreadLocal<Integer> errors = new ThreadLocal<>();
 
-    public static String getTestName(String methodName, Object... dataProvider) {
-        String testName = methodName;
-        if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-                && !dataProvider[0].toString().startsWith("public")) {
-            testName += "WithOption";
-            for (Object data : dataProvider) {
-                if (data == null || data.toString().startsWith("public")) {
-                    break;
-                }
-                testName += General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString()));
-            }
-        }
-        return testName;
-    }
+	// constants
+	private static final String BROWSER_INPUT = "browser";
+	private static final String INVOCATION_COUNT = "InvocationCount";
 
-    protected static SeleniumHelper getSelHelper(Method method, ITestContext test, Object... dataProvider) {
-        String testName = getTestName(method, dataProvider);
-        return (SeleniumHelper) test.getAttribute(testName + "SelHelper");
-    }
+	protected static void initializeSystem() {
+		// check our browser
+		if (System.getProperty(BROWSER_INPUT) == null) {
+			System.setProperty(BROWSER_INPUT, Browsers.HtmlUnit.toString());
+		}
+		// check to see if we are passing in a site address
+		if (System.getProperty("appURL") != null) {
+			testSite = System.getProperty("appURL");
+		}
+	}
 
-    protected static TestOutput getTestOutput(Method method, ITestContext test, Object... dataProvider) {
-        String testName = getTestName(method, dataProvider);
-        return (TestOutput) test.getAttribute(testName + "Output");
-    }
+	protected static void setupTestParameters() throws InvalidBrowserException {
+		browsers = SeleniumSetup.setBrowser();
 
-    protected static int getErrors(Method method, ITestContext test, Object... dataProvider) {
-        String testName = getTestName(method, dataProvider);
-        return (Integer) test.getAttribute(testName + "Errors");
-    }
+		// are we running remotely on a hub
+		for (Browsers browser : browsers) {
+			DesiredCapabilities capability;
+			if (System.getProperty("hub") != null) {
+				capability = SeleniumSetup.setupBrowserCapability(browser);
+			} else {
+				capability = new DesiredCapabilities();
+			}
+			capability = SeleniumSetup.setupProxy(capability);
+			if (SeleniumSetup.areBrowserDetailsSet()) {
+				Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
+				capability = SeleniumSetup.setupBrowserDetails(capability, browserDetails);
+			}
+			capabilities.add(capability);
+		}
+	}
 
-    @DataProvider(name = "no options", parallel = true)
-    public Object[][] noOptions() {
-        return new Object[][]{new Object[]{""},};
-    }
+	@DataProvider(name = "no options", parallel = true)
+	public Object[][] noOptions() {
+		return new Object[][] { new Object[] { "" }, };
+	}
 
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() {
-        MasterSuiteSetupConfigurator.getInstance().doSetup();
-    }
+	@BeforeSuite(alwaysRun = true)
+	public void beforeSuite() throws InvalidBrowserException {
+		MasterSuiteSetupConfigurator.getInstance().doSetup();
+	}
 
-    @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test) throws IOException {
-        startTest(dataProvider, method, test, true);
-    }
+	@BeforeMethod(alwaysRun = true)
+	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result)
+			throws IOException {
+		startTest(dataProvider, method, test, result, true);
+	}
 
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, boolean selenium)
-            throws IOException {
-        String testName = getTestName(method, dataProvider);
-        String suite = test.getName();
-        String outputDir = test.getOutputDirectory();
-        String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
-        String fileLocation = "src." + extClass;
-        File file = new File(fileLocation.replaceAll("\\.", "/") + ".java");
-        Date lastModified = new Date(file.lastModified());
-        String description = "";
-        String group = "";
-        Test annotation = method.getAnnotation(Test.class);
-        // set description from annotation
-        if (annotation.description() != null) {
-            description = annotation.description();
-        }
-        // adding in the group if it exists
-        if (annotation.groups() != null) {
-            group = Arrays.toString(annotation.groups());
-            group = group.substring(1, group.length() - 1);
-        }
+	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
+			boolean selenium) throws IOException {
+		String testName = General.getTestName(method, dataProvider);
+		String suite = test.getName();
+		String outputDir = test.getOutputDirectory();
+		String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
+		String fileLocation = "src." + extClass;
+		File file = new File(fileLocation.replaceAll("\\.", "/") + ".java");
+		Date lastModified = new Date(file.lastModified());
+		String description = "";
+		String group = "";
+		Test annotation = method.getAnnotation(Test.class);
+		// set description from annotation
+		if (annotation.description() != null) {
+			description = annotation.description();
+		}
+		// adding in the group if it exists
+		if (annotation.groups() != null) {
+			group = Arrays.toString(annotation.groups());
+			group = group.substring(1, group.length() - 1);
+		}
 
-        TestOutput output = new TestOutput(testName, outputDir, testSite, suite, General.wordToSentence(group),
-                lastModified, version, author, description);
-        long time = (new Date()).getTime();
-        output.setStartTime(time);
-        if (selenium) {
-            SeleniumHelper selHelper;
-            try {
-                selHelper = new SeleniumHelper(output, testName);
-                test.setAttribute(testName + "SelHelper", selHelper);
-            } catch (InvalidBrowserException | MalformedURLException e) {
-                log.error(e);
-            }
-        }
-        test.setAttribute(testName + "Output", output);
-        test.setAttribute(testName + "Errors", output.startTestTemplateOutputFile(selenium));
-    }
+		if (test.getAttribute(testName + INVOCATION_COUNT) == null) {
+			test.setAttribute(testName + INVOCATION_COUNT, 0);
+		}
+		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
-    @AfterMethod(alwaysRun = true)
-    protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-        String testLink = getTestName(method, dataProvider);
-        if (test.getAttribute(testLink + "SelHelper") != null) {
-            SeleniumHelper selHelper = (SeleniumHelper) test.getAttribute(testLink + "SelHelper");
-            selHelper.killDriver();
-        }
-    }
+		Browsers myBrowser = browsers.get(invocationCount);
+		this.browser.set(myBrowser);
+		result.setAttribute(BROWSER_INPUT, myBrowser);
 
-    protected void finalize(TestOutput output) throws IOException {
-        genFun.stopTest(output);
-    }
+		DesiredCapabilities myCapability = capabilities.get(invocationCount);
+		myCapability.setCapability("name", testName);
+		this.capability.set(myCapability);
 
-    @AfterSuite(alwaysRun = true)
-    protected void archiveTestResults() {
-        System.out.println("\nREMEMBER TO ARCHIVE YOUR TESTS!\n\n");
-    }
+		TestOutput myOutput = new TestOutput(testName, myBrowser, outputDir, testSite, suite,
+				General.wordToSentence(group), lastModified, version, author, description);
+		long time = (new Date()).getTime();
+		myOutput.setStartTime(time);
+		if (selenium) {
+			try {
+				this.selHelper.set(new SeleniumHelper(myBrowser, myCapability, myOutput));
+			} catch (InvalidBrowserException | MalformedURLException e) {
+				log.error(e);
+			}
+		}
+		this.output.set(myOutput);
+		this.errors.set(myOutput.startTestTemplateOutputFile(selenium));
+	}
 
-    public static class MasterSuiteSetupConfigurator {
-        private static MasterSuiteSetupConfigurator instance;
-        private boolean wasInvoked = false;
+	@AfterMethod(alwaysRun = true)
+	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+		String testName = General.getTestName(method, dataProvider);
+		if (this.selHelper.get() != null) {
+			this.selHelper.get().killDriver();
+		}
+		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
+		test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
+	}
 
-        private MasterSuiteSetupConfigurator() {
-        }
+	protected void finish() throws IOException {
+		TestOutput myOutput = this.output.get();
+		myOutput.endTestTemplateOutputFile();
+		assertEquals("Detailed results found at: " + myOutput.getFileName(), "0 errors",
+				Integer.toString(myOutput.getErrors()) + " errors");
+	}
 
-        public static MasterSuiteSetupConfigurator getInstance() {
-            if (instance != null) {
-                return instance;
-            }
-            instance = new MasterSuiteSetupConfigurator();
-            return instance;
-        }
+	@AfterSuite(alwaysRun = true)
+	protected void archiveTestResults() {
+		System.out.println("\nREMEMBER TO ARCHIVE YOUR TESTS!\n\n");
+	}
 
-        public void doSetup() {
-            if (wasInvoked) {
-                return;
-            }
-            initializeSystem();
-            wasInvoked = true;
-        }
-    }
+	public static class MasterSuiteSetupConfigurator {
+		private static MasterSuiteSetupConfigurator instance;
+		private boolean wasInvoked = false;
+
+		private MasterSuiteSetupConfigurator() {
+		}
+
+		public static MasterSuiteSetupConfigurator getInstance() {
+			if (instance != null) {
+				return instance;
+			}
+			instance = new MasterSuiteSetupConfigurator();
+			return instance;
+		}
+
+		public void doSetup() throws InvalidBrowserException {
+			if (wasInvoked) {
+				return;
+			}
+			initializeSystem();
+			setupTestParameters();
+			wasInvoked = true;
+		}
+	}
 }

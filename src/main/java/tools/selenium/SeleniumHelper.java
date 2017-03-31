@@ -47,8 +47,8 @@ import java.util.*;
  * the output file
  *
  * @author Max Saperstone
- * @version 1.0.5
- * @lastupdate 8/29/2016
+ * @version 2.0.0
+ * @lastupdate 3/29/2017
  */
 public class SeleniumHelper {
 
@@ -61,14 +61,11 @@ public class SeleniumHelper {
     // this is our driver that will be used for all selenium actions
     private WebDriver driver;
 
-    ;
-
     // what browsers are we interested in implementing
     // this is the browser that we are using
     private Browsers browser;
-
-    ;
-    private DesiredCapabilities capabilities = new DesiredCapabilities();
+    private DesiredCapabilities capabilities;
+    
     /**
      * our constructor, determining which browser use and how to run the
      * browser: either grid or standalone
@@ -78,30 +75,18 @@ public class SeleniumHelper {
      * @throws InvalidBrowserException
      * @throws MalformedURLException
      */
-    public SeleniumHelper(TestOutput output, String testName) throws InvalidBrowserException, MalformedURLException {
+    public SeleniumHelper(Browsers browser, DesiredCapabilities capabilities, TestOutput output) throws InvalidBrowserException, MalformedURLException {
+        this.browser = browser;
+        this.capabilities = capabilities;
         this.output = output;
 
-        browser = SeleniumSetup.setBrowser();
-
-        // are we running remotely on a hub
-        String hub = null;
-        if (System.getProperty("hub") != null) {
-            hub = System.getProperty("hub");
-            capabilities = SeleniumSetup.setupBrowserCapability(browser);
-        }
-
-        capabilities = SeleniumSetup.setupProxy(capabilities);
-        capabilities = SeleniumSetup.setupBrowserDetails(capabilities);
-        capabilities.setCapability("name", testName);
-
         // if we want to test remotely
-        if (hub != null) {
-            driver = new RemoteWebDriver(new URL(hub + "/wd/hub"), capabilities);
+        if (System.getProperty("hub") != null) {
+            driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), capabilities);
         } else {
             capabilities.setJavascriptEnabled(true);
             driver = SeleniumSetup.setupDriver(browser, capabilities);
         }
-        // driver.manage().window().maximize();
         output.setSelHelper(this);
     }
 
