@@ -11,43 +11,45 @@ import tools.selenium.SeleniumHelper;
 
 public class SampleIT extends TestBase {
 
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass() throws Exception {
-        // set the base URL for the tests here
-        testSite = "http://www.google.com/";
-        // set the author of the tests here
-        author = "Max Saperstone\n<br/>max.saperstone@coveros.com";
-        // set the version of the tests or of the software, possibly with a
-        // dynamic check
-        version = "0.0.1";
-    }
+	@BeforeClass(alwaysRun = true)
+	public void beforeClass() throws Exception {
+		// set the base URL for the tests here
+		testSite = "http://www.google.com/";
+		// set the author of the tests here
+		author = "Max Saperstone\n<br/>max.saperstone@coveros.com";
+		// set the version of the tests or of the software, possibly with a
+		// dynamic check
+		version = "0.0.1";
+	}
 
-    @DataProvider(name = "google search terms", parallel = true)
-    public Object[][] DataSetOptions() {
-        return new Object[][] { new Object[] { "python"}, new Object[] { "perl"},
-                new Object[] { "bash"}, };
-    }
+	@DataProvider(name = "google search terms", parallel = true)
+	public Object[][] DataSetOptions() {
+		return new Object[][] { new Object[] { "python" }, new Object[] { "perl" }, new Object[] { "bash" }, };
+	}
 
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
-    public void sampleTest() throws Exception {
-        TestOutput output = this.output.get();
-        // perform some actions
-        output.compareTitle("Google");
-        // verify no issues
-        finish();
-    }
+	@Test(groups = { "sample" }, description = "A sample test to check a title")
+	public void sampleTest() throws Exception {
+		// obtain our logger
+		TestOutput output = this.output.get();
+		// perform some actions
+		output.compareTitle("Google");
+		// verify no issues
+		finish();
+	}
 
-    @Test(dataProvider = "google search terms", groups = {
-            "sample" }, description = "A sample test using a data provider to perform searches")
-    public void sampleTestWDataProvider(String searchTerm) throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
-        TestOutput output = this.output.get();
-        // perform some actions
-        selHelper.type(Locators.name, "q", searchTerm);
-        selHelper.click(Locators.name, "btnG");
-        selHelper.waitForElementDisplayed(Locators.id, "resultStats");
-        output.compareTitle(searchTerm + " - Google Search");
-        // verify no issues
-        finish();
-    }
+	@Test(dataProvider = "google search terms", groups = {
+			"sample" }, description = "A sample test using a data provider to perform searches")
+	public void sampleTestWDataProvider(String searchTerm) throws Exception {
+		// obtain our browser instance
+		SeleniumHelper selHelper = this.selHelper.get();
+		// obtain our logger
+		TestOutput output = this.output.get();
+		// perform some actions
+		selHelper.type(Locators.name, "q", searchTerm);
+		selHelper.click(Locators.name, "btnG");
+		selHelper.waitForElementDisplayed(Locators.id, "resultStats");
+		output.compareTitle(searchTerm + " - Google Search");
+		// verify no issues
+		finish();
+	}
 }
