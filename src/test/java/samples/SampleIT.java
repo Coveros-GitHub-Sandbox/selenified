@@ -52,4 +52,23 @@ public class SampleIT extends TestBase {
 		// verify no issues
 		finish();
 	}
+	
+	@Test(groups = { "sample" }, description = "A sample test to check a the goToURL method")
+	public void sampleTestGoToURL() throws Exception {
+		SeleniumHelper selHelper = this.selHelper.get();
+		// perform some actions
+		selHelper.goToURL("https://www.yahoo.com/");
+		selHelper.getCurrentUrl().equals("https://www.yahoo.com/");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample" }, description = "A sample test to check the waitForElementPresent method")
+	public void sampleTestWaitForElementPresent() throws Exception {
+		SeleniumHelper selHelper = this.selHelper.get();
+		// perform some actions
+		selHelper.waitForElementPresent(Locators.name, "q");
+		// verify no issues
+		finish();
+	}
 }

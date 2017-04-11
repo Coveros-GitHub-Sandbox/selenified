@@ -99,6 +99,15 @@ public class SeleniumHelper {
     public WebDriver getDriver() {
         return driver;
     }
+    
+    /**
+     * a method to allow retrieving the driver's current url
+     *
+     * @return String: the current url
+     */
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
 
     /**
      * a method to allow retrieving our set browser
