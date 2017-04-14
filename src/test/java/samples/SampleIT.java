@@ -37,8 +37,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(dataProvider = "google search terms", groups = {
-			"sample" }, description = "A sample test using a data provider to perform searches")
+	@Test(dataProvider = "google search terms", groups = { "sample" },
+			description = "A sample test using a data provider to perform searches")
 	public void sampleTestWDataProvider(String searchTerm) throws Exception {
 		// obtain our browser instance
 		SeleniumHelper selHelper = this.selHelper.get();
@@ -52,7 +52,7 @@ public class SampleIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
+
 	@Test(groups = { "sample" }, description = "A sample test to check a the goToURL method")
 	public void sampleTestGoToURL() throws Exception {
 		SeleniumHelper selHelper = this.selHelper.get();
@@ -68,6 +68,24 @@ public class SampleIT extends TestBase {
 		SeleniumHelper selHelper = this.selHelper.get();
 		// perform some actions
 		selHelper.waitForElementPresent(Locators.name, "q");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample" }, description = "A sample test to check the waitForElementNotPresent method")
+	public void sampleTestWaitForElementNotPresent() throws Exception {
+		SeleniumHelper selHelper = this.selHelper.get();
+		// perform some actions
+		selHelper.waitForElementNotPresent(Locators.name, "non-existent-name");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "sample" }, description = "A sample test to check the waitForElementDisplayed method")
+	public void sampleTestWaitForElementDisplayed() throws Exception {
+		SeleniumHelper selHelper = this.selHelper.get();
+		// perform some actions
+		selHelper.waitForElementDisplayed(Locators.name, "q");
 		// verify no issues
 		finish();
 	}
