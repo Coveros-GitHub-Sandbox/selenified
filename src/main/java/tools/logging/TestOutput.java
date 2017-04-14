@@ -119,18 +119,7 @@ public class TestOutput {
         this.pageURL = pageURL;
         this.outputDir = outputDir;
         fileName = testsName + browsers + ".html";
-        outputFile = new File(outputDir, fileName);
-        if (!new File(outputDir).exists()) {
-            new File(outputDir).mkdirs();
-        }
-        if (!outputFile.exists()) {
-            try {
-                while (!outputFile.createNewFile()) {
-                }
-            } catch (IOException e) {
-                log.error(e);
-            }
-        }
+        outputFile = OutputSetup.setupFile(outputDir, fileName);
         browser = browsers.toString();
         testName = General.wordToSentence(testsName);
         testSuite = testsSuite;
@@ -235,15 +224,15 @@ public class TestOutput {
         // Close the output stream
         out.close();
         // Record our metrics
-        int passes = countInstancesOf(outputFile, "<td class='pass'>Pass</td>");
-        int fails = countInstancesOf(outputFile, "<td class='fail'>Fail</td>");
-        replaceInFile(outputFile, "STEPSPERFORMED", Integer.toString(fails + passes));
-        replaceInFile(outputFile, "STEPSPASSED", Integer.toString(passes));
-        replaceInFile(outputFile, "STEPSFAILED", Integer.toString(fails));
+        int passes = OutputSetup.countInstancesOf(outputFile, "<td class='pass'>Pass</td>");
+        int fails = OutputSetup.countInstancesOf(outputFile, "<td class='fail'>Fail</td>");
+        OutputSetup.replaceInFile(outputFile, "STEPSPERFORMED", Integer.toString(fails + passes));
+        OutputSetup.replaceInFile(outputFile, "STEPSPASSED", Integer.toString(passes));
+        OutputSetup.replaceInFile(outputFile, "STEPSFAILED", Integer.toString(fails));
         if (fails == 0) {
-            replaceInFile(outputFile, "PASSORFAIL", "<font size='+2' color='green'><b>PASS</b></font>");
+        	OutputSetup.replaceInFile(outputFile, "PASSORFAIL", "<font size='+2' color='green'><b>PASS</b></font>");
         } else {
-            replaceInFile(outputFile, "PASSORFAIL", "<font size='+2' color='red'><b>FAIL</b></font>");
+        	OutputSetup.replaceInFile(outputFile, "PASSORFAIL", "<font size='+2' color='red'><b>FAIL</b></font>");
         }
         // record our time
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
@@ -264,8 +253,8 @@ public class TestOutput {
                 hours = "0" + hours;
             }
         }
-        replaceInFile(outputFile, "RUNTIME", hours + ":" + minutes + ":" + seconds);
-        replaceInFile(outputFile, "TIMEFINISHED", timeNow);
+        OutputSetup.replaceInFile(outputFile, "RUNTIME", hours + ":" + minutes + ":" + seconds);
+        OutputSetup.replaceInFile(outputFile, "TIMEFINISHED", timeNow);
     }
 
     /**
@@ -2141,93 +2130,6 @@ public class TestOutput {
                 "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValues + "</b>",
                 Success.PASS);
         return 0;
-    }
-
-    /**
-     * A method to count the number of occurrence of a string within a file
-     *
-     * @param fileName   - the string of the complete filename
-     * @param textToFind - the text to count
-     * @return Integer - the number of times the text was found in the file
-     * provided
-     */
-    public int countInstancesOf(String fileName, String textToFind) {
-        return countInstancesOf(new File(fileName), textToFind);
-    }
-
-    /**
-     * A method to count the number of occurrence of a string within a file
-     *
-     * @param fileName   - the string of the complete filename
-     * @param textToFind - the text to count
-     * @return Integer - the number of times the text was found in the file
-     * provided
-     */
-    public int countInstancesOf(File fileName, String textToFind) {
-        int count = 0;
-        try (
-                FileReader fr = new FileReader(fileName);
-                BufferedReader reader = new BufferedReader(fr);
-        ) {
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                if (line.contains(textToFind)) {
-                    count++;
-                }
-            }
-        } catch (IOException ioe) {
-            log.error(ioe);
-        }
-        return count;
-    }
-
-    // //////////////////////////////////////////
-    // some custom made selenium helper methods
-    // ////////////////////////////////////////
-
-    /**
-     * A method to replace an occurrence of a string within a file
-     *
-     * @param fileName - the string of the complete filename
-     * @param oldText  - the text to be replaced
-     * @param newText  - the text to be replaced with
-     */
-    public void replaceInFile(String fileName, String oldText, String newText) {
-        replaceInFile(new File(fileName), oldText, newText);
-    }
-
-    /**
-     * A method to replace an occurrence of a string within a file
-     *
-     * @param fileName - the string of the complete filename
-     * @param oldText  - the text to be replaced
-     * @param newText  - the text to be replaced with
-     */
-    public void replaceInFile(File fileName, String oldText, String newText) {
-        String line = "";
-        String oldtext = "";
-
-        try (
-                FileReader fr = new FileReader(fileName);
-                BufferedReader reader = new BufferedReader(fr);
-        ) {
-            while ((line = reader.readLine()) != null) {
-                oldtext += line + "\r\n";
-            }
-        } catch (IOException ioe) {
-            log.error(ioe);
-        }
-
-        // replace a word in a file
-        String newtext = oldtext.replaceAll(oldText, newText);
-
-        try (
-                FileWriter writer = new FileWriter(fileName);
-        ) {
-            writer.write(newtext);
-        } catch (IOException ioe) {
-            log.error(ioe);
-        }
     }
 
     ///////////////////////////////////////////////////////////////////

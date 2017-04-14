@@ -31,8 +31,9 @@ import java.util.Map;
 import java.util.Random;
 
 public class General {
-	
-	private General() {}
+
+	private General() {
+	}
 
 	/**
 	 * a method to recursively retrieve all the files in a folder
@@ -336,7 +337,7 @@ public class General {
 		}
 		return out;
 	}
-	
+
 	/**
 	 * this method determines the unique test name, based on the parameters
 	 * passed in
@@ -346,7 +347,7 @@ public class General {
 	 * @param dataProvider
 	 *            an array of objects being passed to the test as data providers
 	 * @return String: a unique name
-	 */	
+	 */
 	public static String getTestName(Method method, Object... dataProvider) {
 		return getTestName(method.getName(), dataProvider);
 	}
@@ -362,18 +363,18 @@ public class General {
 	 * @return String: a unique name
 	 */
 	public static String getTestName(String methodName, Object... dataProvider) {
-		String testName = methodName;
+		StringBuilder testName = new StringBuilder(methodName);
 		if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
 				&& !dataProvider[0].toString().startsWith("public")) {
-			testName += "WithOption";
+			testName.append("WithOption");
 			for (Object data : dataProvider) {
 				if (data == null || data.toString().startsWith("public")) {
 					break;
 				}
-				testName += General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString()));
+				testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));
 			}
 		}
-		return testName;
+		return testName.toString();
 	}
 
 	/**

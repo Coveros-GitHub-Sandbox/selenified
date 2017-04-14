@@ -30,35 +30,45 @@ import tools.selenium.SeleniumHelper.Browsers;
 
 public class SeleniumSetup {
 	
+	// constants
+	private static final String PROXY_INPUT = "proxy";
+	private static final String BROWSER_INPUT = "browser";
+	private static final String BROWSER_NAME_INPUT = "browserName";
+	private static final String BROWSER_VERSION_INPUT = "browserVersion";
+	private static final String DEVICE_NAME_INPUT = "deviceName";
+	private static final String DEVICE_ORIENTATION_INPUT = "deviceOrientation";
+	private static final String DEVICE_PLATFORM_INPUT = "devicePlatform";
+
+	
 	private SeleniumSetup() {}
 
 	public static DesiredCapabilities setupProxy(DesiredCapabilities capabilities) {
 		// are we running through a proxy
-		if (System.getProperty("proxy") != null) {
+		if (System.getProperty(PROXY_INPUT) != null) {
 			// set our proxy information
 			Proxy proxy = new Proxy();
-			proxy.setHttpProxy(System.getProperty("proxy"));
+			proxy.setHttpProxy(System.getProperty(PROXY_INPUT));
 			capabilities.setCapability(CapabilityType.PROXY, proxy);
 		}
 		return capabilities;
 	}
 
 	public static boolean areBrowserDetailsSet() {
-		return System.getProperty("browser") != null && !System.getProperty("browser").matches("^[a-zA-Z,]+$");
+		return System.getProperty(BROWSER_INPUT) != null && !System.getProperty(BROWSER_INPUT).matches("^[a-zA-Z,]+$");
 	}
 
 	public static List<Browsers> setBrowser() {
 		List<Browsers> browsers = new ArrayList<>();
-		if (System.getProperty("browser") != null) {
+		if (System.getProperty(BROWSER_INPUT) != null) {
 			if (!areBrowserDetailsSet()) {
-				browsers = Arrays.asList(System.getProperty("browser").split(",")).stream().map(Browsers::valueOf)
+				browsers = Arrays.asList(System.getProperty(BROWSER_INPUT).split(",")).stream().map(Browsers::valueOf)
 						.collect(Collectors.toList());
 			} else {
-				String[] allDetails = System.getProperty("browser").split(",");
+				String[] allDetails = System.getProperty(BROWSER_INPUT).split(",");
 				for (String details : allDetails) {
 					Map<String, String> browserDetails = General.parseMap(details);
-					if (browserDetails.containsKey("browserName")) {
-						browsers.add(Browsers.valueOf(browserDetails.get("browserName")));
+					if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
+						browsers.add(Browsers.valueOf(browserDetails.get(BROWSER_NAME_INPUT)));
 					} else {
 						browsers.add(null);
 					}
@@ -72,21 +82,21 @@ public class SeleniumSetup {
 			Map<String, String> browserDetails) {
 		if (browserDetails != null) {
 			// determine our browser information
-			if (browserDetails.containsKey("browserName")) {
+			if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
 				capabilities.setCapability(CapabilityType.BROWSER_NAME,
-						Browsers.valueOf(browserDetails.get("browserName")).toString());
+						Browsers.valueOf(browserDetails.get(BROWSER_NAME_INPUT)).toString());
 			}
-			if (browserDetails.containsKey("browserVersion")) {
-				capabilities.setCapability(CapabilityType.VERSION, browserDetails.get("browserVersion"));
+			if (browserDetails.containsKey(BROWSER_VERSION_INPUT)) {
+				capabilities.setCapability(CapabilityType.VERSION, browserDetails.get(BROWSER_VERSION_INPUT));
 			}
-			if (browserDetails.containsKey("deviceName")) {
-				capabilities.setCapability("deviceName", browserDetails.get("deviceName"));
+			if (browserDetails.containsKey(DEVICE_NAME_INPUT)) {
+				capabilities.setCapability(DEVICE_NAME_INPUT, browserDetails.get(DEVICE_NAME_INPUT));
 			}
-			if (browserDetails.containsKey("deviceOrientation")) {
-				capabilities.setCapability("device-orientation", browserDetails.get("deviceOrientation"));
+			if (browserDetails.containsKey(DEVICE_ORIENTATION_INPUT)) {
+				capabilities.setCapability("device-orientation", browserDetails.get(DEVICE_ORIENTATION_INPUT));
 			}
-			if (browserDetails.containsKey("devicePlatform")) {
-				capabilities.setCapability(CapabilityType.PLATFORM, browserDetails.get("devicePlatform"));
+			if (browserDetails.containsKey(DEVICE_PLATFORM_INPUT)) {
+				capabilities.setCapability(CapabilityType.PLATFORM, browserDetails.get(DEVICE_PLATFORM_INPUT));
 			}
 		}
 		return capabilities;

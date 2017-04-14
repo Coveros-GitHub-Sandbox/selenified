@@ -181,11 +181,6 @@ public class TestBase {
 				Integer.toString(myOutput.getErrors()) + " errors");
 	}
 
-	@AfterSuite(alwaysRun = true)
-	protected void archiveTestResults() {
-		System.out.println("\nREMEMBER TO ARCHIVE YOUR TESTS!\n\n");
-	}
-
 	public static class MasterSuiteSetupConfigurator {
 		private static MasterSuiteSetupConfigurator instance;
 		private boolean wasInvoked = false;
