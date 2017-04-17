@@ -80,12 +80,25 @@ public class SampleIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
+
 	@Test(groups = { "sample" }, description = "A sample test to check the waitForElementDisplayed method")
 	public void sampleTestWaitForElementDisplayed() throws Exception {
 		SeleniumHelper selHelper = this.selHelper.get();
 		// perform some actions
 		selHelper.waitForElementDisplayed(Locators.name, "q");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample" }, description = "A sample test to check a title")
+	public void sampleScrollTest() throws Exception {
+		// obtain our browser instance
+		SeleniumHelper selHelper = this.selHelper.get();
+		// perform some actions
+		selHelper.type(Locators.name, "q", "scroll");
+		selHelper.click(Locators.name, "btnG");
+		selHelper.waitForElementDisplayed(Locators.id, "resultStats");
+		selHelper.scroll(50);
 		// verify no issues
 		finish();
 	}
