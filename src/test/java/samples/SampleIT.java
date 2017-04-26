@@ -91,6 +91,26 @@ public class SampleIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check a title")
+	public void sampleTestWaitForElementNotDisplayed() throws Exception {
+		// obtain our browser instance
+		SeleniumHelper selHelper = this.selHelper.get();
+		// perform some actions
+		selHelper.waitForElementNotDisplayed(Locators.name, "site");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleTestWaitForElementEnabled() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.waitForElementEnabled(Locators.name, "q");
+        // verify no issues
+        finish();
+    }
+	
+	@Test(groups = { "sample" }, description = "A sample test to check a title")
 	public void sampleScrollTest() throws Exception {
 		// obtain our browser instance
 		SeleniumHelper selHelper = this.selHelper.get();
