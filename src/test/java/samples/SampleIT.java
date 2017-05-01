@@ -1,5 +1,7 @@
 package samples;
 
+import java.io.IOException;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -28,7 +30,7 @@ public class SampleIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check a title")
-	public void sampleTest() throws Exception {
+	public void sampleTest() throws IOException {
 		// obtain our logger
 		TestOutput output = this.output.get();
 		// perform some actions
@@ -39,7 +41,7 @@ public class SampleIT extends TestBase {
 
 	@Test(dataProvider = "google search terms", groups = {
 			"sample" }, description = "A sample test using a data provider to perform searches")
-	public void sampleTestWDataProvider(String searchTerm) throws Exception {
+	public void sampleTestWDataProvider(String searchTerm) throws IOException {
 		// obtain our browser instance
 		SeleniumHelper selHelper = this.selHelper.get();
 		// obtain our logger
