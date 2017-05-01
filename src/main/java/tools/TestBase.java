@@ -180,6 +180,11 @@ public class TestBase {
 		assertEquals("Detailed results found at: " + myOutput.getFileName(), "0 errors",
 				Integer.toString(myOutput.getErrors()) + " errors");
 	}
+	
+	protected void finishNoAssert() throws IOException {
+        TestOutput myOutput = this.output.get();
+        myOutput.endTestTemplateOutputFile();
+    }
 
 	@AfterSuite(alwaysRun = true)
 	protected void archiveTestResults() {

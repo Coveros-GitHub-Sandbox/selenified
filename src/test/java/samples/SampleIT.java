@@ -2,6 +2,8 @@ package samples;
 
 import static org.testng.Assert.assertTrue;
 
+import java.util.Arrays;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -47,7 +49,7 @@ public class SampleIT extends TestBase {
         output.compareTitle("Yahoo");
         // verify no issues
         assertTrue(output.getErrors() == 1);
-        output.endTestTemplateOutputFile();
+        finishNoAssert();
     }
 
     @Test(dataProvider = "google search terms", groups = { "sample" },
@@ -94,6 +96,18 @@ public class SampleIT extends TestBase {
         // verify no issues
         finish();
     }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check the waitForElementPresent method")
+    public void sampleTestNegativeWaitForElementPresent() throws Exception {
+        SeleniumHelper selHelper = this.selHelper.get();
+        // obtain our logger
+        TestOutput output = this.output.get();
+        // perform some actions
+        selHelper.waitForElementPresent(Locators.name, "non-existent-name");
+        // verify no issues
+        assertTrue(output.getErrors() == 1);
+        finishNoAssert();
+    }
 
     @Test(groups = { "sample" }, description = "A sample test to check the waitForElementNotPresent method")
     public void sampleTestWaitForElementNotPresent() throws Exception {
@@ -103,6 +117,18 @@ public class SampleIT extends TestBase {
         // verify no issues
         finish();
     }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check the waitForElementNotPresent method")
+    public void sampleTestNegativeWaitForElementNotPresent() throws Exception {
+        SeleniumHelper selHelper = this.selHelper.get();
+        // obtain our logger
+        TestOutput output = this.output.get();
+        // perform some actions
+        selHelper.waitForElementNotPresent(Locators.name, "q");
+        // verify no issues
+        assertTrue(output.getErrors() == 1);
+        finishNoAssert();
+    }
 
     @Test(groups = { "sample" }, description = "A sample test to check the waitForElementDisplayed method")
     public void sampleTestWaitForElementDisplayed() throws Exception {
@@ -111,6 +137,18 @@ public class SampleIT extends TestBase {
         selHelper.waitForElementDisplayed(Locators.name, "q");
         // verify no issues
         finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check the waitForElementDisplayed method")
+    public void sampleTestNegativeWaitForElementDisplayed() throws Exception {
+        SeleniumHelper selHelper = this.selHelper.get();
+        // obtain our logger
+        TestOutput output = this.output.get();
+        // perform some actions
+        selHelper.waitForElementDisplayed(Locators.name, "non-existent-name");
+        // verify no issues
+        assertTrue(output.getErrors() == 1);
+        finishNoAssert();
     }
 
     @Test(groups = { "sample" }, description = "A sample test to check a title")
@@ -122,6 +160,19 @@ public class SampleIT extends TestBase {
         // verify no issues
         finish();
     }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleTestNegativeWaitForElementNotDisplayed() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // obtain our logger
+        TestOutput output = this.output.get();
+        // perform some actions
+        selHelper.waitForElementNotDisplayed(Locators.name, "q");
+        // verify no issues
+        assertTrue(output.getErrors() == 1);
+        finishNoAssert();
+    }
 
     @Test(groups = { "sample" }, description = "A sample test to check a title")
     public void sampleTestWaitForElementEnabled() throws Exception {
@@ -131,6 +182,19 @@ public class SampleIT extends TestBase {
         selHelper.waitForElementEnabled(Locators.name, "q");
         // verify no issues
         finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleTestNegativeWaitForElementEnabled() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // obtain our logger
+        TestOutput output = this.output.get();
+        // perform some actions
+        selHelper.waitForElementEnabled(Locators.id, "gs_taif0");
+        // verify no issues
+        assertTrue(output.getErrors() == 1);
+        finishNoAssert();
     }
 
     @Test(groups = { "sample" }, description = "A sample test to check a title")
@@ -142,7 +206,154 @@ public class SampleIT extends TestBase {
         // verify no issues
         finish();
     }
-
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleTestNegativeWaitForNotElementEnabled() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // obtain our logger
+        TestOutput output = this.output.get();
+        // perform some actions
+        selHelper.waitForElementNotEnabled(Locators.name, "q");
+        // verify no issues
+        assertTrue(output.getErrors() == 1);
+        finishNoAssert();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleNegativeScrollTest() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // obtain our logger
+        TestOutput output = this.output.get();
+        // perform some actions
+        selHelper.scroll(50);
+        // verify no issues
+        assertTrue(output.getErrors() == 1);
+        finishNoAssert();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleGetNumOfSelectOptionsTest() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.yahoo.com/");
+        assertTrue(selHelper.getNumOfSelectOptions(Locators.name, "league") == 3);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleNegativeGetNumOfSelectOptionsTest() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.yahoo.com/");
+        assertTrue(!(selHelper.getNumOfSelectOptions(Locators.name, "league") == 0));
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleGetSelectOptionsTest() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.yahoo.com/");
+        assertTrue(Arrays.equals(selHelper.getSelectOptions(Locators.name, "league"),new String[]{"nba", "nhl", "mlb"}));
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleGetTableRows() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.seleniumhq.org/");
+        assertTrue(selHelper.getTableRows(Locators.id, "choice").size() == 1);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleNegativeGetTableRows() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.seleniumhq.org/");
+        assertTrue(!(selHelper.getTableRows(Locators.id, "choice").size() == 0));
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleGetNumOfTableRows() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.seleniumhq.org/");
+        assertTrue(selHelper.getNumOfTableRows(Locators.id, "choice") == 1);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    public void sampleNegativeGetNumOfTableRows() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.seleniumhq.org/");
+        assertTrue(!(selHelper.getNumOfTableRows(Locators.id, "choice") == 0));
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample1" }, description = "A sample test to check a title")
+    public void sampleGetTableColumns() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.seleniumhq.org/");
+        assertTrue(selHelper.getTableColumns(Locators.id, "choice").size() == 2);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample1" }, description = "A sample test to check a title")
+    public void sampleNegativeGetTableColumns() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.seleniumhq.org/");
+        assertTrue(!(selHelper.getTableColumns(Locators.id, "choice").size() == 0));
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample1" }, description = "A sample test to check a title")
+    public void sampleGetNumOfTableColumns() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.seleniumhq.org/");
+        assertTrue(selHelper.getNumOfTableColumns(Locators.id, "choice") == 2);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "sample1" }, description = "A sample test to check a title")
+    public void sampleNegativeGetNumOfTableColumns() throws Exception {
+        // obtain our browser instance
+        SeleniumHelper selHelper = this.selHelper.get();
+        // perform some actions
+        selHelper.goToURL("http://www.seleniumhq.org/");
+        assertTrue(!(selHelper.getNumOfTableColumns(Locators.id, "choice") == 0));
+        // verify no issues
+        finish();
+    }
+    
     @Test(groups = { "sample" }, description = "A sample test to check a title")
     public void sampleScrollTest() throws Exception {
         // obtain our browser instance

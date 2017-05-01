@@ -833,7 +833,7 @@ public class SeleniumHelper {
         }
         WebElement element = getWebElement(type, locator);
         // TODO - this locator may need to be updated
-        return element.findElements(By.xpath(".//tr[1]/th"));
+        return element.findElements(By.xpath(".//tr[1]/td"));
     }
 
     /**
