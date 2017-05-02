@@ -56,7 +56,6 @@ data is available in the custom test reporting.
  * a dependency (optional) - based on either another group or test, or multiples
  * a data provider (optional) - if this test takes multiple inputs, allowing the test to run multiple times
 
-<<<<<<< HEAD
 The method body should start with one or two lines, based on the test steps you plan to perform. Tests should always 
 start in a known state, be sure you use your @BeforeMethod annotation to set this up if needed. Next, tests should
 perform some action (this may or may not be necessary, depending on the test). To perform any selenium actions, first
@@ -64,13 +63,6 @@ obtain the selenium `action` object automatically created for this test.
 
 ```java
     Action actions = this.actions.get();
-=======
-The method body should start with one or two lines, in order to obtain the passed in Method and ITestContext. 
-The below line should start each test, to ensure the custom test report is properly generated
-
-```java
-    TestOutput output = this.output.get();
->>>>>>> master
 ```
 
 Then perform any actions you desire, using this object. All Selenium commands to be executed can be found within 
@@ -84,37 +76,18 @@ You should end each test case performing a verification of your actions. The `as
 for any and all selenium verifications.
 
 ```java
-<<<<<<< HEAD
     Assert asserts = this.asserts.get();
 ```
 
 Similar to the first class, functionality from confirming an alert and element are present, to checking the css and 
 page source are all contained within this class. 
-=======
-    SeleniumHelper selHelper = this.selHelper.get();
-```
-
-
-All Selenium commands to be executed can be found within the SeleniumHelper class. Functionality from clicking and 
-typing, to hovering and changing orientation are all contained within this class. Using and IDE such as Eclipse 
-will help you auto-complete desired commands, and the JavaDocs provided will outline each piece of functionality. 
-For performing checks and verifications, the output class should be used. Functionality from confirming an alert 
-and element are present, to checking the css and page source are all contained within this class. Tests can be 
-built directly from combining these method calls into a test, or alternatively to create an overall stronger set 
-of tests, a separate class or classes can be created to form workflows using these actions. Test steps can then 
-reference calls to workflows, instead of direct actions.
->>>>>>> master
 
 Finally, in order to track errors within the tests, the last step of each test is comparing the value within errors
 to the number 0. This will then throw an error if any issues occurred during the test. All previous errors are caught
 and handled, to allow the test to run to completion if possible. This last line should read as follow:
 
 ```java
-<<<<<<< HEAD
     finish();
-=======
-    finish( output );
->>>>>>> master
 ```
 
 If a class has multiple tests that are similar, but simply require one or two different inputs, a dataProvider 
@@ -307,8 +280,4 @@ listed to make fixing tests or the app easier.
 
 If running within SecureCI™ and Jenkins, TestNG produces a JUnit XML results file. This is great for storing 
 results/metrics within Jenkins, and tracking trends. Additionally, consider archiving testing results to go along 
-<<<<<<< HEAD
 with these trending results.
-=======
-with these trending results.
->>>>>>> master
