@@ -1,4 +1,4 @@
-package tools.logging;
+package tools.output;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,17 +14,16 @@ import java.util.Date;
 import org.testng.log4testng.Logger;
 
 import tools.General;
-import tools.logging.TestOutput.Result;
-import tools.logging.TestOutput.Success;
-import tools.selenium.SeleniumHelper;
-import tools.selenium.SeleniumHelper.Browsers;
-import tools.selenium.SeleniumHelper.Locators;
+import tools.output.Action.Browsers;
+import tools.output.Action.Locators;
+import tools.output.Assert.Result;
+import tools.output.Assert.Success;
 
 public class OutputFile {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
-	private SeleniumHelper selHelper = null;
+	private Action selHelper = null;
 
 	private String url;
 	private String suite;
@@ -68,7 +67,7 @@ public class OutputFile {
 		return errors;
 	}
 
-	public void setSeleniumHelper(SeleniumHelper seleniumHelper) {
+	public void setSeleniumHelper(Action seleniumHelper) {
 		selHelper = seleniumHelper;
 	}
 

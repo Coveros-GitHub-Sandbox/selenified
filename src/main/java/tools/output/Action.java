@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools.selenium;
+package tools.output;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -33,8 +33,8 @@ import selenified.exceptions.InvalidActionException;
 import selenified.exceptions.InvalidBrowserException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
-import tools.logging.OutputFile;
-import tools.logging.TestOutput.Result;
+import tools.TestSetup;
+import tools.output.Assert.Result;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -50,7 +50,7 @@ import java.util.*;
  * @version 2.0.0
  * @lastupdate 3/29/2017
  */
-public class SeleniumHelper {
+public class Action {
 
     private static final Logger log = Logger.getLogger(General.class);
 
@@ -75,7 +75,7 @@ public class SeleniumHelper {
      * @throws InvalidBrowserException
      * @throws MalformedURLException
      */
-    public SeleniumHelper(Browsers browser, DesiredCapabilities capabilities, OutputFile file) throws InvalidBrowserException, MalformedURLException {
+    public Action(Browsers browser, DesiredCapabilities capabilities, OutputFile file) throws InvalidBrowserException, MalformedURLException {
         this.browser = browser;
         this.capabilities = capabilities;
         this.file = file;
@@ -85,7 +85,7 @@ public class SeleniumHelper {
             driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), capabilities);
         } else {
             capabilities.setJavascriptEnabled(true);
-            driver = SeleniumSetup.setupDriver(browser, capabilities);
+            driver = TestSetup.setupDriver(browser, capabilities);
         }
     }
 

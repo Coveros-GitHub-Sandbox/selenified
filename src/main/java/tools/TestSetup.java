@@ -1,4 +1,4 @@
-package tools.selenium;
+package tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,10 +25,9 @@ import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import io.github.bonigarcia.wdm.OperaDriverManager;
 import selenified.exceptions.InvalidBrowserException;
-import tools.General;
-import tools.selenium.SeleniumHelper.Browsers;
+import tools.output.Action.Browsers;
 
-public class SeleniumSetup {
+public class TestSetup {
 	
 	// constants
 	private static final String PROXY_INPUT = "proxy";
@@ -40,7 +39,7 @@ public class SeleniumSetup {
 	private static final String DEVICE_PLATFORM_INPUT = "devicePlatform";
 
 	
-	private SeleniumSetup() {}
+	private TestSetup() {}
 
 	public static DesiredCapabilities setupProxy(DesiredCapabilities capabilities) {
 		// are we running through a proxy

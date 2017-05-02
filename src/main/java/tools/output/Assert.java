@@ -18,14 +18,13 @@
  * under the License.
  */
 
-package tools.logging;
+package tools.output;
 
 import selenified.exceptions.InvalidActionException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
-import tools.selenium.SeleniumHelper;
-import tools.selenium.SeleniumHelper.Browsers;
-import tools.selenium.SeleniumHelper.Locators;
+import tools.output.Action.Browsers;
+import tools.output.Action.Locators;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -40,9 +39,9 @@ import java.util.regex.Pattern;
  * @version 1.0.4
  * @lastupdate 8/29/2016
  */
-public class TestOutput {
+public class Assert {
 
-    private SeleniumHelper selHelper;
+    private Action selHelper;
     private OutputFile outputFile;
 
     //////////////////////////////////////////////////////////////////
@@ -55,11 +54,11 @@ public class TestOutput {
      * @param browser         the browser we are running our tests with
      * @param outputDir       the output directory to store the results
      */
-    public TestOutput(String testsName, Browsers browser, String outputDir) {
+    public Assert(String testsName, Browsers browser, String outputDir) {
         outputFile = new OutputFile(outputDir, testsName, browser);
     }
 
-    public void setSeleniumHelper(SeleniumHelper thisSelHelper) {
+    public void setSeleniumHelper(Action thisSelHelper) {
         selHelper = thisSelHelper;
     }
     
