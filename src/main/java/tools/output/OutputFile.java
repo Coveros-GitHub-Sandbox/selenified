@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,7 +47,13 @@ public class OutputFile {
 	// the image width for reporting
 	private int embeddedImageWidth = 300;
 
-	OutputFile(String testDirectory, String testName, Browsers setBrowser) {
+	// constants
+	private static final String START_ROW = "   <tr>\n";
+	private static final String START_CELL = "    <td>";
+	private static final String END_CELL = "</td>\n";
+	private static final String END_ROW = "   </tr>\n";
+
+	public OutputFile(String testDirectory, String testName, Browsers setBrowser) {
 
 		test = testName;
 		browser = setBrowser;
@@ -63,6 +67,14 @@ public class OutputFile {
 		return filename;
 	}
 
+	public long getStartTime() {
+		return startTime;
+	}
+	
+	public long getLastTime() {
+		return lastTime;
+	}
+	
 	public int getErrors() {
 		return errors;
 	}
@@ -134,7 +146,7 @@ public class OutputFile {
 	 */
 	public int countInstancesOf(String textToFind) {
 		int count = 0;
-		try (FileReader fr = new FileReader(filename); BufferedReader reader = new BufferedReader(fr);) {
+		try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
 			String line = "";
 			while ((line = reader.readLine()) != null) {
 				if (line.contains(textToFind)) {
@@ -158,22 +170,22 @@ public class OutputFile {
 	 *            - the text to be replaced with
 	 */
 	public void replaceInFile(String oldText, String newText) {
-		String line = "";
-		String oldtext = "";
+		StringBuilder oldContent = new StringBuilder();
 
 		try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
+			String line = "";
 			while ((line = reader.readLine()) != null) {
-				oldtext += line + "\r\n";
+				oldContent.append(line + "\r\n");
 			}
 		} catch (IOException ioe) {
 			log.error(ioe);
 		}
 
 		// replace a word in a file
-		String newtext = oldtext.replaceAll(oldText, newText);
+		String newContent = oldContent.toString().replaceAll(oldText, newText);
 
 		try (FileWriter writer = new FileWriter(file);) {
-			writer.write(newtext);
+			writer.write(newContent);
 		} catch (IOException ioe) {
 			log.error(ioe);
 		}
@@ -203,13 +215,14 @@ public class OutputFile {
 	 * @return new image link
 	 */
 	public String captureEntirePageScreenshot(String imageLink, String imageName) {
+		String link = imageLink;
 		try {
 			selHelper.takeScreenshot(imageName);
 		} catch (Exception e1) {
 			log.error(e1);
-			imageLink = "<br><b><font color=red>No Screenshot Available</font></b>";
+			link = "<br><b><font color=red>No Screenshot Available</font></b>";
 		}
-		return imageLink;
+		return link;
 	}
 
 	/**
@@ -231,7 +244,7 @@ public class OutputFile {
 		if (result == Result.SUCCESS) {
 			success = "Pass";
 		}
-		if (success.equals("Fail") && browser != Browsers.HtmlUnit) {
+		if ("Fail".equals(success) && browser != Browsers.HtmlUnit) {
 			// get a screen shot of our action
 			imageLink = captureImage();
 		}
@@ -244,15 +257,14 @@ public class OutputFile {
 				// Reopen file
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
 			// record our action
-			out.write("   <tr>\n");
+			out.write(START_ROW);
 			out.write("    <td align='center'>" + stepNum + ".</td>\n");
-			out.write("    <td>" + action + "</td>\n");
-			out.write("    <td>" + expectedResult + "</td>\n");
-			out.write(
-					"    <td class='" + result.toString().toLowerCase() + "'>" + actualResult + imageLink + "</td>\n");
-			out.write("    <td>" + dTime + "ms / " + tTime + "ms</td>\n");
-			out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + "</td>\n");
-			out.write("   </tr>\n");
+			out.write(START_CELL + action + END_CELL);
+			out.write(START_CELL + expectedResult + END_CELL);
+			out.write("    <td class='" + result.toString().toLowerCase() + "'>" + actualResult + imageLink + END_CELL);
+			out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
+			out.write("    <td class='" + success.toLowerCase() + "'>" + success + END_CELL);
+			out.write(END_ROW);
 		} catch (IOException e) {
 			log.error(e);
 		}
@@ -279,11 +291,11 @@ public class OutputFile {
 			// determine time differences
 			Date currentTime = new Date();
 			long dTime = currentTime.getTime() - lastTime;
-			long tTime = (currentTime.getTime() - startTime);
+			long tTime = currentTime.getTime() - startTime;
 			lastTime = currentTime.getTime();
 			// write out our actual outcome
-			out.write("    <td>" + actualOutcome + imageLink + "</td>\n");
-			out.write("    <td>" + dTime + "ms / " + tTime + "ms</td>\n");
+			out.write(START_CELL + actualOutcome + imageLink + END_CELL);
+			out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
 			// write out our pass or fail result
 			if (result == Success.PASS) {
 				out.write("    <td class='pass'>Pass</td>\n");
@@ -291,7 +303,7 @@ public class OutputFile {
 				out.write("    <td class='fail'>Fail</td>\n");
 			}
 			// end our row
-			out.write("   </tr>\n");
+			out.write(END_ROW);
 		} catch (IOException e) {
 			log.error(e);
 		}
@@ -311,13 +323,13 @@ public class OutputFile {
 				// reopen our log file
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
 			// start our row
-			out.write("   <tr>\n");
+			out.write(START_ROW);
 			// log our step number
 			out.write("    <td align='center'>" + stepNum + ".</td>\n");
 			// leave the step blank as this is simply a check
 			out.write("    <td> </td>\n");
 			// write out our expected outcome
-			out.write("    <td>" + expectedOutcome + "</td>\n");
+			out.write(START_CELL + expectedOutcome + END_CELL);
 		} catch (IOException e) {
 			log.error(e);
 		}
@@ -332,16 +344,18 @@ public class OutputFile {
 	 *             - an IOException
 	 */
 	public int startTestTemplateOutputFile() throws IOException {
+		String startingPage = "The starting page <i>";
+
 		createOutputHeader();
 		if (selHelper != null) {
 			selHelper.getDriver().get(url);
-			Result result = (selHelper.isElementPresent(Locators.xpath, "//body", false)) ? Result.SUCCESS
+			Result result = selHelper.isElementPresent(Locators.xpath, "//body", false) ? Result.SUCCESS
 					: Result.FAILURE;
-			String actual = (selHelper.isElementPresent(Locators.xpath, "//body", false))
-					? "The starting page <i>" + url + "</i> loaded successfully"
-					: "The starting page <i>" + url + "</i> did not load successfully";
+			String actual = selHelper.isElementPresent(Locators.xpath, "//body", false)
+					? startingPage + url + "</i> loaded successfully"
+					: startingPage + url + "</i> did not load successfully";
 			recordAction("Opening new browser and loading up starting page",
-					"The starting page <i>" + url + "</i> will successfully load", actual, result);
+					startingPage + url + "</i> will successfully load", actual, result);
 			if (result == Result.SUCCESS) {
 				return 0;
 			} else {
@@ -359,6 +373,12 @@ public class OutputFile {
 	 *             - an IOException
 	 */
 	public void createOutputHeader() {
+		// setup some constants
+		String endBracket3 = "   }\n";
+		String endBracket4 = "    }\n";
+		String boldFont = "    font-weight:bold;\n";
+		String swapRow = "   </tr><tr>\n";
+
 		// Open file
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy");
 		SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
@@ -373,39 +393,39 @@ public class OutputFile {
 			out.write("    margin-left:auto;margin-right:auto;\n");
 			out.write("    width:90%;\n");
 			out.write("    border-collapse:collapse;\n");
-			out.write("   }\n");
+			out.write(endBracket3);
 			out.write("   table, td, th {\n");
 			out.write("    border:1px solid black;\n");
 			out.write("    padding:0px 10px;\n");
-			out.write("   }\n");
+			out.write(endBracket3);
 			out.write("   th {\n");
 			out.write("    text-align:right;\n");
-			out.write("   }\n");
+			out.write(endBracket3);
 			out.write("   td {\n");
 			out.write("    word-wrap: break-word;\n");
-			out.write("   }\n");
+			out.write(endBracket3);
 			out.write("   td.warning {\n");
 			out.write("    color:yellow;\n");
-			out.write("    font-weight:bold;\n");
-			out.write("   }\n");
+			out.write(boldFont);
+			out.write(endBracket3);
 			out.write("   td.fail {\n");
 			out.write("    color:red;\n");
-			out.write("    font-weight:bold;\n");
-			out.write("   }\n");
+			out.write(boldFont);
+			out.write(endBracket3);
 			out.write("   td.pass {\n");
 			out.write("    color:green;\n");
-			out.write("    font-weight:bold;\n");
-			out.write("   }\n");
+			out.write(boldFont);
+			out.write(endBracket3);
 			out.write("  </style>\n");
 			out.write("  <script type='text/javascript'>\n");
 			out.write("   function toggleImage( imageName ) {\n");
 			out.write("    var element = document.getElementById( imageName );\n");
 			out.write("    element.src = location.href.match(/^.*\\//) + imageName;\n");
 			out.write("    element.style.display = (element.style.display != 'none' ? 'none' : '' );\n");
-			out.write("   }\n");
+			out.write(endBracket3);
 			out.write("   function displayImage( imageName ) {\n");
 			out.write("    window.open( location.href.match(/^.*\\//) + imageName )\n");
-			out.write("   }\n");
+			out.write(endBracket3);
 			out.write("   function toggleVis(col_no, do_show) {\n");
 			out.write("    var stl;\n");
 			out.write("    if (do_show) stl = ''\n");
@@ -417,8 +437,8 @@ public class OutputFile {
 			out.write("    for (var row=1; row<rows.length;row++) {\n");
 			out.write("     var cels = rows[row].getElementsByTagName('td')\n");
 			out.write("     cels[col_no].style.display=stl;\n");
-			out.write("    }\n");
-			out.write("   }\n");
+			out.write(endBracket4);
+			out.write(endBracket3);
 			out.write("   function getElementsByClassName(oElm, strTagName, strClassName){\n");
 			out.write(
 					"    var arrElements = (strTagName == '*' && document.all)? document.all : oElm.getElementsByTagName(strTagName);\n");
@@ -431,56 +451,56 @@ public class OutputFile {
 			out.write("     if(oRegExp.test(oElement.className)){\n");
 			out.write("      arrReturnElements.push(oElement);\n");
 			out.write("     }\n");
-			out.write("    }\n");
+			out.write(endBracket4);
 			out.write("    return (arrReturnElements)\n");
-			out.write("   }\n");
+			out.write(endBracket3);
 			out.write("   function fixImages( imageName ) {\n");
 			out.write("    top.document.title = document.title;\n");
 			out.write("    allImgIcons = getElementsByClassName( document, 'img', 'imgIcon' );\n");
 			out.write("    for( var element in allImgIcons ) {\n");
 			out.write("     element.src = location.href.match(/^.*\\//) + element.src;\n");
-			out.write("    }\n");
-			out.write("   }\n");
+			out.write(endBracket4);
+			out.write(endBracket3);
 			out.write("  </script>\n");
 			out.write(" </head>\n");
 			out.write(" <body onLoad='fixImages()'>\n");
 			out.write("  <table>\n");
-			out.write("   <tr>\n");
+			out.write(START_ROW);
 			out.write("    <th bgcolor='lightblue'><font size='5'>Test</font></th>\n");
 			out.write("    <td bgcolor='lightblue' colspan=3>" + "<font size='5'>" + test + " </font></td>\n");
-			out.write("   </tr><tr>\n");
+			out.write(swapRow);
 			out.write("    <th>Tester</th>\n");
 			out.write("    <td>Automated</td>\n");
 			out.write("    <th>Version</th>\n");
-			out.write("    <td>" + this.version + "</td>\n");
-			out.write("   </tr><tr>\n");
+			out.write(START_CELL + this.version + END_CELL);
+			out.write(swapRow);
 			out.write("    <th>Author</th>\n");
-			out.write("    <td>" + this.author + "</td>\n");
+			out.write(START_CELL + this.author + END_CELL);
 			out.write("    <th>Date Test Last Modified</th>\n");
-			out.write("    <td>" + sdf.format(this.lastModified) + "</td>\n");
-			out.write("   </tr><tr>\n");
+			out.write(START_CELL + sdf.format(this.lastModified) + END_CELL);
+			out.write(swapRow);
 			out.write("    <th>Date Tested</th>\n");
-			out.write("    <td>" + datePart + "</td>\n");
+			out.write(START_CELL + datePart + END_CELL);
 			if (this.selHelper != null) {
 				out.write("    <th>Browser</th>\n");
-				out.write("    <td>" + browser + "</td>\n");
+				out.write(START_CELL + browser + END_CELL);
 			}
-			out.write("   </tr><tr>\n");
+			out.write(swapRow);
 			out.write("    <th>Test Run Time</th>\n");
 			out.write("    <td colspan=3>\n");
 			out.write("     Start:\t" + sTime + " <br/>\n");
 			out.write("     End:\tTIMEFINISHED <br/>\n");
 			out.write("     Run Time:\tRUNTIME \n");
-			out.write("    </td>\n");
-			out.write("   </tr><tr>\n");
+			out.write("    </td>\n ");
+			out.write(swapRow);
 			out.write("    <th>Testing Group</th>\n");
-			out.write("    <td>" + group + "</td>\n");
+			out.write(START_CELL + group + END_CELL);
 			out.write("    <th>Testing Suite</th>\n");
-			out.write("    <td>" + suite + "</td>\n");
-			out.write("   </tr><tr>\n");
+			out.write(START_CELL + suite + END_CELL);
+			out.write(swapRow);
 			out.write("    <th>Test Objectives</th>\n");
-			out.write("    <td colspan=3>" + objectives + "</td>\n");
-			out.write("   </tr><tr>\n");
+			out.write("    <td colspan=3>" + objectives + END_CELL);
+			out.write(swapRow);
 			out.write("    <th>Overall Results</th>\n");
 			out.write("    <td colspan=3 style='padding: 0px;'>\n");
 			out.write("     <table style='width: 100%;'><tr>\n");
@@ -491,7 +511,7 @@ public class OutputFile {
 			out.write("      <td>STEPSPERFORMED</td><td>STEPSPASSED</td><td>STEPSFAILED</td>\n");
 			out.write("     </tr></table>\n");
 			out.write("    </td>\n");
-			out.write("   </tr><tr>\n");
+			out.write(swapRow);
 			out.write("    <th>View Results</th>\n");
 			out.write("    <td colspan=3>\n");
 			out.write("     <input type=checkbox name='step' onclick='toggleVis(0,this.checked)' checked>Step\n");
@@ -504,16 +524,16 @@ public class OutputFile {
 					"     <input type=checkbox name='times' onclick='toggleVis(4,this.checked)' checked>Step Times \n");
 			out.write("     <input type=checkbox name='result' onclick='toggleVis(5,this.checked)' checked>Results\n");
 			out.write("    </td>\n");
-			out.write("   </tr>\n");
+			out.write(END_ROW);
 			out.write("  </table>\n");
 			out.write("  <table id='all_results'>\n");
-			out.write("   <tr>\n");
+			out.write(START_ROW);
 			out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>"
 					+ "<th style='text-align:center'>Expected Result</th>"
 					+ "<th style='text-align:center'>Actual Result</th>"
 					+ "<th style='text-align:center'>Step Times</th>"
 					+ "<th style='text-align:center'>Pass/Fail</th>\n");
-			out.write("   </tr>\n");
+			out.write(END_ROW);
 		} catch (IOException e) {
 			log.error(e);
 		}
@@ -548,18 +568,18 @@ public class OutputFile {
 		String timeNow = stf.format(new Date());
 		long totalTime = (new Date()).getTime() - startTime;
 		long time = totalTime / 1000;
-		String seconds = Integer.toString((int) (time % 60));
-		String minutes = Integer.toString((int) ((time % 3600) / 60));
-		String hours = Integer.toString((int) (time / 3600));
+		StringBuilder seconds = new StringBuilder(Integer.toString((int) (time % 60)));
+		StringBuilder minutes = new StringBuilder(Integer.toString((int) ((time % 3600) / 60)));
+		StringBuilder hours = new StringBuilder(Integer.toString((int) (time / 3600)));
 		for (int i = 0; i < 2; i++) {
 			if (seconds.length() < 2) {
-				seconds = "0" + seconds;
+				seconds.insert(0, "0");
 			}
 			if (minutes.length() < 2) {
-				minutes = "0" + minutes;
+				minutes.insert(0, "0");
 			}
 			if (hours.length() < 2) {
-				hours = "0" + hours;
+				hours.insert(0, "0");
 			}
 		}
 		replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
@@ -596,8 +616,7 @@ public class OutputFile {
 	 */
 	public String generateImageName() {
 		long timeInSeconds = new Date().getTime();
-		SecureRandom random = new SecureRandom();
-		String randomChars = new BigInteger(130, random).toString(10);
+		String randomChars = General.getRandomString(10);
 		return directory + "/" + timeInSeconds + "_" + randomChars + ".png";
 	}
 
@@ -610,8 +629,12 @@ public class OutputFile {
 	 *         html file
 	 */
 	public String generateImageSource(String imageName) {
-		return "<br/><div align='center' width='100%'><img id='" + imageName.substring(directory.length() + 1)
-				+ "' class='imgIcon' src='" + imageName.substring(directory.length() + 1) + "'></div>";
+		String image = "";
+		if (imageName.length() > directory.length()) {
+			image = imageName.substring(directory.length() + 1);
+		}
+		return "<br/><div align='center' width='100%'><img id='" + image + "' class='imgIcon' src='" + image
+				+ "'></div>";
 	}
 
 	/**

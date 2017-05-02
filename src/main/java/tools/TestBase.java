@@ -156,8 +156,7 @@ public class TestBase {
 		myFile.setVersion(version);
 		myFile.setAuthor(author);
 		myFile.setObjectives(description);
-		long time = (new Date()).getTime();
-		myFile.setStartTime(time);
+		myFile.setStartTime();
 		if (selenium) {
 			try {
 				Action mySelHelper = new Action(myBrowser, myCapability, myFile);
