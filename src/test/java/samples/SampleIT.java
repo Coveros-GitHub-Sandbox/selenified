@@ -7,9 +7,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import tools.TestBase;
-import tools.logging.TestOutput;
-import tools.selenium.SeleniumHelper.Locators;
-import tools.selenium.SeleniumHelper;
+import tools.output.Action;
+import tools.output.Assert;
+import tools.output.Action.Locators;
 
 public class SampleIT extends TestBase {
 
@@ -31,40 +31,28 @@ public class SampleIT extends TestBase {
 
 	@Test(groups = { "sample" }, description = "A sample test to check a title")
 	public void sampleTest() throws IOException {
-		// obtain our logger
-		TestOutput output = this.output.get();
-		// perform some actions
-		output.compareTitle("Google");
-		// verify no issues
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform our verification
+		asserts.compareTitle("Google");
+		// close out the test
 		finish();
 	}
 
 	@Test(dataProvider = "google search terms", groups = {
 			"sample" }, description = "A sample test using a data provider to perform searches")
 	public void sampleTestWDataProvider(String searchTerm) throws IOException {
-		// obtain our browser instance
-		SeleniumHelper selHelper = this.selHelper.get();
-		// obtain our logger
-		TestOutput output = this.output.get();
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
 		// perform some actions
-		selHelper.type(Locators.name, "q", searchTerm);
-		selHelper.click(Locators.name, "btnG");
-		selHelper.waitForElementDisplayed(Locators.id, "resultStats");
-		output.compareTitle(searchTerm + " - Google Search");
-		// verify no issues
-		finish();
-	}
-	
-	@Test(groups = { "sample" }, description = "A sample test to check a title")
-	public void sampleScrollTest() throws Exception {
-		// obtain our browser instance
-		SeleniumHelper selHelper = this.selHelper.get();
-		// perform some actions
-		selHelper.type(Locators.name, "q", "scroll");
-		selHelper.click(Locators.name, "btnG");
-		selHelper.waitForElementDisplayed(Locators.id, "resultStats");
-		selHelper.scroll(50);
-		// verify no issues
+		actions.type(Locators.name, "q", searchTerm);
+		actions.click(Locators.name, "btnG");
+		actions.waitForElementDisplayed(Locators.id, "resultStats");
+		// perform our verification
+		asserts.compareTitle(searchTerm + " - Google Search");
+		// close out the test
 		finish();
 	}
 }

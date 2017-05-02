@@ -7,7 +7,7 @@ or nested set of folders within the src directory. Within each folder, then crea
 more Java classes. Name the class something descriptive following the test suites purposes.
 
 ###Structuring the Test Suite
-Have each class extend the SeleniumTestBase class which is contained within the 
+Have each class extend the TestBase class which is contained within the 
 selenified.jar. Each suite can optionally contain a method setting up some details to 
 be used in each test. The URL the selenium tests should connect to (which can be overridden), 
 the author of the tests, and the version of tests or software under test. 
@@ -56,35 +56,38 @@ data is available in the custom test reporting.
  * a dependency (optional) - based on either another group or test, or multiples
  * a data provider (optional) - if this test takes multiple inputs, allowing the test to run multiple times
 
-The method body should start with one or two lines, in order to obtain the passed in Method and ITestContext. 
-The below line should start each test, to ensure the custom test report is properly generated
+The method body should start with one or two lines, based on the test steps you plan to perform. Tests should always 
+start in a known state, be sure you use your @BeforeMethod annotation to set this up if needed. Next, tests should
+perform some action (this may or may not be necessary, depending on the test). To perform any selenium actions, first
+obtain the selenium `action` object automatically created for this test.
 
 ```java
-    TestOutput output = this.output.get();
+    Action actions = this.actions.get();
 ```
 
-If any Selenium commands will be run, you’ll want to pull the SeleniumHelper object as well
+Then perform any actions you desire, using this object. All Selenium commands to be executed can be found within 
+the Action class. Functionality from clicking and typing, to hovering and changing orientation are all contained 
+within this class. Using and IDE such as Eclipse will help you auto-complete desired commands, and the JavaDocs 
+provided will outline each piece of functionality. Tests can be built directly from combining these method calls 
+into a test, or alternatively to create an overall stronger set of tests, a separate class or classes can be created 
+to form workflows using these actions. Test steps can then reference calls to workflows, instead of direct actions.
+
+You should end each test case performing a verification of your actions. The `assert` object is automatically created
+for any and all selenium verifications.
 
 ```java
-    SeleniumHelper selHelper = this.selHelper.get();
+    Assert asserts = this.asserts.get();
 ```
 
-
-All Selenium commands to be executed can be found within the SeleniumHelper class. Functionality from clicking and 
-typing, to hovering and changing orientation are all contained within this class. Using and IDE such as Eclipse 
-will help you auto-complete desired commands, and the JavaDocs provided will outline each piece of functionality. 
-For performing checks and verifications, the output class should be used. Functionality from confirming an alert 
-and element are present, to checking the css and page source are all contained within this class. Tests can be 
-built directly from combining these method calls into a test, or alternatively to create an overall stronger set 
-of tests, a separate class or classes can be created to form workflows using these actions. Test steps can then 
-reference calls to workflows, instead of direct actions.
+Similar to the first class, functionality from confirming an alert and element are present, to checking the css and 
+page source are all contained within this class. 
 
 Finally, in order to track errors within the tests, the last step of each test is comparing the value within errors
 to the number 0. This will then throw an error if any issues occurred during the test. All previous errors are caught
 and handled, to allow the test to run to completion if possible. This last line should read as follow:
 
 ```java
-    finish( output );
+    finish();
 ```
 
 If a class has multiple tests that are similar, but simply require one or two different inputs, a dataProvider 
@@ -170,18 +173,25 @@ address and port in the parameter
 ```
 
 ### Eclipse
-Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is SampleTests.java), and select the Run As menu item, and click on the TestNG Test sub-item. This will launch the tests.
+Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
+the test(s) you want to run (for our example it is SampleTests.java), and select the Run As menu item, and click on 
+the TestNG Test sub-item. This will launch the tests.
 
-Once the tests have completed running, TestNG results will be displayed under the TestNG tab at the lower section of the screen.
+Once the tests have completed running, TestNG results will be displayed under the TestNG tab at the lower section of 
+the screen.
 
-If you want to provide inputs to the tests being run, when right clicking on the Java file containing test, select the Run Configurations... sub-item. On the option screen, select the Arguments tab on the upper left of the screen. In the Program arguments input area, enter in the desired input details to be tested as below:
+If you want to provide inputs to the tests being run, when right clicking on the Java file containing test, select the 
+Run Configurations... sub-item. On the option screen, select the Arguments tab on the upper left of the screen. In the 
+Program arguments input area, enter in the desired input details to be tested as below:
 ```
 -Dtest-suite=smoke.xml -appURL=www.google.com -Dbrowser=Chrome -Dhub=localhost -Dproxy=localhost:8082
 ```
 ### IntelliJ
-Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is SampleTests.java), and select the Run (package, class, or method) menu item. This will launch the tests.
+Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is 
+SampleIT.java), and select the Run (package, class, or method) menu item. This will launch the tests.
 
-If you want to provide inputs to the tests being run, select Run -> Edit Configurations... from the top menu. On the option menu, under JDK Settings tab, add your options into the VM options field as below:
+If you want to provide inputs to the tests being run, select Run -> Edit Configurations... from the top menu. 
+On the option menu, under JDK Settings tab, add your options into the VM options field as below:
 ```
 -Dtest-suite=./suites/regression.xml -appURL=google.com -Dbrowser=InternetExplorer -Dhub=192.168.1.10
 ```
@@ -189,7 +199,8 @@ You can enter these values under either your already created tests, or as the de
 
 ### Command Line
 #### TestNG
-Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the cd command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
+command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
 ``` 
 rm -rf bin/*
 ```
@@ -217,7 +228,8 @@ Finally, launch your tests
 java -cp "bin;target/dependency/*" -DappURL=http://localhost/ org.testng.TestNG sample.xml
 ```
 #### Ant
-Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the cd command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
+command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
 ```
 ant clean
 ```
@@ -230,7 +242,8 @@ The default task is 'test', which can alternatively be executed, or could be cha
 ant clean test -Dtest-suite=./suites/all.xml -DappURL=google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
 #### Maven
-Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the cd command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
+command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
 ```
 mvn clean
 ```
@@ -239,7 +252,8 @@ Once that completes, run the following command to execute the tests:
 mvn verify -Dtest-suite=../acceptance.xml -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
 ```
 #### Gradle
-Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the cd command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
+command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
 ```
 gradle clean
 ```

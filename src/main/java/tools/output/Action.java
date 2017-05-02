@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools.selenium;
+package tools.output;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -33,8 +33,8 @@ import selenified.exceptions.InvalidActionException;
 import selenified.exceptions.InvalidBrowserException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
-import tools.logging.TestOutput;
-import tools.logging.TestOutput.Result;
+import tools.TestSetup;
+import tools.output.Assert.Result;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -50,12 +50,12 @@ import java.util.*;
  * @version 2.0.0
  * @lastupdate 3/29/2017
  */
-public class SeleniumHelper {
+public class Action {
 
     private static final Logger log = Logger.getLogger(General.class);
 
     // this will be the name of the file we write all commands out to
-    private TestOutput output;
+    private OutputFile file;
 
     // what locator actions are available in webdriver
     // this is our driver that will be used for all selenium actions
@@ -75,19 +75,18 @@ public class SeleniumHelper {
      * @throws InvalidBrowserException
      * @throws MalformedURLException
      */
-    public SeleniumHelper(Browsers browser, DesiredCapabilities capabilities, TestOutput output) throws InvalidBrowserException, MalformedURLException {
+    public Action(Browsers browser, DesiredCapabilities capabilities, OutputFile file) throws InvalidBrowserException, MalformedURLException {
         this.browser = browser;
         this.capabilities = capabilities;
-        this.output = output;
+        this.file = file;
 
         // if we want to test remotely
         if (System.getProperty("hub") != null) {
             driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), capabilities);
         } else {
             capabilities.setJavascriptEnabled(true);
-            driver = SeleniumSetup.setupDriver(browser, capabilities);
+            driver = TestSetup.setupDriver(browser, capabilities);
         }
-        output.setSelHelper(this);
     }
 
     /**
@@ -140,13 +139,13 @@ public class SeleniumHelper {
             driver.get(URL);
         } catch (Exception e) {
             log.error(e);
-            output.recordAction(action, expected, "Fail to Load " + URL, Result.FAILURE);
-            output.addError();
+            file.recordAction(action, expected, "Fail to Load " + URL, Result.FAILURE);
+            file.addError();
             return 1;
         }
         double timetook = System.currentTimeMillis() - start;
         timetook = timetook / 1000;
-        output.recordAction(action, expected, "Loaded " + URL + " in " + timetook + " seconds", Result.SUCCESS);
+        file.recordAction(action, expected, "Loaded " + URL + " in " + timetook + " seconds", Result.SUCCESS);
         return 0;
     }
 
@@ -175,12 +174,12 @@ public class SeleniumHelper {
             Thread.sleep((long) (seconds * 1000));
         } catch (InterruptedException e) {
             log.error(e);
-            output.recordAction(action, expected, "Failed to wait " + seconds + " seconds", Result.FAILURE);
-            output.addError();
+            file.recordAction(action, expected, "Failed to wait " + seconds + " seconds", Result.FAILURE);
+            file.addError();
             Thread.currentThread().interrupt();
             return 1;
         }
-        output.recordAction(action, expected, "Waited " + seconds + " seconds", Result.SUCCESS);
+        file.recordAction(action, expected, "Waited " + seconds + " seconds", Result.SUCCESS);
         return 0;
     }
 
@@ -233,13 +232,13 @@ public class SeleniumHelper {
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
         timetook = timetook / 1000;
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected,
+        file.recordAction(action, expected,
                 "Waited " + timetook + " seconds for " + type + " " + locator + " to be present", Result.SUCCESS);
         return 0;
     }
@@ -285,13 +284,13 @@ public class SeleniumHelper {
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
         timetook = timetook / 1000;
         if (isElementPresent(type, locator)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is still present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected,
+        file.recordAction(action, expected,
                 "Waited " + timetook + " seconds for " + type + " " + locator + " to not be present", Result.SUCCESS);
         return 0;
     }
@@ -344,13 +343,13 @@ public class SeleniumHelper {
         }
         double timetook = (System.currentTimeMillis() - start) / 1000;
         if (!element.isDisplayed()) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is not displayed",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected,
+        file.recordAction(action, expected,
                 "Waited " + timetook + " seconds for " + type + " " + locator + " to be displayed", Result.SUCCESS);
         return 0;
     }
@@ -398,13 +397,13 @@ public class SeleniumHelper {
         }
         double timetook = (System.currentTimeMillis() - start) / 1000;
         if (element.isDisplayed()) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is still displayed",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected,
+        file.recordAction(action, expected,
                 "Waited " + timetook + " seconds for " + type + " " + locator + " to not be displayed", Result.SUCCESS);
         return 0;
     }
@@ -458,13 +457,13 @@ public class SeleniumHelper {
         }
         double timetook = (System.currentTimeMillis() - start) / 1000;
         if (!isElementEnabled(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is not enabled",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected,
+        file.recordAction(action, expected,
                 "Waited " + timetook + " seconds for " + type + " " + locator + " to be enabled", Result.SUCCESS);
         return 0;
     }
@@ -512,13 +511,13 @@ public class SeleniumHelper {
         }
         double timetook = (System.currentTimeMillis() - start) / 1000;
         if (element.isDisplayed()) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is still enabled",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected,
+        file.recordAction(action, expected,
                 "Waited " + timetook + " seconds for " + type + " " + locator + " to not be enabled", Result.SUCCESS);
         return 0;
     }
@@ -557,7 +556,7 @@ public class SeleniumHelper {
             log.error(e);
         }
         if (print) {
-            output.recordExpected("Checking for " + type + " " + locator + " to be present");
+            file.recordExpected("Checking for " + type + " " + locator + " to be present");
         }
         return isPresent;
     }
@@ -603,7 +602,7 @@ public class SeleniumHelper {
             log.error(e);
         }
         if (print) {
-            output.recordExpected("Checking for " + type + " " + locator + " to be an input element");
+            file.recordExpected("Checking for " + type + " " + locator + " to be an input element");
         }
         return isInput;
     }
@@ -639,7 +638,7 @@ public class SeleniumHelper {
             log.error(e);
         }
         if (print) {
-            output.recordExpected("Checking for " + type + " " + locator + " to be enabled");
+            file.recordExpected("Checking for " + type + " " + locator + " to be enabled");
         }
         return isEnabled;
     }
@@ -675,7 +674,7 @@ public class SeleniumHelper {
             log.error(e);
         }
         if (print) {
-            output.recordExpected("Checking for " + type + " " + locator + " to be checked");
+            file.recordExpected("Checking for " + type + " " + locator + " to be checked");
         }
         return isChecked;
     }
@@ -711,7 +710,7 @@ public class SeleniumHelper {
             log.error(e);
         }
         if (print) {
-            output.recordExpected("Checking for " + type + " " + locator + " to be displayed");
+            file.recordExpected("Checking for " + type + " " + locator + " to be displayed");
         }
         return isDisplayed;
     }
@@ -955,9 +954,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not present",
+            file.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -965,9 +964,9 @@ public class SeleniumHelper {
             waitForElementDisplayed(type, locator);
         }
         if (!isElementDisplayed(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not displayed",
+            file.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not displayed",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -975,16 +974,16 @@ public class SeleniumHelper {
             waitForElementEnabled(type, locator);
         }
         if (!isElementEnabled(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not enabled",
+            file.recordAction(action, expected, "Unable to click " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
         // element.click();
         Actions selAction = new Actions(driver);
         selAction.click(element).perform();
-        output.recordAction(action, expected, "Clicked " + type + " " + locator, Result.SUCCESS);
+        file.recordAction(action, expected, "Clicked " + type + " " + locator, Result.SUCCESS);
         return 0;
     }
 
@@ -1006,9 +1005,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to submit " + type + " " + locator + " as it is not present",
+            file.recordAction(action, expected, "Unable to submit " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1016,9 +1015,9 @@ public class SeleniumHelper {
             waitForElementDisplayed(type, locator);
         }
         if (!isElementDisplayed(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to submit " + type + " " + locator + " as it is not displayed", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1026,14 +1025,14 @@ public class SeleniumHelper {
             waitForElementEnabled(type, locator);
         }
         if (!isElementEnabled(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to submit " + type + " " + locator + " as it is not enabled",
+            file.recordAction(action, expected, "Unable to submit " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
         element.submit();
-        output.recordAction(action, expected, "Submitted " + type + " " + locator, Result.SUCCESS);
+        file.recordAction(action, expected, "Submitted " + type + " " + locator, Result.SUCCESS);
         return 0;
     }
 
@@ -1058,9 +1057,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to hover over " + type + " " + locator + " as it is not present", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1068,15 +1067,15 @@ public class SeleniumHelper {
             waitForElementDisplayed(type, locator);
         }
         if (!isElementDisplayed(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to hover over " + type + " " + locator + " as it is not displayed", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not displayed
         }
         Actions selAction = new Actions(driver);
         WebElement element = getWebElement(type, locator);
         selAction.moveToElement(element).perform();
-        output.recordAction(action, expected, "Hovered over " + type + " " + locator, Result.SUCCESS);
+        file.recordAction(action, expected, "Hovered over " + type + " " + locator, Result.SUCCESS);
         return 0;
     }
 
@@ -1098,9 +1097,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to focus on " + type + " " + locator + " as it is not present", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1108,9 +1107,9 @@ public class SeleniumHelper {
             waitForElementDisplayed(type, locator);
         }
         if (!isElementDisplayed(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to focus on " + type + " " + locator + " as it is not displayed", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1118,16 +1117,16 @@ public class SeleniumHelper {
             waitForElementEnabled(type, locator);
         }
         if (!isElementEnabled(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to focus on " + type + " " + locator + " as it is not enabled", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].focus(); arguments[0].blur(); return true", element);
         // element.click();
-        output.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
+        file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
                 Result.SUCCESS);
         return 0;
     }
@@ -1152,9 +1151,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not present",
+            file.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1162,9 +1161,9 @@ public class SeleniumHelper {
             waitForElementDisplayed(type, locator);
         }
         if (!isElementDisplayed(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to type in " + type + " " + locator + " as it is not displayed", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1172,14 +1171,14 @@ public class SeleniumHelper {
             waitForElementEnabled(type, locator);
         }
         if (!isElementEnabled(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not enabled",
+            file.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
         element.sendKeys(text);
-        output.recordAction(action, expected, "Typed text '" + text + "' in " + type + " " + locator, Result.SUCCESS);
+        file.recordAction(action, expected, "Typed text '" + text + "' in " + type + " " + locator, Result.SUCCESS);
         return 0;
     }
 
@@ -1203,9 +1202,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not present",
+            file.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1213,9 +1212,9 @@ public class SeleniumHelper {
             waitForElementDisplayed(type, locator);
         }
         if (!isElementDisplayed(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to type in " + type + " " + locator + " as it is not displayed", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1223,14 +1222,14 @@ public class SeleniumHelper {
             waitForElementEnabled(type, locator);
         }
         if (!isElementEnabled(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not enabled",
+            file.recordAction(action, expected, "Unable to type in " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
         element.sendKeys(key);
-        output.recordAction(action, expected, "Typed text '" + key + "' in " + type + " " + locator, Result.SUCCESS);
+        file.recordAction(action, expected, "Typed text '" + key + "' in " + type + " " + locator, Result.SUCCESS);
         return 0;
     }
 
@@ -1251,9 +1250,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not present",
+            file.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1261,9 +1260,9 @@ public class SeleniumHelper {
             waitForElementDisplayed(type, locator);
         }
         if (!isElementDisplayed(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not displayed",
+            file.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not displayed",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1271,14 +1270,14 @@ public class SeleniumHelper {
             waitForElementEnabled(type, locator);
         }
         if (!isElementEnabled(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not enabled",
+            file.recordAction(action, expected, "Unable to clear " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not enabled
         }
         WebElement element = getWebElement(type, locator);
         element.clear();
-        output.recordAction(action, expected, "Cleared text in " + type + " " + locator, Result.SUCCESS);
+        file.recordAction(action, expected, "Cleared text in " + type + " " + locator, Result.SUCCESS);
         return 0;
     }
 
@@ -1319,9 +1318,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to select " + type + " " + locator + " as it is not present",
+            file.recordAction(action, expected, "Unable to select " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         // wait for element to be displayed
@@ -1329,9 +1328,9 @@ public class SeleniumHelper {
             waitForElementDisplayed(type, locator);
         }
         if (!isElementDisplayed(type, locator, false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to select " + type + " " + locator + " as it is not displayed", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not displayed
         }
         // wait for element to be enabled
@@ -1339,26 +1338,26 @@ public class SeleniumHelper {
             waitForElementEnabled(type, locator);
         }
         if (!isElementEnabled(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to select " + type + " " + locator + " as it is not enabled",
+            file.recordAction(action, expected, "Unable to select " + type + " " + locator + " as it is not enabled",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not enabled
         }
         // ensure the option exists
         if (!Arrays.asList(getSelectOptions(type, locator)).contains(value)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "Unable to select " + value + " in " + type + " " + locator
                             + " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
                             + String.join("<br/>&nbsp;&nbsp;&nbsp;", getSelectOptions(type, locator)) + "</i>",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
         // do the select
         WebElement element = getWebElement(type, locator);
         Select dropdown = new Select(element);
         dropdown.selectByValue(value);
-        output.recordAction(action, expected, "Selected " + value + " in " + type + " " + locator, Result.SUCCESS);
+        file.recordAction(action, expected, "Selected " + value + " in " + type + " " + locator, Result.SUCCESS);
         return 0;
     }
 
@@ -1381,9 +1380,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to move to " + type + " " + locator + " as it is not present",
+            file.recordAction(action, expected, "Unable to move to " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
         WebElement element = getWebElement(type, locator);
@@ -1391,12 +1390,12 @@ public class SeleniumHelper {
         builder.moveToElement(element);
 
         if (!isElementDisplayed(type, locator)) {
-            output.recordAction(action, expected, type + " " + locator + " is not present on visible page",
+            file.recordAction(action, expected, type + " " + locator + " is not present on visible page",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not visible
         }
-        output.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
+        file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
         return 0; // indicates element successfully moved to
     }
 
@@ -1421,9 +1420,9 @@ public class SeleniumHelper {
             waitForElementPresent(type, locator);
         }
         if (!isElementPresent(type, locator, false)) {
-            output.recordAction(action, expected, "Unable to move to " + type + " " + locator + " as it is not present",
+            file.recordAction(action, expected, "Unable to move to " + type + " " + locator + " as it is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not present
         }
 
@@ -1434,12 +1433,12 @@ public class SeleniumHelper {
         jse.executeScript("window.scrollBy(0, " + newPosition + ")");
 
         if (!isElementDisplayed(type, locator)) {
-            output.recordAction(action, expected, type + " " + locator + " is not present on visible page",
+            file.recordAction(action, expected, type + " " + locator + " is not present on visible page",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1; // indicates element not visible
         }
-        output.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
+        file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
         return 0; // indicates element successfully moved to
     }
 
@@ -1464,11 +1463,11 @@ public class SeleniumHelper {
         Long newPosition = (Long) jse.executeScript("return window.scrollY;");
 
         if (newPosition != desiredPosition) {
-        	output.recordAction(action, expected, "Page is set at position " + newPosition, Result.FAILURE);
-            output.addError();
+        	file.recordAction(action, expected, "Page is set at position " + newPosition, Result.FAILURE);
+        	file.addError();
             return 1; // indicates page didn't scroll properly
         }
-        output.recordAction(action, expected, "Page is now set at position " + newPosition, Result.SUCCESS);
+        file.recordAction(action, expected, "Page is now set at position " + newPosition, Result.SUCCESS);
         return 0; // indicates page scrolled properly
     }
 
@@ -1486,14 +1485,14 @@ public class SeleniumHelper {
             waitForAlertPresent();
         }
         if (!isAlertPresent(false)) {
-            output.recordAction(action, expected, "Unable to click alert as it is not present", Result.FAILURE);
-            output.addError();
+            file.recordAction(action, expected, "Unable to click alert as it is not present", Result.FAILURE);
+            file.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
         alert.accept();
         // driver.switchTo().defaultContent();
-        output.recordAction(action, expected, "Clicked 'OK' on the alert", Result.SUCCESS);
+        file.recordAction(action, expected, "Clicked 'OK' on the alert", Result.SUCCESS);
         return 0;
     }
 
@@ -1511,14 +1510,14 @@ public class SeleniumHelper {
             waitForConfirmationPresent();
         }
         if (!isConfirmationPresent(false)) {
-            output.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
-            output.addError();
+            file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
+            file.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
         alert.accept();
         // driver.switchTo().defaultContent();
-        output.recordAction(action, expected, "Clicked 'OK' on the confirmation", Result.SUCCESS);
+        file.recordAction(action, expected, "Clicked 'OK' on the confirmation", Result.SUCCESS);
         return 0;
     }
 
@@ -1536,14 +1535,14 @@ public class SeleniumHelper {
             waitForConfirmationPresent();
         }
         if (!isConfirmationPresent(false)) {
-            output.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
-            output.addError();
+            file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
+            file.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
         alert.dismiss();
         // driver.switchTo().defaultContent();
-        output.recordAction(action, expected, "Clicked 'Cancel' on the confirmation", Result.SUCCESS);
+        file.recordAction(action, expected, "Clicked 'Cancel' on the confirmation", Result.SUCCESS);
         return 0;
     }
 
@@ -1561,14 +1560,14 @@ public class SeleniumHelper {
             waitForPromptPresent();
         }
         if (!isPromptPresent(false)) {
-            output.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
-            output.addError();
+            file.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
+            file.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
         alert.accept();
         // driver.switchTo().defaultContent();
-        output.recordAction(action, expected, "Clicked 'OK' on the prompt", Result.SUCCESS);
+        file.recordAction(action, expected, "Clicked 'OK' on the prompt", Result.SUCCESS);
         return 0;
     }
 
@@ -1586,14 +1585,14 @@ public class SeleniumHelper {
             waitForPromptPresent();
         }
         if (!isPromptPresent(false)) {
-            output.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
-            output.addError();
+            file.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
+            file.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
         alert.dismiss();
         // driver.switchTo().defaultContent();
-        output.recordAction(action, expected, "Clicked 'Cancel' on the prompt", Result.SUCCESS);
+        file.recordAction(action, expected, "Clicked 'Cancel' on the prompt", Result.SUCCESS);
         return 0;
     }
 
@@ -1611,14 +1610,14 @@ public class SeleniumHelper {
             waitForPromptPresent();
         }
         if (!isPromptPresent(false)) {
-            output.recordAction(action, expected, "Unable to type in prompt as it is not present", Result.FAILURE);
-            output.addError();
+            file.recordAction(action, expected, "Unable to type in prompt as it is not present", Result.FAILURE);
+            file.addError();
             return 1; // indicates element not present
         }
         Alert alert = driver.switchTo().alert();
         alert.sendKeys(text);
         // driver.switchTo().defaultContent();
-        output.recordAction(action, expected, "Typed text '" + text + "' into prompt", Result.SUCCESS);
+        file.recordAction(action, expected, "Typed text '" + text + "' into prompt", Result.SUCCESS);
         return 0;
     }
 
@@ -1759,7 +1758,7 @@ public class SeleniumHelper {
             log.error(e);
         }
         if (print) {
-            output.recordExpected("Checking for alert to be present");
+            file.recordExpected("Checking for alert to be present");
         }
         // driver.switchTo().defaultContent();
         return isPresent;
@@ -1804,12 +1803,12 @@ public class SeleniumHelper {
         timetook = timetook / 1000;
         // driver.switchTo().defaultContent();
         if (!isAlertPresent(false)) {
-            output.recordAction(action, expected, "After waiting " + timetook + " seconds, an alert is not present",
+            file.recordAction(action, expected, "After waiting " + timetook + " seconds, an alert is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected, "Waited " + timetook + " seconds for an alert to be present",
+        file.recordAction(action, expected, "Waited " + timetook + " seconds for an alert to be present",
                 Result.SUCCESS);
         return 0;
     }
@@ -1855,7 +1854,7 @@ public class SeleniumHelper {
             log.error(e);
         }
         if (print) {
-            output.recordExpected("Checking for confirmation to be present");
+            file.recordExpected("Checking for confirmation to be present");
         }
         // driver.switchTo().defaultContent();
         return isPresent;
@@ -1896,12 +1895,12 @@ public class SeleniumHelper {
         timetook = timetook / 1000;
         // driver.switchTo().defaultContent();
         if (!isConfirmationPresent(false)) {
-            output.recordAction(action, expected,
+            file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds, a confirmation is not present", Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected, "Waited " + timetook + " seconds for a confirmation to be present",
+        file.recordAction(action, expected, "Waited " + timetook + " seconds for a confirmation to be present",
                 Result.SUCCESS);
         return 0;
     }
@@ -1947,7 +1946,7 @@ public class SeleniumHelper {
             log.error(e);
         }
         if (print) {
-            output.recordExpected("Checking for prompt to be present");
+            file.recordExpected("Checking for prompt to be present");
         }
         // driver.switchTo().defaultContent();
         return isPresent;
@@ -1988,12 +1987,12 @@ public class SeleniumHelper {
         timetook = timetook / 1000;
         // driver.switchTo().defaultContent();
         if (!isPromptPresent(false)) {
-            output.recordAction(action, expected, "After waiting " + timetook + " seconds, a prompt is not present",
+            file.recordAction(action, expected, "After waiting " + timetook + " seconds, a prompt is not present",
                     Result.FAILURE);
-            output.addError();
+            file.addError();
             return 1;
         }
-        output.recordAction(action, expected, "Waited " + timetook + " seconds for a prompt to be present",
+        file.recordAction(action, expected, "Waited " + timetook + " seconds for a prompt to be present",
                 Result.SUCCESS);
         return 0;
     }

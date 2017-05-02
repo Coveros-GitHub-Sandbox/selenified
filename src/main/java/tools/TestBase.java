@@ -26,10 +26,10 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 import selenified.exceptions.InvalidBrowserException;
-import tools.logging.TestOutput;
-import tools.selenium.SeleniumHelper;
-import tools.selenium.SeleniumSetup;
-import tools.selenium.SeleniumHelper.Browsers;
+import tools.output.OutputFile;
+import tools.output.Action;
+import tools.output.Assert;
+import tools.output.Action.Browsers;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -59,8 +59,8 @@ public class TestBase {
 	// for individual tests
 	protected ThreadLocal<Browsers> browser = new ThreadLocal<>();
 	protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
-	protected ThreadLocal<TestOutput> output = new ThreadLocal<>();
-	protected ThreadLocal<SeleniumHelper> selHelper = new ThreadLocal<>();
+	protected ThreadLocal<Assert> asserts = new ThreadLocal<>();
+	protected ThreadLocal<Action> actions = new ThreadLocal<>();
 	protected ThreadLocal<Integer> errors = new ThreadLocal<>();
 
 	// constants
@@ -79,20 +79,20 @@ public class TestBase {
 	}
 
 	protected static void setupTestParameters() throws InvalidBrowserException {
-		browsers = SeleniumSetup.setBrowser();
+		browsers = TestSetup.setBrowser();
 
 		// are we running remotely on a hub
 		for (Browsers browser : browsers) {
 			DesiredCapabilities capability;
 			if (System.getProperty("hub") != null) {
-				capability = SeleniumSetup.setupBrowserCapability(browser);
+				capability = TestSetup.setupBrowserCapability(browser);
 			} else {
 				capability = new DesiredCapabilities();
 			}
-			capability = SeleniumSetup.setupProxy(capability);
-			if (SeleniumSetup.areBrowserDetailsSet()) {
+			capability = TestSetup.setupProxy(capability);
+			if (TestSetup.areBrowserDetailsSet()) {
 				Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
-				capability = SeleniumSetup.setupBrowserDetails(capability, browserDetails);
+				capability = TestSetup.setupBrowserDetails(capability, browserDetails);
 			}
 			capabilities.add(capability);
 		}
@@ -117,12 +117,10 @@ public class TestBase {
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
 			boolean selenium) throws IOException {
 		String testName = General.getTestName(method, dataProvider);
-		String suite = test.getName();
 		String outputDir = test.getOutputDirectory();
 		String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
 		String fileLocation = "src." + extClass;
-		File file = new File(fileLocation.replaceAll("\\.", "/") + ".java");
-		Date lastModified = new Date(file.lastModified());
+		File file = new File("./" + fileLocation.replaceAll("\\.", "/") + ".java");
 		String description = "";
 		String group = "";
 		Test annotation = method.getAnnotation(Test.class);
@@ -149,41 +147,46 @@ public class TestBase {
 		myCapability.setCapability("name", testName);
 		this.capability.set(myCapability);
 
-		TestOutput myOutput = new TestOutput(testName, myBrowser, outputDir, testSite, suite,
-				General.wordToSentence(group), lastModified, version, author, description);
-		long time = (new Date()).getTime();
-		myOutput.setStartTime(time);
+		Assert myOutput = new Assert(testName, myBrowser, outputDir);
+		OutputFile myFile = myOutput.getOutputFile();
+		myFile.setURL(testSite);
+		myFile.setSuite(test.getName());
+		myFile.setGroup(group);
+		myFile.setLastModified(new Date(file.lastModified()));
+		myFile.setVersion(version);
+		myFile.setAuthor(author);
+		myFile.setObjectives(description);
+		myFile.setStartTime();
 		if (selenium) {
 			try {
-				this.selHelper.set(new SeleniumHelper(myBrowser, myCapability, myOutput));
+				Action mySelHelper = new Action(myBrowser, myCapability, myFile);
+				this.actions.set(mySelHelper);
+				myFile.setSeleniumHelper(mySelHelper);
+				myOutput.setSeleniumHelper(mySelHelper);
 			} catch (InvalidBrowserException | MalformedURLException e) {
 				log.error(e);
 			}
 		}
-		this.output.set(myOutput);
-		this.errors.set(myOutput.startTestTemplateOutputFile(selenium));
+		this.errors.set(myFile.startTestTemplateOutputFile());
+		myOutput.setOutputFile(myFile);
+		this.asserts.set(myOutput);
 	}
 
 	@AfterMethod(alwaysRun = true)
 	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
 		String testName = General.getTestName(method, dataProvider);
-		if (this.selHelper.get() != null) {
-			this.selHelper.get().killDriver();
+		if (this.actions.get() != null) {
+			this.actions.get().killDriver();
 		}
 		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 		test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
 	}
 
 	protected void finish() throws IOException {
-		TestOutput myOutput = this.output.get();
-		myOutput.endTestTemplateOutputFile();
-		assertEquals("Detailed results found at: " + myOutput.getFileName(), "0 errors",
-				Integer.toString(myOutput.getErrors()) + " errors");
-	}
-
-	@AfterSuite(alwaysRun = true)
-	protected void archiveTestResults() {
-		System.out.println("\nREMEMBER TO ARCHIVE YOUR TESTS!\n\n");
+		OutputFile myFile = this.asserts.get().getOutputFile();
+		myFile.endTestTemplateOutputFile();
+		assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
+				Integer.toString(myFile.getErrors()) + " errors");
 	}
 
 	public static class MasterSuiteSetupConfigurator {
