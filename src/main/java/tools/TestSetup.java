@@ -171,27 +171,27 @@ public class TestSetup {
 			break;
 		}
 		case Firefox: {
-			FirefoxDriverManager.getInstance().setup();
+			FirefoxDriverManager.getInstance().forceCache().setup();
 			driver = new FirefoxDriver(capabilities);
 			break;
 		}
 		case Marionette: {
-			FirefoxDriverManager.getInstance().setup();
+			FirefoxDriverManager.getInstance().forceCache().setup();
 			driver = new MarionetteDriver(capabilities);
 			break;
 		}
 		case Chrome: {
-			ChromeDriverManager.getInstance().setup();
+			ChromeDriverManager.getInstance().forceCache().setup();
 			driver = new ChromeDriver(capabilities);
 			break;
 		}
 		case InternetExplorer: {
-			InternetExplorerDriverManager.getInstance().setup();
+			InternetExplorerDriverManager.getInstance().forceCache().setup();
 			driver = new InternetExplorerDriver(capabilities);
 			break;
 		}
 		case Edge: {
-			EdgeDriverManager.getInstance().setup();
+			EdgeDriverManager.getInstance().forceCache().setup();
 			driver = new EdgeDriver(capabilities);
 			break;
 		}
@@ -200,7 +200,7 @@ public class TestSetup {
 			break;
 		}
 		case Opera: {
-			OperaDriverManager.getInstance().setup();
+			OperaDriverManager.getInstance().forceCache().setup();
 			driver = new OperaDriver(capabilities);
 			break;
 		}

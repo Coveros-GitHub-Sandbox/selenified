@@ -37,7 +37,12 @@ sourceSets {
     }
     seleniumTest {
         java {
-          srcDir 'src/test/java/samples/'
+            srcDirs = ['src/test/java/samples/']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java/samples/']
         }
     }
 }

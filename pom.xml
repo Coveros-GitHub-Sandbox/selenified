@@ -6,9 +6,9 @@
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
     <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>2.53.1</version>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>2.53.1</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.jglobus/jsse -->
     <dependency>
@@ -37,19 +37,19 @@
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
-      <version>1.6.0</version>
+      <version>1.6.1</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-htmlunit-driver -->
     <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-htmlunit-driver</artifactId>
-        <version>2.52.0</version>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-htmlunit-driver</artifactId>
+      <version>2.52.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
     <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.7.23</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.23</version>
     </dependency>
   </dependencies>
   <build>
@@ -63,6 +63,17 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.10.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

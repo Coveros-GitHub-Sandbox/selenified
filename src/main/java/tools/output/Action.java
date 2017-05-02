@@ -1451,23 +1451,24 @@ public class Action {
      * @throws InvalidActionException
      * @throws InvalidLocatorTypeException
      */
-    public int scroll(int position) throws InvalidActionException, InvalidLocatorTypeException {
+    public int scroll(int desiredPosition) throws InvalidActionException, InvalidLocatorTypeException {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         Long initialPosition = (Long) jse.executeScript("return window.scrollY;");
 
-        String action = "Scrolling page from " + initialPosition + " to " + position;
-        String expected = "Page is now set at position " + position;
+        String action = "Scrolling page from " + initialPosition + " to " + desiredPosition;
+        String expected = "Page is now set at position " + desiredPosition;
 
-        jse.executeScript("window.scrollBy(0, " + position + ")");
+        jse.executeScript("window.scrollBy(0, " + desiredPosition + ")");
 
         Long newPosition = (Long) jse.executeScript("return window.scrollY;");
 
-        file.recordAction(action, expected, "Page is now set at position " + newPosition, Result.FAILURE);
-        if (newPosition != position) {
-            file.addError();
+        if (newPosition != desiredPosition) {
+        	file.recordAction(action, expected, "Page is set at position " + newPosition, Result.FAILURE);
+        	file.addError();
             return 1; // indicates page didn't scroll properly
         }
-        return 0; // indicates page didn't scroll properly
+        file.recordAction(action, expected, "Page is now set at position " + newPosition, Result.SUCCESS);
+        return 0; // indicates page scrolled properly
     }
 
     /**
