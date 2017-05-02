@@ -20,7 +20,6 @@
 
 package tools.logging;
 
-import org.testng.log4testng.Logger;
 import selenified.exceptions.InvalidActionException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
@@ -28,19 +27,14 @@ import tools.selenium.SeleniumHelper;
 import tools.selenium.SeleniumHelper.Browsers;
 import tools.selenium.SeleniumHelper.Locators;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Test Output A custom generated output file recording all actions taken
+ * Test Output A custom generated output file outputFile.recording all actions taken
  *
  * @author Max Saperstone
  * @version 1.0.4
@@ -48,596 +42,33 @@ import java.util.regex.Pattern;
  */
 public class TestOutput {
 
-    private static final Logger log = Logger.getLogger(General.class);
-
     private SeleniumHelper selHelper;
-    private String pageURL;
-    private String outputDir;
-    private String browser;
-    // this will be the name of the file we write all commands out to
-    private String fileName;
-    private File outputFile;
-    private String testName;
-    private String testSuite;
-    private String testGroup;
-    // these are the variables for the header information
-    private String version;
-    private Date dateLastModified;
-    private String author;
-    private long startTime;
-    private long lastTime = 0;
-    private String testObjectives;
-    // this will track our step numbers
-    private int stepNum;
+    private OutputFile outputFile;
 
     //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
-    // this will keep track of the errors
-    private int errors = 0;
-    // the image width for reporting
-    private int embeddedImageWidth = 300;
-
-    /**
-     * the basic test output constructor, providing access to the output file
-     * and all page elements
-     *
-     * @param testsName - the name of the file we will write out all commands to
-     * @param outputDir - the output directory to store the test results
-     * @param pageURL   - the initial URL to load up/log
-     */
-    public TestOutput(String testsName, Browsers browsers, String outputDir, String pageURL) {
-        this.pageURL = pageURL;
-        this.outputDir = outputDir;
-        fileName = testsName + browsers + ".html";
-        outputFile = new File(outputDir, fileName);
-        browser = browsers.toString();
-        testSuite = null;
-        testGroup = null;
-        testName = General.wordToSentence(testsName);
-        version = null;
-        dateLastModified = new Date();
-        author = null;
-        testObjectives = null;
-        stepNum = 0;
-    }
 
     /**
      * the complex test out constructor taking in all test document information
      *
      * @param testsName       the name of the file we will write out to
+     * @param browser         the browser we are running our tests with
      * @param outputDir       the output directory to store the results
-     * @param pageURL         the initial URL to load up/log
-     * @param testsSuite      the suite of tests the test belongs to
-     * @param testsGroup      the group of tests the test belongs to
-     * @param iDateModified   the date the test was created
-     * @param iVersion        the version number of the test
-     * @param iAuthor         the author of the tests
-     * @param iTestObjectives the test objectives
      */
-    public TestOutput(String testsName, Browsers browsers, String outputDir, String pageURL, String testsSuite, String testsGroup,
-                      Date iDateModified, String iVersion, String iAuthor, String iTestObjectives) {
-        this.pageURL = pageURL;
-        this.outputDir = outputDir;
-        fileName = testsName + browsers + ".html";
-        outputFile = OutputSetup.setupFile(outputDir, fileName);
-        browser = browsers.toString();
-        testName = General.wordToSentence(testsName);
-        testSuite = testsSuite;
-        testGroup = testsGroup;
-        version = iVersion;
-        dateLastModified = iDateModified;
-        author = iAuthor;
-        testObjectives = iTestObjectives;
-        stepNum = 0;
+    public TestOutput(String testsName, Browsers browser, String outputDir) {
+        outputFile = new OutputFile(outputDir, testsName, browser);
     }
 
-    /**
-     * simply add an encountered error to our error counter
-     */
-    public void addError() {
-        errors++;
+    public void setSeleniumHelper(SeleniumHelper thisSelHelper) {
+        selHelper = thisSelHelper;
     }
-
-    ;
-
-    /**
-     * add a given set of errors to our error counter
-     *
-     * @param errors - the number of errors to add
-     */
-    public void addErrors(int errors) {
-        this.errors += errors;
+    
+    public void setOutputFile(OutputFile thisOutputFile) {
+    	outputFile = thisOutputFile;
     }
-
-    ;
-
-    /**
-     * retrieve the number of errors from our counter
-     *
-     * @return errors - the current tallied number of errors for the test
-     */
-    public int getErrors() {
-        return errors;
-    }
-
-    public void setSelHelper(SeleniumHelper selHelper) {
-        this.selHelper = selHelper;
-    }
-
-    /**
-     * provides access to the file name
-     *
-     * @return String with the file name
-     */
-    public String getFileName() {
-        return fileName;
-    }
-
-    /**
-     * provides access to the output file name
-     *
-     * @return String with the actual output file name
-     */
-    public File getOutputFileName() {
-        return outputFile;
-    }
-
-    /**
-     * creates and starts the test template
-     *
-     * @return Integer - the number of errors encountered while executing these
-     * steps
-     * @throws IOException - an IOException
-     */
-    public int startTestTemplateOutputFile(boolean selenium) throws IOException {
-        createOutputHeader(selenium);
-        if (selenium) {
-            selHelper.getDriver().get(pageURL);
-            Result result = (selHelper.isElementPresent(Locators.xpath, "//body", false)) ? Result.SUCCESS
-                    : Result.FAILURE;
-            String actual = (selHelper.isElementPresent(Locators.xpath, "//body", false))
-                    ? "The starting page <i>" + pageURL + "</i> loaded successfully"
-                    : "The starting page <i>" + pageURL + "</i> did not load successfully";
-            recordAction("Opening new browser and loading up starting page",
-                    "The starting page <i>" + pageURL + "</i> will successfully load", actual, result);
-            if (result == Result.SUCCESS) {
-                return 0;
-            } else {
-                addError();
-                return 1;
-            }
-        }
-        return 0;
-    }
-
-    /**
-     * ends and closes the test template
-     *
-     * @throws IOException
-     */
-    public void endTestTemplateOutputFile() throws IOException {
-        // reopen the file
-        BufferedWriter out = new BufferedWriter(new FileWriter(outputFile, true));
-        out.write("  </table>\n");
-        out.write(" </body>\n");
-        out.write("</html>\n");
-        // Close the output stream
-        out.close();
-        // Record our metrics
-        int passes = OutputSetup.countInstancesOf(outputFile, "<td class='pass'>Pass</td>");
-        int fails = OutputSetup.countInstancesOf(outputFile, "<td class='fail'>Fail</td>");
-        OutputSetup.replaceInFile(outputFile, "STEPSPERFORMED", Integer.toString(fails + passes));
-        OutputSetup.replaceInFile(outputFile, "STEPSPASSED", Integer.toString(passes));
-        OutputSetup.replaceInFile(outputFile, "STEPSFAILED", Integer.toString(fails));
-        if (fails == 0) {
-        	OutputSetup.replaceInFile(outputFile, "PASSORFAIL", "<font size='+2' color='green'><b>PASS</b></font>");
-        } else {
-        	OutputSetup.replaceInFile(outputFile, "PASSORFAIL", "<font size='+2' color='red'><b>FAIL</b></font>");
-        }
-        // record our time
-        SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
-        String timeNow = stf.format(new Date());
-        long totalTime = (new Date()).getTime() - startTime;
-        long time = totalTime / 1000;
-        String seconds = Integer.toString((int) (time % 60));
-        String minutes = Integer.toString((int) ((time % 3600) / 60));
-        String hours = Integer.toString((int) (time / 3600));
-        for (int i = 0; i < 2; i++) {
-            if (seconds.length() < 2) {
-                seconds = "0" + seconds;
-            }
-            if (minutes.length() < 2) {
-                minutes = "0" + minutes;
-            }
-            if (hours.length() < 2) {
-                hours = "0" + hours;
-            }
-        }
-        OutputSetup.replaceInFile(outputFile, "RUNTIME", hours + ":" + minutes + ":" + seconds);
-        OutputSetup.replaceInFile(outputFile, "TIMEFINISHED", timeNow);
-    }
-
-    /**
-     * Will write to the output file the step number, skip the action taken, and
-     * then write out the expected outcome
-     *
-     * @param expectedOutcome what the expected outcome is
-     */
-    public void recordExpected(String expectedOutcome) {
-        stepNum++;
-
-        try (
-                // reopen our log file
-                FileWriter fw = new FileWriter(outputFile, true);
-                BufferedWriter out = new BufferedWriter(fw);
-        ) {
-            // start our row
-            out.write("   <tr>\n");
-            // log our step number
-            out.write("    <td align='center'>" + stepNum + ".</td>\n");
-            // leave the step blank as this is simply a check
-            out.write("    <td> </td>\n");
-            // write out our expected outcome
-            out.write("    <td>" + expectedOutcome + "</td>\n");
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    /**
-     * Will write to the output file the actual outcome, and also indicate
-     * whether a pass or fail has occurred
-     *
-     * @param actualOutcome what the actual outcome was
-     * @param result        whether this result is a pass or a failure
-     */
-    public void recordActual(String actualOutcome, Success result) {
-
-        try (
-                // reopen our log file
-                FileWriter fw = new FileWriter(outputFile, true);
-                BufferedWriter out = new BufferedWriter(fw);
-        ) {
-            // get a screen shot of our action
-            String imageLink = "";
-            if (selHelper.getBrowser() != Browsers.HtmlUnit) {
-                imageLink = captureImage();
-            }
-            // determine time differences
-            Date currentTime = new Date();
-            long dTime = currentTime.getTime() - lastTime;
-            long tTime = (currentTime.getTime() - startTime);
-            lastTime = currentTime.getTime();
-            // write out our actual outcome
-            out.write("    <td>" + actualOutcome + imageLink + "</td>\n");
-            out.write("    <td>" + dTime + "ms / " + tTime + "ms</td>\n");
-            // write out our pass or fail result
-            if (result == Success.PASS) {
-                out.write("    <td class='pass'>Pass</td>\n");
-            } else {
-                out.write("    <td class='fail'>Fail</td>\n");
-            }
-            // end our row
-            out.write("   </tr>\n");
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    /**
-     * Determines the current time and sets the 'last time' to the current time
-     */
-    public void setStartTime() {
-        startTime = (new Date()).getTime();
-        lastTime = startTime;
-    }
-
-    /**
-     * Determines the time passed in and sets the 'last time' to that time
-     *
-     * @param time - the time to set the start time to
-     */
-    public void setStartTime(long time) {
-        startTime = time;
-        lastTime = time;
-    }
-
-    /**
-     * Creates the specially formatted output header
-     *
-     * @throws IOException - an IOException
-     */
-    public void createOutputHeader(boolean selenium) {
-        // Open file
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy");
-        SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
-        String DatePart = sdf.format(new Date());
-        String sTime = stf.format(startTime);
-        try (
-                FileWriter fw = new FileWriter(outputFile);
-                BufferedWriter out = new BufferedWriter(fw);
-        ) {
-            out.write("<html>\n");
-            out.write(" <head>\n");
-            out.write("  <title>" + testName + "</title>\n");
-            out.write("  <style type='text/css'>\n");
-            out.write("   table {\n");
-            out.write("    margin-left:auto;margin-right:auto;\n");
-            out.write("    width:90%;\n");
-            out.write("    border-collapse:collapse;\n");
-            out.write("   }\n");
-            out.write("   table, td, th {\n");
-            out.write("    border:1px solid black;\n");
-            out.write("    padding:0px 10px;\n");
-            out.write("   }\n");
-            out.write("   th {\n");
-            out.write("    text-align:right;\n");
-            out.write("   }\n");
-            out.write("   td {\n");
-            out.write("    word-wrap: break-word;\n");
-            out.write("   }\n");
-            out.write("   td.warning {\n");
-            out.write("    color:yellow;\n");
-            out.write("    font-weight:bold;\n");
-            out.write("   }\n");
-            out.write("   td.fail {\n");
-            out.write("    color:red;\n");
-            out.write("    font-weight:bold;\n");
-            out.write("   }\n");
-            out.write("   td.pass {\n");
-            out.write("    color:green;\n");
-            out.write("    font-weight:bold;\n");
-            out.write("   }\n");
-            out.write("  </style>\n");
-            out.write("  <script type='text/javascript'>\n");
-            out.write("   function toggleImage( imageName ) {\n");
-            out.write("    var element = document.getElementById( imageName );\n");
-            out.write("    element.src = location.href.match(/^.*\\//) + imageName;\n");
-            out.write("    element.style.display = (element.style.display != 'none' ? 'none' : '' );\n");
-            out.write("   }\n");
-            out.write("   function displayImage( imageName ) {\n");
-            out.write("    window.open( location.href.match(/^.*\\//) + imageName )\n");
-            out.write("   }\n");
-            out.write("   function toggleVis(col_no, do_show) {\n");
-            out.write("    var stl;\n");
-            out.write("    if (do_show) stl = ''\n");
-            out.write("    else         stl = 'none';\n");
-            out.write("    var tbl  = document.getElementById('all_results');\n");
-            out.write("    var rows = tbl.getElementsByTagName('tr');\n");
-            out.write("    var cels = rows[0].getElementsByTagName('th')\n");
-            out.write("    cels[col_no].style.display=stl;\n");
-            out.write("    for (var row=1; row<rows.length;row++) {\n");
-            out.write("     var cels = rows[row].getElementsByTagName('td')\n");
-            out.write("     cels[col_no].style.display=stl;\n");
-            out.write("    }\n");
-            out.write("   }\n");
-            out.write("   function getElementsByClassName(oElm, strTagName, strClassName){\n");
-            out.write(
-                    "    var arrElements = (strTagName == '*' && document.all)? document.all : oElm.getElementsByTagName(strTagName);\n");
-            out.write("    var arrReturnElements = new Array();\n");
-            out.write("    strClassName = strClassName.replace(/\\-/g, '\\\\-');\n");
-            out.write("    var oRegExp = new RegExp('(^|\\s)' + strClassName + '(\\s|$)');\n");
-            out.write("    var oElement;\n");
-            out.write("    for(var i=0; i<arrElements.length; i++){\n");
-            out.write("     oElement = arrElements[i];\n");
-            out.write("     if(oRegExp.test(oElement.className)){\n");
-            out.write("      arrReturnElements.push(oElement);\n");
-            out.write("     }\n");
-            out.write("    }\n");
-            out.write("    return (arrReturnElements)\n");
-            out.write("   }\n");
-            out.write("   function fixImages( imageName ) {\n");
-            out.write("    top.document.title = document.title;\n");
-            out.write("    allImgIcons = getElementsByClassName( document, 'img', 'imgIcon' );\n");
-            out.write("    for( var element in allImgIcons ) {\n");
-            out.write("     element.src = location.href.match(/^.*\\//) + element.src;\n");
-            out.write("    }\n");
-            out.write("   }\n");
-            out.write("  </script>\n");
-            out.write(" </head>\n");
-            out.write(" <body onLoad='fixImages()'>\n");
-            out.write("  <table>\n");
-            out.write("   <tr>\n");
-            out.write("    <th bgcolor='lightblue'><font size='5'>Test</font></th>\n");
-            out.write("    <td bgcolor='lightblue' colspan=3>" + "<font size='5'>" + testName + " </font></td>\n");
-            out.write("   </tr><tr>\n");
-            out.write("    <th>Tester</th>\n");
-            out.write("    <td>Automated</td>\n");
-            out.write("    <th>Version</th>\n");
-            out.write("    <td>" + version + "</td>\n");
-            out.write("   </tr><tr>\n");
-            out.write("    <th>Author</th>\n");
-            out.write("    <td>" + author + "</td>\n");
-            out.write("    <th>Date Test Last Modified</th>\n");
-            out.write("    <td>" + sdf.format(dateLastModified) + "</td>\n");
-            out.write("   </tr><tr>\n");
-            out.write("    <th>Date Tested</th>\n");
-            out.write("    <td>" + DatePart + "</td>\n");
-            if (selenium) {
-                out.write("    <th>Browser</th>\n");
-                out.write("    <td>" + browser + "</td>\n");
-            }
-            out.write("   </tr><tr>\n");
-            out.write("    <th>Test Run Time</th>\n");
-            out.write("    <td colspan=3>\n");
-            out.write("     Start:\t" + sTime + " <br/>\n");
-            out.write("     End:\tTIMEFINISHED <br/>\n");
-            out.write("     Run Time:\tRUNTIME \n");
-            out.write("    </td>\n");
-            out.write("   </tr><tr>\n");
-            out.write("    <th>Testing Group</th>\n");
-            out.write("    <td>" + testGroup + "</td>\n");
-            out.write("    <th>Testing Suite</th>\n");
-            out.write("    <td>" + testSuite + "</td>\n");
-            out.write("   </tr><tr>\n");
-            out.write("    <th>Test Objectives</th>\n");
-            out.write("    <td colspan=3>" + testObjectives + "</td>\n");
-            out.write("   </tr><tr>\n");
-            out.write("    <th>Overall Results</th>\n");
-            out.write("    <td colspan=3 style='padding: 0px;'>\n");
-            out.write("     <table style='width: 100%;'><tr>\n");
-            out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
-            out.write(
-                    "      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" + "<td><b>Steps Failed</b></td>\n");
-            out.write("     </tr><tr>\n");
-            out.write("      <td>STEPSPERFORMED</td><td>STEPSPASSED</td><td>STEPSFAILED</td>\n");
-            out.write("     </tr></table>\n");
-            out.write("    </td>\n");
-            out.write("   </tr><tr>\n");
-            out.write("    <th>View Results</th>\n");
-            out.write("    <td colspan=3>\n");
-            out.write("     <input type=checkbox name='step' onclick='toggleVis(0,this.checked)' checked>Step\n");
-            out.write("     <input type=checkbox name='action' onclick='toggleVis(1,this.checked)' checked>Action \n");
-            out.write(
-                    "     <input type=checkbox name='expected' onclick='toggleVis(2,this.checked)' checked>Expected Results \n");
-            out.write(
-                    "     <input type=checkbox name='actual' onclick='toggleVis(3,this.checked)' checked>Actual Results \n");
-            out.write("     <input type=checkbox name='times' onclick='toggleVis(4,this.checked)' checked>Step Times \n");
-            out.write("     <input type=checkbox name='result' onclick='toggleVis(5,this.checked)' checked>Results\n");
-            out.write("    </td>\n");
-            out.write("   </tr>\n");
-            out.write("  </table>\n");
-            out.write("  <table id='all_results'>\n");
-            out.write("   <tr>\n");
-            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>"
-                    + "<th style='text-align:center'>Expected Result</th>"
-                    + "<th style='text-align:center'>Actual Result</th>" + "<th style='text-align:center'>Step Times</th>"
-                    + "<th style='text-align:center'>Pass/Fail</th>\n");
-            out.write("   </tr>\n");
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    /**
-     * write an action that was performed out to the output file
-     *
-     * @param action         the step that was performed
-     * @param expectedResult the result that was expected to occur
-     * @param actualResult   the result that actually occurred
-     * @param result         the result of the action
-     */
-    public void recordAction(String action, String expectedResult, String actualResult, Result result) {
-        stepNum++;
-        String success = "Fail";
-        String imageLink = "";
-        if (result == Result.SUCCESS) {
-            success = "Pass";
-        }
-        if (selHelper != null && success.equals("Fail") && selHelper.getBrowser() != Browsers.HtmlUnit) {
-            // get a screen shot of our action
-            imageLink = captureImage();
-        }
-        // determine time differences
-        Date currentTime = new Date();
-        long dTime = currentTime.getTime() - lastTime;
-        long tTime = (currentTime.getTime() - startTime);
-        lastTime = currentTime.getTime();
-        try (
-                // Reopen file
-                FileWriter fw = new FileWriter(outputFile, true);
-                BufferedWriter out = new BufferedWriter(fw);
-        ) {
-            // record our action
-            out.write("   <tr>\n");
-            out.write("    <td align='center'>" + stepNum + ".</td>\n");
-            out.write("    <td>" + action + "</td>\n");
-            out.write("    <td>" + expectedResult + "</td>\n");
-            out.write(
-                    "    <td class='" + result.toString().toLowerCase() + "'>" + actualResult + imageLink + "</td>\n");
-            out.write("    <td>" + dTime + "ms / " + tTime + "ms</td>\n");
-            out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + "</td>\n");
-            out.write("   </tr>\n");
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    /**
-     * generates a unique image name
-     *
-     * @return String the name of the image file as a PNG
-     */
-    public String generateImageName() {
-        long timeInSeconds = new Date().getTime();
-        SecureRandom random = new SecureRandom();
-        String randomChars = new BigInteger(130, random).toString(10);
-        return outputDir + "/" + timeInSeconds + "_" + randomChars + ".png";
-    }
-
-    /**
-     * generates the link for the image
-     *
-     * @param imageName the name of the image being embedded
-     * @return String the link for the image which can be written out to the
-     * html file
-     */
-    public String generateImageLink(String imageName) {
-        String imageLink = "<br/>";
-        // FOR DEBUGGING PURPOSES
-        // System.out.print( "Output Location: " + outputFolder + "\n" );
-        // System.out.print( "File name: " + imageName + "\n" );
-        if (imageName.length() >= outputDir.length() + 1) {
-            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\""
-                    + imageName.substring(outputDir.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
-            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\""
-                    + imageName.substring(outputDir.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
-            imageLink += "<br/><img id='" + imageName.substring(outputDir.length() + 1) + "' border='1px' src='file:///"
-                    + imageName + "' width='" + embeddedImageWidth + "px' style='display:none;'>";
-        } else {
-            imageLink += "<b><font color='red'>No Image Preview</font></b>";
-        }
-        return imageLink;
-    }
-
-    /**
-     * generates the link for the image
-     *
-     * @param imageName the name of the image being embedded
-     * @return String the link for the image which can be written out to the
-     * html file
-     */
-    public String generateImageSource(String imageName) {
-        String imageLink = "<br/><div align='center' width='100%'><img id='"
-                + imageName.substring(outputDir.length() + 1) + "' class='imgIcon' src='"
-                + imageName.substring(outputDir.length() + 1) + "'></div>";
-        // centered image without border
-        // String imageLink = "<br/><img id='" + imageName.substring(
-        // outputFolder.length()+1 ) +
-        // "' border='1px' src='file:///" + imageName + "'>"; //image with
-        // border
-        return imageLink;
-    }
-
-    /**
-     * generates a unique image name based on the action the time, and a unique
-     * random string, creates an image using that name, and returns a processed
-     * link to be included in an HTML file
-     *
-     * @return a processed link to be included in an HTML file
-     */
-    public String captureImage() {
-        String imageName = generateImageName();
-        String imageLink = generateImageLink(imageName);
-        imageLink = captureEntirePageScreenshot(imageLink, imageName);
-        return imageLink;
-    }
-
-    /**
-     * a helper function to capture the entire page screen shot
-     *
-     * @param imageLink - the original link to the image to be captured
-     * @param imageName - the name of the image to be captured
-     * @return new image link
-     */
-    public String captureEntirePageScreenshot(String imageLink, String imageName) {
-        try {
-            selHelper.takeScreenshot(imageName);
-        } catch (Exception e1) {
-            log.error(e1);
-            imageLink = "<br><b><font color=red>No Screenshot Available</font></b>";
-        }
-        return imageLink;
+    
+    public OutputFile getOutputFile() {
+    	return outputFile;
     }
 
     /**
@@ -647,8 +78,8 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkAlert(String expectedAlert) {
-        // record our action
-        recordExpected("Expected to find alert with the text <b>" + expectedAlert + "</b> on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find alert with the text <b>" + expectedAlert + "</b> on the page");
         // check for our object to the visible
         String alert = "";
         boolean isAlertPresent = selHelper.isAlertPresent();
@@ -656,8 +87,8 @@ public class TestOutput {
             alert = selHelper.getAlert();
         }
         if (!isAlertPresent) {
-            recordActual("No alert is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("No alert is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
         Pattern patt = Pattern.compile(expectedAlert);
@@ -669,11 +100,11 @@ public class TestOutput {
             isCorrect = alert.equals(expectedAlert);
         }
         if (!isCorrect) {
-            recordActual("An alert with text <b>" + alert + "</b> is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("An alert with text <b>" + alert + "</b> is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("An alert with text <b>" + alert + "</b> is present on the page", Success.PASS);
+        outputFile.recordActual("An alert with text <b>" + alert + "</b> is present on the page", Success.PASS);
         return 0;
     }
 
@@ -683,8 +114,8 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkAlertPresent() {
-        // record our action
-        recordExpected("Expected to find an alert on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find an alert on the page");
         // check for our object to the visible
         String alert = "";
         boolean isAlertPresent = selHelper.isAlertPresent();
@@ -692,11 +123,11 @@ public class TestOutput {
             alert = selHelper.getAlert();
         }
         if (!isAlertPresent) {
-            recordActual("No alert is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("No alert is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("An alert with text <b>" + alert + "</b> is present on the page", Success.PASS);
+        outputFile.recordActual("An alert with text <b>" + alert + "</b> is present on the page", Success.PASS);
         return 0;
     }
 
@@ -710,16 +141,16 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkAlertNotPresent() {
-        // record our action
-        recordExpected("Expected not to find an alert on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected not to find an alert on the page");
         // check for our object to the visible
         boolean isAlertPresent = selHelper.isAlertPresent();
         if (isAlertPresent) {
-            recordActual("An alert is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("An alert is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("No alert is present on the page", Success.PASS);
+        outputFile.recordActual("No alert is present on the page", Success.PASS);
         return 0;
     }
 
@@ -734,8 +165,8 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkConfirmation(String expectedConfirmation) {
-        // record our action
-        recordExpected("Expected to find confirmation with the text <b>" + expectedConfirmation + "</b> on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find confirmation with the text <b>" + expectedConfirmation + "</b> on the page");
         // check for our object to the visible
         String confirmation = "";
         boolean isConfirmationPresent = selHelper.isConfirmationPresent();
@@ -743,17 +174,17 @@ public class TestOutput {
             confirmation = selHelper.getConfirmation();
         }
         if (!isConfirmationPresent) {
-            recordActual("No confirmation is present on the page", Success.FAIL);
-            addError();
-            addError();
+            outputFile.recordActual("No confirmation is present on the page", Success.FAIL);
+            outputFile.addError();
+            outputFile.addError();
             return 1;
         }
         if (!expectedConfirmation.equals(confirmation)) {
-            recordActual("A confirmation with text <b>" + confirmation + "</b> is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("A confirmation with text <b>" + confirmation + "</b> is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("A confirmation with text <b>" + confirmation + "</b> is present on the page", Success.PASS);
+        outputFile.recordActual("A confirmation with text <b>" + confirmation + "</b> is present on the page", Success.PASS);
         return 0;
     }
 
@@ -763,8 +194,8 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkConfirmationPresent() {
-        // record our action
-        recordExpected("Expected to find a confirmation on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find a confirmation on the page");
         // check for our object to the visible
         String confirmation = "";
         boolean isConfirmationPresent = selHelper.isConfirmationPresent();
@@ -772,11 +203,11 @@ public class TestOutput {
             confirmation = selHelper.getConfirmation();
         }
         if (!isConfirmationPresent) {
-            recordActual("No confirmation is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("No confirmation is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("A confirmation with text <b>" + confirmation + "</b> is present on the page", Success.PASS);
+        outputFile.recordActual("A confirmation with text <b>" + confirmation + "</b> is present on the page", Success.PASS);
         return 0;
     }
 
@@ -786,16 +217,16 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkConfirmationNotPresent() {
-        // record our action
-        recordExpected("Expected to find a confirmation on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find a confirmation on the page");
         // check for our object to the visible
         boolean isConfirmationPresent = selHelper.isConfirmationPresent();
         if (isConfirmationPresent) {
-            recordActual("A confirmation is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("A confirmation is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("No confirmation is present on the page", Success.PASS);
+        outputFile.recordActual("No confirmation is present on the page", Success.PASS);
         return 0;
     }
 
@@ -806,8 +237,8 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPrompt(String expectedPrompt) {
-        // record our action
-        recordExpected("Expected to find prompt with the text <b>" + expectedPrompt + "</b> on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find prompt with the text <b>" + expectedPrompt + "</b> on the page");
         // check for our object to the visible
         String prompt = "";
         boolean isPromptPresent = selHelper.isPromptPresent();
@@ -815,16 +246,16 @@ public class TestOutput {
             prompt = selHelper.getPrompt();
         }
         if (!isPromptPresent) {
-            recordActual("No prompt is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("No prompt is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
         if (!expectedPrompt.equals(prompt)) {
-            recordActual("A prompt with text <b>" + prompt + "</b> is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("A prompt with text <b>" + prompt + "</b> is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("A prompt with text <b>" + prompt + "</b> is present on the page", Success.PASS);
+        outputFile.recordActual("A prompt with text <b>" + prompt + "</b> is present on the page", Success.PASS);
         return 0;
     }
 
@@ -834,8 +265,8 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPromptPresent() {
-        // record our action
-        recordExpected("Expected to find prompt on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find prompt on the page");
         // check for our object to the visible
         String prompt = "";
         boolean isPromptPresent = selHelper.isPromptPresent();
@@ -843,11 +274,11 @@ public class TestOutput {
             prompt = selHelper.getPrompt();
         }
         if (!isPromptPresent) {
-            recordActual("No prompt is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("No prompt is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("A prompt with text <b>" + prompt + "</b> is present on the page", Success.PASS);
+        outputFile.recordActual("A prompt with text <b>" + prompt + "</b> is present on the page", Success.PASS);
         return 0;
     }
 
@@ -857,16 +288,16 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPromptNotPresent() {
-        // record our action
-        recordExpected("Expected not to find prompt on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected not to find prompt on the page");
         // check for our object to the visible
         boolean isPromptPresent = selHelper.isPromptPresent();
         if (isPromptPresent) {
-            recordActual("A prompt is present on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("A prompt is present on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("No prompt is present on the page", Success.PASS);
+        outputFile.recordActual("No prompt is present on the page", Success.PASS);
         return 0;
     }
 
@@ -878,8 +309,8 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkCookie(String cookieName, String expectedCookieValue) {
-        // record our action
-        recordExpected("Expected to find cookie with the name <b>" + cookieName + "</b> and a value of <b>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find cookie with the name <b>" + cookieName + "</b> and a value of <b>"
                 + expectedCookieValue + "</b> stored for the page");
         // check for our object to the visible
         String cookieValue = "";
@@ -888,17 +319,17 @@ public class TestOutput {
             cookieValue = selHelper.getCookieValue(cookieName);
         }
         if (!isCookiePresent) {
-            recordActual("No cookie with the name <b>" + cookieName + "</b> is stored for the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("No cookie with the name <b>" + cookieName + "</b> is stored for the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
         if (!cookieValue.equals(expectedCookieValue)) {
-            recordActual("A cookie with the name <b>" + cookieName + "</b> is stored for the page, but the value "
+            outputFile.recordActual("A cookie with the name <b>" + cookieName + "</b> is stored for the page, but the value "
                     + "of the cookie is " + cookieValue, Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("A cookie with the name <b>" + cookieName + "</b> and a value of <b>" + cookieValue
+        outputFile.recordActual("A cookie with the name <b>" + cookieName + "</b> and a value of <b>" + cookieValue
                 + "</b> is stored for the page", Success.PASS);
         return 0;
     }
@@ -910,8 +341,8 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkCookiePresent(String expectedCookieName) {
-        // record our action
-        recordExpected("Expected to find cookie with the name <b>" + expectedCookieName + "</b> stored for the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find cookie with the name <b>" + expectedCookieName + "</b> stored for the page");
         // check for our object to the visible
         String cookieValue = "";
         boolean isCookiePresent = selHelper.isCookiePresent(expectedCookieName);
@@ -919,12 +350,12 @@ public class TestOutput {
             cookieValue = selHelper.getCookieValue(expectedCookieName);
         }
         if (!isCookiePresent) {
-            recordActual("No cookie with the name <b>" + expectedCookieName + "</b> is stored for the page",
+            outputFile.recordActual("No cookie with the name <b>" + expectedCookieName + "</b> is stored for the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("A cookie with the name <b>" + expectedCookieName + "</b> and a value of <b>" + cookieValue
+        outputFile.recordActual("A cookie with the name <b>" + expectedCookieName + "</b> and a value of <b>" + cookieValue
                 + "</b> is stored for the page", Success.PASS);
         return 0;
     }
@@ -936,18 +367,18 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkCookieNotPresent(String unexpectedCookieName) {
-        // record our action
-        recordExpected(
+        // outputFile.record our action
+        outputFile.recordExpected(
                 "Expected to find no cookie with the name <b>" + unexpectedCookieName + "</b> stored for the page");
         // check for our object to the visible
         boolean isCookiePresent = selHelper.isCookiePresent(unexpectedCookieName);
         if (isCookiePresent) {
-            recordActual("A cookie with the name <b>" + unexpectedCookieName + "</b> is stored for the page",
+            outputFile.recordActual("A cookie with the name <b>" + unexpectedCookieName + "</b> is stored for the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("No cookie with the name <b>" + unexpectedCookieName + "</b> is stored for the page",
+        outputFile.recordActual("No cookie with the name <b>" + unexpectedCookieName + "</b> is stored for the page",
                 Success.PASS);
         return 0;
     }
@@ -965,12 +396,12 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> visible on the page");
-        recordActual("The element with " + type + " <i>" + locator + "</i> is present and visible on the page",
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> visible on the page");
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is present and visible on the page",
                 Success.PASS);
         return 0;
     }
@@ -988,13 +419,13 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementNotDisplayed(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
                 + "</i> present, but not visible on the page");
-        recordActual("The element with " + type + " <i>" + locator + "</i> is present and not visible on the page",
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is present and not visible on the page",
                 Success.PASS);
         return 0;
     }
@@ -1012,19 +443,19 @@ public class TestOutput {
             throws InvalidLocatorTypeException, InvalidActionException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> checked on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> checked on the page");
         // check for our object to the visible
         if (!selHelper.isElementChecked(type, locator)) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is not checked on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is not checked on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator + "</i> is checked on the page", Success.PASS);
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is checked on the page", Success.PASS);
         return 0;
     }
 
@@ -1041,18 +472,18 @@ public class TestOutput {
             throws InvalidLocatorTypeException, InvalidActionException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> unchecked on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> unchecked on the page");
         // check for our object to the visible
         if (selHelper.isElementChecked(type, locator)) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is checked on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is checked on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator + "</i> is unchecked on the page", Success.PASS);
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is unchecked on the page", Success.PASS);
         return 0;
     }
 
@@ -1069,19 +500,19 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> checked on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> checked on the page");
         // check for our object to the visible
         if (!selHelper.isElementChecked(type, locator)) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is not checked on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is not checked on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator + "</i> is checked and visible on the page",
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is checked and visible on the page",
                 Success.PASS);
         return 0;
     }
@@ -1099,18 +530,18 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> unchecked on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> unchecked on the page");
         // check for our object to the visible
         if (selHelper.isElementChecked(type, locator)) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is checked on the page", Success.FAIL);
-            addError();
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is checked on the page", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator + "</i> is unchecked and visible on the page",
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is unchecked and visible on the page",
                 Success.PASS);
         return 0;
     }
@@ -1128,25 +559,25 @@ public class TestOutput {
             throws InvalidLocatorTypeException, InvalidActionException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> editable on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> editable on the page");
         // check for our object to the editable
         if (!selHelper.isElementInput(type, locator)) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is present but not an input on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is present but not an input on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (!selHelper.isElementEnabled(type, locator)) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is present but not editable on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is present but not editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator + "</i> is present and editable on the page",
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is present and editable on the page",
                 Success.PASS);
         return 0;
     }
@@ -1164,11 +595,11 @@ public class TestOutput {
             throws InvalidLocatorTypeException, InvalidActionException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> not editable on the page");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> not editable on the page");
         // check for our object to the editable
         boolean isElementEnabled = false;
         boolean isInput = selHelper.isElementInput(type, locator);
@@ -1176,12 +607,12 @@ public class TestOutput {
             isElementEnabled = selHelper.isElementEnabled(type, locator);
         }
         if (isElementEnabled) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is present but editable on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is present but editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator + "</i> is present and not editable on the page",
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is present and not editable on the page",
                 Success.PASS);
         return 0;
     }
@@ -1199,26 +630,26 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected(
+        // outputFile.record our action
+        outputFile.recordExpected(
                 "Expected to find element with " + type + " <i>" + locator + "</i> visible and editable on the page");
         // check for our object to the editable
         if (!selHelper.isElementInput(type, locator)) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is visible but not an input on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is visible but not an input on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (!selHelper.isElementEnabled(type, locator)) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is visible but not editable on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is visible but not editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator + "</i> is visible and editable on the page",
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is visible and editable on the page",
                 Success.PASS);
         return 0;
     }
@@ -1236,11 +667,11 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
                 + "</i> visible and not editable on the page");
         // check for our object to the editable
         boolean isElementEnabled = false;
@@ -1249,12 +680,12 @@ public class TestOutput {
             isElementEnabled = selHelper.isElementEnabled(type, locator);
         }
         if (isElementEnabled) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is visible but editable on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is visible but editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator + "</i> is visible and not editable on the page",
+        outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is visible and not editable on the page",
                 Success.PASS);
         return 0;
     }
@@ -1273,23 +704,23 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with attribute <b>"
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with attribute <b>"
                 + attribute + "</b>");
         Map<String, String> attributes = selHelper.getAllAttributes(type, locator);
         Set<String> keys = attributes.keySet();
         String[] array = keys.toArray(new String[keys.size()]);
-        // record our action
+        // outputFile.record our action
         if (General.doesArrayContain(array, attribute)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>"
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>"
                     + attribute + "</b>", Success.PASS);
             return 0;
         }
-        recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the attribute of <b>"
+        outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the attribute of <b>"
                 + attribute + "</b>" + ", only the values <b>" + Arrays.toString(array) + "</b>", Success.FAIL);
-        addError();
+        outputFile.addError();
         return 1;
     }
 
@@ -1307,22 +738,22 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without attribute <b>"
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without attribute <b>"
                 + attribute + "</b>");
         Map<String, String> attributes = selHelper.getAllAttributes(type, locator);
         Set<String> keys = attributes.keySet();
         String[] array = keys.toArray(new String[keys.size()]);
-        // record our action
+        // outputFile.record our action
         if (General.doesArrayContain(array, attribute)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>"
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> contains the attribute of <b>"
                     + attribute + "</b>", Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the attribute of <b>"
+        outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the attribute of <b>"
                 + attribute + "</b>" + ", only the values <b>" + Arrays.toString(array) + "</b>", Success.PASS);
         return 0;
     }
@@ -1341,22 +772,22 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with class <b>"
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with class <b>"
                 + expectedClass + "</b>");
         String actualClass = selHelper.getAttribute(type, locator, "class");
-        // record our action
+        // outputFile.record our action
         if (actualClass.equals(expectedClass)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>"
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>"
                     + expectedClass + "</b>", Success.PASS);
             return 0;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + actualClass + "</b>",
                 Success.FAIL);
-        addError();
+        outputFile.addError();
         return 1;
     }
 
@@ -1374,22 +805,22 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> containing class <b>"
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> containing class <b>"
                 + expectedClass + "</b>");
         String actualClass = selHelper.getAttribute(type, locator, "class");
-        // record our action
+        // outputFile.record our action
         if (actualClass.contains(expectedClass)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + actualClass
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + actualClass
                     + "</b>, which contains <b>" + expectedClass + "</b>", Success.PASS);
             return 0;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + actualClass + "</b>",
                 Success.FAIL);
-        addError();
+        outputFile.addError();
         return 1;
     }
 
@@ -1407,20 +838,20 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without class <b>"
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without class <b>"
                 + unexpectedClass + "</b>");
         String actualClass = selHelper.getAttribute(type, locator, "class");
-        // record our action
+        // outputFile.record our action
         if (actualClass.contains(unexpectedClass)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + actualClass
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has a class value of <b>" + actualClass
                     + "</b>, which contains <b>" + unexpectedClass + "</b>", Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain a class value of <b>"
+        outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain a class value of <b>"
                 + unexpectedClass + "</b>", Success.PASS);
         return 0;
     }
@@ -1439,23 +870,23 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementEnabled(type, locator) && selHelper.waitForElementEnabled(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with the option <b>" + option
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with the option <b>" + option
                 + "</b> available to be" + " selected on the page");
         // check for our object to the editable
         String[] allOptions = selHelper.getSelectOptions(type, locator);
         if (!Arrays.asList(allOptions).contains(option)) {
-            recordActual(
+            outputFile.recordActual(
                     "The element with " + type + " <i>" + locator
                             + "</i> is editable and present but does not contain the option " + "<b>" + option + "</b>",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element with " + type + " <i>" + locator
+        outputFile.recordActual("The element with " + type + " <i>" + locator
                 + "</i> is editable and present and contains the option " + "<b>" + option + "</b>", Success.PASS);
         return 0;
     }
@@ -1474,23 +905,23 @@ public class TestOutput {
             throws InvalidActionException, InvalidLocatorTypeException {
         // wait for the element
         if (!selHelper.isElementEnabled(type, locator) && selHelper.waitForElementEnabled(type, locator) == 1) {
-            addError();
+            outputFile.addError();
             return 1;
         }
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without the option <b>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without the option <b>"
                 + option + "</b> available to be" + " selected on the page");
         // check for our object to the editable
         String[] allOptions = selHelper.getSelectedValues(type, locator);
         if (Arrays.asList(allOptions).contains(option)) {
-            recordActual(
+            outputFile.recordActual(
                     "The element with " + type + " <i>" + locator
                             + "</i> is editable and present and contains the option " + "<b>" + option + "</b>",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element with " + type + " <i>" + locator
                         + "</i> is editable and present but does not contain the option " + "<b>" + option + "</b>",
                 Success.PASS);
@@ -1504,18 +935,18 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkTextVisible(String... expectedTexts) {
-        // record our action
+        // outputFile.record our action
         int errors = 0;
         for (String expectedText : expectedTexts) {
-            recordExpected("Expected to find text <b>" + expectedText + "</b> visible on the page");
+            outputFile.recordExpected("Expected to find text <b>" + expectedText + "</b> visible on the page");
             // check for our object to the visible
             boolean isPresent = selHelper.isTextPresent(expectedText);
             if (!isPresent) {
-                recordActual("The text <b>" + expectedText + "</b> is not visible on the page", Success.FAIL);
-                addError();
+                outputFile.recordActual("The text <b>" + expectedText + "</b> is not visible on the page", Success.FAIL);
+                outputFile.addError();
                 errors++;
             } else {
-                recordActual("The text <b>" + expectedText + "</b> is visible on the page", Success.PASS);
+                outputFile.recordActual("The text <b>" + expectedText + "</b> is visible on the page", Success.PASS);
             }
         }
         return errors;
@@ -1528,18 +959,18 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkTextNotVisible(String... expectedTexts) {
-        // record our action
+        // outputFile.record our action
         int errors = 0;
         for (String expectedText : expectedTexts) {
-            recordExpected("Expected not to find text <b>" + expectedText + "</b> visible on the page");
+            outputFile.recordExpected("Expected not to find text <b>" + expectedText + "</b> visible on the page");
             // check for our object to the visible
             boolean isPresent = selHelper.isTextPresent(expectedText);
             if (isPresent) {
-                recordActual("The text <b>" + expectedText + "</b> is visible on the page", Success.FAIL);
-                addError();
+                outputFile.recordActual("The text <b>" + expectedText + "</b> is visible on the page", Success.FAIL);
+                outputFile.addError();
                 errors++;
             } else {
-                recordActual("The text <b>" + expectedText + "</b> is not visible on the page", Success.PASS);
+                outputFile.recordActual("The text <b>" + expectedText + "</b> is not visible on the page", Success.PASS);
             }
         }
         return errors;
@@ -1552,7 +983,7 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkTextVisibleOR(String... expectedTexts) {
-        // record our action
+        // outputFile.record our action
         int errors = 0;
         boolean isPresent = false;
         String foundText = "";
@@ -1561,7 +992,7 @@ public class TestOutput {
             allTexts += "<b>" + expectedText + "</b> or ";
         }
         allTexts = allTexts.substring(0, allTexts.length() - 4);
-        recordExpected("Expected to find text " + allTexts + " visible on the page");
+        outputFile.recordExpected("Expected to find text " + allTexts + " visible on the page");
         // check for our object to the visible
         for (String expectedText : expectedTexts) {
             isPresent = selHelper.isTextPresent(expectedText);
@@ -1571,13 +1002,13 @@ public class TestOutput {
             }
         }
         if (!isPresent) {
-            recordActual("None of the texts " + allTexts.replace(" or ", ", ") + " are visible on the page",
+            outputFile.recordActual("None of the texts " + allTexts.replace(" or ", ", ") + " are visible on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             errors++;
             return errors;
         }
-        recordActual("The text <b>" + foundText + "</b> is visible on the page", Success.PASS);
+        outputFile.recordActual("The text <b>" + foundText + "</b> is visible on the page", Success.PASS);
         return errors;
     }
 
@@ -1593,8 +1024,8 @@ public class TestOutput {
      */
     public int compareTextValue(Locators type, String locator, String expectedValue)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a value of <b>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a value of <b>"
                 + expectedValue + "</b>");
         // check for our object to the present on the page
         String elementValue = "";
@@ -1603,19 +1034,19 @@ public class TestOutput {
             elementValue = selHelper.getText(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (!elementValue.equals(expectedValue)) {
-            recordActual(
+            outputFile.recordActual(
                     "The element with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue + "</b>",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue + "</b>",
                 Success.PASS);
         return 0;
@@ -1633,8 +1064,8 @@ public class TestOutput {
      */
     public int compareTextValueContains(Locators type, String locator, String expectedValue)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> contains the value of <b>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> contains the value of <b>"
                 + expectedValue + "</b>");
         // check for our object to the present on the page
         String elementValue = "";
@@ -1643,19 +1074,19 @@ public class TestOutput {
             elementValue = selHelper.getText(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (!elementValue.contains(expectedValue)) {
-            recordActual(
+            outputFile.recordActual(
                     "The element with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue + "</b>",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue + "</b>",
                 Success.PASS);
         return 0;
@@ -1668,15 +1099,15 @@ public class TestOutput {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int compareTitle(String expectedTitle) {
-        // record our action
-        recordExpected("Expected to be on page with the title of <i>" + expectedTitle + "</i>");
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to be on page with the title of <i>" + expectedTitle + "</i>");
         String actualTitle = selHelper.getTitle();
         if (!actualTitle.equalsIgnoreCase(expectedTitle)) {
-            recordActual("The page title reads <b>" + actualTitle + "</b>", Success.FAIL);
-            addError();
+            outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.FAIL);
+            outputFile.addError();
             return 1;
         }
-        recordActual("The page title reads <b>" + actualTitle + "</b>", Success.PASS);
+        outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.PASS);
         return 0;
     }
 
@@ -1693,8 +1124,8 @@ public class TestOutput {
      */
     public int compareInputValue(Locators type, String locator, String expectedValue)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a value of <b>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a value of <b>"
                 + expectedValue + "</b>");
         // check for our object to the present on the page
         String elementValue = "";
@@ -1703,18 +1134,18 @@ public class TestOutput {
             elementValue = selHelper.getValue(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (!elementValue.equals(expectedValue)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue
                     + "</b>", Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue + "</b>",
                 Success.PASS);
         return 0;
@@ -1734,8 +1165,8 @@ public class TestOutput {
      */
     public int compareCssValue(Locators type, String locator, String attribute, String expectedValue)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a css attribute of <i>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a css attribute of <i>"
                 + attribute + "</i> with a value of <b>" + expectedValue + "</b>");
         // check for our object to the present on the page
         String elementCssValue = "";
@@ -1744,18 +1175,18 @@ public class TestOutput {
             elementCssValue = selHelper.getCss(type, locator, attribute);
         }
         if (!isPresent) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (!elementCssValue.equals(expectedValue)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> has a css attribute of <i>" + attribute
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has a css attribute of <i>" + attribute
                     + "</i> with the value of <b>" + elementCssValue + "</b>", Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element  with " + type + " <i>" + locator + "</i> has a css attribute of <i>" + attribute
+        outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has a css attribute of <i>" + attribute
                 + "</i> with the value of <b>" + elementCssValue + "</b>", Success.PASS);
         return 0;
     }
@@ -1772,8 +1203,8 @@ public class TestOutput {
      */
     public int checkSelectValuePresent(Locators type, String locator, String selectValue)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a select value of <b>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a select value of <b>"
                 + selectValue + "</b>");
         // check for our object to the present on the page
         String[] elementValues = null;
@@ -1784,38 +1215,38 @@ public class TestOutput {
             isInput = selHelper.isElementInput(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isInput) {
             isElementEnabled = selHelper.isElementEnabled(type, locator);
         }
         if (!isInput) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isElementEnabled) {
             elementValues = selHelper.getSelectedValues(type, locator);
         }
         if (!isElementEnabled) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (General.doesArrayContain(elementValues, selectValue)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> contains the value of <b>" + selectValue
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> contains the value of <b>" + selectValue
                     + "</b>", Success.PASS);
             return 0;
         }
-        recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the value of <b>"
+        outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the value of <b>"
                         + selectValue + "</b>" + ", only the values <b>" + Arrays.toString(elementValues) + "</b>",
                 Success.FAIL);
-        addError();
+        outputFile.addError();
         return 1;
     }
 
@@ -1831,8 +1262,8 @@ public class TestOutput {
      */
     public int checkSelectValueNotPresent(Locators type, String locator, String selectValue)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without a select value of <b>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without a select value of <b>"
                 + selectValue + "</b>");
         // check for our object to the present on the page
         String[] elementValues = null;
@@ -1843,36 +1274,36 @@ public class TestOutput {
             isInput = selHelper.isElementInput(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isInput) {
             isElementEnabled = selHelper.isElementEnabled(type, locator);
         }
         if (!isInput) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isElementEnabled) {
             elementValues = selHelper.getSelectedValues(type, locator);
         }
         if (!isElementEnabled) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (General.doesArrayContain(elementValues, selectValue)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> contains the value of <b>" + selectValue
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> contains the value of <b>" + selectValue
                     + "</b>", Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the value of <b>"
+        outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> does not contain the value of <b>"
                 + selectValue + "</b>, only the values <b>" + Arrays.toString(elementValues) + "</b>", Success.PASS);
         return 0;
     }
@@ -1890,8 +1321,8 @@ public class TestOutput {
      */
     public int compareSelectedValue(Locators type, String locator, String expectedValue)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
                 + "</i> having a selected value of <b>" + expectedValue + "</b>");
         // check for our object to the present on the page
         String elementValue = "";
@@ -1902,36 +1333,36 @@ public class TestOutput {
             isInput = selHelper.isElementInput(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isInput) {
             isElementEnabled = selHelper.isElementEnabled(type, locator);
         }
         if (!isInput) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isElementEnabled) {
             elementValue = selHelper.getSelectedValue(type, locator);
         }
         if (!isElementEnabled) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (!elementValue.equals(expectedValue)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue
                     + "</b>", Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue + "</b>",
                 Success.PASS);
         return 0;
@@ -1950,8 +1381,8 @@ public class TestOutput {
      */
     public int compareSelectedText(Locators type, String locator, String expectedText)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a selected text of <b>"
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a selected text of <b>"
                 + expectedText + "</b>");
         // check for our object to the present on the page
         String elementText = "";
@@ -1962,37 +1393,37 @@ public class TestOutput {
             isInput = selHelper.isElementInput(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isInput) {
             isElementEnabled = selHelper.isElementEnabled(type, locator);
         }
         if (!isInput) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isElementEnabled) {
             elementText = selHelper.getSelectedText(type, locator);
         }
         if (!isElementEnabled) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (!elementText.equals(expectedText)) {
-            recordActual(
+            outputFile.recordActual(
                     "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementText + "</b>",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementText + "</b>",
                 Success.PASS);
         return 0;
@@ -2011,8 +1442,8 @@ public class TestOutput {
      */
     public int compareSelectedValueNotEqual(Locators type, String locator, String expectedValue)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
-        recordExpected("Expected to find element with " + type + " <i>" + locator
+        // outputFile.record our action
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
                 + "</i> not having a selected value of <b>" + expectedValue + "</b>");
         // check for our object to the present on the page
         String elementValue = "";
@@ -2023,36 +1454,36 @@ public class TestOutput {
             isInput = selHelper.isElementInput(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isInput) {
             isElementEnabled = selHelper.isElementEnabled(type, locator);
         }
         if (!isInput) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isElementEnabled) {
             elementValue = selHelper.getSelectedValue(type, locator);
         }
         if (!isElementEnabled) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (elementValue.equals(expectedValue)) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue
                     + "</b>", Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValue + "</b>",
                 Success.PASS);
         return 0;
@@ -2071,9 +1502,9 @@ public class TestOutput {
      */
     public int compareSelectValues(Locators type, String locator, String... expectedValues)
             throws InvalidLocatorTypeException, InvalidActionException {
-        // record our action
+        // outputFile.record our action
         int errors = 0;
-        recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with select values of <b>"
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with select values of <b>"
                 + expectedValues + "</b>");
         // check for our object to the present on the page
         String[] elementValues = null;
@@ -2084,49 +1515,49 @@ public class TestOutput {
             isInput = selHelper.isElementInput(type, locator);
         }
         if (!isPresent) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isInput) {
             isElementEnabled = selHelper.isElementEnabled(type, locator);
         }
         if (!isInput) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         if (isElementEnabled) {
             elementValues = selHelper.getSelectOptions(type, locator);
         }
         if (!isElementEnabled) {
-            recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
                     Success.FAIL);
-            addError();
+            outputFile.addError();
             return 1;
         }
         for (String entry : expectedValues) {
             if (!Arrays.asList(elementValues).contains(entry)) {
-                recordActual("The element  with " + type + " <i>" + locator
+                outputFile.recordActual("The element  with " + type + " <i>" + locator
                         + "</i> does not have the select value of <b>" + entry + "</b>", Success.FAIL);
-                addError();
+                outputFile.addError();
                 errors++;
             }
         }
         for (String entry : elementValues) {
             if (!Arrays.asList(expectedValues).contains(entry)) {
-                recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + entry
+                outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + entry
                         + "</b> which was not expected", Success.FAIL);
-                addError();
+                outputFile.addError();
                 errors++;
             }
         }
         if (errors > 0) {
             return errors;
         }
-        recordActual(
+        outputFile.recordActual(
                 "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValues + "</b>",
                 Success.PASS);
         return 0;

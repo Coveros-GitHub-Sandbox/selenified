@@ -248,12 +248,12 @@ public class SeleniumSetupTest {
 		Assert.assertFalse(capability.is(CapabilityType.PLATFORM));
 		Assert.assertNull(capability.getCapability(CapabilityType.PLATFORM));
 
-		browserDetails.put("devicePlatform" ,"Windows 10");
+		browserDetails.put("devicePlatform", "Windows 10");
 		capability = SeleniumSetup.setupBrowserDetails(capabilities, browserDetails);
 		Assert.assertEquals(capability.getPlatform().toString(), "WIN10");
 		Assert.assertEquals(capability.getCapability(CapabilityType.PLATFORM).toString(), "WIN10");
 
-		browserDetails.put("devicePlatform","Linux");
+		browserDetails.put("devicePlatform", "Linux");
 		capability = SeleniumSetup.setupBrowserDetails(capabilities, browserDetails);
 		Assert.assertEquals(capability.getPlatform().toString(), "LINUX");
 		Assert.assertEquals(capability.getCapability(CapabilityType.PLATFORM).toString(), "LINUX");
@@ -262,7 +262,7 @@ public class SeleniumSetupTest {
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void setupBrowserDetailsIllegalDevicePlatformTest() {
 		Map<String, String> browserDetails = new HashMap<>();
-		browserDetails.put("devicePlatform" ,"Sun");
+		browserDetails.put("devicePlatform", "Sun");
 		SeleniumSetup.setupBrowserDetails(capabilities, browserDetails).getPlatform();
 	}
 
@@ -373,12 +373,13 @@ public class SeleniumSetupTest {
 		SeleniumSetup.setupDriver(Browsers.Android, capabilities);
 	}
 
-	@Test
-	public void setupDriverChromeTest() throws InvalidBrowserException {
-		WebDriver driver = SeleniumSetup.setupDriver(Browsers.Chrome, capabilities);
-		Assert.assertEquals(driver.getClass().getSimpleName(), "ChromeDriver");
-		driver.quit();
-	}
+	// @Test
+	// public void setupDriverChromeTest() throws InvalidBrowserException {
+	// WebDriver driver = SeleniumSetup.setupDriver(Browsers.Chrome,
+	// capabilities);
+	// Assert.assertEquals(driver.getClass().getSimpleName(), "ChromeDriver");
+	// driver.quit();
+	// }
 
 	// @Test
 	// public void setupDriverEdgeTest() throws InvalidBrowserException {

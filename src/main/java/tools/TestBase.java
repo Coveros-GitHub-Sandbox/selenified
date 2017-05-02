@@ -26,6 +26,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 import selenified.exceptions.InvalidBrowserException;
+import tools.logging.OutputFile;
 import tools.logging.TestOutput;
 import tools.selenium.SeleniumHelper;
 import tools.selenium.SeleniumSetup;
@@ -117,12 +118,10 @@ public class TestBase {
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
 			boolean selenium) throws IOException {
 		String testName = General.getTestName(method, dataProvider);
-		String suite = test.getName();
 		String outputDir = test.getOutputDirectory();
 		String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
 		String fileLocation = "src." + extClass;
-		File file = new File(fileLocation.replaceAll("\\.", "/") + ".java");
-		Date lastModified = new Date(file.lastModified());
+		File file = new File("./" + fileLocation.replaceAll("\\.", "/") + ".java");
 		String description = "";
 		String group = "";
 		Test annotation = method.getAnnotation(Test.class);
@@ -149,19 +148,30 @@ public class TestBase {
 		myCapability.setCapability("name", testName);
 		this.capability.set(myCapability);
 
-		TestOutput myOutput = new TestOutput(testName, myBrowser, outputDir, testSite, suite,
-				General.wordToSentence(group), lastModified, version, author, description);
+		TestOutput myOutput = new TestOutput(testName, myBrowser, outputDir);
+		OutputFile myFile = myOutput.getOutputFile();
+		myFile.setURL(testSite);
+		myFile.setSuite(test.getName());
+		myFile.setGroup(group);
+		myFile.setLastModified(new Date(file.lastModified()));
+		myFile.setVersion(version);
+		myFile.setAuthor(author);
+		myFile.setObjectives(description);
 		long time = (new Date()).getTime();
-		myOutput.setStartTime(time);
+		myFile.setStartTime(time);
 		if (selenium) {
 			try {
-				this.selHelper.set(new SeleniumHelper(myBrowser, myCapability, myOutput));
+				SeleniumHelper mySelHelper = new SeleniumHelper(myBrowser, myCapability, myFile);
+				this.selHelper.set(mySelHelper);
+				myFile.setSeleniumHelper(mySelHelper);
+				myOutput.setSeleniumHelper(mySelHelper);
 			} catch (InvalidBrowserException | MalformedURLException e) {
 				log.error(e);
 			}
 		}
+		this.errors.set(myFile.startTestTemplateOutputFile());
+		myOutput.setOutputFile(myFile);
 		this.output.set(myOutput);
-		this.errors.set(myOutput.startTestTemplateOutputFile(selenium));
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -175,10 +185,10 @@ public class TestBase {
 	}
 
 	protected void finish() throws IOException {
-		TestOutput myOutput = this.output.get();
-		myOutput.endTestTemplateOutputFile();
-		assertEquals("Detailed results found at: " + myOutput.getFileName(), "0 errors",
-				Integer.toString(myOutput.getErrors()) + " errors");
+		OutputFile myFile = this.output.get().getOutputFile();
+		myFile.endTestTemplateOutputFile();
+		assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
+				Integer.toString(myFile.getErrors()) + " errors");
 	}
 
 	public static class MasterSuiteSetupConfigurator {
