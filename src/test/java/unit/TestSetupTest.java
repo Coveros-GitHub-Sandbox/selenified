@@ -18,7 +18,7 @@ import selenified.exceptions.InvalidBrowserException;
 import tools.TestSetup;
 import tools.output.Action.Browsers;
 
-public class SeleniumSetupTest {
+public class TestSetupTest {
 
 	private DesiredCapabilities capabilities = new DesiredCapabilities();
 	private String setBrowser = null;
