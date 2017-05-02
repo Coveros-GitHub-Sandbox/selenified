@@ -135,7 +135,7 @@ public class TestBase {
 			group = group.substring(1, group.length() - 1);
 		}
 
-		if (test.getAttribute(testName + INVOCATION_COUNT) == null) {
+		while (test.getAttribute(testName + INVOCATION_COUNT) == null) {
 			test.setAttribute(testName + INVOCATION_COUNT, 0);
 		}
 		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);

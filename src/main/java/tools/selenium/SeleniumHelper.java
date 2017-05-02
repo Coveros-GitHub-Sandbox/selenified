@@ -34,7 +34,6 @@ import selenified.exceptions.InvalidBrowserException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
 import tools.logging.OutputFile;
-import tools.logging.TestOutput;
 import tools.logging.TestOutput.Result;
 
 import java.io.File;
