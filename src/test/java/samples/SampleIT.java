@@ -1,7 +1,6 @@
 package samples;
 
 import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 
 import org.testng.annotations.BeforeClass;
@@ -9,9 +8,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import tools.TestBase;
-import tools.logging.TestOutput;
-import tools.selenium.SeleniumHelper.Locators;
-import tools.selenium.SeleniumHelper;
+import tools.output.Action;
+import tools.output.Assert;
+import tools.output.Action.Locators;
 
 public class SampleIT extends TestBase {
 
@@ -33,337 +32,346 @@ public class SampleIT extends TestBase {
 
     @Test(groups = { "sample" }, description = "A sample test to check a title")
     public void sampleTest() throws Exception {
-        // obtain our logger
-        TestOutput output = this.output.get();
-        // perform some actions
-        output.compareTitle("Google");
-        // verify no issues
+     // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform our verification
+        asserts.compareTitle("Google");
+        // perform our verification
         finish();
     }
 
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample negative test to check a title")
     public void sampleNegativeTest() throws Exception {
-        // obtain our logger
-        TestOutput output = this.output.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        output.compareTitle("Yahoo");
-        // verify no issues
-        assertTrue(output.getErrors() == 1);
+        asserts.compareTitle("Yahoo");
+        // perform our verification
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
     }
 
     @Test(dataProvider = "google search terms", groups = { "sample" },
             description = "A sample test using a data provider to perform searches")
     public void sampleTestWDataProvider(String searchTerm) throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
-        // obtain our logger
-        TestOutput output = this.output.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        selHelper.type(Locators.name, "q", searchTerm);
-        selHelper.click(Locators.name, "btnG");
-        selHelper.waitForElementDisplayed(Locators.id, "resultStats");
-        output.compareTitle(searchTerm + " - Google Search");
-        // verify no issues
+        actions.type(Locators.name, "q", searchTerm);
+        actions.click(Locators.name, "btnG");
+        actions.waitForElementDisplayed(Locators.id, "resultStats");
+        // perform our verification
+        asserts.compareTitle(searchTerm + " - Google Search");
+        // close out the test
         finish();
     }
 
-    @Test(groups = { "sample" }, description = "A sample test to check a the goToURL method")
+    @Test(groups = { "sample" }, description = "A sample test to check the goToURL method")
     public void sampleTestGoToURL() throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("https://www.yahoo.com/");
-        assertTrue(selHelper.getCurrentUrl().equals("https://www.yahoo.com/"));
+        actions.goToURL("https://www.yahoo.com/");
+        assertTrue(actions.getCurrentUrl().equals("https://www.yahoo.com/"));
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a the goToURL method")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the goToURL method")
     public void sampleTestNegativeGoToURL() throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("https://www.yahoo.com/");
-        assertTrue(!selHelper.getCurrentUrl().equals("https://www.google.com/"));
+        actions.goToURL("https://www.yahoo.com/");
+        assertTrue(!actions.getCurrentUrl().equals("https://www.google.com/"));
         // verify no issues
         finish();
     }
 
     @Test(groups = { "sample" }, description = "A sample test to check the waitForElementPresent method")
     public void sampleTestWaitForElementPresent() throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.waitForElementPresent(Locators.name, "q");
+        actions.waitForElementPresent(Locators.name, "q");
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check the waitForElementPresent method")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the waitForElementPresent method")
     public void sampleTestNegativeWaitForElementPresent() throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
-        // obtain our logger
-        TestOutput output = this.output.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        selHelper.waitForElementPresent(Locators.name, "non-existent-name");
+        actions.waitForElementPresent(Locators.name, "non-existent-name");
         // verify no issues
-        assertTrue(output.getErrors() == 1);
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
     }
 
     @Test(groups = { "sample" }, description = "A sample test to check the waitForElementNotPresent method")
     public void sampleTestWaitForElementNotPresent() throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.waitForElementNotPresent(Locators.name, "non-existent-name");
+        actions.waitForElementNotPresent(Locators.name, "non-existent-name");
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check the waitForElementNotPresent method")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the waitForElementNotPresent method")
     public void sampleTestNegativeWaitForElementNotPresent() throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
-        // obtain our logger
-        TestOutput output = this.output.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        selHelper.waitForElementNotPresent(Locators.name, "q");
+        actions.waitForElementNotPresent(Locators.name, "q");
         // verify no issues
-        assertTrue(output.getErrors() == 1);
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
     }
 
     @Test(groups = { "sample" }, description = "A sample test to check the waitForElementDisplayed method")
     public void sampleTestWaitForElementDisplayed() throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.waitForElementDisplayed(Locators.name, "q");
+        actions.waitForElementDisplayed(Locators.name, "q");
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check the waitForElementDisplayed method")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the waitForElementDisplayed method")
     public void sampleTestNegativeWaitForElementDisplayed() throws Exception {
-        SeleniumHelper selHelper = this.selHelper.get();
-        // obtain our logger
-        TestOutput output = this.output.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        selHelper.waitForElementDisplayed(Locators.name, "non-existent-name");
+        actions.waitForElementDisplayed(Locators.name, "non-existent-name");
         // verify no issues
-        assertTrue(output.getErrors() == 1);
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
     }
 
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample test to check the WaitForElementNotDisplayed method")
     public void sampleTestWaitForElementNotDisplayed() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.waitForElementNotDisplayed(Locators.name, "site");
+        actions.waitForElementNotDisplayed(Locators.name, "site");
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the WaitForElementNotDisplayed method")
     public void sampleTestNegativeWaitForElementNotDisplayed() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
-        // obtain our logger
-        TestOutput output = this.output.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        selHelper.waitForElementNotDisplayed(Locators.name, "q");
+        actions.waitForElementNotDisplayed(Locators.name, "q");
         // verify no issues
-        assertTrue(output.getErrors() == 1);
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
     }
 
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample test to check the WaitForElementEnabled method")
     public void sampleTestWaitForElementEnabled() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.waitForElementEnabled(Locators.name, "q");
+        actions.waitForElementEnabled(Locators.name, "q");
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the WaitForElementEnabled method")
     public void sampleTestNegativeWaitForElementEnabled() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
-        // obtain our logger
-        TestOutput output = this.output.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        selHelper.waitForElementEnabled(Locators.id, "gs_taif0");
+        actions.waitForElementEnabled(Locators.id, "gs_taif0");
         // verify no issues
-        assertTrue(output.getErrors() == 1);
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
     }
 
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample test to check the WaitForElementNotEnabled method")
     public void sampleTestWaitForNotElementEnabled() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.waitForElementNotEnabled(Locators.name, "oq");
+        actions.waitForElementNotEnabled(Locators.name, "oq");
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the WaitForElementNotEnabled method")
     public void sampleTestNegativeWaitForNotElementEnabled() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
-        // obtain our logger
-        TestOutput output = this.output.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        selHelper.waitForElementNotEnabled(Locators.name, "q");
+        actions.waitForElementNotEnabled(Locators.name, "q");
         // verify no issues
-        assertTrue(output.getErrors() == 1);
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
-    public void sampleNegativeScrollTest() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
-        // obtain our logger
-        TestOutput output = this.output.get();
-        // perform some actions
-        selHelper.scroll(50);
-        // verify no issues
-        assertTrue(output.getErrors() == 1);
-        finishNoAssert();
-    }
-    
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample test to check the getNumOfSelectOptions method")
     public void sampleGetNumOfSelectOptionsTest() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.yahoo.com/");
-        assertTrue(selHelper.getNumOfSelectOptions(Locators.name, "league") == 3);
+        actions.goToURL("http://www.yahoo.com/");
+        assertTrue(actions.getNumOfSelectOptions(Locators.name, "league") == 3);
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the getNumOfSelectOptions method")
     public void sampleNegativeGetNumOfSelectOptionsTest() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.yahoo.com/");
-        assertTrue(!(selHelper.getNumOfSelectOptions(Locators.name, "league") == 0));
+        actions.goToURL("http://www.yahoo.com/");
+        assertTrue(!(actions.getNumOfSelectOptions(Locators.name, "league") == 0));
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample test to check the getSelectOptions method")
     public void sampleGetSelectOptionsTest() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.yahoo.com/");
-        assertTrue(Arrays.equals(selHelper.getSelectOptions(Locators.name, "league"),new String[]{"nba", "nhl", "mlb"}));
+        actions.goToURL("http://www.yahoo.com/");
+        assertTrue(Arrays.equals(actions.getSelectOptions(Locators.name, "league"),new String[]{"nba", "nhl", "mlb"}));
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample test to check the getTableRows method")
     public void sampleGetTableRows() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.seleniumhq.org/");
-        assertTrue(selHelper.getTableRows(Locators.id, "choice").size() == 1);
+        actions.goToURL("http://www.seleniumhq.org/");
+        assertTrue(actions.getTableRows(Locators.id, "choice").size() == 1);
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the getTableRows method")
     public void sampleNegativeGetTableRows() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.seleniumhq.org/");
-        assertTrue(!(selHelper.getTableRows(Locators.id, "choice").size() == 0));
+        actions.goToURL("http://www.seleniumhq.org/");
+        assertTrue(!(actions.getTableRows(Locators.id, "choice").size() == 0));
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample test to check the getNumOfTableRows method")
     public void sampleGetNumOfTableRows() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.seleniumhq.org/");
-        assertTrue(selHelper.getNumOfTableRows(Locators.id, "choice") == 1);
+        actions.goToURL("http://www.seleniumhq.org/");
+        assertTrue(actions.getNumOfTableRows(Locators.id, "choice") == 1);
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the getNumOfTableRows method")
     public void sampleNegativeGetNumOfTableRows() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.seleniumhq.org/");
-        assertTrue(!(selHelper.getNumOfTableRows(Locators.id, "choice") == 0));
+        actions.goToURL("http://www.seleniumhq.org/");
+        assertTrue(!(actions.getNumOfTableRows(Locators.id, "choice") == 0));
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample1" }, description = "A sample test to check a title")
+    @Test(groups = { "sample1" }, description = "A sample test to check the getTableColumns method")
     public void sampleGetTableColumns() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.seleniumhq.org/");
-        assertTrue(selHelper.getTableColumns(Locators.id, "choice").size() == 2);
+        actions.goToURL("http://www.seleniumhq.org/");
+        assertTrue(actions.getTableColumns(Locators.id, "choice").size() == 2);
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample1" }, description = "A sample test to check a title")
+    @Test(groups = { "sample1" }, description = "A sample negative test to check the getTableColumns method")
     public void sampleNegativeGetTableColumns() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.seleniumhq.org/");
-        assertTrue(!(selHelper.getTableColumns(Locators.id, "choice").size() == 0));
+        actions.goToURL("http://www.seleniumhq.org/");
+        assertTrue(!(actions.getTableColumns(Locators.id, "choice").size() == 0));
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample1" }, description = "A sample test to check a title")
+    @Test(groups = { "sample1" }, description = "A sample test to check the getNumOfTableColumns method")
     public void sampleGetNumOfTableColumns() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.seleniumhq.org/");
-        assertTrue(selHelper.getNumOfTableColumns(Locators.id, "choice") == 2);
+        actions.goToURL("http://www.seleniumhq.org/");
+        assertTrue(actions.getNumOfTableColumns(Locators.id, "choice") == 2);
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample1" }, description = "A sample test to check a title")
+    @Test(groups = { "sample1" }, description = "A sample negative test to check the getNumOfTableColumns method")
     public void sampleNegativeGetNumOfTableColumns() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.goToURL("http://www.seleniumhq.org/");
-        assertTrue(!(selHelper.getNumOfTableColumns(Locators.id, "choice") == 0));
+        actions.goToURL("http://www.seleniumhq.org/");
+        assertTrue(!(actions.getNumOfTableColumns(Locators.id, "choice") == 0));
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample" }, description = "A sample test to check a title")
+    @Test(groups = { "sample" }, description = "A sample test to check the scroll method")
     public void sampleScrollTest() throws Exception {
-        // obtain our browser instance
-        SeleniumHelper selHelper = this.selHelper.get();
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
         // perform some actions
-        selHelper.type(Locators.name, "q", "scroll");
-        selHelper.click(Locators.name, "btnG");
-        selHelper.waitForElementDisplayed(Locators.id, "resultStats");
-        selHelper.scroll(50);
+        actions.type(Locators.name, "q", "scroll");
+        actions.click(Locators.name, "btnG");
+        actions.waitForElementDisplayed(Locators.id, "resultStats");
+        actions.scroll(50);
         // verify no issues
         finish();
+    }
+    
+    @Test(groups = { "sample" }, description = "A sample negative test to check the scroll method")
+    public void sampleNegativeScrollTest() throws Exception {
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        actions.scroll(50);
+        // verify no issues
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
+        finishNoAssert();
     }
 }
