@@ -234,6 +234,7 @@ public class SampleIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.goToURL("http://www.yahoo.com/");
+        actions.wait(5);
         assertTrue(actions.getNumOfSelectOptions(Locators.name, "league") == 3);
         // verify no issues
         finish();
@@ -305,7 +306,7 @@ public class SampleIT extends TestBase {
         finish();
     }
     
-    @Test(groups = { "sample1" }, description = "A sample test to check the getTableColumns method")
+    @Test(groups = { "sample" }, description = "A sample test to check the getTableColumns method")
     public void sampleGetTableColumns() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
@@ -316,7 +317,7 @@ public class SampleIT extends TestBase {
         finish();
     }
     
-    @Test(groups = { "sample1" }, description = "A sample negative test to check the getTableColumns method")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the getTableColumns method")
     public void sampleNegativeGetTableColumns() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
@@ -327,7 +328,7 @@ public class SampleIT extends TestBase {
         finish();
     }
     
-    @Test(groups = { "sample1" }, description = "A sample test to check the getNumOfTableColumns method")
+    @Test(groups = { "sample" }, description = "A sample test to check the getNumOfTableColumns method")
     public void sampleGetNumOfTableColumns() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
@@ -338,7 +339,7 @@ public class SampleIT extends TestBase {
         finish();
     }
     
-    @Test(groups = { "sample1" }, description = "A sample negative test to check the getNumOfTableColumns method")
+    @Test(groups = { "sample" }, description = "A sample negative test to check the getNumOfTableColumns method")
     public void sampleNegativeGetNumOfTableColumns() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
