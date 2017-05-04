@@ -28,7 +28,7 @@ import selenified.exceptions.InvalidBrowserException;
 import tools.output.Action.Browsers;
 
 public class TestSetup {
-	
+
 	// constants
 	private static final String PROXY_INPUT = "proxy";
 	private static final String BROWSER_INPUT = "browser";
@@ -38,10 +38,17 @@ public class TestSetup {
 	private static final String DEVICE_ORIENTATION_INPUT = "deviceOrientation";
 	private static final String DEVICE_PLATFORM_INPUT = "devicePlatform";
 
-	
-	private TestSetup() {}
+	private DesiredCapabilities capabilities;
 
-	public static DesiredCapabilities setupProxy(DesiredCapabilities capabilities) {
+	public TestSetup() {
+		capabilities = new DesiredCapabilities();
+	}
+
+	public DesiredCapabilities getDesiredCapabilities() {
+		return capabilities;
+	}
+
+	public void setupProxy() {
 		// are we running through a proxy
 		if (System.getProperty(PROXY_INPUT) != null) {
 			// set our proxy information
@@ -49,7 +56,6 @@ public class TestSetup {
 			proxy.setHttpProxy(System.getProperty(PROXY_INPUT));
 			capabilities.setCapability(CapabilityType.PROXY, proxy);
 		}
-		return capabilities;
 	}
 
 	public static boolean areBrowserDetailsSet() {
@@ -58,27 +64,30 @@ public class TestSetup {
 
 	public static List<Browsers> setBrowser() {
 		List<Browsers> browsers = new ArrayList<>();
-		if (System.getProperty(BROWSER_INPUT) != null) {
-			if (!areBrowserDetailsSet()) {
-				browsers = Arrays.asList(System.getProperty(BROWSER_INPUT).split(",")).stream().map(Browsers::valueOf)
-						.collect(Collectors.toList());
-			} else {
-				String[] allDetails = System.getProperty(BROWSER_INPUT).split(",");
-				for (String details : allDetails) {
-					Map<String, String> browserDetails = General.parseMap(details);
-					if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
-						browsers.add(Browsers.valueOf(browserDetails.get(BROWSER_NAME_INPUT)));
-					} else {
-						browsers.add(null);
-					}
+		// null input check
+		if (System.getProperty(BROWSER_INPUT) == null) {
+			return browsers;
+		}
+
+		// are we looking for all details or not
+		if (!areBrowserDetailsSet()) {
+			browsers = Arrays.asList(System.getProperty(BROWSER_INPUT).split(",")).stream().map(Browsers::valueOf)
+					.collect(Collectors.toList());
+		} else {
+			String[] allDetails = System.getProperty(BROWSER_INPUT).split(",");
+			for (String details : allDetails) {
+				Map<String, String> browserDetails = General.parseMap(details);
+				if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
+					browsers.add(Browsers.valueOf(browserDetails.get(BROWSER_NAME_INPUT)));
+				} else {
+					browsers.add(null);
 				}
 			}
 		}
 		return browsers;
 	}
 
-	public static DesiredCapabilities setupBrowserDetails(DesiredCapabilities capabilities,
-			Map<String, String> browserDetails) {
+	public void setupBrowserDetails(Map<String, String> browserDetails) {
 		if (browserDetails != null) {
 			// determine our browser information
 			if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
@@ -98,67 +107,99 @@ public class TestSetup {
 				capabilities.setCapability(CapabilityType.PLATFORM, browserDetails.get(DEVICE_PLATFORM_INPUT));
 			}
 		}
-		return capabilities;
 	}
 
-	public static DesiredCapabilities setupBrowserCapability(Browsers browser) throws InvalidBrowserException {
-		DesiredCapabilities capabilities;
+	public void setupBrowserCapability(Browsers browser) throws InvalidBrowserException {
 		switch (browser) { // check our browser
-		case HtmlUnit: {
-			capabilities = DesiredCapabilities.htmlUnitWithJs();
+		case HtmlUnit:
+			setHtmlUnitCapability();
 			break;
-		}
-		case Firefox: {
-			capabilities = DesiredCapabilities.firefox();
+		case Firefox:
+			setFirefoxCapability();
 			break;
-		}
-		case Marionette: {
-			capabilities = DesiredCapabilities.firefox();
-			capabilities.setCapability("marionette", true);
+		case Marionette:
+			setMarionetteCapability();
 			break;
-		}
-		case Chrome: {
-			capabilities = DesiredCapabilities.chrome();
+		case Chrome:
+			setChromeCapability();
 			break;
-		}
-		case InternetExplorer: {
-			capabilities = DesiredCapabilities.internetExplorer();
+		case InternetExplorer:
+			setInternetExplorerCapability();
 			break;
-		}
-		case Edge: {
-			capabilities = DesiredCapabilities.edge();
+		case Edge:
+			setEdgeCapability();
 			break;
-		}
-		case Android: {
-			capabilities = DesiredCapabilities.android();
+		case Android:
+			setAndroidCapability();
 			break;
-		}
-		case Iphone: {
-			capabilities = DesiredCapabilities.iphone();
+		case Iphone:
+			setIphoneCapability();
 			break;
-		}
-		case Ipad: {
-			capabilities = DesiredCapabilities.ipad();
+		case Ipad:
+			setIpadCapability();
 			break;
-		}
-		case Safari: {
-			capabilities = DesiredCapabilities.safari();
+		case Safari:
+			setSafariCapability();
 			break;
-		}
-		case Opera: {
-			capabilities = DesiredCapabilities.operaBlink();
+		case Opera:
+			setOperaCapability();
 			break;
-		}
-		case PhantomJS: {
-			capabilities = DesiredCapabilities.phantomjs();
+		case PhantomJS:
+			setPhantomJSCapability();
 			break;
-		}
 		// if our browser is not listed, throw an error
-		default: {
+		default:
 			throw new InvalidBrowserException("The selected browser " + browser);
 		}
-		}
-		return capabilities;
+	}
+
+	private void setPhantomJSCapability() {
+		capabilities = DesiredCapabilities.phantomjs();
+	}
+
+	private void setOperaCapability() {
+		capabilities = DesiredCapabilities.operaBlink();
+	}
+
+	private void setSafariCapability() {
+		capabilities = DesiredCapabilities.safari();
+	}
+
+	private void setIpadCapability() {
+		capabilities = DesiredCapabilities.ipad();
+	}
+
+	private void setIphoneCapability() {
+		capabilities = DesiredCapabilities.iphone();
+	}
+
+	private void setAndroidCapability() {
+		capabilities = DesiredCapabilities.android();
+	}
+
+	private void setEdgeCapability() {
+		capabilities = DesiredCapabilities.edge();
+	}
+
+	private void setInternetExplorerCapability() {
+		capabilities = DesiredCapabilities.internetExplorer();
+	}
+
+	private void setChromeCapability() {
+		capabilities = DesiredCapabilities.chrome();
+	}
+
+	private void setMarionetteCapability() {
+		capabilities = DesiredCapabilities.firefox();
+		capabilities.setCapability("marionette", true);
+	}
+
+	private void setFirefoxCapability() {
+		capabilities = DesiredCapabilities.firefox();
+	}
+
+	private void setHtmlUnitCapability() {
+		capabilities = DesiredCapabilities.htmlUnitWithJs();
 	}
 
 	public static WebDriver setupDriver(Browsers browser, DesiredCapabilities capabilities)
@@ -166,48 +207,39 @@ public class TestSetup {
 		WebDriver driver;
 		// check our browser
 		switch (browser) {
-		case HtmlUnit: {
+		case HtmlUnit:
 			driver = new HtmlUnitDriver(capabilities);
 			break;
-		}
-		case Firefox: {
+		case Firefox:
 			FirefoxDriverManager.getInstance().forceCache().setup();
 			driver = new FirefoxDriver(capabilities);
 			break;
-		}
-		case Marionette: {
+		case Marionette:
 			FirefoxDriverManager.getInstance().forceCache().setup();
 			driver = new MarionetteDriver(capabilities);
 			break;
-		}
-		case Chrome: {
+		case Chrome:
 			ChromeDriverManager.getInstance().forceCache().setup();
 			driver = new ChromeDriver(capabilities);
 			break;
-		}
-		case InternetExplorer: {
+		case InternetExplorer:
 			InternetExplorerDriverManager.getInstance().forceCache().setup();
 			driver = new InternetExplorerDriver(capabilities);
 			break;
-		}
-		case Edge: {
+		case Edge:
 			EdgeDriverManager.getInstance().forceCache().setup();
 			driver = new EdgeDriver(capabilities);
 			break;
-		}
-		case Safari: {
+		case Safari:
 			driver = new SafariDriver(capabilities);
 			break;
-		}
-		case Opera: {
+		case Opera:
 			OperaDriverManager.getInstance().forceCache().setup();
 			driver = new OperaDriver(capabilities);
 			break;
-		}
 		// if our browser is not listed, throw an error
-		default: {
+		default:
 			throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
-		}
 		}
 		return driver;
 	}

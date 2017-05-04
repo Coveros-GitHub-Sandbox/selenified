@@ -81,20 +81,18 @@ public class TestBase {
 	protected static void setupTestParameters() throws InvalidBrowserException {
 		browsers = TestSetup.setBrowser();
 
-		// are we running remotely on a hub
 		for (Browsers browser : browsers) {
-			DesiredCapabilities capability;
+			TestSetup setup = new TestSetup();
+			// are we running remotely on a hub
 			if (System.getProperty("hub") != null) {
-				capability = TestSetup.setupBrowserCapability(browser);
-			} else {
-				capability = new DesiredCapabilities();
+				setup.setupBrowserCapability(browser);
 			}
-			capability = TestSetup.setupProxy(capability);
+			setup.setupProxy();
 			if (TestSetup.areBrowserDetailsSet()) {
 				Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
-				capability = TestSetup.setupBrowserDetails(capability, browserDetails);
+				setup.setupBrowserDetails(browserDetails);
 			}
-			capabilities.add(capability);
+			capabilities.add(setup.getDesiredCapabilities());
 		}
 	}
 
