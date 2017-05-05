@@ -21,7 +21,7 @@ public class OutputFile {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
-	private Action selHelper = null;
+	private Action action = null;
 
 	private String url;
 	private String suite;
@@ -53,6 +53,17 @@ public class OutputFile {
 	private static final String END_CELL = "</td>\n";
 	private static final String END_ROW = "   </tr>\n";
 
+	/**
+	 * Creates a new instance of the OutputFile, which will serve as the
+	 * detailed log
+	 * 
+	 * @param testDirectory
+	 *            - a string of the directory holding the files
+	 * @param testName
+	 *            - a string value of the test name, typically the method name
+	 * @param setBrowser
+	 *            - the browser we are performing this test on
+	 */
 	public OutputFile(String testDirectory, String testName, Browsers setBrowser) {
 
 		test = testName;
@@ -63,50 +74,110 @@ public class OutputFile {
 		setupFile();
 	}
 
+	/**
+	 * returns the filename in string form of the output file
+	 * 
+	 * @return String: filename
+	 */
 	public String getFileName() {
 		return filename;
 	}
 
+	/**
+	 * returns the start time of the test
+	 * 
+	 * @return Long
+	 */
 	public long getStartTime() {
 		return startTime;
 	}
-	
+
+	/**
+	 * returns the last time a step was completed
+	 * 
+	 * @return Long
+	 */
 	public long getLastTime() {
 		return lastTime;
 	}
-	
+
+	/**
+	 * returns the current error count of the test
+	 * 
+	 * @return Integer
+	 */
 	public int getErrors() {
 		return errors;
 	}
 
-	public void setSeleniumHelper(Action seleniumHelper) {
-		selHelper = seleniumHelper;
+	/**
+	 * adds the action class which controls actions within the browser
+	 * 
+	 * @param action
+	 */
+	public void setAction(Action action) {
+		this.action = action;
 	}
 
+	/**
+	 * sets the url of the page under test
+	 * 
+	 * @param pageURL
+	 */
 	public void setURL(String pageURL) {
 		url = pageURL;
 	}
 
+	/**
+	 * sets the name of the suite of the test
+	 * 
+	 * @param testSuite
+	 */
 	public void setSuite(String testSuite) {
 		suite = testSuite;
 	}
 
+	/**
+	 * sets the name(s) of the group(s) of the tests
+	 * 
+	 * @param testGroup
+	 */
 	public void setGroup(String testGroup) {
 		group = testGroup;
 	}
 
+	/**
+	 * sets the date of the last time the test was modified
+	 * 
+	 * @param date
+	 */
 	public void setLastModified(Date date) {
 		lastModified = date;
 	}
 
+	/**
+	 * sets the version of the test being run
+	 * 
+	 * @param testVersion
+	 */
 	public void setVersion(String testVersion) {
 		version = testVersion;
 	}
 
+	/**
+	 * sets the author of the test
+	 * 
+	 * @param testAuthor
+	 */
 	public void setAuthor(String testAuthor) {
 		author = testAuthor;
 	}
 
+	/**
+	 * sets the objectives of the test being run
+	 * 
+	 * @param testObjectives
+	 */
 	public void setObjectives(String testObjectives) {
 		objectives = testObjectives;
 	}
@@ -217,7 +288,7 @@ public class OutputFile {
 	public String captureEntirePageScreenshot(String imageLink, String imageName) {
 		String link = imageLink;
 		try {
-			selHelper.takeScreenshot(imageName);
+			action.takeScreenshot(imageName);
 		} catch (Exception e1) {
 			log.error(e1);
 			link = "<br><b><font color=red>No Screenshot Available</font></b>";
@@ -344,26 +415,8 @@ public class OutputFile {
 	 *             - an IOException
 	 */
 	public int startTestTemplateOutputFile() throws IOException {
-		String startingPage = "The starting page <i>";
-
 		createOutputHeader();
-		if (selHelper != null) {
-			selHelper.getDriver().get(url);
-			Result result = selHelper.isElementPresent(Locators.xpath, "//body", false) ? Result.SUCCESS
-					: Result.FAILURE;
-			String actual = selHelper.isElementPresent(Locators.xpath, "//body", false)
-					? startingPage + url + "</i> loaded successfully"
-					: startingPage + url + "</i> did not load successfully";
-			recordAction("Opening new browser and loading up starting page",
-					startingPage + url + "</i> will successfully load", actual, result);
-			if (result == Result.SUCCESS) {
-				return 0;
-			} else {
-				addError();
-				return 1;
-			}
-		}
-		return 0;
+		return loadInitialPage();
 	}
 
 	/**
@@ -477,11 +530,15 @@ public class OutputFile {
 			out.write("    <th>Author</th>\n");
 			out.write(START_CELL + this.author + END_CELL);
 			out.write("    <th>Date Test Last Modified</th>\n");
-			out.write(START_CELL + sdf.format(this.lastModified) + END_CELL);
+			String modified = "--";
+			if (this.lastModified != null) {
+				modified = sdf.format(this.lastModified);
+			}
+			out.write(START_CELL + modified + END_CELL);
 			out.write(swapRow);
 			out.write("    <th>Date Tested</th>\n");
 			out.write(START_CELL + datePart + END_CELL);
-			if (this.selHelper != null) {
+			if (this.action != null) {
 				out.write("    <th>Browser</th>\n");
 				out.write(START_CELL + browser + END_CELL);
 			}
@@ -537,6 +594,34 @@ public class OutputFile {
 		} catch (IOException e) {
 			log.error(e);
 		}
+	}
+
+	/**
+	 * loads the initial page specified by the url, and ensures the page loads
+	 * successfully
+	 * 
+	 * @return Integer: how many errors encountered
+	 * @throws IOException
+	 */
+	public int loadInitialPage() throws IOException {
+		String startingPage = "The starting page <i>";
+
+		if (action != null) {
+			action.getDriver().get(url);
+			Result result = action.isElementPresent(Locators.xpath, "//body", false) ? Result.SUCCESS : Result.FAILURE;
+			String actual = action.isElementPresent(Locators.xpath, "//body", false)
+					? startingPage + url + "</i> loaded successfully"
+					: startingPage + url + "</i> did not load successfully";
+			recordAction("Opening new browser and loading up starting page",
+					startingPage + url + "</i> will successfully load", actual, result);
+			if (result == Result.SUCCESS) {
+				return 0;
+			} else {
+				addError();
+				return 1;
+			}
+		}
+		return 0;
 	}
 
 	/**
