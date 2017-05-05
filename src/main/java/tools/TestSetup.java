@@ -40,14 +40,27 @@ public class TestSetup {
 
 	private DesiredCapabilities capabilities;
 
+	/**
+	 * A constructor which sets up the default empty desired capabilities
+	 */
 	public TestSetup() {
 		capabilities = new DesiredCapabilities();
 	}
 
+	/**
+	 * returns the classes defined desired capabilities
+	 * 
+	 * @return DesiredCapabilities
+	 */
 	public DesiredCapabilities getDesiredCapabilities() {
 		return capabilities;
 	}
 
+	/**
+	 * Obtains the set system values for the proxy, and adds them to the desired
+	 * capabilities
+	 * 
+	 */
 	public void setupProxy() {
 		// are we running through a proxy
 		if (System.getProperty(PROXY_INPUT) != null) {
@@ -58,10 +71,23 @@ public class TestSetup {
 		}
 	}
 
+	/**
+	 * determines if the browser information provided has details, or just the
+	 * browser name
+	 * 
+	 * @return Boolean: are there details associated with the browser, such as
+	 *         version, os, etc
+	 */
 	public static boolean areBrowserDetailsSet() {
 		return System.getProperty(BROWSER_INPUT) != null && !System.getProperty(BROWSER_INPUT).matches("^[a-zA-Z,]+$");
 	}
 
+	/**
+	 * looks at the browser information passed in, and loads that data into a
+	 * list
+	 * 
+	 * @return List: a list of all browsers
+	 */
 	public static List<Browsers> setBrowser() {
 		List<Browsers> browsers = new ArrayList<>();
 		// null input check
@@ -87,6 +113,13 @@ public class TestSetup {
 		return browsers;
 	}
 
+	/**
+	 * sets the browser details (name, version, device, orientation, os) into
+	 * the device capabilities
+	 * 
+	 * @param browserDetails
+	 *            - a map containing all of the browser details
+	 */
 	public void setupBrowserDetails(Map<String, String> browserDetails) {
 		if (browserDetails != null) {
 			// determine our browser information
@@ -109,43 +142,50 @@ public class TestSetup {
 		}
 	}
 
+	/**
+	 * Sets the device capabilities based on the browser selection
+	 * 
+	 * @param browser
+	 *            - which browser are we running with
+	 * @throws InvalidBrowserException
+	 */
 	public void setupBrowserCapability(Browsers browser) throws InvalidBrowserException {
 		switch (browser) { // check our browser
 		case HtmlUnit:
-			setHtmlUnitCapability();
+			capabilities = DesiredCapabilities.htmlUnitWithJs();
 			break;
 		case Firefox:
-			setFirefoxCapability();
+			capabilities = DesiredCapabilities.firefox();
 			break;
 		case Marionette:
 			setMarionetteCapability();
 			break;
 		case Chrome:
-			setChromeCapability();
+			capabilities = DesiredCapabilities.chrome();
 			break;
 		case InternetExplorer:
-			setInternetExplorerCapability();
+			capabilities = DesiredCapabilities.internetExplorer();
 			break;
 		case Edge:
-			setEdgeCapability();
+			capabilities = DesiredCapabilities.edge();
 			break;
 		case Android:
-			setAndroidCapability();
+			capabilities = DesiredCapabilities.android();
 			break;
 		case Iphone:
-			setIphoneCapability();
+			capabilities = DesiredCapabilities.iphone();
 			break;
 		case Ipad:
-			setIpadCapability();
+			capabilities = DesiredCapabilities.ipad();
 			break;
 		case Safari:
-			setSafariCapability();
+			capabilities = DesiredCapabilities.safari();
 			break;
 		case Opera:
-			setOperaCapability();
+			capabilities = DesiredCapabilities.operaBlink();
 			break;
 		case PhantomJS:
-			setPhantomJSCapability();
+			capabilities = DesiredCapabilities.phantomjs();
 			break;
 		// if our browser is not listed, throw an error
 		default:
@@ -153,55 +193,26 @@ public class TestSetup {
 		}
 	}
 
-	private void setPhantomJSCapability() {
-		capabilities = DesiredCapabilities.phantomjs();
-	}
-
-	private void setOperaCapability() {
-		capabilities = DesiredCapabilities.operaBlink();
-	}
-
-	private void setSafariCapability() {
-		capabilities = DesiredCapabilities.safari();
-	}
-
-	private void setIpadCapability() {
-		capabilities = DesiredCapabilities.ipad();
-	}
-
-	private void setIphoneCapability() {
-		capabilities = DesiredCapabilities.iphone();
-	}
-
-	private void setAndroidCapability() {
-		capabilities = DesiredCapabilities.android();
-	}
-
-	private void setEdgeCapability() {
-		capabilities = DesiredCapabilities.edge();
-	}
-
-	private void setInternetExplorerCapability() {
-		capabilities = DesiredCapabilities.internetExplorer();
-	}
-
-	private void setChromeCapability() {
-		capabilities = DesiredCapabilities.chrome();
-	}
-
+	/**
+	 * if trying to run marionette, be sure to set it up that way in device
+	 * capabilities
+	 */
 	private void setMarionetteCapability() {
 		capabilities = DesiredCapabilities.firefox();
 		capabilities.setCapability("marionette", true);
 	}
 
-	private void setFirefoxCapability() {
-		capabilities = DesiredCapabilities.firefox();
-	}
-
-	private void setHtmlUnitCapability() {
-		capabilities = DesiredCapabilities.htmlUnitWithJs();
-	}
-
+	/**
+	 * this creates the webdriver object, which will be used to interact with
+	 * for all browser web tests
+	 * 
+	 * @param browser
+	 *            - what browser is being tested on
+	 * @param capabilities
+	 *            - what capabilities are being tested with
+	 * @return WebDriver: the driver to interact with for the test
+	 * @throws InvalidBrowserException
+	 */
 	public static WebDriver setupDriver(Browsers browser, DesiredCapabilities capabilities)
 			throws InvalidBrowserException {
 		WebDriver driver;

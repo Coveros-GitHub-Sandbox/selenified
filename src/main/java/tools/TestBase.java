@@ -67,6 +67,10 @@ public class TestBase {
 	private static final String BROWSER_INPUT = "browser";
 	private static final String INVOCATION_COUNT = "InvocationCount";
 
+	/**
+	 * Initializes our test settings by setting default values for our browser
+	 * and URL if they are not specifically set
+	 */
 	protected static void initializeSystem() {
 		// check our browser
 		if (System.getProperty(BROWSER_INPUT) == null) {
@@ -78,6 +82,12 @@ public class TestBase {
 		}
 	}
 
+	/**
+	 * Obtains passed in browser information, and sets up the required
+	 * capabilities
+	 * 
+	 * @throws InvalidBrowserException
+	 */
 	protected static void setupTestParameters() throws InvalidBrowserException {
 		browsers = TestSetup.setBrowser();
 
@@ -101,17 +111,62 @@ public class TestBase {
 		return new Object[][] { new Object[] { "" }, };
 	}
 
+	/**
+	 * Runs once before any of our tests run, to parse and setup the static
+	 * passed information such as browsers, proxy, hub, etc
+	 * 
+	 * @throws InvalidBrowserException
+	 */
 	@BeforeSuite(alwaysRun = true)
 	public void beforeSuite() throws InvalidBrowserException {
 		MasterSuiteSetupConfigurator.getInstance().doSetup();
 	}
 
+	/**
+	 * Before any tests run, setup the logging and test details. If a selenium
+	 * test is being run, it sets up the driver as well
+	 * 
+	 * @param dataProvider
+	 *            - any objects that are being passed to the tests to loop
+	 *            through as variables
+	 * @param method
+	 *            - what is the method that is being run. the test name will be
+	 *            extracted from this
+	 * @param test
+	 *            - was the is context associated with this test suite. suite
+	 *            information will be extracted from this
+	 * @param result
+	 *            - where are the test results stored. browser information will
+	 *            be kept here
+	 * @throws IOException
+	 */
 	@BeforeMethod(alwaysRun = true)
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result)
 			throws IOException {
 		startTest(dataProvider, method, test, result, true);
 	}
 
+	/**
+	 * gathers all of the testing information, and setup up the logging. If a
+	 * selenium test is running, also sets up the webdriver object
+	 * 
+	 * @param dataProvider
+	 *            - any objects that are being passed to the tests to loop
+	 *            through as variables
+	 * @param method
+	 *            - what is the method that is being run. the test name will be
+	 *            extracted from this
+	 * @param test
+	 *            - was the is context associated with this test suite. suite
+	 *            information will be extracted from this
+	 * @param result
+	 *            - where are the test results stored. browser information will
+	 *            be kept here
+	 * @param selenium
+	 *            - is this a selenium test. if so, the webdriver content will
+	 *            be setup
+	 * @throws IOException
+	 */
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
 			boolean selenium) throws IOException {
 		String testName = General.getTestName(method, dataProvider);
@@ -150,17 +205,19 @@ public class TestBase {
 		myFile.setURL(testSite);
 		myFile.setSuite(test.getName());
 		myFile.setGroup(group);
-		myFile.setLastModified(new Date(file.lastModified()));
+		if (file.exists()) {
+			myFile.setLastModified(new Date(file.lastModified()));
+		}
 		myFile.setVersion(version);
 		myFile.setAuthor(author);
 		myFile.setObjectives(description);
 		myFile.setStartTime();
 		if (selenium) {
 			try {
-				Action mySelHelper = new Action(myBrowser, myCapability, myFile);
-				this.actions.set(mySelHelper);
-				myFile.setSeleniumHelper(mySelHelper);
-				myOutput.setSeleniumHelper(mySelHelper);
+				Action action = new Action(myBrowser, myCapability, myFile);
+				this.actions.set(action);
+				myFile.setAction(action);
+				myOutput.setSeleniumHelper(action);
 			} catch (InvalidBrowserException | MalformedURLException e) {
 				log.error(e);
 			}
@@ -170,6 +227,23 @@ public class TestBase {
 		this.asserts.set(myOutput);
 	}
 
+	/**
+	 * after each test is completed, the test is closed out, and the test
+	 * counter is incremented
+	 * 
+	 * @param dataProvider
+	 *            - any objects that are being passed to the tests to loop
+	 *            through as variables
+	 * @param method
+	 *            - what is the method that is being run. the test name will be
+	 *            extracted from this
+	 * @param test
+	 *            - was the is context associated with this test suite. suite
+	 *            information will be extracted from this
+	 * @param result
+	 *            - where are the test results stored. browser information will
+	 *            be kept here
+	 */
 	@AfterMethod(alwaysRun = true)
 	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
 		String testName = General.getTestName(method, dataProvider);
@@ -180,6 +254,13 @@ public class TestBase {
 		test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
 	}
 
+	/**
+	 * to conclude each test, run this finish command. it will close out the
+	 * output logging file, and count any errors that were encountered during
+	 * the test
+	 * 
+	 * @throws IOException
+	 */
 	protected void finish() throws IOException {
 		OutputFile myFile = this.asserts.get().getOutputFile();
 		myFile.endTestTemplateOutputFile();
@@ -199,6 +280,10 @@ public class TestBase {
 		private MasterSuiteSetupConfigurator() {
 		}
 
+		/**
+		 * Runs once before any of our tests run, to parse and setup the static
+		 * passed information such as browsers, proxy, hub, etc
+		 */
 		public static MasterSuiteSetupConfigurator getInstance() {
 			if (instance != null) {
 				return instance;
@@ -207,6 +292,10 @@ public class TestBase {
 			return instance;
 		}
 
+		/**
+		 * Runs once before any of our tests run, to parse and setup the static
+		 * passed information such as browsers, proxy, hub, etc
+		 */
 		public void doSetup() throws InvalidBrowserException {
 			if (wasInvoked) {
 				return;
