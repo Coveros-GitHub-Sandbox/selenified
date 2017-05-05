@@ -158,27 +158,27 @@ public class OutputFileTest {
 		outputFile.createOutputHeader();
 		Assert.assertEquals(outputFile.countInstancesOf("Tuesday, August 31, 1982"), 1);
 	}
-	
+
 	@Test
 	public void createOutputHeaderNoLastModifiedTest() throws ParseException {
 		outputFile.createOutputHeader();
 		Assert.assertEquals(outputFile.countInstancesOf("--"), 1);
 	}
-	
+
 	@Test
 	public void createOutputHeaderVersionTest() {
 		outputFile.setVersion("My Version");
 		outputFile.createOutputHeader();
 		Assert.assertEquals(outputFile.countInstancesOf("My Version"), 1);
 	}
-	
+
 	@Test
 	public void createOutputHeaderAuthorTest() {
 		outputFile.setAuthor("My Author");
 		outputFile.createOutputHeader();
 		Assert.assertEquals(outputFile.countInstancesOf("My Author"), 1);
 	}
-	
+
 	@Test
 	public void createOutputHeaderObjectivesTest() {
 		outputFile.setObjectives("My Objectives");
