@@ -3,6 +3,8 @@ package samples;
 import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 
+import javax.tools.DocumentationTool.Location;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -17,7 +19,7 @@ public class SampleIT extends TestBase {
     @BeforeClass(alwaysRun = true)
     public void beforeClass() throws Exception {
         // set the base URL for the tests here
-        testSite = "http://www.google.com/";
+        testSite = "http://172.31.2.65//";
         // set the author of the tests here
         author = "Max Saperstone\n<br/>max.saperstone@coveros.com";
         // set the version of the tests or of the software, possibly with a
@@ -25,9 +27,9 @@ public class SampleIT extends TestBase {
         version = "0.0.1";
     }
 
-    @DataProvider(name = "google search terms", parallel = true)
+    @DataProvider(name = "car list items", parallel = true)
     public Object[][] DataSetOptions() {
-        return new Object[][] { new Object[] { "python" }, new Object[] { "perl" }, new Object[] { "bash" } };
+        return new Object[][] { new Object[] { "volvo" }, new Object[] { "saab" }, new Object[] { "mercedes" } };
     }
 
     @Test(groups = { "sample" }, description = "A sample test to check a title")
@@ -35,7 +37,7 @@ public class SampleIT extends TestBase {
      // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform our verification
-        asserts.compareTitle("Google");
+        asserts.compareTitle("Selenified Test Page");
         // perform our verification
         finish();
     }
@@ -51,19 +53,15 @@ public class SampleIT extends TestBase {
         finishNoAssert();
     }
 
-    @Test(dataProvider = "google search terms", groups = { "sample" },
+    @Test(dataProvider = "car list items", groups = { "sample" },
             description = "A sample test using a data provider to perform searches")
-    public void sampleTestWDataProvider(String searchTerm) throws Exception {
+    public void sampleTestWDataProvider(String listItem) throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.type(Locators.name, "q", searchTerm);
-        actions.click(Locators.name, "btnG");
-        actions.waitForElementDisplayed(Locators.id, "resultStats");
-        // perform our verification
-        asserts.compareTitle(searchTerm + " - Google Search");
+        actions.select(Locators.id, "car_list", listItem);
         // close out the test
         finish();
     }
@@ -73,8 +71,8 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("https://www.yahoo.com/");
-        assertTrue(actions.getCurrentUrl().equals("https://www.yahoo.com/"));
+        actions.goToURL("https://www.google.com/");
+        assertTrue(actions.getCurrentUrl().equals("https://www.google.com/"));
         // verify no issues
         finish();
     }
@@ -95,7 +93,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementPresent(Locators.name, "q");
+        actions.waitForElementPresent(Locators.name, "car_list");
         // verify no issues
         finish();
     }
@@ -130,7 +128,7 @@ public class SampleIT extends TestBase {
         // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.waitForElementNotPresent(Locators.name, "q");
+        actions.waitForElementNotPresent(Locators.name, "car_list");
         // verify no issues
         assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
@@ -141,7 +139,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementDisplayed(Locators.name, "q");
+        actions.waitForElementDisplayed(Locators.name, "car_list");
         // verify no issues
         finish();
     }
@@ -164,7 +162,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementNotDisplayed(Locators.name, "site");
+        actions.waitForElementNotDisplayed(Locators.name, "hidden_div");
         // verify no issues
         finish();
     }
@@ -176,7 +174,7 @@ public class SampleIT extends TestBase {
         // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.waitForElementNotDisplayed(Locators.name, "q");
+        actions.waitForElementNotDisplayed(Locators.name, "car_list");
         // verify no issues
         assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
@@ -187,7 +185,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementEnabled(Locators.name, "q");
+        actions.waitForElementEnabled(Locators.name, "car_list");
         // verify no issues
         finish();
     }
@@ -199,7 +197,7 @@ public class SampleIT extends TestBase {
         // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.waitForElementEnabled(Locators.id, "gs_taif0");
+        actions.waitForElementEnabled(Locators.id, "disable_click");
         // verify no issues
         assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
@@ -210,7 +208,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementNotEnabled(Locators.name, "oq");
+        actions.waitForElementNotEnabled(Locators.name, "car_list");
         // verify no issues
         finish();
     }
@@ -222,7 +220,7 @@ public class SampleIT extends TestBase {
         // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.waitForElementNotEnabled(Locators.name, "q");
+        actions.waitForElementNotEnabled(Locators.name, "car_list");
         // verify no issues
         assertTrue(asserts.getOutputFile().getErrors() == 1);
         finishNoAssert();
@@ -233,9 +231,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.yahoo.com/");
-        actions.wait(5);
-        assertTrue(actions.getNumOfSelectOptions(Locators.name, "league") == 3);
+        assertTrue(actions.getNumOfSelectOptions(Locators.name, "car_list") == 4);
         // verify no issues
         finish();
     }
@@ -245,8 +241,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.yahoo.com/");
-        assertTrue(!(actions.getNumOfSelectOptions(Locators.name, "league") == 0));
+        assertTrue(!(actions.getNumOfSelectOptions(Locators.name, "car_list") == 0));
         // verify no issues
         finish();
     }
@@ -256,8 +251,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.yahoo.com/");
-        assertTrue(Arrays.equals(actions.getSelectOptions(Locators.name, "league"),new String[]{"nba", "nhl", "mlb"}));
+        assertTrue(Arrays.equals(actions.getSelectOptions(Locators.name, "car_list"),new String[]{"volvo", "saab", "mercedes", "audi"}));
         // verify no issues
         finish();
     }
@@ -267,8 +261,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.seleniumhq.org/");
-        assertTrue(actions.getTableRows(Locators.id, "choice").size() == 1);
+        assertTrue(actions.getTableRows(Locators.id, "table").size() == 7);
         // verify no issues
         finish();
     }
@@ -278,8 +271,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.seleniumhq.org/");
-        assertTrue(!(actions.getTableRows(Locators.id, "choice").size() == 0));
+        assertTrue(!(actions.getTableRows(Locators.id, "table").size() == 0));
         // verify no issues
         finish();
     }
@@ -289,8 +281,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.seleniumhq.org/");
-        assertTrue(actions.getNumOfTableRows(Locators.id, "choice") == 1);
+        assertTrue(actions.getNumOfTableRows(Locators.id, "table") == 7);
         // verify no issues
         finish();
     }
@@ -300,8 +291,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.seleniumhq.org/");
-        assertTrue(!(actions.getNumOfTableRows(Locators.id, "choice") == 0));
+        assertTrue(!(actions.getNumOfTableRows(Locators.id, "table") == 0));
         // verify no issues
         finish();
     }
@@ -311,8 +301,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.seleniumhq.org/");
-        assertTrue(actions.getTableColumns(Locators.id, "choice").size() == 2);
+        assertTrue(actions.getTableColumns(Locators.id, "table").size() == 3);
         // verify no issues
         finish();
     }
@@ -322,8 +311,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.seleniumhq.org/");
-        assertTrue(!(actions.getTableColumns(Locators.id, "choice").size() == 0));
+        assertTrue(!(actions.getTableColumns(Locators.id, "table").size() == 0));
         // verify no issues
         finish();
     }
@@ -333,8 +321,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.seleniumhq.org/");
-        assertTrue(actions.getNumOfTableColumns(Locators.id, "choice") == 2);
+        assertTrue(actions.getNumOfTableColumns(Locators.id, "table") == 3);
         // verify no issues
         finish();
     }
@@ -344,8 +331,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("http://www.seleniumhq.org/");
-        assertTrue(!(actions.getNumOfTableColumns(Locators.id, "choice") == 0));
+        assertTrue(!(actions.getNumOfTableColumns(Locators.id, "table") == 0));
         // verify no issues
         finish();
     }
@@ -355,9 +341,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        actions.type(Locators.name, "q", "scroll");
-        actions.click(Locators.name, "btnG");
-        actions.waitForElementDisplayed(Locators.id, "resultStats");
+        actions.click(Locators.name, "scroll_button");
         actions.scroll(50);
         // verify no issues
         finish();
