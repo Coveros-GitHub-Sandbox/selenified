@@ -13,7 +13,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import tools.output.Action.Browsers;
+import tools.output.Assert.Result;
+import tools.output.Assert.Success;
 import tools.output.OutputFile;
 
 public class OutputFileTest {
@@ -37,11 +42,13 @@ public class OutputFileTest {
 
 	@Test
 	public void setupFileTest() {
+		Assert.assertEquals(file.length(), 0);
 		Assert.assertTrue(directory.exists());
 		Assert.assertTrue(file.exists());
 
 		// do it again, ensure nothing breaks when it already exists
 		outputFile = new OutputFile("directory", "file", Browsers.Android);
+		Assert.assertEquals(file.length(), 0);
 		Assert.assertTrue(directory.exists());
 		Assert.assertTrue(file.exists());
 	}
@@ -109,6 +116,21 @@ public class OutputFileTest {
 	}
 
 	@Test
+	public void generateImageLinkTest() {
+		Assert.assertEquals(outputFile.generateImageLink(""), "<br/><b><font class='fail'>No Image Preview</font></b>");
+		Assert.assertEquals(outputFile.generateImageLink(directory.toString()),
+				"<br/><b><font class='fail'>No Image Preview</font></b>");
+		Assert.assertEquals(outputFile.generateImageLink("directory/1234"),
+				"<br/><a href='javascript:void(0)' onclick='toggleImage(\"1234\")'>Toggle Screenshot Thumbnail</a> <a href='javascript:void(0)' onclick='displayImage(\"1234\")'>View Screenshot Fullscreen</a><br/><img id='1234' border='1px' src='file:///directory/1234' width='300px' style='display:none;'>");
+	}
+
+	@Test
+	public void captureEntirePageScreenshotTest() {
+		Assert.assertEquals(outputFile.captureEntirePageScreenshot(),
+				"<br/><b><font class='fail'>No Screenshot Available</font></b>");
+	}
+
+	@Test
 	public void setStartTimeTest() {
 		outputFile.setStartTime();
 		Assert.assertEquals(outputFile.getStartTime(), outputFile.getLastTime());
@@ -139,6 +161,7 @@ public class OutputFileTest {
 	public void createOutputHeaderSuiteTest() {
 		outputFile.setSuite("My Suite");
 		outputFile.createOutputHeader();
+		Assert.assertNotEquals(file.length(), 0);
 		Assert.assertEquals(outputFile.countInstancesOf("My Suite"), 1);
 	}
 
@@ -146,6 +169,7 @@ public class OutputFileTest {
 	public void createOutputHeaderGroupTest() {
 		outputFile.setGroup("My Group");
 		outputFile.createOutputHeader();
+		Assert.assertNotEquals(file.length(), 0);
 		Assert.assertEquals(outputFile.countInstancesOf("My Group"), 1);
 	}
 
@@ -156,12 +180,14 @@ public class OutputFileTest {
 		Date date = sdf.parse(dateInString);
 		outputFile.setLastModified(date);
 		outputFile.createOutputHeader();
+		Assert.assertNotEquals(file.length(), 0);
 		Assert.assertEquals(outputFile.countInstancesOf("Tuesday, August 31, 1982"), 1);
 	}
 
 	@Test
 	public void createOutputHeaderNoLastModifiedTest() throws ParseException {
 		outputFile.createOutputHeader();
+		Assert.assertNotEquals(file.length(), 0);
 		Assert.assertEquals(outputFile.countInstancesOf("--"), 1);
 	}
 
@@ -169,6 +195,7 @@ public class OutputFileTest {
 	public void createOutputHeaderVersionTest() {
 		outputFile.setVersion("My Version");
 		outputFile.createOutputHeader();
+		Assert.assertNotEquals(file.length(), 0);
 		Assert.assertEquals(outputFile.countInstancesOf("My Version"), 1);
 	}
 
@@ -176,6 +203,7 @@ public class OutputFileTest {
 	public void createOutputHeaderAuthorTest() {
 		outputFile.setAuthor("My Author");
 		outputFile.createOutputHeader();
+		Assert.assertNotEquals(file.length(), 0);
 		Assert.assertEquals(outputFile.countInstancesOf("My Author"), 1);
 	}
 
@@ -183,9 +211,92 @@ public class OutputFileTest {
 	public void createOutputHeaderObjectivesTest() {
 		outputFile.setObjectives("My Objectives");
 		outputFile.createOutputHeader();
+		Assert.assertNotEquals(file.length(), 0);
 		Assert.assertEquals(outputFile.countInstancesOf("My Objectives"), 1);
 	}
 
-	// TODO - need tests for 3 record methods
-	// TODO - need tests for finalizing the output file
+	@Test
+	public void loadInitialPageTest() throws IOException {
+		outputFile.loadInitialPage();
+		Assert.assertEquals(file.length(), 0);
+		Assert.assertEquals(outputFile.countInstancesOf("The starting page"), 0);
+	}
+
+	@Test
+	public void recordActionSuccess() throws IOException {
+		outputFile.setStartTime(new Date().getTime());
+		outputFile.recordAction("my action", "expected", "actual", Result.SUCCESS);
+		Assert.assertNotEquals(file.length(), 0);
+		String content = Files.toString(file, Charsets.UTF_8);
+		Assert.assertTrue(content.matches(
+				"   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='success'>actual</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+	}
+
+	@Test
+	public void recordActionFailure() throws IOException {
+		outputFile.setStartTime(new Date().getTime());
+		outputFile.recordAction("my action", "expected", "actual", Result.FAILURE);
+		Assert.assertNotEquals(file.length(), 0);
+		String content = Files.toString(file, Charsets.UTF_8);
+		Assert.assertTrue(content.matches(
+				"   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='failure'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+	}
+
+	@Test
+	public void recordActionFailureSkipped() throws IOException {
+		outputFile.setStartTime(new Date().getTime());
+		outputFile.recordAction("my action", "expected", "actual", Result.SKIPPED);
+		Assert.assertNotEquals(file.length(), 0);
+		String content = Files.toString(file, Charsets.UTF_8);
+		Assert.assertTrue(content.matches(
+				"   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='skipped'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+	}
+
+	@Test
+	public void recordActionFailureWarning() throws IOException {
+		outputFile.setStartTime(new Date().getTime());
+		outputFile.recordAction("my action", "expected", "actual", Result.WARNING);
+		Assert.assertNotEquals(file.length(), 0);
+		String content = Files.toString(file, Charsets.UTF_8);
+		Assert.assertTrue(content.matches(
+				"   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='warning'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+	}
+
+	@Test
+	public void recordExpected() throws IOException {
+		outputFile.setStartTime(new Date().getTime());
+		outputFile.recordExpected("expected");
+		Assert.assertNotEquals(file.length(), 0);
+		String content = Files.toString(file, Charsets.UTF_8);
+		Assert.assertEquals(content,
+				"   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>expected</td>\n");
+	}
+
+	@Test
+	public void recordActualPass() throws IOException {
+		outputFile.setStartTime(new Date().getTime());
+		outputFile.recordActual("actual", Success.PASS);
+		Assert.assertNotEquals(file.length(), 0);
+		String content = Files.toString(file, Charsets.UTF_8);
+		Assert.assertTrue(content.matches(
+				"    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+	}
+
+	@Test
+	public void recordActualFail() throws IOException {
+		outputFile.setStartTime(new Date().getTime());
+		outputFile.recordActual("actual", Success.FAIL);
+		Assert.assertNotEquals(file.length(), 0);
+		String content = Files.toString(file, Charsets.UTF_8);
+		Assert.assertTrue(content.matches(
+				"    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+	}
+
+	@Test
+	public void endTestTemplateOutputFileTest() throws IOException {
+		outputFile.endTestTemplateOutputFile();
+		Assert.assertNotEquals(file.length(), 0);
+		String content = Files.toString(file, Charsets.UTF_8);
+		Assert.assertEquals(content, "  </table>\r\n </body>\r\n</html>\r\n");
+	}
 }

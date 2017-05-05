@@ -263,37 +263,20 @@ public class OutputFile {
 	}
 
 	/**
-	 * generates a unique image name based on the action the time, and a unique
-	 * random string, creates an image using that name, and returns a processed
-	 * link to be included in an HTML file
-	 *
-	 * @return a processed link to be included in an HTML file
-	 */
-	public String captureImage() {
-		String imageName = generateImageName();
-		String imageLink = generateImageLink(imageName);
-		imageLink = captureEntirePageScreenshot(imageLink, imageName);
-		return imageLink;
-	}
-
-	/**
 	 * a helper function to capture the entire page screen shot
 	 *
-	 * @param imageLink
-	 *            - the original link to the image to be captured
-	 * @param imageName
-	 *            - the name of the image to be captured
 	 * @return new image link
 	 */
-	public String captureEntirePageScreenshot(String imageLink, String imageName) {
-		String link = imageLink;
+	public String captureEntirePageScreenshot() {
+		String imageName = generateImageName();
+		String imageLink = generateImageLink(imageName);
 		try {
 			action.takeScreenshot(imageName);
 		} catch (Exception e1) {
 			log.error(e1);
-			link = "<br><b><font color=red>No Screenshot Available</font></b>";
+			imageLink = "<br/><b><font class='fail'>No Screenshot Available</font></b>";
 		}
-		return link;
+		return imageLink;
 	}
 
 	/**
@@ -317,7 +300,7 @@ public class OutputFile {
 		}
 		if ("Fail".equals(success) && browser != Browsers.HtmlUnit) {
 			// get a screen shot of our action
-			imageLink = captureImage();
+			imageLink = captureEntirePageScreenshot();
 		}
 		// determine time differences
 		Date currentTime = new Date();
@@ -357,7 +340,7 @@ public class OutputFile {
 			// get a screen shot of our action
 			String imageLink = "";
 			if (browser != Browsers.HtmlUnit) {
-				imageLink = captureImage();
+				imageLink = captureEntirePageScreenshot();
 			}
 			// determine time differences
 			Date currentTime = new Date();
@@ -457,15 +440,15 @@ public class OutputFile {
 			out.write("   td {\n");
 			out.write("    word-wrap: break-word;\n");
 			out.write(endBracket3);
-			out.write("   td.warning {\n");
+			out.write("   .warning {\n");
 			out.write("    color:yellow;\n");
 			out.write(boldFont);
 			out.write(endBracket3);
-			out.write("   td.fail {\n");
+			out.write("   .fail {\n");
 			out.write("    color:red;\n");
 			out.write(boldFont);
 			out.write(endBracket3);
-			out.write("   td.pass {\n");
+			out.write("   .pass {\n");
 			out.write("    color:green;\n");
 			out.write(boldFont);
 			out.write(endBracket3);
@@ -631,12 +614,11 @@ public class OutputFile {
 	 */
 	public void endTestTemplateOutputFile() throws IOException {
 		// reopen the file
-		BufferedWriter out = new BufferedWriter(new FileWriter(file, true));
-		out.write("  </table>\n");
-		out.write(" </body>\n");
-		out.write("</html>\n");
-		// Close the output stream
-		out.close();
+		try (FileWriter fw = new FileWriter(file); BufferedWriter out = new BufferedWriter(fw);) {
+			out.write("  </table>\n");
+			out.write(" </body>\n");
+			out.write("</html>\n");
+		}
 		// Record our metrics
 		int passes = countInstancesOf("<td class='pass'>Pass</td>");
 		int fails = countInstancesOf("<td class='fail'>Fail</td>");
@@ -644,9 +626,9 @@ public class OutputFile {
 		replaceInFile("STEPSPASSED", Integer.toString(passes));
 		replaceInFile("STEPSFAILED", Integer.toString(fails));
 		if (fails == 0) {
-			replaceInFile("PASSORFAIL", "<font size='+2' color='green'><b>PASS</b></font>");
+			replaceInFile("PASSORFAIL", "<font size='+2' class='pass'><b>PASS</b></font>");
 		} else {
-			replaceInFile("PASSORFAIL", "<font size='+2' color='red'><b>FAIL</b></font>");
+			replaceInFile("PASSORFAIL", "<font size='+2' class='fail'><b>FAIL</b></font>");
 		}
 		// record our time
 		SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
@@ -689,7 +671,7 @@ public class OutputFile {
 			imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='file:///"
 					+ imageName + "' width='" + embeddedImageWidth + "px' style='display:none;'>";
 		} else {
-			imageLink += "<b><font color='red'>No Image Preview</font></b>";
+			imageLink += "<b><font class='fail'>No Image Preview</font></b>";
 		}
 		return imageLink;
 	}
