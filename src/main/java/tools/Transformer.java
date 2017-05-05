@@ -9,6 +9,10 @@ import org.testng.internal.annotations.IAnnotationTransformer;
 
 public class Transformer implements IAnnotationTransformer {
 
+	/**
+	 * overrides the basic TestNG transform function to provide dynamic access
+	 * to an invocation count
+	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {

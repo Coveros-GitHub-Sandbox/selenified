@@ -201,7 +201,7 @@ You can enter these values under either your already created tests, or as the de
 #### TestNG
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
 command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
-``` 
+```
 rm -rf bin/*
 ```
 Create a directory for your dependencies, and download all of the required dependencies.
