@@ -519,7 +519,7 @@ public class Action {
             }
         }
         double timetook = (System.currentTimeMillis() - start) / 1000;
-        if (element.isDisplayed()) {
+        if (element.isEnabled()) {
             file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is still enabled",
                     Result.FAILURE);
@@ -832,7 +832,7 @@ public class Action {
         }
         WebElement element = getWebElement(type, locator);
         // TODO - this locator may need to be updated
-        return element.findElements(By.xpath(".//tr[1]/td"));
+        return element.findElements(By.xpath(".//tr[1]/*"));
     }
 
     /**
