@@ -614,7 +614,7 @@ public class OutputFile {
 	 */
 	public void endTestTemplateOutputFile() throws IOException {
 		// reopen the file
-		try (FileWriter fw = new FileWriter(file); BufferedWriter out = new BufferedWriter(fw);) {
+		try (FileWriter fw = new FileWriter(file,true); BufferedWriter out = new BufferedWriter(fw);) {
 			out.write("  </table>\n");
 			out.write(" </body>\n");
 			out.write("</html>\n");
