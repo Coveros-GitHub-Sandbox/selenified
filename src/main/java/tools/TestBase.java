@@ -48,7 +48,7 @@ public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
-	protected static String testSite = "http://www.google.com/";
+	public static String testSite = "http://www.google.com/";
 	protected static String version;
 	protected static String author = "Max Saperstone";
 
@@ -71,7 +71,7 @@ public class TestBase {
 	 * Initializes our test settings by setting default values for our browser
 	 * and URL if they are not specifically set
 	 */
-	protected static void initializeSystem() {
+	public static void initializeSystem() {
 		// check our browser
 		if (System.getProperty(BROWSER_INPUT) == null) {
 			System.setProperty(BROWSER_INPUT, Browsers.HtmlUnit.toString());
@@ -88,7 +88,7 @@ public class TestBase {
 	 * 
 	 * @throws InvalidBrowserException
 	 */
-	protected static void setupTestParameters() throws InvalidBrowserException {
+	public static void setupTestParameters() throws InvalidBrowserException {
 		browsers = TestSetup.setBrowser();
 
 		for (Browsers browser : browsers) {
@@ -245,7 +245,7 @@ public class TestBase {
 	 *            be kept here
 	 */
 	@AfterMethod(alwaysRun = true)
-	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+	public void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
 		String testName = General.getTestName(method, dataProvider);
 		if (this.actions.get() != null) {
 			this.actions.get().killDriver();
@@ -261,7 +261,7 @@ public class TestBase {
 	 * 
 	 * @throws IOException
 	 */
-	protected void finish() throws IOException {
+	public void finish() throws IOException {
 		OutputFile myFile = this.asserts.get().getOutputFile();
 		myFile.endTestTemplateOutputFile();
 		assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
