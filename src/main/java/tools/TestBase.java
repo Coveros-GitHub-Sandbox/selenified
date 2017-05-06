@@ -257,7 +257,7 @@ public class TestBase {
 	/**
 	 * to conclude each test, run this finish command. it will close out the
 	 * output logging file, and count any errors that were encountered during
-	 * the test
+	 * the test, and fail the test if any errors were encountered
 	 * 
 	 * @throws IOException
 	 */
@@ -268,10 +268,20 @@ public class TestBase {
 				Integer.toString(myFile.getErrors()) + " errors");
 	}
 	
-	protected void finishNoAssert() throws IOException {
-        OutputFile myFile = this.asserts.get().getOutputFile();
-        myFile.endTestTemplateOutputFile();        
-    }
+	/**
+	 * to conclude each test, run this finish command. it will close out the
+	 * output logging file, and count any errors that were encountered during
+	 * the test, and verify that the number of errors indicated occurred
+	 * 
+	 * @param errors - number of expected errors from the test
+	 * @throws IOException
+	 */
+	protected void finish(int errors) throws IOException {
+		OutputFile myFile = this.asserts.get().getOutputFile();
+		myFile.endTestTemplateOutputFile();
+		assertEquals("Detailed results found at: " + myFile.getFileName(), errors + " errors",
+				Integer.toString(myFile.getErrors()) + " errors");
+	}
 
 	public static class MasterSuiteSetupConfigurator {
 		private static MasterSuiteSetupConfigurator instance;

@@ -47,8 +47,7 @@ public class SampleIT extends TestBase {
         // perform some actions
         asserts.compareTitle("Yahoo");
         // perform our verification
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
 
     @Test(dataProvider = "car list items", groups = { "sample", "virtual" },
@@ -85,8 +84,7 @@ public class SampleIT extends TestBase {
         actions.goToURL("https://www.yahoo.com/");
         asserts.compareURL("https://www.google.com/");
         // verify no issues
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
@@ -103,13 +101,10 @@ public class SampleIT extends TestBase {
     public void sampleTestNegativeWaitForElementPresent() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
         // perform some actions
         actions.waitForElementPresent(Locators.name, "non-existent-name");
         // verify no issues
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementNotPresent method")
@@ -126,13 +121,10 @@ public class SampleIT extends TestBase {
     public void sampleTestNegativeWaitForElementNotPresent() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
         // perform some actions
         actions.waitForElementNotPresent(Locators.name, "car_list");
         // verify no issues
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementDisplayed method")
@@ -149,13 +141,10 @@ public class SampleIT extends TestBase {
     public void sampleTestNegativeWaitForElementDisplayed() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
         // perform some actions
         actions.waitForElementDisplayed(Locators.name, "non-existent-name");
         // verify no issues
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the WaitForElementNotDisplayed method")
@@ -173,12 +162,9 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
         actions.waitForElementNotDisplayed(Locators.name, "car_list");
         // verify no issues
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the WaitForElementEnabled method")
@@ -195,13 +181,10 @@ public class SampleIT extends TestBase {
     public void sampleTestNegativeWaitForElementEnabled() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
         // perform some actions
         actions.waitForElementEnabled(Locators.name, "enable_button");
         // verify no issues
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
 
     @Test(groups = { "sample" }, description = "A sample test to check the WaitForElementNotEnabled method")
@@ -218,13 +201,10 @@ public class SampleIT extends TestBase {
     public void sampleTestNegativeWaitForNotElementEnabled() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
         // perform some actions
         actions.waitForElementNotEnabled(Locators.name, "car_list");
         // verify no issues
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
     
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfSelectOptions method")
@@ -352,12 +332,9 @@ public class SampleIT extends TestBase {
     public void sampleNegativeScrollTest() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
         // perform some actions
         actions.scroll(50);
         // verify no issues
-        assertTrue(asserts.getOutputFile().getErrors() == 1);
-        finishNoAssert();
+        finish(1);
     }
 }
