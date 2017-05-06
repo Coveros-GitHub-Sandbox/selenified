@@ -1,5 +1,7 @@
 package samples;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 
@@ -212,7 +214,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(actions.getNumOfSelectOptions(Locators.name, "car_list") == 4);
+        assertEquals(actions.getNumOfSelectOptions(Locators.name, "car_list"), 4);
         // verify no issues
         finish();
     }
@@ -222,7 +224,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(!(actions.getNumOfSelectOptions(Locators.name, "car_list") == 0));
+        assertNotEquals(actions.getNumOfSelectOptions(Locators.name, "car_list"), 0);
         // verify no issues
         finish();
     }
@@ -242,7 +244,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(actions.getTableRows(Locators.id, "table").size() == 7);
+        assertEquals(actions.getTableRows(Locators.id, "table").size(), 7);
         // verify no issues
         finish();
     }
@@ -252,7 +254,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(!(actions.getTableRows(Locators.id, "table").size() == 0));
+        assertNotEquals(actions.getTableRows(Locators.id, "table").size(), 0);
         // verify no issues
         finish();
     }
@@ -262,7 +264,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(actions.getNumOfTableRows(Locators.id, "table") == 7);
+        assertEquals(actions.getNumOfTableRows(Locators.id, "table"), 7);
         // verify no issues
         finish();
     }
@@ -272,7 +274,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(!(actions.getNumOfTableRows(Locators.id, "table") == 0));
+        assertNotEquals(actions.getNumOfTableRows(Locators.id, "table"), 0);
         // verify no issues
         finish();
     }
@@ -282,7 +284,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(actions.getTableColumns(Locators.id, "table").size() == 3);
+        assertEquals(actions.getTableColumns(Locators.id, "table").size(), 3);
         // verify no issues
         finish();
     }
@@ -292,7 +294,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(!(actions.getTableColumns(Locators.id, "table").size() == 0));
+        assertNotEquals(actions.getTableColumns(Locators.id, "table").size(), 0);
         // verify no issues
         finish();
     }
@@ -302,7 +304,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(actions.getNumOfTableColumns(Locators.id, "table") == 3);
+        assertEquals(actions.getNumOfTableColumns(Locators.id, "table"), 3);
         // verify no issues
         finish();
     }
@@ -312,7 +314,7 @@ public class SampleIT extends TestBase {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
-        assertTrue(!(actions.getNumOfTableColumns(Locators.id, "table") == 0));
+        assertNotEquals(actions.getNumOfTableColumns(Locators.id, "table"), 0);
         // verify no issues
         finish();
     }
