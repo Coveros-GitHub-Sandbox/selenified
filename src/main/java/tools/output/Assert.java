@@ -1092,7 +1092,7 @@ public class Assert {
     }
 
     /**
-     * compares the actual URL a page is on to the expected URL
+     * compares the actual title a page is on to the expected title
      *
      * @param expectedTitle the friendly name of the page
      * @return Integer: 1 if a failure and 0 if a pass
@@ -1108,6 +1108,25 @@ public class Assert {
         }
         outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.PASS);
         return 0;
+    }
+    
+    /**
+     * compares the actual URL a page is on to the expected URL
+     *
+     * @param expectedURL the URL of the page
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareURL(String expectedURL) {
+    	// outputFile.record our action
+    	outputFile.recordExpected("Expected to be on page with the URL of <i>" + expectedURL + "</i>");
+    	String actualURL = selHelper.getLocation();
+    	if (!actualURL.equalsIgnoreCase(expectedURL)) {
+    		outputFile.recordActual("The page URL  reads <b>" + actualURL + "</b>", Success.FAIL);
+    		outputFile.addError();
+    		return 1;
+    	}
+    	outputFile.recordActual("The page URL reads <b>" + actualURL + "</b>", Success.PASS);
+    	return 0;
     }
 
     /**

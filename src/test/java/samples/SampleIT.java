@@ -3,7 +3,6 @@ package samples;
 import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -57,8 +56,6 @@ public class SampleIT extends TestBase {
     public void sampleTestWDataProvider(String listItem) throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
         // perform some actions
         actions.select(Locators.id, "car_list", listItem);
         // close out the test
@@ -69,9 +66,11 @@ public class SampleIT extends TestBase {
     public void sampleTestGoToURL() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
+     // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
         actions.goToURL("https://www.google.com/");
-        assertTrue(actions.getCurrentUrl().equals("https://www.google.com/"));
+        asserts.compareURL("https://www.google.com/");
         // verify no issues
         finish();
     }
@@ -80,11 +79,14 @@ public class SampleIT extends TestBase {
     public void sampleTestNegativeGoToURL() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
+     // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
         actions.goToURL("https://www.yahoo.com/");
-        assertTrue(!actions.getCurrentUrl().equals("https://www.google.com/"));
+        asserts.compareURL("https://www.google.com/");
         // verify no issues
-        finish();
+        assertTrue(asserts.getOutputFile().getErrors() == 1);
+        finishNoAssert();
     }
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
