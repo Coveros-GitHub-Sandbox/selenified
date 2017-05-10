@@ -83,6 +83,7 @@
           <suiteXmlFiles>
             <suiteXmlFile>sample.xml</suiteXmlFile>
           </suiteXmlFiles>
+          <groups>${failsafe.groups}</groups>
         </configuration>
         <executions>
           <execution>

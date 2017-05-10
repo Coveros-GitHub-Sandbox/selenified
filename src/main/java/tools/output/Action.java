@@ -98,6 +98,15 @@ public class Action {
     public WebDriver getDriver() {
         return driver;
     }
+    
+    /**
+     * a method to allow retrieving the driver's current url
+     *
+     * @return String: the current url
+     */
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
 
     /**
      * a method to allow retrieving our set browser
@@ -510,7 +519,7 @@ public class Action {
             }
         }
         double timetook = (System.currentTimeMillis() - start) / 1000;
-        if (element.isDisplayed()) {
+        if (element.isEnabled()) {
             file.recordAction(action, expected,
                     "After waiting " + timetook + " seconds for " + type + " " + locator + " is still enabled",
                     Result.FAILURE);
@@ -823,7 +832,7 @@ public class Action {
         }
         WebElement element = getWebElement(type, locator);
         // TODO - this locator may need to be updated
-        return element.findElements(By.xpath(".//tr[1]/th"));
+        return element.findElements(By.xpath(".//tr[1]/*"));
     }
 
     /**

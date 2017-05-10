@@ -219,7 +219,7 @@ public class TestSetup {
 		// check our browser
 		switch (browser) {
 		case HtmlUnit:
-			driver = new HtmlUnitDriver(capabilities);
+			driver = new CustomHtmlUnitDriver(capabilities);
 			break;
 		case Firefox:
 			FirefoxDriverManager.getInstance().forceCache().setup();

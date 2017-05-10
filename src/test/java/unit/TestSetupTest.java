@@ -447,7 +447,7 @@ public class TestSetupTest {
 	@Test
 	public void setupDriverHtmlUnitTest() throws InvalidBrowserException {
 		WebDriver driver = TestSetup.setupDriver(Browsers.HtmlUnit, capabilities);
-		Assert.assertEquals(driver.getClass().getSimpleName(), "HtmlUnitDriver");
+		Assert.assertEquals(driver.getClass().getSimpleName(), "CustomHtmlUnitDriver");
 		driver.quit();
 	}
 
