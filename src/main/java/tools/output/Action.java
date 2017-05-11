@@ -37,6 +37,7 @@ import tools.TestSetup;
 import tools.output.Assert.Result;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -70,8 +71,10 @@ public class Action {
 	 * our constructor, determining which browser use and how to run the
 	 * browser: either grid or standalone
 	 *
-	 * @param browser - the Browser we are running the test on
-	 * @param capabilities - what browser capabilities are desired
+	 * @param browser
+	 *            - the Browser we are running the test on
+	 * @param capabilities
+	 *            - what browser capabilities are desired
 	 * @param file
 	 *            - the TestOutput file. This is provided by the
 	 *            SeleniumTestBase functionality
@@ -133,24 +136,24 @@ public class Action {
 	/**
 	 * a method for navigating to a new url
 	 *
-	 * @param URL
+	 * @param url
 	 *            : the URL to navigate to
 	 */
-	public int goToURL(String URL) {
-		String action = "Loading " + URL;
-		String expected = "Loaded " + URL;
+	public int goToURL(String url) {
+		String action = "Loading " + url;
+		String expected = "Loaded " + url;
 		double start = System.currentTimeMillis();
 		try {
-			driver.get(URL);
+			driver.get(url);
 		} catch (Exception e) {
 			log.error(e);
-			file.recordAction(action, expected, "Fail to Load " + URL, Result.FAILURE);
+			file.recordAction(action, expected, "Fail to Load " + url, Result.FAILURE);
 			file.addError();
 			return 1;
 		}
 		double timetook = System.currentTimeMillis() - start;
 		timetook = timetook / 1000;
-		file.recordAction(action, expected, "Loaded " + URL + " in " + timetook + " seconds", Result.SUCCESS);
+		file.recordAction(action, expected, "Loaded " + url + " in " + timetook + " seconds", Result.SUCCESS);
 		return 0;
 	}
 
@@ -161,7 +164,7 @@ public class Action {
 	 *            : the number of seconds to wait
 	 */
 	public int wait(int seconds) {
-		return wait(Double.valueOf(seconds));
+		return wait((double) seconds);
 	}
 
 	// ///////////////////////////////////////
@@ -207,8 +210,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int waitForElementPresent(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementPresent(Locators type, String locator) throws IOException {
 		return waitForElementPresent(type, locator, 5);
 	}
 
@@ -226,8 +228,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int waitForElementPresent(Locators type, String locator, long seconds)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementPresent(Locators type, String locator, long seconds) throws IOException {
 		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be present";
 		String expected = type + " " + locator + " is present";
 		// wait for up to XX seconds for our error message
@@ -268,8 +269,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int waitForElementNotPresent(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementNotPresent(Locators type, String locator) throws IOException {
 		return waitForElementNotPresent(type, locator, 5);
 	}
 
@@ -287,8 +287,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int waitForElementNotPresent(Locators type, String locator, long seconds)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementNotPresent(Locators type, String locator, long seconds) throws IOException {
 		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be present";
 		String expected = type + " " + locator + " is not present";
 		// wait for up to XX seconds for our error message
@@ -325,8 +324,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementDisplayed(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementDisplayed(Locators type, String locator) throws IOException {
 		return waitForElementDisplayed(type, locator, 5);
 	}
 
@@ -344,8 +342,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementDisplayed(Locators type, String locator, int seconds)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementDisplayed(Locators type, String locator, int seconds) throws IOException {
 		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be displayed";
 		String expected = type + " " + locator + " is displayed";
 		double start = System.currentTimeMillis();
@@ -391,8 +388,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementNotDisplayed(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementNotDisplayed(Locators type, String locator) throws IOException {
 		return waitForElementNotDisplayed(type, locator, 5);
 	}
 
@@ -410,8 +406,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementNotDisplayed(Locators type, String locator, int seconds)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementNotDisplayed(Locators type, String locator, int seconds) throws IOException {
 		// TODO - this might fail if the element disappears completely
 		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be displayed";
 		String expected = type + " " + locator + " is not displayed";
@@ -452,8 +447,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementEnabled(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementEnabled(Locators type, String locator) throws IOException {
 		return waitForElementEnabled(type, locator, 5);
 	}
 
@@ -471,8 +465,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementEnabled(Locators type, String locator, int seconds)
-			throws InvalidLocatorTypeException, InvalidActionException {
+	public int waitForElementEnabled(Locators type, String locator, int seconds) throws IOException {
 		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to be enabled";
 		String expected = type + " " + locator + " is enabled";
 		double start = System.currentTimeMillis();
@@ -519,8 +512,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementNotEnabled(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int waitForElementNotEnabled(Locators type, String locator) throws IOException {
 		return waitForElementNotEnabled(type, locator, 5);
 	}
 
@@ -538,8 +530,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int waitForElementNotEnabled(Locators type, String locator, int seconds)
-			throws InvalidLocatorTypeException, InvalidActionException {
+	public int waitForElementNotEnabled(Locators type, String locator, int seconds) throws IOException {
 		// TODO - this might fail if the element is no longer present
 		String action = "Wait up to " + seconds + " seconds for " + type + " " + locator + " to not be enabled";
 		String expected = type + " " + locator + " is not enabled";
@@ -578,8 +569,7 @@ public class Action {
 	 * @throws InvalidLocatorTypeException
 	 * @throws InvalidActionException
 	 */
-	public boolean isElementPresent(Locators type, String locator)
-			throws InvalidLocatorTypeException, InvalidActionException {
+	public boolean isElementPresent(Locators type, String locator) throws IOException {
 		return isElementPresent(type, locator, false);
 	}
 
@@ -596,8 +586,7 @@ public class Action {
 	 * @throws InvalidLocatorTypeException
 	 * @throws InvalidActionException
 	 */
-	public boolean isElementPresent(Locators type, String locator, boolean print)
-			throws InvalidLocatorTypeException, InvalidActionException {
+	public boolean isElementPresent(Locators type, String locator, boolean print) throws IOException {
 		boolean isPresent = false;
 		try {
 			getWebElement(type, locator).getText();
@@ -627,8 +616,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementInput(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public boolean isElementInput(Locators type, String locator) throws IOException {
 		return isElementInput(type, locator, false);
 	}
 
@@ -646,13 +634,12 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementInput(Locators type, String locator, boolean print)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public boolean isElementInput(Locators type, String locator, boolean print) throws IOException {
 		boolean isInput = false;
 		try {
 			WebElement element = getWebElement(type, locator);
-			if (element.getTagName().equalsIgnoreCase("input") || element.getTagName().equalsIgnoreCase("textarea")
-					|| element.getTagName().equalsIgnoreCase("select")) {
+			if ("input".equalsIgnoreCase(element.getTagName()) || "textarea".equalsIgnoreCase(element.getTagName())
+					|| "select".equalsIgnoreCase(element.getTagName())) {
 				isInput = true;
 			}
 		} catch (NoSuchElementException e) {
@@ -675,8 +662,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementEnabled(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public boolean isElementEnabled(Locators type, String locator) throws IOException {
 		return isElementEnabled(type, locator, false);
 	}
 
@@ -693,8 +679,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementEnabled(Locators type, String locator, boolean print)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public boolean isElementEnabled(Locators type, String locator, boolean print) throws IOException {
 		boolean isEnabled = false;
 		try {
 			isEnabled = getWebElement(type, locator).isEnabled();
@@ -718,8 +703,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementChecked(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public boolean isElementChecked(Locators type, String locator) throws IOException {
 		return isElementChecked(type, locator, false);
 	}
 
@@ -736,8 +720,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementChecked(Locators type, String locator, boolean print)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public boolean isElementChecked(Locators type, String locator, boolean print) throws IOException {
 		boolean isChecked = false;
 		try {
 			isChecked = getWebElement(type, locator).isSelected();
@@ -761,8 +744,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementDisplayed(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public boolean isElementDisplayed(Locators type, String locator) throws IOException {
 		return isElementDisplayed(type, locator, false);
 	}
 
@@ -779,8 +761,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public boolean isElementDisplayed(Locators type, String locator, boolean print)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public boolean isElementDisplayed(Locators type, String locator, boolean print) throws IOException {
 		boolean isDisplayed = false;
 		try {
 			isDisplayed = getWebElement(type, locator).isDisplayed();
@@ -804,8 +785,7 @@ public class Action {
 	 * @throws InvalidLocatorTypeException
 	 * @throws InvalidActionException
 	 */
-	public int getNumOfSelectOptions(Locators type, String locator)
-			throws InvalidLocatorTypeException, InvalidActionException {
+	public int getNumOfSelectOptions(Locators type, String locator) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -829,8 +809,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public String[] getSelectOptions(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public String[] getSelectOptions(Locators type, String locator) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -862,14 +841,13 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public List<WebElement> getTableRows(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public List<WebElement> getTableRows(Locators type, String locator) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			return new ArrayList<WebElement>();
+			return new ArrayList<>();
 		}
 		WebElement element = getWebElement(type, locator);
 		// TODO - this locator may need to be updated
@@ -887,8 +865,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int getNumOfTableRows(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int getNumOfTableRows(Locators type, String locator) throws IOException {
 		List<WebElement> rows = getTableRows(type, locator);
 		return rows.size();
 	}
@@ -904,14 +881,13 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public List<WebElement> getTableColumns(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public List<WebElement> getTableColumns(Locators type, String locator) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			return new ArrayList<WebElement>();
+			return new ArrayList<>();
 		}
 		WebElement element = getWebElement(type, locator);
 		// TODO - this locator may need to be updated
@@ -929,8 +905,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int getNumOfTableColumns(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int getNumOfTableColumns(Locators type, String locator) throws IOException {
 		List<WebElement> columns = getTableColumns(type, locator);
 		return columns.size();
 	}
@@ -949,8 +924,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int getTableRowWHeader(Locators type, String locator, String header)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int getTableRowWHeader(Locators type, String locator, String header) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -988,14 +962,13 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public List<WebElement> getTableColumn(Locators type, String locator, int colNum)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public List<WebElement> getTableColumn(Locators type, String locator, int colNum) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
 		}
 		if (!isElementPresent(type, locator, false)) {
-			return new ArrayList<WebElement>(); // indicates table not found
+			return new ArrayList<>(); // indicates table not found
 		}
 		List<WebElement> tables = getWebElements(type, locator);
 		List<WebElement> column = tables.get(0).findElements(By.className("NONEEXISTS")); // cludge
@@ -1027,8 +1000,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public WebElement getTableCell(Locators type, String locator, int row, int col)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public WebElement getTableCell(Locators type, String locator, int row, int col) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -1056,7 +1028,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int click(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
+	public int click(Locators type, String locator) throws IOException {
 		String action = "Clicking " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to be clicked";
 		// wait for element to be present
@@ -1090,7 +1062,6 @@ public class Action {
 			return 1; // indicates element not enabled
 		}
 		WebElement element = getWebElement(type, locator);
-		// element.click();
 		Actions selAction = new Actions(driver);
 		selAction.click(element).perform();
 		file.recordAction(action, expected, "Clicked " + type + " " + locator, Result.SUCCESS);
@@ -1109,7 +1080,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int submit(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
+	public int submit(Locators type, String locator) throws IOException {
 		String action = "Submitting " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to be submitted	";
 		// wait for element to be present
@@ -1164,7 +1135,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int hover(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
+	public int hover(Locators type, String locator) throws IOException {
 		String action = "Hovering over " + type + " " + locator;
 		String expected = type + " " + locator + " is present, and displayed to be hovered over";
 		// wait for element to be present
@@ -1206,7 +1177,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int blur(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
+	public int blur(Locators type, String locator) throws IOException {
 		String action = "Focusing, then unfocusing (blurring) on " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to be blurred";
 		// wait for element to be present
@@ -1242,7 +1213,6 @@ public class Action {
 		WebElement element = getWebElement(type, locator);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].focus(); arguments[0].blur(); return true", element);
-		// element.click();
 		file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
 				Result.SUCCESS);
 		return 0;
@@ -1262,8 +1232,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int type(Locators type, String locator, String text)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int type(Locators type, String locator, String text) throws IOException {
 		String action = "Typing text '" + text + "' in " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + text
 				+ " typed in";
@@ -1317,8 +1286,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int type(Locators type, String locator, Keys key)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int type(Locators type, String locator, Keys key) throws IOException {
 		String action = "Typing text '" + key + "' in " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + key
 				+ " typed in";
@@ -1370,7 +1338,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int clear(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
+	public int clear(Locators type, String locator) throws IOException {
 		String action = "Clearing text in " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text cleared";
 		// wait for element to be present
@@ -1424,8 +1392,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int select(Locators type, String locator, int value)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int select(Locators type, String locator, int value) throws IOException {
 		String[] options = getSelectOptions(type, locator);
 		return select(type, locator, options[value]);
 	}
@@ -1444,8 +1411,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public int select(Locators type, String locator, String value)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int select(Locators type, String locator, String value) throws IOException {
 		String action = "Selecting " + value + " in " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have the value " + value
 				+ " selected";
@@ -1510,7 +1476,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int move(Locators type, String locator) throws InvalidActionException, InvalidLocatorTypeException {
+	public int move(Locators type, String locator) throws IOException {
 		String action = "Moving screen to " + type + " " + locator;
 		String expected = type + " " + locator + " is now present on the visible page";
 		// wait for element to be present
@@ -1552,8 +1518,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int move(Locators type, String locator, int position)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public int move(Locators type, String locator, int position) throws IOException {
 		String action = "Moving screen to " + position + " pixels above " + type + " " + locator;
 		String expected = type + " " + locator + " is now present on the visible page";
 		// wait for element to be present
@@ -1593,7 +1558,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int scroll(int desiredPosition) throws InvalidActionException, InvalidLocatorTypeException {
+	public int scroll(int desiredPosition) throws IOException {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		Long initialPosition = (Long) jse.executeScript("return window.scrollY;");
 
@@ -1633,7 +1598,6 @@ public class Action {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		// driver.switchTo().defaultContent();
 		file.recordAction(action, expected, "Clicked 'OK' on the alert", Result.SUCCESS);
 		return 0;
 	}
@@ -1658,7 +1622,6 @@ public class Action {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		// driver.switchTo().defaultContent();
 		file.recordAction(action, expected, "Clicked 'OK' on the confirmation", Result.SUCCESS);
 		return 0;
 	}
@@ -1683,7 +1646,6 @@ public class Action {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.dismiss();
-		// driver.switchTo().defaultContent();
 		file.recordAction(action, expected, "Clicked 'Cancel' on the confirmation", Result.SUCCESS);
 		return 0;
 	}
@@ -1708,7 +1670,6 @@ public class Action {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
-		// driver.switchTo().defaultContent();
 		file.recordAction(action, expected, "Clicked 'OK' on the prompt", Result.SUCCESS);
 		return 0;
 	}
@@ -1733,7 +1694,6 @@ public class Action {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.dismiss();
-		// driver.switchTo().defaultContent();
 		file.recordAction(action, expected, "Clicked 'Cancel' on the prompt", Result.SUCCESS);
 		return 0;
 	}
@@ -1758,7 +1718,6 @@ public class Action {
 		}
 		Alert alert = driver.switchTo().alert();
 		alert.sendKeys(text);
-		// driver.switchTo().defaultContent();
 		file.recordAction(action, expected, "Typed text '" + text + "' into prompt", Result.SUCCESS);
 		return 0;
 	}
@@ -1777,37 +1736,29 @@ public class Action {
 		// TODO - consider adding strengthening
 		By byElement;
 		switch (type) { // determine which locator type we are interested in
-		case xpath: {
+		case xpath:
 			byElement = By.xpath(locator);
 			break;
-		}
-		case id: {
+		case id:
 			byElement = By.id(locator);
 			break;
-		}
-		case name: {
+		case name:
 			byElement = By.name(locator);
 			break;
-		}
-		case classname: {
+		case classname:
 			byElement = By.className(locator);
 			break;
-		}
-		case linktext: {
+		case linktext:
 			byElement = By.linkText(locator);
 			break;
-		}
-		case paritallinktext: {
+		case paritallinktext:
 			byElement = By.partialLinkText(locator);
 			break;
-		}
-		case tagname: {
+		case tagname:
 			byElement = By.tagName(locator);
 			break;
-		}
-		default: {
+		default:
 			throw new InvalidLocatorTypeException(type + " is not a valid locator type");
-		}
 		}
 		return byElement;
 	}
@@ -1869,7 +1820,7 @@ public class Action {
 		}
 		try {
 			// take a screenshot
-			File srcFile = new File("");
+			File srcFile;
 			if (System.getProperty("hubAddress") != "LOCAL") {
 				WebDriver augemented = new Augmenter().augment(driver);
 				srcFile = ((TakesScreenshot) augemented).getScreenshotAs(OutputType.FILE);
@@ -1910,7 +1861,6 @@ public class Action {
 		if (print) {
 			file.recordExpected("Checking for alert to be present");
 		}
-		// driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -1952,7 +1902,6 @@ public class Action {
 		}
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
-		// driver.switchTo().defaultContent();
 		if (!isAlertPresent(false)) {
 			file.recordAction(action, expected, "After waiting " + timetook + " seconds, an alert is not present",
 					Result.FAILURE);
@@ -1977,7 +1926,6 @@ public class Action {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		// driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
@@ -2008,7 +1956,6 @@ public class Action {
 		if (print) {
 			file.recordExpected("Checking for confirmation to be present");
 		}
-		// driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -2046,7 +1993,6 @@ public class Action {
 		}
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
-		// driver.switchTo().defaultContent();
 		if (!isConfirmationPresent(false)) {
 			file.recordAction(action, expected, "After waiting " + timetook + " seconds, a confirmation is not present",
 					Result.FAILURE);
@@ -2071,7 +2017,6 @@ public class Action {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		// driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
@@ -2102,7 +2047,6 @@ public class Action {
 		if (print) {
 			file.recordExpected("Checking for prompt to be present");
 		}
-		// driver.switchTo().defaultContent();
 		return isPresent;
 	}
 
@@ -2140,7 +2084,6 @@ public class Action {
 		}
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
-		// driver.switchTo().defaultContent();
 		if (!isPromptPresent(false)) {
 			file.recordAction(action, expected, "After waiting " + timetook + " seconds, a prompt is not present",
 					Result.FAILURE);
@@ -2165,7 +2108,6 @@ public class Action {
 			return "";
 		}
 		Alert alert = driver.switchTo().alert();
-		// driver.switchTo().defaultContent();
 		return alert.getText();
 	}
 
@@ -2239,13 +2181,12 @@ public class Action {
 		return getCookie(expectedCookieName).getExpiry();
 	}
 
-	public boolean isSomethingSelected(Locators type, String locator)
-			throws InvalidLocatorTypeException, InvalidActionException {
+	public boolean isSomethingSelected(Locators type, String locator) throws IOException {
 		WebElement element = getWebElement(type, locator);
-		if (element.getTagName().equalsIgnoreCase("input") && element.isSelected()) {
+		if ("input".equalsIgnoreCase(element.getTagName()) && element.isSelected()) {
 			return true;
 		}
-		if (element.getTagName().equalsIgnoreCase("select") && getSelectedValues(type, locator).length > 0) {
+		if ("select".equalsIgnoreCase(element.getTagName()) && getSelectedValues(type, locator).length > 0) {
 			return true;
 		}
 		return false;
@@ -2263,8 +2204,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public String getSelectedText(Locators type, String locator)
-			throws InvalidLocatorTypeException, InvalidActionException {
+	public String getSelectedText(Locators type, String locator) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -2278,13 +2218,7 @@ public class Action {
 		return option.getText();
 	}
 
-	// public boolean isOrdered(String firstObject, String secondObject) {
-	// Auto-generated method stub
-	// return false;
-	// }
-
-	public String[] getSelectedTexts(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public String[] getSelectedTexts(Locators type, String locator) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -2314,8 +2248,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 *             , InvalidLocatorTypeException
 	 */
-	public String getSelectedValue(Locators type, String locator)
-			throws InvalidLocatorTypeException, InvalidActionException {
+	public String getSelectedValue(Locators type, String locator) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
@@ -2329,8 +2262,7 @@ public class Action {
 		return option.getAttribute("value");
 	}
 
-	public String[] getSelectedValues(Locators type, String locator)
-			throws InvalidActionException, InvalidLocatorTypeException {
+	public String[] getSelectedValues(Locators type, String locator) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator);
