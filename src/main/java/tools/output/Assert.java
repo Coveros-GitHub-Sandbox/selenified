@@ -26,6 +26,7 @@ import tools.General;
 import tools.output.Action.Browsers;
 import tools.output.Action.Locators;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -392,7 +393,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementDisplayed(Locators type, String locator)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
             outputFile.addError();
@@ -415,7 +416,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementNotDisplayed(Locators type, String locator)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementNotDisplayed(type, locator) == 1) {
             outputFile.addError();
@@ -439,7 +440,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int checkElementChecked(Locators type, String locator)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -468,7 +469,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int checkElementNotChecked(Locators type, String locator)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -496,7 +497,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementDisplayedAndChecked(Locators type, String locator)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
             outputFile.addError();
@@ -526,7 +527,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementDisplayedAndUnchecked(Locators type, String locator)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
             outputFile.addError();
@@ -555,7 +556,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int checkElementEditable(Locators type, String locator)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -591,7 +592,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int checkElementNotEditable(Locators type, String locator)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -626,7 +627,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementDisplayedAndEditable(Locators type, String locator)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
             outputFile.addError();
@@ -663,7 +664,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementDisplayedAndNotEditable(Locators type, String locator)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementDisplayed(type, locator) && selHelper.waitForElementDisplayed(type, locator) == 1) {
             outputFile.addError();
@@ -700,7 +701,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementHasAttribute(Locators type, String locator, String attribute)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -734,7 +735,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementDoesntHaveAttribute(Locators type, String locator, String attribute)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -768,7 +769,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementHasClass(Locators type, String locator, String expectedClass)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -801,7 +802,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementContainsClass(Locators type, String locator, String expectedClass)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -834,7 +835,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkElementDoesntContainClass(Locators type, String locator, String unexpectedClass)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementPresent(type, locator) && selHelper.waitForElementPresent(type, locator) == 1) {
             outputFile.addError();
@@ -866,7 +867,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkIfOptionInSelect(Locators type, String locator, String option)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementEnabled(type, locator) && selHelper.waitForElementEnabled(type, locator) == 1) {
             outputFile.addError();
@@ -901,7 +902,7 @@ public class Assert {
      * @throws InvalidActionException
      */
     public int checkIfOptionNotInSelect(Locators type, String locator, String option)
-            throws InvalidActionException, InvalidLocatorTypeException {
+            throws IOException {
         // wait for the element
         if (!selHelper.isElementEnabled(type, locator) && selHelper.waitForElementEnabled(type, locator) == 1) {
             outputFile.addError();
@@ -1022,7 +1023,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int compareTextValue(Locators type, String locator, String expectedValue)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a value of <b>"
                 + expectedValue + "</b>");
@@ -1062,7 +1063,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int compareTextValueContains(Locators type, String locator, String expectedValue)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> contains the value of <b>"
                 + expectedValue + "</b>");
@@ -1141,7 +1142,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int compareInputValue(Locators type, String locator, String expectedValue)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a value of <b>"
                 + expectedValue + "</b>");
@@ -1182,7 +1183,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int compareCssValue(Locators type, String locator, String attribute, String expectedValue)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a css attribute of <i>"
                 + attribute + "</i> with a value of <b>" + expectedValue + "</b>");
@@ -1220,7 +1221,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int checkSelectValuePresent(Locators type, String locator, String selectValue)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a select value of <b>"
                 + selectValue + "</b>");
@@ -1279,7 +1280,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int checkSelectValueNotPresent(Locators type, String locator, String selectValue)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> without a select value of <b>"
                 + selectValue + "</b>");
@@ -1338,7 +1339,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int compareSelectedValue(Locators type, String locator, String expectedValue)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
                 + "</i> having a selected value of <b>" + expectedValue + "</b>");
@@ -1398,7 +1399,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int compareSelectedText(Locators type, String locator, String expectedText)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> having a selected text of <b>"
                 + expectedText + "</b>");
@@ -1459,7 +1460,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int compareSelectedValueNotEqual(Locators type, String locator, String expectedValue)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
                 + "</i> not having a selected value of <b>" + expectedValue + "</b>");
@@ -1519,7 +1520,7 @@ public class Assert {
      * @throws InvalidLocatorTypeException
      */
     public int compareSelectValues(Locators type, String locator, String... expectedValues)
-            throws InvalidLocatorTypeException, InvalidActionException {
+            throws IOException {
         // outputFile.record our action
         int errors = 0;
         outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator + "</i> with select values of <b>"
