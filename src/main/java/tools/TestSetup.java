@@ -87,8 +87,9 @@ public class TestSetup {
 	 * list
 	 * 
 	 * @return List: a list of all browsers
+	 * @throws InvalidBrowserException 
 	 */
-	public static List<Browsers> setBrowser() {
+	public static List<Browsers> setBrowser() throws InvalidBrowserException {
 		List<Browsers> browsers = new ArrayList<>();
 		// null input check
 		if (System.getProperty(BROWSER_INPUT) == null) {
@@ -97,8 +98,12 @@ public class TestSetup {
 
 		// are we looking for all details or not
 		if (!areBrowserDetailsSet()) {
+			try {
 			browsers = Arrays.asList(System.getProperty(BROWSER_INPUT).split(",")).stream().map(Browsers::valueOf)
 					.collect(Collectors.toList());
+			} catch( Exception e ) {
+				throw new InvalidBrowserException(e.getMessage());
+			}
 		} else {
 			String[] allDetails = System.getProperty(BROWSER_INPUT).split(",");
 			for (String details : allDetails) {
