@@ -98,13 +98,13 @@ public class TestSetupTest {
 	}
 
 	@Test
-	public void setBrowserNoBrowserTest() {
+	public void setBrowserNoBrowserTest() throws InvalidBrowserException {
 		Assert.assertTrue(TestSetup.setBrowser().isEmpty());
 		Assert.assertEquals(TestSetup.setBrowser(), new ArrayList<Browsers>());
 	}
 
 	@Test
-	public void setBrowserSingleBrowserTest() {
+	public void setBrowserSingleBrowserTest() throws InvalidBrowserException {
 		System.setProperty("browser", "Chrome");
 		List<Browsers> browsers = TestSetup.setBrowser();
 		Assert.assertEquals(browsers.size(), 1);
@@ -117,7 +117,7 @@ public class TestSetupTest {
 	}
 
 	@Test
-	public void setBrowserMultipleBrowserTest() {
+	public void setBrowserMultipleBrowserTest() throws InvalidBrowserException {
 		System.setProperty("browser", "Chrome,Firefox");
 		List<Browsers> browsers = TestSetup.setBrowser();
 		Assert.assertEquals(browsers.size(), 2);
@@ -131,8 +131,8 @@ public class TestSetupTest {
 		Assert.assertTrue(browsers.contains(Browsers.Firefox));
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
-	public void setBrowserIllegalBrowserTest() {
+	@Test(expectedExceptions =  InvalidBrowserException.class)
+	public void setBrowserIllegalBrowserTest() throws InvalidBrowserException {
 		System.setProperty("browser", "BadBrowser");
 		TestSetup.setBrowser();
 	}

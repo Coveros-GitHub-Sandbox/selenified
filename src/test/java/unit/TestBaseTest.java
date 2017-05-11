@@ -1,12 +1,17 @@
 package unit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import selenified.exceptions.InvalidBrowserException;
 import tools.TestBase;
+import tools.output.Action.Browsers;
 
 public class TestBaseTest {
 	
@@ -66,5 +71,32 @@ public class TestBaseTest {
 		TestBase.initializeSystem();
 		Assert.assertEquals( System.getProperty("browser"), "Chrome");
 		Assert.assertEquals( TestBase.testSite, "www.yahoo.com");
+	}
+	
+	@Test(expectedExceptions = InvalidBrowserException.class)
+	public void setupTestParametersBadBrowserTest() throws InvalidBrowserException {
+		System.setProperty("browser", "BadBrowser");
+		TestBase.setupTestParameters();
+	}
+	
+	@Test
+	public void setupTestParametersSingleBrowserTest() throws InvalidBrowserException {
+		List<Browsers> expectedBrowsers = new ArrayList<Browsers>();
+		expectedBrowsers.add(Browsers.Chrome);
+		System.setProperty("browser", "Chrome");
+		
+		TestBase.setupTestParameters();
+		Assert.assertEquals( TestBase.browsers, expectedBrowsers);
+	}
+	
+	@Test
+	public void setupTestParametersMultipleBrowserTest() throws InvalidBrowserException {
+		List<Browsers> expectedBrowsers = new ArrayList<Browsers>();
+		expectedBrowsers.add(Browsers.Chrome);
+		expectedBrowsers.add(Browsers.Edge);
+		System.setProperty("browser", "Chrome,Edge");
+		
+		TestBase.setupTestParameters();
+		Assert.assertEquals( TestBase.browsers, expectedBrowsers);
 	}
 }

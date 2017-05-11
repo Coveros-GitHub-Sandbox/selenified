@@ -53,8 +53,8 @@ public class TestBase {
 	protected static String author = "Max Saperstone";
 
 	// some passed in system params
-	protected static List<Browsers> browsers;
-	protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
+	public static List<Browsers> browsers;
+	public static List<DesiredCapabilities> capabilities = new ArrayList<>();
 
 	// for individual tests
 	protected ThreadLocal<Browsers> browser = new ThreadLocal<>();
