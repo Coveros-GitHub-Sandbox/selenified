@@ -184,11 +184,6 @@ public class OutputFile {
 
 	/**
 	 * creates the directory and file to hold our test output file
-	 * 
-	 * @param directory
-	 *            - a string location of the directory to hold the results
-	 * @param fileName
-	 *            - the desired filename of the test output file
 	 */
 	public void setupFile() {
 		if (!new File(directory).exists()) {
@@ -208,8 +203,6 @@ public class OutputFile {
 	/**
 	 * A method to count the number of occurrence of a string within a file
 	 *
-	 * @param fileName
-	 *            - the string of the complete filename
 	 * @param textToFind
 	 *            - the text to count
 	 * @return Integer - the number of times the text was found in the file
@@ -233,8 +226,6 @@ public class OutputFile {
 	/**
 	 * A method to replace an occurrence of a string within a file
 	 *
-	 * @param fileName
-	 *            - the string of the complete filename
 	 * @param oldText
 	 *            - the text to be replaced
 	 * @param newText
@@ -733,7 +724,7 @@ public class OutputFile {
 	/**
 	 * add a given set of errors to our error counter
 	 *
-	 * @param errors
+	 * @param errorsToAdd
 	 *            - the number of errors to add
 	 */
 	public void addErrors(int errorsToAdd) {
