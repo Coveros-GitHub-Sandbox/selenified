@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-import tools.output.Action.Browsers;
+import tools.output.Selenium.Browsers;
 import tools.output.Assert.Result;
 import tools.output.Assert.Success;
 import tools.output.OutputFile;

@@ -25,7 +25,7 @@ import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import io.github.bonigarcia.wdm.OperaDriverManager;
 import selenified.exceptions.InvalidBrowserException;
-import tools.output.Action.Browsers;
+import tools.output.Selenium.Browsers;
 
 public class TestSetup {
 

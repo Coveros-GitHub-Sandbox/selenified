@@ -23,8 +23,8 @@ package tools.output;
 import selenified.exceptions.InvalidActionException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
-import tools.output.Action.Browsers;
-import tools.output.Action.Locators;
+import tools.output.Selenium.Browsers;
+import tools.output.Selenium.Locators;
 
 import java.io.IOException;
 import java.util.Arrays;

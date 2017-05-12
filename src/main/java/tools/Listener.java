@@ -4,7 +4,7 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 
-import tools.output.Action.Browsers;
+import tools.output.Selenium.Browsers;
 import tools.output.Assert.Result;
 
 import java.io.File;

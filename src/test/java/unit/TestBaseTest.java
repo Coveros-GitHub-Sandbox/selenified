@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import selenified.exceptions.InvalidBrowserException;
 import tools.TestBase;
-import tools.output.Action.Browsers;
+import tools.output.Selenium.Browsers;
 
 public class TestBaseTest {
 	
