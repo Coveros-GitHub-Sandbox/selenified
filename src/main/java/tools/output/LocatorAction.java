@@ -40,18 +40,15 @@ public class LocatorAction {
 	 * our constructor, determining which browser use and how to run the
 	 * browser: either grid or standalone
 	 *
-	 * @param browser
-	 *            - the Browser we are running the test on
-	 * @param capabilities
-	 *            - what browser capabilities are desired
+	 * @param driver
+	 *            - the webdriver used to control the browser
 	 * @param file
 	 *            - the TestOutput file. This is provided by the
 	 *            SeleniumTestBase functionality
 	 * @throws InvalidBrowserException
 	 * @throws MalformedURLException
 	 */
-	public LocatorAction(WebDriver driver, OutputFile file)
-			throws InvalidBrowserException, MalformedURLException {
+	public LocatorAction(WebDriver driver, OutputFile file) throws InvalidBrowserException, MalformedURLException {
 		this.driver = driver;
 		this.file = file;
 	}
@@ -733,11 +730,11 @@ public class LocatorAction {
 		WebElement element = getWebElement(type, locator);
 		Select dropdown = new Select(element);
 		List<WebElement> options = dropdown.getAllSelectedOptions();
-		String[] s_options = new String[options.size()];
+		String[] stringOptions = new String[options.size()];
 		for (int i = 0; i < options.size(); i++) {
-			s_options[i] = options.get(i).getText();
+			stringOptions[i] = options.get(i).getText();
 		}
-		return s_options;
+		return stringOptions;
 	}
 
 	/**
@@ -777,11 +774,11 @@ public class LocatorAction {
 		WebElement element = getWebElement(type, locator);
 		Select dropdown = new Select(element);
 		List<WebElement> options = dropdown.getAllSelectedOptions();
-		String[] s_options = new String[options.size()];
+		String[] stringOptions = new String[options.size()];
 		for (int i = 0; i < options.size(); i++) {
-			s_options[i] = options.get(i).getAttribute("value");
+			stringOptions[i] = options.get(i).getAttribute("value");
 		}
-		return s_options;
+		return stringOptions;
 	}
 
 	/**
@@ -1446,10 +1443,7 @@ public class LocatorAction {
 	 */
 	public WebElement getWebElement(Locators type, String locator) throws InvalidLocatorTypeException {
 		By byElement = defineByElement(type, locator);
-		WebElement query = driver.findElement(byElement); // grab our element
-		// based on the
-		// locator
-		return query; // return our query
+		return driver.findElement(byElement);
 	}
 
 	// //////////////////////////////////
@@ -1469,11 +1463,6 @@ public class LocatorAction {
 	 */
 	private List<WebElement> getWebElements(Locators type, String locator) throws InvalidLocatorTypeException {
 		By byElement = defineByElement(type, locator);
-		List<WebElement> query = driver.findElements(byElement); // grab our
-		// element
-		// based on
-		// the
-		// locator
-		return query; // return our query
+		return driver.findElements(byElement);
 	}
 }
