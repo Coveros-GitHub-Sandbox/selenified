@@ -25,7 +25,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 import selenified.exceptions.InvalidActionException;
 import selenified.exceptions.InvalidBrowserException;
@@ -35,6 +34,7 @@ import tools.TestSetup;
 import tools.output.Assert.Result;
 import tools.output.Selenium.Browsers;
 import tools.output.Selenium.Locators;
+import tools.output.Selenium.Element;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,6 +68,7 @@ public class Action {
 	private DesiredCapabilities capabilities;
 
 	private LocatorAction locatorAction;
+	private String parentWindow;
 
 	/**
 	 * our constructor, determining which browser use and how to run the
@@ -96,7 +97,7 @@ public class Action {
 			capabilities.setJavascriptEnabled(true);
 			driver = TestSetup.setupDriver(browser, capabilities);
 		}
-		
+
 		this.locatorAction = new LocatorAction(driver, file);
 	}
 
@@ -141,7 +142,7 @@ public class Action {
 	 * a method for navigating to a new url
 	 *
 	 * @param url
-	 *            : the URL to navigate to
+	 *            - the URL to navigate to
 	 */
 	public int goToURL(String url) {
 		String action = "Loading " + url;
@@ -165,7 +166,7 @@ public class Action {
 	 * a method for allowing Selenium to pause for a set amount of time
 	 *
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 */
 	public int wait(int seconds) {
 		return wait((double) seconds);
@@ -179,7 +180,7 @@ public class Action {
 	 * a method for allowing Selenium to pause for a set amount of time
 	 *
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 */
 	public int wait(double seconds) {
 		String action = "Wait " + seconds + " seconds";
@@ -204,6 +205,35 @@ public class Action {
 	/**
 	 * a method for waiting until an element is present for a maximum of 5
 	 * seconds
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementPresent(Element element) throws IOException {
+		return waitForElementPresent(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for waiting until an element is present
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @param seconds
+	 *            - the number of seconds to wait
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementPresent(Element element, long seconds) throws IOException {
+		return waitForElementPresent(element.getType(), element.getLocator(), seconds);
+	}
+
+	/**
+	 * a method for waiting until an element is present for a maximum of 5
+	 * seconds
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
@@ -211,8 +241,7 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementPresent(Locators type, String locator) throws IOException {
 		return waitForElementPresent(type, locator, 5);
@@ -226,14 +255,42 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementPresent(Locators type, String locator, long seconds) throws IOException {
 		return locatorAction.waitForElementPresent(type, locator, seconds);
+	}
+
+	/**
+	 * a method for waiting until an element is no longer present for a maximum
+	 * of 5 seconds
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementNotPresent(Element element) throws IOException {
+		return waitForElementNotPresent(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for waiting until an element is no longer present
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param seconds
+	 *            - the number of seconds to wait
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementNotPresent(Element element, long seconds) throws IOException {
+		return waitForElementNotPresent(element.getType(), element.getLocator(), seconds);
 	}
 
 	/**
@@ -246,8 +303,7 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementNotPresent(Locators type, String locator) throws IOException {
 		return waitForElementNotPresent(type, locator, 5);
@@ -261,14 +317,42 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementNotPresent(Locators type, String locator, long seconds) throws IOException {
 		return locatorAction.waitForElementNotPresent(type, locator, seconds);
+	}
+
+	/**
+	 * a method for waiting until an element is displayed for a maximum of 5
+	 * seconds
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementDisplayed(Element element) throws IOException {
+		return waitForElementDisplayed(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for waiting until an element is displayed
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param seconds
+	 *            - the number of seconds to wait
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementDisplayed(Element element, int seconds) throws IOException {
+		return waitForElementDisplayed(element.getType(), element.getLocator(), seconds);
 	}
 
 	/**
@@ -281,8 +365,7 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementDisplayed(Locators type, String locator) throws IOException {
 		return waitForElementDisplayed(type, locator, 5);
@@ -296,14 +379,42 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementDisplayed(Locators type, String locator, int seconds) throws IOException {
 		return locatorAction.waitForElementDisplayed(type, locator, seconds);
+	}
+
+	/**
+	 * a method for waiting until an element is not displayed for a maximum of 5
+	 * seconds
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementNotDisplayed(Element element) throws IOException {
+		return waitForElementNotDisplayed(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for waiting until an element is not displayed
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param seconds
+	 *            - the number of seconds to wait
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementNotDisplayed(Element element, int seconds) throws IOException {
+		return waitForElementNotDisplayed(element.getType(), element.getLocator(), seconds);
 	}
 
 	/**
@@ -316,8 +427,7 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementNotDisplayed(Locators type, String locator) throws IOException {
 		return waitForElementNotDisplayed(type, locator, 5);
@@ -331,14 +441,42 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementNotDisplayed(Locators type, String locator, int seconds) throws IOException {
 		return locatorAction.waitForElementNotDisplayed(type, locator, seconds);
+	}
+
+	/**
+	 * a method for waiting until an element is enabled for a maximum of 5
+	 * seconds
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementEnabled(Element element) throws IOException {
+		return waitForElementEnabled(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for waiting until an element is enabled
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param seconds
+	 *            - the number of seconds to wait
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementEnabled(Element element, int seconds) throws IOException {
+		return waitForElementEnabled(element.getType(), element.getLocator(), seconds);
 	}
 
 	/**
@@ -351,8 +489,7 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementEnabled(Locators type, String locator) throws IOException {
 		return waitForElementEnabled(type, locator, 5);
@@ -366,14 +503,42 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementEnabled(Locators type, String locator, int seconds) throws IOException {
 		return locatorAction.waitForElementEnabled(type, locator, seconds);
+	}
+
+	/**
+	 * a method for waiting until an element is not enabled for a maximum of 5
+	 * seconds
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementNotEnabled(Element element) throws IOException {
+		return waitForElementNotEnabled(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for waiting until an element is not enabled
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param seconds
+	 *            - the number of seconds to wait
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int waitForElementNotEnabled(Element element, int seconds) throws IOException {
+		return waitForElementNotEnabled(element.getType(), element.getLocator(), seconds);
 	}
 
 	/**
@@ -386,8 +551,7 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementNotEnabled(Locators type, String locator) throws IOException {
 		return waitForElementNotEnabled(type, locator, 5);
@@ -401,14 +565,43 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int waitForElementNotEnabled(Locators type, String locator, int seconds) throws IOException {
 		return locatorAction.waitForElementNotEnabled(type, locator, seconds);
+	}
+
+	// ////////////////////////////////////
+	// checking element availability
+	// ////////////////////////////////////
+
+	/**
+	 * a method for checking if an element is present
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return boolean: whether the element is present or not
+	 * @throws IOException
+	 */
+	public boolean isElementPresent(Element element) throws IOException {
+		return isElementPresent(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for checking if an element is present
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param print
+	 *            - whether or not to printout the action
+	 * @return boolean: whether the element is present or not
+	 * @throws IOException
+	 */
+	public boolean isElementPresent(Element element, boolean print) throws IOException {
+		return isElementPresent(element.getType(), element.getLocator(), print);
 	}
 
 	/**
@@ -419,8 +612,7 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return boolean: whether the element is present or not
-	 * @throws InvalidLocatorTypeException
-	 * @throws InvalidActionException
+	 * @throws IOException
 	 */
 	public boolean isElementPresent(Locators type, String locator) throws IOException {
 		return isElementPresent(type, locator, false);
@@ -434,18 +626,41 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is present or not
-	 * @throws InvalidLocatorTypeException
-	 * @throws InvalidActionException
+	 * @throws IOException
 	 */
 	public boolean isElementPresent(Locators type, String locator, boolean print) throws IOException {
 		return locatorAction.isElementPresent(type, locator, print);
 	}
 
-	// ////////////////////////////////////
-	// checking element availability
-	// ////////////////////////////////////
+	/**
+	 * a method for checking if an element is an input; it needs to be an input,
+	 * select, or textarea
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return boolean: whether the element is an input or not
+	 * @throws IOException
+	 */
+	public boolean isElementInput(Element element) throws IOException {
+		return isElementInput(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for checking if an element is an input; it needs to be an input,
+	 * select, or textarea
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param print
+	 *            - whether or not to printout the action
+	 * @return boolean: whether the element is present or not
+	 * @throws IOException
+	 */
+	public boolean isElementInput(Element element, boolean print) throws IOException {
+		return isElementInput(element.getType(), element.getLocator(), print);
+	}
 
 	/**
 	 * a method for checking if an element is an input; it needs to be an input,
@@ -456,8 +671,7 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return boolean: whether the element is an input or not
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public boolean isElementInput(Locators type, String locator) throws IOException {
 		return isElementInput(type, locator, false);
@@ -472,13 +686,38 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is present or not
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public boolean isElementInput(Locators type, String locator, boolean print) throws IOException {
 		return locatorAction.isElementInput(type, locator, print);
+	}
+
+	/**
+	 * a method for checking if an element is enabled
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return boolean: whether the element is present or not
+	 * @throws IOException
+	 */
+	public boolean isElementEnabled(Element element) throws IOException {
+		return isElementEnabled(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for checking if an element is enabled
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param print
+	 *            - whether or not to printout the action
+	 * @return boolean: whether the element is present or not
+	 * @throws IOException
+	 */
+	public boolean isElementEnabled(Element element, boolean print) throws IOException {
+		return isElementEnabled(element.getType(), element.getLocator(), print);
 	}
 
 	/**
@@ -489,8 +728,7 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return boolean: whether the element is present or not
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Locators type, String locator) throws IOException {
 		return isElementEnabled(type, locator, false);
@@ -504,13 +742,38 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is present or not
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Locators type, String locator, boolean print) throws IOException {
 		return locatorAction.isElementEnabled(type, locator, print);
+	}
+
+	/**
+	 * a method for checking if an element is checked
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return boolean: whether the element is checked or not
+	 * @throws IOException
+	 */
+	public boolean isElementChecked(Element element) throws IOException {
+		return isElementChecked(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for checking if an element is checked
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param print
+	 *            - whether or not to printout the action
+	 * @return boolean: whether the element is checked or not
+	 * @throws IOException
+	 */
+	public boolean isElementChecked(Element element, boolean print) throws IOException {
+		return isElementChecked(element.getType(), element.getLocator(), print);
 	}
 
 	/**
@@ -521,8 +784,7 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return boolean: whether the element is checked or not
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public boolean isElementChecked(Locators type, String locator) throws IOException {
 		return isElementChecked(type, locator, false);
@@ -536,13 +798,38 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is checked or not
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public boolean isElementChecked(Locators type, String locator, boolean print) throws IOException {
 		return locatorAction.isElementChecked(type, locator, print);
+	}
+
+	/**
+	 * a method for checking if an element is displayed
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return boolean: whether the element is displayed or not
+	 * @throws IOException
+	 */
+	public boolean isElementDisplayed(Element element) throws IOException {
+		return isElementDisplayed(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a method for checking if an element is displayed
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param print
+	 *            - whether or not to printout the action
+	 * @return boolean: whether the element is displayed or not
+	 * @throws IOException
+	 */
+	public boolean isElementDisplayed(Element element, boolean print) throws IOException {
+		return isElementDisplayed(element.getType(), element.getLocator(), print);
 	}
 
 	/**
@@ -553,8 +840,7 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return boolean: whether the element is displayed or not
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Locators type, String locator) throws IOException {
 		return isElementDisplayed(type, locator, false);
@@ -568,20 +854,23 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is displayed or not
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Locators type, String locator, boolean print) throws IOException {
 		return locatorAction.isElementDisplayed(type, locator, print);
 	}
 
+	/////////////////////////////////
+	// retrieve information about the page
+	/////////////////////////////////
+
 	/**
 	 * a method to obtain screenshots
 	 *
 	 * @param imageName
-	 *            : the name of the image typically generated via functions from
+	 *            - the name of the image typically generated via functions from
 	 *            TestOutput.generateImageName
 	 * @throws InvalidActionException
 	 */
@@ -608,16 +897,39 @@ public class Action {
 	/**
 	 * get the number of options from the select drop down
 	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer: the number of select options
+	 * @throws IOException
+	 */
+	public int getNumOfSelectOptions(Element element) throws IOException {
+		return getNumOfSelectOptions(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * get the number of options from the select drop down
+	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: the number of select options
-	 * @throws InvalidLocatorTypeException
-	 * @throws InvalidActionException
+	 * @throws IOException
 	 */
 	public int getNumOfSelectOptions(Locators type, String locator) throws IOException {
 		return locatorAction.getNumOfSelectOptions(type, locator);
+	}
+
+	/**
+	 * get the options from the select drop down
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return String[]: the options from the select element
+	 * @throws IOException
+	 */
+	public String[] getSelectOptions(Element element) throws IOException {
+		return getSelectOptions(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -628,16 +940,23 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return String[]: the options from the select element
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public String[] getSelectOptions(Locators type, String locator) throws IOException {
 		return locatorAction.getSelectOptions(type, locator);
 	}
 
-	// ///////////////////////////////////
-	// selenium retreval functions
-	// ///////////////////////////////////
+	/**
+	 * get the rows of a table
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return List: a list of the table rows as WebElements
+	 * @throws IOException
+	 */
+	public List<WebElement> getTableRows(Element element) throws IOException {
+		return getTableRows(element.getType(), element.getLocator());
+	}
 
 	/**
 	 * get the rows of a table
@@ -647,11 +966,22 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return List: a list of the table rows as WebElements
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public List<WebElement> getTableRows(Locators type, String locator) throws IOException {
 		return locatorAction.getTableRows(type, locator);
+	}
+
+	/**
+	 * get the number of rows of a table
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer: the number of table rows
+	 * @throws IOException
+	 */
+	public int getNumOfTableRows(Element element) throws IOException {
+		return getNumOfTableRows(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -662,12 +992,23 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: the number of table rows
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int getNumOfTableRows(Locators type, String locator) throws IOException {
 		List<WebElement> rows = getTableRows(type, locator);
 		return rows.size();
+	}
+
+	/**
+	 * get the columns of a table
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return List: a list of the table columns as WebElements
+	 * @throws IOException
+	 */
+	public List<WebElement> getTableColumns(Element element) throws IOException {
+		return getTableColumns(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -678,11 +1019,22 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return List: a list of the table columns as WebElements
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public List<WebElement> getTableColumns(Locators type, String locator) throws IOException {
 		return locatorAction.getTableColumns(type, locator);
+	}
+
+	/**
+	 * get the number of columns of a table
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer: the number of table columns
+	 * @throws IOException
+	 */
+	public int getNumOfTableColumns(Element element) throws IOException {
+		return getNumOfTableColumns(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -693,12 +1045,26 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: the number of table columns
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int getNumOfTableColumns(Locators type, String locator) throws IOException {
 		List<WebElement> columns = getTableColumns(type, locator);
 		return columns.size();
+	}
+
+	/**
+	 * a method to retrieve the row number in a table that has a header (th) of
+	 * the indicated value
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param header
+	 *            - the full text value expected in a th cell
+	 * @return Integer: the row number containing the header
+	 * @throws IOException
+	 */
+	public int getTableRowWHeader(Element element, String header) throws IOException {
+		return getTableRowWHeader(element.getType(), element.getLocator(), header);
 	}
 
 	/**
@@ -710,13 +1076,27 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param header
-	 *            : the full text value expected in a th cell
+	 *            - the full text value expected in a th cell
 	 * @return Integer: the row number containing the header
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int getTableRowWHeader(Locators type, String locator, String header) throws IOException {
 		return locatorAction.getTableRowWHeader(type, locator, header);
+	}
+
+	/**
+	 * get a specific column from a table
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param colNum
+	 *            - the column number of the table to obtain - note, column
+	 *            numbering starts at 1, NOT 0
+	 * @return List: a list of the table cells in the columns as WebElements
+	 * @throws IOException
+	 */
+	public List<WebElement> getTableColumn(Element element, int colNum) throws IOException {
+		return getTableColumn(element.getType(), element.getLocator(), colNum);
 	}
 
 	/**
@@ -727,11 +1107,10 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param colNum
-	 *            : the column number of the table to obtain - note, column
+	 *            - the column number of the table to obtain - note, column
 	 *            numbering starts at 1, NOT 0
 	 * @return List: a list of the table cells in the columns as WebElements
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public List<WebElement> getTableColumn(Locators type, String locator, int colNum) throws IOException {
 		return locatorAction.getTableColumn(type, locator, colNum);
@@ -740,20 +1119,36 @@ public class Action {
 	/**
 	 * get the contents of a specific cell
 	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param element
+	 *            - the element to be waited for
 	 * @param row
-	 *            : the number of the row in the table - note, row numbering
+	 *            - the number of the row in the table - note, row numbering
 	 *            starts at 1, NOT 0
 	 * @param col
-	 *            : the number of the column in the table - note, column
+	 *            - the number of the column in the table - note, column
 	 *            numbering starts at 1, NOT 0
 	 * @return WebElement: the cell element object, and all associated values
 	 *         with it
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
+	 */
+	public WebElement getTableCell(Element element, int row, int col) throws IOException {
+		return getTableCell(element.getType(), element.getLocator(), row, col);
+	}
+
+	/**
+	 * get the contents of a specific cell
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param row
+	 *            - the number of the row in the table - note, row numbering
+	 *            starts at 1, NOT 0
+	 * @param col
+	 *            - the number of the column in the table - note, column
+	 *            numbering starts at 1, NOT 0
+	 * @return WebElement: the cell element object, and all associated values
+	 *         with it
+	 * @throws IOException
 	 */
 	public WebElement getTableCell(Locators type, String locator, int row, int col) throws IOException {
 		return locatorAction.getTableCell(type, locator, row, col);
@@ -766,17 +1161,42 @@ public class Action {
 	/**
 	 * our generic selenium click functionality implemented
 	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int click(Element element) throws IOException {
+		return click(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * our generic selenium click functionality implemented
+	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int click(Locators type, String locator) throws IOException {
 		return locatorAction.click(type, locator);
+	}
+
+	/**
+	 * our generic selenium submit functionality implemented
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int submit(Element element) throws IOException {
+		return submit(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -788,16 +1208,24 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int submit(Locators type, String locator) throws IOException {
 		return locatorAction.submit(type, locator);
 	}
 
-	// ///////////////////////////////////
-	// selenium actions functionality
-	// ///////////////////////////////////
+	/**
+	 * a method to simulate the mouse hovering over an element
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int hover(Element element) throws IOException {
+		return hover(element.getType(), element.getLocator());
+	}
 
 	/**
 	 * a method to simulate the mouse hovering over an element
@@ -808,11 +1236,23 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int hover(Locators type, String locator) throws IOException {
 		return locatorAction.hover(type, locator);
+	}
+
+	/**
+	 * a custom selenium functionality to apply a blur to an element
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int blur(Element element) throws IOException {
+		return blur(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -824,11 +1264,25 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int blur(Locators type, String locator) throws IOException {
 		return locatorAction.blur(type, locator);
+	}
+
+	/**
+	 * our generic selenium type functionality implemented
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param text
+	 *            - the text to be typed in
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int type(Element element, String text) throws IOException {
+		return type(element.getType(), element.getLocator(), text);
 	}
 
 	/**
@@ -839,14 +1293,28 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param text
-	 *            : the text to be typed in
+	 *            - the text to be typed in
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int type(Locators type, String locator, String text) throws IOException {
 		return locatorAction.type(type, locator, text);
+	}
+
+	/**
+	 * our generic selenium type functionality implemented for specific keys
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param key
+	 *            - the key to be pressed
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int type(Element element, Keys key) throws IOException {
+		return type(element.getType(), element.getLocator(), key);
 	}
 
 	/**
@@ -857,14 +1325,26 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param key
-	 *            : the key to be pressed
+	 *            - the key to be pressed
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int type(Locators type, String locator, Keys key) throws IOException {
 		return locatorAction.type(type, locator, key);
+	}
+
+	/**
+	 * our generic selenium clear functionality implemented
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int clear(Element element) throws IOException {
+		return clear(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -876,11 +1356,26 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int clear(Locators type, String locator) throws IOException {
 		return locatorAction.clear(type, locator);
+	}
+
+	/**
+	 * our generic select selenium functionality
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param value
+	 *            - the select option to be selected - note, row numbering
+	 *            starts at 0
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int select(Element element, int value) throws IOException {
+		return select(element.getType(), element.getLocator(), value);
 	}
 
 	/**
@@ -891,12 +1386,11 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param value
-	 *            : the select option to be selected - note, row numbering
+	 *            - the select option to be selected - note, row numbering
 	 *            starts at 0
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int select(Locators type, String locator, int value) throws IOException {
 		String[] options = getSelectOptions(type, locator);
@@ -906,19 +1400,47 @@ public class Action {
 	/**
 	 * our generic select selenium functionality
 	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param value
+	 *            - the select option to be selected
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int select(Element element, String value) throws IOException {
+		return select(element.getType(), element.getLocator(), value);
+	}
+
+	/**
+	 * our generic select selenium functionality
+	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param value
-	 *            : the select option to be selected
+	 *            - the select option to be selected
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int select(Locators type, String locator, String value) throws IOException {
 		return locatorAction.select(type, locator, value);
+	}
+
+	/**
+	 * An extension of the basic Selenium action of 'moveToElement' This will
+	 * scroll or move the page to ensure the element is visible
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int move(Element element) throws IOException {
+		return move(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -931,11 +1453,26 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int move(Locators type, String locator) throws IOException {
 		return locatorAction.move(type, locator);
+	}
+
+	/**
+	 * An extension of the basic Selenium action of 'moveToElement' This will
+	 * scroll or move the page to ensure the element is visible
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param position
+	 *            - how many pixels above the element to scroll to
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int move(Element element, int position) throws IOException {
+		return move(element.getType(), element.getLocator(), position);
 	}
 
 	/**
@@ -950,8 +1487,7 @@ public class Action {
 	 *            - how many pixels above the element to scroll to
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int move(Locators type, String locator, int position) throws IOException {
 		return locatorAction.move(type, locator, position);
@@ -964,8 +1500,7 @@ public class Action {
 	 *            - the position on the page to scroll to
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws InvalidActionException
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public int scroll(int desiredPosition) throws IOException {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
@@ -985,6 +1520,108 @@ public class Action {
 		}
 		file.recordAction(action, expected, "Page is now set at position " + newPosition, Result.SUCCESS);
 		return 0; // indicates page scrolled properly
+	}
+
+	/**
+	 * a function to switch windows.
+	 * 
+	 * @param window
+	 *            identifier
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int switchToNewWindow() {
+		try {
+			parentWindow = driver.getWindowHandle();
+			for (String winHandle : driver.getWindowHandles()) {
+				driver.switchTo().window(winHandle);
+			}
+		} catch (Exception e) {
+			log.error(e);
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * a function to switch back to your parent window.
+	 * 
+	 * @param window
+	 *            identifier
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int switchToParentWindow() {
+		try {
+			driver.switchTo().window(parentWindow);
+		} catch (Exception e) {
+			log.error(e);
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * a function to switch tabs. note that tab numbering starts at 0
+	 * 
+	 * @param tabNumber
+	 *            - the tab number, starts at 0
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int switchTab(int tabNumber) {
+		try {
+			ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+			driver.switchTo().window(tabs.get(tabNumber));
+		} catch (Exception e) {
+			log.error(e);
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * a function to close windows. note that if this is the only window open,
+	 * you will end your session
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int closeWindow() {
+		return closeTab();
+	}
+
+	/**
+	 * a function to close tabs. note that if this is the only tab open, you
+	 * will end your session
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int closeTab() {
+		try {
+			driver.close();
+		} catch (Exception e) {
+			log.error(e);
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * some functionality to maximize the current window
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int maximizeScreen() {
+		try {
+			driver.manage().window().maximize();
+		} catch (Exception e) {
+			log.error(e);
+			return 1;
+		}
+		return 0;
 	}
 
 	/**
@@ -1183,7 +1820,7 @@ public class Action {
 	 * a method for waiting until an alert is present
 	 *
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
@@ -1274,7 +1911,7 @@ public class Action {
 	 * a method for waiting until a confirmation is present
 	 *
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
@@ -1365,7 +2002,7 @@ public class Action {
 	 * a method for waiting until a prompt is present
 	 *
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
@@ -1482,30 +2119,68 @@ public class Action {
 		return getCookie(expectedCookieName).getExpiry();
 	}
 
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
 	public boolean isSomethingSelected(Locators type, String locator) throws IOException {
 		return locatorAction.isSomethingSelected(type, locator);
 	}
+	
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Element element) throws IOException {
+		return isSomethingSelected(element.getType(), element.getLocator());
+	}
 
 	/**
-	 * get the options from the select drop down
+	 * get the option from the select drop down
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return String: the option from the select element
+	 * @throws IOException
+	 */
+	public String getSelectedText(Element element) throws IOException {
+		return getSelectedText(element.getType(), element.getLocator());
+	}
+	/**
+	 * get the option from the select drop down
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @return String[]: the options from the select element
-	 * @throws InvalidLocatorTypeException
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @return String: the option from the select element
+	 * @throws IOException
 	 */
 	public String getSelectedText(Locators type, String locator) throws IOException {
 		return locatorAction.getSelectedText(type, locator);
 	}
 
-	public String[] getSelectedTexts(Locators type, String locator) throws IOException {
-		return locatorAction.getSelectedTexts(type, locator);
+	/**
+	 * get the options from the select drop down
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return String[]: the options from the select element
+	 * @throws IOException
+	 */
+	public String[] getSelectedTexts(Element element) throws IOException {
+		return getSelectedTexts(element.getType(), element.getLocator());
 	}
-
 	/**
 	 * get the options from the select drop down
 	 *
@@ -1514,14 +2189,59 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return String[]: the options from the select element
-	 * @throws InvalidLocatorTypeException
-	 * @throws InvalidActionException
-	 *             , InvalidLocatorTypeException
+	 * @throws IOException
+	 */
+	public String[] getSelectedTexts(Locators type, String locator) throws IOException {
+		return locatorAction.getSelectedTexts(type, locator);
+	}
+
+	/**
+	 * get the option from the select drop down
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return String: the option from the select element
+	 * @throws IOException
+	 */
+	public String getSelectedValue(Element element) throws IOException {
+		return getSelectedValue(element.getType(), element.getLocator());
+	}
+	
+	/**
+	 * get the option from the select drop down
+	 *
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return String: the option from the select element
+	 * @throws IOException
 	 */
 	public String getSelectedValue(Locators type, String locator) throws IOException {
 		return locatorAction.getSelectedValue(type, locator);
 	}
 
+	/**
+	 * get the options from the select drop down
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return String[]: the options from the select element
+	 * @throws IOException
+	 */
+	public String[] getSelectedValues(Element element) throws IOException {
+		return getSelectedValues(element.getType(), element.getLocator());
+	}
+	/**
+	 * get the options from the select drop down
+	 *
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return String[]: the options from the select element
+	 * @throws IOException
+	 */
 	public String[] getSelectedValues(Locators type, String locator) throws IOException {
 		return locatorAction.getSelectedValues(type, locator);
 	}
@@ -1552,6 +2272,16 @@ public class Action {
 	/**
 	 * our generic selenium get text from an element functionality implemented
 	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return String - the text of the element
+	 */
+	public String getText(Element element) throws InvalidLocatorTypeException {
+		return getText(element.getType(), element.getLocator());
+	}
+	/**
+	 * our generic selenium get text from an element functionality implemented
+	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
@@ -1565,6 +2295,16 @@ public class Action {
 	/**
 	 * our generic selenium get value from an element functionality implemented
 	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return String - the text of the element
+	 */
+	public String getValue(Element element) throws InvalidLocatorTypeException {
+		return getValue(element.getType(), element.getLocator());
+	}
+	/**
+	 * our generic selenium get value from an element functionality implemented
+	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
@@ -1575,6 +2315,19 @@ public class Action {
 		return locatorAction.getValue(type, locator);
 	}
 
+	/**
+	 * a function to return one css attribute of the provided element
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param attribute
+	 *            - the css attribute to be returned
+	 * @return String - the value of the css attribute
+	 * @throws InvalidLocatorTypeException
+	 */
+	public String getCss(Element element, String attribute) throws InvalidLocatorTypeException {
+		return getCss(element.getType(), element.getLocator(), attribute);
+	}
 	/**
 	 * a function to return one css attribute of the provided element
 	 *
@@ -1594,6 +2347,19 @@ public class Action {
 	/**
 	 * a function to return one attribute of the provided element
 	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param attribute
+	 *            - the css attribute to be returned
+	 * @return String - the value of the css attribute
+	 * @throws InvalidLocatorTypeException
+	 */
+	public String getAttribute(Element element, String attribute) throws InvalidLocatorTypeException {
+		return getAttribute(element.getType(), element.getLocator(), attribute);
+	}
+	/**
+	 * a function to return one attribute of the provided element
+	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
@@ -1610,6 +2376,17 @@ public class Action {
 	/**
 	 * a function to return all attributes of the provided element
 	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @return String - the value of the css attribute
+	 * @throws InvalidLocatorTypeException
+	 */
+	public Map<String, String> getAllAttributes(Element element) throws InvalidLocatorTypeException {
+		return getAllAttributes(element.getType(), element.getLocator());
+	}
+	/**
+	 * a function to return all attributes of the provided element
+	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
@@ -1617,7 +2394,6 @@ public class Action {
 	 * @return String - the value of the css attribute
 	 * @throws InvalidLocatorTypeException
 	 */
-	@SuppressWarnings("unchecked")
 	public Map<String, String> getAllAttributes(Locators type, String locator) throws InvalidLocatorTypeException {
 		return locatorAction.getAllAttributes(type, locator);
 	}
@@ -1665,6 +2441,21 @@ public class Action {
 	/**
 	 * a way to execute custom javascript functions
 	 *
+	 *@param element
+	 *            - the element to be waited for
+	 * @param javascriptFunction
+	 * @throws InvalidLocatorTypeException
+	 */
+	public void getEval(Element element, String javascriptFunction) throws InvalidLocatorTypeException {
+		getEval(element.getType(), element.getLocator(), javascriptFunction);
+	}
+	/**
+	 * a way to execute custom javascript functions
+	 *
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param javascriptFunction
 	 * @throws InvalidLocatorTypeException
 	 */
