@@ -300,7 +300,7 @@ public class LocatorAction {
 			}
 		}
 		double timetook = (System.currentTimeMillis() - start) / 1000;
-		if (element.isDisplayed()) {
+		if (element.isEnabled()) {
 			file.recordAction(action, expected,
 					"After waiting " + timetook + " seconds for " + type + " " + locator + " is still enabled",
 					Result.FAILURE);
