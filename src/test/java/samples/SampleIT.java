@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
-import tools.output.Action.Locators;
+import tools.output.Selenium.Locators;
 
 public class SampleIT extends TestBase {
 

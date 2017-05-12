@@ -29,7 +29,7 @@ import selenified.exceptions.InvalidBrowserException;
 import tools.output.OutputFile;
 import tools.output.Action;
 import tools.output.Assert;
-import tools.output.Action.Browsers;
+import tools.output.Selenium.Browsers;
 
 import static org.testng.AssertJUnit.assertEquals;
 

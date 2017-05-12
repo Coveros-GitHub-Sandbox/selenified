@@ -12,8 +12,8 @@ import java.util.Date;
 import org.testng.log4testng.Logger;
 
 import tools.General;
-import tools.output.Action.Browsers;
-import tools.output.Action.Locators;
+import tools.output.Selenium.Browsers;
+import tools.output.Selenium.Locators;
 import tools.output.Assert.Result;
 import tools.output.Assert.Success;
 
