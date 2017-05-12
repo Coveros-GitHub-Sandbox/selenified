@@ -1138,8 +1138,10 @@ public class Action {
 	/**
 	 * get the contents of a specific cell
 	 *
-	 * @param element
-	 *            - the element to be waited for
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param row
 	 *            - the number of the row in the table - note, row numbering
 	 *            starts at 1, NOT 0
@@ -1525,8 +1527,6 @@ public class Action {
 	/**
 	 * a function to switch windows.
 	 * 
-	 * @param window
-	 *            identifier
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
@@ -1546,8 +1546,6 @@ public class Action {
 	/**
 	 * a function to switch back to your parent window.
 	 * 
-	 * @param window
-	 *            identifier
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
@@ -2132,7 +2130,7 @@ public class Action {
 	public boolean isSomethingSelected(Locators type, String locator) throws IOException {
 		return locatorAction.isSomethingSelected(type, locator);
 	}
-	
+
 	/**
 	 * determine if something is selected in a drop down
 	 * 
@@ -2156,6 +2154,7 @@ public class Action {
 	public String getSelectedText(Element element) throws IOException {
 		return getSelectedText(element.getType(), element.getLocator());
 	}
+
 	/**
 	 * get the option from the select drop down
 	 *
@@ -2181,6 +2180,7 @@ public class Action {
 	public String[] getSelectedTexts(Element element) throws IOException {
 		return getSelectedTexts(element.getType(), element.getLocator());
 	}
+
 	/**
 	 * get the options from the select drop down
 	 *
@@ -2206,7 +2206,7 @@ public class Action {
 	public String getSelectedValue(Element element) throws IOException {
 		return getSelectedValue(element.getType(), element.getLocator());
 	}
-	
+
 	/**
 	 * get the option from the select drop down
 	 *
@@ -2232,6 +2232,7 @@ public class Action {
 	public String[] getSelectedValues(Element element) throws IOException {
 		return getSelectedValues(element.getType(), element.getLocator());
 	}
+
 	/**
 	 * get the options from the select drop down
 	 *
@@ -2279,6 +2280,7 @@ public class Action {
 	public String getText(Element element) throws InvalidLocatorTypeException {
 		return getText(element.getType(), element.getLocator());
 	}
+
 	/**
 	 * our generic selenium get text from an element functionality implemented
 	 *
@@ -2302,6 +2304,7 @@ public class Action {
 	public String getValue(Element element) throws InvalidLocatorTypeException {
 		return getValue(element.getType(), element.getLocator());
 	}
+
 	/**
 	 * our generic selenium get value from an element functionality implemented
 	 *
@@ -2328,6 +2331,7 @@ public class Action {
 	public String getCss(Element element, String attribute) throws InvalidLocatorTypeException {
 		return getCss(element.getType(), element.getLocator(), attribute);
 	}
+
 	/**
 	 * a function to return one css attribute of the provided element
 	 *
@@ -2357,6 +2361,7 @@ public class Action {
 	public String getAttribute(Element element, String attribute) throws InvalidLocatorTypeException {
 		return getAttribute(element.getType(), element.getLocator(), attribute);
 	}
+
 	/**
 	 * a function to return one attribute of the provided element
 	 *
@@ -2384,6 +2389,7 @@ public class Action {
 	public Map<String, String> getAllAttributes(Element element) throws InvalidLocatorTypeException {
 		return getAllAttributes(element.getType(), element.getLocator());
 	}
+
 	/**
 	 * a function to return all attributes of the provided element
 	 *
@@ -2441,7 +2447,7 @@ public class Action {
 	/**
 	 * a way to execute custom javascript functions
 	 *
-	 *@param element
+	 * @param element
 	 *            - the element to be waited for
 	 * @param javascriptFunction
 	 * @throws InvalidLocatorTypeException
@@ -2449,6 +2455,7 @@ public class Action {
 	public void getEval(Element element, String javascriptFunction) throws InvalidLocatorTypeException {
 		getEval(element.getType(), element.getLocator(), javascriptFunction);
 	}
+
 	/**
 	 * a way to execute custom javascript functions
 	 *
