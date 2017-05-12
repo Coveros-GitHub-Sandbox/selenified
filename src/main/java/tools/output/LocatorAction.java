@@ -2,7 +2,6 @@ package tools.output;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +15,6 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
@@ -25,9 +22,7 @@ import selenified.exceptions.InvalidActionException;
 import selenified.exceptions.InvalidBrowserException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
-import tools.TestSetup;
 import tools.output.Assert.Result;
-import tools.output.Selenium.Browsers;
 import tools.output.Selenium.Locators;
 
 public class LocatorAction {
