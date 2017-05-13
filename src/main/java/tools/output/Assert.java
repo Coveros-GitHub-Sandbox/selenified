@@ -37,8 +37,8 @@ import java.util.regex.Pattern;
  * Test Output A custom generated output file outputFile.recording all actions taken
  *
  * @author Max Saperstone
- * @version 1.0.4
- * @lastupdate 8/29/2016
+ * @version 2.0.0
+ * @lastupdate 5/13/2017
  */
 public class Assert {
 
