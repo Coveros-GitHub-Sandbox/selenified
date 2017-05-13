@@ -29,7 +29,7 @@ import selenified.exceptions.InvalidBrowserException;
 import tools.output.OutputFile;
 import tools.output.Action;
 import tools.output.Assert;
-import tools.output.Action.Browsers;
+import tools.output.Selenium.Browsers;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -53,8 +53,8 @@ public class TestBase {
 	protected static String author = "Max Saperstone";
 
 	// some passed in system params
-	protected static List<Browsers> browsers;
-	protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
+	public static List<Browsers> browsers;
+	public static List<DesiredCapabilities> capabilities = new ArrayList<>();
 
 	// for individual tests
 	protected ThreadLocal<Browsers> browser = new ThreadLocal<>();
@@ -66,6 +66,7 @@ public class TestBase {
 	// constants
 	private static final String BROWSER_INPUT = "browser";
 	private static final String INVOCATION_COUNT = "InvocationCount";
+	private static final String ERRORS_CHECK = " errors";
 
 	/**
 	 * Initializes our test settings by setting default values for our browser
@@ -265,7 +266,7 @@ public class TestBase {
 		OutputFile myFile = this.asserts.get().getOutputFile();
 		myFile.endTestTemplateOutputFile();
 		assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
-				Integer.toString(myFile.getErrors()) + " errors");
+				Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
 	}
 	
 	/**
@@ -279,8 +280,8 @@ public class TestBase {
 	protected void finish(int errors) throws IOException {
 		OutputFile myFile = this.asserts.get().getOutputFile();
 		myFile.endTestTemplateOutputFile();
-		assertEquals("Detailed results found at: " + myFile.getFileName(), errors + " errors",
-				Integer.toString(myFile.getErrors()) + " errors");
+		assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
+				Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
 	}
 
 	public static class MasterSuiteSetupConfigurator {

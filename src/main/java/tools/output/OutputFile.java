@@ -1,3 +1,23 @@
+/*
+ * Copyright 2017 Coveros, Inc.
+ * 
+ * This file is part of Selenified.
+ * 
+ * Selenified is licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy 
+ * of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on 
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License.
+ */
+
 package tools.output;
 
 import java.io.BufferedReader;
@@ -12,11 +32,18 @@ import java.util.Date;
 import org.testng.log4testng.Logger;
 
 import tools.General;
-import tools.output.Action.Browsers;
-import tools.output.Action.Locators;
+import tools.output.Selenium.Browsers;
+import tools.output.Selenium.Locators;
 import tools.output.Assert.Result;
 import tools.output.Assert.Success;
 
+/**
+ * Test Output A custom generated output file outputFile.recording all actions taken
+ *
+ * @author Max Saperstone
+ * @version 2.0.0
+ * @lastupdate 5/13/2017
+ */
 public class OutputFile {
 
 	private static final Logger log = Logger.getLogger(General.class);
@@ -184,11 +211,6 @@ public class OutputFile {
 
 	/**
 	 * creates the directory and file to hold our test output file
-	 * 
-	 * @param directory
-	 *            - a string location of the directory to hold the results
-	 * @param fileName
-	 *            - the desired filename of the test output file
 	 */
 	public void setupFile() {
 		if (!new File(directory).exists()) {
@@ -208,8 +230,6 @@ public class OutputFile {
 	/**
 	 * A method to count the number of occurrence of a string within a file
 	 *
-	 * @param fileName
-	 *            - the string of the complete filename
 	 * @param textToFind
 	 *            - the text to count
 	 * @return Integer - the number of times the text was found in the file
@@ -233,8 +253,6 @@ public class OutputFile {
 	/**
 	 * A method to replace an occurrence of a string within a file
 	 *
-	 * @param fileName
-	 *            - the string of the complete filename
 	 * @param oldText
 	 *            - the text to be replaced
 	 * @param newText
@@ -733,7 +751,7 @@ public class OutputFile {
 	/**
 	 * add a given set of errors to our error counter
 	 *
-	 * @param errors
+	 * @param errorsToAdd
 	 *            - the number of errors to add
 	 */
 	public void addErrors(int errorsToAdd) {

@@ -38,8 +38,8 @@ public class General {
 	/**
 	 * a method to recursively retrieve all the files in a folder
 	 * 
-	 * @param folder:
-	 *            the folder to check for files
+	 * @param folder
+	 *            - the folder to check for files
 	 * @return ArrayList<String>: an ArrayList with the of multiple files
 	 * @throws IOException
 	 *             - an IOException
@@ -61,10 +61,10 @@ public class General {
 	/**
 	 * A function to right pad the input value with spaces
 	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
+	 * @param input
+	 *            - the value to be added
+	 * @param length
+	 *            - the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
 	public static String padRightSpace(String input, int length) {
@@ -74,10 +74,10 @@ public class General {
 	/**
 	 * A function to right pad the input value with zeros
 	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
+	 * @param input
+	 *            - the value to be added
+	 * @param length
+	 *            - the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
 	public static String padRightZeros(long input, int length) {
@@ -87,10 +87,10 @@ public class General {
 	/**
 	 * A function to right pad the input value with a value
 	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
+	 * @param input
+	 *            - the value to be added
+	 * @param length
+	 *            - the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
 	public static String padRight(int input, int length, String value) {
@@ -100,10 +100,10 @@ public class General {
 	/**
 	 * A function to right pad the input value with a value
 	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
+	 * @param input
+	 *            - the value to be added
+	 * @param length
+	 *            - the final desired length
 	 * @return string: the input supplied with zeros on the right
 	 */
 	public static String padRight(String input, int length, String value) {
@@ -120,10 +120,10 @@ public class General {
 	/**
 	 * A function to left pad the input value with spaces
 	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
+	 * @param input
+	 *            - the value to be added
+	 * @param length
+	 *            - the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
 	public static String padLeftSpace(String input, int length) {
@@ -133,10 +133,10 @@ public class General {
 	/**
 	 * A function to left pad the input value with zeros
 	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
+	 * @param input
+	 *            - the value to be added
+	 * @param length
+	 *            - the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
 	public static String padLeftZeros(long input, int length) {
@@ -146,10 +146,10 @@ public class General {
 	/**
 	 * A function to left pad the input value with zeros
 	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
+	 * @param input
+	 *            - the value to be added
+	 * @param length
+	 *            - the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
 	public static String padLeft(int input, int length, String value) {
@@ -159,10 +159,10 @@ public class General {
 	/**
 	 * A function to left pad the input value with zeros
 	 * 
-	 * @param input:
-	 *            the value to be added
-	 * @param length:
-	 *            the final desired length
+	 * @param input
+	 *            - the value to be added
+	 * @param length
+	 *            - the final desired length
 	 * @return string: the input supplied with zeros on the left
 	 */
 	public static String padLeft(String input, int length, String value) {
@@ -294,8 +294,8 @@ public class General {
 	 * this method will take in a long string with no spaces and change the
 	 * camel case to spaces, including ensuring the first word is capitalized
 	 * 
-	 * @param s
-	 *            our input string
+	 * @param word
+	 *            - our input string
 	 * @return our fixed string
 	 */
 	public static String wordToSentence(String word) {
@@ -313,8 +313,8 @@ public class General {
 	 * a function to capitalize the first letter of each word in the provided
 	 * string
 	 * 
-	 * @param s
-	 *            the string to be capitalized on
+	 * @param word
+	 *            - the string to be capitalized on
 	 * @return String: the new string
 	 */
 	public static String capitalizeFirstLetters(String word) {
@@ -342,10 +342,11 @@ public class General {
 	 * this method determines the unique test name, based on the parameters
 	 * passed in
 	 * 
-	 * @param methodName
-	 *            the name of the test method as a method
+	 * @param method
+	 *            - the method under test to extract the name from
 	 * @param dataProvider
-	 *            an array of objects being passed to the test as data providers
+	 *            - an array of objects being passed to the test as data
+	 *            providers
 	 * @return String: a unique name
 	 */
 	public static String getTestName(Method method, Object... dataProvider) {
@@ -357,9 +358,10 @@ public class General {
 	 * passed in
 	 * 
 	 * @param methodName
-	 *            the name of the test method as a string
+	 *            - the name of the test method as a string
 	 * @param dataProvider
-	 *            an array of objects being passed to the test as data providers
+	 *            - an array of objects being passed to the test as data
+	 *            providers
 	 * @return String: a unique name
 	 */
 	public static String getTestName(String methodName, Object... dataProvider) {
@@ -381,7 +383,7 @@ public class General {
 	 * a function that breaks up a string, and places it into a map
 	 * 
 	 * @param input
-	 *            a string, with key and values separated by '=' and pairs
+	 *            - a string, with key and values separated by '=' and pairs
 	 *            separated by '&'
 	 * @return Map: a map with values
 	 */
