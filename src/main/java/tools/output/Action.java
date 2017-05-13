@@ -34,7 +34,7 @@ import tools.TestSetup;
 import tools.output.Assert.Result;
 import tools.output.Selenium.Browsers;
 import tools.output.Selenium.Locators;
-import tools.output.Selenium.Element;
+import tools.output.Element;
 
 import java.io.File;
 import java.io.IOException;

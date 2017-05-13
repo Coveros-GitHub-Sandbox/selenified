@@ -19,30 +19,4 @@ public class Selenium {
 	public enum Browsers {
 		None, HtmlUnit, Firefox, Marionette, Chrome, InternetExplorer, Edge, Android, Ipad, Iphone, Opera, Safari, PhantomJS
 	}
-
-	public class Element {
-		private Locators type;
-		private String locator;
-
-		public Element(Locators type, String locator) {
-			this.setType(type);
-			this.setLocator(locator);
-		}
-
-		public Locators getType() {
-			return type;
-		}
-		
-		public String getLocator() {
-			return locator;
-		}
-
-		public void setType(Locators type) {
-			this.type = type;
-		}
-
-		public void setLocator(String locator) {
-			this.locator = locator;
-		}
-	}
 }
