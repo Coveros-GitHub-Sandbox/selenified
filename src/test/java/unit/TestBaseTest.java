@@ -1,9 +1,12 @@
 package unit;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.Assert;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -59,6 +62,16 @@ public class TestBaseTest extends TestBase {
 		System.clearProperty("hub");
 		System.clearProperty("proxy");
 	}
+	
+	@Override
+	public void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+		//do nothing
+	}
+	
+	@Override
+	public void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+		//do nothing
+	}
 
 	@Test
 	public void initializeSystemTest() {
@@ -67,10 +80,10 @@ public class TestBaseTest extends TestBase {
 		Assert.assertEquals( TestBase.testSite, "http://www.google.com/");
 
 		System.setProperty("browser", "Chrome");
-		System.setProperty("appURL", "www.yahoo.com");
+		System.setProperty("appURL", "http://www.yahoo.com");
 		TestBase.initializeSystem();
 		Assert.assertEquals( System.getProperty("browser"), "Chrome");
-		Assert.assertEquals( TestBase.testSite, "www.yahoo.com");
+		Assert.assertEquals( TestBase.testSite, "http://www.yahoo.com");
 	}
 	
 	@Test(expectedExceptions = InvalidBrowserException.class)

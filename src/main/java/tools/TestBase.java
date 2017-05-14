@@ -72,7 +72,7 @@ public class TestBase {
 	 * Initializes our test settings by setting default values for our browser
 	 * and URL if they are not specifically set
 	 */
-	protected static void initializeSystem() {
+	public static void initializeSystem() {
 		// check our browser
 		if (System.getProperty(BROWSER_INPUT) == null) {
 			System.setProperty(BROWSER_INPUT, Browsers.HtmlUnit.toString());
@@ -89,7 +89,7 @@ public class TestBase {
 	 * 
 	 * @throws InvalidBrowserException
 	 */
-	protected static void setupTestParameters() throws InvalidBrowserException {
+	public static void setupTestParameters() throws InvalidBrowserException {
 		browsers = TestSetup.setBrowser();
 
 		for (Browsers browser : browsers) {
@@ -108,7 +108,7 @@ public class TestBase {
 	}
 
 	@DataProvider(name = "no options", parallel = true)
-	protected Object[][] noOptions() {
+	public Object[][] noOptions() {
 		return new Object[][] { new Object[] { "" }, };
 	}
 
@@ -119,7 +119,7 @@ public class TestBase {
 	 * @throws InvalidBrowserException
 	 */
 	@BeforeSuite(alwaysRun = true)
-	protected void beforeSuite() throws InvalidBrowserException {
+	public void beforeSuite() throws InvalidBrowserException {
 		MasterSuiteSetupConfigurator.getInstance().doSetup();
 	}
 
@@ -246,7 +246,7 @@ public class TestBase {
 	 *            be kept here
 	 */
 	@AfterMethod(alwaysRun = true)
-	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+	public void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
 		String testName = General.getTestName(method, dataProvider);
 		if (this.actions.get() != null) {
 			this.actions.get().killDriver();
@@ -262,7 +262,7 @@ public class TestBase {
 	 * 
 	 * @throws IOException
 	 */
-	protected void finish() throws IOException {
+	public void finish() throws IOException {
 		OutputFile myFile = this.asserts.get().getOutputFile();
 		myFile.endTestTemplateOutputFile();
 		assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
@@ -284,7 +284,7 @@ public class TestBase {
 				Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
 	}
 
-	protected static class MasterSuiteSetupConfigurator {
+	public static class MasterSuiteSetupConfigurator {
 		private static MasterSuiteSetupConfigurator instance;
 		private boolean wasInvoked = false;
 
@@ -295,7 +295,7 @@ public class TestBase {
 		 * Runs once before any of our tests run, to parse and setup the static
 		 * passed information such as browsers, proxy, hub, etc
 		 */
-		protected static MasterSuiteSetupConfigurator getInstance() {
+		public static MasterSuiteSetupConfigurator getInstance() {
 			if (instance != null) {
 				return instance;
 			}
@@ -307,7 +307,7 @@ public class TestBase {
 		 * Runs once before any of our tests run, to parse and setup the static
 		 * passed information such as browsers, proxy, hub, etc
 		 */
-		protected void doSetup() throws InvalidBrowserException {
+		public void doSetup() throws InvalidBrowserException {
 			if (wasInvoked) {
 				return;
 			}
