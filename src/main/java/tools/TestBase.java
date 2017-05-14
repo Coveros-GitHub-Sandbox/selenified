@@ -48,13 +48,13 @@ public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
-	public static String testSite = "http://www.google.com/";
+	protected static String testSite = "http://www.google.com/";
 	protected static String version;
 	protected static String author = "Max Saperstone";
 
 	// some passed in system params
-	public static List<Browsers> browsers;
-	public static List<DesiredCapabilities> capabilities = new ArrayList<>();
+	protected static List<Browsers> browsers;
+	protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
 
 	// for individual tests
 	protected ThreadLocal<Browsers> browser = new ThreadLocal<>();

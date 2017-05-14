@@ -37,6 +37,7 @@ import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
+import org.testng.log4testng.Logger;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.EdgeDriverManager;
@@ -47,6 +48,8 @@ import selenified.exceptions.InvalidBrowserException;
 import tools.output.Selenium.Browsers;
 
 public class TestSetup {
+	
+	private static final Logger log = Logger.getLogger(General.class);
 
 	// constants
 	private static final String PROXY_INPUT = "proxy";
@@ -121,6 +124,7 @@ public class TestSetup {
 			browsers = Arrays.asList(System.getProperty(BROWSER_INPUT).split(",")).stream().map(Browsers::valueOf)
 					.collect(Collectors.toList());
 			} catch( Exception e ) {
+				log.error( e );
 				throw new InvalidBrowserException(e.getMessage());
 			}
 		} else {
