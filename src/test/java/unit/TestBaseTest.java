@@ -13,7 +13,7 @@ import selenified.exceptions.InvalidBrowserException;
 import tools.TestBase;
 import tools.output.Selenium.Browsers;
 
-public class TestBaseTest {
+public class TestBaseTest extends TestBase {
 	
 	private String setAppURL = null;
 	private String setBrowser = null;

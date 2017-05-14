@@ -48,13 +48,13 @@ public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
-	public static String testSite = "http://www.google.com/";
+	protected static String testSite = "http://www.google.com/";
 	protected static String version;
 	protected static String author = "Max Saperstone";
 
 	// some passed in system params
-	public static List<Browsers> browsers;
-	public static List<DesiredCapabilities> capabilities = new ArrayList<>();
+	protected static List<Browsers> browsers;
+	protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
 
 	// for individual tests
 	protected ThreadLocal<Browsers> browser = new ThreadLocal<>();
@@ -72,7 +72,7 @@ public class TestBase {
 	 * Initializes our test settings by setting default values for our browser
 	 * and URL if they are not specifically set
 	 */
-	public static void initializeSystem() {
+	protected static void initializeSystem() {
 		// check our browser
 		if (System.getProperty(BROWSER_INPUT) == null) {
 			System.setProperty(BROWSER_INPUT, Browsers.HtmlUnit.toString());
@@ -89,7 +89,7 @@ public class TestBase {
 	 * 
 	 * @throws InvalidBrowserException
 	 */
-	public static void setupTestParameters() throws InvalidBrowserException {
+	protected static void setupTestParameters() throws InvalidBrowserException {
 		browsers = TestSetup.setBrowser();
 
 		for (Browsers browser : browsers) {
@@ -108,7 +108,7 @@ public class TestBase {
 	}
 
 	@DataProvider(name = "no options", parallel = true)
-	public Object[][] noOptions() {
+	protected Object[][] noOptions() {
 		return new Object[][] { new Object[] { "" }, };
 	}
 
@@ -119,7 +119,7 @@ public class TestBase {
 	 * @throws InvalidBrowserException
 	 */
 	@BeforeSuite(alwaysRun = true)
-	public void beforeSuite() throws InvalidBrowserException {
+	protected void beforeSuite() throws InvalidBrowserException {
 		MasterSuiteSetupConfigurator.getInstance().doSetup();
 	}
 
@@ -246,7 +246,7 @@ public class TestBase {
 	 *            be kept here
 	 */
 	@AfterMethod(alwaysRun = true)
-	public void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+	protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
 		String testName = General.getTestName(method, dataProvider);
 		if (this.actions.get() != null) {
 			this.actions.get().killDriver();
@@ -262,7 +262,7 @@ public class TestBase {
 	 * 
 	 * @throws IOException
 	 */
-	public void finish() throws IOException {
+	protected void finish() throws IOException {
 		OutputFile myFile = this.asserts.get().getOutputFile();
 		myFile.endTestTemplateOutputFile();
 		assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
@@ -284,7 +284,7 @@ public class TestBase {
 				Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
 	}
 
-	public static class MasterSuiteSetupConfigurator {
+	protected static class MasterSuiteSetupConfigurator {
 		private static MasterSuiteSetupConfigurator instance;
 		private boolean wasInvoked = false;
 
@@ -295,7 +295,7 @@ public class TestBase {
 		 * Runs once before any of our tests run, to parse and setup the static
 		 * passed information such as browsers, proxy, hub, etc
 		 */
-		public static MasterSuiteSetupConfigurator getInstance() {
+		protected static MasterSuiteSetupConfigurator getInstance() {
 			if (instance != null) {
 				return instance;
 			}
@@ -307,7 +307,7 @@ public class TestBase {
 		 * Runs once before any of our tests run, to parse and setup the static
 		 * passed information such as browsers, proxy, hub, etc
 		 */
-		public void doSetup() throws InvalidBrowserException {
+		protected void doSetup() throws InvalidBrowserException {
 			if (wasInvoked) {
 				return;
 			}
