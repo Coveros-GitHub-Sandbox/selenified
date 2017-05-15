@@ -251,6 +251,11 @@ Once that completes, run the following command to execute the tests:
 ```
 mvn verify -Dtest-suite=../acceptance.xml -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
 ```
+To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
+additional parameter, failsafe.groups with the desired group to test
+```
+mvn verify -Dfailsafe.groups=smoke
+```
 #### Gradle
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
 command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:

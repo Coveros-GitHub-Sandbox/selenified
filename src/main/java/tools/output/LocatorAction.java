@@ -45,6 +45,15 @@ import tools.General;
 import tools.output.Assert.Result;
 import tools.output.Selenium.Locators;
 
+/**
+ * Selenium Webdriver Before each action is performed a screenshot is taken
+ * After each check is performed a screenshot is taken These are all placed into
+ * the output file
+ *
+ * @author Max Saperstone
+ * @version 2.0.0
+ * @lastupdate 5/13/2017
+ */
 public class LocatorAction {
 
 	private static final Logger log = Logger.getLogger(General.class);
