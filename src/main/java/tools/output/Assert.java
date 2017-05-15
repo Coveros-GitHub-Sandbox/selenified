@@ -875,8 +875,10 @@ public class Assert {
 	/**
 	 * checks to see if an option is available to be selected on the page
 	 *
-	 * @param element
-	 *            - the element to be waited for
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param option
 	 *            the option expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
@@ -892,10 +894,8 @@ public class Assert {
 	/**
 	 * checks to see if an option is not available to be selected on the page
 	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param element
+	 *            - the element to be waited for
 	 * @param option
 	 *            the option not expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
@@ -908,8 +908,10 @@ public class Assert {
 	/**
 	 * checks to see if an option is not available to be selected on the page
 	 *
-	 * @param element
-	 *            - the element to be waited for
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param option
 	 *            the option not expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
