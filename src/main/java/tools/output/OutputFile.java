@@ -38,7 +38,8 @@ import tools.output.Assert.Result;
 import tools.output.Assert.Success;
 
 /**
- * Test Output A custom generated output file outputFile.recording all actions taken
+ * Test Output A custom generated output file outputFile.recording all actions
+ * taken
  *
  * @author Max Saperstone
  * @version 2.0.0
@@ -316,7 +317,7 @@ public class OutputFile {
 		if (result == Result.SUCCESS) {
 			success = "Pass";
 		}
-		if ("Fail".equals(success) && browser != Browsers.HtmlUnit) {
+		if ("Fail".equals(success) && browser != Browsers.HTMLUNIT) {
 			// get a screen shot of our action
 			imageLink = captureEntirePageScreenshot();
 		}
@@ -357,7 +358,7 @@ public class OutputFile {
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
 			// get a screen shot of our action
 			String imageLink = "";
-			if (browser != Browsers.HtmlUnit) {
+			if (browser != Browsers.HTMLUNIT) {
 				imageLink = captureEntirePageScreenshot();
 			}
 			// determine time differences
@@ -609,8 +610,8 @@ public class OutputFile {
 
 		if (action != null) {
 			action.getDriver().get(url);
-			Result result = action.isElementPresent(Locators.xpath, "//body", false) ? Result.SUCCESS : Result.FAILURE;
-			String actual = action.isElementPresent(Locators.xpath, "//body", false)
+			Result result = action.isElementPresent(Locators.XPATH, "//body", false) ? Result.SUCCESS : Result.FAILURE;
+			String actual = action.isElementPresent(Locators.XPATH, "//body", false)
 					? startingPage + url + "</i> loaded successfully"
 					: startingPage + url + "</i> did not load successfully";
 			recordAction("Opening new browser and loading up starting page",
@@ -632,7 +633,7 @@ public class OutputFile {
 	 */
 	public void endTestTemplateOutputFile() throws IOException {
 		// reopen the file
-		try (FileWriter fw = new FileWriter(file,true); BufferedWriter out = new BufferedWriter(fw);) {
+		try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
 			out.write("  </table>\n");
 			out.write(" </body>\n");
 			out.write("</html>\n");

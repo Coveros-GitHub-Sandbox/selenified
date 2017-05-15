@@ -29,9 +29,9 @@ public class OutputFileTest {
 
 	@BeforeMethod
 	public void createFile() {
-		outputFile = new OutputFile("directory", "file", Browsers.Android);
+		outputFile = new OutputFile("directory", "file", Browsers.ANDROID);
 		directory = new File("directory");
-		file = new File("directory", "fileAndroid.html");
+		file = new File("directory", "fileANDROID.html");
 	}
 
 	@AfterMethod
@@ -47,7 +47,7 @@ public class OutputFileTest {
 		Assert.assertTrue(file.exists());
 
 		// do it again, ensure nothing breaks when it already exists
-		outputFile = new OutputFile("directory", "file", Browsers.Android);
+		outputFile = new OutputFile("directory", "file", Browsers.ANDROID);
 		Assert.assertEquals(file.length(), 0);
 		Assert.assertTrue(directory.exists());
 		Assert.assertTrue(file.exists());
@@ -55,7 +55,7 @@ public class OutputFileTest {
 
 	@Test
 	public void fileNameTest() {
-		Assert.assertEquals(outputFile.getFileName(), "fileAndroid.html");
+		Assert.assertEquals(outputFile.getFileName(), "fileANDROID.html");
 	}
 
 	@Test

@@ -49,7 +49,7 @@ import java.util.*;
  *
  * @author Max Saperstone
  * @version 2.0.0
- * @lastupdate 5/13/2017
+ * @lastupdate 5/15/2017
  */
 public class Action {
 
@@ -76,7 +76,7 @@ public class Action {
 	private static final String UPTO = "Wait up to ";
 	private static final String AFTER = "After waiting ";
 	private static final String ALERT = "An alert is present";
-	
+
 	/**
 	 * our constructor, determining which browser use and how to run the
 	 * browser: either grid or standalone
@@ -882,7 +882,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 */
 	public void takeScreenshot(String imageName) throws InvalidActionException {
-		if (browser == Browsers.HtmlUnit) {
+		if (browser == Browsers.HTMLUNIT) {
 			return;
 		}
 		try {
@@ -1846,13 +1846,11 @@ public class Action {
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		if (!isAlertPresent(false)) {
-			file.recordAction(action, expected, AFTER + timetook + " seconds, an alert is not present",
-					Result.FAILURE);
+			file.recordAction(action, expected, AFTER + timetook + " seconds, an alert is not present", Result.FAILURE);
 			file.addError();
 			return 1;
 		}
-		file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present",
-				Result.SUCCESS);
+		file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present", Result.SUCCESS);
 		return 0;
 	}
 
@@ -2028,13 +2026,11 @@ public class Action {
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		if (!isPromptPresent(false)) {
-			file.recordAction(action, expected, AFTER + timetook + " seconds, a prompt is not present",
-					Result.FAILURE);
+			file.recordAction(action, expected, AFTER + timetook + " seconds, a prompt is not present", Result.FAILURE);
 			file.addError();
 			return 1;
 		}
-		file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present",
-				Result.SUCCESS);
+		file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present", Result.SUCCESS);
 		return 0;
 	}
 

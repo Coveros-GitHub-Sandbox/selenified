@@ -76,7 +76,7 @@ public class TestBaseTest extends TestBase {
 	@Test
 	public void initializeSystemTest() {
 		TestBase.initializeSystem();
-		Assert.assertEquals( System.getProperty("browser"), "HtmlUnit");
+		Assert.assertEquals( System.getProperty("browser"), "HTMLUNIT");
 		Assert.assertEquals( TestBase.testSite, "http://www.google.com/");
 
 		System.setProperty("browser", "Chrome");
@@ -95,8 +95,8 @@ public class TestBaseTest extends TestBase {
 	@Test
 	public void setupTestParametersSingleBrowserTest() throws InvalidBrowserException {
 		List<Browsers> expectedBrowsers = new ArrayList<Browsers>();
-		expectedBrowsers.add(Browsers.Chrome);
-		System.setProperty("browser", "Chrome");
+		expectedBrowsers.add(Browsers.CHROME);
+		System.setProperty("browser", "CHROME");
 		
 		TestBase.setupTestParameters();
 		Assert.assertEquals( TestBase.browsers, expectedBrowsers);
@@ -105,9 +105,9 @@ public class TestBaseTest extends TestBase {
 	@Test
 	public void setupTestParametersMultipleBrowserTest() throws InvalidBrowserException {
 		List<Browsers> expectedBrowsers = new ArrayList<Browsers>();
-		expectedBrowsers.add(Browsers.Chrome);
-		expectedBrowsers.add(Browsers.Edge);
-		System.setProperty("browser", "Chrome,Edge");
+		expectedBrowsers.add(Browsers.CHROME);
+		expectedBrowsers.add(Browsers.EDGE);
+		System.setProperty("browser", "CHROME,EDGE");
 		
 		TestBase.setupTestParameters();
 		Assert.assertEquals( TestBase.browsers, expectedBrowsers);

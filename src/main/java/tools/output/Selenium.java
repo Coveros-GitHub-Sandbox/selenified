@@ -28,7 +28,7 @@ public class Selenium {
 	 * tagname
 	 */
 	public enum Locators {
-		xpath, id, name, classname, paritallinktext, linktext, tagname
+		XPATH, ID, NAME, CLASSNAME, PARTIALLINKTEXT, LINKTEXT, TAGNAME
 	}
 
 	/**
@@ -37,6 +37,7 @@ public class Selenium {
 	 * locally - not on grid), Iphone (only locally, not on grid, Opera, Safari
 	 */
 	public enum Browsers {
-		None, HtmlUnit, Firefox, Marionette, Chrome, InternetExplorer, Edge, Android, Ipad, Iphone, Opera, Safari, PhantomJS
+		NONE, HTMLUNIT, FIREFOX, MARIONETTE, CHROME, INTERNETEXPLORER, 
+		EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS
 	}
 }

@@ -48,7 +48,7 @@ import selenified.exceptions.InvalidBrowserException;
 import tools.output.Selenium.Browsers;
 
 public class TestSetup {
-	
+
 	private static final Logger log = Logger.getLogger(General.class);
 
 	// constants
@@ -109,7 +109,7 @@ public class TestSetup {
 	 * list
 	 * 
 	 * @return List: a list of all browsers
-	 * @throws InvalidBrowserException 
+	 * @throws InvalidBrowserException
 	 */
 	public static List<Browsers> setBrowser() throws InvalidBrowserException {
 		List<Browsers> browsers = new ArrayList<>();
@@ -121,10 +121,10 @@ public class TestSetup {
 		// are we looking for all details or not
 		if (!areBrowserDetailsSet()) {
 			try {
-			browsers = Arrays.asList(System.getProperty(BROWSER_INPUT).split(",")).stream().map(Browsers::valueOf)
-					.collect(Collectors.toList());
-			} catch( Exception e ) {
-				log.error( e );
+				browsers = Arrays.asList(System.getProperty(BROWSER_INPUT).split(",")).stream().map(Browsers::valueOf)
+						.collect(Collectors.toList());
+			} catch (Exception e) {
+				log.error(e);
 				throw new InvalidBrowserException(e.getMessage());
 			}
 		} else {
@@ -179,40 +179,40 @@ public class TestSetup {
 	 */
 	public void setupBrowserCapability(Browsers browser) throws InvalidBrowserException {
 		switch (browser) { // check our browser
-		case HtmlUnit:
+		case HTMLUNIT:
 			capabilities = DesiredCapabilities.htmlUnitWithJs();
 			break;
-		case Firefox:
+		case FIREFOX:
 			capabilities = DesiredCapabilities.firefox();
 			break;
-		case Marionette:
+		case MARIONETTE:
 			setMarionetteCapability();
 			break;
-		case Chrome:
+		case CHROME:
 			capabilities = DesiredCapabilities.chrome();
 			break;
-		case InternetExplorer:
+		case INTERNETEXPLORER:
 			capabilities = DesiredCapabilities.internetExplorer();
 			break;
-		case Edge:
+		case EDGE:
 			capabilities = DesiredCapabilities.edge();
 			break;
-		case Android:
+		case ANDROID:
 			capabilities = DesiredCapabilities.android();
 			break;
-		case Iphone:
+		case IPHONE:
 			capabilities = DesiredCapabilities.iphone();
 			break;
-		case Ipad:
+		case IPAD:
 			capabilities = DesiredCapabilities.ipad();
 			break;
-		case Safari:
+		case SAFARI:
 			capabilities = DesiredCapabilities.safari();
 			break;
-		case Opera:
+		case OPERA:
 			capabilities = DesiredCapabilities.operaBlink();
 			break;
-		case PhantomJS:
+		case PHANTOMJS:
 			capabilities = DesiredCapabilities.phantomjs();
 			break;
 		// if our browser is not listed, throw an error
@@ -246,33 +246,33 @@ public class TestSetup {
 		WebDriver driver;
 		// check our browser
 		switch (browser) {
-		case HtmlUnit:
+		case HTMLUNIT:
 			driver = new CustomHtmlUnitDriver(capabilities);
 			break;
-		case Firefox:
+		case FIREFOX:
 			FirefoxDriverManager.getInstance().forceCache().setup();
 			driver = new FirefoxDriver(capabilities);
 			break;
-		case Marionette:
+		case MARIONETTE:
 			FirefoxDriverManager.getInstance().forceCache().setup();
 			driver = new MarionetteDriver(capabilities);
 			break;
-		case Chrome:
+		case CHROME:
 			ChromeDriverManager.getInstance().forceCache().setup();
 			driver = new ChromeDriver(capabilities);
 			break;
-		case InternetExplorer:
+		case INTERNETEXPLORER:
 			InternetExplorerDriverManager.getInstance().forceCache().setup();
 			driver = new InternetExplorerDriver(capabilities);
 			break;
-		case Edge:
+		case EDGE:
 			EdgeDriverManager.getInstance().forceCache().setup();
 			driver = new EdgeDriver(capabilities);
 			break;
-		case Safari:
+		case SAFARI:
 			driver = new SafariDriver(capabilities);
 			break;
-		case Opera:
+		case OPERA:
 			OperaDriverManager.getInstance().forceCache().setup();
 			driver = new OperaDriver(capabilities);
 			break;

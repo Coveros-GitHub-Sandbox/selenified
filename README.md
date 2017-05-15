@@ -97,6 +97,40 @@ SampleIT.java class in the framework.
 
 If you are defining your dataProvider parameters, be sure to include the variables defined in your declaring method.
 
+
+####POM
+Selenified supports allowing tests to be written following the Page Object Model (POM). In addition to ensuring your 
+test workflows are appropriately structured, in order to ensure the POM is followed, when creating classes for each
+of your pages, use the provided `Element` object. After creating an `Element` object for each element you want to 
+interact with, these objects can be passed directly to the Action and Assert methods interacting with the page.
+This means instead of having an action looking like
+```java
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
+	public void sampleTestWaitForElementPresent() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.waitForElementPresent(Locators.name, "car_list");
+		// verify no issues
+		finish();
+	}
+```
+It could instead look like this
+```java
+    Element carList = new Element( Locators.name, "car_list");
+```
+```java
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
+	public void sampleTestWaitForElementPresent() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.waitForElementPresent(carList);
+		// verify no issues
+		finish();
+	}
+```
+
 ###Update testng build file
 When tests are executed from the commandline, the build file dictates which tests to execute. When a new package, 
 class or method is added to the test suite, they need to be included in the XML file if you want them to run. 

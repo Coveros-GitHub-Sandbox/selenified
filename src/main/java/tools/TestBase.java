@@ -75,7 +75,7 @@ public class TestBase {
 	public static void initializeSystem() {
 		// check our browser
 		if (System.getProperty(BROWSER_INPUT) == null) {
-			System.setProperty(BROWSER_INPUT, Browsers.HtmlUnit.toString());
+			System.setProperty(BROWSER_INPUT, Browsers.HTMLUNIT.toString());
 		}
 		// check to see if we are passing in a site address
 		if (System.getProperty("appURL") != null) {
@@ -268,13 +268,14 @@ public class TestBase {
 		assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
 				Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
 	}
-	
+
 	/**
 	 * to conclude each test, run this finish command. it will close out the
 	 * output logging file, and count any errors that were encountered during
 	 * the test, and verify that the number of errors indicated occurred
 	 * 
-	 * @param errors - number of expected errors from the test
+	 * @param errors
+	 *            - number of expected errors from the test
 	 * @throws IOException
 	 */
 	protected void finish(int errors) throws IOException {

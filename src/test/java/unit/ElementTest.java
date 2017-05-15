@@ -10,16 +10,16 @@ public class ElementTest {
 	
 	@Test
 	public void checkElementTypeTest() {
-		Element element = new Element(Locators.id, "myId" );
-		Assert.assertEquals(element.getType(), Locators.id);
+		Element element = new Element(Locators.ID, "myId" );
+		Assert.assertEquals(element.getType(), Locators.ID);
 		
-		element.setType(Locators.name);
-		Assert.assertEquals(element.getType(), Locators.name);
+		element.setType(Locators.NAME);
+		Assert.assertEquals(element.getType(), Locators.NAME);
 	}
 	
 	@Test
 	public void checkElementLocatorTest() {
-		Element element = new Element(Locators.id, "myId" );
+		Element element = new Element(Locators.ID, "myId" );
 		Assert.assertEquals(element.getLocator(), "myId");
 		
 		element.setLocator("newId");
