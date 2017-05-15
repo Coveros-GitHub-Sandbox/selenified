@@ -1,12 +1,12 @@
 # Selenified Testing Framework
 
 ## Writing Tests
-###Create A New Test Suite
+### Create A New Test Suite
 Tests should be organized into suites. To create a new test suite, simply create a folder, 
 or nested set of folders within the src directory. Within each folder, then create one or 
 more Java classes. Name the class something descriptive following the test suites purposes.
 
-###Structuring the Test Suite
+### Structuring the Test Suite
 Have each class extend the TestBase class which is contained within the 
 selenified.jar. Each suite can optionally contain a method setting up some details to 
 be used in each test. The URL the selenium tests should connect to (which can be overridden), 
@@ -43,7 +43,7 @@ If a suite has multiple tests that will be running using similar tests, consider
 specific methods to run these tests. This will reduce the amount of code being written, and make updates 
 quicker and cleaner.
 
-###Write the Tests
+### Write the Tests
 Adding a new test, is simply adding a new method to an existing test suite (class). Each method should be 
 named something descriptive following the tests functionality. Each method should have a public modifier and 
 have a void return type. Additionally, each method should be prepared to catch an IOException, resulting from 
@@ -98,7 +98,7 @@ SampleIT.java class in the framework.
 If you are defining your dataProvider parameters, be sure to include the variables defined in your declaring method.
 
 
-####POM
+#### POM
 Selenified supports allowing tests to be written following the Page Object Model (POM). In addition to ensuring your 
 test workflows are appropriately structured, in order to ensure the POM is followed, when creating classes for each
 of your pages, use the provided `Element` object. After creating an `Element` object for each element you want to 
@@ -131,7 +131,7 @@ It could instead look like this
 	}
 ```
 
-###Update testng build file
+### Update testng build file
 When tests are executed from the commandline, the build file dictates which tests to execute. When a new package, 
 class or method is added to the test suite, they need to be included in the XML file if you want them to run. 
 More details on how to update this file can be found on the 
