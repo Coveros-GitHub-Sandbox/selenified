@@ -4,7 +4,9 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
+import java.util.List;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -67,7 +69,7 @@ public class SampleIT extends TestBase {
     public void sampleTestGoToURL() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-     // use this object to verify our page looks as expected
+        // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.goToURL("https://www.google.com/");
@@ -80,7 +82,7 @@ public class SampleIT extends TestBase {
     public void sampleTestNegativeGoToURL() throws Exception {
         // use this object to manipulate our page
         Action actions = this.actions.get();
-     // use this object to verify our page looks as expected
+        // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.goToURL("https://www.yahoo.com/");
@@ -209,9 +211,9 @@ public class SampleIT extends TestBase {
         finish(1);
     }
     
-    @Test(groups = { "sample1", "virtual" }, description = "A sample test to check the getNumOfSelectOptions method")
+    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfSelectOptions method")
     public void sampleGetNumOfSelectOptionsTest() throws Exception {
-        // use this object to manipulate our page
+        // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.compareNumOfSelectOptions(Locators.name, "car_list", 4);
@@ -219,9 +221,9 @@ public class SampleIT extends TestBase {
         finish();
     }
     
-    @Test(groups = { "sample1", "virtual" }, description = "A sample negative test to check the getNumOfSelectOptions method")
+    @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getNumOfSelectOptions method")
     public void sampleNegativeGetNumOfSelectOptionsTest() throws Exception {
-        // use this object to manipulate our page
+        // use this object to verify our page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.compareNumOfSelectOptions(Locators.name, "car_list", 0);
@@ -231,93 +233,75 @@ public class SampleIT extends TestBase {
     
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getSelectOptions method")
     public void sampleGetSelectOptionsTest() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        assertTrue(Arrays.equals(actions.getSelectOptions(Locators.name, "car_list"),new String[]{"volvo", "saab", "mercedes", "audi"}));
-        // verify no issues
-        finish();
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getTableRows method")
-    public void sampleGetTableRows() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
-        // perform some actions
-        assertEquals(actions.getTableRows(Locators.id, "table").size(), 7);
-        // verify no issues
-        finish();
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getTableRows method")
-    public void sampleNegativeGetTableRows() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
-        // perform some actions
-        assertNotEquals(actions.getTableRows(Locators.id, "table").size(), 0);
+        asserts.compareSelectValues(Locators.name, "car_list", new String[]{"volvo", "saab", "mercedes", "audi"});
         // verify no issues
         finish();
     }
     
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfTableRows method")
     public void sampleGetNumOfTableRows() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        assertEquals(actions.getNumOfTableRows(Locators.id, "table"), 7);
+        asserts.compareNumOfTableRows(Locators.id, "table", 7);
         // verify no issues
         finish();
     }
     
     @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getNumOfTableRows method")
     public void sampleNegativeGetNumOfTableRows() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        assertNotEquals(actions.getNumOfTableRows(Locators.id, "table"), 0);
+        asserts.compareNumOfTableRows(Locators.id, "table", 0);
         // verify no issues
-        finish();
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getTableColumns method")
-    public void sampleGetTableColumns() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
-        // perform some actions
-        assertEquals(actions.getTableColumns(Locators.id, "table").size(), 3);
-        // verify no issues
-        finish();
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getTableColumns method")
-    public void sampleNegativeGetTableColumns() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
-        // perform some actions
-        assertNotEquals(actions.getTableColumns(Locators.id, "table").size(), 0);
-        // verify no issues
-        finish();
+        finish(1);
     }
     
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfTableColumns method")
     public void sampleGetNumOfTableColumns() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        assertEquals(actions.getNumOfTableColumns(Locators.id, "table"), 3);
+        asserts.compareNumOfTableColumns(Locators.id, "table", 4);
         // verify no issues
         finish();
     }
     
     @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getNumOfTableColumns method")
     public void sampleNegativeGetNumOfTableColumns() throws Exception {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
         // perform some actions
-        assertNotEquals(actions.getNumOfTableColumns(Locators.id, "table"), 0);
+        asserts.compareNumOfTableColumns(Locators.id, "table", 0);
+        // verify no issues
+        finish(1);
+    }
+    
+    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getTableRowWHeader method")
+    public void sampleGetTableRowWHeader() throws Exception {
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareRowWHeader(Locators.id, "table", "CEO", 3);
         // verify no issues
         finish();
     }
+    
+    @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getTableRowWHeader method")
+    public void sampleNegativeGetTableRowWHeader() throws Exception {
+        // use this object to verify our page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareRowWHeader(Locators.id, "table", "CEO", 0);
+        // verify no issues
+        finish(1);
+    }
+    
+    
     
     @Test(groups = { "sample" }, description = "A sample test to check the scroll method")
     public void sampleScrollTest() throws Exception {
