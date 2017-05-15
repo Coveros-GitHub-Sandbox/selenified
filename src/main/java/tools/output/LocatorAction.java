@@ -21,7 +21,6 @@
 package tools.output;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,12 +38,20 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
 import selenified.exceptions.InvalidActionException;
-import selenified.exceptions.InvalidBrowserException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
 import tools.output.Assert.Result;
 import tools.output.Selenium.Locators;
 
+/**
+ * Selenium Webdriver Before each action is performed a screenshot is taken
+ * After each check is performed a screenshot is taken These are all placed into
+ * the output file
+ *
+ * @author Max Saperstone
+ * @version 2.0.0
+ * @lastupdate 5/13/2017
+ */
 public class LocatorAction {
 
 	private static final Logger log = Logger.getLogger(General.class);
@@ -65,10 +72,8 @@ public class LocatorAction {
 	 * @param file
 	 *            - the TestOutput file. This is provided by the
 	 *            SeleniumTestBase functionality
-	 * @throws InvalidBrowserException
-	 * @throws MalformedURLException
 	 */
-	public LocatorAction(WebDriver driver, OutputFile file) throws InvalidBrowserException, MalformedURLException {
+	public LocatorAction(WebDriver driver, OutputFile file) {
 		this.driver = driver;
 		this.file = file;
 	}
@@ -707,10 +712,7 @@ public class LocatorAction {
 		if ("input".equalsIgnoreCase(element.getTagName()) && element.isSelected()) {
 			return true;
 		}
-		if ("select".equalsIgnoreCase(element.getTagName()) && getSelectedValues(type, locator).length > 0) {
-			return true;
-		}
-		return false;
+		return ("select".equalsIgnoreCase(element.getTagName()) && getSelectedValues(type, locator).length > 0);
 	}
 
 	/**
