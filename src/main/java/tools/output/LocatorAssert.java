@@ -1183,4 +1183,71 @@ public class LocatorAssert {
 				Success.PASS);
 		return 0;
 	}
+	/**
+     * compares the number of expected attributes 
+     * from a select value with the actual
+     * number of attributes from the element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param numOfOptions
+     *            the expected number of options in the select element
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfSelectOptions(Locators type, String locator, int numOfOptions) throws IOException {
+        // outputFile.record our action
+        int errors = 0;
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+                + "</i> with number of select values equal to <b>" + numOfOptions + "</b>");
+        // check for our object to the present on the page
+        String[] elementValues = null;
+        boolean isPresent = action.isElementPresent(type, locator);
+        boolean isInput = false;
+        boolean isElementEnabled = false;
+        if (isPresent) {
+            isInput = action.isElementInput(type, locator);
+        }
+        if (!isPresent) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+                    Success.FAIL);
+
+            return 1;
+        }
+        if (isInput) {
+            isElementEnabled = action.isElementEnabled(type, locator);
+        }
+        if (!isInput) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+                    Success.FAIL);
+
+            return 1;
+        }
+        if (isElementEnabled) {
+            elementValues = action.getSelectOptions(type, locator);
+        }
+        if (!isElementEnabled) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+                    Success.FAIL);
+
+            return 1;
+        }
+        if (elementValues.length != numOfOptions) {
+            outputFile.recordActual(
+                    "The element  with " + type + " <i>" + locator
+                            + "</i> does not have the number of select options of <b>" + numOfOptions + "</b>",
+                    Success.FAIL);
+
+            errors++;
+        }
+        if (errors > 0) {
+            return errors;
+        }
+        outputFile.recordActual("The element  with " + type + " <i>" + locator
+                + "</i> has the number of select options <b>" + numOfOptions + "</b>", Success.PASS);
+        return 0;
+    }
+	
 }

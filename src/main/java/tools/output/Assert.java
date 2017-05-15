@@ -1391,6 +1391,40 @@ public class Assert {
 		return errors;
 
 	}
+	/**
+     * compares the expected attributes from a select value with the actual
+     * attributes from the element
+     *
+     * @param element
+     *            - the element to be waited for
+     * @param numOfOptions
+     *            the expected number of options in the select element
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfSelectOptions(Element element, int numOfOptions) throws IOException {
+        return compareNumOfSelectOptions(element.getType(), element.getLocator(), numOfOptions);
+    }
+
+    /**
+     * compares the expected attributes from a select value with the actual
+     * attributes from the element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param numOfOptions
+     *            the expected number of options in the select element
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfSelectOptions(Locators type, String locator, int numOfOptions) throws IOException {
+        int errors = locatorAssert.compareNumOfSelectOptions(type, locator, numOfOptions);
+        outputFile.addErrors(errors);
+        return errors;
+
+    }
 
 	///////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////

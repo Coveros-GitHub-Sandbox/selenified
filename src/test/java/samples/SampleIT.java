@@ -209,24 +209,24 @@ public class SampleIT extends TestBase {
         finish(1);
     }
     
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfSelectOptions method")
+    @Test(groups = { "sample1", "virtual" }, description = "A sample test to check the getNumOfSelectOptions method")
     public void sampleGetNumOfSelectOptionsTest() throws Exception {
         // use this object to manipulate our page
-        Action actions = this.actions.get();
+        Assert asserts = this.asserts.get();
         // perform some actions
-        assertEquals(actions.getNumOfSelectOptions(Locators.name, "car_list"), 4);
+        asserts.compareNumOfSelectOptions(Locators.name, "car_list", 4);
         // verify no issues
         finish();
     }
     
-    @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getNumOfSelectOptions method")
+    @Test(groups = { "sample1", "virtual" }, description = "A sample negative test to check the getNumOfSelectOptions method")
     public void sampleNegativeGetNumOfSelectOptionsTest() throws Exception {
         // use this object to manipulate our page
-        Action actions = this.actions.get();
+        Assert asserts = this.asserts.get();
         // perform some actions
-        assertNotEquals(actions.getNumOfSelectOptions(Locators.name, "car_list"), 0);
+        asserts.compareNumOfSelectOptions(Locators.name, "car_list", 0);
         // verify no issues
-        finish();
+        finish(1);
     }
     
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the getSelectOptions method")
