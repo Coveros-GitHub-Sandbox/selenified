@@ -716,10 +716,7 @@ public class LocatorAction {
 		if ("input".equalsIgnoreCase(element.getTagName()) && element.isSelected()) {
 			return true;
 		}
-		if ("select".equalsIgnoreCase(element.getTagName()) && getSelectedValues(type, locator).length > 0) {
-			return true;
-		}
-		return false;
+		return ("select".equalsIgnoreCase(element.getTagName()) && getSelectedValues(type, locator).length > 0);
 	}
 
 	/**
