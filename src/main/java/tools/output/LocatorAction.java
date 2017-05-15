@@ -21,7 +21,6 @@
 package tools.output;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +38,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
 import selenified.exceptions.InvalidActionException;
-import selenified.exceptions.InvalidBrowserException;
 import selenified.exceptions.InvalidLocatorTypeException;
 import tools.General;
 import tools.output.Assert.Result;
@@ -74,10 +72,8 @@ public class LocatorAction {
 	 * @param file
 	 *            - the TestOutput file. This is provided by the
 	 *            SeleniumTestBase functionality
-	 * @throws InvalidBrowserException
-	 * @throws MalformedURLException
 	 */
-	public LocatorAction(WebDriver driver, OutputFile file) throws InvalidBrowserException, MalformedURLException {
+	public LocatorAction(WebDriver driver, OutputFile file) {
 		this.driver = driver;
 		this.file = file;
 	}
