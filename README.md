@@ -72,7 +72,7 @@ provided will outline each piece of functionality. Tests can be built directly f
 into a test, or alternatively to create an overall stronger set of tests, a separate class or classes can be created 
 to form workflows using these actions. Test steps can then reference calls to workflows, instead of direct actions.
 
-You should end each test case performing a verification of your actions. The `assert` object is automatically created
+You should end each test case performing a verification of your actions. The `Assert` object is automatically created
 for any and all selenium verifications.
 
 ```java
