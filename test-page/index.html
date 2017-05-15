@@ -1,7 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script type="text/javascript" src="myscript.js"></script>
+  <script type="text/javascript">
+    window.onload = function() {
+      var enable_button = document.getElementById("enable_button");
+      var scroll_button = document.getElementById("scroll_button");
+      var clickBtn = document.getElementsByClassName('click')[0];
+
+      // Disable the button on initial page load
+      enable_button.disabled = true;
+
+      //add event listener
+      clickBtn.addEventListener('click', function(event) {
+        enable_button.disabled = !enable_button.disabled;
+      });
+
+      enable_button.addEventListener('click', function(event) {
+        alert('Enabled!');
+      });
+
+      scroll_button.addEventListener('click', function(event) {
+        document.documentElement.style["height"] = "5000px";
+      });
+    };
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <title>Selenified Test Page</title>
 </head>
@@ -91,4 +113,3 @@ tr:nth-child(even) {
 
 </body>
 </html>
-
