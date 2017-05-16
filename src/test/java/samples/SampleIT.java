@@ -293,7 +293,7 @@ public class SampleIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		assertEquals(actions.getTableColumns(Locators.ID, "table").size(), 3);
+		assertEquals(actions.getTableColumns(Locators.ID, "table").size(), 4);
 		// verify no issues
 		finish();
 	}
@@ -313,7 +313,7 @@ public class SampleIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		assertEquals(actions.getNumOfTableColumns(Locators.ID, "table"), 3);
+		assertEquals(actions.getNumOfTableColumns(Locators.ID, "table"), 4);
 		// verify no issues
 		finish();
 	}
