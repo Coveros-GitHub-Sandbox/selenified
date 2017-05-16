@@ -669,7 +669,7 @@ public class SampleIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample" }, description = "A sample test to check the checkElementEditable method")
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementEditable method")
 	public void sampleCheckElementEditable() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -690,7 +690,7 @@ public class SampleIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the scroll method")
+	@Test(groups = { "sample" }, description = "A sample test to check the scroll method")
 	public void sampleScrollTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
