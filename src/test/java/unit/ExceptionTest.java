@@ -13,10 +13,10 @@ public class ExceptionTest {
 	@Test
 	public void invalidBrowserExceptionTest() {
 		try {
-			TestSetup.setupDriver(Browsers.Android, new DesiredCapabilities() );
+			TestSetup.setupDriver(Browsers.ANDROID, new DesiredCapabilities() );
 			Assert.fail("Expected an InvalidBrowserException");
 		} catch (InvalidBrowserException e) {
-			Assert.assertEquals(e.getMessage(), "The selected browser Android is not an applicable choice");
+			Assert.assertEquals(e.getMessage(), "The selected browser ANDROID is not an applicable choice");
 		}
 	}
 }

@@ -49,7 +49,7 @@ import java.util.*;
  *
  * @author Max Saperstone
  * @version 2.0.0
- * @lastupdate 5/13/2017
+ * @lastupdate 5/15/2017
  */
 public class Action {
 
@@ -69,6 +69,13 @@ public class Action {
 
 	private LocatorAction locatorAction;
 	private String parentWindow;
+
+	// constants
+	private static final String SECONDS = " seconds";
+	private static final String WAITED = "Waited ";
+	private static final String UPTO = "Wait up to ";
+	private static final String AFTER = "After waiting ";
+	private static final String ALERT = "An alert is present";
 
 	/**
 	 * our constructor, determining which browser use and how to run the
@@ -158,7 +165,7 @@ public class Action {
 		}
 		double timetook = System.currentTimeMillis() - start;
 		timetook = timetook / 1000;
-		file.recordAction(action, expected, "Loaded " + url + " in " + timetook + " seconds", Result.SUCCESS);
+		file.recordAction(action, expected, "Loaded " + url + " in " + timetook + SECONDS, Result.SUCCESS);
 		return 0;
 	}
 
@@ -183,18 +190,18 @@ public class Action {
 	 *            - the number of seconds to wait
 	 */
 	public int wait(double seconds) {
-		String action = "Wait " + seconds + " seconds";
-		String expected = "Waited " + seconds + " seconds";
+		String action = "Wait " + seconds + SECONDS;
+		String expected = WAITED + seconds + SECONDS;
 		try {
 			Thread.sleep((long) (seconds * 1000));
 		} catch (InterruptedException e) {
 			log.error(e);
-			file.recordAction(action, expected, "Failed to wait " + seconds + " seconds", Result.FAILURE);
+			file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS, Result.FAILURE);
 			file.addError();
 			Thread.currentThread().interrupt();
 			return 1;
 		}
-		file.recordAction(action, expected, "Waited " + seconds + " seconds", Result.SUCCESS);
+		file.recordAction(action, expected, WAITED + seconds + SECONDS, Result.SUCCESS);
 		return 0;
 	}
 
@@ -875,7 +882,7 @@ public class Action {
 	 * @throws InvalidActionException
 	 */
 	public void takeScreenshot(String imageName) throws InvalidActionException {
-		if (browser == Browsers.HtmlUnit) {
+		if (browser == Browsers.HTMLUNIT) {
 			return;
 		}
 		try {
@@ -1823,8 +1830,8 @@ public class Action {
 	 *         steps
 	 */
 	public int waitForAlertPresent(long seconds) {
-		String action = "Wait up to " + seconds + " seconds for an alert to be present";
-		String expected = "An alert is present";
+		String action = UPTO + seconds + " seconds for an alert to be present";
+		String expected = ALERT;
 		// wait for up to XX seconds for our error message
 		long end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
@@ -1839,13 +1846,11 @@ public class Action {
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		if (!isAlertPresent(false)) {
-			file.recordAction(action, expected, "After waiting " + timetook + " seconds, an alert is not present",
-					Result.FAILURE);
+			file.recordAction(action, expected, AFTER + timetook + " seconds, an alert is not present", Result.FAILURE);
 			file.addError();
 			return 1;
 		}
-		file.recordAction(action, expected, "Waited " + timetook + " seconds for an alert to be present",
-				Result.SUCCESS);
+		file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present", Result.SUCCESS);
 		return 0;
 	}
 
@@ -1914,8 +1919,8 @@ public class Action {
 	 *         steps
 	 */
 	public int waitForConfirmationPresent(long seconds) {
-		String action = "Wait up to " + seconds + " seconds for a confirmation to be present";
-		String expected = "An alert is present";
+		String action = UPTO + seconds + " seconds for a confirmation to be present";
+		String expected = ALERT;
 		// wait for up to XX seconds for our error message
 		long end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
@@ -1930,12 +1935,12 @@ public class Action {
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		if (!isConfirmationPresent(false)) {
-			file.recordAction(action, expected, "After waiting " + timetook + " seconds, a confirmation is not present",
+			file.recordAction(action, expected, AFTER + timetook + " seconds, a confirmation is not present",
 					Result.FAILURE);
 			file.addError();
 			return 1;
 		}
-		file.recordAction(action, expected, "Waited " + timetook + " seconds for a confirmation to be present",
+		file.recordAction(action, expected, WAITED + timetook + " seconds for a confirmation to be present",
 				Result.SUCCESS);
 		return 0;
 	}
@@ -2005,8 +2010,8 @@ public class Action {
 	 *         steps
 	 */
 	public int waitForPromptPresent(long seconds) {
-		String action = "Wait up to " + seconds + " seconds for a prompt to be present";
-		String expected = "An alert is present";
+		String action = UPTO + seconds + " seconds for a prompt to be present";
+		String expected = ALERT;
 		// wait for up to XX seconds for our error message
 		long end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
@@ -2021,13 +2026,11 @@ public class Action {
 		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
 		timetook = timetook / 1000;
 		if (!isPromptPresent(false)) {
-			file.recordAction(action, expected, "After waiting " + timetook + " seconds, a prompt is not present",
-					Result.FAILURE);
+			file.recordAction(action, expected, AFTER + timetook + " seconds, a prompt is not present", Result.FAILURE);
 			file.addError();
 			return 1;
 		}
-		file.recordAction(action, expected, "Waited " + timetook + " seconds for a prompt to be present",
-				Result.SUCCESS);
+		file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present", Result.SUCCESS);
 		return 0;
 	}
 
