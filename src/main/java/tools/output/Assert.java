@@ -24,11 +24,8 @@ import tools.output.Selenium.Browsers;
 import tools.output.Selenium.Locators;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.openqa.selenium.WebElement;
 
 /**
  * Test Output A custom generated output file outputFile.recording all actions
