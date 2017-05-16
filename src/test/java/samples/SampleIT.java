@@ -309,7 +309,7 @@ public class SampleIT extends TestBase {
         // perform some actions
         asserts.checkSelectValuePresent(Locators.ID, "car_list", "volvo");
         // verify no issues
-        finish();
+        finish(1);
     }
     
     @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getTableRowWHeader method")
@@ -349,7 +349,7 @@ public class SampleIT extends TestBase {
         // perform some actions
         asserts.checkIfOptionInSelect(Locators.ID, "car_list", "audi");
         // verify no issues
-        finish();
+        finish(1);
     }
     
     @Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the getTableRowWHeader method")
@@ -380,8 +380,8 @@ public class SampleIT extends TestBase {
         Action actions = this.actions.get();
         Assert asserts = this.asserts.get();
         // perform some actions
-        System.out.println(Arrays.toString(actions.getSelectOptions(Locators.id, "car_list")));
-        asserts.checkIfOptionNotInSelect(Locators.id, "car_list", "audi");
+        System.out.println(Arrays.toString(actions.getSelectOptions(Locators.ID, "car_list")));
+        asserts.checkIfOptionNotInSelect(Locators.ID, "car_list", "audi");
         // verify no issues
         finish(1);
     }
