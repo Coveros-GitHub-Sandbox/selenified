@@ -1,5 +1,28 @@
 # Selenified Testing Framework
 
+## Installation
+### Building the jar
+If you want to compile the jar from the source code, use maven. Maven can be used to run unit tests, run
+integration tests, build javadocs, and build the executable jar. To simply execute the unit tests, run the
+below command
+```
+mvn test
+```
+To also build the jars, run the below commands
+```
+mvn package
+```
+To run the integration tests, use the verify goal. Some of the integration tests require a physical browser 
+to run, and so they can be run two different ways, the entire set with a browser, or a subset using HtmlUnit
+```
+mvn verify -Dbrowser=Firefox
+mvn verify -Dfailsafe.groups=virtual
+```
+
+### Adding the jar to your project
+See the below sections on executing tests to see the proper way to source the jar, and add them to your 
+classpath
+
 ## Writing Tests
 ### Create A New Test Suite
 Tests should be organized into suites. To create a new test suite, simply create a folder, 

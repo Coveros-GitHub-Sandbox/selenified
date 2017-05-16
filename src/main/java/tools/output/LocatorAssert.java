@@ -1123,7 +1123,7 @@ public class LocatorAssert {
     public int compareNumOfSelectOptions(Locators type, String locator, int numOfOptions) throws IOException {
         // outputFile.record our action
         int errors = 0;
-        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+        outputFile.recordExpected(EXPECTED + type + " <i>" + locator
                 + "</i> with number of select values equal to <b>" + numOfOptions + "</b>");
         // check for our object to the present on the page
         String[] elementValues = null;
@@ -1134,7 +1134,7 @@ public class LocatorAssert {
             isInput = action.isElementInput(type, locator);
         }
         if (!isPresent) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator + PRESENT,
                     Success.FAIL);
 
             return 1;
@@ -1143,7 +1143,7 @@ public class LocatorAssert {
             isElementEnabled = action.isElementEnabled(type, locator);
         }
         if (!isInput) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is not an input on the page",
                     Success.FAIL);
 
             return 1;
@@ -1152,14 +1152,14 @@ public class LocatorAssert {
             elementValues = action.getSelectOptions(type, locator);
         }
         if (!isElementEnabled) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is not editable on the page",
                     Success.FAIL);
 
             return 1;
         }
         if (elementValues.length != numOfOptions) {
             outputFile.recordActual(
-                    "The element  with " + type + " <i>" + locator
+                    ELEMENT + type + " <i>" + locator
                             + "</i> does not have the number of select options of <b>" + numOfOptions + "</b>",
                     Success.FAIL);
 
@@ -1168,7 +1168,7 @@ public class LocatorAssert {
         if (errors > 0) {
             return errors;
         }
-        outputFile.recordActual("The element  with " + type + " <i>" + locator
+        outputFile.recordActual(ELEMENT + type + " <i>" + locator
                 + "</i> has the number of select options <b>" + numOfOptions + "</b>", Success.PASS);
         return 0;
     }
@@ -1188,7 +1188,7 @@ public class LocatorAssert {
     public int compareNumOfTableRows(Locators type, String locator, int numOfRows) throws IOException {
         // outputFile.record our action
         int errors = 0;
-        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+        outputFile.recordExpected(EXPECTED + type + " <i>" + locator
                 + "</i> with the number of table rows equal to <b>" + numOfRows + "</b>");
         // check for our object to the present on the page
         List<WebElement> elementValues = null;
@@ -1197,13 +1197,13 @@ public class LocatorAssert {
             elementValues = action.getTableRows(type, locator);
         }
         if (!isPresent) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator + PRESENT,
                     Success.FAIL);
             
             return 1;
         }
         if (elementValues.size() != numOfRows) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator
                     + "</i> does not have the number of rows <b>" + numOfRows + "</b> Instead, " + 
                     elementValues.size() + " rows were found", Success.FAIL);
             
@@ -1213,7 +1213,7 @@ public class LocatorAssert {
             return errors;
         }
         outputFile.recordActual(
-                "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValues + "</b>",
+                ELEMENT + type + " <i>" + locator + VALUE + elementValues + "</b>",
                 Success.PASS);
         return 0;
     }
@@ -1233,7 +1233,7 @@ public class LocatorAssert {
     public int compareNumOfTableColumns(Locators type, String locator, int numOfColumns) throws IOException {
         // outputFile.record our action
         int errors = 0;
-        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+        outputFile.recordExpected(EXPECTED + type + " <i>" + locator
                 + "</i> with the number of table columns equal to <b>" + numOfColumns + "</b>");
         // check for our object to the present on the page
         List<WebElement> elementValues = null;
@@ -1242,13 +1242,13 @@ public class LocatorAssert {
             elementValues = action.getTableColumns(type, locator);
         }
         if (!isPresent) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator + PRESENT,
                     Success.FAIL);
             
             return 1;
         }
         if (elementValues.size() != numOfColumns) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator
                     + "</i> does not have the number of columns <b>" + numOfColumns + "</b> Instead, " + 
                     elementValues.size() + " columns were found", Success.FAIL);
             
@@ -1258,7 +1258,7 @@ public class LocatorAssert {
             return errors;
         }
         outputFile.recordActual(
-                "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValues + "</b>",
+                ELEMENT + type + " <i>" + locator + VALUE + elementValues + "</b>",
                 Success.PASS);
         return 0;
     }
@@ -1281,7 +1281,7 @@ public class LocatorAssert {
     public int compareRowWHeader(Locators type, String locator, String header, int expectedIndex) throws IOException {
         // outputFile.record our action
         int errors = 0;
-        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+        outputFile.recordExpected(EXPECTED + type + " <i>" + locator
                 + "</i> with the row with header " + header + " at index <b>" + expectedIndex + "</b>");
         // check for our object to the present on the page
         int rowIndex = 0;
@@ -1290,13 +1290,13 @@ public class LocatorAssert {
             rowIndex = action.getTableRowWHeader(type, locator, header);
         }
         if (!isPresent) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator + PRESENT,
                     Success.FAIL);
 
             return 1;
         }
         if (rowIndex != expectedIndex) {
-            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> and table row with header "
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> and table row with header "
                     + header + " was not found at the index <b>" + expectedIndex, Success.FAIL);
 
             errors++;
@@ -1305,7 +1305,7 @@ public class LocatorAssert {
             return errors;
         }
         outputFile.recordActual(
-                "The element  with " + type + " <i>" + locator
+                ELEMENT + type + " <i>" + locator
                         + "</i> and table row with header was found at the index <b>" + expectedIndex + "</b>",
                 Success.PASS);
         return 0;
