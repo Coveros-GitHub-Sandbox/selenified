@@ -598,7 +598,7 @@ public class LocatorAssert {
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> without the option <b>" + option
 				+ "</b> available to be" + " selected on the page");
 		// check for our object to the editable
-		String[] allOptions = action.getSelectedValues(type, locator);
+		String[] allOptions = action.getSelectOptions(type, locator);
 		if (Arrays.asList(allOptions).contains(option)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator
 					+ "</i> is editable and present and contains the option " + "<b>" + option + "</b>", Success.FAIL);
