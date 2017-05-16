@@ -24,8 +24,11 @@ import tools.output.Selenium.Browsers;
 import tools.output.Selenium.Locators;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.openqa.selenium.WebElement;
 
 /**
  * Test Output A custom generated output file outputFile.recording all actions
@@ -1398,6 +1401,151 @@ public class Assert {
 		return errors;
 
 	}
+	/**
+     * compares the expected attributes from a select value with the actual
+     * attributes from the element
+     *
+     * @param element
+     *            - the element to be waited for
+     * @param numOfOptions
+     *            the expected number of options in the select element
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfSelectOptions(Element element, int numOfOptions) throws IOException {
+        return compareNumOfSelectOptions(element.getType(), element.getLocator(), numOfOptions);
+    }
+
+    /**
+     * compares the expected attributes from a select value with the actual
+     * attributes from the element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param numOfOptions
+     *            the expected number of options in the select element
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfSelectOptions(Locators type, String locator, int numOfOptions) throws IOException {
+        int errors = locatorAssert.compareNumOfSelectOptions(type, locator, numOfOptions);
+        outputFile.addErrors(errors);
+        return errors;
+
+    }
+    
+    /**
+     * compares the number of expected rows with the actual
+     * number of rows of a table with from a table element
+     *
+     * @param element
+     *            - the element to be waited for
+     * @param numOfRows
+     *            the number of rows in a table
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfTableRows(Element element, int numOfRows) throws IOException {
+        return compareNumOfTableRows(element.getType(), element.getLocator(), numOfRows);
+    }
+
+    /**
+     * compares the number of expected rows with the actual
+     * number of rows of a table with from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param numOfRows
+     *            the number of rows in a table
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfTableRows(Locators type, String locator, int numOfRows) throws IOException {
+        int errors = locatorAssert.compareNumOfTableRows(type, locator, numOfRows);
+        outputFile.addErrors(errors);
+        return errors;
+
+    }
+    
+    /**
+     * compares the number of expected columns with the actual
+     * number of columns of a table with from a table element
+     *
+     * @param element
+     *            - the element to be waited for
+     * @param numOfColumns
+     *            the number of columns in a table
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfTableColumns(Element element, int numOfColumns) throws IOException {
+        return compareNumOfTableColumns(element.getType(), element.getLocator(), numOfColumns);
+    }
+
+    /**
+     * compares the number of expected columns with the actual
+     * number of columns of a table with from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param numOfColumns
+     *            the number of columns in a table
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfTableColumns(Locators type, String locator, int numOfColumns) throws IOException {
+        int errors = locatorAssert.compareNumOfTableColumns(type, locator, numOfColumns);
+        outputFile.addErrors(errors);
+        return errors;
+
+    }
+    
+    /**
+     * compares the expected index of row with header to 
+     * the actual index of row with header from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param header
+     *            the full text value expected in a th cell
+     * @param expectedIndex
+     *            the expected index of the row with header value
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareRowWHeader(Element element, String header, int expectedIndex) throws IOException {
+        return compareRowWHeader(element.getType(), element.getLocator(), header, expectedIndex);
+    }
+
+    /**
+     * compares the expected index of row with header to 
+     * the actual index of row with header from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param header
+     *            the full text value expected in a th cell
+     * @param expectedIndex
+     *            the expected index of the row with header value
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareRowWHeader(Locators type, String locator, String header, int expectedIndex) throws IOException {
+        int errors = locatorAssert.compareRowWHeader(type, locator, header, expectedIndex);
+        outputFile.addErrors(errors);
+        return errors;
+
+    }
 
 	///////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////

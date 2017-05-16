@@ -26,8 +26,11 @@ import tools.output.Selenium.Locators;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.openqa.selenium.WebElement;
 
 /**
  * Test Output A custom generated output file outputFile.recording all actions
@@ -1103,4 +1106,208 @@ public class LocatorAssert {
 		outputFile.recordActual(ELEMENT + type + " <i>" + locator + VALUE + elementValues + "</b>", Success.PASS);
 		return 0;
 	}
+	/**
+     * compares the number of expected attributes 
+     * from a select value with the actual
+     * number of attributes from the element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param numOfOptions
+     *            the expected number of options in the select element
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfSelectOptions(Locators type, String locator, int numOfOptions) throws IOException {
+        // outputFile.record our action
+        int errors = 0;
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+                + "</i> with number of select values equal to <b>" + numOfOptions + "</b>");
+        // check for our object to the present on the page
+        String[] elementValues = null;
+        boolean isPresent = action.isElementPresent(type, locator);
+        boolean isInput = false;
+        boolean isElementEnabled = false;
+        if (isPresent) {
+            isInput = action.isElementInput(type, locator);
+        }
+        if (!isPresent) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+                    Success.FAIL);
+
+            return 1;
+        }
+        if (isInput) {
+            isElementEnabled = action.isElementEnabled(type, locator);
+        }
+        if (!isInput) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not an input on the page",
+                    Success.FAIL);
+
+            return 1;
+        }
+        if (isElementEnabled) {
+            elementValues = action.getSelectOptions(type, locator);
+        }
+        if (!isElementEnabled) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not editable on the page",
+                    Success.FAIL);
+
+            return 1;
+        }
+        if (elementValues.length != numOfOptions) {
+            outputFile.recordActual(
+                    "The element  with " + type + " <i>" + locator
+                            + "</i> does not have the number of select options of <b>" + numOfOptions + "</b>",
+                    Success.FAIL);
+
+            errors++;
+        }
+        if (errors > 0) {
+            return errors;
+        }
+        outputFile.recordActual("The element  with " + type + " <i>" + locator
+                + "</i> has the number of select options <b>" + numOfOptions + "</b>", Success.PASS);
+        return 0;
+    }
+    /**
+     * compares the number of expected rows with the actual
+     * number of rows of a table with from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param numOfRows
+     *            the expected number of row elements of a table
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfTableRows(Locators type, String locator, int numOfRows) throws IOException {
+        // outputFile.record our action
+        int errors = 0;
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+                + "</i> with the number of table rows equal to <b>" + numOfRows + "</b>");
+        // check for our object to the present on the page
+        List<WebElement> elementValues = null;
+        boolean isPresent = action.isElementPresent(type, locator);
+        if (isPresent) {
+            elementValues = action.getTableRows(type, locator);
+        }
+        if (!isPresent) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+                    Success.FAIL);
+            
+            return 1;
+        }
+        if (elementValues.size() != numOfRows) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator
+                    + "</i> does not have the number of rows <b>" + numOfRows + "</b> Instead, " + 
+                    elementValues.size() + " rows were found", Success.FAIL);
+            
+            errors++;
+        }
+        if (errors > 0) {
+            return errors;
+        }
+        outputFile.recordActual(
+                "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValues + "</b>",
+                Success.PASS);
+        return 0;
+    }
+    /**
+     * compares the number of expected columns with the actual
+     * number of columns of a table with from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param numOfColumns
+     *            the expected number of column elements of a table
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareNumOfTableColumns(Locators type, String locator, int numOfColumns) throws IOException {
+        // outputFile.record our action
+        int errors = 0;
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+                + "</i> with the number of table columns equal to <b>" + numOfColumns + "</b>");
+        // check for our object to the present on the page
+        List<WebElement> elementValues = null;
+        boolean isPresent = action.isElementPresent(type, locator);
+        if (isPresent) {
+            elementValues = action.getTableColumns(type, locator);
+        }
+        if (!isPresent) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+                    Success.FAIL);
+            
+            return 1;
+        }
+        if (elementValues.size() != numOfColumns) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator
+                    + "</i> does not have the number of columns <b>" + numOfColumns + "</b> Instead, " + 
+                    elementValues.size() + " columns were found", Success.FAIL);
+            
+            errors++;
+        }
+        if (errors > 0) {
+            return errors;
+        }
+        outputFile.recordActual(
+                "The element  with " + type + " <i>" + locator + "</i> has the value of <b>" + elementValues + "</b>",
+                Success.PASS);
+        return 0;
+    }
+    
+    /**
+     * compares the expected index of row with header to 
+     * the actual index of row with header from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locators.id, Locators.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param header
+     *            the full text value expected in a th cell
+     * @param expectedIndex
+     *            the expected index of the row with header value
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareRowWHeader(Locators type, String locator, String header, int expectedIndex) throws IOException {
+        // outputFile.record our action
+        int errors = 0;
+        outputFile.recordExpected("Expected to find element with " + type + " <i>" + locator
+                + "</i> with the row with header " + header + " at index <b>" + expectedIndex + "</b>");
+        // check for our object to the present on the page
+        int rowIndex = 0;
+        boolean isPresent = action.isElementPresent(type, locator);
+        if (isPresent) {
+            rowIndex = action.getTableRowWHeader(type, locator, header);
+        }
+        if (!isPresent) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> is not present on the page",
+                    Success.FAIL);
+
+            return 1;
+        }
+        if (rowIndex != expectedIndex) {
+            outputFile.recordActual("The element  with " + type + " <i>" + locator + "</i> and table row with header "
+                    + header + " was not found at the index <b>" + expectedIndex, Success.FAIL);
+
+            errors++;
+        }
+        if (errors > 0) {
+            return errors;
+        }
+        outputFile.recordActual(
+                "The element  with " + type + " <i>" + locator
+                        + "</i> and table row with header was found at the index <b>" + expectedIndex + "</b>",
+                Success.PASS);
+        return 0;
+    }
 }
