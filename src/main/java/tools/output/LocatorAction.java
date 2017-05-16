@@ -591,8 +591,7 @@ public class LocatorAction {
 			return new ArrayList<>();
 		}
 		WebElement element = getWebElement(type, locator);
-		// this locator may need to be updated
-		return element.findElements(By.xpath(".//tr[1]/th"));
+		return element.findElements(By.xpath(".//tr[1]/*"));
 	}
 
 	/**
