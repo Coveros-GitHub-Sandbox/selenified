@@ -21,11 +21,8 @@
 package tools;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -121,9 +118,11 @@ public class TestSetup {
 		// are we looking for all details or not
 		if (!areBrowserDetailsSet()) {
 			try {
-				browsers = Arrays.asList(System.getProperty(BROWSER_INPUT).split(",")).stream().map(Browsers::valueOf)
-						.collect(Collectors.toList());
-			} catch (Exception e) {
+				String[] browserStrings = System.getProperty(BROWSER_INPUT).split(",");
+				for( String browserString : browserStrings ) {
+					browsers.add(Browsers.lookup(browserString));
+				}
+			} catch (InvalidBrowserException e) {
 				log.error(e);
 				throw new InvalidBrowserException(e.getMessage());
 			}
@@ -132,7 +131,7 @@ public class TestSetup {
 			for (String details : allDetails) {
 				Map<String, String> browserDetails = General.parseMap(details);
 				if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
-					browsers.add(Browsers.valueOf(browserDetails.get(BROWSER_NAME_INPUT)));
+					browsers.add(Browsers.lookup(browserDetails.get(BROWSER_NAME_INPUT)));
 				} else {
 					browsers.add(null);
 				}

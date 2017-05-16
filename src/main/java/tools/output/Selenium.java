@@ -20,6 +20,8 @@
 
 package tools.output;
 
+import selenified.exceptions.InvalidBrowserException;
+
 public class Selenium {
 
 	/**
@@ -37,7 +39,15 @@ public class Selenium {
 	 * locally - not on grid), Iphone (only locally, not on grid, Opera, Safari
 	 */
 	public enum Browsers {
-		NONE, HTMLUNIT, FIREFOX, MARIONETTE, CHROME, INTERNETEXPLORER, 
-		EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS
+		NONE, HTMLUNIT, FIREFOX, MARIONETTE, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
+
+		public static Browsers lookup(String b) throws InvalidBrowserException {
+			for (Browsers browser : Browsers.values()) {
+				if (browser.name().equalsIgnoreCase(b)) {
+					return browser;
+				}
+			}
+			throw new InvalidBrowserException("The selected browser " + b + " is not an applicable choice");
+		}
 	}
 }
