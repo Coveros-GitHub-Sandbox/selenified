@@ -51,13 +51,26 @@ See below for an example:
 If the suite of tests do not require a selenium instance to run the test (e.g. API test), the suite
 should also contain a method to override the default startTest method. This needs to be annotated 
 with @BeforeMethod. This method will just call the super method of startTest and initialize everything needed. 
-Since we do not need a Selenium driver, the last value passed into startTest should be set to false. 
+Since we do not need a Selenium driver, the last value passed into startTest should be set to 'FALSE'. 
 See below for an example:
 
 ```java
     @BeforeMethod (alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws Exception {
-        super.startTest(dataProvider, method, test, result, false);
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
+        super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
+    }
+```
+
+Sometimes you may end up running some tests that require some browser configurations or changes to be made before
+the page is initially loaded. In order to launch the browser, but not load (and wait for the successful load) of 
+a page, you also will want to override the default startTest method. In this case, the last value passed into 
+startTest should be set to 'OPEN'.
+See below for an example:
+
+```java
+    @BeforeMethod (alwaysRun = true)
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
+        super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
 ```
 

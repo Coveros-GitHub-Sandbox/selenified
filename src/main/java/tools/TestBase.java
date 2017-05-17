@@ -30,6 +30,7 @@ import tools.output.OutputFile;
 import tools.output.Action;
 import tools.output.Assert;
 import tools.output.Selenium.Browsers;
+import tools.output.Selenium.DriverSetup;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -144,7 +145,7 @@ public class TestBase {
 	@BeforeMethod(alwaysRun = true)
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result)
 			throws IOException {
-		startTest(dataProvider, method, test, result, true);
+		startTest(dataProvider, method, test, result, DriverSetup.LOAD);
 	}
 
 	/**
@@ -169,7 +170,7 @@ public class TestBase {
 	 * @throws IOException
 	 */
 	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-			boolean selenium) throws IOException {
+			DriverSetup selenium) throws IOException {
 		String testName = General.getTestName(method, dataProvider);
 		String outputDir = test.getOutputDirectory();
 		String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
@@ -213,7 +214,7 @@ public class TestBase {
 		myFile.setAuthor(author);
 		myFile.setObjectives(description);
 		myFile.setStartTime();
-		if (selenium) {
+		if (selenium.useBrowser()) {
 			try {
 				Action action = new Action(myBrowser, myCapability, myFile);
 				this.actions.set(action);
@@ -223,7 +224,12 @@ public class TestBase {
 				log.error(e);
 			}
 		}
-		this.errors.set(myFile.startTestTemplateOutputFile());
+		myFile.createOutputHeader();
+		if (selenium.loadPage()) {
+			this.errors.set(myFile.loadInitialPage());
+		} else {
+			this.errors.set(0);
+		}
 		myOutput.setOutputFile(myFile);
 		this.asserts.set(myOutput);
 	}

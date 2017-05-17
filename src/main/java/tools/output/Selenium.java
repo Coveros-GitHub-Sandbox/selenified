@@ -25,6 +25,38 @@ import selenified.exceptions.InvalidBrowserException;
 public class Selenium {
 
 	/**
+	 * determining how to launch/start our browser. Do we even want a browser,
+	 * and if so do we wait for the initial page to load, or do we need to
+	 * perform other activities first
+	 */
+	public enum DriverSetup {
+		FALSE, OPEN, LOAD;
+
+		protected Boolean browser;
+		protected Boolean load;
+		
+		static {
+			FALSE.browser = false;
+			OPEN.browser = true;
+			LOAD.browser = true;
+		}
+		
+		static {
+			FALSE.load = false;
+			OPEN.load = false;
+			LOAD.load = true;
+		}
+
+		public Boolean useBrowser() {
+			return this.browser;
+		}
+		
+		public Boolean loadPage() {
+			return this.load;
+		}
+	}
+
+	/**
 	 * Select a Locator for the element we are interacting with Available
 	 * options are: xpath, id, name, classname, paritallinktext, linktext,
 	 * tagname
@@ -35,12 +67,22 @@ public class Selenium {
 
 	/**
 	 * Select a browser to run Available options are: HtmlUnit (only locally -
-	 * not on grid), Firefox, Chrome, InternetExplorer, Android, Ipad (only
-	 * locally - not on grid), Iphone (only locally, not on grid, Opera, Safari
+	 * not on grid), Firefox, Marionette, Chrome, InternetExplorer, Edge,
+	 * Android, Ipad (only locally - not on grid), Iphone (only locally, not on
+	 * grid), Opera, Safari, PhantomJS
 	 */
 	public enum Browsers {
 		NONE, HTMLUNIT, FIREFOX, MARIONETTE, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
 
+		/**
+		 * allows the browser selected to be passed in with a case insensitive
+		 * name
+		 * 
+		 * @param b
+		 *            - the string name of the browser
+		 * @return Browsers: the enum version of the browser
+		 * @throws InvalidBrowserException
+		 */
 		public static Browsers lookup(String b) throws InvalidBrowserException {
 			for (Browsers browser : Browsers.values()) {
 				if (browser.name().equalsIgnoreCase(b)) {

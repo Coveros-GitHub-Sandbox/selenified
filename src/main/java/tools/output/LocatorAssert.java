@@ -1149,29 +1149,29 @@ public class LocatorAssert {
             return 1;
         }
         if (isElementEnabled) {
-            elementValues = action.getSelectOptions(type, locator);
-        }
-        if (!isElementEnabled) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is not editable on the page",
-                    Success.FAIL);
+			elementValues = action.getSelectOptions(type, locator);
+		}
+		if (!isElementEnabled) {
+			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is not editable on the page",
+					Success.FAIL);
 
-            return 1;
-        }
-        if (elementValues.length != numOfOptions) {
-            outputFile.recordActual(
-                    ELEMENT + type + " <i>" + locator
-                            + "</i> does not have the number of select options of <b>" + numOfOptions + "</b>",
-                    Success.FAIL);
+			return 1;
+		}
+		if (elementValues.length != numOfOptions) {
+			outputFile.recordActual(
+					ELEMENT + type + " <i>" + locator + "</i> has <b>" + numOfOptions + "</b>" + " select options",
+					Success.FAIL);
 
-            errors++;
-        }
-        if (errors > 0) {
-            return errors;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator
-                + "</i> has the number of select options <b>" + numOfOptions + "</b>", Success.PASS);
-        return 0;
-    }
+			errors++;
+		}
+		if (errors > 0) {
+			return errors;
+		}
+		outputFile.recordActual(
+				ELEMENT + type + " <i>" + locator + "</i> has <b>" + numOfOptions + "</b>" + " select options",
+				Success.PASS);
+		return 0;
+	}
     /**
      * compares the number of expected rows with the actual
      * number of rows of a table with from a table element
@@ -1213,7 +1213,7 @@ public class LocatorAssert {
             return errors;
         }
         outputFile.recordActual(
-                ELEMENT + type + " <i>" + locator + VALUE + elementValues + "</b>",
+                ELEMENT + type + " <i>" + locator + "has " + elementValues.size() + "</b> rows",
                 Success.PASS);
         return 0;
     }
@@ -1258,7 +1258,7 @@ public class LocatorAssert {
             return errors;
         }
         outputFile.recordActual(
-                ELEMENT + type + " <i>" + locator + VALUE + elementValues + "</b>",
+                ELEMENT + type + " <i>" + locator + "has " + elementValues.size() + "</b> columns",
                 Success.PASS);
         return 0;
     }
