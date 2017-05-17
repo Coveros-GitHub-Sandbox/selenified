@@ -8,10 +8,9 @@ import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
 import tools.output.Element;
-import tools.output.LocatorAssert;
 import tools.output.Selenium.Locators;
 
-public class SampleIT extends TestBase {
+public class SampleAssertIT extends TestBase {
 
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() throws Exception {
@@ -49,8 +48,8 @@ public class SampleIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(dataProvider = "car list items", groups = { "sample",
-			"virtual" }, description = "A sample test using a data provider to perform searches")
+	@Test(dataProvider = "car list items", groups = { "sample", "virtual" },
+			description = "A sample test using a data provider to perform searches")
 	public void sampleTestWDataProvider(String listItem) throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -86,132 +85,6 @@ public class SampleIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
-	public void sampleTestWaitForElementPresent() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementPresent(Locators.NAME, "car_list");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the waitForElementPresent method")
-	public void sampleTestNegativeWaitForElementPresent() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementPresent(Locators.NAME, "non-existent-name");
-		// verify no issues
-		finish(1);
-	}
-
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementNotPresent method")
-	public void sampleTestWaitForElementNotPresent() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementNotPresent(Locators.NAME, "non-existent-name");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the waitForElementNotPresent method")
-	public void sampleTestNegativeWaitForElementNotPresent() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementNotPresent(Locators.NAME, "car_list");
-		// verify no issues
-		finish(1);
-	}
-
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementDisplayed method")
-	public void sampleTestWaitForElementDisplayed() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementDisplayed(Locators.NAME, "car_list");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the waitForElementDisplayed method")
-	public void sampleTestNegativeWaitForElementDisplayed() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementDisplayed(Locators.NAME, "non-existent-name");
-		// verify no issues
-		finish(1);
-	}
-
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample test to check the WaitForElementNotDisplayed method")
-	public void sampleTestWaitForElementNotDisplayed() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementNotDisplayed(Locators.NAME, "hidden_div");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the WaitForElementNotDisplayed method")
-	public void sampleTestNegativeWaitForElementNotDisplayed() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// use this object to verify our page looks as expected
-		actions.waitForElementNotDisplayed(Locators.NAME, "car_list");
-		// verify no issues
-		finish(1);
-	}
-
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the WaitForElementEnabled method")
-	public void sampleTestWaitForElementEnabled() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementEnabled(Locators.NAME, "car_list");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "sample" }, description = "A sample negative test to check the WaitForElementEnabled method")
-	public void sampleTestNegativeWaitForElementEnabled() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementEnabled(Locators.NAME, "enable_button");
-		// verify no issues
-		finish(1);
-	}
-
-	@Test(groups = { "sample" }, description = "A sample test to check the WaitForElementNotEnabled method")
-	public void sampleTestWaitForElementNotEnabled() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementNotEnabled(Locators.NAME, "enable_button");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the WaitForElementNotEnabled method")
-	public void sampleTestNegativeWaitForNotElementEnabled() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementNotEnabled(Locators.NAME, "car_list");
-		// verify no issues
-		finish(1);
-	}
-
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfSelectOptions method")
 	public void sampleGetNumOfSelectOptionsTest() throws Exception {
 		// use this object to verify our page looks as expected
@@ -222,8 +95,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the getNumOfSelectOptions method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the getNumOfSelectOptions method")
 	public void sampleNegativeGetNumOfSelectOptionsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -253,8 +126,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the getNumOfTableRows method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the getNumOfTableRows method")
 	public void sampleNegativeGetNumOfTableRows() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -274,8 +147,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the getNumOfTableColumns method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the getNumOfTableColumns method")
 	public void sampleNegativeGetNumOfTableColumns() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -295,8 +168,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the getTableRowWHeader method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the getTableRowWHeader method")
 	public void sampleNegativeGetTableRowWHeader() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -316,8 +189,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkSelectValuePresent method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkSelectValuePresent method")
 	public void sampleNegativeCheckSelectValuePresent() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -327,8 +200,8 @@ public class SampleIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample test to check the checkSelectValueNotPresent method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample test to check the checkSelectValueNotPresent method")
 	public void sampleCheckSelectValueNotPresent() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -338,8 +211,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkSelectValueNotPresent method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkSelectValueNotPresent method")
 	public void sampleNegativeCheckSelectValueNotPresent() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -359,8 +232,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkIfOptionInSelect method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkIfOptionInSelect method")
 	public void sampleNegativeCheckIfOptionInSelect() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -380,8 +253,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkIfOptionNotInSelect method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkIfOptionNotInSelect method")
 	public void sampleNegativeCheckIfOptionNotInSelect() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -415,6 +288,34 @@ public class SampleIT extends TestBase {
 		finish(1);
 	}
 
+	@Test(groups = { "sample" }, description = "A sample test to check the checkAlert method")
+	public void sampleCheckAlert() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		asserts.checkAlert("Enabled!");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample" }, description = "A sample negative test to check the checkAlert method")
+	public void sampleNegativeCheckAlert() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		asserts.checkAlert("Disabled!");
+		// verify no issues
+		finish(1);
+	}
+	
 	@Test(groups = { "sample" }, description = "A sample test to check the checkConfirmation method")
 	public void sampleCheckConfirmation() throws Exception {
 		// use this object to manipulate our page
@@ -480,8 +381,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementChecked method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementChecked method")
 	public void sampleNegativeCheckElementChecked() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -501,8 +402,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementContainsClass method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementContainsClass method")
 	public void sampleNegativeCheckElementContainsClass() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -522,8 +423,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementDisplayed method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementDisplayed method")
 	public void sampleNegativeCheckElementDisplayed() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -533,8 +434,8 @@ public class SampleIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample test to check the checkElementDisplayedAndChecked method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample test to check the checkElementDisplayedAndChecked method")
 	public void sampleCheckElementDisplayedAndChecked() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -547,8 +448,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementDisplayedAndChecked method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementDisplayedAndChecked method")
 	public void sampleNegativeCheckElementDisplayedAndChecked() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -558,8 +459,8 @@ public class SampleIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample test to check the checkElementDisplayedAndEditable method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample test to check the checkElementDisplayedAndEditable method")
 	public void sampleCheckElementDisplayedAndEditable() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -569,8 +470,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementDisplayedAndEditable method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementDisplayedAndEditable method")
 	public void sampleNegativeCheckElementDisplayedAndEditable() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -580,8 +481,8 @@ public class SampleIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample test to check the checkElementDisplayedAndNotEditable method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample test to check the checkElementDisplayedAndNotEditable method")
 	public void sampleCheckElementDisplayedAndNotEditable() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -591,8 +492,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementDisplayedAndNotEditable method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementDisplayedAndNotEditable method")
 	public void sampleNegativeCheckElementDisplayedAndNotEditable() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -602,8 +503,8 @@ public class SampleIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample test to check the checkElementDisplayedAndUnchecked method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample test to check the checkElementDisplayedAndUnchecked method")
 	public void sampleCheckElementDisplayedAndUnchecked() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -613,8 +514,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementDisplayedAndUnchecked method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementDisplayedAndUnchecked method")
 	public void sampleNegativeCheckElementDisplayedAndUnchecked() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -627,8 +528,8 @@ public class SampleIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample test to check the checkElementDoesntContainClass method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample test to check the checkElementDoesntContainClass method")
 	public void sampleCheckElementDoesntContainClass() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -638,8 +539,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementDoesntContainClass method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementDoesntContainClass method")
 	public void sampleNegativeCheckElementDoesntContainClass() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -659,8 +560,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = {
-			"sample" }, description = "A sample negative test to check the checkElementDoesntHaveAttribute method")
+	@Test(groups = { "sample" },
+			description = "A sample negative test to check the checkElementDoesntHaveAttribute method")
 	public void sampleNegativeCheckElementDoesntHaveAttribute() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -680,8 +581,8 @@ public class SampleIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample negative test to check the checkElementEditable method")
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementEditable method")
 	public void sampleNegativeCheckElementEditable() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -690,139 +591,139 @@ public class SampleIT extends TestBase {
 		// verify no issues
 		finish(2);
 	}
-	
+
 	@Test(groups = { "sample" }, description = "A sample test to check the checkElementHasAttribute method")
-    public void sampleCheckElementHasAttribute() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementHasAttribute(Locators.ID, "car_list", "name");
-        // verify no issues
-        finish();
-    }
+	public void sampleCheckElementHasAttribute() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementHasAttribute(Locators.ID, "car_list", "name");
+		// verify no issues
+		finish();
+	}
 
-    @Test(groups = { "sample" }, description = "A sample negative test to check the checkElementHasAttribute method")
-    public void sampleNegativeCheckElementHasAttribute() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementHasAttribute(Locators.ID, "car_list", "class");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementHasClass method")
-    public void sampleCheckElementHasClass() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementHasClass(Locators.ID, "hidden_div", "hidden_div");
-        // verify no issues
-        finish();
-    }
+	@Test(groups = { "sample" }, description = "A sample negative test to check the checkElementHasAttribute method")
+	public void sampleNegativeCheckElementHasAttribute() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementHasAttribute(Locators.ID, "car_list", "class");
+		// verify no issues
+		finish(1);
+	}
 
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample negative test to check the checkElementHasClass method")
-    public void sampleNegativeCheckElementHasClass() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementHasClass(Locators.ID, "hidden_div", "wrong_class");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotChecked method")
-    public void sampleCheckElementNotChecked() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementNotChecked(Locators.ID, "that");
-        // verify no issues
-        finish();
-    }
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementHasClass method")
+	public void sampleCheckElementHasClass() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementHasClass(Locators.ID, "hidden_div", "hidden_div");
+		// verify no issues
+		finish();
+	}
 
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample negative test to check the checkElementNotChecked method")
-    public void sampleNegativeCheckElementNotChecked() throws Exception {
-    	// use this object to manipulate our page
-    	Action actions = this.actions.get();
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        actions.click(Locators.ID, "that");
-        asserts.checkElementNotChecked(Locators.ID, "that");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotDisplayed method")
-    public void sampleCheckElementNotDisplayed() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementNotDisplayed(Locators.ID, "hidden_div");
-        // verify no issues
-        finish();
-    }
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementHasClass method")
+	public void sampleNegativeCheckElementHasClass() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementHasClass(Locators.ID, "hidden_div", "wrong_class");
+		// verify no issues
+		finish(1);
+	}
 
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample negative test to check the checkElementNotDisplayed method")
-    public void sampleNegativeCheckElementNotDisplayed() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementNotDisplayed(Locators.ID, "scroll_button");
-        // verify no issues
-        finish(2);
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotEditable method")
-    public void sampleCheckElementNotEditable() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementNotEditable(Locators.ID, "table");
-        // verify no issues
-        finish();
-    }
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotChecked method")
+	public void sampleCheckElementNotChecked() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotChecked(Locators.ID, "that");
+		// verify no issues
+		finish();
+	}
 
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample negative test to check the checkElementNotEditable method")
-    public void sampleNegativeCheckElementNotEditable() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementNotEditable(Locators.ID, "that");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample" }, description = "A sample test to check the checkPrompt method")
-    public void sampleCheckPrompt() throws Exception {
-    	// use this object to manipulate our page
-    	Action actions = this.actions.get();
-   		// use this object to verify our page looks as expected
- 		Assert asserts = this.asserts.get();
-   		// perform some actions
-   		actions.click(Locators.ID, "disable_click");
-   		actions.click(Locators.ID, "enable_button");
-        asserts.checkPrompt("Enabled!");
-        // verify no issues
-        finish();
-    }
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementNotChecked method")
+	public void sampleNegativeCheckElementNotChecked() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "that");
+		asserts.checkElementNotChecked(Locators.ID, "that");
+		// verify no issues
+		finish(1);
+	}
 
-    @Test(groups = { "sample" }, description = "A sample negative test to check the checkPrompt method")
-    public void sampleNegativeCheckPrompt() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkPrompt("Enabled!");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample" }, description = "A sample test to check the checkPromptNotPresent method")
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotDisplayed method")
+	public void sampleCheckElementNotDisplayed() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotDisplayed(Locators.ID, "hidden_div");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementNotDisplayed method")
+	public void sampleNegativeCheckElementNotDisplayed() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotDisplayed(Locators.ID, "scroll_button");
+		// verify no issues
+		finish(2);
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotEditable method")
+	public void sampleCheckElementNotEditable() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotEditable(Locators.ID, "table");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkElementNotEditable method")
+	public void sampleNegativeCheckElementNotEditable() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotEditable(Locators.ID, "that");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample" }, description = "A sample test to check the checkPrompt method")
+	public void sampleCheckPrompt() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		asserts.checkPrompt("Enabled!");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample" }, description = "A sample negative test to check the checkPrompt method")
+	public void sampleNegativeCheckPrompt() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkPrompt("Enabled!");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample" }, description = "A sample test to check the checkPromptNotPresent method")
 	public void sampleCheckPromptNotPresent() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -845,128 +746,210 @@ public class SampleIT extends TestBase {
 		// verify no issues
 		finish(1);
 	}
-	
+
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkTextNotVisible method")
-    public void sampleCheckTextNotVisible() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkTextNotVisible("No such text on the page");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample negative test to check the checkTextNotVisible method")
-    public void sampleNegativeCheckTextNotVisible() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkTextNotVisible("Click me to Disable/Enable a html button");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkTextVisible method")
-    public void sampleCheckTextVisible() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkTextVisible("Click me to Disable/Enable a html button");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample negative test to check the checkTextVisible method")
-    public void sampleNegativeCheckTextVisible() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkTextVisible("No such text on the page");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkTextVisibleOR method")
-    public void sampleCheckTextVisibleOR() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkTextVisibleOR("Click me to Disable/Enable a html button", "That", "This");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample negative test to check the checkTextVisibleOR method")
-    public void sampleNegativeCheckTextVisibleOR() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkTextVisibleOR("No such text on the page", "Not found", "None");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample" }, description = "A sample test to check the compareCssValue method")
-    public void sampleCompareCssValue() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareCssValue(Locators.ID, "hidden_div", "display", "none");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "sample" }, description = "A sample negative test to check the compareCssValue method")
-    public void sampleNegativeCompareCssValue() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareCssValue(Locators.ID, "hidden_div", "display", "inline");
-        // verify no issues
-        finish(1);
-    }
-    
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareCssValue method")
-    public void sampleCompareInputValue() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareInputValue(Locators.ID, "that", "That");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample negative test to check the compareCssValue method")
-    public void sampleNegativeCompareInputValue() throws Exception {
-        // use this object to verify our page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareInputValue(Locators.ID, "that", "wrong value");
-        // verify no issues
-        finish(1);
-    }
-
-	@Test(groups = { "sample" }, description = "A sample test to check the scroll method")
-	public void sampleScrollTest() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
+	public void sampleCheckTextNotVisible() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.NAME, "scroll_button");
-		actions.scroll(50);
+		asserts.checkTextNotVisible("No such text on the page");
 		// verify no issues
 		finish();
 	}
 
-	@Test(groups = { "sample" }, description = "A sample negative test to check the scroll method")
-	public void sampleNegativeScrollTest() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkTextNotVisible method")
+	public void sampleNegativeCheckTextNotVisible() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.scroll(50);
+		asserts.checkTextNotVisible("Click me to Disable/Enable a html button");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkTextVisible method")
+	public void sampleCheckTextVisible() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkTextVisible("Click me to Disable/Enable a html button");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the checkTextVisible method")
+	public void sampleNegativeCheckTextVisible() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkTextVisible("No such text on the page");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkTextVisibleOR method")
+	public void sampleCheckTextVisibleOR() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkTextVisibleOR("Click me to Disable/Enable a html button", "That", "This");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the checkTextVisibleOR method")
+	public void sampleNegativeCheckTextVisibleOR() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkTextVisibleOR("No such text on the page", "Not found", "None");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample" }, description = "A sample test to check the compareCssValue method")
+	public void sampleCompareCssValue() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareCssValue(Locators.ID, "hidden_div", "display", "none");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample" }, description = "A sample negative test to check the compareCssValue method")
+	public void sampleNegativeCompareCssValue() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareCssValue(Locators.ID, "hidden_div", "display", "inline");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareCssValue method")
+	public void sampleCompareInputValue() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareInputValue(Locators.ID, "that", "That");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the compareCssValue method")
+	public void sampleNegativeCompareInputValue() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareInputValue(Locators.ID, "that", "wrong value");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareSelectedText method")
+	public void sampleCompareSelectedText() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareSelectedText(Locators.ID, "car_list", "Volvo");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the compareSelectedText method")
+	public void sampleNegativeCompareSelectedText() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareSelectedText(Locators.ID, "car_list", "wrong value");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareSelectedValue method")
+	public void sampleCompareSelectedValue() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareSelectedValue(Locators.ID, "car_list", "volvo");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the compareSelectedValue method")
+	public void sampleNegativeCompareSelectedValue() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareSelectedValue(Locators.ID, "car_list", "wrong value");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample test to check the compareSelectedValueNotEqual method")
+	public void sampleCompareSelectedValueNotEqual() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareSelectedValueNotEqual(Locators.ID, "car_list", "audi");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the compareSelectedValueNotEqual method")
+	public void sampleNegativeCompareSelectedValueNotEqual() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareSelectedValueNotEqual(Locators.ID, "car_list", "volvo");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareTextValue method")
+	public void sampleCompareTextValue() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareTextValue(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Alfreds Futterkiste");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the compareTextValue method")
+	public void sampleNegativeCompareTextValue() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareTextValue(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Maria Anders");
+		// verify no issues
+		finish(1);
+	}
+
+	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareTextValueContains method")
+	public void sampleCompareTextValueContains() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareTextValueContains(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Alfreds");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "sample", "virtual" },
+			description = "A sample negative test to check the compareTextValueContains method")
+	public void sampleNegativeCompareTextValueContains() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareTextValueContains(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Anders");
 		// verify no issues
 		finish(1);
 	}
