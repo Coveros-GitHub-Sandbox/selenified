@@ -10,7 +10,7 @@ import tools.output.Assert;
 import tools.output.Element;
 import tools.output.Selenium.Locators;
 
-public class SampleAssertIT extends TestBase {
+public class AssertIT extends TestBase {
 
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() throws Exception {

@@ -39,9 +39,9 @@ public class GeneralTest {
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "locators" + File.separator + "Sample.xml"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "samples" + File.separator + "SampleAssertIT.java"));
+				+ "java" + File.separator + "samples" + File.separator + "AssertIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "samples" + File.separator + "SampleActionIT.java"));
+				+ "java" + File.separator + "samples" + File.separator + "ActionIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "samples" + File.separator + "NoBrowserIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator

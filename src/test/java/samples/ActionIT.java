@@ -11,7 +11,7 @@ import tools.output.Element;
 import tools.output.LocatorAssert;
 import tools.output.Selenium.Locators;
 
-public class SampleActionIT extends TestBase {
+public class ActionIT extends TestBase {
 
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() throws Exception {
