@@ -35,15 +35,17 @@ public class GeneralTest {
 	@Test
 	public void listFilesForFolderDirectoryTest() {
 		List<String> files = General.listFilesForFolder(new File("./src/test/java"));
-		Assert.assertEquals(files.size(), 11);
+		Assert.assertEquals(files.size(), 12);
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "locators" + File.separator + "Sample.xml"));
+		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
+				+ "java" + File.separator + "samples" + File.separator + "SampleAssertIT.java"));
+		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
+				+ "java" + File.separator + "samples" + File.separator + "SampleActionIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "samples" + File.separator + "NoBrowserIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "samples" + File.separator + "NoLoadIT.java"));
-		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "samples" + File.separator + "SampleIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "unit" + File.separator + "ExceptionTest.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
@@ -52,8 +54,6 @@ public class GeneralTest {
 				+ "java" + File.separator + "unit" + File.separator + "GeneralTest.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "unit" + File.separator + "OutputFileTest.java"));
-		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "unit" + File.separator + "SeleniumTest.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "unit" + File.separator + "TestBaseTest.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
