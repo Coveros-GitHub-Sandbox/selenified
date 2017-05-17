@@ -46,7 +46,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.acceptAlert();
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 	
@@ -72,7 +72,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.acceptPrompt();
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 	
@@ -98,7 +98,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.acceptConfirmation();
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 	
@@ -152,7 +152,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.dismissConfirmation();
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 	
@@ -178,7 +178,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.dismissPrompt();
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 	
@@ -199,7 +199,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.waitForElementPresent(Locators.NAME, "non-existent-name");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -220,7 +220,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.waitForElementNotPresent(Locators.NAME, "car_list");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -241,7 +241,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.waitForElementDisplayed(Locators.NAME, "non-existent-name");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -263,7 +263,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
 		actions.waitForElementNotDisplayed(Locators.NAME, "car_list");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -283,7 +283,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.waitForElementEnabled(Locators.NAME, "enable_button");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -304,7 +304,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.waitForElementNotEnabled(Locators.NAME, "car_list");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -325,7 +325,7 @@ public class SampleActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.scroll(50);
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 

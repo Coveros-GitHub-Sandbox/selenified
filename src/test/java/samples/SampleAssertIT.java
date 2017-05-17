@@ -44,7 +44,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareTitle("Yahoo");
-		// perform our verification
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -81,7 +81,7 @@ public class SampleAssertIT extends TestBase {
 		// perform some actions
 		actions.goToURL("https://www.yahoo.com/");
 		asserts.compareURL("https://www.google.com/");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -102,7 +102,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareNumOfSelectOptions(Locators.NAME, "car_list", 0);
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -133,7 +133,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareNumOfTableRows(Locators.ID, "table", 0);
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -154,7 +154,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareNumOfTableColumns(Locators.ID, "table", 0);
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -175,7 +175,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareRowWHeader(Locators.ID, "table", "CEO", 0);
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -196,7 +196,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkSelectValuePresent(Locators.ID, "car_list", "ford");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -218,7 +218,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkSelectValueNotPresent(Locators.ID, "car_list", "volvo");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -239,7 +239,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkIfOptionInSelect(Locators.ID, "car_list", "ford");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -260,7 +260,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkIfOptionNotInSelect(Locators.ID, "car_list", "audi");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -284,7 +284,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkAlertPresent();
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -312,7 +312,7 @@ public class SampleAssertIT extends TestBase {
 		actions.click(Locators.ID, "disable_click");
 		actions.click(Locators.ID, "enable_button");
 		asserts.checkAlert("Disabled!");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 	
@@ -340,7 +340,7 @@ public class SampleAssertIT extends TestBase {
 		actions.click(Locators.ID, "disable_click");
 		actions.click(Locators.ID, "enable_button");
 		asserts.checkConfirmation("Disabled!");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -364,7 +364,7 @@ public class SampleAssertIT extends TestBase {
 		actions.click(Locators.ID, "disable_click");
 		actions.click(Locators.ID, "enable_button");
 		asserts.checkConfirmationNotPresent();
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -388,7 +388,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementChecked(Locators.ID, "this");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -409,7 +409,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementContainsClass(Locators.ID, "hidden_div", "wrong_class");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -430,7 +430,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementDisplayed(Locators.ID, "non_existent");
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 
@@ -455,7 +455,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementDisplayedAndChecked(Locators.ID, "this");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -477,7 +477,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementDisplayedAndEditable(new Element(Locators.ID, "non_existent"));
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 
@@ -499,7 +499,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementDisplayedAndNotEditable(Locators.ID, "input_box");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -524,7 +524,7 @@ public class SampleAssertIT extends TestBase {
 		// perform some actions
 		actions.click(Locators.ID, "this");
 		asserts.checkElementDisplayedAndUnchecked(Locators.ID, "this");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -546,7 +546,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementDoesntContainClass(Locators.ID, "hidden_div", "hidden_div");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -567,7 +567,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementDoesntHaveAttribute(Locators.ID, "car_list", "name");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -588,7 +588,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementEditable(Locators.ID, "non_existent");
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 
@@ -608,7 +608,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementHasAttribute(Locators.ID, "car_list", "class");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -629,7 +629,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementHasClass(Locators.ID, "hidden_div", "wrong_class");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -653,7 +653,7 @@ public class SampleAssertIT extends TestBase {
 		// perform some actions
 		actions.click(Locators.ID, "that");
 		asserts.checkElementNotChecked(Locators.ID, "that");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -674,7 +674,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementNotDisplayed(Locators.ID, "scroll_button");
-		// verify no issues
+		// verify 2 issues
 		finish(2);
 	}
 
@@ -695,7 +695,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementNotEditable(Locators.ID, "that");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -719,7 +719,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkPrompt("Enabled!");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -743,7 +743,7 @@ public class SampleAssertIT extends TestBase {
 		actions.click(Locators.ID, "disable_click");
 		actions.click(Locators.ID, "enable_button");
 		asserts.checkPromptNotPresent();
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -764,7 +764,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkTextNotVisible("Click me to Disable/Enable a html button");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -784,7 +784,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkTextVisible("No such text on the page");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -805,7 +805,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkTextVisibleOR("No such text on the page", "Not found", "None");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -825,7 +825,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareCssValue(Locators.ID, "hidden_div", "display", "inline");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -845,7 +845,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareInputValue(Locators.ID, "that", "wrong value");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -866,7 +866,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareSelectedText(Locators.ID, "car_list", "wrong value");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -887,7 +887,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareSelectedValue(Locators.ID, "car_list", "wrong value");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -909,7 +909,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareSelectedValueNotEqual(Locators.ID, "car_list", "volvo");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -929,7 +929,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareTextValue(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Maria Anders");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 
@@ -950,7 +950,7 @@ public class SampleAssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareTextValueContains(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Anders");
-		// verify no issues
+		// verify 1 issue
 		finish(1);
 	}
 }
