@@ -25,6 +25,38 @@ import selenified.exceptions.InvalidBrowserException;
 public class Selenium {
 
 	/**
+	 * determining how to launch/start our browser. Do we even want a browser,
+	 * and if so do we wait for the initial page to load, or do we need to
+	 * perform other activities first
+	 */
+	public enum DriverSetup {
+		FALSE, OPEN, LOAD;
+
+		protected Boolean browser;
+		protected Boolean load;
+		
+		static {
+			FALSE.browser = false;
+			OPEN.browser = true;
+			LOAD.browser = true;
+		}
+		
+		static {
+			FALSE.load = false;
+			OPEN.load = false;
+			LOAD.load = true;
+		}
+
+		public Boolean useBrowser() {
+			return this.browser;
+		}
+		
+		public Boolean loadPage() {
+			return this.load;
+		}
+	}
+
+	/**
 	 * Select a Locator for the element we are interacting with Available
 	 * options are: xpath, id, name, classname, paritallinktext, linktext,
 	 * tagname
