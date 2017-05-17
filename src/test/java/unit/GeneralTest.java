@@ -30,18 +30,12 @@ public class GeneralTest {
 		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators/")),
 				Arrays.asList("." + File.separator + "src" + File.separator + "test" + File.separator + "java"
 						+ File.separator + "locators" + File.separator + "Sample.xml"));
-		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/samples")),
-				Arrays.asList(
-						"." + File.separator + "src" + File.separator + "test" + File.separator + "java"
-								+ File.separator + "samples" + File.separator + "SampleActionIT.java",
-						"." + File.separator + "src" + File.separator + "test" + File.separator + "java"
-								+ File.separator + "samples" + File.separator + "SampleAssertIT.java"));
 	}
 
 	@Test
 	public void listFilesForFolderDirectoryTest() {
 		List<String> files = General.listFilesForFolder(new File("./src/test/java"));
-		Assert.assertEquals(files.size(), 11);
+		Assert.assertEquals(files.size(), 12);
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "locators" + File.separator + "Sample.xml"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
