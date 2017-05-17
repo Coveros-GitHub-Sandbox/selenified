@@ -43,8 +43,8 @@ public class NoLoadIT extends TestBase {
 		// verify a selenium actions class was setup
 		org.testng.Assert.assertNotNull(actions);
 		// verify the page wasn't attempted to load
-		asserts.compareURL("about:blank");
+		asserts.compareURL("http://172.31.2.65/");
 		// verify no issues
-		finish();
+		finish(1);
 	}
 }
