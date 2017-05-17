@@ -35,12 +35,22 @@ public class Selenium {
 
 	/**
 	 * Select a browser to run Available options are: HtmlUnit (only locally -
-	 * not on grid), Firefox, Chrome, InternetExplorer, Android, Ipad (only
-	 * locally - not on grid), Iphone (only locally, not on grid, Opera, Safari
+	 * not on grid), Firefox, Marionette, Chrome, InternetExplorer, Edge,
+	 * Android, Ipad (only locally - not on grid), Iphone (only locally, not on
+	 * grid), Opera, Safari, PhantomJS
 	 */
 	public enum Browsers {
 		NONE, HTMLUNIT, FIREFOX, MARIONETTE, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
 
+		/**
+		 * allows the browser selected to be passed in with a case insensitive
+		 * name
+		 * 
+		 * @param b
+		 *            - the string name of the browser
+		 * @return Browsers: the enum version of the browser
+		 * @throws InvalidBrowserException
+		 */
 		public static Browsers lookup(String b) throws InvalidBrowserException {
 			for (Browsers browser : Browsers.values()) {
 				if (browser.name().equalsIgnoreCase(b)) {
