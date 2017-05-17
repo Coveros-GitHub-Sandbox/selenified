@@ -56,7 +56,7 @@ See below for an example:
 
 ```java
     @BeforeMethod (alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws Exception {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 ```
@@ -69,7 +69,7 @@ See below for an example:
 
 ```java
     @BeforeMethod (alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws Exception {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
 ```
