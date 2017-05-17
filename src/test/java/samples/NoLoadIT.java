@@ -42,6 +42,8 @@ public class NoLoadIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// verify a selenium actions class was setup
 		org.testng.Assert.assertNotNull(actions);
+		org.testng.Assert.assertEquals(
+				asserts.getOutputFile().countInstancesOf("Opening new browser and loading up starting page"), 0);
 		// verify the page wasn't attempted to load
 		asserts.compareURL("http://172.31.2.65/");
 		// verify no issues
