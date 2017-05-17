@@ -52,6 +52,8 @@ public class TestBase {
 	protected static String testSite = "http://www.google.com/";
 	protected static String version;
 	protected static String author = "Max Saperstone";
+	
+	protected static DesiredCapabilities extraCapabilities = null;
 
 	// some passed in system params
 	protected static List<Browsers> browsers;
@@ -104,7 +106,11 @@ public class TestBase {
 				Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
 				setup.setupBrowserDetails(browserDetails);
 			}
-			capabilities.add(setup.getDesiredCapabilities());
+			DesiredCapabilities caps = setup.getDesiredCapabilities();
+			if( extraCapabilities != null ) {
+				caps.merge(extraCapabilities);
+			}
+			capabilities.add(caps);
 		}
 	}
 
