@@ -220,10 +220,22 @@ public class GeneralTest {
 		Assert.assertEquals(General.getTestName(method), "getTestNameTest");
 
 		Assert.assertEquals(General.getTestName("helloWorld"), "helloWorld");
-		Assert.assertEquals(General.getTestName("helloWorld"), "helloWorld");
 		Assert.assertEquals(General.getTestName("helloWorld", "python"), "helloWorldWithOptionPython");
+		Assert.assertEquals(General.getTestName("helloWorld", "visual basic"), "helloWorldWithOptionVisualbasic");
 		Assert.assertEquals(General.getTestName("helloWorld", "Python"), "helloWorldWithOptionPython");
 		Assert.assertEquals(General.getTestName("helloWorld", "Python", "Perl"), "helloWorldWithOptionPythonPerl");
+		Assert.assertEquals(
+				General.getTestName("helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy", "Javascript",
+						"PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift", "Elixir",
+						"BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL", "Gosu",
+						"Powershell", "Squeak", "Gambas", "Euphoria", "Fantom"),
+				"helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambasEuphoriaFantom");
+		String testName = General
+				.getTestName("helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy", "Javascript", "PHP",
+						"Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift", "Elixir", "BASIC",
+						"Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL", "Gosu",
+						"Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
+		Assert.assertTrue(testName.matches("^helloWorld@[0-9a-f]{8}$"));
 	}
 
 	@Test

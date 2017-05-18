@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class General {
+	
+	private static final int maxFilenameLength = 200;
 
 	private General() {
 	}
@@ -366,6 +368,7 @@ public class General {
 	 */
 	public static String getTestName(String methodName, Object... dataProvider) {
 		StringBuilder testName = new StringBuilder(methodName);
+		String currentName = methodName;
 		if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
 				&& !dataProvider[0].toString().startsWith("public")) {
 			testName.append("WithOption");
@@ -375,8 +378,12 @@ public class General {
 				}
 				testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));
 			}
+			currentName = testName.toString();
+			if( currentName.length() > maxFilenameLength ) {
+				currentName = methodName + dataProvider.toString().split(";")[1];
+			}
 		}
-		return testName.toString();
+		return currentName;
 	}
 
 	/**
