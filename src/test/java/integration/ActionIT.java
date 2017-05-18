@@ -1,14 +1,11 @@
-package samples;
+package integration;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
-import tools.output.Element;
-import tools.output.LocatorAssert;
 import tools.output.Selenium.Locators;
 
 public class ActionIT extends TestBase {
@@ -24,7 +21,7 @@ public class ActionIT extends TestBase {
 		version = "0.0.1";
 	}
 
-	@Test(groups = { "sample" }, description = "A sample test to check the acceptAlert method")
+	@Test(groups = { "integration" }, description = "An integration test to check the acceptAlert method")
 	public void acceptAlertTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -39,8 +36,7 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample" },
-			description = "A sample negative test to check the acceptAlert method")
+	@Test(groups = { "integration" }, description = "An integration negative test to check the acceptAlert method")
 	public void negativeAcceptAlertTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -49,8 +45,8 @@ public class ActionIT extends TestBase {
 		// verify 2 issues
 		finish(2);
 	}
-	
-	@Test(groups = { "sample" }, description = "A sample test to check the acceptPrompt method")
+
+	@Test(groups = { "integration" }, description = "An integration test to check the acceptPrompt method")
 	public void acceptPromptTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -65,8 +61,7 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample" },
-			description = "A sample negative test to check the acceptPrompt method")
+	@Test(groups = { "integration" }, description = "An integration negative test to check the acceptPrompt method")
 	public void negativeAcceptPromptTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -75,8 +70,8 @@ public class ActionIT extends TestBase {
 		// verify 2 issues
 		finish(2);
 	}
-	
-	@Test(groups = { "sample" }, description = "A sample test to check the acceptConfirmation method")
+
+	@Test(groups = { "integration" }, description = "An integration test to check the acceptConfirmation method")
 	public void acceptConfirmationTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -91,8 +86,7 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample" },
-			description = "A sample negative test to check the acceptConfirmation method")
+	@Test(groups = { "integration" }, description = "An integration negative test to check the acceptConfirmation method")
 	public void negativeAcceptConfirmationTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -101,8 +95,8 @@ public class ActionIT extends TestBase {
 		// verify 2 issues
 		finish(2);
 	}
-	
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the clear method")
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the clear method")
 	public void clearTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -116,8 +110,8 @@ public class ActionIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
-	@Test(groups = { "sample" }, description = "A sample negative test to check the click method")
+
+	@Test(groups = { "integration" }, description = "An integration negative test to check the click method")
 	public void clickTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -129,8 +123,8 @@ public class ActionIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
-	@Test(groups = { "sample" }, description = "A sample test to check the dismissConfirmation method")
+
+	@Test(groups = { "integration" }, description = "An integration test to check the dismissConfirmation method")
 	public void dismissConfirmationTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -145,8 +139,7 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample" },
-			description = "A sample negative test to check the dismissConfirmation method")
+	@Test(groups = { "integration" }, description = "An integration negative test to check the dismissConfirmation method")
 	public void negativeDismissConfirmationTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -155,8 +148,8 @@ public class ActionIT extends TestBase {
 		// verify 2 issues
 		finish(2);
 	}
-	
-	@Test(groups = { "sample" }, description = "A sample test to check the dismissPrompt method")
+
+	@Test(groups = { "integration" }, description = "An integration test to check the dismissPrompt method")
 	public void dismissPromptTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -171,8 +164,7 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample" },
-			description = "A sample negative test to check the dismissPrompt method")
+	@Test(groups = { "integration" }, description = "An integration negative test to check the dismissPrompt method")
 	public void negativeDismissPromptTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -181,8 +173,8 @@ public class ActionIT extends TestBase {
 		// verify 2 issues
 		finish(2);
 	}
-	
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the waitForElementPresent method")
 	public void waitForElementPresentTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -192,8 +184,8 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample", "virtual" },
-			description = "A sample negative test to check the waitForElementPresent method")
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the waitForElementPresent method")
 	public void negativeWaitForElementPresentTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -203,7 +195,7 @@ public class ActionIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementNotPresent method")
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
 	public void waitForElementNotPresentTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -213,8 +205,8 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample", "virtual" },
-			description = "A sample negative test to check the waitForElementNotPresent method")
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the waitForElementNotPresent method")
 	public void negativeWaitForElementNotPresentTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -224,7 +216,7 @@ public class ActionIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementDisplayed method")
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the waitForElementDisplayed method")
 	public void waitForElementDisplayedTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -234,8 +226,8 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample", "virtual" },
-			description = "A sample negative test to check the waitForElementDisplayed method")
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the waitForElementDisplayed method")
 	public void negativeWaitForElementDisplayedTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -245,8 +237,8 @@ public class ActionIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample", "virtual" },
-			description = "A sample test to check the WaitForElementNotDisplayed method")
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration test to check the WaitForElementNotDisplayed method")
 	public void waitForElementNotDisplayedTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -256,8 +248,8 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample", "virtual" },
-			description = "A sample negative test to check the WaitForElementNotDisplayed method")
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the WaitForElementNotDisplayed method")
 	public void negativeWaitForElementNotDisplayedTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -267,7 +259,7 @@ public class ActionIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the WaitForElementEnabled method")
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the WaitForElementEnabled method")
 	public void waitForElementEnabledTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -277,7 +269,7 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample" }, description = "A sample negative test to check the WaitForElementEnabled method")
+	@Test(groups = { "integration" }, description = "An integration negative test to check the WaitForElementEnabled method")
 	public void negativeWaitForElementEnabledTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -287,7 +279,7 @@ public class ActionIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample" }, description = "A sample test to check the WaitForElementNotEnabled method")
+	@Test(groups = { "integration" }, description = "An integration test to check the WaitForElementNotEnabled method")
 	public void waitForElementNotEnabledTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -297,8 +289,8 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample", "virtual" },
-			description = "A sample negative test to check the WaitForElementNotEnabled method")
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the WaitForElementNotEnabled method")
 	public void negativeWaitForNotElementEnabledTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -308,7 +300,7 @@ public class ActionIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "sample" }, description = "A sample test to check the scroll method")
+	@Test(groups = { "integration" }, description = "An integration test to check the scroll method")
 	public void scrollTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -319,7 +311,7 @@ public class ActionIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "sample" }, description = "A sample negative test to check the scroll method")
+	@Test(groups = { "integration" }, description = "An integration negative test to check the scroll method")
 	public void negativeScrollTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
