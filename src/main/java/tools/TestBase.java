@@ -108,7 +108,7 @@ public class TestBase {
 			}
 			DesiredCapabilities caps = setup.getDesiredCapabilities();
 			if( extraCapabilities != null ) {
-				caps.merge(extraCapabilities);
+				caps = caps.merge(extraCapabilities);
 			}
 			capabilities.add(caps);
 		}

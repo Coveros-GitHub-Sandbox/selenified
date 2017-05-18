@@ -83,6 +83,7 @@ shown below
 ```java
 	@BeforeSuite(alwaysRun = true)
 	public void beforeSuite() throws InvalidBrowserException {
+		extraCapabilities = new DesiredCapabilities();
 		extraCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 		extraCapabilities.setCapability("ignoreProtectedModeSettings", true);
 		super.beforeSuite();
