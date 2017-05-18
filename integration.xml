@@ -1,13 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Sample Suite" parallel="methods" thread-count="20" verbose="3" >
+<suite name="Integration Test Suite" parallel="methods" thread-count="20" verbose="3" >
   <listeners>
     <listener class-name="tools.Transformer" />
   </listeners>
 
-  <test name="Sample Test" >
+  <test name="Integration Tests" >
     <packages>
-      <package name="samples" />
+      <package name="integration" />
    </packages>
  </test>
 </suite>

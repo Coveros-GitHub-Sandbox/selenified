@@ -92,7 +92,7 @@
 				<version>2.8.1</version>
 				<configuration>
 					<suiteXmlFiles>
-						<suiteXmlFile>sample.xml</suiteXmlFile>
+						<suiteXmlFile>integration.xml</suiteXmlFile>
 					</suiteXmlFiles>
 					<groups>${failsafe.groups}</groups>
 				</configuration>

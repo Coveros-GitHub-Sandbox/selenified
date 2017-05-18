@@ -35,17 +35,17 @@ public class GeneralTest {
 	@Test
 	public void listFilesForFolderDirectoryTest() {
 		List<String> files = General.listFilesForFolder(new File("./src/test/java"));
-		Assert.assertEquals(files.size(), 12);
+		Assert.assertEquals(files.size(), 13);
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "locators" + File.separator + "Sample.xml"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "samples" + File.separator + "AssertIT.java"));
+				+ "java" + File.separator + "integration" + File.separator + "AssertIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "samples" + File.separator + "ActionIT.java"));
+				+ "java" + File.separator + "integration" + File.separator + "ActionIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "samples" + File.separator + "NoBrowserIT.java"));
+				+ "java" + File.separator + "integration" + File.separator + "NoBrowserIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "samples" + File.separator + "NoLoadIT.java"));
+				+ "java" + File.separator + "integration" + File.separator + "NoLoadIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "unit" + File.separator + "ExceptionTest.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
