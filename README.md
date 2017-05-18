@@ -12,8 +12,13 @@ To also build the jars, run the below commands
 ```
 mvn package
 ```
-To run the integration tests, use the verify goal. Some of the integration tests require a physical browser 
-to run, and so they can be run two different ways, the entire set with a browser, or a subset using HtmlUnit
+To run the integration tests, use the verify goal. The integration tests currently point at a private server
+hosting the file found in this base directory called `index.html`. In order to properly execute these tests,
+host this file, and set the testSite to point to the hosted file's location. This can be done dynamically through
+the command line, as outlined below in the Application URL section.
+
+Some of the integration tests require a physical browser to run, and so they can be run two different ways, the 
+entire set with a browser, or a subset using HtmlUnit
 ```
 mvn verify -Dbrowser=Firefox
 mvn verify -Dfailsafe.groups=virtual
