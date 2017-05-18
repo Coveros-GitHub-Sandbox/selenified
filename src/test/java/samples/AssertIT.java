@@ -10,7 +10,7 @@ import tools.output.Assert;
 import tools.output.Element;
 import tools.output.Selenium.Locators;
 
-public class SampleAssertIT extends TestBase {
+public class AssertIT extends TestBase {
 
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() throws Exception {
@@ -29,7 +29,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check a title")
-	public void sampleTest() throws Exception {
+	public void compareTitleTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform our verification
@@ -39,7 +39,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample negative test to check a title")
-	public void sampleNegativeTest() throws Exception {
+	public void negativeCompareTitleTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -50,7 +50,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(dataProvider = "car list items", groups = { "sample", "virtual" },
 			description = "A sample test using a data provider to perform searches")
-	public void sampleTestWDataProvider(String listItem) throws Exception {
+	public void dataProviderTest(String listItem) throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
@@ -60,7 +60,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the goToURL method")
-	public void sampleTestGoToURL() throws Exception {
+	public void goToURLTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -73,7 +73,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the goToURL method")
-	public void sampleTestNegativeGoToURL() throws Exception {
+	public void negativeGoToURLTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -86,7 +86,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfSelectOptions method")
-	public void sampleGetNumOfSelectOptionsTest() throws Exception {
+	public void getNumOfSelectOptionsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -97,7 +97,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the getNumOfSelectOptions method")
-	public void sampleNegativeGetNumOfSelectOptionsTest() throws Exception {
+	public void negativeGetNumOfSelectOptionsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -107,7 +107,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the getSelectOptions method")
-	public void sampleGetSelectOptionsTest() throws Exception {
+	public void getSelectOptionsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -117,7 +117,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfTableRows method")
-	public void sampleGetNumOfTableRows() throws Exception {
+	public void getNumOfTableRowsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -128,7 +128,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the getNumOfTableRows method")
-	public void sampleNegativeGetNumOfTableRows() throws Exception {
+	public void negativeGetNumOfTableRowsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -138,7 +138,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the getNumOfTableColumns method")
-	public void sampleGetNumOfTableColumns() throws Exception {
+	public void getNumOfTableColumnsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -149,7 +149,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the getNumOfTableColumns method")
-	public void sampleNegativeGetNumOfTableColumns() throws Exception {
+	public void negativeGetNumOfTableColumnsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -159,7 +159,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the getTableRowWHeader method")
-	public void sampleGetTableRowWHeader() throws Exception {
+	public void getTableRowWHeaderTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -170,7 +170,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the getTableRowWHeader method")
-	public void sampleNegativeGetTableRowWHeader() throws Exception {
+	public void negativeGetTableRowWHeaderTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -180,7 +180,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkSelectValuePresent method")
-	public void sampleCheckSelectValuePresent() throws Exception {
+	public void checkSelectValuePresentTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -191,7 +191,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkSelectValuePresent method")
-	public void sampleNegativeCheckSelectValuePresent() throws Exception {
+	public void negativeCheckSelectValuePresentTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -202,7 +202,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample test to check the checkSelectValueNotPresent method")
-	public void sampleCheckSelectValueNotPresent() throws Exception {
+	public void checkSelectValueNotPresentTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -213,7 +213,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkSelectValueNotPresent method")
-	public void sampleNegativeCheckSelectValueNotPresent() throws Exception {
+	public void negativeCheckSelectValueNotPresentTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -223,7 +223,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkIfOptionInSelect method")
-	public void sampleCheckIfOptionInSelect() throws Exception {
+	public void checkIfOptionInSelectTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -234,7 +234,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkIfOptionInSelect method")
-	public void sampleNegativeCheckIfOptionInSelect() throws Exception {
+	public void negativeCheckIfOptionInSelectTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -244,7 +244,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkIfOptionNotInSelect method")
-	public void sampleCheckIfOptionNotInSelect() throws Exception {
+	public void checkIfOptionNotInSelectTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -255,7 +255,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkIfOptionNotInSelect method")
-	public void sampleNegativeCheckIfOptionNotInSelect() throws Exception {
+	public void negativeCheckIfOptionNotInSelectTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -265,7 +265,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check the checkAlertPresent method")
-	public void sampleCheckAlertPresent() throws Exception {
+	public void checkAlertPresentTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -279,7 +279,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample negative test to check the checkAlertPresent method")
-	public void sampleNegativeCheckAlertPresent() throws Exception {
+	public void negativeCheckAlertPresentTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -289,7 +289,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check the checkAlert method")
-	public void sampleCheckAlert() throws Exception {
+	public void checkAlertTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -303,7 +303,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample negative test to check the checkAlert method")
-	public void sampleNegativeCheckAlert() throws Exception {
+	public void negativeCheckAlertTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -317,7 +317,7 @@ public class SampleAssertIT extends TestBase {
 	}
 	
 	@Test(groups = { "sample" }, description = "A sample test to check the checkConfirmation method")
-	public void sampleCheckConfirmation() throws Exception {
+	public void checkConfirmationTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -331,7 +331,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample negative test to check the checkConfirmation method")
-	public void sampleNegativeCheckConfirmation() throws Exception {
+	public void negativeCheckConfirmationTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -345,7 +345,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check the checkConfirmationNotPresent method")
-	public void sampleCheckConfirmationNotPresent() throws Exception {
+	public void checkConfirmationNotPresentTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -355,7 +355,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample negative test to check the checkConfirmationNotPresent method")
-	public void sampleNegativeCheckConfirmationNotPresent() throws Exception {
+	public void negativeCheckConfirmationNotPresentTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -369,7 +369,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementChecked method")
-	public void sampleCheckElementChecked() throws Exception {
+	public void checkElementCheckedTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -383,7 +383,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementChecked method")
-	public void sampleNegativeCheckElementChecked() throws Exception {
+	public void negativeCheckElementCheckedTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -393,7 +393,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementContainsClass method")
-	public void sampleCheckElementContainsClass() throws Exception {
+	public void checkElementContainsClassTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -404,7 +404,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementContainsClass method")
-	public void sampleNegativeCheckElementContainsClass() throws Exception {
+	public void negativeCheckElementContainsClassTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -414,7 +414,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementDisplayed method")
-	public void sampleCheckElementDisplayed() throws Exception {
+	public void checkElementDisplayedTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -425,7 +425,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementDisplayed method")
-	public void sampleNegativeCheckElementDisplayed() throws Exception {
+	public void negativeCheckElementDisplayedTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -436,7 +436,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample test to check the checkElementDisplayedAndChecked method")
-	public void sampleCheckElementDisplayedAndChecked() throws Exception {
+	public void checkElementDisplayedAndCheckedTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -450,7 +450,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementDisplayedAndChecked method")
-	public void sampleNegativeCheckElementDisplayedAndChecked() throws Exception {
+	public void negativeCheckElementDisplayedAndCheckedTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -461,7 +461,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample test to check the checkElementDisplayedAndEditable method")
-	public void sampleCheckElementDisplayedAndEditable() throws Exception {
+	public void checkElementDisplayedAndEditableTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -472,7 +472,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementDisplayedAndEditable method")
-	public void sampleNegativeCheckElementDisplayedAndEditable() throws Exception {
+	public void negativeCheckElementDisplayedAndEditableTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -483,7 +483,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample test to check the checkElementDisplayedAndNotEditable method")
-	public void sampleCheckElementDisplayedAndNotEditable() throws Exception {
+	public void checkElementDisplayedAndNotEditableTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -494,7 +494,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementDisplayedAndNotEditable method")
-	public void sampleNegativeCheckElementDisplayedAndNotEditable() throws Exception {
+	public void negativeCheckElementDisplayedAndNotEditableTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -505,7 +505,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample test to check the checkElementDisplayedAndUnchecked method")
-	public void sampleCheckElementDisplayedAndUnchecked() throws Exception {
+	public void checkElementDisplayedAndUncheckedTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -516,7 +516,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementDisplayedAndUnchecked method")
-	public void sampleNegativeCheckElementDisplayedAndUnchecked() throws Exception {
+	public void negativeCheckElementDisplayedAndUncheckedTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -530,7 +530,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample test to check the checkElementDoesntContainClass method")
-	public void sampleCheckElementDoesntContainClass() throws Exception {
+	public void checkElementDoesntContainClassTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -541,7 +541,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementDoesntContainClass method")
-	public void sampleNegativeCheckElementDoesntContainClass() throws Exception {
+	public void negativeCheckElementDoesntContainClassTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -551,7 +551,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check the checkElementDoesntHaveAttribute method")
-	public void sampleCheckElementDoesntHaveAttribute() throws Exception {
+	public void checkElementDoesntHaveAttributeTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -562,7 +562,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample" },
 			description = "A sample negative test to check the checkElementDoesntHaveAttribute method")
-	public void sampleNegativeCheckElementDoesntHaveAttribute() throws Exception {
+	public void negativeCheckElementDoesntHaveAttributeTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -572,7 +572,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementEditable method")
-	public void sampleCheckElementEditable() throws Exception {
+	public void checkElementEditableTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -583,7 +583,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementEditable method")
-	public void sampleNegativeCheckElementEditable() throws Exception {
+	public void negativeCheckElementEditableTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -593,7 +593,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check the checkElementHasAttribute method")
-	public void sampleCheckElementHasAttribute() throws Exception {
+	public void checkElementHasAttributeTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -603,7 +603,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample negative test to check the checkElementHasAttribute method")
-	public void sampleNegativeCheckElementHasAttribute() throws Exception {
+	public void negativeCheckElementHasAttributeTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -613,7 +613,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementHasClass method")
-	public void sampleCheckElementHasClass() throws Exception {
+	public void checkElementHasClassTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -624,7 +624,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementHasClass method")
-	public void sampleNegativeCheckElementHasClass() throws Exception {
+	public void negativeCheckElementHasClassTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -634,7 +634,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotChecked method")
-	public void sampleCheckElementNotChecked() throws Exception {
+	public void checkElementNotCheckedTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -645,7 +645,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementNotChecked method")
-	public void sampleNegativeCheckElementNotChecked() throws Exception {
+	public void negativeCheckElementNotCheckedTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -658,7 +658,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotDisplayed method")
-	public void sampleCheckElementNotDisplayed() throws Exception {
+	public void checkElementNotDisplayedTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -669,7 +669,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementNotDisplayed method")
-	public void sampleNegativeCheckElementNotDisplayed() throws Exception {
+	public void negativeCheckElementNotDisplayedTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -679,7 +679,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkElementNotEditable method")
-	public void sampleCheckElementNotEditable() throws Exception {
+	public void checkElementNotEditableTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -690,7 +690,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkElementNotEditable method")
-	public void sampleNegativeCheckElementNotEditable() throws Exception {
+	public void negativeCheckElementNotEditableTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -700,7 +700,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check the checkPrompt method")
-	public void sampleCheckPrompt() throws Exception {
+	public void checkPromptTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -714,7 +714,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample negative test to check the checkPrompt method")
-	public void sampleNegativeCheckPrompt() throws Exception {
+	public void negativeCheckPromptTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -724,7 +724,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check the checkPromptNotPresent method")
-	public void sampleCheckPromptNotPresent() throws Exception {
+	public void checkPromptNotPresentTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -734,7 +734,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample negative test to check the checkPromptNotPresent method")
-	public void sampleNegativeCheckPromptNotPresent() throws Exception {
+	public void negativeCheckPromptNotPresentTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -748,7 +748,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkTextNotVisible method")
-	public void sampleCheckTextNotVisible() throws Exception {
+	public void checkTextNotVisibleTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -759,7 +759,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkTextNotVisible method")
-	public void sampleNegativeCheckTextNotVisible() throws Exception {
+	public void negativeCheckTextNotVisibleTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -769,7 +769,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkTextVisible method")
-	public void sampleCheckTextVisible() throws Exception {
+	public void checkTextVisibleTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -779,7 +779,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the checkTextVisible method")
-	public void sampleNegativeCheckTextVisible() throws Exception {
+	public void negativeCheckTextVisibleTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -789,7 +789,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the checkTextVisibleOR method")
-	public void sampleCheckTextVisibleOR() throws Exception {
+	public void checkTextVisibleORTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -800,7 +800,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the checkTextVisibleOR method")
-	public void sampleNegativeCheckTextVisibleOR() throws Exception {
+	public void negativeCheckTextVisibleORTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -810,7 +810,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample test to check the compareCssValue method")
-	public void sampleCompareCssValue() throws Exception {
+	public void compareCssValueTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -820,7 +820,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample" }, description = "A sample negative test to check the compareCssValue method")
-	public void sampleNegativeCompareCssValue() throws Exception {
+	public void negativeCompareCssValueTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -830,7 +830,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareCssValue method")
-	public void sampleCompareInputValue() throws Exception {
+	public void compareInputValueTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -840,7 +840,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the compareCssValue method")
-	public void sampleNegativeCompareInputValue() throws Exception {
+	public void negativeCompareInputValueTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -850,7 +850,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareSelectedText method")
-	public void sampleCompareSelectedText() throws Exception {
+	public void compareSelectedTextTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -861,7 +861,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the compareSelectedText method")
-	public void sampleNegativeCompareSelectedText() throws Exception {
+	public void negativeCompareSelectedTextTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -871,7 +871,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareSelectedValue method")
-	public void sampleCompareSelectedValue() throws Exception {
+	public void compareSelectedValueTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -882,7 +882,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the compareSelectedValue method")
-	public void sampleNegativeCompareSelectedValue() throws Exception {
+	public void negativeCompareSelectedValueTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -893,7 +893,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample test to check the compareSelectedValueNotEqual method")
-	public void sampleCompareSelectedValueNotEqual() throws Exception {
+	public void compareSelectedValueNotEqualTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -904,7 +904,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the compareSelectedValueNotEqual method")
-	public void sampleNegativeCompareSelectedValueNotEqual() throws Exception {
+	public void negativeCompareSelectedValueNotEqualTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -914,7 +914,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareTextValue method")
-	public void sampleCompareTextValue() throws Exception {
+	public void compareTextValueTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -924,7 +924,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample negative test to check the compareTextValue method")
-	public void sampleNegativeCompareTextValue() throws Exception {
+	public void negativeCompareTextValueTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -934,7 +934,7 @@ public class SampleAssertIT extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the compareTextValueContains method")
-	public void sampleCompareTextValueContains() throws Exception {
+	public void compareTextValueContainsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -945,7 +945,7 @@ public class SampleAssertIT extends TestBase {
 
 	@Test(groups = { "sample", "virtual" },
 			description = "A sample negative test to check the compareTextValueContains method")
-	public void sampleNegativeCompareTextValueContains() throws Exception {
+	public void negativeCompareTextValueContainsTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
