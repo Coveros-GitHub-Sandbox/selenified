@@ -409,19 +409,6 @@ public class OutputFile {
 	}
 
 	/**
-	 * creates and starts the test template
-	 *
-	 * @return Integer - the number of errors encountered while executing these
-	 *         steps
-	 * @throws IOException
-	 *             - an IOException
-	 */
-	public int startTestTemplateOutputFile() throws IOException {
-		createOutputHeader();
-		return loadInitialPage();
-	}
-
-	/**
 	 * Creates the specially formatted output header
 	 *
 	 * @throws IOException
