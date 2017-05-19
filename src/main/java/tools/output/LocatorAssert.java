@@ -61,6 +61,7 @@ public class LocatorAssert {
 	private static final String HASVALUE = "</i> contains the value of <b>";
 	private static final String ONLYVALUE = ", only the values <b>";
 	private static final String CLASSVALUE = "</i> has a class value of <b>";
+	private static final String IS = "</i> is ";
 
 	public LocatorAssert(Action action, OutputFile outputFile) {
 		this.action = action;
@@ -222,6 +223,64 @@ public class LocatorAssert {
 	}
 
 	/**
+	 * checks to see if the actual element is editable
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param presence
+	 *            - what additional attribute is expected from the element
+	 * @return Integer: 1 if a failure and 0 if a pass
+	 * @throws IOException
+	 */
+	private int checkEditable(Locators type, String locator, String presence) throws IOException {
+		// check for our object to the editable
+		if (!action.isElementInput(type, locator)) {
+			outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but not an input on the page",
+					Success.FAIL);
+			return 1;
+		}
+		if (!action.isElementEnabled(type, locator)) {
+			outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but not editable on the page",
+					Success.FAIL);
+			return 1;
+		}
+		outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " and editable on the page",
+				Success.PASS);
+		return 0;
+	}
+
+	/**
+	 * checks to see if the actual element is editable
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param presence
+	 *            - what additional attribute is expected from the element
+	 * @return Integer: 1 if a failure and 0 if a pass
+	 * @throws IOException
+	 */
+	private int checkNotEditable(Locators type, String locator, String presence) throws IOException {
+		// check for our object to the editable
+		boolean isElementEnabled = false;
+		boolean isInput = action.isElementInput(type, locator);
+		if (isInput) {
+			isElementEnabled = action.isElementEnabled(type, locator);
+		}
+		if (isElementEnabled) {
+			outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but editable on the page",
+					Success.FAIL);
+			return 1;
+		}
+		outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " and not editable on the page",
+				Success.PASS);
+		return 0;
+	}
+
+	/**
 	 * checks to see if an element is editable on the page
 	 *
 	 * @param type
@@ -238,20 +297,7 @@ public class LocatorAssert {
 		}
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> editable on the page");
-		// check for our object to the editable
-		if (!action.isElementInput(type, locator)) {
-			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present but not an input on the page",
-					Success.FAIL);
-			return 1;
-		}
-		if (!action.isElementEnabled(type, locator)) {
-			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present but not editable on the page",
-					Success.FAIL);
-			return 1;
-		}
-		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present and editable on the page",
-				Success.PASS);
-		return 0;
+		return checkEditable(type, locator, "present");
 	}
 
 	/**
@@ -271,20 +317,7 @@ public class LocatorAssert {
 		}
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> not editable on the page");
-		// check for our object to the editable
-		boolean isElementEnabled = false;
-		boolean isInput = action.isElementInput(type, locator);
-		if (isInput) {
-			isElementEnabled = action.isElementEnabled(type, locator);
-		}
-		if (isElementEnabled) {
-			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present but editable on the page",
-					Success.FAIL);
-			return 1;
-		}
-		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present and not editable on the page",
-				Success.PASS);
-		return 0;
+		return checkNotEditable(type, locator, "present");
 	}
 
 	/**
@@ -304,20 +337,7 @@ public class LocatorAssert {
 		}
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> visible and editable on the page");
-		// check for our object to the editable
-		if (!action.isElementInput(type, locator)) {
-			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is visible but not an input on the page",
-					Success.FAIL);
-			return 1;
-		}
-		if (!action.isElementEnabled(type, locator)) {
-			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is visible but not editable on the page",
-					Success.FAIL);
-			return 1;
-		}
-		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is visible and editable on the page",
-				Success.PASS);
-		return 0;
+		return checkEditable(type, locator, "visable");
 	}
 
 	/**
@@ -337,20 +357,7 @@ public class LocatorAssert {
 		}
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> visible and not editable on the page");
-		// check for our object to the editable
-		boolean isElementEnabled = false;
-		boolean isInput = action.isElementInput(type, locator);
-		if (isInput) {
-			isElementEnabled = action.isElementEnabled(type, locator);
-		}
-		if (isElementEnabled) {
-			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is visible but editable on the page",
-					Success.FAIL);
-			return 1;
-		}
-		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is visible and not editable on the page",
-				Success.PASS);
-		return 0;
+		return checkNotEditable(type, locator, "visible");
 	}
 
 	/**
