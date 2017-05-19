@@ -75,7 +75,6 @@ public class Action {
 	private static final String WAITED = "Waited ";
 	private static final String UPTO = "Wait up to ";
 	private static final String AFTER = "After waiting ";
-	private static final String ALERT = "An alert is present";
 
 	/**
 	 * our constructor, determining which browser use and how to run the
@@ -1778,6 +1777,30 @@ public class Action {
 	// //////////////////////////////////
 
 	/**
+	 * waits for a popup to be present, and then returns the amount of time it
+	 * waited
+	 * 
+	 * @param seconds
+	 *            - maximum time to wait in seconds
+	 * @return double - the total time waited
+	 */
+	private double waitForPopup(long seconds) {
+		// wait for up to XX seconds for our error message
+		long end = System.currentTimeMillis() + (seconds * 1000);
+		while (System.currentTimeMillis() < end) {
+			try { // If results have been returned, the results are displayed in
+					// a drop down.
+				driver.switchTo().alert();
+				break;
+			} catch (NoAlertPresentException e) {
+				log.error(e);
+			}
+		}
+		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
+		return timetook / 1000;
+	}
+
+	/**
 	 * a method to check if an alert is present
 	 *
 	 * @return boolean - is an alert present
@@ -1831,20 +1854,8 @@ public class Action {
 	 */
 	public int waitForAlertPresent(long seconds) {
 		String action = UPTO + seconds + " seconds for an alert to be present";
-		String expected = ALERT;
-		// wait for up to XX seconds for our error message
-		long end = System.currentTimeMillis() + (seconds * 1000);
-		while (System.currentTimeMillis() < end) {
-			try { // If results have been returned, the results are displayed in
-					// a drop down.
-				driver.switchTo().alert();
-				break;
-			} catch (NoAlertPresentException e) {
-				log.error(e);
-			}
-		}
-		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
-		timetook = timetook / 1000;
+		String expected = "An alert is present";
+		double timetook = waitForPopup(seconds);
 		if (!isAlertPresent(false)) {
 			file.recordAction(action, expected, AFTER + timetook + " seconds, an alert is not present", Result.FAILURE);
 			file.addError();
@@ -1920,20 +1931,8 @@ public class Action {
 	 */
 	public int waitForConfirmationPresent(long seconds) {
 		String action = UPTO + seconds + " seconds for a confirmation to be present";
-		String expected = ALERT;
-		// wait for up to XX seconds for our error message
-		long end = System.currentTimeMillis() + (seconds * 1000);
-		while (System.currentTimeMillis() < end) {
-			try { // If results have been returned, the results are displayed in
-					// a drop down.
-				driver.switchTo().alert();
-				break;
-			} catch (NoAlertPresentException e) {
-				log.error(e);
-			}
-		}
-		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
-		timetook = timetook / 1000;
+		String expected = "A confirmation is present";
+		double timetook = waitForPopup(seconds);
 		if (!isConfirmationPresent(false)) {
 			file.recordAction(action, expected, AFTER + timetook + " seconds, a confirmation is not present",
 					Result.FAILURE);
@@ -2011,20 +2010,8 @@ public class Action {
 	 */
 	public int waitForPromptPresent(long seconds) {
 		String action = UPTO + seconds + " seconds for a prompt to be present";
-		String expected = ALERT;
-		// wait for up to XX seconds for our error message
-		long end = System.currentTimeMillis() + (seconds * 1000);
-		while (System.currentTimeMillis() < end) {
-			try { // If results have been returned, the results are displayed in
-					// a drop down.
-				driver.switchTo().alert();
-				break;
-			} catch (NoAlertPresentException e) {
-				log.error(e);
-			}
-		}
-		double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
-		timetook = timetook / 1000;
+		String expected = "A prompt is present";
+		double timetook = waitForPopup(seconds);
 		if (!isPromptPresent(false)) {
 			file.recordAction(action, expected, AFTER + timetook + " seconds, a prompt is not present", Result.FAILURE);
 			file.addError();

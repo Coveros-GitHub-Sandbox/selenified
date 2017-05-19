@@ -1507,10 +1507,8 @@ public class Assert {
      * compares the expected index of row with header to 
      * the actual index of row with header from a table element
      *
-     * @param type
-     *            - the locator type e.g. Locators.id, Locators.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
+     * @param element
+     *            - the element to be waited for
      * @param header
      *            the full text value expected in a th cell
      * @param expectedIndex
