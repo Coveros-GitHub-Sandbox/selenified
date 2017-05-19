@@ -1,7 +1,6 @@
 package integration;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import tools.TestBase;
@@ -23,11 +22,6 @@ public class AssertIT extends TestBase {
 		version = "0.0.1";
 	}
 
-	@DataProvider(name = "car list items", parallel = true)
-	public Object[][] DataSetOptions() {
-		return new Object[][] { new Object[] { "volvo" }, new Object[] { "saab" }, new Object[] { "mercedes" } };
-	}
-
 	@Test(groups = { "integration", "virtual" }, description = "An integration test to check a title")
 	public void compareTitleTest() throws Exception {
 		// use this object to verify our page looks as expected
@@ -44,43 +38,6 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareTitle("Yahoo");
-		// verify 1 issue
-		finish(1);
-	}
-
-	@Test(dataProvider = "car list items", groups = { "integration", "virtual" },
-			description = "An integration test using a data provider to perform searches")
-	public void dataProviderTest(String listItem) throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.select(Locators.ID, "car_list", listItem);
-		// close out the test
-		finish();
-	}
-
-	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the goToURL method")
-	public void goToURLTest() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		actions.goToURL("https://www.google.com/");
-		asserts.compareURL("https://www.google.com/");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "integration", "virtual" }, description = "An integration negative test to check the goToURL method")
-	public void negativeGoToURLTest() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		actions.goToURL("https://www.yahoo.com/");
-		asserts.compareURL("https://www.google.com/");
 		// verify 1 issue
 		finish(1);
 	}
@@ -292,6 +249,54 @@ public class AssertIT extends TestBase {
 		// verify 1 issue
 		finish(1);
 	}
+	
+	@Test(groups = { "integration" }, description = "An integration test to check the checkAlertPresent method")
+	public void checkConfirmationPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		asserts.checkConfirmationPresent();
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration" }, description = "An integration negative test to check the checkAlertPresent method")
+	public void negativeCheckConfirmationPresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkConfirmationPresent();
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration" }, description = "An integration test to check the checkAlertPresent method")
+	public void checkAlertNotPresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkAlertNotPresent();
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration" }, description = "An integration negative test to check the checkAlertPresent method")
+	public void negativeCheckNotAlertPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		asserts.checkAlertNotPresent();
+		// verify 1 issue
+		finish(1);
+	}
 
 	@Test(groups = { "integration" }, description = "An integration test to check the checkAlert method")
 	public void checkAlertTest() throws Exception {
@@ -307,6 +312,16 @@ public class AssertIT extends TestBase {
 		finish();
 	}
 
+	@Test(groups = { "integration" }, description = "An integration negative test to check the checkAlert method")
+	public void negativeCheckAlertNoAlertTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkAlert("Disabled!");
+		// verify 1 issue
+		finish(1);
+	}
+	
 	@Test(groups = { "integration" }, description = "An integration negative test to check the checkAlert method")
 	public void negativeCheckAlertTest() throws Exception {
 		// use this object to manipulate our page
@@ -347,6 +362,16 @@ public class AssertIT extends TestBase {
 		asserts.checkConfirmation("Disabled!");
 		// verify 1 issue
 		finish(1);
+	}
+	
+	@Test(groups = { "integration" }, description = "An integration negative test to check the checkConfirmation method")
+	public void negativeCheckConfirmationNoConfirmationTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkConfirmation("Disabled!");
+		// verify 2 issues
+		finish(2);
 	}
 
 	@Test(groups = { "integration" }, description = "An integration test to check the checkConfirmationNotPresent method")
@@ -729,7 +754,7 @@ public class AssertIT extends TestBase {
 	}
 
 	@Test(groups = { "integration" }, description = "An integration negative test to check the checkPrompt method")
-	public void negativeCheckPromptTest() throws Exception {
+	public void negativeCheckPromptNoPromptTest() throws Exception {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -737,7 +762,45 @@ public class AssertIT extends TestBase {
 		// verify 1 issue
 		finish(1);
 	}
+	
+	@Test(groups = { "integration" }, description = "An integration negative test to check the checkPrompt method")
+	public void negativeCheckPromptTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		asserts.checkPrompt("Disabled!");
+		// verify 1 issue
+		finish(1);
+	}
 
+	@Test(groups = { "integration" }, description = "An integration test to check the checkPromptNotPresent method")
+	public void checkPromptPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		asserts.checkPromptPresent();
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration" }, description = "An integration negative test to check the checkPromptNotPresent method")
+	public void negativeCheckPromptPresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkPromptPresent();
+		// verify 1 issue
+		finish(1);
+	}
+	
 	@Test(groups = { "integration" }, description = "An integration test to check the checkPromptNotPresent method")
 	public void checkPromptNotPresentTest() throws Exception {
 		// use this object to verify our page looks as expected

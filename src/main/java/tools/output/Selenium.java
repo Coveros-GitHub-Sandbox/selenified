@@ -34,13 +34,13 @@ public class Selenium {
 
 		protected Boolean browser;
 		protected Boolean load;
-		
+
 		static {
 			FALSE.browser = false;
 			OPEN.browser = true;
 			LOAD.browser = true;
 		}
-		
+
 		static {
 			FALSE.load = false;
 			OPEN.load = false;
@@ -50,7 +50,7 @@ public class Selenium {
 		public Boolean useBrowser() {
 			return this.browser;
 		}
-		
+
 		public Boolean loadPage() {
 			return this.load;
 		}
