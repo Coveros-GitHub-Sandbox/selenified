@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
+import tools.output.LocatorAssert;
 import tools.output.Selenium.Locators;
 
 public class ActionIT extends TestBase {
@@ -299,7 +300,99 @@ public class ActionIT extends TestBase {
 		// verify 1 issue
 		finish(1);
 	}
+	
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the type method")
+	public void typeTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "input_box", "This is a test");
+		asserts.compareInputValue(Locators.ID, "input_box", "This is a test");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration" }, description = "An integration test to check the waitForPromptPresent method")
+	public void waitForPromptPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		actions.waitForPromptPresent();
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration" }, description = "A integration negative test to check the waitForPromptPresent method")
+	public void negativeWaitForPromptPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.waitForPromptPresent();
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration" }, description = "An integration test to check the waitForConfirmationPresent method")
+	public void waitForConfirmationPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		actions.waitForConfirmationPresent();
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration" }, description = "An integration negative test to check the waitForConfirmationPresent method")
+	public void negativeWaitForConfirmationPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.waitForConfirmationPresent();
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration" }, description = "An integration test to check the waitForAlertPresent method")
+	public void waitForAlertPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		actions.waitForAlertPresent();
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration" }, description = "An integration negative test to check the waitForAlertPresent method")
+	public void negativeWaitForAlertPresentTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.waitForAlertPresent();
+		// verify 1 issue
+		finish(1);
+	}
 
+	@Test(groups = { "integration1" }, description = "An integration test to check the waitForAlertPresent method")
+	public void submitTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.submit(Locators.ID, "submit_button");
+		asserts.checkTextVisible("You're on the next page");
+		// verify no issues
+		finish();
+	}
+	
 	@Test(groups = { "integration" }, description = "An integration test to check the scroll method")
 	public void scrollTest() throws Exception {
 		// use this object to manipulate our page
