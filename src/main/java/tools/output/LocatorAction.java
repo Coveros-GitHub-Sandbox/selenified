@@ -1111,22 +1111,21 @@ public class LocatorAction {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented
-	 *
+	 * generically wait for a field to enter text into
+	 * 
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param text
-	 *            : the text to be typed in
+	 * @param action
+	 *            - the action being performed
+	 * @param expected
+	 *            - the expected outcome of this task
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws IOException
 	 */
-	public int type(Locators type, String locator, String text) throws IOException {
-		String action = "Typing text '" + text + IN + type + " " + locator;
-		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + text
-				+ " typed in";
+	private int waitForTextField(Locators type, String locator, String action, String expected) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, false)) {
 			waitForElementPresent(type, locator, 5);
@@ -1153,6 +1152,29 @@ public class LocatorAction {
 			file.recordAction(action, expected, CANTTYPE + type + " " + locator + NOTENABLED, Result.FAILURE);
 			file.addError();
 			return 1; // indicates element not enabled
+		}
+		return 0;
+	}
+
+	/**
+	 * our generic selenium type functionality implemented
+	 *
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param text
+	 *            : the text to be typed in
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int type(Locators type, String locator, String text) throws IOException {
+		String action = "Typing text '" + text + IN + type + " " + locator;
+		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + text
+				+ " typed in";
+		if (waitForTextField(type, locator, action, expected) != 0) {
+			return 1;
 		}
 		WebElement element = getWebElement(type, locator);
 		element.sendKeys(text);
@@ -1177,32 +1199,8 @@ public class LocatorAction {
 		String action = "Typing text '" + key + IN + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + key
 				+ " typed in";
-		// wait for element to be present
-		if (!isElementPresent(type, locator, false)) {
-			waitForElementPresent(type, locator, 5);
-		}
-		if (!isElementPresent(type, locator, false)) {
-			file.recordAction(action, expected, CANTTYPE + type + " " + locator + NOTPRESENT, Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not present
-		}
-		// wait for element to be displayed
-		if (!isElementDisplayed(type, locator, false)) {
-			waitForElementDisplayed(type, locator, 5);
-		}
-		if (!isElementDisplayed(type, locator, false)) {
-			file.recordAction(action, expected, CANTTYPE + type + " " + locator + NOTDISPLAYED, Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not displayed
-		}
-		// wait for element to be enabled
-		if (!isElementEnabled(type, locator, false)) {
-			waitForElementEnabled(type, locator, 5);
-		}
-		if (!isElementEnabled(type, locator, false)) {
-			file.recordAction(action, expected, CANTTYPE + type + " " + locator + NOTENABLED, Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not enabled
+		if (waitForTextField(type, locator, action, expected) != 0) {
+			return 1;
 		}
 		WebElement element = getWebElement(type, locator);
 		element.sendKeys(key);
