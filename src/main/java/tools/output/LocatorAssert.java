@@ -636,6 +636,29 @@ public class LocatorAssert {
 		}
 		return true;
 	}
+	
+	/**
+	 * Determines if the element is present, an input, and enabled
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return Boolean: whether the element is present, an input, and enabled or not
+	 * @throws IOException
+	 */
+	private boolean isPresentInputEnabled(Locators type, String locator) throws IOException {
+		if (!isPresent(type, locator)) {
+			return false;
+		}
+		if( !isInput(type, locator)) {
+			return false;
+		}
+		if (!isEnabled(type, locator)) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * compares the expected element value with the actual value from an element
@@ -785,13 +808,7 @@ public class LocatorAssert {
 				EXPECTED + type + " <i>" + locator + "</i> having a select value of <b>" + selectValue + "</b>");
 		// check for our object to the present on the page
 		String[] elementValues;
-		if (!isPresent(type, locator)) {
-			return 1;
-		}
-		if (!isInput(type, locator)) {
-			return 1;
-		}
-		if (!isEnabled(type, locator)) {
+		if (!isPresentInputEnabled(type, locator)) {
 			return 1;
 		} else {
 			elementValues = action.getSelectedValues(type, locator);
@@ -823,13 +840,7 @@ public class LocatorAssert {
 				EXPECTED + type + " <i>" + locator + "</i> without a select value of <b>" + selectValue + "</b>");
 		// check for our object to the present on the page
 		String[] elementValues;
-		if( !isPresent(type, locator)) {
-			return 1;
-		}
-		if (!isInput(type, locator)) {
-			return 1;
-		}
-		if (!isEnabled(type, locator)) {
+		if( !isPresentInputEnabled(type, locator)) {
 			return 1;
 		} else {
 			elementValues = action.getSelectedValues(type, locator);
@@ -862,13 +873,7 @@ public class LocatorAssert {
 				EXPECTED + type + " <i>" + locator + "</i> having a selected value of <b>" + expectedValue + "</b>");
 		// check for our object to the present on the page
 		String elementValue;
-		if(!isPresent(type, locator)) {
-			return 1;
-		}
-		if(!isInput(type, locator)) {
-			return 1;
-		}
-		if(!isEnabled(type, locator)) {
+		if(!isPresentInputEnabled(type, locator)) {
 			return 1;
 		} else{
 			elementValue = action.getSelectedValue(type, locator);
@@ -900,13 +905,7 @@ public class LocatorAssert {
 				EXPECTED + type + " <i>" + locator + "</i> having a selected text of <b>" + expectedText + "</b>");
 		// check for our object to the present on the page
 		String elementText;
-		if( !isPresent(type, locator)) {
-			return 1;
-		}
-		if( !isInput(type, locator)) {
-			return 1;
-		}
-		if (!isEnabled(type, locator)) {
+		if( !isPresentInputEnabled(type, locator)) {
 			return 1;
 		} else {
 			elementText = action.getSelectedText(type, locator);
@@ -938,13 +937,7 @@ public class LocatorAssert {
 				+ expectedValue + "</b>");
 		// check for our object to the present on the page
 		String elementValue;
-		if( !isPresent(type, locator)) {
-			return 1;
-		}
-		if (!isInput(type, locator)) {
-			return 1;
-		}
-		if (!isEnabled(type, locator)) {
+		if( !isPresentInputEnabled(type, locator)) {
 			return 1;
 		} else {
 			elementValue = action.getSelectedValue(type, locator);
@@ -976,13 +969,7 @@ public class LocatorAssert {
 				EXPECTED + type + " <i>" + locator + "</i> with select values of <b>" + expectedValues + "</b>");
 		// check for our object to the present on the page
 		String[] elementValues;
-		if (!isPresent(type, locator)) {
-			return 1;
-		}
-		if (!isInput(type, locator)) {
-			return 1;
-		}
-		if (!isEnabled(type, locator)) {
+		if (!isPresentInputEnabled(type, locator)) {
 			return 1;
 		} else {
 			elementValues = action.getSelectOptions(type, locator);
@@ -1025,13 +1012,7 @@ public class LocatorAssert {
 				+ numOfOptions + "</b>");
 		// check for our object to the present on the page
 		String[] elementValues;
-		if (!isPresent(type, locator)) {
-			return 1;
-		}
-		if( !isInput(type, locator)) {
-			return 1;
-		}
-		if (!isEnabled(type, locator)) {
+		if (!isPresentInputEnabled(type, locator)) {
 			return 1;
 		} else {
 			elementValues = action.getSelectOptions(type, locator);
