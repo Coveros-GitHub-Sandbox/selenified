@@ -122,7 +122,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareRowWHeader(Locators.ID, "table", "CEO", 3);
+		asserts.compareRowHeader(Locators.ID, "table", "CEO", 3);
 		// verify no issues
 		finish();
 	}
@@ -133,7 +133,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareRowWHeader(Locators.ID, "table", "CEO", 0);
+		asserts.compareRowHeader(Locators.ID, "table", "CEO", 0);
 		// verify 1 issue
 		finish(1);
 	}
