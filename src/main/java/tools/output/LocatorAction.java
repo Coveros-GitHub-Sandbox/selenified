@@ -105,6 +105,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param seconds
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
@@ -145,6 +148,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param seconds
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
@@ -182,6 +188,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param seconds
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
@@ -228,6 +237,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param seconds
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
@@ -269,6 +281,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param seconds
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
@@ -313,6 +328,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param seconds
 	 *            : the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
@@ -354,6 +372,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param print
 	 *            : whether or not to printout the action
 	 * @return boolean: whether the element is present or not
@@ -381,6 +402,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param print
 	 *            : whether or not to printout the action
 	 * @return boolean: whether the element is present or not
@@ -410,6 +434,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param print
 	 *            : whether or not to printout the action
 	 * @return boolean: whether the element is present or not
@@ -435,6 +462,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param print
 	 *            : whether or not to printout the action
 	 * @return boolean: whether the element is checked or not
@@ -460,6 +490,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param print
 	 *            : whether or not to printout the action
 	 * @return boolean: whether the element is displayed or not
@@ -490,6 +523,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer: the number of select options
 	 * @throws IOException
 	 */
@@ -513,6 +549,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return String[]: the options from the select element
 	 * @throws IOException
 	 */
@@ -544,6 +583,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return List: a list of the table rows as WebElements
 	 * @throws IOException
 	 */
@@ -567,6 +609,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer: the number of table rows
 	 * @throws IOException
 	 */
@@ -582,6 +627,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
@@ -605,6 +653,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param header
 	 *            : the full text value expected in a th cell
 	 * @return Integer: the row number containing the header
@@ -641,6 +692,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param colNum
 	 *            : the column number of the table to obtain - note, column
 	 *            numbering starts at 1, NOT 0
@@ -675,6 +729,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param row
 	 *            : the number of the row in the table - note, row numbering
 	 *            starts at 1, NOT 0
@@ -713,6 +770,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Boolean: was something selected in the drop down
 	 * @throws IOException
 	 */
@@ -732,6 +792,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return String: the option from the select element
 	 * @throws IOException
 	 */
@@ -756,6 +819,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return String[]: the options from the select element
 	 * @throws IOException
 	 */
@@ -784,6 +850,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return String: the options from the select element
 	 * @throws IOException
 	 */
@@ -808,6 +877,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return String[]: the options from the select element
 	 * @throws IOException
 	 */
@@ -836,6 +908,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
 	 * @throws InvalidLocatorTypeException
 	 */
@@ -851,6 +926,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
 	 * @throws InvalidLocatorTypeException
 	 */
@@ -866,6 +944,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
@@ -884,6 +965,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
@@ -902,6 +986,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return String - the value of the css attribute
 	 * @throws InvalidLocatorTypeException
 	 */
@@ -936,6 +1023,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws IOException
@@ -985,6 +1075,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws IOException
@@ -1037,6 +1130,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws IOException
@@ -1078,6 +1174,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws IOException
@@ -1128,6 +1227,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param action
 	 *            - the action being performed
 	 * @param expected
@@ -1175,6 +1277,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param text
 	 *            : the text to be typed in
 	 * @return Integer - the number of errors encountered while executing these
@@ -1201,6 +1306,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param key
 	 *            : the key to be pressed
 	 * @return Integer - the number of errors encountered while executing these
@@ -1227,6 +1335,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws IOException
@@ -1275,6 +1386,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param value
 	 *            : the select option to be selected
 	 * @return Integer - the number of errors encountered while executing these
@@ -1338,6 +1452,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws IOException
@@ -1368,11 +1485,7 @@ public class LocatorAction {
 		file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
 		return 0; // indicates element successfully moved to
 	}
-
-	//////////////////////////////////////////////////////
-	// obtaining element values
-	//////////////////////////////////////////////////////
-
+	
 	/**
 	 * An extension of the basic Selenium action of 'moveToElement' This will
 	 * scroll or move the page to ensure the element is visible
@@ -1381,6 +1494,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param position
 	 *            - how many pixels above the element to scroll to
 	 * @return Integer - the number of errors encountered while executing these
@@ -1417,10 +1533,6 @@ public class LocatorAction {
 		return 0; // indicates element successfully moved to
 	}
 
-	// //////////////////////////////////
-	// extra base selenium functionality
-	// //////////////////////////////////
-
 	/**
 	 * a function to switch to a frame using the element
 	 * 
@@ -1428,6 +1540,9 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
@@ -1465,9 +1580,9 @@ public class LocatorAction {
 		return 0;
 	}
 
-	// //////////////////////////////////
-	// extra base selenium functionality
-	// //////////////////////////////////
+	//////////////////////////////////////////////////////
+	// obtaining element values
+	//////////////////////////////////////////////////////
 
 	/**
 	 * a method to determine selenium's By object using selenium webdriver
@@ -1522,6 +1637,9 @@ public class LocatorAction {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @param elementMatch
 	 *            - the number of the matching element, starting the count at 0;
 	 * @return WebElement: the element object, and all associated values with it
 	 * @throws InvalidLocatorTypeException
@@ -1529,12 +1647,12 @@ public class LocatorAction {
 	private WebElement getWebElement(Locators type, String locator, int elementMatch)
 			throws InvalidLocatorTypeException {
 		List<WebElement> elements = getWebElements(type, locator);
-		if( elements.size() > elementMatch ) {
+		if (elements.size() > elementMatch) {
 			return elements.get(elementMatch);
 		}
 		return getWebElement(type, locator);
 	}
-	
+
 	/**
 	 * a method to grab the first matching web element using selenium webdriver
 	 *
@@ -1549,7 +1667,6 @@ public class LocatorAction {
 		By byElement = defineByElement(type, locator);
 		return driver.findElement(byElement);
 	}
-
 
 	/**
 	 * a method to grab all matching web elements using selenium webdriver
@@ -1568,13 +1685,13 @@ public class LocatorAction {
 	}
 
 	/**
-	 * a method to determine how many elements match the selector >>>>>>>
+	 * a method to determine how many elements match the selector
 	 * 
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @return Integer: how many element match the selector <<<<<<< HEAD
+	 * @return Integer: how many element match the selector
 	 * @throws InvalidLocatorTypeException
 	 */
 	public int getElementMatchCount(Locators type, String locator) throws InvalidLocatorTypeException {
