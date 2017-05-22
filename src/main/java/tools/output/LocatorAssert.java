@@ -1121,7 +1121,7 @@ public class LocatorAssert {
 		if (!isPresent(type, locator)) {
 			return 1;
 		} else {
-			rowIndex = action.getTableRowWHeader(type, locator, header);
+			rowIndex = action.getTableRowHeader(type, locator, header);
 		}
 		if (rowIndex != expectedIndex) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> and table row with header " + header

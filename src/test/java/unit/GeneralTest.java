@@ -230,12 +230,10 @@ public class GeneralTest {
 						"BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL", "Gosu",
 						"Powershell", "Squeak", "Gambas", "Euphoria", "Fantom"),
 				"helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambasEuphoriaFantom");
-		String testName = General
-				.getTestName("helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy", "Javascript", "PHP",
-						"Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift", "Elixir", "BASIC",
-						"Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL", "Gosu",
-						"Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
-		System.out.println("");
+		String testName = General.getTestName("helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+				"Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
+				"Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL", "Gosu",
+				"Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
 		Assert.assertTrue(testName.matches("^helloWorld@[0-9a-f]{8}$"));
 	}
 
