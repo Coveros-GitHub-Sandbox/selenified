@@ -910,12 +910,13 @@ public class LocatorAction {
 	 * a way to execute custom javascript functions
 	 *
 	 * @param javascriptFunction
+	 * @return Object: any resultant output from the javascript command
 	 * @throws InvalidLocatorTypeException
 	 */
-	public void getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
+	public Object getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript(javascriptFunction, element);
+		return js.executeScript(javascriptFunction, element);
 	}
 
 	/**

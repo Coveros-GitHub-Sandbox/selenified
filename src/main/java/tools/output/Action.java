@@ -2428,10 +2428,11 @@ public class Action {
 	 * a way to execute custom javascript functions
 	 *
 	 * @param javascriptFunction
+	 * @return Object: any resultant output from the javascript command
 	 */
-	public void getEval(String javascriptFunction) {
+	public Object getEval(String javascriptFunction) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript(javascriptFunction);
+		return js.executeScript(javascriptFunction);
 	}
 
 	/**
@@ -2440,10 +2441,11 @@ public class Action {
 	 * @param element
 	 *            - the element to be waited for
 	 * @param javascriptFunction
+	 * @return Object: any resultant output from the javascript command
 	 * @throws InvalidLocatorTypeException
 	 */
-	public void getEval(Element element, String javascriptFunction) throws InvalidLocatorTypeException {
-		getEval(element.getType(), element.getLocator(), javascriptFunction);
+	public Object getEval(Element element, String javascriptFunction) throws InvalidLocatorTypeException {
+		return getEval(element.getType(), element.getLocator(), javascriptFunction);
 	}
 
 	/**
@@ -2454,9 +2456,10 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param javascriptFunction
+	 * @return Object: any resultant output from the javascript command
 	 * @throws InvalidLocatorTypeException
 	 */
-	public void getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
-		locatorAction.getEval(type, locator, javascriptFunction);
+	public Object getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
+		return locatorAction.getEval(type, locator, javascriptFunction);
 	}
 }
