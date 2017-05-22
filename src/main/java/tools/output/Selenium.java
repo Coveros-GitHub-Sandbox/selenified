@@ -58,11 +58,11 @@ public class Selenium {
 
 	/**
 	 * Select a Locator for the element we are interacting with Available
-	 * options are: xpath, id, name, classname, paritallinktext, linktext,
+	 * options are: xpath, id, name, classname, css, paritallinktext, linktext,
 	 * tagname
 	 */
 	public enum Locators {
-		XPATH, ID, NAME, CLASSNAME, PARTIALLINKTEXT, LINKTEXT, TAGNAME
+		XPATH, ID, NAME, CLASSNAME, CSS, PARTIALLINKTEXT, LINKTEXT, TAGNAME
 	}
 
 	/**

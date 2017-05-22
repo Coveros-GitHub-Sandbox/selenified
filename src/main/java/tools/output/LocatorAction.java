@@ -1431,6 +1431,9 @@ public class LocatorAction {
 		case CLASSNAME:
 			byElement = By.className(locator);
 			break;
+		case CSS:
+			byElement = By.cssSelector(locator);
+			break;
 		case LINKTEXT:
 			byElement = By.linkText(locator);
 			break;
