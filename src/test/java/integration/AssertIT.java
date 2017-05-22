@@ -502,6 +502,17 @@ public class AssertIT extends TestBase {
 		// verify 1 issue
 		finish(1);
 	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkElementDisplayedAndChecked method")
+	public void negativeCheckElementDisplayedAndCheckedNotDisplayedTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementDisplayedAndChecked(Locators.ID, "non-existent-element");
+		// verify 1 issue
+		finish(1);
+	}
 
 	@Test(groups = { "integration", "virtual" },
 			description = "An integration test to check the checkElementDisplayedAndEditable method")
