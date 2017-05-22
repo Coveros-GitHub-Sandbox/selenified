@@ -3,12 +3,15 @@
 <head>
   <script type="text/javascript">
     window.onload = function() {
+      document.cookie = "cookie=cookietest";
       var enable_button = document.getElementById("enable_button");
+      var five_second_button = document.getElementById("five_second_button");
       var scroll_button = document.getElementById("scroll_button");
       var clickBtn = document.getElementsByClassName('click')[0];
 
       // Disable the button on initial page load
       enable_button.disabled = true;
+      five_second_button.disabled = true;
 
       //add event listener
       clickBtn.addEventListener('click', function(event) {
@@ -22,6 +25,13 @@
       scroll_button.addEventListener('click', function(event) {
         document.documentElement.style["height"] = "5000px";
       });
+
+      setTimeout(function(){
+        five_second_button.disabled = false;
+      }, 6000);
+       setTimeout(function(){
+        five_second_button.disabled = true;
+      }, 6100);
     };
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -66,6 +76,8 @@ tr:nth-child(even) {
 <div id="enable_div" class="showup">
   <input name="enable_button" id="enable_button" type="button" value="Button" />
 </div>
+<input name="five_second_button" id="five_second_button" type="button" value="5 Second Button" />
+<input type="text" name="input_box" id="input_box" value=""><br>
 <input id="scroll_button" name="scroll_button" type="button" value="Increase Page Height" />
 <select id="car_list" name="car_list">
   <option value="volvo">Volvo</option>
@@ -73,6 +85,12 @@ tr:nth-child(even) {
   <option value="mercedes">Mercedes</option>
   <option value="audi">Audi</option>
 </select>
+<br>
+<form action="/next_page.html">
+<input type="checkbox" name="that" id="that" value="That">That<br>
+<input type="checkbox" name="this" id="this" value="This">This
+<input id="submit_button" name="submit_button" type="submit" value="Submit">
+</form>
 <table id="table">
   <tr>
     <th></th>
