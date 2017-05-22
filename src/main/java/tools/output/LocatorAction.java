@@ -151,7 +151,8 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotPresent(Locators type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementNotPresent(Locators type, String locator, int elementMatch, long seconds)
+			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be present";
 		String expected = type + " " + locator + " is not present";
 		// wait for up to XX seconds for our error message
@@ -187,7 +188,8 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementDisplayed(Locators type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementDisplayed(Locators type, String locator, int elementMatch, long seconds)
+			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + DISPLAYED;
 		String expected = type + " " + locator + " is displayed";
 		double start = System.currentTimeMillis();
@@ -232,7 +234,8 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotDisplayed(Locators type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementNotDisplayed(Locators type, String locator, int elementMatch, long seconds)
+			throws IOException {
 		// this might fail if the element disappears completely
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be displayed";
 		String expected = type + " " + locator + " is not displayed";
@@ -316,7 +319,8 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotEnabled(Locators type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementNotEnabled(Locators type, String locator, int elementMatch, long seconds)
+			throws IOException {
 		// this might fail if the element is no longer present
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be enabled";
 		String expected = type + " " + locator + " is not enabled";
@@ -461,7 +465,8 @@ public class LocatorAction {
 	 * @return boolean: whether the element is displayed or not
 	 * @throws IOException
 	 */
-	public boolean isElementDisplayed(Locators type, String locator, int elementMatch, boolean print) throws IOException {
+	public boolean isElementDisplayed(Locators type, String locator, int elementMatch, boolean print)
+			throws IOException {
 		boolean isDisplayed = false;
 		try {
 			isDisplayed = getWebElement(type, locator, elementMatch).isDisplayed();
@@ -642,7 +647,8 @@ public class LocatorAction {
 	 * @return List: a list of the table cells in the columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumn(Locators type, String locator, int elementMatch, int colNum) throws IOException {
+	public List<WebElement> getTableColumn(Locators type, String locator, int elementMatch, int colNum)
+			throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -679,7 +685,8 @@ public class LocatorAction {
 	 *         with it
 	 * @throws IOException
 	 */
-	public WebElement getTableCell(Locators type, String locator, int elementMatch, int row, int col) throws IOException {
+	public WebElement getTableCell(Locators type, String locator, int elementMatch, int row, int col)
+			throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -714,7 +721,8 @@ public class LocatorAction {
 		if ("input".equalsIgnoreCase(element.getTagName()) && element.isSelected()) {
 			return true;
 		}
-		return "select".equalsIgnoreCase(element.getTagName()) && getSelectedValues(type, locator, elementMatch).length > 0;
+		return "select".equalsIgnoreCase(element.getTagName())
+				&& getSelectedValues(type, locator, elementMatch).length > 0;
 	}
 
 	/**
@@ -863,7 +871,8 @@ public class LocatorAction {
 	 * @return String - the value of the css attribute
 	 * @throws InvalidLocatorTypeException
 	 */
-	public String getCss(Locators type, String locator, int elementMatch, String attribute) throws InvalidLocatorTypeException {
+	public String getCss(Locators type, String locator, int elementMatch, String attribute)
+			throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getCssValue(attribute);
 	}
@@ -880,7 +889,8 @@ public class LocatorAction {
 	 * @return String - the value of the css attribute
 	 * @throws InvalidLocatorTypeException
 	 */
-	public String getAttribute(Locators type, String locator, int elementMatch, String attribute) throws InvalidLocatorTypeException {
+	public String getAttribute(Locators type, String locator, int elementMatch, String attribute)
+			throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getAttribute(attribute);
 	}
@@ -896,7 +906,8 @@ public class LocatorAction {
 	 * @throws InvalidLocatorTypeException
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, String> getAllAttributes(Locators type, String locator, int elementMatch) throws InvalidLocatorTypeException {
+	public Map<String, String> getAllAttributes(Locators type, String locator, int elementMatch)
+			throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator, elementMatch);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return (Map<String, String>) js.executeScript(
@@ -911,7 +922,8 @@ public class LocatorAction {
 	 * @return Object: any resultant output from the javascript command
 	 * @throws InvalidLocatorTypeException
 	 */
-	public Object getEval(Locators type, String locator, int elementMatch, String javascriptFunction) throws InvalidLocatorTypeException {
+	public Object getEval(Locators type, String locator, int elementMatch, String javascriptFunction)
+			throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator, elementMatch);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return js.executeScript(javascriptFunction, element);
@@ -1124,7 +1136,8 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	private int waitForTextField(Locators type, String locator, int elementMatch, String action, String expected) throws IOException {
+	private int waitForTextField(Locators type, String locator, int elementMatch, String action, String expected)
+			throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -1302,10 +1315,9 @@ public class LocatorAction {
 		}
 		// ensure the option exists
 		if (!Arrays.asList(getSelectOptions(type, locator, elementMatch)).contains(value)) {
-			file.recordAction(action, expected,
-					cantSelect + value + " in " + type + " " + locator
-							+ " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
-							+ String.join("<br/>&nbsp;&nbsp;&nbsp;", getSelectOptions(type, locator, elementMatch)) + "</i>",
+			file.recordAction(action, expected, cantSelect + value + " in " + type + " " + locator
+					+ " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
+					+ String.join("<br/>&nbsp;&nbsp;&nbsp;", getSelectOptions(type, locator, elementMatch)) + "</i>",
 					Result.FAILURE);
 			file.addError();
 			return 1;
@@ -1404,7 +1416,7 @@ public class LocatorAction {
 		file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
 		return 0; // indicates element successfully moved to
 	}
-	
+
 	/**
 	 * a function to switch to a frame using the element
 	 * 
@@ -1415,29 +1427,29 @@ public class LocatorAction {
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
-	public int selectFrame(Locators type, String locator) throws IOException {
+	public int selectFrame(Locators type, String locator, int elementMatch) throws IOException {
 		String cantSelect = "Unable to focus on frame ";
 		String action = "Focusing on frame " + type + " " + locator;
 		String expected = "Frame " + type + " " + locator + " is present, displayed, and focused";
 		// wait for element to be present
-		if (!isElementPresent(type, locator, false)) {
-			waitForElementPresent(type, locator, 5);
+		if (!isElementPresent(type, locator, elementMatch, false)) {
+			waitForElementPresent(type, locator, elementMatch, 5);
 		}
-		if (!isElementPresent(type, locator, false)) {
+		if (!isElementPresent(type, locator, elementMatch, false)) {
 			file.recordAction(action, expected, cantSelect + type + " " + locator + NOTPRESENT, Result.FAILURE);
 			file.addError();
 			return 1; // indicates element not present
 		}
 		// wait for element to be displayed
-		if (!isElementDisplayed(type, locator, false)) {
-			waitForElementDisplayed(type, locator, 5);
+		if (!isElementDisplayed(type, locator, elementMatch, false)) {
+			waitForElementDisplayed(type, locator, elementMatch, 5);
 		}
-		if (!isElementDisplayed(type, locator, false)) {
+		if (!isElementDisplayed(type, locator, elementMatch, false)) {
 			file.recordAction(action, expected, cantSelect + type + " " + locator + NOTDISPLAYED, Result.FAILURE);
 			file.addError();
 			return 1; // indicates element not displayed
 		}
-		WebElement element = getWebElement(type, locator);
+		WebElement element = getWebElement(type, locator, elementMatch);
 		try {
 			driver.switchTo().frame(element);
 		} catch (Exception e) {
@@ -1496,19 +1508,22 @@ public class LocatorAction {
 		}
 		return byElement;
 	}
-	
+
 	/**
-	 * a method to grab the identified matching web element using selenium webdriver
+	 * a method to grab the identified matching web element using selenium
+	 * webdriver
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param elementMatch - the number of the matching element, starting the count at 0;
+	 * @param elementMatch
+	 *            - the number of the matching element, starting the count at 0;
 	 * @return WebElement: the element object, and all associated values with it
 	 * @throws InvalidLocatorTypeException
 	 */
-	private WebElement getWebElement(Locators type, String locator, int elementMatch) throws InvalidLocatorTypeException {
+	private WebElement getWebElement(Locators type, String locator, int elementMatch)
+			throws InvalidLocatorTypeException {
 		List<WebElement> elements = getWebElements(type, locator);
 		return elements.get(elementMatch);
 	}
@@ -1528,15 +1543,16 @@ public class LocatorAction {
 		By byElement = defineByElement(type, locator);
 		return driver.findElements(byElement);
 	}
-	
+
 	/**
 	 * a method to determine how many elements match the selector
+	 * 
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: how many element match the selector
-	 * @throws InvalidLocatorTypeException 
+	 * @throws InvalidLocatorTypeException
 	 */
 	public int getElementMatchCount(Locators type, String locator) throws InvalidLocatorTypeException {
 		return getWebElements(type, locator).size();
