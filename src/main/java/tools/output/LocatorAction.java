@@ -1404,6 +1404,50 @@ public class LocatorAction {
 		file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
 		return 0; // indicates element successfully moved to
 	}
+	
+	/**
+	 * a function to switch to a frame using the element
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int selectFrame(Locators type, String locator) throws IOException {
+		String cantSelect = "Unable to focus on frame ";
+		String action = "Focusing on frame " + type + " " + locator;
+		String expected = "Frame " + type + " " + locator + " is present, displayed, and focused";
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator, 5);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			file.recordAction(action, expected, cantSelect + type + " " + locator + NOTPRESENT, Result.FAILURE);
+			file.addError();
+			return 1; // indicates element not present
+		}
+		// wait for element to be displayed
+		if (!isElementDisplayed(type, locator, false)) {
+			waitForElementDisplayed(type, locator, 5);
+		}
+		if (!isElementDisplayed(type, locator, false)) {
+			file.recordAction(action, expected, cantSelect + type + " " + locator + NOTDISPLAYED, Result.FAILURE);
+			file.addError();
+			return 1; // indicates element not displayed
+		}
+		WebElement element = getWebElement(type, locator);
+		try {
+			driver.switchTo().frame(element);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantSelect + type + " " + locator, Result.FAILURE);
+			return 1;
+		}
+		file.recordAction(action, expected, "Focused on frame " + type + " " + locator, Result.SUCCESS);
+		return 0;
+	}
 
 	/**
 	 * a method to determine selenium's By object using selenium webdriver
