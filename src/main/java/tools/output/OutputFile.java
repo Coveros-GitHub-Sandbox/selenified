@@ -31,7 +31,6 @@ import java.util.Date;
 
 import org.testng.log4testng.Logger;
 
-import selenified.exceptions.InvalidActionException;
 import tools.General;
 import tools.output.Selenium.Browsers;
 import tools.output.Assert.Result;
@@ -599,13 +598,17 @@ public class OutputFile {
 		if (action != null) {
 			try {
 				action.getDriver().get(url);
-				if( !action.getLocation().contains(url) ) {
-					throw new InvalidActionException("No page successfully loaded");
+				if (!action.getLocation().contains(url)) {
+					recordAction(act, expected,
+							startingPage + action.getLocation() + "</i> loaded instead of <i>" + url + "</i>",
+							Result.FAILURE);
+					addError();
+					return 1;
 				}
-				recordAction ( act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS );					
-			} catch( Exception e) {
+				recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
+			} catch (Exception e) {
 				log.error(e);
-				recordAction ( act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE );
+				recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
 				addError();
 				return 1;
 			}
