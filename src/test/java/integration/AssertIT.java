@@ -430,8 +430,8 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementChecked(Locators.ID, "non-existent-element");
-		// verify 2 issues
-		finish(2);
+		// verify 1 issue
+		finish(1);
 	}
 
 	@Test(groups = { "integration", "virtual" },
@@ -510,8 +510,8 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementDisplayedAndChecked(Locators.ID, "non-existent-element");
-		// verify 2 issue
-		finish(2);
+		// verify 1 issue
+		finish(1);
 	}
 
 	@Test(groups = { "integration", "virtual" },
@@ -724,8 +724,8 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.checkElementNotChecked(Locators.ID, "non-existent-element");
-		// verify 2 issues
-		finish(2);
+		// verify 1 issue
+		finish(1);
 	}
 
 	@Test(groups = { "integration", "virtual" },
