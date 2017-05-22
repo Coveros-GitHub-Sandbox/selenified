@@ -31,9 +31,9 @@ import java.util.Date;
 
 import org.testng.log4testng.Logger;
 
+import selenified.exceptions.InvalidActionException;
 import tools.General;
 import tools.output.Selenium.Browsers;
-import tools.output.Selenium.Locators;
 import tools.output.Assert.Result;
 import tools.output.Assert.Success;
 
@@ -93,7 +93,6 @@ public class OutputFile {
 	 *            - the browser we are performing this test on
 	 */
 	public OutputFile(String testDirectory, String testName, Browsers setBrowser) {
-
 		test = testName;
 		browser = setBrowser;
 		directory = testDirectory;
@@ -594,18 +593,19 @@ public class OutputFile {
 	 */
 	public int loadInitialPage() throws IOException {
 		String startingPage = "The starting page <i>";
+		String act = "Opening new browser and loading up starting page";
+		String expected = startingPage + url + "</i> will successfully load";
 
 		if (action != null) {
-			action.getDriver().get(url);
-			Result result = action.isElementPresent(Locators.XPATH, "//body", false) ? Result.SUCCESS : Result.FAILURE;
-			String actual = action.isElementPresent(Locators.XPATH, "//body", false)
-					? startingPage + url + "</i> loaded successfully"
-					: startingPage + url + "</i> did not load successfully";
-			recordAction("Opening new browser and loading up starting page",
-					startingPage + url + "</i> will successfully load", actual, result);
-			if (result == Result.SUCCESS) {
-				return 0;
-			} else {
+			try {
+				action.getDriver().get(url);
+				if( !action.getLocation().contains(url) ) {
+					throw new InvalidActionException("No page successfully loaded");
+				}
+				recordAction ( act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS );					
+			} catch( Exception e) {
+				log.error(e);
+				recordAction ( act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE );
 				addError();
 				return 1;
 			}

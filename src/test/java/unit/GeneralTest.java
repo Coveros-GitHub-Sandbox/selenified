@@ -35,13 +35,15 @@ public class GeneralTest {
 	@Test
 	public void listFilesForFolderDirectoryTest() {
 		List<String> files = General.listFilesForFolder(new File("./src/test/java"));
-		Assert.assertEquals(files.size(), 13);
+		Assert.assertEquals(files.size(), 14);
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "locators" + File.separator + "Sample.xml"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "integration" + File.separator + "AssertIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "integration" + File.separator + "ActionIT.java"));
+		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
+				+ "java" + File.separator + "integration" + File.separator + "BadPageIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "integration" + File.separator + "NoBrowserIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
