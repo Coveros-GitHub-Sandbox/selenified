@@ -4168,7 +4168,7 @@ public class Action {
 	 * @throws InvalidLocatorTypeException
 	 */
 	public String getAttribute(Locators type, String locator, String attribute) throws InvalidLocatorTypeException {
-		return getAttribute(type, locator, attribute);
+		return getAttribute(type, locator, 0, attribute);
 	}
 
 	/**

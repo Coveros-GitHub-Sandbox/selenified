@@ -1529,8 +1529,27 @@ public class LocatorAction {
 	private WebElement getWebElement(Locators type, String locator, int elementMatch)
 			throws InvalidLocatorTypeException {
 		List<WebElement> elements = getWebElements(type, locator);
-		return elements.get(elementMatch);
+		if( elements.size() > elementMatch ) {
+			return elements.get(elementMatch);
+		}
+		return getWebElement(type, locator);
 	}
+	
+	/**
+	 * a method to grab the first matching web element using selenium webdriver
+	 *
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return WebElement: the element object, and all associated values with it
+	 * @throws InvalidLocatorTypeException
+	 */
+	private WebElement getWebElement(Locators type, String locator) throws InvalidLocatorTypeException {
+		By byElement = defineByElement(type, locator);
+		return driver.findElement(byElement);
+	}
+
 
 	/**
 	 * a method to grab all matching web elements using selenium webdriver
