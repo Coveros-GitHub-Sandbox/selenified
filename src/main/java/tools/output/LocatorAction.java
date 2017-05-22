@@ -1417,6 +1417,10 @@ public class LocatorAction {
 		return 0; // indicates element successfully moved to
 	}
 
+	// //////////////////////////////////
+	// extra base selenium functionality
+	// //////////////////////////////////
+
 	/**
 	 * a function to switch to a frame using the element
 	 * 
@@ -1545,13 +1549,13 @@ public class LocatorAction {
 	}
 
 	/**
-	 * a method to determine how many elements match the selector
+	 * a method to determine how many elements match the selector >>>>>>>
 	 * 
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
-	 * @return Integer: how many element match the selector
+	 * @return Integer: how many element match the selector <<<<<<< HEAD
 	 * @throws InvalidLocatorTypeException
 	 */
 	public int getElementMatchCount(Locators type, String locator) throws InvalidLocatorTypeException {
