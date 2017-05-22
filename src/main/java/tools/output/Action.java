@@ -1537,6 +1537,9 @@ public class Action {
 	 *         steps
 	 */
 	public int switchToNewWindow() {
+		String cantSelect = "Unable to switch to new window";
+		String action = "Switching to new window";
+		String expected = "New window is now selected";
 		try {
 			parentWindow = driver.getWindowHandle();
 			for (String winHandle : driver.getWindowHandles()) {
@@ -1544,8 +1547,10 @@ public class Action {
 			}
 		} catch (Exception e) {
 			log.error(e);
+			file.recordAction(action, expected, cantSelect, Result.FAILURE);
 			return 1;
 		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1556,12 +1561,17 @@ public class Action {
 	 *         steps
 	 */
 	public int switchToParentWindow() {
+		String cantSelect = "Unable to switch to parent window";
+		String action = "Switching to parent window";
+		String expected = "Parent window is now selected";
 		try {
 			driver.switchTo().window(parentWindow);
 		} catch (Exception e) {
 			log.error(e);
+			file.recordAction(action, expected, cantSelect, Result.FAILURE);
 			return 1;
 		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1574,14 +1584,99 @@ public class Action {
 	 *         steps
 	 */
 	public int switchTab(int tabNumber) {
+		String cantSelect = "Unable to switch to new tab";
+		String action = "Switching to new tab";
+		String expected = "New tab is now selected";
 		try {
 			ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 			driver.switchTo().window(tabs.get(tabNumber));
 		} catch (Exception e) {
 			log.error(e);
+			file.recordAction(action, expected, cantSelect, Result.FAILURE);
 			return 1;
 		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
 		return 0;
+	}
+
+	/**
+	 * a function to switch to a parent frame
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int selectParentFrame() {
+		String cantSelect = "Unable to focus on parent frame ";
+		String action = "Focusing on parent frame";
+		String expected = "Parent frame is present, displayed, and focused";
+		try {
+			driver.switchTo().defaultContent();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantSelect + " parent frame", Result.FAILURE);
+			return 1;
+		}
+		file.recordAction(action, expected, "Focused on frame parent frame", Result.SUCCESS);
+		return 0;
+	}
+	
+	/**
+	 * a function to switch to a frame using the zero index frame id
+	 * 
+	 * @param frameNumber
+	 *            - the frame number, starts at 0
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int selectFrame(int frameNumber) {
+		String cantSelect = "Unable to focus on frame ";
+		String action = "Focusing on frame " + frameNumber;
+		String expected = "Frame " + frameNumber + " is present, displayed, and focused";
+		try {
+			driver.switchTo().frame(frameNumber);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantSelect + frameNumber, Result.FAILURE);
+			return 1;
+		}
+		file.recordAction(action, expected, "Focused on frame " + frameNumber, Result.SUCCESS);
+		return 0;
+	}
+	
+	/**
+	 * a function to switch to a frame using the frame name/id
+	 * 
+	 * @param frameID
+	 *            - the frame name or ID
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int selectFrame(String frameID) {
+		String cantSelect = "Unable to focus on frame ";
+		String action = "Focusing on frame " + frameID;
+		String expected = "Frame " + frameID + " is present, displayed, and focused";
+		try {
+			driver.switchTo().frame(frameID);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantSelect + frameID, Result.FAILURE);
+			return 1;
+		}
+		file.recordAction(action, expected, "Focused on frame " + frameID, Result.SUCCESS);
+		return 0;
+	}
+	
+	/**
+	 * a function to switch to a frame
+	 * 
+	 * @param frameID
+	 *            - the frame name or ID
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException 
+	 */
+	public int selectFrame(Locators type, String locator) throws IOException {
+		return locatorAction.selectFrame(type, locator);
 	}
 
 	/**
@@ -2428,10 +2523,11 @@ public class Action {
 	 * a way to execute custom javascript functions
 	 *
 	 * @param javascriptFunction
+	 * @return Object: any resultant output from the javascript command
 	 */
-	public void getEval(String javascriptFunction) {
+	public Object getEval(String javascriptFunction) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript(javascriptFunction);
+		return js.executeScript(javascriptFunction);
 	}
 
 	/**
@@ -2440,10 +2536,11 @@ public class Action {
 	 * @param element
 	 *            - the element to be waited for
 	 * @param javascriptFunction
+	 * @return Object: any resultant output from the javascript command
 	 * @throws InvalidLocatorTypeException
 	 */
-	public void getEval(Element element, String javascriptFunction) throws InvalidLocatorTypeException {
-		getEval(element.getType(), element.getLocator(), javascriptFunction);
+	public Object getEval(Element element, String javascriptFunction) throws InvalidLocatorTypeException {
+		return getEval(element.getType(), element.getLocator(), javascriptFunction);
 	}
 
 	/**
@@ -2454,9 +2551,10 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param javascriptFunction
+	 * @return Object: any resultant output from the javascript command
 	 * @throws InvalidLocatorTypeException
 	 */
-	public void getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
-		locatorAction.getEval(type, locator, javascriptFunction);
+	public Object getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
+		return locatorAction.getEval(type, locator, javascriptFunction);
 	}
 }

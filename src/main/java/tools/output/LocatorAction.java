@@ -276,20 +276,18 @@ public class LocatorAction {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + ENABLED;
 		String expected = type + " " + locator + " is enabled";
 		double start = System.currentTimeMillis();
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator, seconds);
+		}
 		if (!isElementEnabled(type, locator, false)) {
-			if (!isElementPresent(type, locator, false)) {
-				waitForElementPresent(type, locator, seconds);
-			}
-			if (!isElementEnabled(type, locator, false)) {
-				WebElement element = getWebElement(type, locator);
-				// wait for up to XX seconds for our error message
-				long end = System.currentTimeMillis() + (seconds * 1000);
-				while (System.currentTimeMillis() < end) {
-					// If results have been returned, the results are displayed
-					// in a drop down.
-					if (element.isEnabled()) {
-						break;
-					}
+			WebElement element = getWebElement(type, locator);
+			// wait for up to XX seconds for our error message
+			long end = System.currentTimeMillis() + (seconds * 1000);
+			while (System.currentTimeMillis() < end) {
+				// If results have been returned, the results are displayed
+				// in a drop down.
+				if (element.isEnabled()) {
+					break;
 				}
 			}
 		}
@@ -910,12 +908,13 @@ public class LocatorAction {
 	 * a way to execute custom javascript functions
 	 *
 	 * @param javascriptFunction
+	 * @return Object: any resultant output from the javascript command
 	 * @throws InvalidLocatorTypeException
 	 */
-	public void getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
+	public Object getEval(Locators type, String locator, String javascriptFunction) throws InvalidLocatorTypeException {
 		WebElement element = getWebElement(type, locator);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript(javascriptFunction, element);
+		return js.executeScript(javascriptFunction, element);
 	}
 
 	/**
@@ -1405,6 +1404,50 @@ public class LocatorAction {
 		file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
 		return 0; // indicates element successfully moved to
 	}
+	
+	/**
+	 * a function to switch to a frame using the element
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int selectFrame(Locators type, String locator) throws IOException {
+		String cantSelect = "Unable to focus on frame ";
+		String action = "Focusing on frame " + type + " " + locator;
+		String expected = "Frame " + type + " " + locator + " is present, displayed, and focused";
+		// wait for element to be present
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator, 5);
+		}
+		if (!isElementPresent(type, locator, false)) {
+			file.recordAction(action, expected, cantSelect + type + " " + locator + NOTPRESENT, Result.FAILURE);
+			file.addError();
+			return 1; // indicates element not present
+		}
+		// wait for element to be displayed
+		if (!isElementDisplayed(type, locator, false)) {
+			waitForElementDisplayed(type, locator, 5);
+		}
+		if (!isElementDisplayed(type, locator, false)) {
+			file.recordAction(action, expected, cantSelect + type + " " + locator + NOTDISPLAYED, Result.FAILURE);
+			file.addError();
+			return 1; // indicates element not displayed
+		}
+		WebElement element = getWebElement(type, locator);
+		try {
+			driver.switchTo().frame(element);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantSelect + type + " " + locator, Result.FAILURE);
+			return 1;
+		}
+		file.recordAction(action, expected, "Focused on frame " + type + " " + locator, Result.SUCCESS);
+		return 0;
+	}
 
 	/**
 	 * a method to determine selenium's By object using selenium webdriver
@@ -1432,6 +1475,9 @@ public class LocatorAction {
 		case CLASSNAME:
 			byElement = By.className(locator);
 			break;
+		case CSS:
+			byElement = By.cssSelector(locator);
+			break;
 		case LINKTEXT:
 			byElement = By.linkText(locator);
 			break;
@@ -1457,7 +1503,7 @@ public class LocatorAction {
 	 * @return WebElement: the element object, and all associated values with it
 	 * @throws InvalidLocatorTypeException
 	 */
-	public WebElement getWebElement(Locators type, String locator) throws InvalidLocatorTypeException {
+	private WebElement getWebElement(Locators type, String locator) throws InvalidLocatorTypeException {
 		By byElement = defineByElement(type, locator);
 		return driver.findElement(byElement);
 	}
