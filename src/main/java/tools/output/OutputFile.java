@@ -27,7 +27,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.testng.log4testng.Logger;
 
@@ -63,6 +65,7 @@ public class OutputFile {
 	private File file;
 	private String filename;
 	private Browsers browser;
+	private List<String> screenshots = new ArrayList<>();
 
 	// timing of the test
 	private long startTime;
@@ -289,6 +292,7 @@ public class OutputFile {
 		String imageLink = generateImageLink(imageName);
 		try {
 			action.takeScreenshot(imageName);
+			screenshots.add(imageName);
 		} catch (Exception e1) {
 			log.error(e1);
 			imageLink = "<br/><b><font class='fail'>No Screenshot Available</font></b>";
