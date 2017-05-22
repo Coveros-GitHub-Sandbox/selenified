@@ -33,8 +33,8 @@ public class NoLoadIT extends TestBase {
 		super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
 	}
 
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to verify we can start a test with a browser, "
-			+ "but won't load any page")
+	@Test(groups = { "integration", "virtual" }, 
+			description = "An integration test to verify we can start a test with a browser, but won't load any page")
 	public void verifyNoLoad() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();

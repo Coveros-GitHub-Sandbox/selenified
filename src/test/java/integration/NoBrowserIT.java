@@ -33,8 +33,8 @@ public class NoBrowserIT extends TestBase {
 		super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
 	}
 
-	@Test(groups = { "sample",
-			"virtual" }, description = "A sample test to verify we can start a test without a browser")
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to verify we can start a test without a browser")
 	public void verifyNoBrowser() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
