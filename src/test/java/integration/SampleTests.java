@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
-import tools.output.Element;
 import tools.output.Selenium.Locators;
 
 public class SampleTests extends TestBase {
@@ -45,23 +44,6 @@ public class SampleTests extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.select(Locators.ID, "car_list", listItem);
-		// close out the test
-		finish();
-	}
-	
-	@Test(groups = { "sample", "virtual" },
-			description = "A sample test to show how to loop through elements with multiple matches")
-	public void sampleTestLoopThroughElements() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		Element element = new Element(Locators.XPATH, "//form/input[@type='checkbox']");
-		for( int option = 0; option < actions.getElementMatchCount(element); option++ ) {
-			actions.click(element, option);
-			asserts.checkElementChecked(element, option);
-		}
 		// close out the test
 		finish();
 	}
