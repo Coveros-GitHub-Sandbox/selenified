@@ -654,10 +654,7 @@ public class LocatorAssert {
 		if( !isInput(type, locator)) {
 			return false;
 		}
-		if (!isEnabled(type, locator)) {
-			return false;
-		}
-		return true;
+		return isEnabled(type, locator);
 	}
 
 	/**
