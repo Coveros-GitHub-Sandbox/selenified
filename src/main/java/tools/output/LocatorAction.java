@@ -276,20 +276,18 @@ public class LocatorAction {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + ENABLED;
 		String expected = type + " " + locator + " is enabled";
 		double start = System.currentTimeMillis();
+		if (!isElementPresent(type, locator, false)) {
+			waitForElementPresent(type, locator, seconds);
+		}
 		if (!isElementEnabled(type, locator, false)) {
-			if (!isElementPresent(type, locator, false)) {
-				waitForElementPresent(type, locator, seconds);
-			}
-			if (!isElementEnabled(type, locator, false)) {
-				WebElement element = getWebElement(type, locator);
-				// wait for up to XX seconds for our error message
-				long end = System.currentTimeMillis() + (seconds * 1000);
-				while (System.currentTimeMillis() < end) {
-					// If results have been returned, the results are displayed
-					// in a drop down.
-					if (element.isEnabled()) {
-						break;
-					}
+			WebElement element = getWebElement(type, locator);
+			// wait for up to XX seconds for our error message
+			long end = System.currentTimeMillis() + (seconds * 1000);
+			while (System.currentTimeMillis() < end) {
+				// If results have been returned, the results are displayed
+				// in a drop down.
+				if (element.isEnabled()) {
+					break;
 				}
 			}
 		}
@@ -1458,7 +1456,7 @@ public class LocatorAction {
 	 * @return WebElement: the element object, and all associated values with it
 	 * @throws InvalidLocatorTypeException
 	 */
-	public WebElement getWebElement(Locators type, String locator) throws InvalidLocatorTypeException {
+	private WebElement getWebElement(Locators type, String locator) throws InvalidLocatorTypeException {
 		By byElement = defineByElement(type, locator);
 		return driver.findElement(byElement);
 	}
