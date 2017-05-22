@@ -1011,13 +1011,13 @@ public class LocatorAssert {
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with number of select values equal to <b>"
 				+ numOfOptions + "</b>");
 		// check for our object to the present on the page
-		String[] elementValues;
+		int elementValues;
 		if (!isPresentInputEnabled(type, locator)) {
 			return 1;
 		} else {
-			elementValues = action.getSelectOptions(type, locator);
+			elementValues = action.getNumOfSelectOptions(type, locator);
 		}
-		if (elementValues.length != numOfOptions) {
+		if (elementValues != numOfOptions) {
 			outputFile.recordActual(
 					ELEMENT + type + " <i>" + locator + "</i> has <b>" + numOfOptions + "</b>" + " select options",
 					Success.FAIL);

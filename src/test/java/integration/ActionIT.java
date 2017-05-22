@@ -513,7 +513,7 @@ public class ActionIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "integration1" }, description = "An integration test to check the waitForAlertPresent method")
+	@Test(groups = { "integration" }, description = "An integration test to check the waitForAlertPresent method")
 	public void submitTest() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();

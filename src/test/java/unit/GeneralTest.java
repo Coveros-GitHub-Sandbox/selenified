@@ -235,6 +235,7 @@ public class GeneralTest {
 						"Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift", "Elixir", "BASIC",
 						"Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL", "Gosu",
 						"Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
+		System.out.println("");
 		Assert.assertTrue(testName.matches("^helloWorld@[0-9a-f]{8}$"));
 	}
 

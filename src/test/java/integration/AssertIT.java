@@ -422,6 +422,17 @@ public class AssertIT extends TestBase {
 		// verify 1 issue
 		finish(1);
 	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkElementChecked method")
+	public void negativeCheckElementCheckedNotPresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementChecked(Locators.ID, "non-existent-element");
+		// verify 1 issue
+		finish(1);
+	}
 
 	@Test(groups = { "integration", "virtual" },
 			description = "An integration test to check the checkElementContainsClass method")
@@ -691,6 +702,17 @@ public class AssertIT extends TestBase {
 		// perform some actions
 		actions.click(Locators.ID, "that");
 		asserts.checkElementNotChecked(Locators.ID, "that");
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkElementNotChecked method")
+	public void negativeCheckElementNotCheckedNotPresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotChecked(Locators.ID, "non-existent-element");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1033,6 +1055,83 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareTextValueContains(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Anders");
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration test to check the checkCookie method")
+	public void checkCookieTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkCookie("cookie", "cookietest");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkCookie method")
+	public void negativeCheckCookieTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkCookie("cookie", "negativecookietest");
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkCookie method")
+	public void negativeCheckCookieWrongNameTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkCookie("wrongcookie", "cookietest");
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration test to check the checkCookieNotPresent method")
+	public void checkCookieNotPresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkCookieNotPresent("wrongcookie");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkCookieNotPresent method")
+	public void negativeCheckCookieNotPresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkCookieNotPresent("cookie");
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration test to check the checkCookiePresent method")
+	public void checkCookiePresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkCookiePresent("cookie");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkCookiePresent method")
+	public void negativeCheckCookiePresentTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkCookiePresent("wrongcookie");
 		// verify 1 issue
 		finish(1);
 	}
