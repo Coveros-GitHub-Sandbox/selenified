@@ -612,7 +612,7 @@ public class LocatorAction {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Locators type, String locator, int elementMatch) throws IOException {
+	public List<List<WebElement>> getTableColumns(Locators type, String locator, int elementMatch) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -620,48 +620,18 @@ public class LocatorAction {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return new ArrayList<>();
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		return element.findElements(By.xpath(".//tr[1]/*"));
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @param header
-	 *            : the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Locators type, String locator, int elementMatch, String header) throws IOException {
-		// wait for element to be present
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			waitForElementPresent(type, locator, elementMatch, 5);
-		}
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return 0; // indicates table not found
-		}
-		List<WebElement> tables = getWebElements(type, locator);
-		for (WebElement table : tables) {
-			// might want to redo this logical check
-			List<WebElement> rows = table.findElements(By.tagName("tr"));
-			int counter = 1;
-			for (WebElement row : rows) {
-				// might want to redo this logical check
-				if (row.findElement(By.xpath(".//td[1]|.//th[1]")).getText().equals(header)) {
-					return counter;
-				}
-				counter++;
+		List<WebElement> rows = getTableRows(type, locator, elementMatch);
+		List<WebElement> row = getTableRow(type, locator, elementMatch, 1);
+		List<List<WebElement>> columns = new ArrayList<>();
+		for (int i = 0; i < row.size(); i++) {
+			List<WebElement> column = new ArrayList<>();
+			for (int j = 0; j < rows.size(); j++) {
+				List<WebElement> cells = getTableRow(type, locator, elementMatch, j);
+				column.add(cells.get(i));
 			}
+			columns.add(column);
 		}
-		return 0; // indicates header not found
+		return columns;
 	}
 
 	/**
@@ -688,7 +658,7 @@ public class LocatorAction {
 		}
 		WebElement thisRow = rows.get(rowNum);
 
-		List<WebElement> cells = thisRow.findElements(By.tagName("td"));
+		List<WebElement> cells = thisRow.findElements(By.xpath(".//th|.//td"));
 		List<WebElement> row = new ArrayList<>();
 		for (WebElement cell : cells) {
 			row.add(cell);
@@ -714,18 +684,11 @@ public class LocatorAction {
 	 */
 	public List<WebElement> getTableColumn(Locators type, String locator, int elementMatch, int colNum)
 			throws IOException {
-		List<WebElement> columns = getTableColumns(type, locator, elementMatch);
+		List<List<WebElement>> columns = getTableColumns(type, locator, elementMatch);
 		if (columns.size() < colNum) {
 			return new ArrayList<>();
 		}
-		WebElement thisColumn = columns.get(colNum);
-
-		List<WebElement> cells = thisColumn.findElements(By.xpath(".//th[" + colNum + "]|.//td[" + colNum + "]"));
-		List<WebElement> column = new ArrayList<>();
-		for (WebElement cell : cells) {
-			column.add(cell);
-		}
-		return column;
+		return columns.get(colNum);
 	}
 
 	/**
@@ -786,6 +749,20 @@ public class LocatorAction {
 		return false;
 	}
 
+	private boolean isPresentInput(Locators type, String locator, int elementMatch) throws IOException {
+		// wait for element to be present
+		if (!isElementPresent(type, locator, elementMatch, false)) {
+			waitForElementPresent(type, locator, elementMatch, 5);
+		}
+		if (!isElementPresent(type, locator, elementMatch, false)) {
+			return false;
+		}
+		if (!isElementInput(type, locator, elementMatch, false)) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * get the option from the select drop down
 	 *
@@ -800,14 +777,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public String getSelectedText(Locators type, String locator, int elementMatch) throws IOException {
-		// wait for element to be present
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			waitForElementPresent(type, locator, elementMatch, 5);
-		}
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return "";
-		}
-		if (!isElementInput(type, locator, elementMatch, false)) {
+		if (!isPresentInput(type, locator, elementMatch)) {
 			return "";
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -830,14 +800,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public String[] getSelectedTexts(Locators type, String locator, int elementMatch) throws IOException {
-		// wait for element to be present
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			waitForElementPresent(type, locator, elementMatch, 5);
-		}
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return new String[0];
-		}
-		if (!isElementInput(type, locator, elementMatch, false)) {
+		if (!isPresentInput(type, locator, elementMatch)) {
 			return new String[0];
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -864,14 +827,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public String getSelectedValue(Locators type, String locator, int elementMatch) throws IOException {
-		// wait for element to be present
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			waitForElementPresent(type, locator, elementMatch, 5);
-		}
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return "";
-		}
-		if (!isElementInput(type, locator, elementMatch, false)) {
+		if (!isPresentInput(type, locator, elementMatch)) {
 			return "";
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -894,14 +850,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public String[] getSelectedValues(Locators type, String locator, int elementMatch) throws IOException {
-		// wait for element to be present
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			waitForElementPresent(type, locator, elementMatch, 5);
-		}
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return new String[0];
-		}
-		if (!isElementInput(type, locator, elementMatch, false)) {
+		if (!isPresentInput(type, locator, elementMatch)) {
 			return new String[0];
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);

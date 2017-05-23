@@ -1959,7 +1959,7 @@ public class Action {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Element element) throws IOException {
+	public List<List<WebElement>> getTableColumns(Element element) throws IOException {
 		return getTableColumns(element.getType(), element.getLocator());
 	}
 
@@ -1973,7 +1973,7 @@ public class Action {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Locators type, String locator) throws IOException {
+	public List<List<WebElement>> getTableColumns(Locators type, String locator) throws IOException {
 		return getTableColumns(type, locator, 0);
 	}
 
@@ -1988,7 +1988,7 @@ public class Action {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Element element, int elementMatch) throws IOException {
+	public List<List<WebElement>> getTableColumns(Element element, int elementMatch) throws IOException {
 		return getTableColumns(element.getType(), element.getLocator(), elementMatch);
 	}
 
@@ -2005,7 +2005,7 @@ public class Action {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Locators type, String locator, int elementMatch) throws IOException {
+	public List<List<WebElement>> getTableColumns(Locators type, String locator, int elementMatch) throws IOException {
 		return locatorAction.getTableColumns(type, locator, elementMatch);
 	}
 
@@ -2032,7 +2032,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfTableColumns(Locators type, String locator) throws IOException {
-		List<WebElement> columns = getTableColumns(type, locator);
+		List<List<WebElement>> columns = getTableColumns(type, locator);
 		return columns.size();
 	}
 
@@ -2065,78 +2065,8 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfTableColumns(Locators type, String locator, int elementMatch) throws IOException {
-		List<WebElement> columns = getTableColumns(type, locator, elementMatch);
+		List<List<WebElement>> columns = getTableColumns(type, locator, elementMatch);
 		return columns.size();
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param element
-	 *            - the element to be waited for
-	 * @param header
-	 *            - the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Element element, String header) throws IOException {
-		return getTableRowHeader(element.getType(), element.getLocator(), header);
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param header
-	 *            - the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Locators type, String locator, String header) throws IOException {
-		return getTableRowHeader(type, locator, 0, header);
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param element
-	 *            - the element to be waited for
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @param header
-	 *            - the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Element element, int elementMatch, String header) throws IOException {
-		return getTableRowHeader(element.getType(), element.getLocator(), elementMatch, header);
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @param header
-	 *            - the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Locators type, String locator, int elementMatch, String header) throws IOException {
-		return locatorAction.getTableRowHeader(type, locator, elementMatch, header);
 	}
 
 	/**
@@ -2224,7 +2154,7 @@ public class Action {
 	public List<WebElement> getTableColumn(Element element, int colNum) throws IOException {
 		return getTableColumn(element.getType(), element.getLocator(), colNum);
 	}
-	
+
 	/**
 	 * get a specific column from a table
 	 *
@@ -2241,7 +2171,7 @@ public class Action {
 	public List<WebElement> getTableColumn(Locators type, String locator, int colNum) throws IOException {
 		return getTableColumn(type, locator, 0, colNum);
 	}
-	
+
 	/**
 	 * get a specific column from a table
 	 *
@@ -2259,7 +2189,7 @@ public class Action {
 	public List<WebElement> getTableColumn(Element element, int elementMatch, int colNum) throws IOException {
 		return getTableColumn(element.getType(), element.getLocator(), elementMatch, colNum);
 	}
-	
+
 	/**
 	 * get a specific column from a table
 	 *
@@ -4043,7 +3973,7 @@ public class Action {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return String - the text of the element
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getText(Element element) throws IOException {
 		return getText(element.getType(), element.getLocator());
@@ -4057,7 +3987,7 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return String - the text of the element
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getText(Locators type, String locator) throws IOException {
 		return getText(type, locator, 0);
@@ -4072,7 +4002,7 @@ public class Action {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getText(Element element, int elementMatch) throws IOException {
 		return getText(element.getType(), element.getLocator(), elementMatch);
@@ -4089,7 +4019,7 @@ public class Action {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getText(Locators type, String locator, int elementMatch) throws IOException {
 		return locatorAction.getText(type, locator, elementMatch);
@@ -4101,7 +4031,7 @@ public class Action {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return String - the text of the element
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getValue(Element element) throws IOException {
 		return getValue(element.getType(), element.getLocator());
@@ -4115,7 +4045,7 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return String - the text of the element
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getValue(Locators type, String locator) throws IOException {
 		return getValue(type, locator, 0);
@@ -4130,7 +4060,7 @@ public class Action {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getValue(Element element, int elementMatch) throws IOException {
 		return getValue(element.getType(), element.getLocator(), elementMatch);
@@ -4147,7 +4077,7 @@ public class Action {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getValue(Locators type, String locator, int elementMatch) throws IOException {
 		return locatorAction.getValue(type, locator, elementMatch);
@@ -4161,7 +4091,7 @@ public class Action {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getCss(Element element, String attribute) throws IOException {
 		return getCss(element.getType(), element.getLocator(), attribute);
@@ -4177,7 +4107,7 @@ public class Action {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getCss(Locators type, String locator, String attribute) throws IOException {
 		return getCss(type, locator, 0, attribute);
@@ -4194,7 +4124,7 @@ public class Action {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getCss(Element element, int elementMatch, String attribute) throws IOException {
 		return getCss(element.getType(), element.getLocator(), elementMatch, attribute);
@@ -4213,10 +4143,9 @@ public class Action {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public String getCss(Locators type, String locator, int elementMatch, String attribute)
-			throws IOException {
+	public String getCss(Locators type, String locator, int elementMatch, String attribute) throws IOException {
 		return locatorAction.getCss(type, locator, elementMatch, attribute);
 	}
 
@@ -4228,7 +4157,7 @@ public class Action {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getAttribute(Element element, String attribute) throws IOException {
 		return getAttribute(element.getType(), element.getLocator(), attribute);
@@ -4244,7 +4173,7 @@ public class Action {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getAttribute(Locators type, String locator, String attribute) throws IOException {
 		return getAttribute(type, locator, 0, attribute);
@@ -4261,7 +4190,7 @@ public class Action {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getAttribute(Element element, int elementMatch, String attribute) throws IOException {
 		return getAttribute(element.getType(), element.getLocator(), elementMatch, attribute);
@@ -4280,10 +4209,9 @@ public class Action {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public String getAttribute(Locators type, String locator, int elementMatch, String attribute)
-			throws IOException {
+	public String getAttribute(Locators type, String locator, int elementMatch, String attribute) throws IOException {
 		return locatorAction.getAttribute(type, locator, elementMatch, attribute);
 	}
 
@@ -4293,7 +4221,7 @@ public class Action {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Map<String, String> getAllAttributes(Element element) throws IOException {
 		return getAllAttributes(element.getType(), element.getLocator());
@@ -4307,7 +4235,7 @@ public class Action {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Map<String, String> getAllAttributes(Locators type, String locator) throws IOException {
 		return getAllAttributes(type, locator, 0);
@@ -4322,7 +4250,7 @@ public class Action {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Map<String, String> getAllAttributes(Element element, int elementMatch) throws IOException {
 		return getAllAttributes(element.getType(), element.getLocator(), elementMatch);
@@ -4339,10 +4267,9 @@ public class Action {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the value of the css attribute
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public Map<String, String> getAllAttributes(Locators type, String locator, int elementMatch)
-			throws IOException {
+	public Map<String, String> getAllAttributes(Locators type, String locator, int elementMatch) throws IOException {
 		return locatorAction.getAllAttributes(type, locator, elementMatch);
 	}
 
@@ -4394,7 +4321,7 @@ public class Action {
 	 *            - the element to be waited for
 	 * @param javascriptFunction
 	 * @return Object: any resultant output from the javascript command
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Object getEval(Element element, String javascriptFunction) throws IOException {
 		return getEval(element.getType(), element.getLocator(), javascriptFunction);
@@ -4409,7 +4336,7 @@ public class Action {
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param javascriptFunction
 	 * @return Object: any resultant output from the javascript command
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Object getEval(Locators type, String locator, String javascriptFunction) throws IOException {
 		return getEval(type, locator, 0, javascriptFunction);
@@ -4425,10 +4352,9 @@ public class Action {
 	 *            match (starting at 0) to interact with
 	 * @param javascriptFunction
 	 * @return Object: any resultant output from the javascript command
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public Object getEval(Element element, int elementMatch, String javascriptFunction)
-			throws IOException {
+	public Object getEval(Element element, int elementMatch, String javascriptFunction) throws IOException {
 		return getEval(element.getType(), element.getLocator(), elementMatch, javascriptFunction);
 	}
 
@@ -4444,7 +4370,7 @@ public class Action {
 	 *            match (starting at 0) to interact with
 	 * @param javascriptFunction
 	 * @return Object: any resultant output from the javascript command
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Object getEval(Locators type, String locator, int elementMatch, String javascriptFunction)
 			throws IOException {
