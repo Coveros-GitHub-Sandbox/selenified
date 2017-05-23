@@ -23,6 +23,7 @@ package tools.output;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -662,7 +663,7 @@ public class LocatorAction {
 		}
 		return 0; // indicates header not found
 	}
-	
+
 	/**
 	 * get a specific row from a table
 	 *
@@ -674,22 +675,22 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param rowNum
-	 *            : the row number of the table to obtain - note, row
-	 *            numbering starts at 1, NOT 0
+	 *            : the row number of the table to obtain - note, row numbering
+	 *            starts at 1, NOT 0
 	 * @return List: a list of the table cells in the row as WebElements
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableRow(Locators type, String locator, int elementMatch, int rowNum)
 			throws IOException {
 		List<WebElement> rows = getTableRows(type, locator, elementMatch);
-		if( rows.size() < rowNum ) {
+		if (rows.size() < rowNum) {
 			return new ArrayList<>();
 		}
 		WebElement thisRow = rows.get(rowNum);
-		
+
 		List<WebElement> cells = thisRow.findElements(By.tagName("td"));
 		List<WebElement> row = new ArrayList<>();
-		for ( WebElement cell : cells ) {
+		for (WebElement cell : cells) {
 			row.add(cell);
 		}
 		return row;
@@ -714,14 +715,14 @@ public class LocatorAction {
 	public List<WebElement> getTableColumn(Locators type, String locator, int elementMatch, int colNum)
 			throws IOException {
 		List<WebElement> columns = getTableColumns(type, locator, elementMatch);
-		if( columns.size() < colNum ) {
+		if (columns.size() < colNum) {
 			return new ArrayList<>();
 		}
 		WebElement thisColumn = columns.get(colNum);
-		
+
 		List<WebElement> cells = thisColumn.findElements(By.xpath(".//th[" + colNum + "]|.//td[" + colNum + "]"));
 		List<WebElement> column = new ArrayList<>();
-		for ( WebElement cell : cells ) {
+		for (WebElement cell : cells) {
 			column.add(cell);
 		}
 		return column;
@@ -750,7 +751,7 @@ public class LocatorAction {
 	public WebElement getTableCell(Locators type, String locator, int elementMatch, int rowNum, int colNum)
 			throws IOException {
 		List<WebElement> row = getTableRow(type, locator, elementMatch, rowNum);
-		if( row.size() < colNum ) {
+		if (row.size() < colNum) {
 			return null;
 		}
 		return row.get(colNum);
@@ -774,12 +775,15 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locators type, String locator, int elementMatch) throws IOException {
-		WebElement element = getWebElement(type, locator, elementMatch);
-		if ("input".equalsIgnoreCase(element.getTagName()) && element.isSelected()) {
-			return true;
+		if (isElementInput(type, locator, elementMatch, false)) {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			if ("input".equalsIgnoreCase(element.getTagName()) && element.isSelected()) {
+				return true;
+			}
+			return "select".equalsIgnoreCase(element.getTagName())
+					&& getSelectedValues(type, locator, elementMatch).length > 0;
 		}
-		return "select".equalsIgnoreCase(element.getTagName())
-				&& getSelectedValues(type, locator, elementMatch).length > 0;
+		return false;
 	}
 
 	/**
@@ -801,6 +805,9 @@ public class LocatorAction {
 			waitForElementPresent(type, locator, elementMatch, 5);
 		}
 		if (!isElementPresent(type, locator, elementMatch, false)) {
+			return "";
+		}
+		if (!isElementInput(type, locator, elementMatch, false)) {
 			return "";
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -828,6 +835,9 @@ public class LocatorAction {
 			waitForElementPresent(type, locator, elementMatch, 5);
 		}
 		if (!isElementPresent(type, locator, elementMatch, false)) {
+			return new String[0];
+		}
+		if (!isElementInput(type, locator, elementMatch, false)) {
 			return new String[0];
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -861,6 +871,9 @@ public class LocatorAction {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return "";
 		}
+		if (!isElementInput(type, locator, elementMatch, false)) {
+			return "";
+		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		Select dropdown = new Select(element);
 		WebElement option = dropdown.getFirstSelectedOption();
@@ -888,6 +901,9 @@ public class LocatorAction {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return new String[0];
 		}
+		if (!isElementInput(type, locator, elementMatch, false)) {
+			return new String[0];
+		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		Select dropdown = new Select(element);
 		List<WebElement> options = dropdown.getAllSelectedOptions();
@@ -909,9 +925,12 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
-	public String getText(Locators type, String locator, int elementMatch) throws InvalidLocatorTypeException {
+	public String getText(Locators type, String locator, int elementMatch) throws IOException {
+		if (!isElementPresent(type, locator, elementMatch, false)) {
+			return "";
+		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getText();
 	}
@@ -927,9 +946,12 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
-	public String getValue(Locators type, String locator, int elementMatch) throws InvalidLocatorTypeException {
+	public String getValue(Locators type, String locator, int elementMatch) throws IOException {
+		if (!isElementInput(type, locator, elementMatch, false)) {
+			return "";
+		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getAttribute(VALUE);
 	}
@@ -947,10 +969,12 @@ public class LocatorAction {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
-	public String getCss(Locators type, String locator, int elementMatch, String attribute)
-			throws InvalidLocatorTypeException {
+	public String getCss(Locators type, String locator, int elementMatch, String attribute) throws IOException {
+		if (!isElementPresent(type, locator, elementMatch, false)) {
+			return "";
+		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getCssValue(attribute);
 	}
@@ -968,10 +992,12 @@ public class LocatorAction {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
-	public String getAttribute(Locators type, String locator, int elementMatch, String attribute)
-			throws InvalidLocatorTypeException {
+	public String getAttribute(Locators type, String locator, int elementMatch, String attribute) throws IOException {
+		if (!isElementPresent(type, locator, elementMatch, false)) {
+			return "";
+		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getAttribute(attribute);
 	}
@@ -987,11 +1013,13 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the value of the css attribute
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, String> getAllAttributes(Locators type, String locator, int elementMatch)
-			throws InvalidLocatorTypeException {
+	public Map<String, String> getAllAttributes(Locators type, String locator, int elementMatch) throws IOException {
+		if (!isElementPresent(type, locator, elementMatch, false)) {
+			return new HashMap<>();
+		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return (Map<String, String>) js.executeScript(
@@ -1004,10 +1032,13 @@ public class LocatorAction {
 	 *
 	 * @param javascriptFunction
 	 * @return Object: any resultant output from the javascript command
-	 * @throws InvalidLocatorTypeException
+	 * @throws IOException
 	 */
 	public Object getEval(Locators type, String locator, int elementMatch, String javascriptFunction)
-			throws InvalidLocatorTypeException {
+			throws IOException {
+		if (!isElementPresent(type, locator, elementMatch, false)) {
+			return null;
+		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return js.executeScript(javascriptFunction, element);
@@ -1129,6 +1160,10 @@ public class LocatorAction {
 		return isEnabled(type, locator, elementMatch, action, expected, extra);
 	}
 
+	// ///////////////////////////////////
+	// selenium actions functionality
+	// ///////////////////////////////////
+
 	/**
 	 * our generic selenium click functionality implemented
 	 *
@@ -1180,10 +1215,6 @@ public class LocatorAction {
 		file.recordAction(action, expected, "Submitted " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
-
-	// ///////////////////////////////////
-	// selenium actions functionality
-	// ///////////////////////////////////
 
 	/**
 	 * a method to simulate the mouse hovering over an element
