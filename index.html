@@ -11,10 +11,13 @@
         var delayed_div = document.getElementById("delayed_div");
         var delayed_display_button = document.getElementById("delayed_display_button");
         var delayed_hide_button = document.getElementById("delayed_hide_button");
+        var delayed_enable_button = document.getElementById("delayed_enable_button");
+        var delayed_input = document.getElementById("delayed_input");
 
         // Disable the button on initial page load
         enable_button.disabled = true;
         five_second_button.disabled = true;
+        delayed_input.disabled = true;
 
         //add event listener
         clickBtn.addEventListener('click', function(event) {
@@ -37,12 +40,27 @@
             delayed_display_button.className = "hidden_div";
         });
 
-        document.getElementById("delayed_hide_button").addEventListener('click', function(event) {
+        delayed_hide_button.addEventListener('click', function(event) {
             setTimeout(function() {
                 delayed_div.innerHTML = "";
                 delayed_display_button.className = "";
                 delayed_hide_button.className = "hidden_div";
             }, 3000);
+            delayed_hide_button.disabled = true;
+        });
+        
+        delayed_enable_button.addEventListener('click', function(event) {
+            setTimeout(function() {
+	            if( delayed_input.disabled ) {
+	                delayed_input.disabled = false;
+	                delayed_enable_button.value = "Disable Input";
+	            } else {
+	                delayed_input.disabled = true;
+	                delayed_enable_button.value = "Enable Input";
+	            }
+	            delayed_enable_button.disabled = false;
+            }, 3000);
+            delayed_enable_button.disabled = true;
         });
 
         setTimeout(function() {
@@ -115,11 +133,21 @@ tr:nth-child(even) {
 		<input type="checkbox" name="this" id="this" value="This" /> This <input
 			id="submit_button" name="submit_button" type="submit" value="Submit" />
 	</form>
+
 	<input id="delayed_display_button" name="delayed_display_button"
 		type="submit" value="Show Something" />
 	<input id="delayed_hide_button" name="delayed_hide_button"
 		type="submit" value="Hide Something" class="hidden_div" />
 	<div id='delayed_div' name='delayed_div'></div>
+
+	<input id="delayed_enable_button" name="delayed_enable_button"
+		type="submit" value="Enable Input" />
+	<input id="delayed_input" name="delayed_input"
+		type="text" />
+		
+	<br/>
+	<textarea id="textarea_input" name="textarea_input">A Pretty Text Area</textarea>
+
 	<table id="table">
 		<tr>
 			<th></th>
@@ -162,6 +190,21 @@ tr:nth-child(even) {
 			<td>Magazzini Alimentari Riuniti</td>
 			<td>Giovanni Rovelli</td>
 			<td>Italy</td>
+		</tr>
+	</table>
+
+	<table id="table_no_header">
+		<tr>
+			<th>CTO</th>
+			<td>IT Holdings</td>
+			<td>Rufus Garcia</td>
+			<td>Australia</td>
+		</tr>
+		<tr>
+			<th>Lead Scientist</th>
+			<td>Rockets Rockets Rockets</td>
+			<td>Kurt Wilkins</td>
+			<td>Argentina</td>
 		</tr>
 	</table>
 

@@ -130,4 +130,25 @@ public class TestBaseTest extends TestBase {
 		Assert.assertTrue((boolean) capability.getCapability("ignoreProtectedModeSettings"));
 		Assert.assertEquals(capability.getCapability("unexpectedAlertBehaviour"), "ignore");
 	}
+	
+	@Test
+	public void siteTest() {
+		setTestSite("yahoo");
+		Assert.assertEquals(getTestSite(), "yahoo");
+		System.setProperty("appURL", "http://www.yahoo.com");
+		setTestSite("google");
+		Assert.assertEquals(getTestSite(), "yahoo");
+	}
+	
+	@Test
+	public void versionTest() {
+		setVersion("1.0.0");
+		Assert.assertEquals(getVersion(), "1.0.0");
+	}
+	
+	@Test
+	public void authorTest() {
+		setVersion("Max");
+		Assert.assertEquals(getVersion(), "Max");
+	}
 }

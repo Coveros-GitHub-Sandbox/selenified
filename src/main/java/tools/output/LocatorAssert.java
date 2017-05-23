@@ -26,11 +26,8 @@ import tools.output.Selenium.Locators;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.openqa.selenium.WebElement;
 
 /**
  * Test Output A custom generated output file outputFile.recording all actions
@@ -1184,18 +1181,16 @@ public class LocatorAssert {
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the number of table rows equal to <b>"
 				+ numOfRows + "</b>");
 		// check for our object to the present on the page
-		List<WebElement> elementValues;
 		if (!isPresent(type, locator, elementMatch)) {
 			return 1;
-		} else {
-			elementValues = action.getTableRows(type, locator, elementMatch);
 		}
-		if (elementValues.size() != numOfRows) {
+		int actualNumOfRows = action.getNumOfTableRows(type, locator, elementMatch);
+		if (actualNumOfRows != numOfRows) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not have the number of rows <b>"
-					+ numOfRows + "</b> Instead, " + elementValues.size() + " rows were found", Success.FAIL);
+					+ numOfRows + "</b> Instead, " + actualNumOfRows + " rows were found", Success.FAIL);
 			return 1;
 		}
-		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "has " + elementValues.size() + "</b> rows",
+		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "has " + actualNumOfRows + "</b> rows",
 				Success.PASS);
 		return 0;
 	}
@@ -1222,18 +1217,16 @@ public class LocatorAssert {
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator
 				+ "</i> with the number of table columns equal to <b>" + numOfColumns + "</b>");
 		// check for our object to the present on the page
-		List<WebElement> elementValues;
 		if (!isPresent(type, locator, elementMatch)) {
 			return 1;
-		} else {
-			elementValues = action.getTableColumns(type, locator, elementMatch);
 		}
-		if (elementValues.size() != numOfColumns) {
+		int actualNumOfCols = action.getNumOfTableColumns(type, locator, elementMatch);
+		if (actualNumOfCols != numOfColumns) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not have the number of columns <b>"
-					+ numOfColumns + "</b> Instead, " + elementValues.size() + " columns were found", Success.FAIL);
+					+ numOfColumns + "</b> Instead, " + actualNumOfCols + " columns were found", Success.FAIL);
 			return 1;
 		}
-		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "has " + elementValues.size() + "</b> columns",
+		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "has " + actualNumOfCols + "</b> columns",
 				Success.PASS);
 		return 0;
 	}
