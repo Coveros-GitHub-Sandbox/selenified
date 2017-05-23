@@ -224,8 +224,7 @@ public class GeneralTest {
 		Assert.assertEquals(General.getTestName("helloWorld", "visual basic"), "helloWorldWithOptionVisualbasic");
 		Assert.assertEquals(General.getTestName("helloWorld", "Python"), "helloWorldWithOptionPython");
 		Assert.assertEquals(General.getTestName("helloWorld", "Python", "Perl"), "helloWorldWithOptionPythonPerl");
-		Assert.assertEquals(
-				General.getTestName("helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy", "Javascript",
+		Assert.assertEquals(General.getTestName("helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy", "Javascript",
 						"PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift", "Elixir",
 						"BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL", "Gosu",
 						"Powershell", "Squeak", "Gambas", "Euphoria", "Fantom"),
