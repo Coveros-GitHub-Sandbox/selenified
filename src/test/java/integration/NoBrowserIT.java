@@ -19,12 +19,12 @@ public class NoBrowserIT extends TestBase {
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() throws Exception {
 		// set the base URL for the tests here
-		testSite = "http://172.31.2.65/";
+		setTestSite("http://172.31.2.65/");
 		// set the author of the tests here
-		author = "Max Saperstone\n<br/>max.saperstone@coveros.com";
+		setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
 		// set the version of the tests or of the software, possibly with a
 		// dynamic check
-		version = "0.0.1";
+		setVersion("0.0.1");
 	}
 
 	@BeforeMethod(alwaysRun = true)

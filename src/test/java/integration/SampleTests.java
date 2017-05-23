@@ -15,12 +15,12 @@ public class SampleTests extends TestBase {
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() throws Exception {
 		// set the base URL for the tests here
-		testSite = "http://172.31.2.65/";
+		setTestSite("http://172.31.2.65/");
 		// set the author of the tests here
-		author = "Max Saperstone\n<br/>max.saperstone@coveros.com";
+		setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
 		// set the version of the tests or of the software, possibly with a
 		// dynamic check
-		version = "0.0.1";
+		setVersion("0.0.1");
 	}
 
 	@DataProvider(name = "car list items", parallel = true)
@@ -38,8 +38,8 @@ public class SampleTests extends TestBase {
 		finish();
 	}
 
-	@Test(dataProvider = "car list items", groups = { "sample", "virtual" },
-			description = "A sample test using a data provider to perform searches")
+	@Test(dataProvider = "car list items", groups = { "sample",
+			"virtual" }, description = "A sample test using a data provider to perform searches")
 	public void sampleTestWDataProvider(String listItem) throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -48,9 +48,9 @@ public class SampleTests extends TestBase {
 		// close out the test
 		finish();
 	}
-	
-	@Test(groups = { "sample", "virtual" },
-			description = "A sample test to show how to loop through elements with multiple matches")
+
+	@Test(groups = { "sample",
+			"virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
 	public void sampleTestLoopThroughElements() throws Exception {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -58,7 +58,7 @@ public class SampleTests extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		Element element = new Element(Locators.XPATH, "//form/input[@type='checkbox']");
-		for( int option = 0; option < actions.getElementMatchCount(element); option++ ) {
+		for (int option = 0; option < actions.getElementMatchCount(element); option++) {
 			actions.click(element, option);
 			asserts.checkElementChecked(element, option);
 		}

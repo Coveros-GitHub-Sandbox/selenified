@@ -49,10 +49,10 @@ public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
-	protected static String testSite = "http://www.google.com/";
-	protected static String version;
-	protected static String author = "Max Saperstone";
-	
+	private static String testSite = "http://www.google.com/";
+	private static String version;
+	private static String author = "Max Saperstone";
+
 	protected static DesiredCapabilities extraCapabilities = null;
 
 	// some passed in system params
@@ -67,9 +67,41 @@ public class TestBase {
 	protected ThreadLocal<Integer> errors = new ThreadLocal<>();
 
 	// constants
+	private static final String APP_INPUT = "appURL";
 	private static final String BROWSER_INPUT = "browser";
 	private static final String INVOCATION_COUNT = "InvocationCount";
 	private static final String ERRORS_CHECK = " errors";
+
+	// default getters and setters for test information
+	public String getTestSite() {
+		return testSite;
+	}
+
+	public static void setTestSite(String siteURL) {
+		if (System.getProperty(APP_INPUT) == null) {
+			testSite = siteURL;
+		}
+	}
+
+	private static void passedInTestSite(String siteURL) {
+		testSite = siteURL;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public static void setVersion(String ver) {
+		version = ver;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public static void setAuthor(String auth) {
+		author = auth;
+	}
 
 	/**
 	 * Initializes our test settings by setting default values for our browser
@@ -80,9 +112,8 @@ public class TestBase {
 		if (System.getProperty(BROWSER_INPUT) == null) {
 			System.setProperty(BROWSER_INPUT, Browsers.HTMLUNIT.toString());
 		}
-		// check to see if we are passing in a site address
-		if (System.getProperty("appURL") != null) {
-			testSite = System.getProperty("appURL");
+		if (System.getProperty(APP_INPUT) != null) {
+			passedInTestSite(System.getProperty(APP_INPUT));
 		}
 	}
 
@@ -107,7 +138,7 @@ public class TestBase {
 				setup.setupBrowserDetails(browserDetails);
 			}
 			DesiredCapabilities caps = setup.getDesiredCapabilities();
-			if( extraCapabilities != null ) {
+			if (extraCapabilities != null) {
 				caps = caps.merge(extraCapabilities);
 			}
 			capabilities.add(caps);
