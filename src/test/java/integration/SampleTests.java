@@ -1,5 +1,7 @@
 package integration;
 
+import java.io.IOException;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -13,7 +15,7 @@ import tools.output.Selenium.Locators;
 public class SampleTests extends TestBase {
 
 	@BeforeClass(alwaysRun = true)
-	public void beforeClass() throws Exception {
+	public void beforeClass() throws IOException {
 		// set the base URL for the tests here
 		setTestSite("http://172.31.2.65/");
 		// set the author of the tests here
@@ -29,7 +31,7 @@ public class SampleTests extends TestBase {
 	}
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check a title")
-	public void sampleTest() throws Exception {
+	public void sampleTest() throws IOException {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform our verification
@@ -40,7 +42,7 @@ public class SampleTests extends TestBase {
 
 	@Test(dataProvider = "car list items", groups = { "sample",
 			"virtual" }, description = "A sample test using a data provider to perform searches")
-	public void sampleTestWDataProvider(String listItem) throws Exception {
+	public void sampleTestWDataProvider(String listItem) throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
@@ -51,7 +53,7 @@ public class SampleTests extends TestBase {
 
 	@Test(groups = { "sample",
 			"virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
-	public void sampleTestLoopThroughElements() throws Exception {
+	public void sampleTestLoopThroughElements() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
