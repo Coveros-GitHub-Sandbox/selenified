@@ -17,7 +17,7 @@ import tools.output.Selenium.DriverSetup;
 public class NoBrowserIT extends TestBase {
 
 	@BeforeClass(alwaysRun = true)
-	public void beforeClass() throws Exception {
+	public void beforeClass() throws IOException {
 		// set the base URL for the tests here
 		setTestSite("http://172.31.2.65/");
 		// set the author of the tests here

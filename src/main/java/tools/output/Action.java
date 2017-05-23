@@ -2144,6 +2144,77 @@ public class Action {
 	 *
 	 * @param element
 	 *            - the element to be waited for
+	 * @param rowNum
+	 *            - the row number of the table to obtain - note, column
+	 *            numbering starts at 1, NOT 0
+	 * @return List: a list of the table cells in the columns as WebElements
+	 * @throws IOException
+	 */
+	public List<WebElement> getTableRow(Element element, int rowNum) throws IOException {
+		return getTableRow(element.getType(), element.getLocator(), rowNum);
+	}
+
+	/**
+	 * get a specific column from a table
+	 *
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param rowNum
+	 *            - the row number of the table to obtain - note, column
+	 *            numbering starts at 1, NOT 0
+	 * @return List: a list of the table cells in the columns as WebElements
+	 * @throws IOException
+	 */
+	public List<WebElement> getTableRow(Locators type, String locator, int rowNum) throws IOException {
+		return getTableRow(type, locator, 0, rowNum);
+	}
+
+	/**
+	 * get a specific column from a table
+	 *
+	 * @param element
+	 *            - the element to be waited for
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @param rowNum
+	 *            - the row number of the table to obtain - note, column
+	 *            numbering starts at 1, NOT 0
+	 * @return List: a list of the table cells in the columns as WebElements
+	 * @throws IOException
+	 */
+	public List<WebElement> getTableRow(Element element, int elementMatch, int rowNum) throws IOException {
+		return getTableRow(element.getType(), element.getLocator(), elementMatch, rowNum);
+	}
+
+	/**
+	 * get a specific column from a table
+	 *
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @param rowNum
+	 *            - the row number of the table to obtain - note, column
+	 *            numbering starts at 1, NOT 0
+	 * @return List: a list of the table cells in the columns as WebElements
+	 * @throws IOException
+	 */
+	public List<WebElement> getTableRow(Locators type, String locator, int elementMatch, int rowNum)
+			throws IOException {
+		return locatorAction.getTableRow(type, locator, elementMatch, rowNum);
+	}
+
+	/**
+	 * get a specific column from a table
+	 *
+	 * @param element
+	 *            - the element to be waited for
 	 * @param colNum
 	 *            - the column number of the table to obtain - note, column
 	 *            numbering starts at 1, NOT 0
@@ -2153,7 +2224,7 @@ public class Action {
 	public List<WebElement> getTableColumn(Element element, int colNum) throws IOException {
 		return getTableColumn(element.getType(), element.getLocator(), colNum);
 	}
-
+	
 	/**
 	 * get a specific column from a table
 	 *
@@ -2170,7 +2241,7 @@ public class Action {
 	public List<WebElement> getTableColumn(Locators type, String locator, int colNum) throws IOException {
 		return getTableColumn(type, locator, 0, colNum);
 	}
-
+	
 	/**
 	 * get a specific column from a table
 	 *
@@ -2188,7 +2259,7 @@ public class Action {
 	public List<WebElement> getTableColumn(Element element, int elementMatch, int colNum) throws IOException {
 		return getTableColumn(element.getType(), element.getLocator(), elementMatch, colNum);
 	}
-
+	
 	/**
 	 * get a specific column from a table
 	 *
