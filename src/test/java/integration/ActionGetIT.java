@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
+import tools.output.Element;
 import tools.output.Selenium.Locators;
 
 public class ActionGetIT extends TestBase {
@@ -56,7 +57,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectOptions(Locators.NAME, "car_list");
+		actions.getSelectOptions(new Element(Locators.NAME, "car_list"));
 		// verify no issues
 		finish();
 	}
@@ -67,7 +68,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectOptions(Locators.NAME, "non-existent-name");
+		actions.getSelectOptions(new Element(Locators.NAME, "non-existent-name"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -78,7 +79,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfSelectOptions(Locators.NAME, "car_list");
+		actions.getNumOfSelectOptions(new Element(Locators.NAME, "car_list"));
 		// verify no issues
 		finish();
 	}
@@ -89,7 +90,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfSelectOptions(Locators.NAME, "non-existent-name");
+		actions.getNumOfSelectOptions(new Element(Locators.NAME, "non-existent-name"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -100,7 +101,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfTableRows(Locators.ID, "table");
+		actions.getNumOfTableRows(new Element(Locators.ID, "table"));
 		// verify no issues
 		finish();
 	}
@@ -111,7 +112,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfTableRows(Locators.ID, "non-existent-name");
+		actions.getNumOfTableRows(new Element(Locators.ID, "non-existent-name"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -122,7 +123,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfTableColumns(Locators.ID, "table");
+		actions.getNumOfTableColumns(new Element(Locators.ID, "table"));
 		// verify no issues
 		finish();
 	}
@@ -133,7 +134,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfTableColumns(Locators.ID, "non-existent-name");
+		actions.getNumOfTableColumns(new Element(Locators.ID, "non-existent-name"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -144,7 +145,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRowHeader(Locators.ID, "table", "Company");
+		actions.getTableRowHeader(new Element(Locators.ID, "table"), "Company");
 		// verify no issues
 		finish();
 	}
@@ -155,7 +156,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRowHeader(Locators.ID, "table", "Company1");
+		actions.getTableRowHeader(new Element(Locators.ID, "table"), "Company1");
 		// verify no issues
 		finish();
 	}
@@ -166,7 +167,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRowHeader(Locators.ID, "table_no_header", "Company");
+		actions.getTableRowHeader(new Element(Locators.ID, "table_no_header"), "Company");
 		// verify no issues
 		finish();
 	}
@@ -177,7 +178,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRowHeader(Locators.ID, "non-existent-name", "Company");
+		actions.getTableRowHeader(new Element(Locators.ID, "non-existent-name"), "Company");
 		// verify 1 issue
 		finish(1);
 	}
@@ -187,7 +188,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRow(Locators.ID, "table", 1);
+		actions.getTableRow(new Element(Locators.ID, "table"), 1);
 		// verify no issues
 		finish();
 	}
@@ -197,17 +198,17 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRow(Locators.ID, "table", 99);
+		actions.getTableRow(new Element(Locators.ID, "table"), 99);
 		// verify no issues
 		finish();
 	}
-	
+
 	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getTableRow method")
 	public void getTableRowNotExistTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRow(Locators.ID, "non-existent-name", 1);
+		actions.getTableRow(new Element(Locators.ID, "non-existent-name"), 1);
 		// verify 1 issue
 		finish(1);
 	}
@@ -217,7 +218,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableColumn(Locators.ID, "table", 1);
+		actions.getTableColumn(new Element(Locators.ID, "table"), 1);
 		// verify no issues
 		finish();
 	}
@@ -227,17 +228,17 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableColumn(Locators.ID, "table", 99);
+		actions.getTableColumn(new Element(Locators.ID, "table"), 99);
 		// verify no issues
 		finish();
 	}
-	
+
 	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getTableColumn method")
 	public void getTableColumnNotExistTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableColumn(Locators.ID, "non-existent-name", 1);
+		actions.getTableColumn(new Element(Locators.ID, "non-existent-name"), 1);
 		// verify 1 issue
 		finish(1);
 	}
@@ -247,17 +248,17 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableCell(Locators.ID, "table", 1, 1);
+		actions.getTableCell(new Element(Locators.ID, "table"), 1, 1);
 		// verify no issues
 		finish();
 	}
-	
+
 	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getTableCell method")
 	public void getTableCellNoCellTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableCell(Locators.ID, "table", 99, 99);
+		actions.getTableCell(new Element(Locators.ID, "table"), 99, 99);
 		// verify no issues
 		finish();
 	}
@@ -267,8 +268,292 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableCell(Locators.ID, "non-existent-name", 1, 1);
+		actions.getTableCell(new Element(Locators.ID, "non-existent-name"), 1, 1);
 		// verify 1 issue
 		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedText method")
+	public void getSelectedTextTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedText(new Element(Locators.ID, "car_list"));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedText method")
+	public void getSelectedTextNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedText(new Element(Locators.ID, "non-existent-name"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedText method")
+	public void getSelectedTextNotSelectTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedText(new Element(Locators.ID, "table"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedTexts method")
+	public void getSelectedTextsTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedText(new Element(Locators.ID, "car_list"));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedTexts method")
+	public void getSelectedTextsNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedText(new Element(Locators.ID, "non-existent-name"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedTexts method")
+	public void getSelectedTextsNotSelectTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedText(new Element(Locators.ID, "table"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedValue method")
+	public void getSelectedValueTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedValue(new Element(Locators.ID, "car_list"));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedValue method")
+	public void getSelectedValueNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedValue(new Element(Locators.ID, "non-existent-name"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedValue method")
+	public void getSelectedValueNotSelectTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedValue(new Element(Locators.ID, "table"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedValues method")
+	public void getSelectedValuesTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedValue(new Element(Locators.ID, "car_list"));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedValues method")
+	public void getSelectedValuesNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedValue(new Element(Locators.ID, "non-existent-name"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getSelectedValues method")
+	public void getSelectedValuesNotSelectTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getSelectedValue(new Element(Locators.ID, "table"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getText method")
+	public void getTextTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getText(new Element(Locators.ID, "disable_click"));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getText method")
+	public void getTextNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getText(new Element(Locators.ID, "non-existent-name"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getValue method")
+	public void getValueTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getText(new Element(Locators.ID, "input_box"));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getValue method")
+	public void getValueNotInputTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getText(new Element(Locators.ID, "disable_click"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getValue method")
+	public void getValueNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getText(new Element(Locators.ID, "non-existent-name"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getCss method")
+	public void getCssTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getCss(new Element(Locators.ID, "disable_click"), "display");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getCss method")
+	public void getCssWonkyTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getCss(new Element(Locators.ID, "disable_click"), "some-bad-css-attribute");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getCss method")
+	public void getCssNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getCss(new Element(Locators.ID, "non-existent-name"), "display");
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getAttribute method")
+	public void getAttributeTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getAttribute(new Element(Locators.ID, "disable_click"), "display");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getAttribute method")
+	public void getAttributeWonkyTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getAttribute(new Element(Locators.ID, "disable_click"), "some-bad-attribute");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getAttribute method")
+	public void getAttributeNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getAttribute(new Element(Locators.ID, "non-existent-name"), "display");
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getAllAttribute method")
+	public void getAllAttributeTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getAllAttributes(new Element(Locators.ID, "disable_click"));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration",
+			"virtual" }, description = "An integration test to check the getAllAttribute method")
+	public void getAllAttributeNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getAllAttributes(new Element(Locators.ID, "non-existent-name"));
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getEval method")
+	public void getEvalTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getEval("document.location");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getEval method")
+	public void getElementEvalTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getEval(new Element(Locators.ID, "disable_click"), "document.location");
+		// verify no issues
+		finish();
 	}
 }

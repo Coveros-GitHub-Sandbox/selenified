@@ -148,7 +148,7 @@ public class TestBaseTest extends TestBase {
 	
 	@Test
 	public void authorTest() {
-		setVersion("Max");
-		Assert.assertEquals(getVersion(), "Max");
+		setAuthor("Max");
+		Assert.assertEquals(getAuthor(), "Max");
 	}
 }
