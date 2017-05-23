@@ -512,9 +512,9 @@ public class LocatorAction {
 		return isDisplayed;
 	}
 
-	// //////////////////////////////////
-	// extra base selenium functionality
-	// //////////////////////////////////
+	// ///////////////////////////////////
+	// selenium retreval functions
+	// ///////////////////////////////////
 
 	/**
 	 * get the number of options from the select drop down
@@ -572,10 +572,6 @@ public class LocatorAction {
 		return options;
 	}
 
-	// ///////////////////////////////////
-	// selenium retreval functions
-	// ///////////////////////////////////
-
 	/**
 	 * get the rows of a table
 	 *
@@ -600,24 +596,6 @@ public class LocatorAction {
 		WebElement element = getWebElement(type, locator, elementMatch);
 		// this locator may need to be updated
 		return element.findElements(By.tagName("tr"));
-	}
-
-	/**
-	 * get the number of rows of a table
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @return Integer: the number of table rows
-	 * @throws IOException
-	 */
-	public int getNumOfTableRows(Locators type, String locator, int elementMatch) throws IOException {
-		List<WebElement> rows = getTableRows(type, locator, elementMatch);
-		return rows.size();
 	}
 
 	/**
@@ -684,6 +662,38 @@ public class LocatorAction {
 		}
 		return 0; // indicates header not found
 	}
+	
+	/**
+	 * get a specific row from a table
+	 *
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @param rowNum
+	 *            : the row number of the table to obtain - note, row
+	 *            numbering starts at 1, NOT 0
+	 * @return List: a list of the table cells in the row as WebElements
+	 * @throws IOException
+	 */
+	public List<WebElement> getTableRow(Locators type, String locator, int elementMatch, int rowNum)
+			throws IOException {
+		List<WebElement> rows = getTableRows(type, locator, elementMatch);
+		if( rows.size() < rowNum ) {
+			return new ArrayList<>();
+		}
+		WebElement thisRow = rows.get(rowNum);
+		
+		List<WebElement> cells = thisRow.findElements(By.tagName("td"));
+		List<WebElement> row = new ArrayList<>();
+		for ( WebElement cell : cells ) {
+			row.add(cell);
+		}
+		return row;
+	}
 
 	/**
 	 * get a specific column from a table
@@ -698,26 +708,21 @@ public class LocatorAction {
 	 * @param colNum
 	 *            : the column number of the table to obtain - note, column
 	 *            numbering starts at 1, NOT 0
-	 * @return List: a list of the table cells in the columns as WebElements
+	 * @return List: a list of the table cells in the column as WebElements
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableColumn(Locators type, String locator, int elementMatch, int colNum)
 			throws IOException {
-		// wait for element to be present
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			waitForElementPresent(type, locator, elementMatch, 5);
+		List<WebElement> columns = getTableColumns(type, locator, elementMatch);
+		if( columns.size() < colNum ) {
+			return new ArrayList<>();
 		}
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return new ArrayList<>(); // indicates table not found
-		}
-		List<WebElement> tables = getWebElements(type, locator);
-		List<WebElement> column = tables.get(0).findElements(By.className("NONEEXISTS")); // cludge
-		// to
-		// initialize
-		for (WebElement table : tables) {
-			// this locator may need to be updated
-			List<WebElement> cells = table.findElements(By.xpath(".//th[" + colNum + "]|.//td[" + colNum + "]"));
-			column.addAll(cells);
+		WebElement thisColumn = columns.get(colNum);
+		
+		List<WebElement> cells = thisColumn.findElements(By.xpath(".//th[" + colNum + "]|.//td[" + colNum + "]"));
+		List<WebElement> column = new ArrayList<>();
+		for ( WebElement cell : cells ) {
+			column.add(cell);
 		}
 		return column;
 	}
@@ -732,31 +737,23 @@ public class LocatorAction {
 	 * @param elementMatch
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
-	 * @param row
+	 * @param rowNum
 	 *            : the number of the row in the table - note, row numbering
 	 *            starts at 1, NOT 0
-	 * @param col
+	 * @param colNum
 	 *            : the number of the column in the table - note, column
 	 *            numbering starts at 1, NOT 0
 	 * @return WebElement: the cell element object, and all associated values
 	 *         with it
 	 * @throws IOException
 	 */
-	public WebElement getTableCell(Locators type, String locator, int elementMatch, int row, int col)
+	public WebElement getTableCell(Locators type, String locator, int elementMatch, int rowNum, int colNum)
 			throws IOException {
-		// wait for element to be present
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			waitForElementPresent(type, locator, elementMatch, 5);
+		List<WebElement> row = getTableRow(type, locator, elementMatch, rowNum);
+		if( row.size() < colNum ) {
+			return null;
 		}
-		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return null; // indicates table not found
-		}
-		List<WebElement> tables = getWebElements(type, locator);
-		for (WebElement table : tables) {
-			// this locator may need to be updated
-			return table.findElement(By.xpath(".//tr[" + row + "]/td[" + col + "]"));
-		}
-		return null; // indicates cell not present
+		return row.get(colNum);
 	}
 
 	// //////////////////////////////////
