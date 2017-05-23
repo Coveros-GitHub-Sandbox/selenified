@@ -202,7 +202,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		List<WebElement> column = actions.getTableColumn(new Element(Locators.ID, "table"), 1);
-		Assert.assertEquals( column.size(), 7);
+		Assert.assertEquals(column.size(), 7);
 		Assert.assertEquals(column.get(0).getText(), "Company");
 		Assert.assertEquals(column.get(1).getText(), "Alfreds Futterkiste");
 		Assert.assertEquals(column.get(2).getText(), "Centro comercial Moctezuma");
