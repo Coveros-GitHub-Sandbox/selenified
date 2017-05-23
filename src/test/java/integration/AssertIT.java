@@ -598,6 +598,19 @@ public class AssertIT extends TestBase {
 		// verify 2 issues
 		finish(2);
 	}
+	
+	/* @Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkElementChecked method")
+	public void negativeCheckElementCheckedDelayedTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementChecked(Locators.ID, "non-existent-element");
+		// verify 2 issues
+		finish(2);
+	} */
 
 	@Test(groups = { "integration",
 			"virtual" }, description = "An integration test to check the checkElementContainsClass method")
@@ -663,6 +676,20 @@ public class AssertIT extends TestBase {
 		asserts.checkElementDisplayed(Locators.ID, "hidden_div");
 		// verify 2 issues
 		finish(2);
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration negative test to check the checkElementDisplayed method")
+	public void negativeCheckElementDisplayedDelayed() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "delayed_display_button");
+		asserts.checkElementDisplayed(Locators.ID, "delayed_hide_button");
+		// verify no issues
+		finish();
 	}
 
 	@Test(groups = { "integration",
@@ -1003,7 +1030,7 @@ public class AssertIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration",
+	@Test(groups = { "integration1",
 			"virtual" }, description = "An integration test to check the checkElementNotDisplayed method")
 	public void checkElementNotDisplayedTest() throws IOException {
 		// use this object to verify our page looks as expected
@@ -1014,7 +1041,7 @@ public class AssertIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration",
+	@Test(groups = { "integration1",
 			"virtual" }, description = "An integration negative test to check the checkElementNotDisplayed method")
 	public void negativeCheckElementNotDisplayedTest() throws IOException {
 		// use this object to verify our page looks as expected
@@ -1023,6 +1050,22 @@ public class AssertIT extends TestBase {
 		asserts.checkElementNotDisplayed(Locators.ID, "scroll_button");
 		// verify 2 issues
 		finish(2);
+	}
+	
+	@Test(groups = { "integration1"
+			, "virtual" }, description = "An integration negative test to check the checkElementNotDisplayed method")
+	public void negativeCheckElementNotDisplayedDelayedTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "delayed_display_button");
+		actions.waitForElementDisplayed(Locators.ID, "delayed_hide_button");
+		actions.click(Locators.ID, "delayed_hide_button");
+		asserts.checkElementNotDisplayed(Locators.ID, "delayed_hide_button");
+		// verify no issues
+		finish();
 	}
 
 	@Test(groups = { "integration",
