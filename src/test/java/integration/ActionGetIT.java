@@ -1,13 +1,18 @@
 package integration;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import tools.TestBase;
 import tools.output.Action;
-import tools.output.Assert;
 import tools.output.Element;
 import tools.output.Selenium.Locators;
 
@@ -29,10 +34,11 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
+		tools.output.Assert asserts = this.asserts.get();
 		// perform some actions
-		if (actions.getBrowser().equals("NONE"))
+		if (actions.getBrowser().equals("NONE")) {
 			asserts.getOutputFile().addError();
+		}
 		// verify no issues
 		finish();
 	}
@@ -43,10 +49,11 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
+		tools.output.Assert asserts = this.asserts.get();
 		// perform some actions
-		if (actions.getCapabilities().equals(null))
+		if (actions.getCapabilities().equals(null)) {
 			asserts.getOutputFile().addError();
+		}
 		// verify no issues
 		finish();
 	}
@@ -57,7 +64,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectOptions(new Element(Locators.NAME, "car_list"));
+		String[] options = actions.getSelectOptions(new Element(Locators.NAME, "car_list"));
+		Assert.assertEquals(options, new String[] { "volvo", "saab", "mercedes", "audi" });
 		// verify no issues
 		finish();
 	}
@@ -68,7 +76,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectOptions(new Element(Locators.NAME, "non-existent-name"));
+		String[] options = actions.getSelectOptions(new Element(Locators.NAME, "non-existent-name"));
+		Assert.assertEquals(options, new String[] {});
 		// verify 1 issue
 		finish(1);
 	}
@@ -79,7 +88,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfSelectOptions(new Element(Locators.NAME, "car_list"));
+		int options = actions.getNumOfSelectOptions(new Element(Locators.NAME, "car_list"));
+		Assert.assertEquals(options, 4);
 		// verify no issues
 		finish();
 	}
@@ -90,7 +100,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfSelectOptions(new Element(Locators.NAME, "non-existent-name"));
+		int options = actions.getNumOfSelectOptions(new Element(Locators.NAME, "non-existent-name"));
+		Assert.assertEquals(options, 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -101,7 +112,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfTableRows(new Element(Locators.ID, "table"));
+		int rows = actions.getNumOfTableRows(new Element(Locators.ID, "table"));
+		Assert.assertEquals(rows, 7);
 		// verify no issues
 		finish();
 	}
@@ -112,7 +124,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfTableRows(new Element(Locators.ID, "non-existent-name"));
+		int rows = actions.getNumOfTableRows(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(rows, 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -123,7 +136,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfTableColumns(new Element(Locators.ID, "table"));
+		int columns = actions.getNumOfTableColumns(new Element(Locators.ID, "table"));
+		Assert.assertEquals(columns, 4);
 		// verify no issues
 		finish();
 	}
@@ -134,51 +148,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getNumOfTableColumns(new Element(Locators.ID, "non-existent-name"));
-		// verify 1 issue
-		finish(1);
-	}
-
-	@Test(groups = { "integration",
-			"virtual" }, description = "An integration test to check the getNumOfTableColumns method")
-	public void getTableRowHeaderTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.getTableRowHeader(new Element(Locators.ID, "table"), "Company");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "integration",
-			"virtual" }, description = "An integration test to check the getNumOfTableColumns method")
-	public void getTableRowHeaderBadHeaderTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.getTableRowHeader(new Element(Locators.ID, "table"), "Company1");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "integration",
-			"virtual" }, description = "An integration test to check the getNumOfTableColumns method")
-	public void getTableRowHeaderNoHeaderTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.getTableRowHeader(new Element(Locators.ID, "table_no_header"), "Company");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "integration",
-			"virtual" }, description = "An integration test to check the getNumOfTableColumns method")
-	public void getTableRowHeaderNotExistTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.getTableRowHeader(new Element(Locators.ID, "non-existent-name"), "Company");
+		int columns = actions.getNumOfTableColumns(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(columns, 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -188,7 +159,12 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRow(new Element(Locators.ID, "table"), 1);
+		List<WebElement> row = actions.getTableRow(new Element(Locators.ID, "table"), 1);
+		Assert.assertEquals( row.size(), 4);
+		Assert.assertEquals(row.get(0).getText(), "President");
+		Assert.assertEquals(row.get(1).getText(), "Alfreds Futterkiste");
+		Assert.assertEquals(row.get(2).getText(), "Maria Anders");
+		Assert.assertEquals(row.get(3).getText(), "Germany");
 		// verify no issues
 		finish();
 	}
@@ -198,7 +174,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRow(new Element(Locators.ID, "table"), 99);
+		List<WebElement> row = actions.getTableRow(new Element(Locators.ID, "table"), 99);
+		Assert.assertEquals(row, new ArrayList<>());
 		// verify no issues
 		finish();
 	}
@@ -208,7 +185,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableRow(new Element(Locators.ID, "non-existent-name"), 1);
+		List<WebElement> row = actions.getTableRow(new Element(Locators.ID, "non-existent-name"), 1);
+		Assert.assertEquals(row, new ArrayList<>());
 		// verify 1 issue
 		finish(1);
 	}
@@ -218,7 +196,15 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableColumn(new Element(Locators.ID, "table"), 1);
+		List<WebElement> column = actions.getTableColumn(new Element(Locators.ID, "table"), 1);
+		Assert.assertEquals( column.size(), 7);
+		Assert.assertEquals(column.get(0).getText(), "Company");
+		Assert.assertEquals(column.get(1).getText(), "Alfreds Futterkiste");
+		Assert.assertEquals(column.get(2).getText(), "Centro comercial Moctezuma");
+		Assert.assertEquals(column.get(3).getText(), "Ernst Handel");
+		Assert.assertEquals(column.get(4).getText(), "Island Trading");
+		Assert.assertEquals(column.get(5).getText(), "Laughing Bacchus Winecellars");
+		Assert.assertEquals(column.get(6).getText(), "Magazzini Alimentari Riuniti");
 		// verify no issues
 		finish();
 	}
@@ -228,7 +214,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableColumn(new Element(Locators.ID, "table"), 99);
+		List<WebElement> column = actions.getTableColumn(new Element(Locators.ID, "table"), 99);
+		Assert.assertEquals(column, new ArrayList<>());
 		// verify no issues
 		finish();
 	}
@@ -238,7 +225,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableColumn(new Element(Locators.ID, "non-existent-name"), 1);
+		List<WebElement> column = actions.getTableColumn(new Element(Locators.ID, "non-existent-name"), 1);
+		Assert.assertEquals(column, new ArrayList<>());
 		// verify 1 issue
 		finish(1);
 	}
@@ -248,7 +236,30 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableCell(new Element(Locators.ID, "table"), 1, 1);
+		WebElement cell = actions.getTableCell(new Element(Locators.ID, "table"), 1, 1);
+		Assert.assertEquals(cell.getText(), "Alfreds Futterkiste");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getTableCell method")
+	public void getTableCellNoCellWideTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		WebElement cell = actions.getTableCell(new Element(Locators.ID, "table"), 1, 99);
+		Assert.assertNull(cell);
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the getTableCell method")
+	public void getTableCellNoCellLongTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		WebElement cell = actions.getTableCell(new Element(Locators.ID, "table"), 99, 1);
+		Assert.assertNull(cell);
 		// verify no issues
 		finish();
 	}
@@ -258,7 +269,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableCell(new Element(Locators.ID, "table"), 99, 99);
+		WebElement cell = actions.getTableCell(new Element(Locators.ID, "table"), 99, 99);
+		Assert.assertNull(cell);
 		// verify no issues
 		finish();
 	}
@@ -268,7 +280,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getTableCell(new Element(Locators.ID, "non-existent-name"), 1, 1);
+		WebElement cell = actions.getTableCell(new Element(Locators.ID, "non-existent-name"), 1, 1);
+		Assert.assertNull(cell);
 		// verify 1 issue
 		finish(1);
 	}
@@ -279,7 +292,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedText(new Element(Locators.ID, "car_list"));
+		String text = actions.getSelectedText(new Element(Locators.ID, "car_list"));
+		Assert.assertEquals(text, "Volvo");
 		// verify no issues
 		finish();
 	}
@@ -290,7 +304,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedText(new Element(Locators.ID, "non-existent-name"));
+		String text = actions.getSelectedText(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(text, "");
 		// verify 1 issue
 		finish(1);
 	}
@@ -301,7 +316,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedText(new Element(Locators.ID, "table"));
+		String text = actions.getSelectedText(new Element(Locators.ID, "table"));
+		Assert.assertEquals(text, "");
 		// verify no issues
 		finish();
 	}
@@ -312,7 +328,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedText(new Element(Locators.ID, "car_list"));
+		String[] text = actions.getSelectedTexts(new Element(Locators.ID, "car_list"));
+		Assert.assertEquals(text, new String[] { "Volvo" } );
 		// verify no issues
 		finish();
 	}
@@ -323,7 +340,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedText(new Element(Locators.ID, "non-existent-name"));
+		String[] text = actions.getSelectedTexts(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(text, new String[0]);
 		// verify 1 issue
 		finish(1);
 	}
@@ -334,7 +352,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedText(new Element(Locators.ID, "table"));
+		String[] text = actions.getSelectedTexts(new Element(Locators.ID, "table"));
+		Assert.assertEquals(text, new String[0]);
 		// verify no issues
 		finish();
 	}
@@ -345,7 +364,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedValue(new Element(Locators.ID, "car_list"));
+		String value = actions.getSelectedValue(new Element(Locators.ID, "car_list"));
+		Assert.assertEquals(value, "volvo");
 		// verify no issues
 		finish();
 	}
@@ -356,7 +376,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedValue(new Element(Locators.ID, "non-existent-name"));
+		String value = actions.getSelectedValue(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(value, "");
 		// verify 1 issue
 		finish(1);
 	}
@@ -367,7 +388,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedValue(new Element(Locators.ID, "table"));
+		String value = actions.getSelectedValue(new Element(Locators.ID, "table"));
+		Assert.assertEquals(value, "");
 		// verify no issues
 		finish();
 	}
@@ -378,7 +400,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedValue(new Element(Locators.ID, "car_list"));
+		String[] value = actions.getSelectedValues(new Element(Locators.ID, "car_list"));
+		Assert.assertEquals(value, new String[] { "volvo" });
 		// verify no issues
 		finish();
 	}
@@ -389,7 +412,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedValue(new Element(Locators.ID, "non-existent-name"));
+		String[] value = actions.getSelectedValues(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(value, new String[0]);
 		// verify 1 issue
 		finish(1);
 	}
@@ -400,7 +424,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getSelectedValue(new Element(Locators.ID, "table"));
+		String[] value = actions.getSelectedValues(new Element(Locators.ID, "table"));
+		Assert.assertEquals(value, new String[0]);
 		// verify no issues
 		finish();
 	}
@@ -410,7 +435,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getText(new Element(Locators.ID, "disable_click"));
+		String text = actions.getText(new Element(Locators.ID, "disable_click"));
+		Assert.assertEquals(text, "Click me to Disable/Enable a html button");
 		// verify no issues
 		finish();
 	}
@@ -420,7 +446,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getText(new Element(Locators.ID, "non-existent-name"));
+		String text = actions.getText(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(text, "");
 		// verify no issues
 		finish();
 	}
@@ -430,7 +457,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getText(new Element(Locators.ID, "input_box"));
+		String text = actions.getText(new Element(Locators.ID, "input_box"));
+		Assert.assertEquals(text, "");
 		// verify no issues
 		finish();
 	}
@@ -440,7 +468,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getText(new Element(Locators.ID, "disable_click"));
+		String text = actions.getText(new Element(Locators.ID, "disable_click"));
+		Assert.assertEquals(text, "Click me to Disable/Enable a html button");
 		// verify no issues
 		finish();
 	}
@@ -450,7 +479,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getText(new Element(Locators.ID, "non-existent-name"));
+		String text = actions.getText(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(text, "");
 		// verify no issues
 		finish();
 	}
@@ -460,7 +490,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getCss(new Element(Locators.ID, "disable_click"), "display");
+		String css = actions.getCss(new Element(Locators.ID, "disable_click"), "display");
+		Assert.assertEquals(css, "block");
 		// verify no issues
 		finish();
 	}
@@ -470,7 +501,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getCss(new Element(Locators.ID, "disable_click"), "some-bad-css-attribute");
+		String css = actions.getCss(new Element(Locators.ID, "disable_click"), "some-bad-css-attribute");
+		Assert.assertEquals(css, "");
 		// verify no issues
 		finish();
 	}
@@ -480,7 +512,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getCss(new Element(Locators.ID, "non-existent-name"), "display");
+		String css = actions.getCss(new Element(Locators.ID, "non-existent-name"), "display");
+		Assert.assertEquals(css, "");
 		// verify no issues
 		finish();
 	}
@@ -490,7 +523,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getAttribute(new Element(Locators.ID, "disable_click"), "display");
+		String attribute = actions.getAttribute(new Element(Locators.ID, "disable_click"), "class");
+		Assert.assertEquals(attribute, "click");
 		// verify no issues
 		finish();
 	}
@@ -500,7 +534,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getAttribute(new Element(Locators.ID, "disable_click"), "some-bad-attribute");
+		String attribute = actions.getAttribute(new Element(Locators.ID, "disable_click"), "some-bad-attribute");
+		Assert.assertNull(attribute);
 		// verify no issues
 		finish();
 	}
@@ -510,7 +545,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getAttribute(new Element(Locators.ID, "non-existent-name"), "display");
+		String attribute = actions.getAttribute(new Element(Locators.ID, "non-existent-name"), "display");
+		Assert.assertEquals(attribute, "");
 		// verify no issues
 		finish();
 	}
@@ -520,7 +556,11 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getAllAttributes(new Element(Locators.ID, "disable_click"));
+		Map<String, String> attributes = actions.getAllAttributes(new Element(Locators.ID, "disable_click"));
+		Map<String, String> expected = new HashMap<>();
+		expected.put("id", "disable_click");
+		expected.put("class", "click");
+		Assert.assertEquals(attributes, expected);
 		// verify no issues
 		finish();
 	}
@@ -531,7 +571,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getAllAttributes(new Element(Locators.ID, "non-existent-name"));
+		Map<String, String> attributes = actions.getAllAttributes(new Element(Locators.ID, "non-existent-name"));
+		Assert.assertEquals(attributes, new HashMap<>());
 		// verify 0 issue
 		finish();
 	}
@@ -541,27 +582,30 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getEval("document.location");
+		String location = (String) actions.getEval("document.location");
+		Assert.assertNull(location);
 		// verify no issues
 		finish();
 	}
-	
+
 	@Test(groups = { "integration" }, description = "An integration test to check the getEval method")
 	public void getElementEvalTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getEval(new Element(Locators.ID, "disable_click"), "document.location");
+		String location = (String) actions.getEval(new Element(Locators.ID, "disable_click"), "document.location");
+		Assert.assertNull(location);
 		// verify no issues
 		finish();
 	}
-	
+
 	@Test(groups = { "integration" }, description = "An integration test to check the getEval method")
 	public void getElementEvalNotExistTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.getEval(new Element(Locators.ID, "non-existent-name"), "document.location");
+		String location = (String) actions.getEval(new Element(Locators.ID, "non-existent-name"), "document.location");
+		Assert.assertNull(location);
 		// verify no issues
 		finish();
 	}

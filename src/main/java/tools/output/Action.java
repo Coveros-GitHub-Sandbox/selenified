@@ -1959,7 +1959,7 @@ public class Action {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Element element) throws IOException {
+	public List<List<WebElement>> getTableColumns(Element element) throws IOException {
 		return getTableColumns(element.getType(), element.getLocator());
 	}
 
@@ -1973,7 +1973,7 @@ public class Action {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Locators type, String locator) throws IOException {
+	public List<List<WebElement>> getTableColumns(Locators type, String locator) throws IOException {
 		return getTableColumns(type, locator, 0);
 	}
 
@@ -1988,7 +1988,7 @@ public class Action {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Element element, int elementMatch) throws IOException {
+	public List<List<WebElement>> getTableColumns(Element element, int elementMatch) throws IOException {
 		return getTableColumns(element.getType(), element.getLocator(), elementMatch);
 	}
 
@@ -2005,7 +2005,7 @@ public class Action {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumns(Locators type, String locator, int elementMatch) throws IOException {
+	public List<List<WebElement>> getTableColumns(Locators type, String locator, int elementMatch) throws IOException {
 		return locatorAction.getTableColumns(type, locator, elementMatch);
 	}
 
@@ -2032,7 +2032,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfTableColumns(Locators type, String locator) throws IOException {
-		List<WebElement> columns = getTableColumns(type, locator);
+		List<List<WebElement>> columns = getTableColumns(type, locator);
 		return columns.size();
 	}
 
@@ -2065,78 +2065,8 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfTableColumns(Locators type, String locator, int elementMatch) throws IOException {
-		List<WebElement> columns = getTableColumns(type, locator, elementMatch);
+		List<List<WebElement>> columns = getTableColumns(type, locator, elementMatch);
 		return columns.size();
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param element
-	 *            - the element to be waited for
-	 * @param header
-	 *            - the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Element element, String header) throws IOException {
-		return getTableRowHeader(element.getType(), element.getLocator(), header);
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param header
-	 *            - the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Locators type, String locator, String header) throws IOException {
-		return getTableRowHeader(type, locator, 0, header);
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param element
-	 *            - the element to be waited for
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @param header
-	 *            - the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Element element, int elementMatch, String header) throws IOException {
-		return getTableRowHeader(element.getType(), element.getLocator(), elementMatch, header);
-	}
-
-	/**
-	 * a method to retrieve the row number in a table that has a header (th) of
-	 * the indicated value
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @param header
-	 *            - the full text value expected in a th cell
-	 * @return Integer: the row number containing the header
-	 * @throws IOException
-	 */
-	public int getTableRowHeader(Locators type, String locator, int elementMatch, String header) throws IOException {
-		return locatorAction.getTableRowHeader(type, locator, elementMatch, header);
 	}
 
 	/**

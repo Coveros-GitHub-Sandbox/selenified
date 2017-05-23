@@ -199,61 +199,6 @@ public class AssertIT extends TestBase {
 	}
 
 	@Test(groups = { "integration",
-			"virtual" }, description = "An integration test to check the compareTableRowWHeader method")
-	public void compareTableRowWHeaderTest() throws IOException {
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		asserts.compareRowHeader(Locators.ID, "table", "CEO", 3);
-		// verify no issues
-		finish();
-	}
-	
-	@Test(groups = { "integration",
-	"virtual" }, description = "An integration test to check the compareTableRowWHeader method")
-	public void compareTableRowWHeaderNotExistTest() throws IOException {
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		asserts.compareRowHeader(Locators.ID, "table", "non-existant-id", 0);
-		// verify no issues
-		finish();
-	}
-	
-	@Test(groups = { "integration",
-	"virtual" }, description = "An integration test to check the compareTableRowWHeader method")
-	public void compareTableRowWOHeaderNoTest() throws IOException {
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		asserts.compareRowHeader(Locators.ID, "table_no_header", "non-existant-id", 0);
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "integration",
-			"virtual" }, description = "An integration negative test to check the compareTableRowWHeader method")
-	public void negativeCompareTableRowWHeaderTest() throws IOException {
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		asserts.compareRowHeader(Locators.ID, "table", "CEO", 0);
-		// verify 1 issue
-		finish(1);
-	}
-
-	@Test(groups = { "integration", "virtual" },
-			description = "An integration negative test to check the compareRowHeader method")
-	public void negativeCompareRowHeaderNotPresentTest() throws IOException {
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		asserts.compareRowHeader(Locators.ID, "non-existent-element", "CEO", 0);
-		// verify 1 issue
-		finish(1);
-	}
-	
-	@Test(groups = { "integration",
 			"virtual" }, description = "An integration test to check the checkSelectValuePresent method")
 	public void checkSelectValuePresentTest() throws IOException {
 		// use this object to verify our page looks as expected
