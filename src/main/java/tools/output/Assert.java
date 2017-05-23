@@ -2562,91 +2562,10 @@ public class Assert {
 		return errors;
 	}
 
-	/**
-	 * compares the expected index of row with header to the actual index of row
-	 * with header from a table element
-	 *
-	 * @param element
-	 *            - the element to be waited for
-	 * @param header
-	 *            the full text value expected in a th cell
-	 * @param expectedIndex
-	 *            the expected index of the row with header value
-	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
-	 */
-	public int compareRowHeader(Element element, String header, int expectedIndex) throws IOException {
-		return compareRowHeader(element.getType(), element.getLocator(), header, expectedIndex);
-	}
-
-	/**
-	 * compares the expected index of row with header to the actual index of row
-	 * with header from a table element
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param header
-	 *            the full text value expected in a th cell
-	 * @param expectedIndex
-	 *            the expected index of the row with header value
-	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
-	 */
-	public int compareRowHeader(Locators type, String locator, String header, int expectedIndex) throws IOException {
-		return compareRowHeader(type, locator, 0, header, expectedIndex);
-	}
-
-	/**
-	 * compares the expected index of row with header to the actual index of row
-	 * with header from a table element
-	 *
-	 * @param element
-	 *            - the element to be waited for
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @param header
-	 *            the full text value expected in a th cell
-	 * @param expectedIndex
-	 *            the expected index of the row with header value
-	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
-	 */
-	public int compareRowHeader(Element element, int elementMatch, String header, int expectedIndex)
-			throws IOException {
-		return compareRowHeader(element.getType(), element.getLocator(), elementMatch, header, expectedIndex);
-	}
-
-	/**
-	 * compares the expected index of row with header to the actual index of row
-	 * with header from a table element
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @param header
-	 *            the full text value expected in a th cell
-	 * @param expectedIndex
-	 *            the expected index of the row with header value
-	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
-	 */
-	public int compareRowHeader(Locators type, String locator, int elementMatch, String header, int expectedIndex)
-			throws IOException {
-		int errors = locatorAssert.compareRowHeader(type, locator, elementMatch, header, expectedIndex);
-		outputFile.addErrors(errors);
-		return errors;
-	}
-
-	///////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////
 	// this enum will be for a pass/fail
+	///////////////////////////////////////////////////////////////////
+
 	public enum Success {
 		PASS, FAIL
 	}
