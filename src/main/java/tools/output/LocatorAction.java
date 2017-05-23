@@ -623,13 +623,13 @@ public class LocatorAction {
 		List<WebElement> rows = getTableRows(type, locator, elementMatch);
 		List<WebElement> row = getTableRow(type, locator, elementMatch, 1);
 		List<List<WebElement>> columns = new ArrayList<>();
-		for( int i = 0; i < row.size(); i++ ) {
+		for (int i = 0; i < row.size(); i++) {
 			List<WebElement> column = new ArrayList<>();
-			for ( int j = 0; j < rows.size(); j ++ ) {
+			for (int j = 0; j < rows.size(); j++) {
 				List<WebElement> cells = getTableRow(type, locator, elementMatch, j);
-				column.add( cells.get(i) );
+				column.add(cells.get(i));
 			}
-			columns.add( column );
+			columns.add(column);
 		}
 		return columns;
 	}
@@ -777,7 +777,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public String getSelectedText(Locators type, String locator, int elementMatch) throws IOException {
-		if( !isPresentInput(type, locator, elementMatch) ) {
+		if (!isPresentInput(type, locator, elementMatch)) {
 			return "";
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -800,7 +800,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public String[] getSelectedTexts(Locators type, String locator, int elementMatch) throws IOException {
-		if( !isPresentInput(type, locator, elementMatch) ) {
+		if (!isPresentInput(type, locator, elementMatch)) {
 			return new String[0];
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -827,7 +827,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public String getSelectedValue(Locators type, String locator, int elementMatch) throws IOException {
-		if( !isPresentInput(type, locator, elementMatch) ) {
+		if (!isPresentInput(type, locator, elementMatch)) {
 			return "";
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -850,7 +850,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public String[] getSelectedValues(Locators type, String locator, int elementMatch) throws IOException {
-		if( !isPresentInput(type, locator, elementMatch) ) {
+		if (!isPresentInput(type, locator, elementMatch)) {
 			return new String[0];
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);

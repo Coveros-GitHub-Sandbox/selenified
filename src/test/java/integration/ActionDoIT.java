@@ -23,14 +23,14 @@ public class ActionDoIT extends TestBase {
 		// dynamic check
 		setVersion("0.0.1");
 	}
-	
+
 	@DataProvider(name = "car list items", parallel = true)
 	public Object[][] DataSetOptions() {
 		return new Object[][] { new Object[] { "volvo" }, new Object[] { "saab" }, new Object[] { "mercedes" } };
 	}
-	
-	@Test(dataProvider = "car list items", groups = { "integration", "virtual" },
-			description = "An integration test using a data provider to perform searches")
+
+	@Test(dataProvider = "car list items", groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration test using a data provider to perform searches")
 	public void selectTest(String listItem) throws IOException {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
@@ -42,8 +42,9 @@ public class ActionDoIT extends TestBase {
 		// close out the test
 		finish();
 	}
-	
-	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the goToURL method")
+
+	@Test(groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration test to check the goToURL method")
 	public void goToURLTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -55,8 +56,9 @@ public class ActionDoIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
-	@Test(groups = { "integration", "virtual" }, description = "An integration negative test to check the goToURL method")
+
+	@Test(groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration negative test to check the goToURL method")
 	public void negativeGoToURLTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -68,8 +70,9 @@ public class ActionDoIT extends TestBase {
 		// verify 1 issue
 		finish(1);
 	}
-	
-	@Test(groups = { "integration", "virtual" }, description = "An integration negative test to check the goToURL method")
+
+	@Test(groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration negative test to check the goToURL method")
 	public void negativeInvalidGoToURLTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -78,8 +81,9 @@ public class ActionDoIT extends TestBase {
 		// verify 1 issue
 		finish(1);
 	}
-	
-	@Test(groups = { "integration" }, description = "An integration test to check the acceptAlert method")
+
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration test to check the acceptAlert method")
 	public void acceptAlertTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -94,7 +98,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration" }, description = "An integration negative test to check the acceptAlert method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration negative test to check the acceptAlert method")
 	public void negativeAcceptAlertTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -104,7 +109,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration" }, description = "An integration test to check the acceptPrompt method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration test to check the acceptPrompt method")
 	public void acceptPromptTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -119,7 +125,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration" }, description = "An integration negative test to check the acceptPrompt method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration negative test to check the acceptPrompt method")
 	public void negativeAcceptPromptTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -129,7 +136,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration" }, description = "An integration test to check the acceptConfirmation method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration test to check the acceptConfirmation method")
 	public void acceptConfirmationTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -144,7 +152,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration" }, description = "An integration negative test to check the acceptConfirmation method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration negative test to check the acceptConfirmation method")
 	public void negativeAcceptConfirmationTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -154,7 +163,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the clear method")
+	@Test(groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration test to check the clear method")
 	public void clearTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -169,7 +179,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the click method")
+	@Test(groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration test to check the click method")
 	public void clickTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -181,8 +192,9 @@ public class ActionDoIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
-	@Test(groups = { "integration" }, description = "An integration negative test to check the click method")
+
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration negative test to check the click method")
 	public void negativeClickDisabledTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -191,8 +203,9 @@ public class ActionDoIT extends TestBase {
 		// verify 2 issues
 		finish(2);
 	}
-	
-	@Test(groups = { "integration", "virtual" }, description = "An integration negative test to check the click method")
+
+	@Test(groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration negative test to check the click method")
 	public void negativeClickTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -201,8 +214,9 @@ public class ActionDoIT extends TestBase {
 		// verify 2 issues
 		finish(2);
 	}
-	
-	@Test(groups = { "integration", "virtual" }, description = "An integration negative test to check the click method")
+
+	@Test(groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration negative test to check the click method")
 	public void negativeClickHiddenTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -212,7 +226,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration" }, description = "An integration test to check the dismissConfirmation method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration test to check the dismissConfirmation method")
 	public void dismissConfirmationTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -227,7 +242,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration" }, description = "An integration negative test to check the dismissConfirmation method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration negative test to check the dismissConfirmation method")
 	public void negativeDismissConfirmationTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -237,7 +253,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration" }, description = "An integration test to check the dismissPrompt method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration test to check the dismissPrompt method")
 	public void dismissPromptTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -252,7 +269,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration" }, description = "An integration negative test to check the dismissPrompt method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration negative test to check the dismissPrompt method")
 	public void negativeDismissPromptTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -262,7 +280,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "virtual" }, description = "An integration test to check the type method")
+	@Test(groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration test to check the type method")
 	public void typeTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -274,8 +293,9 @@ public class ActionDoIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
-	@Test(groups = { "integration" }, description = "An integration test to check the waitForAlertPresent method")
+
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration test to check the waitForAlertPresent method")
 	public void submitTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -287,8 +307,8 @@ public class ActionDoIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
-	@Test(groups = { "integration" }, description = "An integration test to check the scroll method")
+
+	@Test(groups = { "integration", "actions", "do" }, description = "An integration test to check the scroll method")
 	public void scrollTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -299,7 +319,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration" }, description = "An integration negative test to check the scroll method")
+	@Test(groups = { "integration", "actions",
+			"do" }, description = "An integration negative test to check the scroll method")
 	public void negativeScrollTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
