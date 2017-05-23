@@ -90,7 +90,18 @@ public class AssertIT extends TestBase {
 	
 	@Test(groups = { "integration", "virtual" },
 			description = "An integration test to check the compareSelectValues method")
-	public void negativeCompareSelectValuesTest() throws IOException {
+	public void negativeCompareSelectValuesNotPresentTest() throws IOException {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareSelectValues(Locators.NAME, "non-existent-element", new String[] { "volvo", "ford", "mercedes", "audi" });
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "virtual" },
+			description = "An integration test to check the compareSelectValues method")
+	public void negativeCompareSelectValuesWrongValueTest() throws IOException {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
@@ -1326,6 +1337,17 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		asserts.compareSelectedValue(Locators.ID, "enabled_button", "wrong value");
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration" },
+			description = "An integration negative test to check the compareSelectedValue method")
+	public void negativeCompareSelectedValueNotInputTest() throws Exception {
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareSelectedValue(Locators.ID, "table", "wrong value");
 		// verify 1 issue
 		finish(1);
 	}
