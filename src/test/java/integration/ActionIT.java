@@ -14,12 +14,12 @@ public class ActionIT extends TestBase {
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() throws Exception {
 		// set the base URL for the tests here
-		testSite = "http://172.31.2.65/";
+		setTestSite("http://172.31.2.65/");
 		// set the author of the tests here
-		author = "Max Saperstone\n<br/>max.saperstone@coveros.com";
+		setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
 		// set the version of the tests or of the software, possibly with a
 		// dynamic check
-		version = "0.0.1";
+		setVersion("0.0.1");
 	}
 	
 	@DataProvider(name = "car list items", parallel = true)
@@ -348,6 +348,28 @@ public class ActionIT extends TestBase {
 		// verify no issues
 		finish();
 	}
+	
+	@Test(groups = { "integration" }, description = "An integration test to check the waitForElementDisplayed method")
+	public void waitForElementDisplayedDelayedPresenceTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.NAME, "delayed_display_button");
+		actions.waitForElementDisplayed(Locators.NAME, "added_div");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration" }, description = "An integration test to check the waitForElementDisplayed method")
+	public void waitForElementDisplayedDelayedDisplayTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.NAME, "delayed_display_button");
+		actions.waitForElementDisplayed(Locators.NAME, "delayed_hide_button");
+		// verify no issues
+		finish();
+	}
 
 	@Test(groups = { "integration", "virtual" },
 			description = "An integration negative test to check the waitForElementDisplayed method")
@@ -378,6 +400,20 @@ public class ActionIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.waitForElementNotDisplayed(Locators.NAME, "hidden_div");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration" },
+			description = "An integration test to check the WaitForElementNotDisplayed method")
+	public void waitForElementNotDisplayedDelayedTest() throws Exception {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.NAME, "delayed_display_button");
+		actions.waitForElementDisplayed(Locators.NAME, "delayed_hide_button");
+		actions.click(Locators.NAME, "delayed_hide_button");
+		actions.waitForElementNotDisplayed(Locators.NAME, "delayed_hide_button");
 		// verify no issues
 		finish();
 	}
