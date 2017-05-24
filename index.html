@@ -8,6 +8,7 @@
         var five_second_button = document.getElementById("five_second_button");
         var scroll_button = document.getElementById("scroll_button");
         var clickBtn = document.getElementsByClassName('click')[0];
+	var delayed_checkbox_div = document.getElementById('delayed_checkbox_div');
         var delayed_div = document.getElementById("delayed_div");
         var delayed_display_button = document.getElementById("delayed_display_button");
         var delayed_hide_button = document.getElementById("delayed_hide_button");
@@ -63,9 +64,14 @@
             delayed_enable_button.disabled = true;
         });
 
+	setTimeout(function(){
+		delayed_checkbox_div.innerHTML += "<input id='check' type='checkbox'/>";
+	}, 3000);
+
         setTimeout(function() {
             five_second_button.disabled = false;
         }, 6000);
+
         setTimeout(function() {
             five_second_button.disabled = true;
         }, 6100);
@@ -147,7 +153,7 @@ tr:nth-child(even) {
 		
 	<br/>
 	<textarea id="textarea_input" name="textarea_input">A Pretty Text Area</textarea>
-
+	<div id="delayed_checkbox_div" name="delayed_checkbox_div"></div>
 	<table id="table">
 		<tr>
 			<th></th>
