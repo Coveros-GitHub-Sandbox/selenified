@@ -1215,11 +1215,24 @@ public class LocatorAction {
 		if (!isPresentDisplayedEnabled(type, locator, elementMatch, action, expected, cantFocus)) {
 			return 1;
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].focus(); arguments[0].blur(); return true", element);
-		file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
-				Result.SUCCESS);
+		if( !isElementInput(type, locator, elementMatch, false) ) {
+			file.recordAction(action, expected, cantFocus + type + " " + locator + "as it is not an input",
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			element.sendKeys("\t");
+			file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
+					Result.SUCCESS);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantFocus + type + " " + locator,
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		return 0;
 	}
 

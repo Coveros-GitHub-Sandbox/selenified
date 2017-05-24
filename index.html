@@ -72,6 +72,10 @@
         hover_over_me.addEventListener('mouseout', function(event) {
             displayed_when_hovered.className = "hidden_div";
         });
+        
+        input_box.addEventListener('blur', function(event) {
+            alert("I've been blurred");
+        });
 
         setTimeout(function() {
             delayed_checkbox_div.innerHTML += "<input id='check' type='checkbox'/>";
