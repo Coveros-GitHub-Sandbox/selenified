@@ -8,12 +8,14 @@
         var five_second_button = document.getElementById("five_second_button");
         var scroll_button = document.getElementById("scroll_button");
         var clickBtn = document.getElementsByClassName('click')[0];
-	var delayed_checkbox_div = document.getElementById('delayed_checkbox_div');
+        var delayed_checkbox_div = document.getElementById('delayed_checkbox_div');
         var delayed_div = document.getElementById("delayed_div");
         var delayed_display_button = document.getElementById("delayed_display_button");
         var delayed_hide_button = document.getElementById("delayed_hide_button");
         var delayed_enable_button = document.getElementById("delayed_enable_button");
         var delayed_input = document.getElementById("delayed_input");
+        var hover_over_me = document.getElementById("hover_over_me");
+        var displayed_when_hovered = document.getElementById("displayed_when_hovered");
 
         // Disable the button on initial page load
         enable_button.disabled = true;
@@ -49,24 +51,31 @@
             }, 3000);
             delayed_hide_button.disabled = true;
         });
-        
+
         delayed_enable_button.addEventListener('click', function(event) {
             setTimeout(function() {
-	            if( delayed_input.disabled ) {
-	                delayed_input.disabled = false;
-	                delayed_enable_button.value = "Disable Input";
-	            } else {
-	                delayed_input.disabled = true;
-	                delayed_enable_button.value = "Enable Input";
-	            }
-	            delayed_enable_button.disabled = false;
+                if (delayed_input.disabled) {
+                    delayed_input.disabled = false;
+                    delayed_enable_button.value = "Disable Input";
+                } else {
+                    delayed_input.disabled = true;
+                    delayed_enable_button.value = "Enable Input";
+                }
+                delayed_enable_button.disabled = false;
             }, 3000);
             delayed_enable_button.disabled = true;
         });
+        
+        hover_over_me.addEventListener('mouseover', function(event) {
+            displayed_when_hovered.className = "";
+        });
+        hover_over_me.addEventListener('mouseout', function(event) {
+            displayed_when_hovered.className = "hidden_div";
+        });
 
-	setTimeout(function(){
-		delayed_checkbox_div.innerHTML += "<input id='check' type='checkbox'/>";
-	}, 3000);
+        setTimeout(function() {
+            delayed_checkbox_div.innerHTML += "<input id='check' type='checkbox'/>";
+        }, 3000);
 
         setTimeout(function() {
             five_second_button.disabled = false;
@@ -123,10 +132,12 @@ tr:nth-child(even) {
 	</div>
 	<input name="five_second_button" id="five_second_button" type="button"
 		value="5 Second Button" />
+	<br />
 	<input type="text" name="input_box" id="input_box" value="" />
 	<br>
 	<input id="scroll_button" name="scroll_button" type="button"
 		value="Increase Page Height" />
+	<br />
 	<select id="car_list" name="car_list">
 		<option value="volvo">Volvo</option>
 		<option value="saab">Saab</option>
@@ -134,10 +145,18 @@ tr:nth-child(even) {
 		<option value="audi">Audi</option>
 	</select>
 	<br />
+	<select multiple id="car_list_multiple" name="car_list_multiple">
+		<option value="volvo">Volvo</option>
+		<option value="saab">Saab</option>
+		<option value="opel">Opel</option>
+		<option value="audi">Audi</option>
+	</select>
+	<br />
 	<form action="/next_page.html">
 		<input type="checkbox" name="that" id="that" value="That" /> That<br />
-		<input type="checkbox" name="this" id="this" value="This" /> This <input
-			id="submit_button" name="submit_button" type="submit" value="Submit" />
+		<input type="checkbox" name="this" id="this" value="This" /> This<br />
+		<input id="submit_button" name="submit_button" type="submit"
+			value="Submit" />
 	</form>
 
 	<input id="delayed_display_button" name="delayed_display_button"
@@ -148,12 +167,17 @@ tr:nth-child(even) {
 
 	<input id="delayed_enable_button" name="delayed_enable_button"
 		type="submit" value="Enable Input" />
-	<input id="delayed_input" name="delayed_input"
-		type="text" />
-		
-	<br/>
+	<input id="delayed_input" name="delayed_input" type="text" />
+
+	<br />
 	<textarea id="textarea_input" name="textarea_input">A Pretty Text Area</textarea>
+	<br />
 	<div id="delayed_checkbox_div" name="delayed_checkbox_div"></div>
+	<br />
+	<div id="hover_over_me" name="hover_over_me" class="showup">
+		<div id="displayed_when_hovered" name="displayed_when_hovered"
+			class="hidden_div">You Hovered!</div>
+	</div>
 	<table id="table">
 		<tr>
 			<th></th>
