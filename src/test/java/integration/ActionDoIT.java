@@ -2,6 +2,7 @@ package integration;
 
 import java.io.IOException;
 
+import org.openqa.selenium.Keys;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -348,6 +349,8 @@ public class ActionDoIT extends TestBase {
 
 	@Test(groups = { "integration", "actions", "do", "blur" }, description = "An integration test to check the blur method")
 	public void blurTest() throws IOException {
+<<<<<<< HEAD
+=======
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -406,19 +409,65 @@ public class ActionDoIT extends TestBase {
 	@Test(groups = { "integration", "actions", "do", "clear",
 			"virtual" }, description = "An integration test to check the clear method")
 	public void clearTest() throws IOException {
+>>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.type(Locators.ID, "input_box", "Text");
-		asserts.compareInputValue(Locators.ID, "input_box", "Text");
-		actions.clear(Locators.ID, "input_box");
-		asserts.compareInputValue(Locators.ID, "input_box", "");
+		actions.blur(Locators.ID, "input_box");
+		asserts.checkAlertPresent();
 		// verify no issues
 		finish();
 	}
 
+<<<<<<< HEAD
+	@Test(groups = { "integration", "actions", "do", "blur",
+			"virtual" }, description = "An integration negative test to check the blur method")
+	public void blurNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.blur(Locators.ID, "non-existent-element");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "blur",
+			"do" }, description = "An integration negative test to check the blur method")
+	public void blurDisabledTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.blur(Locators.ID, "enable_button");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "blur",
+			"virtual" }, description = "An integration negative test to check the blur method")
+	public void blurNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.blur(Locators.ID, "hidden_div");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "blur",
+			"virtual" }, description = "An integration negative test to check the blur method")
+	public void blurNotInputTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.blur(new Element(Locators.ID, "disable_click"));
+		// verify 2 issues
+		finish(1);
+	}
+
+=======
+>>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
 	@Test(groups = { "integration", "actions", "do", "type",
 			"virtual" }, description = "An integration test to check the type method")
 	public void typeTest() throws IOException {
@@ -433,6 +482,171 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
+<<<<<<< HEAD
+	@Test(groups = { "integration", "actions", "do", "type",
+			"virtual" }, description = "An integration negative test to check the type method")
+	public void typeNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.type(Locators.ID, "non-existent-element", "This is a test");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "type",
+			"do" }, description = "An integration negative test to check the type method")
+	public void typeDisabledTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.type(Locators.ID, "enable_button", "This is a test");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "type",
+			"virtual" }, description = "An integration negative test to check the type method")
+	public void typeNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.type(Locators.ID, "hidden_div", "This is a test");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "type",
+			"virtual" }, description = "An integration negative test to check the type method")
+	public void typeNotInputTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.type(new Element(Locators.ID, "disable_click"), "This is a test");
+		// verify 2 issues
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "type",
+			"virtual" }, description = "An integration test to check the type method")
+	public void typeKeysTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "input_box", Keys.SPACE);
+		asserts.compareInputValue(Locators.ID, "input_box", "");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do", "type",
+			"virtual" }, description = "An integration negative test to check the type method")
+	public void typeKeysNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.type(Locators.ID, "non-existent-element", Keys.SPACE);
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "type",
+			"do" }, description = "An integration negative test to check the type method")
+	public void typeKeysDisabledTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.type(Locators.ID, "enable_button", Keys.SPACE);
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "type",
+			"virtual" }, description = "An integration negative test to check the type method")
+	public void typeKeysNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.type(Locators.ID, "hidden_div", Keys.SPACE);
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "type",
+			"virtual" }, description = "An integration negative test to check the type method")
+	public void typeKeysNotInputTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.type(new Element(Locators.ID, "disable_click"), Keys.SPACE);
+		// verify 2 issues
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "clear", 
+			"virtual" }, description = "An integration test to check the clear method")
+	public void clearTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "input_box", "Text");
+		asserts.compareInputValue(Locators.ID, "input_box", "Text");
+		actions.clear(Locators.ID, "input_box");
+		asserts.compareInputValue(Locators.ID, "input_box", "");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do", "clear",
+			"virtual" }, description = "An integration negative test to check the clear method")
+	public void clearNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.clear(Locators.ID, "non-existent-element");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "clear", 
+			"do" }, description = "An integration negative test to check the clear method")
+	public void clearDisabledTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.clear(Locators.ID, "enable_button");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "clear",
+			"virtual" }, description = "An integration negative test to check the clear method")
+	public void clearNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.clear(Locators.ID, "hidden_div");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "clear",
+			"virtual" }, description = "An integration negative test to check the clear method")
+	public void clearNotInputTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.clear(new Element(Locators.ID, "disable_click"));
+		// verify 2 issues
+		finish(1);
+	}
+
+=======
+>>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
 	@Test(dataProvider = "car list items", groups = { "integration", "actions", "do", "select",
 			"virtual" }, description = "An integration test using a data provider to perform searches")
 	public void selectTest(String listItem) throws IOException {
@@ -447,6 +661,130 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
+<<<<<<< HEAD
+	@Test(groups = { "integration", "actions", "do", "select",
+			"virtual" }, description = "An integration negative test to check the select method")
+	public void selectBadOptionTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.select(Locators.ID, "c", "option");
+		// verify 2 issues
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "actions", "do", "select",
+	"virtual" }, description = "An integration negative test to check the select method")
+	public void selectNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.select(Locators.ID, "non-existent-element", "option");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "select", 
+			"do" }, description = "An integration negative test to check the select method")
+	public void selectDisabledTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.select(Locators.ID, "enable_button", "option");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "select",
+			"virtual" }, description = "An integration negative test to check the select method")
+	public void selectNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.select(Locators.ID, "hidden_div", "option");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "select",
+			"virtual" }, description = "An integration negative test to check the select method")
+	public void selectNotInputTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.select(new Element(Locators.ID, "disable_click"), "option");
+		// verify 2 issues
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "move", 
+			"virtual" }, description = "An integration test to check the move method")
+	public void moveTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.move(Locators.ID, "input_box");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do", "move",
+			"virtual" }, description = "An integration negative test to check the move method")
+	public void moveNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.move(Locators.ID, "non-existent-element");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "move",
+			"virtual" }, description = "An integration negative test to check the move method")
+	public void moveNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.move(Locators.ID, "hidden_div");
+		// verify 2 issues
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "actions", "do", "move", 
+	"virtual" }, description = "An integration test to check the move method")
+	public void moveAtTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.move(Locators.ID, "input_box", 10);
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "actions", "do", "move",
+	"virtual" }, description = "An integration negative test to check the move method")
+	public void moveAtNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.move(Locators.ID, "non-existent-element", 10);
+		// verify 2 issues
+		finish(2);
+	}
+	
+	@Test(groups = { "integration", "actions", "do", "move",
+	"virtual" }, description = "An integration negative test to check the move method")
+	public void moveAtNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.move(Locators.ID, "hidden_div", 10);
+		// verify 2 issues
+		finish(1);
+	}
+
+=======
+>>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
 	@Test(groups = { "integration", "actions", "do", "scroll" }, description = "An integration test to check the scroll method")
 	public void scrollTest() throws IOException {
 		// use this object to manipulate our page
