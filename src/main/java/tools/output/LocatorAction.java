@@ -1303,27 +1303,6 @@ public class LocatorAction {
 			file.addError();
 			return 1;
 		}
-<<<<<<< HEAD
-=======
-		if( !isElementInput(type, locator, elementMatch, false) ) {
-			file.recordAction(action, expected, cantFocus + type + " " + locator + "as it is not an input",
-					Result.FAILURE);
-			file.addError();
-			return 1;
-		}
-		try {
-			WebElement element = getWebElement(type, locator, elementMatch);
-			element.sendKeys("\t");
-			file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
-					Result.SUCCESS);
-		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, cantFocus + type + " " + locator,
-					Result.FAILURE);
-			file.addError();
-			return 1;
-		}
->>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
 		return 0;
 	}
 

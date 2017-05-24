@@ -265,7 +265,7 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "virtual", "submit",
+	@Test(groups = { "integration", "actions", "submit",
 			"do" }, description = "An integration negative test to check the submit method")
 	public void submitDisabledTest() throws IOException {
 		// use this object to manipulate our page
@@ -349,8 +349,6 @@ public class ActionDoIT extends TestBase {
 
 	@Test(groups = { "integration", "actions", "do", "blur" }, description = "An integration test to check the blur method")
 	public void blurTest() throws IOException {
-<<<<<<< HEAD
-=======
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -406,68 +404,6 @@ public class ActionDoIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "clear",
-			"virtual" }, description = "An integration test to check the clear method")
-	public void clearTest() throws IOException {
->>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		actions.blur(Locators.ID, "input_box");
-		asserts.checkAlertPresent();
-		// verify no issues
-		finish();
-	}
-
-<<<<<<< HEAD
-	@Test(groups = { "integration", "actions", "do", "blur",
-			"virtual" }, description = "An integration negative test to check the blur method")
-	public void blurNotExistTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.blur(Locators.ID, "non-existent-element");
-		// verify 2 issues
-		finish(2);
-	}
-
-	@Test(groups = { "integration", "actions", "blur",
-			"do" }, description = "An integration negative test to check the blur method")
-	public void blurDisabledTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.blur(Locators.ID, "enable_button");
-		// verify 2 issues
-		finish(2);
-	}
-
-	@Test(groups = { "integration", "actions", "do", "blur",
-			"virtual" }, description = "An integration negative test to check the blur method")
-	public void blurNotVisibleTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.blur(Locators.ID, "hidden_div");
-		// verify 2 issues
-		finish(2);
-	}
-
-	@Test(groups = { "integration", "actions", "do", "blur",
-			"virtual" }, description = "An integration negative test to check the blur method")
-	public void blurNotInputTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.blur(new Element(Locators.ID, "disable_click"));
-		// verify 2 issues
-		finish(1);
-	}
-
-=======
->>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
 	@Test(groups = { "integration", "actions", "do", "type",
 			"virtual" }, description = "An integration test to check the type method")
 	public void typeTest() throws IOException {
@@ -482,7 +418,6 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-<<<<<<< HEAD
 	@Test(groups = { "integration", "actions", "do", "type",
 			"virtual" }, description = "An integration negative test to check the type method")
 	public void typeNotExistTest() throws IOException {
@@ -645,8 +580,6 @@ public class ActionDoIT extends TestBase {
 		finish(1);
 	}
 
-=======
->>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
 	@Test(dataProvider = "car list items", groups = { "integration", "actions", "do", "select",
 			"virtual" }, description = "An integration test using a data provider to perform searches")
 	public void selectTest(String listItem) throws IOException {
@@ -661,14 +594,13 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-<<<<<<< HEAD
 	@Test(groups = { "integration", "actions", "do", "select",
 			"virtual" }, description = "An integration negative test to check the select method")
 	public void selectBadOptionTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.ID, "c", "option");
+		actions.select(Locators.ID, "car_list", "option");
 		// verify 2 issues
 		finish(1);
 	}
@@ -783,8 +715,6 @@ public class ActionDoIT extends TestBase {
 		finish(1);
 	}
 
-=======
->>>>>>> 3224028c72da4c3beb76e5ddbec87d8d9bb2f78e
 	@Test(groups = { "integration", "actions", "do", "scroll" }, description = "An integration test to check the scroll method")
 	public void scrollTest() throws IOException {
 		// use this object to manipulate our page
