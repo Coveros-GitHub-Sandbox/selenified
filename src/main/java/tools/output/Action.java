@@ -3074,15 +3074,20 @@ public class Action {
 	 *         steps
 	 */
 	public int switchToNewWindow() {
+		String action = "Switching to the new window";
+		String expected = "New window is available and selected";
 		try {
 			parentWindow = driver.getWindowHandle();
 			for (String winHandle : driver.getWindowHandles()) {
 				driver.switchTo().window(winHandle);
 			}
 		} catch (Exception e) {
+			file.recordAction(action, expected, "New window was unable to be selected", Result.FAILURE);
+			file.addError();
 			log.error(e);
 			return 1;
 		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
 		return 0;
 	}
 
@@ -3093,12 +3098,17 @@ public class Action {
 	 *         steps
 	 */
 	public int switchToParentWindow() {
+		String action = "Switching back to parent window";
+		String expected = "Parent window is available and selected";
 		try {
 			driver.switchTo().window(parentWindow);
 		} catch (Exception e) {
+			file.recordAction(action, expected, "Parent window was unable to be selected", Result.FAILURE);
+			file.addError();
 			log.error(e);
 			return 1;
 		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
 		return 0;
 	}
 
@@ -3111,51 +3121,219 @@ public class Action {
 	 *         steps
 	 */
 	public int switchTab(int tabNumber) {
+		String action = "Switching to tab <b>" + tabNumber + "</b>";
+		String expected = "Tab <b>" + tabNumber + "</b> is available and selected";
 		try {
 			ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 			driver.switchTo().window(tabs.get(tabNumber));
 		} catch (Exception e) {
+			file.recordAction(action, expected, "Tab <b>" + tabNumber + "</b> was unable to be selected",
+					Result.FAILURE);
+			file.addError();
 			log.error(e);
 			return 1;
 		}
-		return 0;
-	}
-
-	public int selectFrame(int frameNumber) {
-		try {
-			driver.switchTo().frame(frameNumber);
-		} catch (Exception e) {
-			log.error(e);
-			return 1;
-		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
 		return 0;
 	}
 
 	/**
-	 * a function to close windows. note that if this is the only window open,
-	 * you will end your session
+	 * a way to select a frame within a page. Select a frame by its (zero-based)
+	 * index. That is, if a page has three frames, the first frame would be at
+	 * index 0, the second at index 1 and the third at index 2. Once the frame
+	 * has been selected, all subsequent calls on the WebDriver interface are
+	 * made to that frame.
+	 * 
+	 * @param frameNumber
+	 *            - the frame number, starts at 0
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int selectFrame(int frameNumber) {
+		String action = "Switching to frame <b>" + frameNumber + "</b>";
+		String expected = "Frame <b>" + frameNumber + "</b> is available and selected";
+		try {
+			driver.switchTo().frame(frameNumber);
+		} catch (Exception e) {
+			file.recordAction(action, expected, "Frame <b>" + frameNumber + "</b> was unable to be selected",
+					Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
+	}
+
+	/**
+	 * a way to select a frame within a page. Select a frame by its name or ID.
+	 * Frames located by matching name attributes are always given precedence
+	 * over those matched by ID.
+	 * 
+	 * @param frameIdentifier
+	 *            - the frame name or ID
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int selectFrame(String frameIdentifier) {
+		String action = "Switching to frame <b>" + frameIdentifier + "</b>";
+		String expected = "Frame <b>" + frameIdentifier + "</b> is available and selected";
+		try {
+			driver.switchTo().frame(frameIdentifier);
+		} catch (Exception e) {
+			file.recordAction(action, expected, "Frame <b>" + frameIdentifier + "</b> was unable to be selected",
+					Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
+	}
+
+	/**
+	 * a way to select a frame within a page using an element
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int selectFrame(Element element) throws IOException {
+		return selectFrame(element.getType(), element.getLocator());
+	}
+
+	/**
+	 * a way to select a frame within a page using an element
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int selectFrame(Locators type, String locator) throws IOException {
+		return selectFrame(type, locator, 0);
+	}
+
+	/**
+	 * a way to select a frame within a page using an element
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int selectFrame(Element element, int elementMatch) throws IOException {
+		return selectFrame(element.getType(), element.getLocator(), elementMatch);
+	}
+
+	/**
+	 * a way to select a frame within a page using an element
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	public int selectFrame(Locators type, String locator, int elementMatch) throws IOException {
+		return locatorAction.selectFrame(type, locator, elementMatch);
+	}
+
+	/**
+	 * a way to open a new tab, and have it selected. Note, no content will be
+	 * present on this new tab, use the goToURL method to open load some content
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
-	public int closeWindow() {
-		return closeTab();
+	public int openTab() {
+		String action = "Opening new tab";
+		String expected = "New tab is opened";
+		try {
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");
+		} catch (Exception e) {
+			file.recordAction(action, expected, "New tab was unable to be opened", Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return switchTab(1);
+	}
+	
+	/**
+	 * a way to open a new tab, and have it selected. The page provided will be loaded
+	 * 
+	 * @param url - the url to load once the new tab is opened and selected
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int openTab(String url) {
+		if( openTab() != 0 ) {
+			return 1;
+		}
+		return goToURL(url);
 	}
 
 	/**
 	 * a function to close tabs. note that if this is the only tab open, you
 	 * will end your session
 	 * 
+	 * @param tabNumber
+	 *            - the tab number, starts at 0
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
 	public int closeTab() {
+		String action = "Closing currently open tab";
+		String expected = "Tab is closed";
 		try {
 			driver.close();
 		} catch (Exception e) {
+			file.recordAction(action, expected, "Tab was unable to be closed", Result.FAILURE);
+			file.addError();
 			log.error(e);
 			return 1;
 		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
+	}
+
+	/**
+	 * a function to close the provided tab.
+	 * 
+	 * @param tabNumber
+	 * @return
+	 */
+	public int closeTab(int tabNumber) {
+		String action = "Switching back to initial tab";
+		String expected = "Initial tab is selected and available";
+		try {
+			String currentTab = driver.getWindowHandle();
+			switchTab(tabNumber);
+			closeTab();
+			driver.switchTo().window(currentTab);
+		} catch (Exception e) {
+			file.recordAction(action, expected, "Tab was unable to be selected", Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
 		return 0;
 	}
 
@@ -3166,12 +3344,17 @@ public class Action {
 	 *         steps
 	 */
 	public int maximizeScreen() {
+		String action = "Maximizing browser";
+		String expected = "Browser is maximized";
 		try {
 			driver.manage().window().maximize();
 		} catch (Exception e) {
+			file.recordAction(action, expected, "Browser was unable to be maximized", Result.FAILURE);
+			file.addError();
 			log.error(e);
 			return 1;
 		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
 		return 0;
 	}
 
