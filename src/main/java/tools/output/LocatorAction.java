@@ -757,10 +757,7 @@ public class LocatorAction {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return false;
 		}
-		if (!isElementInput(type, locator, elementMatch, false)) {
-			return false;
-		}
-		return true;
+		return isElementInput(type, locator, elementMatch, false);
 	}
 
 	/**
