@@ -62,7 +62,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareNumOfSelectOptions(Locators.NAME, "car_list", 0);
+		asserts.compareNumOfSelectOptions(new Element(Locators.NAME, "car_list"), 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -73,7 +73,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareNumOfSelectOptions(Locators.NAME, "enable_button", 0);
+		asserts.compareNumOfSelectOptions(new Element(Locators.NAME, "enable_button"), 0, 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -95,7 +95,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectValues(Locators.NAME, "non-existent-element",
+		asserts.compareSelectValues(new Element(Locators.NAME, "non-existent-element"),
 				new String[] { "volvo", "ford", "mercedes", "audi" });
 		// verify 1 issue
 		finish(1);
@@ -107,7 +107,8 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectValues(Locators.NAME, "car_list", new String[] { "volvo", "ford", "mercedes", "audi" });
+		asserts.compareSelectValues(new Element(Locators.NAME, "car_list"), 0,
+				new String[] { "volvo", "ford", "mercedes", "audi" });
 		// verify 1 issue
 		finish(1);
 	}
@@ -152,7 +153,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareNumOfTableRows(Locators.ID, "table", 0);
+		asserts.compareNumOfTableRows(new Element(Locators.ID, "table"), 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -163,7 +164,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareNumOfTableRows(Locators.ID, "non-existent-element", 0);
+		asserts.compareNumOfTableRows(new Element(Locators.ID, "non-existent-element"), 0, 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -185,7 +186,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareNumOfTableColumns(Locators.ID, "table", 0);
+		asserts.compareNumOfTableColumns(new Element(Locators.ID, "table"), 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -196,7 +197,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareNumOfTableColumns(Locators.ID, "non-existent-element", 0);
+		asserts.compareNumOfTableColumns(new Element(Locators.ID, "non-existent-element"), 0, 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -218,7 +219,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkSelectValuePresent(Locators.ID, "car_list", "ford");
+		asserts.checkSelectValuePresent(new Element(Locators.ID, "car_list"), "ford");
 		// verify 1 issue
 		finish(1);
 	}
@@ -229,7 +230,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkSelectValuePresent(Locators.ID, "enable_button", "ford");
+		asserts.checkSelectValuePresent(new Element(Locators.ID, "enable_button"), 0, "ford");
 		// verify 1 issue
 		finish(1);
 	}
@@ -251,7 +252,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkSelectValueNotPresent(Locators.ID, "car_list", "volvo");
+		asserts.checkSelectValueNotPresent(new Element(Locators.ID, "car_list"), "volvo");
 		// verify 1 issue
 		finish(1);
 	}
@@ -262,7 +263,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkSelectValueNotPresent(Locators.ID, "enable_button", "volvo");
+		asserts.checkSelectValueNotPresent(new Element(Locators.ID, "enable_button"), 0, "volvo");
 		// verify 1 issue
 		finish(1);
 	}
@@ -284,7 +285,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkIfOptionInSelect(Locators.ID, "car_list", "ford");
+		asserts.checkIfOptionInSelect(new Element(Locators.ID, "car_list"), "ford");
 		// verify 1 issue
 		finish(1);
 	}
@@ -295,7 +296,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkIfOptionInSelect(Locators.ID, "enable_button", "ford");
+		asserts.checkIfOptionInSelect(new Element(Locators.ID, "enable_button"), 0, "ford");
 		// verify 2 issues
 		finish(2);
 	}
@@ -331,7 +332,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkIfOptionNotInSelect(Locators.ID, "car_list", "audi");
+		asserts.checkIfOptionNotInSelect(new Element(Locators.ID, "car_list"), "audi");
 		// verify 1 issue
 		finish(1);
 	}
@@ -342,7 +343,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkIfOptionNotInSelect(Locators.ID, "enable_button", "audi");
+		asserts.checkIfOptionNotInSelect(new Element(Locators.ID, "enable_button"), 0, "audi");
 		// verify 2 issues
 		finish(2);
 	}
@@ -450,6 +451,20 @@ public class AssertIT extends TestBase {
 		actions.click(Locators.ID, "disable_click");
 		actions.click(Locators.ID, "enable_button");
 		asserts.checkAlert("Enabled!");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "asserts" }, description = "An integration test to check the checkAlert method")
+	public void checkAlertRegexTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "enable_button");
+		asserts.checkAlert("([A-Z])\\w+!");
 		// verify no issues
 		finish();
 	}
@@ -567,7 +582,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementChecked(Locators.ID, "this");
+		asserts.checkElementChecked(new Element(Locators.ID, "this"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -611,7 +626,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementContainsClass(Locators.ID, "hidden_div", "wrong_class");
+		asserts.checkElementContainsClass(new Element(Locators.ID, "hidden_div"), "wrong_class");
 		// verify 1 issue
 		finish(1);
 	}
@@ -622,7 +637,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementContainsClass(Locators.ID, "non-existent-element", "wrong_class");
+		asserts.checkElementContainsClass(new Element(Locators.ID, "non-existent-element"), 0, "wrong_class");
 		// verify 2 issues
 		finish(2);
 	}
@@ -637,7 +652,7 @@ public class AssertIT extends TestBase {
 		// verify 1 issue
 		finish(1);
 	}
-
+	
 	@Test(groups = { "integration", "asserts",
 			"virtual" }, description = "An integration test to check the checkElementDisplayed method")
 	public void checkElementDisplayedTest() throws IOException {
@@ -655,7 +670,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayed(Locators.ID, "non_existent");
+		asserts.checkElementDisplayed(new Element(Locators.ID, "non_existent"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -666,7 +681,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayed(Locators.ID, "hidden_div");
+		asserts.checkElementDisplayed(new Element(Locators.ID, "hidden_div"), 0);
 		// verify 2 issues
 		finish(2);
 	}
@@ -705,7 +720,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayedAndChecked(Locators.ID, "this");
+		asserts.checkElementDisplayedAndChecked(new Element(Locators.ID, "this"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -716,7 +731,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayedAndChecked(Locators.ID, "non-existent-element");
+		asserts.checkElementDisplayedAndChecked(new Element(Locators.ID, "non-existent-element"), 0);
 		// verify 2 issues
 		finish(2);
 	}
@@ -760,7 +775,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayedAndEditable(new Element(Locators.ID, "check"));
+		asserts.checkElementDisplayedAndEditable(new Element(Locators.ID, "check"), 0);
 		// verify no issues
 		finish();
 	}
@@ -782,7 +797,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayedAndNotEditable(Locators.ID, "input_box");
+		asserts.checkElementDisplayedAndNotEditable(new Element(Locators.ID, "input_box"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -793,7 +808,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayedAndNotEditable(Locators.ID, "non-existent-element");
+		asserts.checkElementDisplayedAndNotEditable(new Element(Locators.ID, "non-existent-element"), 0);
 		// verify 2 issues
 		finish(2);
 	}
@@ -829,7 +844,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "this");
-		asserts.checkElementDisplayedAndUnchecked(Locators.ID, "this");
+		asserts.checkElementDisplayedAndUnchecked(new Element(Locators.ID, "this"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -840,7 +855,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayedAndUnchecked(Locators.ID, "non-existent-element");
+		asserts.checkElementDisplayedAndUnchecked(new Element(Locators.ID, "non-existent-element"), 0);
 		// verify 2 issues
 		finish(2);
 	}
@@ -873,7 +888,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDoesntContainClass(Locators.ID, "hidden_div", "hidden_div");
+		asserts.checkElementDoesntContainClass(new Element(Locators.ID, "hidden_div"), "hidden_div");
 		// verify 1 issue
 		finish(1);
 	}
@@ -884,7 +899,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDoesntContainClass(Locators.ID, "non-existent-element", "hidden_div");
+		asserts.checkElementDoesntContainClass(new Element(Locators.ID, "non-existent-element"), 0, "hidden_div");
 		// verify 2 issues
 		finish(2);
 	}
@@ -917,7 +932,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDoesntHaveAttribute(Locators.ID, "car_list", "name");
+		asserts.checkElementDoesntHaveAttribute(new Element(Locators.ID, "car_list"), "name");
 		// verify 1 issue
 		finish(1);
 	}
@@ -928,7 +943,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDoesntHaveAttribute(Locators.ID, "non-existent-element", "name");
+		asserts.checkElementDoesntHaveAttribute(new Element(Locators.ID, "non-existent-element"), 0, "name");
 		// verify 2 issues
 		finish(2);
 	}
@@ -961,7 +976,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementEditable(Locators.ID, "non_existent");
+		asserts.checkElementEditable(new Element(Locators.ID, "non_existent"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -972,7 +987,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementEditable(Locators.ID, "table");
+		asserts.checkElementEditable(new Element(Locators.ID, "table"), 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -1016,7 +1031,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementHasAttribute(Locators.ID, "car_list", "class");
+		asserts.checkElementHasAttribute(new Element(Locators.ID, "car_list"), "class");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1027,7 +1042,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementHasAttribute(Locators.ID, "non-existent-element", "class");
+		asserts.checkElementHasAttribute(new Element(Locators.ID, "non-existent-element"), 0, "class");
 		// verify 2 issues
 		finish(2);
 	}
@@ -1060,7 +1075,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementHasClass(Locators.ID, "hidden_div", "wrong_class");
+		asserts.checkElementHasClass(new Element(Locators.ID, "hidden_div"), "wrong_class");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1071,7 +1086,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementHasClass(Locators.ID, "non-existent-element", "wrong_class");
+		asserts.checkElementHasClass(new Element(Locators.ID, "non-existent-element"), 0, "wrong_class");
 		// verify 2 issues
 		finish(2);
 	}
@@ -1107,7 +1122,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "that");
-		asserts.checkElementNotChecked(Locators.ID, "that");
+		asserts.checkElementNotChecked(new Element(Locators.ID, "that"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -1118,7 +1133,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotChecked(Locators.ID, "non-existent-element");
+		asserts.checkElementNotChecked(new Element(Locators.ID, "non-existent-element"), 0);
 		// verify 2 issue
 		finish(2);
 	}
@@ -1151,7 +1166,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotDisplayed(Locators.ID, "scroll_button");
+		asserts.checkElementNotDisplayed(new Element(Locators.ID, "scroll_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -1167,7 +1182,7 @@ public class AssertIT extends TestBase {
 		actions.click(Locators.ID, "delayed_display_button");
 		actions.waitForElementDisplayed(Locators.ID, "delayed_hide_button");
 		actions.click(Locators.ID, "delayed_hide_button");
-		asserts.checkElementNotDisplayed(Locators.ID, "delayed_hide_button");
+		asserts.checkElementNotDisplayed(new Element(Locators.ID, "delayed_hide_button"), 0);
 		// verify no issues
 		finish();
 	}
@@ -1189,7 +1204,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotEditable(Locators.ID, "that");
+		asserts.checkElementNotEditable(new Element(Locators.ID, "that"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -1200,7 +1215,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotEditable(Locators.ID, "non-existent-element");
+		asserts.checkElementNotEditable(new Element(Locators.ID, "non-existent-element"), 0);
 		// verify 2 issues
 		finish(2);
 	}
@@ -1391,7 +1406,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareCssValue(Locators.ID, "hidden_div", "display", "inline");
+		asserts.compareCssValue(new Element(Locators.ID, "hidden_div"), "display", "inline");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1402,7 +1417,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareCssValue(Locators.ID, "non-existent-element", "display", "inline");
+		asserts.compareCssValue(new Element(Locators.ID, "non-existent-element"), 0, "display", "inline");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1424,7 +1439,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareInputValue(Locators.ID, "that", "wrong value");
+		asserts.compareInputValue(new Element(Locators.ID, "that"), "wrong value");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1435,7 +1450,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareInputValue(Locators.ID, "non-existent-element", "wrong value");
+		asserts.compareInputValue(new Element(Locators.ID, "non-existent-element"), 0, "wrong value");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1457,7 +1472,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectedText(Locators.ID, "car_list", "wrong value");
+		asserts.compareSelectedText(new Element(Locators.ID, "car_list"), "wrong value");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1468,7 +1483,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectedText(Locators.ID, "enable_button", "wrong value");
+		asserts.compareSelectedText(new Element(Locators.ID, "enable_button"), 0, "wrong value");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1490,7 +1505,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectedValue(Locators.ID, "car_list", "wrong value");
+		asserts.compareSelectedValue(new Element(Locators.ID, "car_list"), "wrong value");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1501,7 +1516,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectedValue(Locators.ID, "enabled_button", "wrong value");
+		asserts.compareSelectedValue(new Element(Locators.ID, "enabled_button"), 0, "wrong value");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1534,7 +1549,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectedValueNotEqual(Locators.ID, "car_list", "volvo");
+		asserts.compareSelectedValueNotEqual(new Element(Locators.ID, "car_list"), "volvo");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1545,7 +1560,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectedValueNotEqual(Locators.ID, "enabled_button", "volvo");
+		asserts.compareSelectedValueNotEqual(new Element(Locators.ID, "enabled_button"), 0, "volvo");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1567,7 +1582,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareTextValue(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Maria Anders");
+		asserts.compareTextValue(new Element(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]"), "Maria Anders");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1578,7 +1593,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareTextValue(Locators.ID, "non-existent-element", "Maria Anders");
+		asserts.compareTextValue(new Element(Locators.ID, "non-existent-element"), 0, "Maria Anders");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1600,7 +1615,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareTextValueContains(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Anders");
+		asserts.compareTextValueContains(new Element(Locators.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]"), "Anders");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1611,7 +1626,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareTextValueContains(Locators.ID, "non-existent-element", "Anders");
+		asserts.compareTextValueContains(new Element(Locators.ID, "non-existent-element"), 0, "Anders");
 		// verify 1 issue
 		finish(1);
 	}
