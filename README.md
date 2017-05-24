@@ -225,9 +225,9 @@ for determining which tests to execute. An XML file must exist following the gui
 file specified in the build tool will be used. If that file does not exist, no tests will be specified, and 
 so nothing will run.   
 ```
--Dtest-suite=my-test-suite.xml
+-DsuiteXmlFile=my-test-suite.xml
 ```
-There is a sample testng build file included named `sample.xml` which points to the included sample tests
+There is a sample testng build file included named `integration.xml` which points to the included integration tests
 #### Application URL
 This is the default URL that all tests should run against. This value can be overridden in each test, class, or 
 even suite (see below).
@@ -275,7 +275,7 @@ If you want to provide inputs to the tests being run, when right clicking on the
 Run Configurations... sub-item. On the option screen, select the Arguments tab on the upper left of the screen. In the 
 Program arguments input area, enter in the desired input details to be tested as below:
 ```
--Dtest-suite=smoke.xml -appURL=www.google.com -Dbrowser=Chrome -Dhub=localhost -Dproxy=localhost:8082
+-DsuiteXmlFile=smoke.xml -appURL=www.google.com -Dbrowser=Chrome -Dhub=localhost -Dproxy=localhost:8082
 ```
 ### IntelliJ
 Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is 
@@ -284,7 +284,7 @@ SampleIT.java), and select the Run (package, class, or method) menu item. This w
 If you want to provide inputs to the tests being run, select Run -> Edit Configurations... from the top menu. 
 On the option menu, under JDK Settings tab, add your options into the VM options field as below:
 ```
--Dtest-suite=./suites/regression.xml -appURL=google.com -Dbrowser=InternetExplorer -Dhub=192.168.1.10
+-DsuiteXmlFile=./suites/regression.xml -appURL=google.com -Dbrowser=InternetExplorer -Dhub=192.168.1.10
 ```
 You can enter these values under either your already created tests, or as the default, if you want all tests to use them.
 
@@ -326,11 +326,11 @@ ant clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-ant -Dtest-suite=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
+ant -DsuiteXmlFile=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
 ```
 The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean test -Dtest-suite=./suites/all.xml -DappURL=google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
+ant clean test -DsuiteXmlFile=./suites/all.xml -DappURL=google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
 #### Maven
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
@@ -340,7 +340,7 @@ mvn clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-mvn verify -Dtest-suite=../acceptance.xml -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
+mvn verify -DsuiteXmlFile=../acceptance.xml -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
 ```
 To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
 additional parameter, failsafe.groups with the desired group to test
@@ -355,7 +355,7 @@ gradle clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-gradle seleniumTest -Dtest-suite=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox
+gradle seleniumTest -DsuiteXmlFile=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox
 ```
 ## Viewing Results
 To view test results, navigate to the newly created target-output folder within the framework directory. Within 
