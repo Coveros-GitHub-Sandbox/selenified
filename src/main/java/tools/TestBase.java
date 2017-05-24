@@ -49,7 +49,7 @@ public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
-	private static String testSite = "http://www.google.com/";
+	private static String testSite = "https://www.google.com/";
 	private static String version;
 	private static String author = "Max Saperstone";
 
