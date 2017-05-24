@@ -326,11 +326,11 @@ ant clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-ant -DsuiteXmlFile=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
+ant -Dtest-suite=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
 ```
 The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean test -DsuiteXmlFile=./suites/all.xml -DappURL=google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
+ant clean test -Dtest-suite=./suites/all.xml -DappURL=google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
 #### Maven
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
@@ -355,7 +355,7 @@ gradle clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-gradle seleniumTest -DsuiteXmlFile=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox
+gradle seleniumTest -Dtest-suite=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox
 ```
 ## Viewing Results
 To view test results, navigate to the newly created target-output folder within the framework directory. Within 
