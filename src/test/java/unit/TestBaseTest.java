@@ -88,7 +88,7 @@ public class TestBaseTest extends TestBase {
 	public void initializeSystemTest() {
 		TestBase.initializeSystem();
 		Assert.assertEquals(System.getProperty("browser"), "HTMLUNIT");
-		Assert.assertEquals(getTestSite(), "http://www.google.com/");
+		Assert.assertEquals(getTestSite(), "https://www.google.com/");
 
 		System.setProperty("browser", "Chrome");
 		System.setProperty("appURL", "http://www.yahoo.com");
