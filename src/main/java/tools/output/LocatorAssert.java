@@ -1230,45 +1230,4 @@ public class LocatorAssert {
 				Success.PASS);
 		return 0;
 	}
-
-	/**
-	 * compares the expected index of row with header to the actual index of row
-	 * with header from a table element
-	 *
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @param header
-	 *            the full text value expected in a th cell
-	 * @param expectedIndex
-	 *            the expected index of the row with header value
-	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
-	 */
-	public int compareRowHeader(Locators type, String locator, int elementMatch, String header, int expectedIndex)
-			throws IOException {
-		// outputFile.record our action
-		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the row with header " + header
-				+ " at index <b>" + expectedIndex + "</b>");
-		// check for our object to the present on the page
-		int rowIndex;
-		if (!isPresent(type, locator, elementMatch)) {
-			return 1;
-		} else {
-			rowIndex = action.getTableRowHeader(type, locator, elementMatch, header);
-		}
-		if (rowIndex != expectedIndex) {
-			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> and table row with header " + header
-					+ " was not found at the index <b>" + expectedIndex, Success.FAIL);
-
-			return 1;
-		}
-		outputFile.recordActual(ELEMENT + type + " <i>" + locator
-				+ "</i> and table row with header was found at the index <b>" + expectedIndex + "</b>", Success.PASS);
-		return 0;
-	}
 }
