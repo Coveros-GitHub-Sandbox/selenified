@@ -3296,8 +3296,6 @@ public class Action {
 	 * a function to close tabs. note that if this is the only tab open, you
 	 * will end your session
 	 * 
-	 * @param tabNumber
-	 *            - the tab number, starts at 0
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
@@ -3320,7 +3318,9 @@ public class Action {
 	 * a function to close the provided tab.
 	 * 
 	 * @param tabNumber
-	 * @return
+	 *            - the tab number, starts at 0
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
 	 */
 	public int closeTab(int tabNumber) {
 		String action = "Switching back to initial tab";
