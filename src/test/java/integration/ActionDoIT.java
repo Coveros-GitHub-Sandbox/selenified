@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import selenified.exceptions.InvalidLocatorTypeException;
 import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
@@ -29,6 +30,17 @@ public class ActionDoIT extends TestBase {
 	@DataProvider(name = "car list items", parallel = true)
 	public Object[][] DataSetOptions() {
 		return new Object[][] { new Object[] { "volvo" }, new Object[] { "saab" }, new Object[] { "mercedes" } };
+	}
+
+	@Test(expectedExceptions = InvalidLocatorTypeException.class, groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration test to verify we can't define an element with a bad locator")
+	public void badLocatorTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.NONE, "element");
+		// verify no issues
+		finish();
 	}
 
 	@Test(groups = { "integration", "actions", "do", "url",
@@ -78,8 +90,8 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.CLASSNAME, "click");
+		actions.click(Locators.CSS, "input#enable_button");
 		actions.acceptAlert();
 		asserts.checkAlertNotPresent();
 		// verify no issues
@@ -105,8 +117,8 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.CLASSNAME, "click");
+		actions.click(Locators.CSS, "input#enable_button");
 		actions.acceptConfirmation();
 		asserts.checkConfirmationNotPresent();
 		// verify no issues
@@ -132,8 +144,8 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.CLASSNAME, "click");
+		actions.click(Locators.CSS, "input#enable_button");
 		actions.dismissConfirmation();
 		asserts.checkConfirmationNotPresent();
 		// verify no issues
@@ -159,8 +171,8 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.CLASSNAME, "click");
+		actions.click(Locators.CSS, "input#enable_button");
 		actions.acceptPrompt();
 		asserts.checkPromptNotPresent();
 		// verify no issues
@@ -186,8 +198,8 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.CLASSNAME, "click");
+		actions.click(Locators.CSS, "input#enable_button");
 		actions.dismissPrompt();
 		asserts.checkConfirmationNotPresent();
 		// verify no issues
@@ -205,16 +217,16 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "click",
-			"virtual" }, description = "An integration test to check the click method")
+	@Test(groups = { "integration", "actions", "do",
+			"click" }, description = "An integration test to check the click method")
 	public void clickTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.ID, "disable_click");
-		asserts.checkElementEditable(Locators.ID, "enable_button");
+		actions.click(Locators.LINKTEXT, "I'M A LINK");
+		asserts.checkConfirmationPresent();
 		// verify no issues
 		finish();
 	}
@@ -225,7 +237,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.CSS, "input#enable_button");
 		// verify 2 issues
 		finish(2);
 	}
@@ -252,7 +264,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "submit" }, description = "An integration test to check the submit method")
+	@Test(groups = { "integration", "actions", "do",
+			"submit" }, description = "An integration test to check the submit method")
 	public void submitTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -271,7 +284,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.submit(Locators.ID, "enable_button");
+		actions.submit(Locators.CSS, "input#enable_button");
 		// verify 2 issues
 		finish(2);
 	}
@@ -298,7 +311,19 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "hover" }, description = "An integration test to check the hover method")
+	@Test(groups = { "integration", "actions", "do", "submit",
+			"virtual" }, description = "An integration negative test to check the submit method")
+	public void submitNonFormTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.submit(Locators.ID, "scroll_button");
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "do",
+			"hover" }, description = "An integration test to check the hover method")
 	public void hoverTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -311,7 +336,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "do", "hover" }, description = "An integration test to check the hover method")
+	@Test(groups = { "integration", "actions", "do",
+			"hover" }, description = "An integration test to check the hover method")
 	public void hoverOffTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -347,7 +373,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "blur" }, description = "An integration test to check the blur method")
+	@Test(groups = { "integration", "actions", "do",
+			"blur" }, description = "An integration test to check the blur method")
 	public void blurTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -377,7 +404,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.blur(Locators.ID, "enable_button");
+		actions.blur(Locators.CSS, "input#enable_button");
 		// verify 2 issues
 		finish(2);
 	}
@@ -399,14 +426,14 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.blur(new Element(Locators.ID, "disable_click"));
+		actions.blur(new Element(Locators.CLASSNAME, "click"));
 		// verify 2 issues
 		finish(1);
 	}
 
 	@Test(groups = { "integration", "actions", "do", "type",
 			"virtual" }, description = "An integration test to check the type method")
-	public void typeTest() throws IOException {
+	public void typeInputTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -419,12 +446,54 @@ public class ActionDoIT extends TestBase {
 	}
 
 	@Test(groups = { "integration", "actions", "do", "type",
+			"virtual" }, description = "An integration test to check the type method")
+	public void typeTextAreaTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "textarea_input", " With More Text");
+		asserts.compareInputValue(Locators.ID, "textarea_input", "A Pretty Text Area With More Text");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do",
+			"type" }, description = "An integration test to check the type method")
+	public void typeCheckboxTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "this", " ");
+		asserts.checkElementChecked(Locators.ID, "this");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do",
+			"type" }, description = "An integration test to check the type method")
+	public void typeSelectTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "car_list", "A");
+		asserts.compareSelectedValue(Locators.ID, "car_list", "audi");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do", "type",
 			"virtual" }, description = "An integration negative test to check the type method")
 	public void typeNotExistTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.ID, "non-existent-element", "This is a test");
+		actions.type(Locators.TAGNAME, "non-existent-element", "This is a test");
 		// verify 2 issues
 		finish(2);
 	}
@@ -435,7 +504,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.ID, "enable_button", "This is a test");
+		actions.type(Locators.CSS, "input#enable_button", "This is a test");
 		// verify 2 issues
 		finish(2);
 	}
@@ -457,14 +526,14 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(new Element(Locators.ID, "disable_click"), "This is a test");
+		actions.type(new Element(Locators.CLASSNAME, "click"), "This is a test");
 		// verify 2 issues
 		finish(1);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "type",
-			"virtual" }, description = "An integration test to check the type method")
-	public void typeKeysTest() throws IOException {
+	@Test(groups = { "integration", "actions", "do",
+			"type" }, description = "An integration test to check the type method")
+	public void typeKeysInputTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -472,6 +541,48 @@ public class ActionDoIT extends TestBase {
 		// perform some actions
 		actions.type(Locators.ID, "input_box", Keys.TAB);
 		asserts.checkAlertPresent();
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do",
+			"type" }, description = "An integration test to check the type method")
+	public void typeKeysTextAreaTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "textarea_input", Keys.BACK_SPACE);
+		asserts.compareInputValue(new Element(Locators.ID, "textarea_input"), "A Pretty Text Are");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do",
+			"type" }, description = "An integration test to check the type method")
+	public void typeKeysCheckboxTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "this", Keys.SPACE);
+		asserts.checkElementChecked(Locators.ID, "this");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do",
+			"type" }, description = "An integration test to check the type method")
+	public void typeKeysSelectTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.type(Locators.ID, "car_list", Keys.DOWN);
+		asserts.compareSelectedValue(Locators.ID, "car_list", "saab");
 		// verify no issues
 		finish();
 	}
@@ -493,7 +604,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.ID, "enable_button", Keys.SPACE);
+		actions.type(Locators.CSS, "input#enable_button", Keys.SPACE);
 		// verify 2 issues
 		finish(2);
 	}
@@ -515,14 +626,14 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(new Element(Locators.ID, "disable_click"), Keys.SPACE);
+		actions.type(new Element(Locators.CLASSNAME, "click"), Keys.SPACE);
 		// verify 2 issues
 		finish(1);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "clear", 
+	@Test(groups = { "integration", "actions", "do", "clear",
 			"virtual" }, description = "An integration test to check the clear method")
-	public void clearTest() throws IOException {
+	public void clearInputTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
@@ -537,6 +648,43 @@ public class ActionDoIT extends TestBase {
 	}
 
 	@Test(groups = { "integration", "actions", "do", "clear",
+			"virtual" }, description = "An integration test to check the clear method")
+	public void clearTextAreaTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.compareInputValue(Locators.ID, "textarea_input", "A Pretty Text Area");
+		actions.clear(Locators.ID, "textarea_input");
+		asserts.compareInputValue(Locators.ID, "textarea_input", "");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do",
+			"clear" }, description = "An integration test to check the clear method")
+	public void clearCheckboxTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.clear(Locators.ID, "this");
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "do",
+			"clear" }, description = "An integration test to check the clear method")
+	public void clearSelectTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.clear(Locators.ID, "car_list");
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "clear",
 			"virtual" }, description = "An integration negative test to check the clear method")
 	public void clearNotExistTest() throws IOException {
 		// use this object to manipulate our page
@@ -547,13 +695,13 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "actions", "clear", 
+	@Test(groups = { "integration", "actions", "clear",
 			"do" }, description = "An integration negative test to check the clear method")
 	public void clearDisabledTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.clear(Locators.ID, "enable_button");
+		actions.clear(Locators.CSS, "input#enable_button");
 		// verify 2 issues
 		finish(2);
 	}
@@ -575,7 +723,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.clear(new Element(Locators.ID, "disable_click"));
+		actions.clear(new Element(Locators.CLASSNAME, "click"));
 		// verify 2 issues
 		finish(1);
 	}
@@ -604,25 +752,25 @@ public class ActionDoIT extends TestBase {
 		// verify 2 issues
 		finish(1);
 	}
-	
+
 	@Test(groups = { "integration", "actions", "do", "select",
-	"virtual" }, description = "An integration negative test to check the select method")
+			"virtual" }, description = "An integration negative test to check the select method")
 	public void selectNotExistTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.ID, "non-existent-element", "option");
+		actions.select(Locators.PARTIALLINKTEXT, "non-existent-element", "option");
 		// verify 2 issues
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "actions", "select", 
+	@Test(groups = { "integration", "actions", "select",
 			"do" }, description = "An integration negative test to check the select method")
 	public void selectDisabledTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.ID, "enable_button", "option");
+		actions.select(Locators.CSS, "input#enable_button", "option");
 		// verify 2 issues
 		finish(2);
 	}
@@ -644,12 +792,23 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(new Element(Locators.ID, "disable_click"), "option");
+		actions.select(new Element(Locators.CLASSNAME, "click"), "option");
 		// verify 2 issues
 		finish(1);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "move", 
+	@Test(groups = { "integration", "actions", "do", "select",
+			"virtual" }, description = "An integration negative test to check the select method")
+	public void selectNotSelectTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.select(new Element(Locators.ID, "scroll_button"), "option");
+		// verify 2 issues
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "move",
 			"virtual" }, description = "An integration test to check the move method")
 	public void moveTest() throws IOException {
 		// use this object to manipulate our page
@@ -681,41 +840,42 @@ public class ActionDoIT extends TestBase {
 		// verify 2 issues
 		finish(1);
 	}
-	
-	@Test(groups = { "integration", "actions", "do", "move", 
-	"virtual" }, description = "An integration test to check the move method")
+
+	@Test(groups = { "integration", "actions", "do",
+			"move" }, description = "An integration test to check the move method")
 	public void moveAtTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "table_no_header", 10);
+		actions.move(Locators.ID, "table_no_header", (long) 10);
 		// verify no issues
 		finish();
 	}
-	
-	@Test(groups = { "integration", "actions", "do", "move",
-	"virtual" }, description = "An integration negative test to check the move method")
+
+	@Test(groups = { "integration", "actions", "do",
+			"move" }, description = "An integration negative test to check the move method")
 	public void moveAtNotExistTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "non-existent-element", 10);
+		actions.move(Locators.ID, "non-existent-element", (long) 10);
 		// verify 2 issues
 		finish(2);
 	}
-	
-	@Test(groups = { "integration", "actions", "do", "move",
-	"virtual" }, description = "An integration negative test to check the move method")
+
+	@Test(groups = { "integration", "actions", "do",
+			"move" }, description = "An integration negative test to check the move method")
 	public void moveAtNotVisibleTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "hidden_div", 10);
+		actions.move(Locators.ID, "hidden_div", (long) 10);
 		// verify 2 issues
 		finish(1);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "scroll" }, description = "An integration test to check the scroll method")
+	@Test(groups = { "integration", "actions", "do",
+			"scroll" }, description = "An integration test to check the scroll method")
 	public void scrollTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -734,6 +894,54 @@ public class ActionDoIT extends TestBase {
 		// perform some actions
 		actions.scroll(500);
 		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "frame",
+			"virtual" }, description = "An integration test to check the frame method")
+	public void selectFrameTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotDisplayed(new Element(Locators.ID, "message"));
+		actions.selectFrame(Locators.ID, "some_frame");
+		asserts.checkElementDisplayed(new Element(Locators.ID, "message"));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "do", "frame",
+			"virtual" }, description = "An integration negative test to check the frame method")
+	public void selectFrameNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.selectFrame(Locators.ID, "non-existent-element");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "frame",
+			"virtual" }, description = "An integration negative test to check the frame method")
+	public void selectFrameNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.selectFrame(Locators.ID, "some_other_frame");
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "do", "frame",
+			"virtual" }, description = "An integration negative test to check the frame method")
+	public void selectFrameNotFrameTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.selectFrame(Locators.ID, "scroll_button");
+		// verify no issues
 		finish(1);
 	}
 }

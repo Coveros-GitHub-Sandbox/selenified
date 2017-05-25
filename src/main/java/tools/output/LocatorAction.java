@@ -1092,7 +1092,7 @@ public class LocatorAction {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * checks to see if the element is an input.
 	 * 
@@ -1120,9 +1120,10 @@ public class LocatorAction {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * does a check to see if something is present, disaplayed, and enabled
+	 * 
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
@@ -1149,9 +1150,10 @@ public class LocatorAction {
 		// wait for element to be enabled
 		return isEnabled(type, locator, elementMatch, action, expected, extra);
 	}
-	
+
 	/**
 	 * does a check to see if something is present, disaplayed, and enabled
+	 * 
 	 * @param type
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
@@ -1233,7 +1235,15 @@ public class LocatorAction {
 			return 1;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
-		element.submit();
+		try {
+			element.submit();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantSubmit + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Submitted " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
@@ -1291,18 +1301,10 @@ public class LocatorAction {
 		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, cantFocus)) {
 			return 1;
 		}
-		try {
-			WebElement element = getWebElement(type, locator, elementMatch);
-			element.sendKeys("\t");
-			file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
-					Result.SUCCESS);
-		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, cantFocus + type + " " + locator,
-					Result.FAILURE);
-			file.addError();
-			return 1;
-		}
+		WebElement element = getWebElement(type, locator, elementMatch);
+		element.sendKeys("\t");
+		file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
+				Result.SUCCESS);
 		return 0;
 	}
 
@@ -1352,15 +1354,14 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public int type(Locators type, String locator, int elementMatch, Keys key) throws IOException {
-		String action = "Typing text '" + key + IN + type + " " + locator;
-		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + key
-				+ " typed in";
+		String action = "Typing key '" + key + IN + type + " " + locator;
+		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + key + " entered";
 		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		element.sendKeys(key);
-		file.recordAction(action, expected, "Typed text '" + key + IN + type + " " + locator, Result.SUCCESS);
+		file.recordAction(action, expected, "Typed key '" + key + IN + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
 
@@ -1386,7 +1387,15 @@ public class LocatorAction {
 			return 1;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
-		element.clear();
+		try {
+			element.clear();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantClear + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Cleared text in " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
@@ -1539,7 +1548,9 @@ public class LocatorAction {
 			driver.switchTo().frame(element);
 		} catch (Exception e) {
 			log.error(e);
-			file.recordAction(action, expected, cantSelect + type + " " + locator, Result.FAILURE);
+			file.recordAction(action, expected, cantSelect + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
 			return 1;
 		}
 		file.recordAction(action, expected, "Focused on frame " + type + " " + locator, Result.SUCCESS);

@@ -62,7 +62,7 @@ public class Selenium {
 	 * tagname
 	 */
 	public enum Locators {
-		XPATH, ID, NAME, CLASSNAME, CSS, PARTIALLINKTEXT, LINKTEXT, TAGNAME
+		NONE, XPATH, ID, NAME, CLASSNAME, CSS, PARTIALLINKTEXT, LINKTEXT, TAGNAME
 	}
 
 	/**
