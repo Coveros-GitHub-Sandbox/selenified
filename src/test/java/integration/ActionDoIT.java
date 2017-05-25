@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import selenified.exceptions.InvalidLocatorTypeException;
 import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
@@ -29,6 +30,17 @@ public class ActionDoIT extends TestBase {
 	@DataProvider(name = "car list items", parallel = true)
 	public Object[][] DataSetOptions() {
 		return new Object[][] { new Object[] { "volvo" }, new Object[] { "saab" }, new Object[] { "mercedes" } };
+	}
+
+	@Test(expectedExceptions = InvalidLocatorTypeException.class, groups = { "integration", "actions", "do",
+			"virtual" }, description = "An integration test to verify we can't define an element with a bad locator")
+	public void badLocatorTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.NONE, "element");
+		// verify no issues
+		finish();
 	}
 
 	@Test(groups = { "integration", "actions", "do", "url",
@@ -205,16 +217,16 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "actions", "do", "click",
-			"virtual" }, description = "An integration test to check the click method")
+	@Test(groups = { "integration", "actions", "do",
+			"click" }, description = "An integration test to check the click method")
 	public void clickTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.CLASSNAME, "click");
-		asserts.checkElementEditable(Locators.CSS, "input#enable_button");
+		actions.click(Locators.LINKTEXT, "I'M A LINK");
+		asserts.checkConfirmationPresent();
 		// verify no issues
 		finish();
 	}
@@ -481,7 +493,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.ID, "non-existent-element", "This is a test");
+		actions.type(Locators.TAGNAME, "non-existent-element", "This is a test");
 		// verify 2 issues
 		finish(2);
 	}
@@ -747,7 +759,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.ID, "non-existent-element", "option");
+		actions.select(Locators.PARTIALLINKTEXT, "non-existent-element", "option");
 		// verify 2 issues
 		finish(2);
 	}
