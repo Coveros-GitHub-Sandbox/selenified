@@ -470,8 +470,8 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.type(Locators.ID, "input_box", Keys.SPACE);
-		asserts.compareInputValue(Locators.ID, "input_box", "");
+		actions.type(Locators.ID, "input_box", Keys.TAB);
+		asserts.checkAlertPresent();
 		// verify no issues
 		finish();
 	}
@@ -655,7 +655,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "input_box");
+		actions.move(Locators.ID, "table_no_header");
 		// verify no issues
 		finish();
 	}
@@ -688,7 +688,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "input_box", 10);
+		actions.move(Locators.ID, "table_no_header", 10);
 		// verify no issues
 		finish();
 	}
@@ -732,7 +732,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.scroll(50);
+		actions.scroll(500);
 		// verify 1 issue
 		finish(1);
 	}
