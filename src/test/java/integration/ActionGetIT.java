@@ -472,7 +472,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		String text = actions.getText(new Element(Locators.ID, "input_box"));
+		String text = actions.getValue(new Element(Locators.ID, "input_box"));
 		Assert.assertEquals(text, "");
 		// verify no issues
 		finish();
@@ -484,8 +484,8 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		String text = actions.getText(new Element(Locators.ID, "disable_click"));
-		Assert.assertEquals(text, "Click me to Disable/Enable a html button");
+		String text = actions.getValue(new Element(Locators.ID, "disable_click"));
+		Assert.assertEquals(text, "");
 		// verify no issues
 		finish();
 	}
@@ -496,7 +496,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		String text = actions.getText(new Element(Locators.ID, "non-existent-name"));
+		String text = actions.getValue(new Element(Locators.ID, "non-existent-name"));
 		Assert.assertEquals(text, "");
 		// verify no issues
 		finish();

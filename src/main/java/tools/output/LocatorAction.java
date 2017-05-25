@@ -81,6 +81,7 @@ public class LocatorAction {
 	private static final String NOTPRESENT = " as it is not present";
 	private static final String NOTDISPLAYED = " as it is not displayed";
 	private static final String NOTENABLED = " as it is not enabled";
+	private static final String NOTINPUT = " as it is not an input";
 
 	private static final String CANTTYPE = "Unable to type in ";
 
@@ -1091,7 +1092,50 @@ public class LocatorAction {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * checks to see if the element is an input.
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param action
+	 *            - what action is occurring
+	 * @param expected
+	 *            - what is the expected result
+	 * @param extra
+	 *            - what actually is occurring
+	 * @return Boolean: is the element enabled?
+	 * @throws IOException
+	 */
+	private boolean isInput(Locators type, String locator, int elementMatch, String action, String expected,
+			String extra) throws IOException {
+		// wait for element to be displayed
+		if (!isElementInput(type, locator, elementMatch, false)) {
+			file.recordAction(action, expected, extra + type + " " + locator + NOTINPUT, Result.FAILURE);
+			file.addError();
+			// indicates element not an input
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * does a check to see if something is present, disaplayed, and enabled
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param action
+	 *            - what action is occurring
+	 * @param expected
+	 *            - what is the expected result
+	 * @param extra
+	 *            - what actually is occurring
+	 * @return Boolean: is the element enabled?
+	 * @throws IOException
+	 */
 	private boolean isPresentDisplayedEnabled(Locators type, String locator, int elementMatch, String action,
 			String expected, String extra) throws IOException {
 		// wait for element to be present
@@ -1104,6 +1148,38 @@ public class LocatorAction {
 		}
 		// wait for element to be enabled
 		return isEnabled(type, locator, elementMatch, action, expected, extra);
+	}
+	
+	/**
+	 * does a check to see if something is present, disaplayed, and enabled
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param action
+	 *            - what action is occurring
+	 * @param expected
+	 *            - what is the expected result
+	 * @param extra
+	 *            - what actually is occurring
+	 * @return Boolean: is the element enabled?
+	 * @throws IOException
+	 */
+	private boolean isPresentDisplayedEnabledInput(Locators type, String locator, int elementMatch, String action,
+			String expected, String extra) throws IOException {
+		// wait for element to be present
+		if (!isPresent(type, locator, elementMatch, action, expected, extra)) {
+			return false;
+		}
+		// wait for element to be displayed
+		if (!isDisplayed(type, locator, elementMatch, action, expected, extra)) {
+			return false;
+		}
+		// wait for element to be enabled
+		if (!isEnabled(type, locator, elementMatch, action, expected, extra)) {
+			return false;
+		}
+		return isInput(type, locator, elementMatch, action, expected, extra);
 	}
 
 	// ///////////////////////////////////
@@ -1212,14 +1288,21 @@ public class LocatorAction {
 		String cantFocus = "Unable to focus on ";
 		String action = "Focusing, then unfocusing (blurring) on " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to be blurred";
-		if (!isPresentDisplayedEnabled(type, locator, elementMatch, action, expected, cantFocus)) {
+		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, cantFocus)) {
 			return 1;
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].focus(); arguments[0].blur(); return true", element);
-		file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
-				Result.SUCCESS);
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			element.sendKeys("\t");
+			file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
+					Result.SUCCESS);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantFocus + type + " " + locator,
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		return 0;
 	}
 
@@ -1243,7 +1326,7 @@ public class LocatorAction {
 		String action = "Typing text '" + text + IN + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + text
 				+ " typed in";
-		if (!isPresentDisplayedEnabled(type, locator, elementMatch, action, expected, CANTTYPE)) {
+		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -1272,7 +1355,7 @@ public class LocatorAction {
 		String action = "Typing text '" + key + IN + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + key
 				+ " typed in";
-		if (!isPresentDisplayedEnabled(type, locator, elementMatch, action, expected, CANTTYPE)) {
+		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -1299,7 +1382,7 @@ public class LocatorAction {
 		String cantClear = "Unable to clear ";
 		String action = "Clearing text in " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text cleared";
-		if (!isPresentDisplayedEnabled(type, locator, elementMatch, action, expected, cantClear)) {
+		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, cantClear)) {
 			return 1;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
@@ -1329,7 +1412,7 @@ public class LocatorAction {
 		String action = "Selecting " + value + " in " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have the value " + value
 				+ " selected";
-		if (!isPresentDisplayedEnabled(type, locator, elementMatch, action, expected, cantSelect)) {
+		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, cantSelect)) {
 			return 1;
 		}
 		// ensure the option exists

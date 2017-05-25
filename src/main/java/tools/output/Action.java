@@ -75,6 +75,9 @@ public class Action {
 	private static final String WAITED = "Waited ";
 	private static final String UPTO = "Wait up to ";
 	private static final String AFTER = "After waiting ";
+	private static final String FRAME = "Frame <b>";
+	private static final String AVAILABLE = "</b> is available and selected";
+	private static final String NOTSELECTED = "</b> was unable to be selected";
 	private static final long WAITFOR = 5;
 
 	/**
@@ -3122,12 +3125,12 @@ public class Action {
 	 */
 	public int switchTab(int tabNumber) {
 		String action = "Switching to tab <b>" + tabNumber + "</b>";
-		String expected = "Tab <b>" + tabNumber + "</b> is available and selected";
+		String expected = "Tab <b>" + tabNumber + AVAILABLE;
 		try {
 			ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 			driver.switchTo().window(tabs.get(tabNumber));
 		} catch (Exception e) {
-			file.recordAction(action, expected, "Tab <b>" + tabNumber + "</b> was unable to be selected",
+			file.recordAction(action, expected, "Tab <b>" + tabNumber + NOTSELECTED,
 					Result.FAILURE);
 			file.addError();
 			log.error(e);
@@ -3151,11 +3154,11 @@ public class Action {
 	 */
 	public int selectFrame(int frameNumber) {
 		String action = "Switching to frame <b>" + frameNumber + "</b>";
-		String expected = "Frame <b>" + frameNumber + "</b> is available and selected";
+		String expected = FRAME + frameNumber + AVAILABLE;
 		try {
 			driver.switchTo().frame(frameNumber);
 		} catch (Exception e) {
-			file.recordAction(action, expected, "Frame <b>" + frameNumber + "</b> was unable to be selected",
+			file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED,
 					Result.FAILURE);
 			file.addError();
 			log.error(e);
@@ -3177,11 +3180,11 @@ public class Action {
 	 */
 	public int selectFrame(String frameIdentifier) {
 		String action = "Switching to frame <b>" + frameIdentifier + "</b>";
-		String expected = "Frame <b>" + frameIdentifier + "</b> is available and selected";
+		String expected = FRAME + frameIdentifier + AVAILABLE;
 		try {
 			driver.switchTo().frame(frameIdentifier);
 		} catch (Exception e) {
-			file.recordAction(action, expected, "Frame <b>" + frameIdentifier + "</b> was unable to be selected",
+			file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED,
 					Result.FAILURE);
 			file.addError();
 			log.error(e);

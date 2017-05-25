@@ -204,10 +204,48 @@ public class ActionIsIT extends TestBase {
 		// verify no issues
 		finish();
 	}
+	
+	@Test(groups = { "integration", "actions", "is",
+	"virtual" }, description = "An integration test to check if something is selected from a dropdown")
+	public void isSomethingSelectedMultipleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.select(new Element(Locators.ID, "car_list_multiple"), 1);
+		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "car_list_multiple"));
+		Assert.assertEquals(selected, true);
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "actions", "is",
+	"virtual" }, description = "An integration test to check if something is selected from a dropdown")
+	public void isSomethingNotSelectedTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "car_list_multiple"));
+		Assert.assertEquals(selected, false);
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "actions", "is",
+	"virtual" }, description = "An integration test to check if something is selected from a checkbox")
+	public void isSomethingCheckedTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(new Element(Locators.ID, "that"));
+		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "that"));
+		Assert.assertEquals(selected, true);
+		// verify no issues
+		finish();
+	}
 
 	@Test(groups = { "integration", "actions", "is",
 			"virtual" }, description = "An integration test to check if something is selected from a checkbox")
-	public void isSomethingCheckedTest() throws IOException {
+	public void isSomethingNotCheckedTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
@@ -231,7 +269,7 @@ public class ActionIsIT extends TestBase {
 
 	@Test(groups = { "integration", "actions", "is",
 			"virtual" }, description = "An integration test to check if something is selected from an div")
-	public void isSomethingSelectedNotSelectTest() throws IOException {
+	public void isSomethingSelectedNotSelectOrInputTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
