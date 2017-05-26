@@ -1,4 +1,4 @@
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="Selenified" basedir="." default="test">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:unless="ant:unless" name="Selenified" basedir="." default="test">
     <property name="rootdir" value="./" />
     <property name="lib-dir" value="./lib"/>
     <property name="test-dir" value="./src" />
@@ -6,6 +6,13 @@
     <property name="junit-dir" value="${out-dir}/JUnit" />
     <property name="com-dir" value="${out-dir}/classes" />
     <property name="doc-dir" value="./doc" />
+    <property name="groups" value="" />
+    <condition property="suiteXmlFile" else="integration.xml">
+        <isset property="suiteXmlFile"/>
+    </condition>
+    <condition property="browser" else="HtmlUnit">
+        <isset property="browser"/>
+    </condition>
 
     <!-- =================================
           target: doc
@@ -75,7 +82,9 @@
             <arg value="methods"/>
             <arg value="-threadcount"/>
             <arg value="20"/>
-            <arg value="${test-suite}"/>
+            <arg value="-groups" unless:blank="${groups}"/> 
+            <arg value="${groups}" unless:blank="${groups}"/>
+            <arg value="${suiteXmlFile}"/>
         </java>
     </target>
 

@@ -4,7 +4,7 @@
       <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
       <dependency org="org.slf4j" name="slf4j-simple" rev="1.7.23"/>
       <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
-      <dependency org="io.github.bonigarcia" name="webdrivermanager" rev="1.6.0"/>
+      <dependency org="io.github.bonigarcia" name="webdrivermanager" rev="1.6.2"/>
       <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
       <dependency org="org.seleniumhq.selenium" name="selenium-java" rev="2.53.1"/>
       <!-- https://mvnrepository.com/artifact/org.jglobus/jsse -->
@@ -13,6 +13,8 @@
       <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13"/>
       <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server -->
       <dependency org="org.seleniumhq.selenium" name="selenium-server" rev="2.53.1"/>
+      <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-htmlunit-driver -->
+      <dependency org="org.seleniumhq.selenium" name="selenium-htmlunit-driver" rev="2.52.0"/>
       <!-- https://mvnrepository.com/artifact/org.testng/testng -->
       <dependency org="org.testng" name="testng" rev="6.10"/>
     </dependencies>
