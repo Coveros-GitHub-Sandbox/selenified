@@ -237,7 +237,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.click(Locators.CSS, "input#enable_button");
+		actions.click(new Element(Locators.CSS, "input#enable_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -248,7 +248,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.click(Locators.ID, "non-existent-element");
+		actions.click(new Element(Locators.ID, "non-existent-element"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -259,7 +259,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.click(Locators.ID, "hidden_div");
+		actions.click(new Element(Locators.ID, "hidden_div"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -284,7 +284,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.submit(Locators.CSS, "input#enable_button");
+		actions.submit(new Element(Locators.CSS, "input#enable_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -295,7 +295,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.submit(Locators.ID, "non-existent-element");
+		actions.submit(new Element(Locators.ID, "non-existent-element"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -306,7 +306,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.submit(Locators.ID, "hidden_div");
+		actions.submit(new Element(Locators.ID, "hidden_div"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -317,7 +317,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.submit(Locators.ID, "scroll_button");
+		actions.submit(new Element(Locators.ID, "scroll_button"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -357,7 +357,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.hover(Locators.ID, "non-existent-element");
+		actions.hover(new Element(Locators.ID, "non-existent-element"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -368,7 +368,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.hover(Locators.ID, "hidden_div");
+		actions.hover(new Element(Locators.ID, "hidden_div"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -393,7 +393,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.blur(Locators.ID, "non-existent-element");
+		actions.blur(new Element(Locators.ID, "non-existent-element"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -404,7 +404,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.blur(Locators.CSS, "input#enable_button");
+		actions.blur(new Element(Locators.CSS, "input#enable_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -415,7 +415,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.blur(Locators.ID, "hidden_div");
+		actions.blur(new Element(Locators.ID, "hidden_div"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -493,7 +493,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.TAGNAME, "non-existent-element", "This is a test");
+		actions.type(new Element(Locators.TAGNAME, "non-existent-element"), "This is a test");
 		// verify 2 issues
 		finish(2);
 	}
@@ -504,7 +504,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.CSS, "input#enable_button", "This is a test");
+		actions.type(new Element(Locators.CSS, "input#enable_button"), "This is a test");
 		// verify 2 issues
 		finish(2);
 	}
@@ -515,7 +515,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.ID, "hidden_div", "This is a test");
+		actions.type(new Element(Locators.ID, "hidden_div"), "This is a test");
 		// verify 2 issues
 		finish(2);
 	}
@@ -554,7 +554,7 @@ public class ActionDoIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.type(Locators.ID, "textarea_input", Keys.BACK_SPACE);
-		asserts.compareInputValue(new Element(Locators.ID, "textarea_input"), "A Pretty Text Are");
+		asserts.compareInputValue(Locators.ID, "textarea_input", "A Pretty Text Are");
 		// verify no issues
 		finish();
 	}
@@ -593,7 +593,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.ID, "non-existent-element", Keys.SPACE);
+		actions.type(new Element(Locators.ID, "non-existent-element"), Keys.SPACE);
 		// verify 2 issues
 		finish(2);
 	}
@@ -604,7 +604,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.CSS, "input#enable_button", Keys.SPACE);
+		actions.type(new Element(Locators.CSS, "input#enable_button"), Keys.SPACE);
 		// verify 2 issues
 		finish(2);
 	}
@@ -615,7 +615,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(Locators.ID, "hidden_div", Keys.SPACE);
+		actions.type(new Element(Locators.ID, "hidden_div"), Keys.SPACE);
 		// verify 2 issues
 		finish(2);
 	}
@@ -668,7 +668,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.clear(Locators.ID, "this");
+		actions.clear(new Element(Locators.ID, "this"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -679,7 +679,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.clear(Locators.ID, "car_list");
+		actions.clear(new Element(Locators.ID, "car_list"));
 		// verify 1 issue
 		finish(1);
 	}
@@ -690,7 +690,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.clear(Locators.ID, "non-existent-element");
+		actions.clear(new Element(Locators.ID, "non-existent-element"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -701,7 +701,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.clear(Locators.CSS, "input#enable_button");
+		actions.clear(new Element(Locators.CSS, "input#enable_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -712,7 +712,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.clear(Locators.ID, "hidden_div");
+		actions.clear(new Element(Locators.ID, "hidden_div"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -748,7 +748,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.ID, "car_list", "option");
+		actions.select(new Element(Locators.ID, "car_list"), "option");
 		// verify 2 issues
 		finish(1);
 	}
@@ -759,7 +759,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.PARTIALLINKTEXT, "non-existent-element", "option");
+		actions.select(new Element(Locators.PARTIALLINKTEXT, "non-existent-element"), "option");
 		// verify 2 issues
 		finish(2);
 	}
@@ -770,7 +770,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.CSS, "input#enable_button", "option");
+		actions.select(new Element(Locators.CSS, "input#enable_button"), "option");
 		// verify 2 issues
 		finish(2);
 	}
@@ -781,7 +781,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.ID, "hidden_div", "option");
+		actions.select(new Element(Locators.ID, "hidden_div"), "option");
 		// verify 2 issues
 		finish(2);
 	}
@@ -825,7 +825,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "non-existent-element");
+		actions.move(new Element(Locators.ID, "non-existent-element"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -836,7 +836,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "hidden_div");
+		actions.move(new Element(Locators.ID, "hidden_div"));
 		// verify 2 issues
 		finish(1);
 	}
@@ -858,7 +858,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "non-existent-element", (long) 10);
+		actions.move(new Element(Locators.ID, "non-existent-element"), (long) 10);
 		// verify 2 issues
 		finish(2);
 	}
@@ -869,7 +869,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.move(Locators.ID, "hidden_div", (long) 10);
+		actions.move(new Element(Locators.ID, "hidden_div"), (long) 10);
 		// verify 2 issues
 		finish(1);
 	}
@@ -905,9 +905,9 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotDisplayed(new Element(Locators.ID, "message"));
+		asserts.checkElementNotDisplayed(Locators.ID, "message");
 		actions.selectFrame(Locators.ID, "some_frame");
-		asserts.checkElementDisplayed(new Element(Locators.ID, "message"));
+		asserts.checkElementDisplayed(Locators.ID, "message");
 		// verify no issues
 		finish();
 	}
@@ -918,7 +918,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.selectFrame(Locators.ID, "non-existent-element");
+		actions.selectFrame(new Element(Locators.ID, "non-existent-element"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -929,7 +929,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.selectFrame(Locators.ID, "some_other_frame");
+		actions.selectFrame(new Element(Locators.ID, "some_other_frame"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -940,7 +940,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.selectFrame(Locators.ID, "scroll_button");
+		actions.selectFrame(new Element(Locators.ID, "scroll_button"));
 		// verify no issues
 		finish(1);
 	}
