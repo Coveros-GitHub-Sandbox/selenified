@@ -326,11 +326,11 @@ ant clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-ant -Dtest-suite=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
+ant -DsuiteXmlFile=../acceptance.xml -DappURL=http://google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
 ```
 The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean test -Dtest-suite=./suites/all.xml -DappURL=google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
+ant clean test -DsuiteXmlFile=./suites/all.xml -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
 #### Maven
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
@@ -340,7 +340,7 @@ mvn clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-mvn verify -Dtest-suite=../acceptance.xml -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
+mvn verify -DsuiteXmlFile=../acceptance.xml -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
 ```
 To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
 additional parameter, failsafe.groups with the desired group to test
