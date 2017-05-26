@@ -21,9 +21,9 @@ public class ActionSwitchIT extends TestBase {
 		// dynamic check
 		setVersion("0.0.1");
 	}
-	
+
 	@Test(groups = { "integration", "actions", "window",
-	"tab" }, description = "An integration test to check the maximizeScreen method")
+			"tab" }, description = "An integration test to check the maximizeScreen method")
 	public void maximizeScreenTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -46,9 +46,9 @@ public class ActionSwitchIT extends TestBase {
 		// verify no issues
 		finish();
 	}
-	
+
 	@Test(groups = { "integration", "actions", "switch",
-	"tab" }, description = "An integration test to check the openTab method")
+			"tab" }, description = "An integration test to check the openTab method")
 	public void openEmptyTabTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -71,13 +71,13 @@ public class ActionSwitchIT extends TestBase {
 		// perform some actions
 		actions.openTab("https://www.google.com/");
 		actions.switchNextTab();
-		asserts.compareURL(getTestSite()+"/");
+		asserts.compareURL(getTestSite() + "/");
 		// verify 1 issue
 		finish();
 	}
-	
+
 	@Test(groups = { "integration", "actions", "do",
-	"tab" }, description = "An integration test to check the closeTab method")
+			"tab" }, description = "An integration test to check the closeTab method")
 	public void closeTabTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -86,13 +86,13 @@ public class ActionSwitchIT extends TestBase {
 		// perform some actions
 		actions.openTab("https://www.google.com/");
 		actions.closeTab();
-		asserts.compareURL(getTestSite()+"/");
+		asserts.compareURL(getTestSite() + "/");
 		// verify 1 issue
 		finish();
 	}
-	
+
 	@Test(groups = { "integration", "actions", "do",
-	"tab" }, description = "An integration test to check the closeTab method")
+			"tab" }, description = "An integration test to check the closeTab method")
 	public void closeFirstTabTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
