@@ -77,6 +77,7 @@ public class LocatorAction {
 	private static final String PRESENT = " to be present";
 	private static final String DISPLAYED = " to be displayed";
 	private static final String ENABLED = " to be enabled";
+	private static final String SELECTED = " to have something selected";
 
 	private static final String NOTPRESENT = " as it is not present";
 	private static final String NOTDISPLAYED = " as it is not displayed";
@@ -514,6 +515,36 @@ public class LocatorAction {
 		return isDisplayed;
 	}
 
+	/**
+	 * determine if something is selected from a drop down menu
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @return Boolean: was something selected in the drop down
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Locators type, String locator, int elementMatch, boolean print)
+			throws IOException {
+		boolean isSelected = false;
+		if (isElementInput(type, locator, elementMatch, false)) {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			if ("input".equalsIgnoreCase(element.getTagName())) {
+				isSelected = element.isSelected();
+			} else if ("select".equalsIgnoreCase(element.getTagName())) {
+				isSelected = getSelectedValues(type, locator, elementMatch).length > 0;
+			}
+		}
+		if (print) {
+			file.recordExpected(CHECKING + type + " " + locator + SELECTED);
+		}
+		return isSelected;
+	}
+
 	// ///////////////////////////////////
 	// selenium retreval functions
 	// ///////////////////////////////////
@@ -724,31 +755,6 @@ public class LocatorAction {
 	// //////////////////////////////////
 	// extra base selenium functionality
 	// //////////////////////////////////
-
-	/**
-	 * determine if something is selected from a drop down menu
-	 * 
-	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
-	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login']
-	 * @param elementMatch
-	 *            - if there are multiple matches of the selector, this is which
-	 *            match (starting at 0) to interact with
-	 * @return Boolean: was something selected in the drop down
-	 * @throws IOException
-	 */
-	public boolean isSomethingSelected(Locators type, String locator, int elementMatch) throws IOException {
-		if (isElementInput(type, locator, elementMatch, false)) {
-			WebElement element = getWebElement(type, locator, elementMatch);
-			if ("input".equalsIgnoreCase(element.getTagName()) && element.isSelected()) {
-				return true;
-			}
-			return "select".equalsIgnoreCase(element.getTagName())
-					&& getSelectedValues(type, locator, elementMatch).length > 0;
-		}
-		return false;
-	}
 
 	private boolean isPresentInput(Locators type, String locator, int elementMatch) throws IOException {
 		// wait for element to be present

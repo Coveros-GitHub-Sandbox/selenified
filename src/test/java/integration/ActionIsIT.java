@@ -30,7 +30,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean present = actions.isElementPresent(new Element(Locators.ID, "submit_button"), true);
+		boolean present = actions.isElementPresent(Locators.ID, "submit_button");
 		Assert.assertEquals(present, true);
 		// verify no issues
 		finish();
@@ -54,7 +54,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean input = actions.isElementInput(new Element(Locators.ID, "input_box"), true);
+		boolean input = actions.isElementInput(Locators.ID, "input_box");
 		Assert.assertEquals(input, true);
 		// verify no issues
 		finish();
@@ -66,7 +66,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean input = actions.isElementInput(new Element(Locators.ID, "car_list"), true);
+		boolean input = actions.isElementInput(Locators.ID, "car_list");
 		Assert.assertEquals(input, true);
 		// verify no issues
 		finish();
@@ -78,7 +78,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean input = actions.isElementInput(new Element(Locators.ID, "textarea_input"), true);
+		boolean input = actions.isElementInput(Locators.ID, "textarea_input");
 		Assert.assertEquals(input, true);
 		// verify no issues
 		finish();
@@ -102,7 +102,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean input = actions.isElementInput(new Element(Locators.ID, "non-existent-name"), true);
+		boolean input = actions.isElementInput(new Element(Locators.ID, "non-existent-name"));
 		Assert.assertEquals(input, false);
 		// verify no issues
 		finish();
@@ -114,7 +114,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean enabled = actions.isElementEnabled(new Element(Locators.ID, "scroll_button"), true);
+		boolean enabled = actions.isElementEnabled(Locators.ID, "scroll_button");
 		Assert.assertEquals(enabled, true);
 		// verify no issues
 		finish();
@@ -139,7 +139,7 @@ public class ActionIsIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.click(Locators.ID, "that");
-		boolean checked = actions.isElementChecked(new Element(Locators.ID, "that"), true);
+		boolean checked = actions.isElementChecked(Locators.ID, "that");
 		Assert.assertEquals(checked, true);
 		// verify no issues
 		finish();
@@ -151,7 +151,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean checked = actions.isElementChecked(new Element(Locators.ID, "that"), true);
+		boolean checked = actions.isElementChecked(new Element(Locators.ID, "that"));
 		Assert.assertEquals(checked, false);
 		// verify no issues
 		finish();
@@ -175,7 +175,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean displayed = actions.isElementDisplayed(new Element(Locators.ID, "that"), true);
+		boolean displayed = actions.isElementDisplayed(Locators.ID, "that");
 		Assert.assertEquals(displayed, true);
 		// verify no issues
 		finish();
@@ -199,7 +199,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "car_list"));
+		boolean selected = actions.isSomethingSelected(Locators.ID, "car_list");
 		Assert.assertEquals(selected, true);
 		// verify no issues
 		finish();
@@ -212,7 +212,7 @@ public class ActionIsIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.select(new Element(Locators.ID, "car_list_multiple"), 1);
-		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "car_list_multiple"));
+		boolean selected = actions.isSomethingSelected(Locators.ID, "car_list_multiple", true);
 		Assert.assertEquals(selected, true);
 		// verify no issues
 		finish();
@@ -224,7 +224,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "car_list_multiple"));
+		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "car_list_multiple"), true);
 		Assert.assertEquals(selected, false);
 		// verify no issues
 		finish();
@@ -237,7 +237,7 @@ public class ActionIsIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.click(new Element(Locators.ID, "that"));
-		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "that"));
+		boolean selected = actions.isSomethingSelected(Locators.ID, "that");
 		Assert.assertEquals(selected, true);
 		// verify no issues
 		finish();
@@ -249,7 +249,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "that"));
+		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "that"), true);
 		Assert.assertEquals(selected, false);
 		// verify no issues
 		finish();
@@ -273,7 +273,7 @@ public class ActionIsIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "disable_click"));
+		boolean selected = actions.isSomethingSelected(new Element(Locators.ID, "disable_click"), true);
 		Assert.assertEquals(selected, false);
 		// verify no issues
 		finish();

@@ -3116,31 +3116,6 @@ public class Action {
 	}
 
 	/**
-	 * a function to switch tabs. note that tab numbering starts at 0
-	 * 
-	 * @param tabNumber
-	 *            - the tab number, starts at 0
-	 * @return Integer - the number of errors encountered while executing these
-	 *         steps
-	 */
-	public int switchTab(int tabNumber) {
-		String action = "Switching to tab <b>" + tabNumber + "</b>";
-		String expected = "Tab <b>" + tabNumber + AVAILABLE;
-		try {
-			ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-			driver.switchTo().window(tabs.get(tabNumber));
-		} catch (Exception e) {
-			file.recordAction(action, expected, "Tab <b>" + tabNumber + NOTSELECTED,
-					Result.FAILURE);
-			file.addError();
-			log.error(e);
-			return 1;
-		}
-		file.recordAction(action, expected, expected, Result.SUCCESS);
-		return 0;
-	}
-
-	/**
 	 * a way to select a frame within a page. Select a frame by its (zero-based)
 	 * index. That is, if a page has three frames, the first frame would be at
 	 * index 0, the second at index 1 and the third at index 2. Once the frame
@@ -3158,8 +3133,7 @@ public class Action {
 		try {
 			driver.switchTo().frame(frameNumber);
 		} catch (Exception e) {
-			file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED,
-					Result.FAILURE);
+			file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED, Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3184,8 +3158,7 @@ public class Action {
 		try {
 			driver.switchTo().frame(frameIdentifier);
 		} catch (Exception e) {
-			file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED,
-					Result.FAILURE);
+			file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED, Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3275,21 +3248,69 @@ public class Action {
 			return 1;
 		}
 		file.recordAction(action, expected, expected, Result.SUCCESS);
-		return switchTab(1);
+		return 0;
 	}
-	
+
 	/**
-	 * a way to open a new tab, and have it selected. The page provided will be loaded
+	 * a way to open a new tab, and have it selected. The page provided will be
+	 * loaded
 	 * 
-	 * @param url - the url to load once the new tab is opened and selected
+	 * @param url
+	 *            - the url to load once the new tab is opened and selected
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
 	public int openTab(String url) {
-		if( openTab() != 0 ) {
+		if (openTab() != 0) {
 			return 1;
 		}
 		return goToURL(url);
+	}
+
+	/**
+	 * a function to switch tabs. this method will switch to the next available
+	 * tab. if the last tab is already selected, it will loop back to the first
+	 * tab
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int switchNextTab() {
+		String action = "Switching to next tab ";
+		String expected = "Next tab <b>" + AVAILABLE;
+		try {
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_DOWN));
+		} catch (Exception e) {
+			file.recordAction(action, expected, "Next tab <b>" + NOTSELECTED, Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
+	}
+	
+	/**
+	 * a function to switch tabs. this method will switch to the previous available
+	 * tab. if the first tab is already selected, it will loop back to the last
+	 * tab
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int switchPreviousTab() {
+		String action = "Switching to previous tab ";
+		String expected = "Previous tab <b>" + AVAILABLE;
+		try {
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_UP));
+		} catch (Exception e) {
+			file.recordAction(action, expected, "Previous tab <b>" + NOTSELECTED, Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
 	}
 
 	/**
@@ -3303,35 +3324,9 @@ public class Action {
 		String action = "Closing currently open tab";
 		String expected = "Tab is closed";
 		try {
-			driver.close();
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
 		} catch (Exception e) {
 			file.recordAction(action, expected, "Tab was unable to be closed", Result.FAILURE);
-			file.addError();
-			log.error(e);
-			return 1;
-		}
-		file.recordAction(action, expected, expected, Result.SUCCESS);
-		return 0;
-	}
-
-	/**
-	 * a function to close the provided tab.
-	 * 
-	 * @param tabNumber
-	 *            - the tab number, starts at 0
-	 * @return Integer - the number of errors encountered while executing these
-	 *         steps
-	 */
-	public int closeTab(int tabNumber) {
-		String action = "Switching back to initial tab";
-		String expected = "Initial tab is selected and available";
-		try {
-			String currentTab = driver.getWindowHandle();
-			switchTab(tabNumber);
-			closeTab();
-			driver.switchTo().window(currentTab);
-		} catch (Exception e) {
-			file.recordAction(action, expected, "Tab was unable to be selected", Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3849,7 +3844,21 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Element element) throws IOException {
-		return isSomethingSelected(element.getType(), element.getLocator());
+		return isSomethingSelected(element.getType(), element.getLocator(), false);
+	}
+
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @param print
+	 *            - whether or not to print out this wait statement
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Element element, boolean print) throws IOException {
+		return isSomethingSelected(element.getType(), element.getLocator(), print);
 	}
 
 	/**
@@ -3859,11 +3868,28 @@ public class Action {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * 
 	 * @return boolean: is something selected or not
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locators type, String locator) throws IOException {
-		return isSomethingSelected(type, locator, 0);
+		return isSomethingSelected(type, locator, 0, false);
+	}
+
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param print
+	 *            - whether or not to print out this wait statement
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Locators type, String locator, boolean print) throws IOException {
+		return isSomethingSelected(type, locator, 0, print);
 	}
 
 	/**
@@ -3878,7 +3904,24 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Element element, int elementMatch) throws IOException {
-		return isSomethingSelected(element.getType(), element.getLocator(), elementMatch);
+		return isSomethingSelected(element.getType(), element.getLocator(), elementMatch, false);
+	}
+
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @param print
+	 *            - whether or not to print out this wait statement
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Element element, int elementMatch, boolean print) throws IOException {
+		return isSomethingSelected(element.getType(), element.getLocator(), elementMatch, print);
 	}
 
 	/**
@@ -3895,7 +3938,27 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locators type, String locator, int elementMatch) throws IOException {
-		return locatorAction.isSomethingSelected(type, locator, elementMatch);
+		return isSomethingSelected(type, locator, elementMatch, false);
+	}
+
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @param print
+	 *            - whether or not to print out this wait statement
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Locators type, String locator, int elementMatch, boolean print)
+			throws IOException {
+		return locatorAction.isSomethingSelected(type, locator, elementMatch, print);
 	}
 
 	/**
