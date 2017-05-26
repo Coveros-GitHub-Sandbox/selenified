@@ -21,6 +21,17 @@ public class ActionSwitchIT extends TestBase {
 		// dynamic check
 		setVersion("0.0.1");
 	}
+	
+	@Test(groups = { "integration", "actions", "window",
+	"tab" }, description = "An integration test to check the maximizeScreen method")
+	public void maximizeScreenTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.maximizeScreen();
+		// verify no issues
+		finish();
+	}
 
 	@Test(groups = { "integration", "actions", "switch",
 			"tab" }, description = "An integration test to check the openTab method")
@@ -66,7 +77,7 @@ public class ActionSwitchIT extends TestBase {
 	}
 	
 	@Test(groups = { "integration", "actions", "do",
-	"tab" }, description = "An integration test to check the switchTab method")
+	"tab" }, description = "An integration test to check the closeTab method")
 	public void closeTabTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -81,7 +92,7 @@ public class ActionSwitchIT extends TestBase {
 	}
 	
 	@Test(groups = { "integration", "actions", "do",
-	"tab" }, description = "An integration test to check the switchTab method")
+	"tab" }, description = "An integration test to check the closeTab method")
 	public void closeFirstTabTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
