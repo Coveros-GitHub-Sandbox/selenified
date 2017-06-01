@@ -1,4 +1,4 @@
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="Selenified" basedir="." default="test">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:unless="ant:unless" name="Selenified" basedir="." default="test">
     <property name="rootdir" value="./" />
     <property name="lib-dir" value="./lib"/>
     <property name="test-dir" value="./src" />
@@ -6,6 +6,24 @@
     <property name="junit-dir" value="${out-dir}/JUnit" />
     <property name="com-dir" value="${out-dir}/classes" />
     <property name="doc-dir" value="./doc" />
+    <property name="groups" value="" />
+    <condition property="suiteXmlFile" else="integration.xml">
+        <isset property="suiteXmlFile"/>
+    </condition>
+    <condition property="browser" else="HtmlUnit">
+        <isset property="browser"/>
+    </condition>
+    <condition property="appURL" else="http://172.31.2.65/">
+        <isset property="appURL"/>
+    </condition>
+    <path id="classpath">
+        <fileset dir="${lib-dir}" includes="**/*.jar"/>
+        <pathelement location="${lib-dir}"/>
+        <pathelement location="${com-dir}"/> 
+    </path>
+    <taskdef name="testng" classname="org.testng.TestNGAntTask">
+        <classpath location="lib/testng-6.10.jar" />
+    </taskdef>
 
     <!-- =================================
           target: doc
@@ -58,9 +76,20 @@
     </target>
 
     <!-- =================================
+          target: testng
+         ================================= -->
+    <target name="testng" depends="compile">    
+        <testng classpathref="classpath"
+          outputDir="${out-dir}"
+          haltOnFailure="true" verbose="2">
+            <classfileset dir="${com-dir}" includes="**/*Test.class" />
+        </testng>
+    </target>
+    
+    <!-- =================================
           target: test
          ================================= -->
-    <target name="test" depends="compile" description="Run tests in parallel">
+    <target name="test" depends="testng" description="Run integration tests in parallel">
         <java classpathref="classpath" classname="org.testng.TestNG" failonerror="true">
             <sysproperty key="browser" value="${browser}" />
             <sysproperty key="hubAddress" value="${hubAddress}" />
@@ -75,7 +104,9 @@
             <arg value="methods"/>
             <arg value="-threadcount"/>
             <arg value="20"/>
-            <arg value="${test-suite}"/>
+            <arg value="-groups" unless:blank="${groups}"/> 
+            <arg value="${groups}" unless:blank="${groups}"/>
+            <arg value="${suiteXmlFile}"/>
         </java>
     </target>
 
