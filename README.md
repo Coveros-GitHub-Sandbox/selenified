@@ -355,7 +355,12 @@ gradle clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-gradle seleniumTest -Dtest-suite=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox
+gradle seleniumTest -PsuiteXmlFile=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox
+```
+To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
+additional parameter, groups with the desired group to test
+```
+gradle seleniumTest -Pgroups=virtual
 ```
 ## Viewing Results
 To view test results, navigate to the newly created target-output folder within the framework directory. Within 
