@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<elements url="http://www.google.com">
-	<google_search_home_page url="/">
-		<element id="search_input" locator="id" element="gbqfq" />
-		<element id="search_button" locator="id" element="gbqfba" />
-	</google_search_home_page>
-</elements>

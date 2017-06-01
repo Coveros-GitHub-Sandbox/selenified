@@ -7,7 +7,6 @@ import tools.General;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -20,24 +19,12 @@ public class GeneralTest {
 
 		Assert.assertTrue(General.listFilesForFolder(new File("/bad-folder")).isEmpty());
 		Assert.assertEquals(General.listFilesForFolder(new File("/bad-folder")), new ArrayList<String>());
-
-		Assert.assertEquals(General.listFilesForFolder(new File("src/test/java/locators")),
-				Arrays.asList("src" + File.separator + "test" + File.separator + "java" + File.separator + "locators"
-						+ File.separator + "Sample.xml"));
-		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators")),
-				Arrays.asList("." + File.separator + "src" + File.separator + "test" + File.separator + "java"
-						+ File.separator + "locators" + File.separator + "Sample.xml"));
-		Assert.assertEquals(General.listFilesForFolder(new File("./src/test/java/locators/")),
-				Arrays.asList("." + File.separator + "src" + File.separator + "test" + File.separator + "java"
-						+ File.separator + "locators" + File.separator + "Sample.xml"));
 	}
 
 	@Test
 	public void listFilesForFolderDirectoryTest() {
 		List<String> files = General.listFilesForFolder(new File("./src/test/java"));
-		Assert.assertEquals(files.size(), 17);
-		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-				+ "java" + File.separator + "locators" + File.separator + "Sample.xml"));
+		Assert.assertEquals(files.size(), 16);
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
 				+ "java" + File.separator + "integration" + File.separator + "ActionDoIT.java"));
 		Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator

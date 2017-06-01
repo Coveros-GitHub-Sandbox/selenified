@@ -1,11 +1,17 @@
 package integration;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -55,6 +61,134 @@ public class ActionGetIT extends TestBase {
 		if (actions.getCapabilities().equals(null)) {
 			asserts.getOutputFile().addError();
 		}
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration test to check the getCookie method")
+	public void getCookieTest() throws IOException, ParseException {
+		// our cookie date
+		String dateval = "2019-12-18T12:00:00";
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		df.setTimeZone(TimeZone.getTimeZone("UTC"));
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		Cookie cookie = actions.getCookie("cookie");
+		Assert.assertEquals(cookie, new Cookie("cookie", "cookietest", "/", df.parse(dateval)));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration negative test to check the getCookie method")
+	public void negativeGetCookieTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		Cookie cookie = actions.getCookie("badcookie");
+		Assert.assertNull(cookie);
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration test to check the getCookieValue method")
+	public void getCookieValueTest() throws IOException, ParseException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		String cookie = actions.getCookieValue("cookie");
+		Assert.assertEquals(cookie, "cookietest");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration negative test to check the getCookieValue method")
+	public void negativeGetCookieValueTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		String cookie = actions.getCookieValue("badcookie");
+		Assert.assertNull(cookie);
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration test to check the getCookiePath method")
+	public void getCookiePathTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		String cookie = actions.getCookiePath("cookie");
+		Assert.assertEquals(cookie, "/");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration negative test to check the getCookiePath method")
+	public void negativeGetCookiePathTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		String cookie = actions.getCookiePath("badcookie");
+		Assert.assertNull(cookie);
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration test to check the getCookieDomain method")
+	public void getCookieDomainTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		String cookie = actions.getCookieDomain("cookie");
+		Assert.assertEquals(cookie, "localhost");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration negative test to check the getCookieDomain method")
+	public void negativeGetCookieDomainTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		String cookie = actions.getCookieDomain("badcookie");
+		Assert.assertNull(cookie);
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration test to check the getCookieExpiration method")
+	public void getCookieExpirationTest() throws IOException, ParseException {
+		// our cookie date
+		String dateval = "2019-12-18T12:00:00";
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		df.setTimeZone(TimeZone.getTimeZone("UTC"));
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		Date cookie = actions.getCookieExpiration("cookie");
+		Assert.assertEquals(cookie, df.parse(dateval));
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "get",
+			"virtual" }, description = "An integration negative test to check the getCookieExpiration method")
+	public void negativeGetCookieExpirationTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		Date cookie = actions.getCookieExpiration("badcookie");
+		Assert.assertNull(cookie);
 		// verify no issues
 		finish();
 	}
@@ -627,6 +761,92 @@ public class ActionGetIT extends TestBase {
 		// perform some actions
 		String location = (String) actions.getEval(Locators.ID, "non-existent-name", "document.location");
 		Assert.assertNull(location);
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions",
+			"get" }, description = "An integration test to check the getPrompt method")
+	public void getPromptTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.ID, "prompt_button");
+		String prompt = actions.getPrompt();
+		Assert.assertEquals(prompt, "What do you think?");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions",
+			"get" }, description = "A integration negative test to check the getPrompt method")
+	public void negativeGetPromptTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getPrompt();
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions",
+			"get" }, description = "An integration test to check the getConfirmation method")
+	public void getConfirmationTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.ID, "confirm_button");
+		String confirm = actions.getConfirmation();
+		Assert.assertEquals(confirm, "Is this not great?");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions",
+			"get" }, description = "An integration negative test to check the getConfirmation method")
+	public void negativeGetConfirmationTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getConfirmation();
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions",
+			"get" }, description = "An integration test to check the getAlert method")
+	public void getAlertTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.ID, "disable_click");
+		actions.click(Locators.ID, "alert_button");
+		String alert = actions.getAlert();
+		Assert.assertEquals(alert, "Enabled!");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions",
+			"get" }, description = "An integration negative test to check the getAlert method")
+	public void negativeGetAlertTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.getAlert();
+		// verify 1 issue
+		finish(1);
+	}
+	
+	@Test(groups = { "integration", "actions",
+	"get" }, description = "An integration test to check the getHtmlSource method")
+	public void getHtmlSourceTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(new Element(Locators.ID, "submit_button"), 0);
+		String source = actions.getHtmlSource();
+		Assert.assertTrue(source.contains( "You're on the next page"));
 		// verify no issues
 		finish();
 	}

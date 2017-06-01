@@ -73,7 +73,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareNumOfSelectOptions(new Element(Locators.NAME, "enable_button"), 0, 0);
+		asserts.compareNumOfSelectOptions(new Element(Locators.NAME, "alert_button"), 0, 0);
 		// verify 1 issue
 		finish(1);
 	}
@@ -230,7 +230,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkSelectValuePresent(new Element(Locators.ID, "enable_button"), 0, "ford");
+		asserts.checkSelectValuePresent(new Element(Locators.ID, "alert_button"), 0, "ford");
 		// verify 1 issue
 		finish(1);
 	}
@@ -263,7 +263,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkSelectValueNotPresent(new Element(Locators.ID, "enable_button"), 0, "volvo");
+		asserts.checkSelectValueNotPresent(new Element(Locators.ID, "alert_button"), 0, "volvo");
 		// verify 1 issue
 		finish(1);
 	}
@@ -296,7 +296,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkIfOptionInSelect(new Element(Locators.ID, "enable_button"), 0, "ford");
+		asserts.checkIfOptionInSelect(new Element(Locators.ID, "alert_button"), 0, "ford");
 		// verify 2 issues
 		finish(2);
 	}
@@ -343,7 +343,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkIfOptionNotInSelect(new Element(Locators.ID, "enable_button"), 0, "audi");
+		asserts.checkIfOptionNotInSelect(new Element(Locators.ID, "alert_button"), 0, "audi");
 		// verify 2 issues
 		finish(2);
 	}
@@ -372,7 +372,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkAlertPresent();
 		// verify no issues
 		finish();
@@ -398,7 +398,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkConfirmationPresent();
 		// verify no issues
 		finish();
@@ -435,7 +435,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkAlertNotPresent();
 		// verify 1 issue
 		finish(1);
@@ -449,7 +449,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkAlert("Enabled!");
 		// verify no issues
 		finish();
@@ -463,7 +463,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkAlert("([A-Z])\\w+!");
 		// verify no issues
 		finish();
@@ -489,7 +489,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkAlert("Disabled!");
 		// verify 1 issue
 		finish(1);
@@ -504,7 +504,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkConfirmation("Enabled!");
 		// verify no issues
 		finish();
@@ -519,7 +519,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkConfirmation("Disabled!");
 		// verify 1 issue
 		finish(1);
@@ -556,7 +556,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkConfirmationNotPresent();
 		// verify 1 issue
 		finish(1);
@@ -659,7 +659,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementDisplayed(Locators.ID, "enable_button");
+		asserts.checkElementDisplayed(Locators.ID, "alert_button");
 		// verify no issues
 		finish();
 	}
@@ -998,7 +998,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementEditable(Locators.ID, "enable_button");
+		asserts.checkElementEditable(Locators.ID, "alert_button");
 		// verify 1 issue
 		finish(1);
 	}
@@ -1239,7 +1239,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkPrompt("Enabled!");
 		// verify no issues
 		finish();
@@ -1265,7 +1265,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkPrompt("Disabled!");
 		// verify 1 issue
 		finish(1);
@@ -1280,7 +1280,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkPromptPresent();
 		// verify no issues
 		finish();
@@ -1317,7 +1317,7 @@ public class AssertIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.ID, "disable_click");
-		actions.click(Locators.ID, "enable_button");
+		actions.click(Locators.ID, "alert_button");
 		asserts.checkPromptNotPresent();
 		// verify 1 issue
 		finish(1);
@@ -1483,7 +1483,7 @@ public class AssertIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.compareSelectedText(new Element(Locators.ID, "enable_button"), 0, "wrong value");
+		asserts.compareSelectedText(new Element(Locators.ID, "alert_button"), 0, "wrong value");
 		// verify 1 issue
 		finish(1);
 	}
