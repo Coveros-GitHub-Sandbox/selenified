@@ -60,13 +60,13 @@ task seleniumTest(type:Test) {
     classpath = project.sourceSets.seleniumTest.runtimeClasspath
     useTestNG() {
         systemProperties System.getProperties()
-        if (systemProperties.containsKey("suiteXmlFile")) {
-            suites systemProperties.get("suiteXmlFile")
+        if (project.hasProperty("suiteXmlFile")) {
+            suites project.getProperty("suiteXmlFile")
         } else {
             suites "integration.xml" 
         }
-        if (systemProperties.containsKey("groups")) {
-            includeGroups systemProperties.get("groups")
+        if (project.hasProperty("groups")) {
+            includeGroups project.getProperty("groups")
         }
     }
 }
