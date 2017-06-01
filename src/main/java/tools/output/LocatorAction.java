@@ -85,6 +85,7 @@ public class LocatorAction {
 	private static final String NOTINPUT = " as it is not an input";
 
 	private static final String CANTTYPE = "Unable to type in ";
+	private static final String CANTMOVE = "Unable to move to ";
 
 	/**
 	 * our constructor, determining which browser use and how to run the
@@ -973,11 +974,16 @@ public class LocatorAction {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return new HashMap<>();
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		return (Map<String, String>) js.executeScript(
-				"var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;",
-				element);
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			return (Map<String, String>) js.executeScript(
+					"var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;",
+					element);
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 
 	/**
@@ -992,9 +998,14 @@ public class LocatorAction {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return null;
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		return js.executeScript(javascriptFunction, element);
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			return js.executeScript(javascriptFunction, element);
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 
 	/**
@@ -1212,9 +1223,17 @@ public class LocatorAction {
 		if (!isPresentDisplayedEnabled(type, locator, elementMatch, action, expected, cantClick)) {
 			return 1;
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		Actions selAction = new Actions(driver);
-		selAction.click(element).perform();
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			Actions selAction = new Actions(driver);
+			selAction.click(element).perform();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantClick + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Clicked " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
@@ -1269,19 +1288,28 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	public int hover(Locators type, String locator, int elementMatch) throws IOException {
+		String cantHover = "Unable to hover over ";
 		String action = "Hovering over " + type + " " + locator;
 		String expected = type + " " + locator + " is present, and displayed to be hovered over";
 		// wait for element to be present
-		if (!isPresent(type, locator, elementMatch, action, expected, "Unable to hover over ")) {
+		if (!isPresent(type, locator, elementMatch, action, expected, cantHover)) {
 			return 1;
 		}
 		// wait for element to be displayed
-		if (!isDisplayed(type, locator, elementMatch, action, expected, "Unable to hover over ")) {
+		if (!isDisplayed(type, locator, elementMatch, action, expected, cantHover)) {
 			return 1;
 		}
-		Actions selAction = new Actions(driver);
-		WebElement element = getWebElement(type, locator, elementMatch);
-		selAction.moveToElement(element).perform();
+		try {
+			Actions selAction = new Actions(driver);
+			WebElement element = getWebElement(type, locator, elementMatch);
+			selAction.moveToElement(element).perform();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantHover + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Hovered over " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
@@ -1307,8 +1335,16 @@ public class LocatorAction {
 		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, cantFocus)) {
 			return 1;
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		element.sendKeys("\t");
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			element.sendKeys("\t");
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantFocus + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + type + " " + locator,
 				Result.SUCCESS);
 		return 0;
@@ -1337,8 +1373,16 @@ public class LocatorAction {
 		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		element.sendKeys(text);
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			element.sendKeys(text);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, CANTTYPE + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Typed text '" + text + IN + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
@@ -1365,8 +1409,16 @@ public class LocatorAction {
 		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		element.sendKeys(key);
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			element.sendKeys(key);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, CANTTYPE + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Typed key '" + key + IN + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
@@ -1440,9 +1492,17 @@ public class LocatorAction {
 			return 1;
 		}
 		// do the select
-		WebElement element = getWebElement(type, locator, elementMatch);
-		Select dropdown = new Select(element);
-		dropdown.selectByValue(value);
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			Select dropdown = new Select(element);
+			dropdown.selectByValue(value);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, cantSelect + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Selected " + value + " in " + type + " " + locator, Result.SUCCESS);
 		return 0;
 	}
@@ -1466,12 +1526,20 @@ public class LocatorAction {
 		String action = "Moving screen to " + type + " " + locator;
 		String expected = type + " " + locator + " is now present on the visible page";
 		// wait for element to be present
-		if (!isPresent(type, locator, elementMatch, action, expected, "Unable to move to ")) {
+		if (!isPresent(type, locator, elementMatch, action, expected, CANTMOVE)) {
 			return 1;
 		}
-		WebElement element = getWebElement(type, locator, elementMatch);
-		Actions builder = new Actions(driver);
-		builder.moveToElement(element);
+		try {
+			WebElement element = getWebElement(type, locator, elementMatch);
+			Actions builder = new Actions(driver);
+			builder.moveToElement(element);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, CANTMOVE + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 
 		if (!isElementDisplayed(type, locator, elementMatch, false)) {
 			file.recordAction(action, expected, type + " " + locator + " is not present on visible page",
@@ -1504,15 +1572,23 @@ public class LocatorAction {
 		String action = "Moving screen to " + position + " pixels above " + type + " " + locator;
 		String expected = type + " " + locator + " is now present on the visible page";
 		// wait for element to be present
-		if (!isPresent(type, locator, elementMatch, action, expected, "Unable to move to ")) {
+		if (!isPresent(type, locator, elementMatch, action, expected, CANTMOVE)) {
 			return 1;
 		}
 
-		JavascriptExecutor jse = (JavascriptExecutor) driver;
-		WebElement element = getWebElement(type, locator, elementMatch);
-		long elementPosition = element.getLocation().getY();
-		long newPosition = elementPosition - position;
-		jse.executeScript("window.scrollBy(0, " + newPosition + ")");
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) driver;
+			WebElement element = getWebElement(type, locator, elementMatch);
+			long elementPosition = element.getLocation().getY();
+			long newPosition = elementPosition - position;
+			jse.executeScript("window.scrollBy(0, " + newPosition + ")");
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, CANTMOVE + type + " " + locator + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 
 		if (!isElementDisplayed(type, locator, elementMatch, false)) {
 			file.recordAction(action, expected, type + " " + locator + " is not present on visible page",

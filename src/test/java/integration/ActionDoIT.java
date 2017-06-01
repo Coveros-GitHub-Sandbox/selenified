@@ -91,7 +91,7 @@ public class ActionDoIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(Locators.CLASSNAME, "click");
-		actions.click(Locators.CSS, "input#enable_button");
+		actions.click(Locators.CSS, "input#alert_button");
 		actions.acceptAlert();
 		asserts.checkAlertNotPresent();
 		// verify no issues
@@ -117,8 +117,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.CLASSNAME, "click");
-		actions.click(Locators.CSS, "input#enable_button");
+		actions.click(Locators.CSS, "input#confirm_button");
 		actions.acceptConfirmation();
 		asserts.checkConfirmationNotPresent();
 		// verify no issues
@@ -144,8 +143,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.CLASSNAME, "click");
-		actions.click(Locators.CSS, "input#enable_button");
+		actions.click(Locators.CSS, "input#confirm_button");
 		actions.dismissConfirmation();
 		asserts.checkConfirmationNotPresent();
 		// verify no issues
@@ -171,8 +169,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.CLASSNAME, "click");
-		actions.click(Locators.CSS, "input#enable_button");
+		actions.click(Locators.CSS, "input#prompt_button");
 		actions.acceptPrompt();
 		asserts.checkPromptNotPresent();
 		// verify no issues
@@ -198,8 +195,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.CLASSNAME, "click");
-		actions.click(Locators.CSS, "input#enable_button");
+		actions.click(Locators.CSS, "input#prompt_button");
 		actions.dismissPrompt();
 		asserts.checkConfirmationNotPresent();
 		// verify no issues
@@ -213,6 +209,29 @@ public class ActionDoIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.dismissPrompt();
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "alert",
+			"do" }, description = "An integration test to check the typePrompt method")
+	public void typePromptTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.click(Locators.CSS, "input#prompt_button");
+		actions.typeIntoPrompt("yes!");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "alert",
+			"do" }, description = "An integration negative test to check the typePrompt method")
+	public void negativeTypePromptTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.typeIntoPrompt("yes!");
 		// verify 2 issues
 		finish(2);
 	}
@@ -237,7 +256,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.click(new Element(Locators.CSS, "input#enable_button"));
+		actions.click(new Element(Locators.CSS, "input#alert_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -284,7 +303,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.submit(new Element(Locators.CSS, "input#enable_button"));
+		actions.submit(new Element(Locators.CSS, "input#alert_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -404,7 +423,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.blur(new Element(Locators.CSS, "input#enable_button"));
+		actions.blur(new Element(Locators.CSS, "input#alert_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -504,7 +523,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(new Element(Locators.CSS, "input#enable_button"), "This is a test");
+		actions.type(new Element(Locators.CSS, "input#alert_button"), "This is a test");
 		// verify 2 issues
 		finish(2);
 	}
@@ -604,7 +623,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(new Element(Locators.CSS, "input#enable_button"), Keys.SPACE);
+		actions.type(new Element(Locators.CSS, "input#alert_button"), Keys.SPACE);
 		// verify 2 issues
 		finish(2);
 	}
@@ -701,7 +720,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.clear(new Element(Locators.CSS, "input#enable_button"));
+		actions.clear(new Element(Locators.CSS, "input#alert_button"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -770,7 +789,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(new Element(Locators.CSS, "input#enable_button"), "option");
+		actions.select(new Element(Locators.CSS, "input#alert_button"), "option");
 		// verify 2 issues
 		finish(2);
 	}
@@ -894,54 +913,6 @@ public class ActionDoIT extends TestBase {
 		// perform some actions
 		actions.scroll(500);
 		// verify 1 issue
-		finish(1);
-	}
-
-	@Test(groups = { "integration", "actions", "do", "frame",
-			"virtual" }, description = "An integration test to check the frame method")
-	public void selectFrameTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// use this object to verify our page looks as expected
-		Assert asserts = this.asserts.get();
-		// perform some actions
-		asserts.checkElementNotDisplayed(Locators.ID, "message");
-		actions.selectFrame(Locators.ID, "some_frame");
-		asserts.checkElementDisplayed(Locators.ID, "message");
-		// verify no issues
-		finish();
-	}
-
-	@Test(groups = { "integration", "actions", "do", "frame",
-			"virtual" }, description = "An integration negative test to check the frame method")
-	public void selectFrameNotExistTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.selectFrame(new Element(Locators.ID, "non-existent-element"));
-		// verify 2 issues
-		finish(2);
-	}
-
-	@Test(groups = { "integration", "actions", "do", "frame",
-			"virtual" }, description = "An integration negative test to check the frame method")
-	public void selectFrameNotVisibleTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.selectFrame(new Element(Locators.ID, "some_other_frame"));
-		// verify 2 issues
-		finish(2);
-	}
-
-	@Test(groups = { "integration", "actions", "do", "frame",
-			"virtual" }, description = "An integration negative test to check the frame method")
-	public void selectFrameNotFrameTest() throws IOException {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.selectFrame(new Element(Locators.ID, "scroll_button"));
-		// verify no issues
 		finish(1);
 	}
 }

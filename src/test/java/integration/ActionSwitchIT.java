@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 import tools.TestBase;
 import tools.output.Action;
 import tools.output.Assert;
+import tools.output.Element;
+import tools.output.Selenium.Locators;
 
 public class ActionSwitchIT extends TestBase {
 
@@ -20,6 +22,112 @@ public class ActionSwitchIT extends TestBase {
 		// set the version of the tests or of the software, possibly with a
 		// dynamic check
 		setVersion("0.0.1");
+	}
+
+	@Test(groups = { "integration", "actions", "switch", "frame",
+			"virtual" }, description = "An integration test to check the frame method")
+	public void selectFrameIntTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		actions.selectFrame(0);
+		asserts.checkElementDisplayed(Locators.ID, "message");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "switch", "frame",
+			"virtual" }, description = "An integration test to check the frame method")
+	public void selectFrameIntNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		actions.selectFrame(2);
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "switch", "frame",
+			"virtual" }, description = "An integration test to check the frame method")
+	public void selectFrameNameTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		actions.selectFrame("some_frame");
+		asserts.checkElementDisplayed(Locators.ID, "message");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "switch", "frame",
+			"virtual" }, description = "An integration test to check the frame method")
+	public void selectFrameNameNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		actions.selectFrame("some_non_existent_frame");
+		// verify 1 issue
+		finish(1);
+	}
+
+	@Test(groups = { "integration", "actions", "switch", "frame",
+			"virtual" }, description = "An integration test to check the frame method")
+	public void selectFrameTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		actions.selectFrame(Locators.ID, "some_frame");
+		asserts.checkElementDisplayed(Locators.ID, "message");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "switch", "frame",
+			"virtual" }, description = "An integration negative test to check the frame method")
+	public void selectFrameNotExistTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.selectFrame(new Element(Locators.ID, "non-existent-element"));
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "switch", "frame",
+			"virtual" }, description = "An integration negative test to check the frame method")
+	public void selectFrameNotVisibleTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.selectFrame(new Element(Locators.ID, "some_other_frame"));
+		// verify 2 issues
+		finish(2);
+	}
+
+	@Test(groups = { "integration", "actions", "switch", "frame",
+			"virtual" }, description = "An integration negative test to check the frame method")
+	public void selectFrameNotFrameTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// perform some actions
+		actions.selectFrame(new Element(Locators.ID, "scroll_button"));
+		// verify no issues
+		finish(1);
 	}
 
 	@Test(groups = { "integration", "actions", "window",
@@ -61,7 +169,7 @@ public class ActionSwitchIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "integration", "actions", "do",
+	@Test(groups = { "integration", "actions", "switch",
 			"tab" }, description = "An integration test to check the switchTab method")
 	public void switchTabTest() throws IOException {
 		// use this object to manipulate our page
@@ -76,7 +184,7 @@ public class ActionSwitchIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "do",
+	@Test(groups = { "integration", "actions", "switch",
 			"tab" }, description = "An integration test to check the closeTab method")
 	public void closeTabTest() throws IOException {
 		// use this object to manipulate our page
@@ -91,7 +199,7 @@ public class ActionSwitchIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "do",
+	@Test(groups = { "integration", "actions", "switch",
 			"tab" }, description = "An integration test to check the closeTab method")
 	public void closeFirstTabTest() throws IOException {
 		// use this object to manipulate our page
@@ -104,6 +212,36 @@ public class ActionSwitchIT extends TestBase {
 		actions.closeTab();
 		asserts.compareURL("https://www.google.com/");
 		// verify 1 issue
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "switch",
+			"submit" }, description = "An integration test to check the submit method")
+	public void switchToNewWindowTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(Locators.ID, "new_window");
+		actions.switchToNewWindow();
+		asserts.checkTextVisible("You're on the next page");
+		// verify no issues
+		finish();
+	}
+
+	@Test(groups = { "integration", "actions", "switch",
+			"submit" }, description = "An integration test to check the submit method")
+	public void switchToParentWindowTest() throws IOException {
+		// use this object to manipulate our page
+		Action actions = this.actions.get();
+		// use this object to verify our page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(new Element(Locators.ID, "new_window"));
+		actions.switchToParentWindow();
+		asserts.checkTextNotVisible("You're on the next page");
+		// verify no issues
 		finish();
 	}
 }
