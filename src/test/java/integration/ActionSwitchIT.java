@@ -216,7 +216,7 @@ public class ActionSwitchIT extends TestBase {
 	}
 
 	@Test(groups = { "integration", "actions", "switch",
-			"submit" }, description = "An integration test to check the submit method")
+			"window" }, description = "An integration test to check the switch method")
 	public void switchToNewWindowTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -231,7 +231,7 @@ public class ActionSwitchIT extends TestBase {
 	}
 
 	@Test(groups = { "integration", "actions", "switch",
-			"submit" }, description = "An integration test to check the submit method")
+			"window" }, description = "An integration test to check the switch method")
 	public void switchToParentWindowTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -239,6 +239,8 @@ public class ActionSwitchIT extends TestBase {
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		actions.click(new Element(Locators.ID, "new_window"));
+		actions.switchToNewWindow();
+		asserts.checkTextVisible("You're on the next page");
 		actions.switchToParentWindow();
 		asserts.checkTextNotVisible("You're on the next page");
 		// verify no issues
