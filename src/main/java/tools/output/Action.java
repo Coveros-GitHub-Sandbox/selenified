@@ -3247,6 +3247,7 @@ public class Action {
 		String expected = "New tab is opened";
 		try {
 			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "t");
 		} catch (Exception e) {
 			file.recordAction(action, expected, "New tab was unable to be opened. " + e.getMessage(), Result.FAILURE);
 			file.addError();
@@ -3286,6 +3287,7 @@ public class Action {
 		String expected = "Next tab <b>" + AVAILABLE;
 		try {
 			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_DOWN));
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_DOWN));
 		} catch (Exception e) {
 			file.recordAction(action, expected, "Next tab <b>" + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
 			file.addError();
@@ -3309,6 +3311,7 @@ public class Action {
 		String expected = "Previous tab <b>" + AVAILABLE;
 		try {
 			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_UP));
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_UP));
 		} catch (Exception e) {
 			file.recordAction(action, expected, "Previous tab <b>" + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
 			file.addError();
@@ -3331,6 +3334,7 @@ public class Action {
 		String expected = "Tab is closed";
 		try {
 			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "w");
 		} catch (Exception e) {
 			file.recordAction(action, expected, "Tab was unable to be closed. " + e.getMessage(), Result.FAILURE);
 			file.addError();
