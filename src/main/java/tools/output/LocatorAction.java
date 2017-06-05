@@ -1411,6 +1411,7 @@ public class LocatorAction {
 		}
 		try {
 			WebElement element = getWebElement(type, locator, elementMatch);
+			element.click();
 			element.sendKeys(key);
 		} catch (Exception e) {
 			log.error(e);
