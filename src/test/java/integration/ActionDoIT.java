@@ -392,7 +392,7 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(groups = { "integration", "actions", "do",
+	@Test(singleThreaded = true, groups = { "integration", "actions", "do",
 			"blur" }, description = "An integration test to check the blur method")
 	public void blurTest() throws IOException {
 		// use this object to manipulate our page
@@ -550,7 +550,7 @@ public class ActionDoIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "integration", "actions", "do",
+	@Test(singleThreaded = true, groups = { "integration", "actions", "do",
 			"type" }, description = "An integration test to check the type method")
 	public void typeKeysInputTest() throws IOException {
 		// use this object to manipulate our page
@@ -592,7 +592,7 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "do",
+	@Test(singleThreaded = true, groups = { "integration", "actions", "do",
 			"type" }, description = "An integration test to check the type method")
 	public void typeKeysSelectTest() throws IOException {
 		// use this object to manipulate our page
