@@ -593,7 +593,7 @@ public class ActionDoIT extends TestBase {
 	}
 
 	@Test(singleThreaded = true, groups = { "integration-last", "actions", "do",
-			"type" }, dependsOnGroups = { "integration" }, description = "An integration test to check the type method")
+			"type" }, dependsOnMethods = { "blurTest" }, description = "An integration test to check the type method")
 	public void typeKeysSelectTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
