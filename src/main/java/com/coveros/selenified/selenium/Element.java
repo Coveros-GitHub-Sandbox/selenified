@@ -20,19 +20,19 @@
 
 package com.coveros.selenified.selenium;
 
-import com.coveros.selenified.selenium.Selenium.Locators;
+import com.coveros.selenified.selenium.Selenium.Locator;
 
 public class Element {
 
-	private Locators type;
+	private Locator type;
 	private String locator;
 
-	public Element(Locators type, String locator) {
+	public Element(Locator type, String locator) {
 		this.setType(type);
 		this.setLocator(locator);
 	}
 
-	public void setType(Locators type) {
+	public void setType(Locator type) {
 		this.type = type;
 	}
 
@@ -40,7 +40,7 @@ public class Element {
 		this.locator = locator;
 	}
 
-	public Locators getType() {
+	public Locator getType() {
 		return type;
 	}
 

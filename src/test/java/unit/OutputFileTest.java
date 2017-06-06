@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.output.Assert.Result;
 import com.coveros.selenified.output.Assert.Success;
-import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.selenium.Selenium.Browser;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
@@ -28,7 +28,7 @@ public class OutputFileTest {
 
 	@BeforeMethod
 	public void createFile() {
-		outputFile = new OutputFile("directory", "file", Browsers.ANDROID);
+		outputFile = new OutputFile("directory", "file", Browser.ANDROID);
 		directory = new File("directory");
 		file = new File("directory", "fileANDROID.html");
 	}
@@ -46,7 +46,7 @@ public class OutputFileTest {
 		Assert.assertTrue(file.exists());
 
 		// do it again, ensure nothing breaks when it already exists
-		outputFile = new OutputFile("directory", "file", Browsers.ANDROID);
+		outputFile = new OutputFile("directory", "file", Browser.ANDROID);
 		Assert.assertEquals(file.length(), 0);
 		Assert.assertTrue(directory.exists());
 		Assert.assertTrue(file.exists());

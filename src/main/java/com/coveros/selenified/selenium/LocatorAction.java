@@ -41,7 +41,7 @@ import org.testng.log4testng.Logger;
 import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
 import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.output.Assert.Result;
-import com.coveros.selenified.selenium.Selenium.Locators;
+import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.General;
 
 /**
@@ -107,7 +107,7 @@ public class LocatorAction {
 	 * a method for waiting until an element is present
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -119,7 +119,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementPresent(Locators type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementPresent(Locator type, String locator, int elementMatch, long seconds) throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + PRESENT;
 		String expected = type + " " + locator + " is present";
 		// wait for up to XX seconds for our error message
@@ -150,7 +150,7 @@ public class LocatorAction {
 	 * a method for waiting until an element is no longer present
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -162,7 +162,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotPresent(Locators type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotPresent(Locator type, String locator, int elementMatch, long seconds)
 			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be present";
 		String expected = type + " " + locator + " is not present";
@@ -190,7 +190,7 @@ public class LocatorAction {
 	 * a method for waiting until an element is displayed
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -202,7 +202,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementDisplayed(Locators type, String locator, int elementMatch, long seconds)
+	public int waitForElementDisplayed(Locator type, String locator, int elementMatch, long seconds)
 			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + DISPLAYED;
 		String expected = type + " " + locator + " is displayed";
@@ -239,7 +239,7 @@ public class LocatorAction {
 	 * a method for waiting until an element is not displayed
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -251,7 +251,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotDisplayed(Locators type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotDisplayed(Locator type, String locator, int elementMatch, long seconds)
 			throws IOException {
 		// this might fail if the element disappears completely
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be displayed";
@@ -283,7 +283,7 @@ public class LocatorAction {
 	 * a method for waiting until an element is enabled
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -295,7 +295,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementEnabled(Locators type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementEnabled(Locator type, String locator, int elementMatch, long seconds) throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + ENABLED;
 		String expected = type + " " + locator + " is enabled";
 		double start = System.currentTimeMillis();
@@ -330,7 +330,7 @@ public class LocatorAction {
 	 * a method for waiting until an element is not enabled
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -342,7 +342,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotEnabled(Locators type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotEnabled(Locator type, String locator, int elementMatch, long seconds)
 			throws IOException {
 		// this might fail if the element is no longer present
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be enabled";
@@ -374,7 +374,7 @@ public class LocatorAction {
 	 * a method for checking if an element is present
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -385,7 +385,7 @@ public class LocatorAction {
 	 * @return boolean: whether the element is present or not
 	 * @throws IOException
 	 */
-	public boolean isElementPresent(Locators type, String locator, int elementMatch, boolean print) throws IOException {
+	public boolean isElementPresent(Locator type, String locator, int elementMatch, boolean print) throws IOException {
 		boolean isPresent = false;
 		try {
 			getWebElement(type, locator, elementMatch).getText();
@@ -404,7 +404,7 @@ public class LocatorAction {
 	 * select, or textarea
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -415,7 +415,7 @@ public class LocatorAction {
 	 * @return boolean: whether the element is present or not
 	 * @throws IOException
 	 */
-	public boolean isElementInput(Locators type, String locator, int elementMatch, boolean print) throws IOException {
+	public boolean isElementInput(Locator type, String locator, int elementMatch, boolean print) throws IOException {
 		boolean isInput = false;
 		try {
 			WebElement element = getWebElement(type, locator, elementMatch);
@@ -436,7 +436,7 @@ public class LocatorAction {
 	 * a method for checking if an element is enabled
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -447,7 +447,7 @@ public class LocatorAction {
 	 * @return boolean: whether the element is present or not
 	 * @throws IOException
 	 */
-	public boolean isElementEnabled(Locators type, String locator, int elementMatch, boolean print) throws IOException {
+	public boolean isElementEnabled(Locator type, String locator, int elementMatch, boolean print) throws IOException {
 		boolean isEnabled = false;
 		try {
 			isEnabled = getWebElement(type, locator, elementMatch).isEnabled();
@@ -464,7 +464,7 @@ public class LocatorAction {
 	 * a method for checking if an element is checked
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -475,7 +475,7 @@ public class LocatorAction {
 	 * @return boolean: whether the element is checked or not
 	 * @throws IOException
 	 */
-	public boolean isElementChecked(Locators type, String locator, int elementMatch, boolean print) throws IOException {
+	public boolean isElementChecked(Locator type, String locator, int elementMatch, boolean print) throws IOException {
 		boolean isChecked = false;
 		try {
 			isChecked = getWebElement(type, locator, elementMatch).isSelected();
@@ -492,7 +492,7 @@ public class LocatorAction {
 	 * a method for checking if an element is displayed
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -503,7 +503,7 @@ public class LocatorAction {
 	 * @return boolean: whether the element is displayed or not
 	 * @throws IOException
 	 */
-	public boolean isElementDisplayed(Locators type, String locator, int elementMatch, boolean print)
+	public boolean isElementDisplayed(Locator type, String locator, int elementMatch, boolean print)
 			throws IOException {
 		boolean isDisplayed = false;
 		try {
@@ -521,7 +521,7 @@ public class LocatorAction {
 	 * determine if something is selected from a drop down menu
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -530,7 +530,7 @@ public class LocatorAction {
 	 * @return Boolean: was something selected in the drop down
 	 * @throws IOException
 	 */
-	public boolean isSomethingSelected(Locators type, String locator, int elementMatch, boolean print)
+	public boolean isSomethingSelected(Locator type, String locator, int elementMatch, boolean print)
 			throws IOException {
 		boolean isSelected = false;
 		if (isElementInput(type, locator, elementMatch, false)) {
@@ -555,7 +555,7 @@ public class LocatorAction {
 	 * get the number of options from the select drop down
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -564,7 +564,7 @@ public class LocatorAction {
 	 * @return Integer: the number of select options
 	 * @throws IOException
 	 */
-	public int getNumOfSelectOptions(Locators type, String locator, int elementMatch) throws IOException {
+	public int getNumOfSelectOptions(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -581,7 +581,7 @@ public class LocatorAction {
 	 * get the options from the select drop down
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -590,7 +590,7 @@ public class LocatorAction {
 	 * @return String[]: the options from the select element
 	 * @throws IOException
 	 */
-	public String[] getSelectOptions(Locators type, String locator, int elementMatch) throws IOException {
+	public String[] getSelectOptions(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -611,7 +611,7 @@ public class LocatorAction {
 	 * get the rows of a table
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -620,7 +620,7 @@ public class LocatorAction {
 	 * @return List: a list of the table rows as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableRows(Locators type, String locator, int elementMatch) throws IOException {
+	public List<WebElement> getTableRows(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -637,7 +637,7 @@ public class LocatorAction {
 	 * get the columns of a table
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -646,7 +646,7 @@ public class LocatorAction {
 	 * @return List: a list of the table columns as WebElements
 	 * @throws IOException
 	 */
-	public List<List<WebElement>> getTableColumns(Locators type, String locator, int elementMatch) throws IOException {
+	public List<List<WebElement>> getTableColumns(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -672,7 +672,7 @@ public class LocatorAction {
 	 * get a specific row from a table
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -684,7 +684,7 @@ public class LocatorAction {
 	 * @return List: a list of the table cells in the row as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableRow(Locators type, String locator, int elementMatch, int rowNum)
+	public List<WebElement> getTableRow(Locator type, String locator, int elementMatch, int rowNum)
 			throws IOException {
 		List<WebElement> rows = getTableRows(type, locator, elementMatch);
 		if (rows.size() < rowNum) {
@@ -704,7 +704,7 @@ public class LocatorAction {
 	 * get a specific column from a table
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -716,7 +716,7 @@ public class LocatorAction {
 	 * @return List: a list of the table cells in the column as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableColumn(Locators type, String locator, int elementMatch, int colNum)
+	public List<WebElement> getTableColumn(Locator type, String locator, int elementMatch, int colNum)
 			throws IOException {
 		List<List<WebElement>> columns = getTableColumns(type, locator, elementMatch);
 		if (columns.size() < colNum) {
@@ -729,7 +729,7 @@ public class LocatorAction {
 	 * get the contents of a specific cell
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -745,7 +745,7 @@ public class LocatorAction {
 	 *         with it
 	 * @throws IOException
 	 */
-	public WebElement getTableCell(Locators type, String locator, int elementMatch, int rowNum, int colNum)
+	public WebElement getTableCell(Locator type, String locator, int elementMatch, int rowNum, int colNum)
 			throws IOException {
 		List<WebElement> row = getTableRow(type, locator, elementMatch, rowNum);
 		if (row.size() < colNum) {
@@ -758,7 +758,7 @@ public class LocatorAction {
 	// extra base selenium functionality
 	// //////////////////////////////////
 
-	private boolean isPresentInput(Locators type, String locator, int elementMatch) throws IOException {
+	private boolean isPresentInput(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			waitForElementPresent(type, locator, elementMatch, 5);
@@ -773,7 +773,7 @@ public class LocatorAction {
 	 * get the option from the select drop down
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -782,7 +782,7 @@ public class LocatorAction {
 	 * @return String: the option from the select element
 	 * @throws IOException
 	 */
-	public String getSelectedText(Locators type, String locator, int elementMatch) throws IOException {
+	public String getSelectedText(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isPresentInput(type, locator, elementMatch)) {
 			return "";
 		}
@@ -796,7 +796,7 @@ public class LocatorAction {
 	 * get the options from the select drop down
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -805,7 +805,7 @@ public class LocatorAction {
 	 * @return String[]: the options from the select element
 	 * @throws IOException
 	 */
-	public String[] getSelectedTexts(Locators type, String locator, int elementMatch) throws IOException {
+	public String[] getSelectedTexts(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isPresentInput(type, locator, elementMatch)) {
 			return new String[0];
 		}
@@ -823,7 +823,7 @@ public class LocatorAction {
 	 * get the option value from the select drop down
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -832,7 +832,7 @@ public class LocatorAction {
 	 * @return String: the options from the select element
 	 * @throws IOException
 	 */
-	public String getSelectedValue(Locators type, String locator, int elementMatch) throws IOException {
+	public String getSelectedValue(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isPresentInput(type, locator, elementMatch)) {
 			return "";
 		}
@@ -846,7 +846,7 @@ public class LocatorAction {
 	 * get the option values from the select drop down
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -855,7 +855,7 @@ public class LocatorAction {
 	 * @return String[]: the options from the select element
 	 * @throws IOException
 	 */
-	public String[] getSelectedValues(Locators type, String locator, int elementMatch) throws IOException {
+	public String[] getSelectedValues(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isPresentInput(type, locator, elementMatch)) {
 			return new String[0];
 		}
@@ -873,7 +873,7 @@ public class LocatorAction {
 	 * our generic selenium get text from an element functionality implemented
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -882,7 +882,7 @@ public class LocatorAction {
 	 * @return String - the text of the element
 	 * @throws IOException
 	 */
-	public String getText(Locators type, String locator, int elementMatch) throws IOException {
+	public String getText(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return "";
 		}
@@ -894,7 +894,7 @@ public class LocatorAction {
 	 * our generic selenium get value from an element functionality implemented
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -903,7 +903,7 @@ public class LocatorAction {
 	 * @return String - the text of the element
 	 * @throws IOException
 	 */
-	public String getValue(Locators type, String locator, int elementMatch) throws IOException {
+	public String getValue(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isElementInput(type, locator, elementMatch, false)) {
 			return "";
 		}
@@ -915,7 +915,7 @@ public class LocatorAction {
 	 * a function to return one css attribute of the provided element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -926,7 +926,7 @@ public class LocatorAction {
 	 * @return String - the value of the css attribute
 	 * @throws IOException
 	 */
-	public String getCss(Locators type, String locator, int elementMatch, String attribute) throws IOException {
+	public String getCss(Locator type, String locator, int elementMatch, String attribute) throws IOException {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return "";
 		}
@@ -938,7 +938,7 @@ public class LocatorAction {
 	 * a function to return one attribute of the provided element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -949,7 +949,7 @@ public class LocatorAction {
 	 * @return String - the value of the css attribute
 	 * @throws IOException
 	 */
-	public String getAttribute(Locators type, String locator, int elementMatch, String attribute) throws IOException {
+	public String getAttribute(Locator type, String locator, int elementMatch, String attribute) throws IOException {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return "";
 		}
@@ -961,7 +961,7 @@ public class LocatorAction {
 	 * a function to return all attributes of the provided element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -971,7 +971,7 @@ public class LocatorAction {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, String> getAllAttributes(Locators type, String locator, int elementMatch) throws IOException {
+	public Map<String, String> getAllAttributes(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return new HashMap<>();
 		}
@@ -994,7 +994,7 @@ public class LocatorAction {
 	 * @return Object: any resultant output from the javascript command
 	 * @throws IOException
 	 */
-	public Object getEval(Locators type, String locator, int elementMatch, String javascriptFunction)
+	public Object getEval(Locator type, String locator, int elementMatch, String javascriptFunction)
 			throws IOException {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
 			return null;
@@ -1014,7 +1014,7 @@ public class LocatorAction {
 	 * seconds for the element to be present
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login'] <<<<<<<
 	 *            HEAD
@@ -1032,7 +1032,7 @@ public class LocatorAction {
 	 *         steps >>>>>>> 0da6403478880421bb126c6ffcccf5eccdb2e6ae
 	 * @throws IOException
 	 */
-	private boolean isPresent(Locators type, String locator, int elementMatch, String action, String expected,
+	private boolean isPresent(Locator type, String locator, int elementMatch, String action, String expected,
 			String extra) throws IOException {
 		// wait for element to be present
 		if (!isElementPresent(type, locator, elementMatch, false)) {
@@ -1052,7 +1052,7 @@ public class LocatorAction {
 	 * seconds for the element to be displayed
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param action
@@ -1064,7 +1064,7 @@ public class LocatorAction {
 	 * @return Boolean: is the element displayed?
 	 * @throws IOException
 	 */
-	private boolean isDisplayed(Locators type, String locator, int elementMatch, String action, String expected,
+	private boolean isDisplayed(Locator type, String locator, int elementMatch, String action, String expected,
 			String extra) throws IOException {
 		// wait for element to be displayed
 		if (!isElementDisplayed(type, locator, elementMatch, false)) {
@@ -1084,7 +1084,7 @@ public class LocatorAction {
 	 * seconds for the element to be enabled
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param action
@@ -1096,7 +1096,7 @@ public class LocatorAction {
 	 * @return Boolean: is the element enabled?
 	 * @throws IOException
 	 */
-	private boolean isEnabled(Locators type, String locator, int elementMatch, String action, String expected,
+	private boolean isEnabled(Locator type, String locator, int elementMatch, String action, String expected,
 			String extra) throws IOException {
 		// wait for element to be displayed
 		if (!isElementEnabled(type, locator, elementMatch, false)) {
@@ -1115,7 +1115,7 @@ public class LocatorAction {
 	 * checks to see if the element is an input.
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param action
@@ -1127,7 +1127,7 @@ public class LocatorAction {
 	 * @return Boolean: is the element enabled?
 	 * @throws IOException
 	 */
-	private boolean isInput(Locators type, String locator, int elementMatch, String action, String expected,
+	private boolean isInput(Locator type, String locator, int elementMatch, String action, String expected,
 			String extra) throws IOException {
 		// wait for element to be displayed
 		if (!isElementInput(type, locator, elementMatch, false)) {
@@ -1143,7 +1143,7 @@ public class LocatorAction {
 	 * does a check to see if something is present, disaplayed, and enabled
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param action
@@ -1155,7 +1155,7 @@ public class LocatorAction {
 	 * @return Boolean: is the element enabled?
 	 * @throws IOException
 	 */
-	private boolean isPresentDisplayedEnabled(Locators type, String locator, int elementMatch, String action,
+	private boolean isPresentDisplayedEnabled(Locator type, String locator, int elementMatch, String action,
 			String expected, String extra) throws IOException {
 		// wait for element to be present
 		if (!isPresent(type, locator, elementMatch, action, expected, extra)) {
@@ -1173,7 +1173,7 @@ public class LocatorAction {
 	 * does a check to see if something is present, disaplayed, and enabled
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param action
@@ -1185,7 +1185,7 @@ public class LocatorAction {
 	 * @return Boolean: is the element enabled?
 	 * @throws IOException
 	 */
-	private boolean isPresentDisplayedEnabledInput(Locators type, String locator, int elementMatch, String action,
+	private boolean isPresentDisplayedEnabledInput(Locator type, String locator, int elementMatch, String action,
 			String expected, String extra) throws IOException {
 		// wait for element to be present
 		if (!isPresent(type, locator, elementMatch, action, expected, extra)) {
@@ -1210,14 +1210,14 @@ public class LocatorAction {
 	 * our generic selenium click functionality implemented
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 * @throws IOException
 	 */
-	public int click(Locators type, String locator, int elementMatch) throws IOException {
+	public int click(Locator type, String locator, int elementMatch) throws IOException {
 		String cantClick = "Unable to click ";
 		String action = "Clicking " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to be clicked";
@@ -1243,7 +1243,7 @@ public class LocatorAction {
 	 * our generic selenium submit functionality implemented
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1253,7 +1253,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int submit(Locators type, String locator, int elementMatch) throws IOException {
+	public int submit(Locator type, String locator, int elementMatch) throws IOException {
 		String cantSubmit = "Unable to submit ";
 		String action = "Submitting " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to be submitted	";
@@ -1278,7 +1278,7 @@ public class LocatorAction {
 	 * a method to simulate the mouse hovering over an element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1288,7 +1288,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int hover(Locators type, String locator, int elementMatch) throws IOException {
+	public int hover(Locator type, String locator, int elementMatch) throws IOException {
 		String cantHover = "Unable to hover over ";
 		String action = "Hovering over " + type + " " + locator;
 		String expected = type + " " + locator + " is present, and displayed to be hovered over";
@@ -1319,7 +1319,7 @@ public class LocatorAction {
 	 * a custom selenium functionality to apply a blur to an element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1329,7 +1329,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int blur(Locators type, String locator, int elementMatch) throws IOException {
+	public int blur(Locator type, String locator, int elementMatch) throws IOException {
 		String cantFocus = "Unable to focus on ";
 		String action = "Focusing, then unfocusing (blurring) on " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to be blurred";
@@ -1355,7 +1355,7 @@ public class LocatorAction {
 	 * type functionality implemented
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1367,7 +1367,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int type(Locators type, String locator, int elementMatch, String text) throws IOException {
+	public int type(Locator type, String locator, int elementMatch, String text) throws IOException {
 		String action = "Typing text '" + text + IN + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + text
 				+ " typed in";
@@ -1392,7 +1392,7 @@ public class LocatorAction {
 	 * our generic selenium type functionality implemented for specific keys
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1404,7 +1404,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int type(Locators type, String locator, int elementMatch, Keys key) throws IOException {
+	public int type(Locator type, String locator, int elementMatch, Keys key) throws IOException {
 		String action = "Typing key '" + key + IN + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + key + " entered";
 		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
@@ -1428,7 +1428,7 @@ public class LocatorAction {
 	 * our generic selenium clear functionality implemented
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1438,7 +1438,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int clear(Locators type, String locator, int elementMatch) throws IOException {
+	public int clear(Locator type, String locator, int elementMatch) throws IOException {
 		String cantClear = "Unable to clear ";
 		String action = "Clearing text in " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text cleared";
@@ -1463,7 +1463,7 @@ public class LocatorAction {
 	 * our generic select selenium functionality
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1475,7 +1475,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int select(Locators type, String locator, int elementMatch, String value) throws IOException {
+	public int select(Locator type, String locator, int elementMatch, String value) throws IOException {
 		String cantSelect = "Unable to select ";
 		String action = "Selecting " + value + " in " + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have the value " + value
@@ -1513,7 +1513,7 @@ public class LocatorAction {
 	 * scroll or move the page to ensure the element is visible
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1523,7 +1523,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int move(Locators type, String locator, int elementMatch) throws IOException {
+	public int move(Locator type, String locator, int elementMatch) throws IOException {
 		String action = "Moving screen to " + type + " " + locator;
 		String expected = type + " " + locator + " is now present on the visible page";
 		// wait for element to be present
@@ -1557,7 +1557,7 @@ public class LocatorAction {
 	 * scroll or move the page to ensure the element is visible
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1569,7 +1569,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int move(Locators type, String locator, int elementMatch, long position) throws IOException {
+	public int move(Locator type, String locator, int elementMatch, long position) throws IOException {
 		String action = "Moving screen to " + position + " pixels above " + type + " " + locator;
 		String expected = type + " " + locator + " is now present on the visible page";
 		// wait for element to be present
@@ -1605,7 +1605,7 @@ public class LocatorAction {
 	 * a function to switch to a frame using the element
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1614,7 +1614,7 @@ public class LocatorAction {
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
-	public int selectFrame(Locators type, String locator, int elementMatch) throws IOException {
+	public int selectFrame(Locator type, String locator, int elementMatch) throws IOException {
 		String cantSelect = "Unable to focus on frame ";
 		String action = "Focusing on frame " + type + " " + locator;
 		String expected = "Frame " + type + " " + locator + " is present, displayed, and focused";
@@ -1648,13 +1648,13 @@ public class LocatorAction {
 	 * a method to determine selenium's By object using selenium webdriver
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return By: the selenium object
 	 * @throws InvalidLocatorTypeException
 	 */
-	private By defineByElement(Locators type, String locator) throws InvalidLocatorTypeException {
+	private By defineByElement(Locator type, String locator) throws InvalidLocatorTypeException {
 		// consider adding strengthening
 		By byElement;
 		switch (type) { // determine which locator type we are interested in
@@ -1693,7 +1693,7 @@ public class LocatorAction {
 	 * webdriver
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1704,7 +1704,7 @@ public class LocatorAction {
 	 * @return WebElement: the element object, and all associated values with it
 	 * @throws InvalidLocatorTypeException
 	 */
-	private WebElement getWebElement(Locators type, String locator, int elementMatch)
+	private WebElement getWebElement(Locator type, String locator, int elementMatch)
 			throws InvalidLocatorTypeException {
 		List<WebElement> elements = getWebElements(type, locator);
 		if (elements.size() > elementMatch) {
@@ -1717,13 +1717,13 @@ public class LocatorAction {
 	 * a method to grab the first matching web element using selenium webdriver
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return WebElement: the element object, and all associated values with it
 	 * @throws InvalidLocatorTypeException
 	 */
-	private WebElement getWebElement(Locators type, String locator) throws InvalidLocatorTypeException {
+	private WebElement getWebElement(Locator type, String locator) throws InvalidLocatorTypeException {
 		By byElement = defineByElement(type, locator);
 		return driver.findElement(byElement);
 	}
@@ -1732,14 +1732,14 @@ public class LocatorAction {
 	 * a method to grab all matching web elements using selenium webdriver
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return List<WebElement>: a list of element objects, and all associated
 	 *         values with them
 	 * @throws InvalidLocatorTypeException
 	 */
-	private List<WebElement> getWebElements(Locators type, String locator) throws InvalidLocatorTypeException {
+	private List<WebElement> getWebElements(Locator type, String locator) throws InvalidLocatorTypeException {
 		By byElement = defineByElement(type, locator);
 		return driver.findElements(byElement);
 	}
@@ -1748,13 +1748,13 @@ public class LocatorAction {
 	 * a method to determine how many elements match the selector
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: how many element match the selector
 	 * @throws InvalidLocatorTypeException
 	 */
-	public int getElementMatchCount(Locators type, String locator) throws InvalidLocatorTypeException {
+	public int getElementMatchCount(Locator type, String locator) throws InvalidLocatorTypeException {
 		return getWebElements(type, locator).size();
 	}
 }

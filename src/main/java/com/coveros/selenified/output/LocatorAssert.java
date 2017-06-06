@@ -27,7 +27,7 @@ import java.util.Set;
 
 import com.coveros.selenified.output.Assert.Success;
 import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Selenium.Locators;
+import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.General;
 
 /**
@@ -74,7 +74,7 @@ public class LocatorAssert {
 	 * checks to see if an element is visible on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -83,7 +83,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementDisplayed(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementDisplayed(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementDisplayed(type, locator, elementMatch)
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -100,7 +100,7 @@ public class LocatorAssert {
 	 * checks to see if an element is not visible on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -109,7 +109,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementNotDisplayed(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementNotDisplayed(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (action.isElementDisplayed(type, locator, elementMatch)
 				&& action.waitForElementNotDisplayed(type, locator, elementMatch) == 1) {
@@ -126,7 +126,7 @@ public class LocatorAssert {
 	 * checks to see if an object is checked on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -135,7 +135,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementChecked(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementChecked(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
 				&& action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -156,7 +156,7 @@ public class LocatorAssert {
 	 * checks to see if an object is not checked on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -165,7 +165,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementNotChecked(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementNotChecked(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
 				&& action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -186,7 +186,7 @@ public class LocatorAssert {
 	 * checks to see if an object is visible and checked on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -195,7 +195,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementDisplayedAndChecked(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementDisplayedAndChecked(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementDisplayed(type, locator, elementMatch)
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -217,7 +217,7 @@ public class LocatorAssert {
 	 * checks to see if an object is visible and not checked on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -226,7 +226,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementDisplayedAndUnchecked(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementDisplayedAndUnchecked(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementDisplayed(type, locator, elementMatch)
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -248,7 +248,7 @@ public class LocatorAssert {
 	 * checks to see if the actual element is editable
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -259,7 +259,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	private int checkEditable(Locators type, String locator, int elementMatch, String presence) throws IOException {
+	private int checkEditable(Locator type, String locator, int elementMatch, String presence) throws IOException {
 		// check for our object to the editable
 		if (!action.isElementInput(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but not an input on the page",
@@ -280,7 +280,7 @@ public class LocatorAssert {
 	 * checks to see if the actual element is editable
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -291,7 +291,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	private int checkNotEditable(Locators type, String locator, int elementMatch, String presence) throws IOException {
+	private int checkNotEditable(Locator type, String locator, int elementMatch, String presence) throws IOException {
 		// check for our object to the editable
 		boolean isElementEnabled = false;
 		if (action.isElementInput(type, locator, elementMatch)) {
@@ -311,7 +311,7 @@ public class LocatorAssert {
 	 * checks to see if an element is editable on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -320,7 +320,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementEditable(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementEditable(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
 				&& action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -335,7 +335,7 @@ public class LocatorAssert {
 	 * checks to see if an element is not editable on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -344,7 +344,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementNotEditable(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementNotEditable(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
 				&& action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -359,7 +359,7 @@ public class LocatorAssert {
 	 * checks to see if an element is visible and editable on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -368,7 +368,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementDisplayedAndEditable(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementDisplayedAndEditable(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementDisplayed(type, locator, elementMatch)
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -383,7 +383,7 @@ public class LocatorAssert {
 	 * checks to see if an element is visible and not editable on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -392,7 +392,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementDisplayedAndNotEditable(Locators type, String locator, int elementMatch) throws IOException {
+	public int checkElementDisplayedAndNotEditable(Locator type, String locator, int elementMatch) throws IOException {
 		// wait for the element
 		if (!action.isElementDisplayed(type, locator, elementMatch)
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -407,7 +407,7 @@ public class LocatorAssert {
 	 * checks to see if an element has an attribute associated with it
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -418,7 +418,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementHasAttribute(Locators type, String locator, int elementMatch, String attribute)
+	public int checkElementHasAttribute(Locator type, String locator, int elementMatch, String attribute)
 			throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
@@ -445,7 +445,7 @@ public class LocatorAssert {
 	 * checks to see if an element has an attribute associated with it
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -456,7 +456,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementDoesntHaveAttribute(Locators type, String locator, int elementMatch, String attribute)
+	public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute)
 			throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
@@ -484,7 +484,7 @@ public class LocatorAssert {
 	 * checks to see if an element has a particular class
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -495,7 +495,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementHasClass(Locators type, String locator, int elementMatch, String expectedClass)
+	public int checkElementHasClass(Locator type, String locator, int elementMatch, String expectedClass)
 			throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
@@ -518,7 +518,7 @@ public class LocatorAssert {
 	 * checks to see if an element contains a particular class
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -529,7 +529,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementContainsClass(Locators type, String locator, int elementMatch, String expectedClass)
+	public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass)
 			throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
@@ -553,7 +553,7 @@ public class LocatorAssert {
 	 * checks to see if an element does not contain a particular class
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -564,7 +564,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementDoesntContainClass(Locators type, String locator, int elementMatch, String unexpectedClass)
+	public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass)
 			throws IOException {
 		// wait for the element
 		if (!action.isElementPresent(type, locator, elementMatch)
@@ -589,7 +589,7 @@ public class LocatorAssert {
 	 * checks to see if an option is available to be selected on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -600,7 +600,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkIfOptionInSelect(Locators type, String locator, int elementMatch, String option)
+	public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option)
 			throws IOException {
 		// wait for the element
 		if (!action.isElementEnabled(type, locator, elementMatch)
@@ -627,7 +627,7 @@ public class LocatorAssert {
 	 * checks to see if an option is not available to be selected on the page
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -638,7 +638,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkIfOptionNotInSelect(Locators type, String locator, int elementMatch, String option)
+	public int checkIfOptionNotInSelect(Locator type, String locator, int elementMatch, String option)
 			throws IOException {
 		// wait for the element
 		if (!action.isElementEnabled(type, locator, elementMatch)
@@ -665,7 +665,7 @@ public class LocatorAssert {
 	 * Determines if the element is present
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -674,7 +674,7 @@ public class LocatorAssert {
 	 * @return Boolean: whether the element is present or not
 	 * @throws IOException
 	 */
-	private boolean isPresent(Locators type, String locator, int elementMatch) throws IOException {
+	private boolean isPresent(Locator type, String locator, int elementMatch) throws IOException {
 		if (!action.isElementPresent(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + PRESENT, Success.FAIL);
 			return false;
@@ -686,7 +686,7 @@ public class LocatorAssert {
 	 * Determines if the element is an input
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -695,7 +695,7 @@ public class LocatorAssert {
 	 * @return Boolean: whether the element is an input or not
 	 * @throws IOException
 	 */
-	private boolean isInput(Locators type, String locator, int elementMatch) throws IOException {
+	private boolean isInput(Locator type, String locator, int elementMatch) throws IOException {
 		if (!action.isElementInput(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTINPUT, Success.FAIL);
 			return false;
@@ -707,7 +707,7 @@ public class LocatorAssert {
 	 * Determines if the element is enabled
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -716,7 +716,7 @@ public class LocatorAssert {
 	 * @return Boolean: whether the element is enabled or not
 	 * @throws IOException
 	 */
-	private boolean isEnabled(Locators type, String locator, int elementMatch) throws IOException {
+	private boolean isEnabled(Locator type, String locator, int elementMatch) throws IOException {
 		if (!action.isElementEnabled(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTEDITABLE, Success.FAIL);
 			return false;
@@ -728,7 +728,7 @@ public class LocatorAssert {
 	 * Determines if the element is present, an input, and enabled
 	 * 
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -738,7 +738,7 @@ public class LocatorAssert {
 	 *         not
 	 * @throws IOException
 	 */
-	private boolean isPresentInputEnabled(Locators type, String locator, int elementMatch) throws IOException {
+	private boolean isPresentInputEnabled(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isPresent(type, locator, elementMatch)) {
 			return false;
 		}
@@ -752,7 +752,7 @@ public class LocatorAssert {
 	 * compares the expected element value with the actual value from an element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -763,7 +763,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareTextValue(Locators type, String locator, int elementMatch, String expectedValue)
+	public int compareTextValue(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(
@@ -787,7 +787,7 @@ public class LocatorAssert {
 	 * compares the expected element value with the actual value from an element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -798,7 +798,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareTextValueContains(Locators type, String locator, int elementMatch, String expectedValue)
+	public int compareTextValueContains(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + HASVALUE + expectedValue + "</b>");
@@ -822,7 +822,7 @@ public class LocatorAssert {
 	 * element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -833,7 +833,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareInputValue(Locators type, String locator, int elementMatch, String expectedValue)
+	public int compareInputValue(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(
@@ -858,7 +858,7 @@ public class LocatorAssert {
 	 * attribute value from an element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -871,7 +871,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareCssValue(Locators type, String locator, int elementMatch, String attribute, String expectedValue)
+	public int compareCssValue(Locator type, String locator, int elementMatch, String attribute, String expectedValue)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> having a css attribute of <i>" + attribute
@@ -897,7 +897,7 @@ public class LocatorAssert {
 	 * checks to see if an element select value exists
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -908,7 +908,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkSelectValuePresent(Locators type, String locator, int elementMatch, String selectValue)
+	public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(
@@ -933,7 +933,7 @@ public class LocatorAssert {
 	 * checks to see if an element select value does not exist
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -944,7 +944,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkSelectValueNotPresent(Locators type, String locator, int elementMatch, String selectValue)
+	public int checkSelectValueNotPresent(Locator type, String locator, int elementMatch, String selectValue)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(
@@ -970,7 +970,7 @@ public class LocatorAssert {
 	 * element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -981,7 +981,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareSelectedValue(Locators type, String locator, int elementMatch, String expectedValue)
+	public int compareSelectedValue(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(
@@ -1006,7 +1006,7 @@ public class LocatorAssert {
 	 * element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1017,7 +1017,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareSelectedText(Locators type, String locator, int elementMatch, String expectedText)
+	public int compareSelectedText(Locator type, String locator, int elementMatch, String expectedText)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(
@@ -1042,7 +1042,7 @@ public class LocatorAssert {
 	 * element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1053,7 +1053,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareSelectedValueNotEqual(Locators type, String locator, int elementMatch, String expectedValue)
+	public int compareSelectedValueNotEqual(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> not having a selected value of <b>"
@@ -1078,7 +1078,7 @@ public class LocatorAssert {
 	 * attributes from the element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1089,7 +1089,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareSelectValues(Locators type, String locator, int elementMatch, String... expectedValues)
+	public int compareSelectValues(Locator type, String locator, int elementMatch, String... expectedValues)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(
@@ -1125,7 +1125,7 @@ public class LocatorAssert {
 	 * actual number of attributes from the element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1136,7 +1136,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareNumOfSelectOptions(Locators type, String locator, int elementMatch, int numOfOptions)
+	public int compareNumOfSelectOptions(Locator type, String locator, int elementMatch, int numOfOptions)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with number of select values equal to <b>"
@@ -1165,7 +1165,7 @@ public class LocatorAssert {
 	 * table with from a table element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1176,7 +1176,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareNumOfTableRows(Locators type, String locator, int elementMatch, int numOfRows)
+	public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the number of table rows equal to <b>"
@@ -1201,7 +1201,7 @@ public class LocatorAssert {
 	 * of a table with from a table element
 	 *
 	 * @param type
-	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param elementMatch
@@ -1212,7 +1212,7 @@ public class LocatorAssert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareNumOfTableColumns(Locators type, String locator, int elementMatch, int numOfColumns)
+	public int compareNumOfTableColumns(Locator type, String locator, int elementMatch, int numOfColumns)
 			throws IOException {
 		// outputFile.record our action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator

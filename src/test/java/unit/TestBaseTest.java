@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.tools.TestBase;
 
 public class TestBaseTest extends TestBase {
@@ -105,23 +105,23 @@ public class TestBaseTest extends TestBase {
 
 	@Test
 	public void setupTestParametersSingleBrowserTest() throws InvalidBrowserException {
-		List<Browsers> expectedBrowsers = new ArrayList<Browsers>();
-		expectedBrowsers.add(Browsers.CHROME);
+		List<Browser> expectedBrowser = new ArrayList<Browser>();
+		expectedBrowser.add(Browser.CHROME);
 		System.setProperty("browser", "CHROME");
 
 		TestBase.setupTestParameters();
-		Assert.assertEquals(TestBase.browsers, expectedBrowsers);
+		Assert.assertEquals(TestBase.browsers, expectedBrowser);
 	}
 
 	@Test
 	public void setupTestParametersMultipleBrowserTest() throws InvalidBrowserException {
-		List<Browsers> expectedBrowsers = new ArrayList<Browsers>();
-		expectedBrowsers.add(Browsers.CHROME);
-		expectedBrowsers.add(Browsers.EDGE);
+		List<Browser> expectedBrowser = new ArrayList<Browser>();
+		expectedBrowser.add(Browser.CHROME);
+		expectedBrowser.add(Browser.EDGE);
 		System.setProperty("browser", "CHROME,EDGE");
 
 		TestBase.setupTestParameters();
-		Assert.assertEquals(TestBase.browsers, expectedBrowsers);
+		Assert.assertEquals(TestBase.browsers, expectedBrowser);
 	}
 
 	@Test
