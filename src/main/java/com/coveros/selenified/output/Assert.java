@@ -414,7 +414,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementDisplayed(Element element) throws IOException {
-		return checkElementDisplayed(element.getType(), element.getLocator());
+		return checkElementDisplayed(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -474,7 +474,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementNotDisplayed(Element element) throws IOException {
-		return checkElementNotDisplayed(element.getType(), element.getLocator());
+		return checkElementNotDisplayed(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -534,7 +534,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementChecked(Element element) throws IOException {
-		return checkElementChecked(element.getType(), element.getLocator());
+		return checkElementChecked(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -596,7 +596,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementNotChecked(Element element) throws IOException {
-		return checkElementNotChecked(element.getType(), element.getLocator());
+		return checkElementNotChecked(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -656,7 +656,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndChecked(Element element) throws IOException {
-		return checkElementDisplayedAndChecked(element.getType(), element.getLocator());
+		return checkElementDisplayedAndChecked(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -716,7 +716,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndUnchecked(Element element) throws IOException {
-		return checkElementDisplayedAndUnchecked(element.getType(), element.getLocator());
+		return checkElementDisplayedAndUnchecked(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -776,7 +776,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementEditable(Element element) throws IOException {
-		return checkElementEditable(element.getType(), element.getLocator());
+		return checkElementEditable(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -836,7 +836,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementNotEditable(Element element) throws IOException {
-		return checkElementNotEditable(element.getType(), element.getLocator());
+		return checkElementNotEditable(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -896,7 +896,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndEditable(Element element) throws IOException {
-		return checkElementDisplayedAndEditable(element.getType(), element.getLocator());
+		return checkElementDisplayedAndEditable(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -956,7 +956,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndNotEditable(Element element) throws IOException {
-		return checkElementDisplayedAndNotEditable(element.getType(), element.getLocator());
+		return checkElementDisplayedAndNotEditable(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -1018,7 +1018,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementHasAttribute(Element element, String attribute) throws IOException {
-		return checkElementHasAttribute(element.getType(), element.getLocator(), attribute);
+		return checkElementHasAttribute(element.getType(), element.getLocator(), 0, attribute);
 	}
 
 	/**
@@ -1087,7 +1087,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementDoesntHaveAttribute(Element element, String attribute) throws IOException {
-		return checkElementDoesntHaveAttribute(element.getType(), element.getLocator(), attribute);
+		return checkElementDoesntHaveAttribute(element.getType(), element.getLocator(), 0, attribute);
 	}
 
 	/**
@@ -1156,7 +1156,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementHasClass(Element element, String expectedClass) throws IOException {
-		return checkElementHasClass(element.getType(), element.getLocator(), expectedClass);
+		return checkElementHasClass(element.getType(), element.getLocator(), 0, expectedClass);
 	}
 
 	/**
@@ -1225,7 +1225,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementContainsClass(Element element, String expectedClass) throws IOException {
-		return checkElementContainsClass(element.getType(), element.getLocator(), expectedClass);
+		return checkElementContainsClass(element.getType(), element.getLocator(), 0, expectedClass);
 	}
 
 	/**
@@ -1294,7 +1294,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkElementDoesntContainClass(Element element, String unexpectedClass) throws IOException {
-		return checkElementDoesntContainClass(element.getType(), element.getLocator(), unexpectedClass);
+		return checkElementDoesntContainClass(element.getType(), element.getLocator(), 0, unexpectedClass);
 	}
 
 	/**
@@ -1309,8 +1309,7 @@ public class Assert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkElementDoesntContainClass(Locator type, String locator, String unexpectedClass)
-			throws IOException {
+	public int checkElementDoesntContainClass(Locator type, String locator, String unexpectedClass) throws IOException {
 		return checkElementDoesntContainClass(type, locator, 0, unexpectedClass);
 	}
 
@@ -1365,7 +1364,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkIfOptionInSelect(Element element, String option) throws IOException {
-		return checkIfOptionInSelect(element.getType(), element.getLocator(), option);
+		return checkIfOptionInSelect(element.getType(), element.getLocator(), 0, option);
 	}
 
 	/**
@@ -1416,8 +1415,7 @@ public class Assert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option)
-			throws IOException {
+	public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option) throws IOException {
 		int errors = locatorAssert.checkIfOptionInSelect(type, locator, elementMatch, option);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1434,7 +1432,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkIfOptionNotInSelect(Element element, String option) throws IOException {
-		return checkIfOptionNotInSelect(element.getType(), element.getLocator(), option);
+		return checkIfOptionNotInSelect(element.getType(), element.getLocator(), 0, option);
 	}
 
 	/**
@@ -1591,7 +1589,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareTextValue(Element element, String expectedValue) throws IOException {
-		return compareTextValue(element.getType(), element.getLocator(), expectedValue);
+		return compareTextValue(element.getType(), element.getLocator(), 0, expectedValue);
 	}
 
 	/**
@@ -1660,7 +1658,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareTextValueContains(Element element, String expectedValue) throws IOException {
-		return compareTextValueContains(element.getType(), element.getLocator(), expectedValue);
+		return compareTextValueContains(element.getType(), element.getLocator(), 0, expectedValue);
 	}
 
 	/**
@@ -1770,7 +1768,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareInputValue(Element element, String expectedValue) throws IOException {
-		return compareInputValue(element.getType(), element.getLocator(), expectedValue);
+		return compareInputValue(element.getType(), element.getLocator(), 0, expectedValue);
 	}
 
 	/**
@@ -1845,7 +1843,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareCssValue(Element element, String attribute, String expectedValue) throws IOException {
-		return compareCssValue(element.getType(), element.getLocator(), attribute, expectedValue);
+		return compareCssValue(element.getType(), element.getLocator(), 0, attribute, expectedValue);
 	}
 
 	/**
@@ -1925,7 +1923,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkSelectValuePresent(Element element, String selectValue) throws IOException {
-		return checkSelectValuePresent(element.getType(), element.getLocator(), selectValue);
+		return checkSelectValuePresent(element.getType(), element.getLocator(), 0, selectValue);
 	}
 
 	/**
@@ -1994,7 +1992,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int checkSelectValueNotPresent(Element element, String selectValue) throws IOException {
-		return checkSelectValueNotPresent(element.getType(), element.getLocator(), selectValue);
+		return checkSelectValueNotPresent(element.getType(), element.getLocator(), 0, selectValue);
 	}
 
 	/**
@@ -2064,7 +2062,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareSelectedValue(Element element, String expectedValue) throws IOException {
-		return compareSelectedValue(element.getType(), element.getLocator(), expectedValue);
+		return compareSelectedValue(element.getType(), element.getLocator(), 0, expectedValue);
 	}
 
 	/**
@@ -2137,7 +2135,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareSelectedText(Element element, String expectedText) throws IOException {
-		return compareSelectedText(element.getType(), element.getLocator(), expectedText);
+		return compareSelectedText(element.getType(), element.getLocator(), 0, expectedText);
 	}
 
 	/**
@@ -2210,7 +2208,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareSelectedValueNotEqual(Element element, String expectedValue) throws IOException {
-		return compareSelectedValueNotEqual(element.getType(), element.getLocator(), expectedValue);
+		return compareSelectedValueNotEqual(element.getType(), element.getLocator(), 0, expectedValue);
 	}
 
 	/**
@@ -2284,7 +2282,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareSelectValues(Element element, String... expectedValues) throws IOException {
-		return compareSelectValues(element.getType(), element.getLocator(), expectedValues);
+		return compareSelectValues(element.getType(), element.getLocator(), 0, expectedValues);
 	}
 
 	/**
@@ -2357,7 +2355,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareNumOfSelectOptions(Element element, int numOfOptions) throws IOException {
-		return compareNumOfSelectOptions(element.getType(), element.getLocator(), numOfOptions);
+		return compareNumOfSelectOptions(element.getType(), element.getLocator(), 0, numOfOptions);
 	}
 
 	/**
@@ -2430,7 +2428,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareNumOfTableRows(Element element, int numOfRows) throws IOException {
-		return compareNumOfTableRows(element.getType(), element.getLocator(), numOfRows);
+		return compareNumOfTableRows(element.getType(), element.getLocator(), 0, numOfRows);
 	}
 
 	/**
@@ -2484,8 +2482,7 @@ public class Assert {
 	 * @return Integer: 1 if a failure and 0 if a pass
 	 * @throws IOException
 	 */
-	public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows)
-			throws IOException {
+	public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows) throws IOException {
 		int errors = locatorAssert.compareNumOfTableRows(type, locator, elementMatch, numOfRows);
 		outputFile.addErrors(errors);
 		return errors;
@@ -2503,7 +2500,7 @@ public class Assert {
 	 * @throws IOException
 	 */
 	public int compareNumOfTableColumns(Element element, int numOfColumns) throws IOException {
-		return compareNumOfTableColumns(element.getType(), element.getLocator(), numOfColumns);
+		return compareNumOfTableColumns(element.getType(), element.getLocator(), 0, numOfColumns);
 	}
 
 	/**

@@ -119,7 +119,8 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementPresent(Locator type, String locator, int elementMatch, double seconds) throws IOException {
+	public int waitForElementPresent(Locator type, String locator, int elementMatch, double seconds)
+			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + PRESENT;
 		String expected = type + " " + locator + " is present";
 		// wait for up to XX seconds for our error message
@@ -295,7 +296,8 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementEnabled(Locator type, String locator, int elementMatch, double seconds) throws IOException {
+	public int waitForElementEnabled(Locator type, String locator, int elementMatch, double seconds)
+			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + ENABLED;
 		String expected = type + " " + locator + " is enabled";
 		double start = System.currentTimeMillis();
@@ -684,8 +686,7 @@ public class LocatorAction {
 	 * @return List: a list of the table cells in the row as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableRow(Locator type, String locator, int elementMatch, int rowNum)
-			throws IOException {
+	public List<WebElement> getTableRow(Locator type, String locator, int elementMatch, int rowNum) throws IOException {
 		List<WebElement> rows = getTableRows(type, locator, elementMatch);
 		if (rows.size() < rowNum) {
 			return new ArrayList<>();

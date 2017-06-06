@@ -180,7 +180,7 @@ public class Action {
 	// ///////////////////////////////////////
 	// waiting functionality
 	// ///////////////////////////////////////
-	
+
 	/**
 	 * a method for allowing Selenium to pause for a set amount of time
 	 *
@@ -194,7 +194,8 @@ public class Action {
 			Thread.sleep((long) (seconds * 1000));
 		} catch (InterruptedException e) {
 			log.error(e);
-			file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			Thread.currentThread().interrupt();
 			return 1;
@@ -335,7 +336,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementPresent(Locator type, String locator, int elementMatch, double seconds) throws IOException {
+	public int waitForElementPresent(Locator type, String locator, int elementMatch, double seconds)
+			throws IOException {
 		return locatorAction.waitForElementPresent(type, locator, elementMatch, seconds);
 	}
 
@@ -882,7 +884,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementEnabled(Locator type, String locator, int elementMatch, double seconds) throws IOException {
+	public int waitForElementEnabled(Locator type, String locator, int elementMatch, double seconds)
+			throws IOException {
 		return locatorAction.waitForElementEnabled(type, locator, elementMatch, seconds);
 	}
 
@@ -2127,8 +2130,7 @@ public class Action {
 	 * @return List: a list of the table cells in the columns as WebElements
 	 * @throws IOException
 	 */
-	public List<WebElement> getTableRow(Locator type, String locator, int elementMatch, int rowNum)
-			throws IOException {
+	public List<WebElement> getTableRow(Locator type, String locator, int elementMatch, int rowNum) throws IOException {
 		return locatorAction.getTableRow(type, locator, elementMatch, rowNum);
 	}
 
@@ -3124,7 +3126,8 @@ public class Action {
 		try {
 			driver.switchTo().frame(frameNumber);
 		} catch (Exception e) {
-			file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED + ". " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3149,7 +3152,8 @@ public class Action {
 		try {
 			driver.switchTo().frame(frameIdentifier);
 		} catch (Exception e) {
-			file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED + ". " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3298,7 +3302,8 @@ public class Action {
 			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_UP));
 			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_UP));
 		} catch (Exception e) {
-			file.recordAction(action, expected, "Previous tab <b>" + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, "Previous tab <b>" + NOTSELECTED + ". " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3342,7 +3347,8 @@ public class Action {
 		try {
 			driver.manage().window().maximize();
 		} catch (Exception e) {
-			file.recordAction(action, expected, "Browser was unable to be maximized. " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, "Browser was unable to be maximized. " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3405,7 +3411,8 @@ public class Action {
 			alert.accept();
 		} catch (Exception e) {
 			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'OK' on the confirmation. " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, "Unable to click 'OK' on the confirmation. " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			return 1;
 		}
@@ -3436,7 +3443,8 @@ public class Action {
 			alert.dismiss();
 		} catch (Exception e) {
 			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'Cancel' on the confirmation. " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, "Unable to click 'Cancel' on the confirmation. " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			return 1;
 		}
@@ -3467,7 +3475,8 @@ public class Action {
 			alert.accept();
 		} catch (Exception e) {
 			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'OK' on the prompt. " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, "Unable to click 'OK' on the prompt. " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			return 1;
 		}
@@ -3498,7 +3507,8 @@ public class Action {
 			alert.dismiss();
 		} catch (Exception e) {
 			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'Cancel' on the prompt. " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, "Unable to click 'Cancel' on the prompt. " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			return 1;
 		}
