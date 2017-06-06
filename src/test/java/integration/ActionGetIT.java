@@ -451,7 +451,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String text = actions.getSelectedText(new Element(Locator.ID, "non-existent-name"));
-		Assert.assertEquals(text, "");
+		Assert.assertNull(text);
 		// verify 1 issue
 		finish(1);
 	}
@@ -463,7 +463,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String text = actions.getSelectedText(Locator.ID, "table");
-		Assert.assertEquals(text, "");
+		Assert.assertNull(text);
 		// verify no issues
 		finish();
 	}
@@ -523,7 +523,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String value = actions.getSelectedValue(new Element(Locator.ID, "non-existent-name"));
-		Assert.assertEquals(value, "");
+		Assert.assertNull(value);
 		// verify 1 issue
 		finish(1);
 	}
@@ -535,7 +535,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String value = actions.getSelectedValue(Locator.ID, "table");
-		Assert.assertEquals(value, "");
+		Assert.assertNull(value);
 		// verify no issues
 		finish();
 	}
@@ -595,7 +595,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String text = actions.getText(new Element(Locator.ID, "non-existent-name"));
-		Assert.assertEquals(text, "");
+		Assert.assertNull(text);
 		// verify no issues
 		finish();
 	}
@@ -619,7 +619,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String text = actions.getValue(Locator.ID, "disable_click");
-		Assert.assertEquals(text, "");
+		Assert.assertNull(text);
 		// verify no issues
 		finish();
 	}
@@ -631,7 +631,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String text = actions.getValue(new Element(Locator.ID, "non-existent-name"));
-		Assert.assertEquals(text, "");
+		Assert.assertNull(text);
 		// verify no issues
 		finish();
 	}
@@ -664,7 +664,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String css = actions.getCss(new Element(Locator.ID, "non-existent-name"), "display");
-		Assert.assertEquals(css, "");
+		Assert.assertNull(css);
 		// verify no issues
 		finish();
 	}
@@ -700,7 +700,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String attribute = actions.getAttribute(new Element(Locator.ID, "non-existent-name"), "display");
-		Assert.assertEquals(attribute, "");
+		Assert.assertNull(attribute);
 		// verify no issues
 		finish();
 	}

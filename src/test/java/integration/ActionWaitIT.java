@@ -25,11 +25,11 @@ public class ActionWaitIT extends TestBase {
 
 	@Test(groups = { "integration", "actions",
 			"wait" }, description = "An integration negative test to check the goToURL method")
-	public void negativeWaitTest() throws IOException {
+	public void negativeWaitTest() throws IOException, InterruptedException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.wait(6);
+		actions.wait(6.0);
 		actions.click(new Element(Locator.ID, "five_second_button"));
 		// verify 2 issues
 		finish(2);

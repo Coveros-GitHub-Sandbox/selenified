@@ -79,7 +79,7 @@ public class Action {
 	private static final String FRAME = "Frame <b>";
 	private static final String AVAILABLE = "</b> is available and selected";
 	private static final String NOTSELECTED = "</b> was unable to be selected";
-	private static final long WAITFOR = 5;
+	private static final double WAITFOR = 5;
 
 	/**
 	 * our constructor, determining which browser use and how to run the
@@ -214,7 +214,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementPresent(Element element) throws IOException {
-		return waitForElementPresent(element.getType(), element.getLocator());
+		return locatorAction.waitForElementPresent(element.getType(), element.getLocator(), 0, WAITFOR);
 	}
 
 	/**
@@ -228,8 +228,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementPresent(Element element, long seconds) throws IOException {
-		return waitForElementPresent(element.getType(), element.getLocator(), seconds);
+	public int waitForElementPresent(Element element, double seconds) throws IOException {
+		return locatorAction.waitForElementPresent(element.getType(), element.getLocator(), 0, seconds);
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementPresent(Locator type, String locator) throws IOException {
-		return waitForElementPresent(type, locator, WAITFOR);
+		return locatorAction.waitForElementPresent(type, locator, 0, WAITFOR);
 	}
 
 	/**
@@ -261,8 +261,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementPresent(Locator type, String locator, long seconds) throws IOException {
-		return waitForElementPresent(type, locator, 0, seconds);
+	public int waitForElementPresent(Locator type, String locator, double seconds) throws IOException {
+		return locatorAction.waitForElementPresent(type, locator, 0, seconds);
 	}
 
 	/**
@@ -279,7 +279,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementPresent(Element element, int elementMatch) throws IOException {
-		return waitForElementPresent(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.waitForElementPresent(element.getType(), element.getLocator(), elementMatch, WAITFOR);
 	}
 
 	/**
@@ -296,8 +296,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementPresent(Element element, long seconds, int elementMatch) throws IOException {
-		return waitForElementPresent(element.getType(), element.getLocator(), elementMatch, seconds);
+	public int waitForElementPresent(Element element, double seconds, int elementMatch) throws IOException {
+		return locatorAction.waitForElementPresent(element.getType(), element.getLocator(), elementMatch, seconds);
 	}
 
 	/**
@@ -316,7 +316,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementPresent(Locator type, String locator, int elementMatch) throws IOException {
-		return waitForElementPresent(type, locator, elementMatch, WAITFOR);
+		return locatorAction.waitForElementPresent(type, locator, elementMatch, WAITFOR);
 	}
 
 	/**
@@ -335,7 +335,7 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementPresent(Locator type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementPresent(Locator type, String locator, int elementMatch, double seconds) throws IOException {
 		return locatorAction.waitForElementPresent(type, locator, elementMatch, seconds);
 	}
 
@@ -350,7 +350,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotPresent(Element element) throws IOException {
-		return waitForElementNotPresent(element.getType(), element.getLocator());
+		return locatorAction.waitForElementNotPresent(element.getType(), element.getLocator(), 0, WAITFOR);
 	}
 
 	/**
@@ -364,8 +364,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotPresent(Element element, long seconds) throws IOException {
-		return waitForElementNotPresent(element.getType(), element.getLocator(), seconds);
+	public int waitForElementNotPresent(Element element, double seconds) throws IOException {
+		return locatorAction.waitForElementNotPresent(element.getType(), element.getLocator(), 0, seconds);
 	}
 
 	/**
@@ -381,7 +381,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotPresent(Locator type, String locator) throws IOException {
-		return waitForElementNotPresent(type, locator, WAITFOR);
+		return locatorAction.waitForElementNotPresent(type, locator, 0, WAITFOR);
 	}
 
 	/**
@@ -397,8 +397,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotPresent(Locator type, String locator, long seconds) throws IOException {
-		return waitForElementNotPresent(type, locator, 0, seconds);
+	public int waitForElementNotPresent(Locator type, String locator, double seconds) throws IOException {
+		return locatorAction.waitForElementNotPresent(type, locator, 0, seconds);
 	}
 
 	/**
@@ -415,7 +415,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotPresent(Element element, int elementMatch) throws IOException {
-		return waitForElementNotPresent(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.waitForElementNotPresent(element.getType(), element.getLocator(), elementMatch, WAITFOR);
 	}
 
 	/**
@@ -432,8 +432,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotPresent(Element element, int elementMatch, long seconds) throws IOException {
-		return waitForElementNotPresent(element.getType(), element.getLocator(), elementMatch, seconds);
+	public int waitForElementNotPresent(Element element, int elementMatch, double seconds) throws IOException {
+		return locatorAction.waitForElementNotPresent(element.getType(), element.getLocator(), elementMatch, seconds);
 	}
 
 	/**
@@ -452,7 +452,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotPresent(Locator type, String locator, int elementMatch) throws IOException {
-		return waitForElementNotPresent(type, locator, elementMatch, WAITFOR);
+		return locatorAction.waitForElementNotPresent(type, locator, elementMatch, WAITFOR);
 	}
 
 	/**
@@ -471,7 +471,7 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotPresent(Locator type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotPresent(Locator type, String locator, int elementMatch, double seconds)
 			throws IOException {
 		return locatorAction.waitForElementNotPresent(type, locator, elementMatch, seconds);
 	}
@@ -487,7 +487,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementDisplayed(Element element) throws IOException {
-		return waitForElementDisplayed(element.getType(), element.getLocator());
+		return locatorAction.waitForElementDisplayed(element.getType(), element.getLocator(), 0, WAITFOR);
 	}
 
 	/**
@@ -501,8 +501,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementDisplayed(Element element, long seconds) throws IOException {
-		return waitForElementDisplayed(element.getType(), element.getLocator(), seconds);
+	public int waitForElementDisplayed(Element element, double seconds) throws IOException {
+		return locatorAction.waitForElementDisplayed(element.getType(), element.getLocator(), 0, seconds);
 	}
 
 	/**
@@ -518,7 +518,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementDisplayed(Locator type, String locator) throws IOException {
-		return waitForElementDisplayed(type, locator, WAITFOR);
+		return locatorAction.waitForElementDisplayed(type, locator, 0, WAITFOR);
 	}
 
 	/**
@@ -534,8 +534,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementDisplayed(Locator type, String locator, long seconds) throws IOException {
-		return waitForElementDisplayed(type, locator, 0, seconds);
+	public int waitForElementDisplayed(Locator type, String locator, double seconds) throws IOException {
+		return locatorAction.waitForElementDisplayed(type, locator, 0, seconds);
 	}
 
 	/**
@@ -552,7 +552,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementDisplayed(Element element, int elementMatch) throws IOException {
-		return waitForElementDisplayed(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.waitForElementDisplayed(element.getType(), element.getLocator(), elementMatch, WAITFOR);
 	}
 
 	/**
@@ -569,8 +569,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementDisplayed(Element element, int elementMatch, long seconds) throws IOException {
-		return waitForElementDisplayed(element.getType(), element.getLocator(), elementMatch, seconds);
+	public int waitForElementDisplayed(Element element, int elementMatch, double seconds) throws IOException {
+		return locatorAction.waitForElementDisplayed(element.getType(), element.getLocator(), elementMatch, seconds);
 	}
 
 	/**
@@ -589,7 +589,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementDisplayed(Locator type, String locator, int elementMatch) throws IOException {
-		return waitForElementDisplayed(type, locator, elementMatch, WAITFOR);
+		return locatorAction.waitForElementDisplayed(type, locator, elementMatch, WAITFOR);
 	}
 
 	/**
@@ -608,7 +608,7 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementDisplayed(Locator type, String locator, int elementMatch, long seconds)
+	public int waitForElementDisplayed(Locator type, String locator, int elementMatch, double seconds)
 			throws IOException {
 		return locatorAction.waitForElementDisplayed(type, locator, elementMatch, seconds);
 	}
@@ -624,7 +624,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotDisplayed(Element element) throws IOException {
-		return waitForElementNotDisplayed(element.getType(), element.getLocator());
+		return locatorAction.waitForElementNotDisplayed(element.getType(), element.getLocator(), 0, WAITFOR);
 	}
 
 	/**
@@ -638,8 +638,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotDisplayed(Element element, long seconds) throws IOException {
-		return waitForElementNotDisplayed(element.getType(), element.getLocator(), seconds);
+	public int waitForElementNotDisplayed(Element element, double seconds) throws IOException {
+		return locatorAction.waitForElementNotDisplayed(element.getType(), element.getLocator(), 0, seconds);
 	}
 
 	/**
@@ -655,7 +655,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotDisplayed(Locator type, String locator) throws IOException {
-		return waitForElementNotDisplayed(type, locator, WAITFOR);
+		return locatorAction.waitForElementNotDisplayed(type, locator, 0, WAITFOR);
 	}
 
 	/**
@@ -671,8 +671,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotDisplayed(Locator type, String locator, long seconds) throws IOException {
-		return waitForElementNotDisplayed(type, locator, 0, seconds);
+	public int waitForElementNotDisplayed(Locator type, String locator, double seconds) throws IOException {
+		return locatorAction.waitForElementNotDisplayed(type, locator, 0, seconds);
 	}
 
 	/**
@@ -689,7 +689,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotDisplayed(Element element, int elementMatch) throws IOException {
-		return waitForElementNotDisplayed(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.waitForElementNotDisplayed(element.getType(), element.getLocator(), elementMatch, WAITFOR);
 	}
 
 	/**
@@ -706,8 +706,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotDisplayed(Element element, int elementMatch, long seconds) throws IOException {
-		return waitForElementNotDisplayed(element.getType(), element.getLocator(), elementMatch, seconds);
+	public int waitForElementNotDisplayed(Element element, int elementMatch, double seconds) throws IOException {
+		return locatorAction.waitForElementNotDisplayed(element.getType(), element.getLocator(), elementMatch, seconds);
 	}
 
 	/**
@@ -726,7 +726,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotDisplayed(Locator type, String locator, int elementMatch) throws IOException {
-		return waitForElementNotDisplayed(type, locator, elementMatch, WAITFOR);
+		return locatorAction.waitForElementNotDisplayed(type, locator, elementMatch, WAITFOR);
 	}
 
 	/**
@@ -745,7 +745,7 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotDisplayed(Locator type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotDisplayed(Locator type, String locator, int elementMatch, double seconds)
 			throws IOException {
 		return locatorAction.waitForElementNotDisplayed(type, locator, elementMatch, seconds);
 	}
@@ -761,7 +761,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementEnabled(Element element) throws IOException {
-		return waitForElementEnabled(element.getType(), element.getLocator());
+		return locatorAction.waitForElementEnabled(element.getType(), element.getLocator(), 0, WAITFOR);
 	}
 
 	/**
@@ -775,8 +775,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementEnabled(Element element, long seconds) throws IOException {
-		return waitForElementEnabled(element.getType(), element.getLocator(), seconds);
+	public int waitForElementEnabled(Element element, double seconds) throws IOException {
+		return locatorAction.waitForElementEnabled(element.getType(), element.getLocator(), 0, seconds);
 	}
 
 	/**
@@ -792,7 +792,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementEnabled(Locator type, String locator) throws IOException {
-		return waitForElementEnabled(type, locator, WAITFOR);
+		return locatorAction.waitForElementEnabled(type, locator, 0, WAITFOR);
 	}
 
 	/**
@@ -808,8 +808,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementEnabled(Locator type, String locator, long seconds) throws IOException {
-		return waitForElementEnabled(type, locator, 0, seconds);
+	public int waitForElementEnabled(Locator type, String locator, double seconds) throws IOException {
+		return locatorAction.waitForElementEnabled(type, locator, 0, seconds);
 	}
 
 	/**
@@ -826,7 +826,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementEnabled(Element element, int elementMatch) throws IOException {
-		return waitForElementEnabled(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.waitForElementEnabled(element.getType(), element.getLocator(), elementMatch, WAITFOR);
 	}
 
 	/**
@@ -843,8 +843,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementEnabled(Element element, int elementMatch, long seconds) throws IOException {
-		return waitForElementEnabled(element.getType(), element.getLocator(), elementMatch, seconds);
+	public int waitForElementEnabled(Element element, int elementMatch, double seconds) throws IOException {
+		return locatorAction.waitForElementEnabled(element.getType(), element.getLocator(), elementMatch, seconds);
 	}
 
 	/**
@@ -863,7 +863,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementEnabled(Locator type, String locator, int elementMatch) throws IOException {
-		return waitForElementEnabled(type, locator, elementMatch, WAITFOR);
+		return locatorAction.waitForElementEnabled(type, locator, elementMatch, WAITFOR);
 	}
 
 	/**
@@ -882,7 +882,7 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementEnabled(Locator type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementEnabled(Locator type, String locator, int elementMatch, double seconds) throws IOException {
 		return locatorAction.waitForElementEnabled(type, locator, elementMatch, seconds);
 	}
 
@@ -897,7 +897,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotEnabled(Element element) throws IOException {
-		return waitForElementNotEnabled(element.getType(), element.getLocator());
+		return locatorAction.waitForElementNotEnabled(element.getType(), element.getLocator(), 0, WAITFOR);
 	}
 
 	/**
@@ -911,8 +911,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotEnabled(Element element, long seconds) throws IOException {
-		return waitForElementNotEnabled(element.getType(), element.getLocator(), seconds);
+	public int waitForElementNotEnabled(Element element, double seconds) throws IOException {
+		return locatorAction.waitForElementNotEnabled(element.getType(), element.getLocator(), 0, seconds);
 	}
 
 	/**
@@ -928,7 +928,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotEnabled(Locator type, String locator) throws IOException {
-		return waitForElementNotEnabled(type, locator, WAITFOR);
+		return locatorAction.waitForElementNotEnabled(type, locator, 0, WAITFOR);
 	}
 
 	/**
@@ -944,8 +944,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotEnabled(Locator type, String locator, long seconds) throws IOException {
-		return waitForElementNotEnabled(type, locator, 0, seconds);
+	public int waitForElementNotEnabled(Locator type, String locator, double seconds) throws IOException {
+		return locatorAction.waitForElementNotEnabled(type, locator, 0, seconds);
 	}
 
 	/**
@@ -962,7 +962,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotEnabled(Element element, int elementMatch) throws IOException {
-		return waitForElementNotEnabled(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.waitForElementNotEnabled(element.getType(), element.getLocator(), elementMatch, WAITFOR);
 	}
 
 	/**
@@ -979,8 +979,8 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotEnabled(Element element, int elementMatch, long seconds) throws IOException {
-		return waitForElementNotEnabled(element.getType(), element.getLocator(), elementMatch, seconds);
+	public int waitForElementNotEnabled(Element element, int elementMatch, double seconds) throws IOException {
+		return locatorAction.waitForElementNotEnabled(element.getType(), element.getLocator(), elementMatch, seconds);
 	}
 
 	/**
@@ -999,7 +999,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int waitForElementNotEnabled(Locator type, String locator, int elementMatch) throws IOException {
-		return waitForElementNotEnabled(type, locator, elementMatch, WAITFOR);
+		return locatorAction.waitForElementNotEnabled(type, locator, elementMatch, WAITFOR);
 	}
 
 	/**
@@ -1018,7 +1018,7 @@ public class Action {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotEnabled(Locator type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotEnabled(Locator type, String locator, int elementMatch, double seconds)
 			throws IOException {
 		return locatorAction.waitForElementNotEnabled(type, locator, elementMatch, seconds);
 	}
@@ -1036,7 +1036,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementPresent(Element element) throws IOException {
-		return isElementPresent(element.getType(), element.getLocator());
+		return locatorAction.isElementPresent(element.getType(), element.getLocator(), 0, false);
 	}
 
 	/**
@@ -1050,7 +1050,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementPresent(Element element, boolean print) throws IOException {
-		return isElementPresent(element.getType(), element.getLocator(), print);
+		return locatorAction.isElementPresent(element.getType(), element.getLocator(), 0, print);
 	}
 
 	/**
@@ -1064,7 +1064,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementPresent(Locator type, String locator) throws IOException {
-		return isElementPresent(type, locator, false);
+		return locatorAction.isElementPresent(type, locator, 0, false);
 	}
 
 	/**
@@ -1080,7 +1080,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementPresent(Locator type, String locator, boolean print) throws IOException {
-		return isElementPresent(type, locator, 0, print);
+		return locatorAction.isElementPresent(type, locator, 0, print);
 	}
 
 	/**
@@ -1095,7 +1095,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementPresent(Element element, int elementMatch) throws IOException {
-		return isElementPresent(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.isElementPresent(element.getType(), element.getLocator(), elementMatch, false);
 	}
 
 	/**
@@ -1112,7 +1112,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementPresent(Element element, int elementMatch, boolean print) throws IOException {
-		return isElementPresent(element.getType(), element.getLocator(), elementMatch, print);
+		return locatorAction.isElementPresent(element.getType(), element.getLocator(), elementMatch, print);
 	}
 
 	/**
@@ -1129,7 +1129,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementPresent(Locator type, String locator, int elementMatch) throws IOException {
-		return isElementPresent(type, locator, elementMatch, false);
+		return locatorAction.isElementPresent(type, locator, elementMatch, false);
 	}
 
 	/**
@@ -1161,7 +1161,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementInput(Element element) throws IOException {
-		return isElementInput(element.getType(), element.getLocator());
+		return locatorAction.isElementInput(element.getType(), element.getLocator(), 0, false);
 	}
 
 	/**
@@ -1176,7 +1176,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementInput(Element element, boolean print) throws IOException {
-		return isElementInput(element.getType(), element.getLocator(), print);
+		return locatorAction.isElementInput(element.getType(), element.getLocator(), 0, print);
 	}
 
 	/**
@@ -1191,7 +1191,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementInput(Locator type, String locator) throws IOException {
-		return isElementInput(type, locator, false);
+		return locatorAction.isElementInput(type, locator, 0, false);
 	}
 
 	/**
@@ -1208,7 +1208,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementInput(Locator type, String locator, boolean print) throws IOException {
-		return isElementInput(type, locator, 0, print);
+		return locatorAction.isElementInput(type, locator, 0, print);
 	}
 
 	/**
@@ -1224,7 +1224,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementInput(Element element, int elementMatch) throws IOException {
-		return isElementInput(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.isElementInput(element.getType(), element.getLocator(), elementMatch, false);
 	}
 
 	/**
@@ -1242,7 +1242,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementInput(Element element, int elementMatch, boolean print) throws IOException {
-		return isElementInput(element.getType(), element.getLocator(), elementMatch, print);
+		return locatorAction.isElementInput(element.getType(), element.getLocator(), elementMatch, print);
 	}
 
 	/**
@@ -1260,7 +1260,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementInput(Locator type, String locator, int elementMatch) throws IOException {
-		return isElementInput(type, locator, elementMatch, false);
+		return locatorAction.isElementInput(type, locator, elementMatch, false);
 	}
 
 	/**
@@ -1292,7 +1292,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Element element) throws IOException {
-		return isElementEnabled(element.getType(), element.getLocator());
+		return locatorAction.isElementEnabled(element.getType(), element.getLocator(), 0, false);
 	}
 
 	/**
@@ -1306,7 +1306,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Element element, boolean print) throws IOException {
-		return isElementEnabled(element.getType(), element.getLocator(), print);
+		return locatorAction.isElementEnabled(element.getType(), element.getLocator(), 0, print);
 	}
 
 	/**
@@ -1320,7 +1320,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Locator type, String locator) throws IOException {
-		return isElementEnabled(type, locator, false);
+		return locatorAction.isElementEnabled(type, locator, 0, false);
 	}
 
 	/**
@@ -1336,7 +1336,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Locator type, String locator, boolean print) throws IOException {
-		return isElementEnabled(type, locator, 0, print);
+		return locatorAction.isElementEnabled(type, locator, 0, print);
 	}
 
 	/**
@@ -1351,7 +1351,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Element element, int elementMatch) throws IOException {
-		return isElementEnabled(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.isElementEnabled(element.getType(), element.getLocator(), elementMatch, false);
 	}
 
 	/**
@@ -1368,7 +1368,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Element element, int elementMatch, boolean print) throws IOException {
-		return isElementEnabled(element.getType(), element.getLocator(), elementMatch, print);
+		return locatorAction.isElementEnabled(element.getType(), element.getLocator(), elementMatch, print);
 	}
 
 	/**
@@ -1385,7 +1385,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Locator type, String locator, int elementMatch) throws IOException {
-		return isElementEnabled(type, locator, elementMatch, false);
+		return locatorAction.isElementEnabled(type, locator, elementMatch, false);
 	}
 
 	/**
@@ -1416,7 +1416,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementChecked(Element element) throws IOException {
-		return isElementChecked(element.getType(), element.getLocator());
+		return locatorAction.isElementChecked(element.getType(), element.getLocator(), 0, false);
 	}
 
 	/**
@@ -1430,7 +1430,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementChecked(Element element, boolean print) throws IOException {
-		return isElementChecked(element.getType(), element.getLocator(), print);
+		return locatorAction.isElementChecked(element.getType(), element.getLocator(), 0, print);
 	}
 
 	/**
@@ -1444,7 +1444,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementChecked(Locator type, String locator) throws IOException {
-		return isElementChecked(type, locator, false);
+		return locatorAction.isElementChecked(type, locator, 0, false);
 	}
 
 	/**
@@ -1460,7 +1460,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementChecked(Locator type, String locator, boolean print) throws IOException {
-		return isElementChecked(type, locator, 0, print);
+		return locatorAction.isElementChecked(type, locator, 0, print);
 	}
 
 	/**
@@ -1475,7 +1475,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementChecked(Element element, int elementMatch) throws IOException {
-		return isElementChecked(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.isElementChecked(element.getType(), element.getLocator(), elementMatch, false);
 	}
 
 	/**
@@ -1492,7 +1492,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementChecked(Element element, int elementMatch, boolean print) throws IOException {
-		return isElementChecked(element.getType(), element.getLocator(), elementMatch, print);
+		return locatorAction.isElementChecked(element.getType(), element.getLocator(), elementMatch, print);
 	}
 
 	/**
@@ -1509,7 +1509,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementChecked(Locator type, String locator, int elementMatch) throws IOException {
-		return isElementChecked(type, locator, elementMatch, false);
+		return locatorAction.isElementChecked(type, locator, elementMatch, false);
 	}
 
 	/**
@@ -1540,7 +1540,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Element element) throws IOException {
-		return isElementDisplayed(element.getType(), element.getLocator());
+		return locatorAction.isElementDisplayed(element.getType(), element.getLocator(), 0, false);
 	}
 
 	/**
@@ -1554,7 +1554,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Element element, boolean print) throws IOException {
-		return isElementDisplayed(element.getType(), element.getLocator(), print);
+		return locatorAction.isElementDisplayed(element.getType(), element.getLocator(), 0, print);
 	}
 
 	/**
@@ -1568,7 +1568,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Locator type, String locator) throws IOException {
-		return isElementDisplayed(type, locator, false);
+		return locatorAction.isElementDisplayed(type, locator, 0, false);
 	}
 
 	/**
@@ -1584,7 +1584,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Locator type, String locator, boolean print) throws IOException {
-		return isElementDisplayed(type, locator, 0, print);
+		return locatorAction.isElementDisplayed(type, locator, 0, print);
 	}
 
 	/**
@@ -1599,7 +1599,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Element element, int elementMatch) throws IOException {
-		return isElementDisplayed(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.isElementDisplayed(element.getType(), element.getLocator(), elementMatch, false);
 	}
 
 	/**
@@ -1616,7 +1616,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Element element, int elementMatch, boolean print) throws IOException {
-		return isElementDisplayed(element.getType(), element.getLocator(), elementMatch, print);
+		return locatorAction.isElementDisplayed(element.getType(), element.getLocator(), elementMatch, print);
 	}
 
 	/**
@@ -1630,7 +1630,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Locator type, String locator, int elementMatch) throws IOException {
-		return isElementDisplayed(type, locator, elementMatch, false);
+		return locatorAction.isElementDisplayed(type, locator, elementMatch, false);
 	}
 
 	/**
@@ -1694,7 +1694,7 @@ public class Action {
 	 * @throws InvalidLocatorTypeException
 	 */
 	public int getElementMatchCount(Element element) throws InvalidLocatorTypeException {
-		return getElementMatchCount(element.getType(), element.getLocator());
+		return locatorAction.getElementMatchCount(element.getType(), element.getLocator());
 	}
 
 	/**
@@ -1720,7 +1720,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfSelectOptions(Element element) throws IOException {
-		return getNumOfSelectOptions(element.getType(), element.getLocator());
+		return locatorAction.getNumOfSelectOptions(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -1734,7 +1734,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfSelectOptions(Locator type, String locator) throws IOException {
-		return getNumOfSelectOptions(type, locator, 0);
+		return locatorAction.getNumOfSelectOptions(type, locator, 0);
 	}
 
 	/**
@@ -1749,7 +1749,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfSelectOptions(Element element, int elementMatch) throws IOException {
-		return getNumOfSelectOptions(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getNumOfSelectOptions(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -1778,7 +1778,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectOptions(Element element) throws IOException {
-		return getSelectOptions(element.getType(), element.getLocator());
+		return locatorAction.getSelectOptions(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -1792,7 +1792,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectOptions(Locator type, String locator) throws IOException {
-		return getSelectOptions(type, locator, 0);
+		return locatorAction.getSelectOptions(type, locator, 0);
 	}
 
 	/**
@@ -1807,7 +1807,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectOptions(Element element, int elementMatch) throws IOException {
-		return getSelectOptions(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getSelectOptions(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -1836,7 +1836,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableRows(Element element) throws IOException {
-		return getTableRows(element.getType(), element.getLocator());
+		return locatorAction.getTableRows(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -1850,7 +1850,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableRows(Locator type, String locator) throws IOException {
-		return getTableRows(type, locator, 0);
+		return locatorAction.getTableRows(type, locator, 0);
 	}
 
 	/**
@@ -1865,7 +1865,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableRows(Element element, int elementMatch) throws IOException {
-		return getTableRows(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getTableRows(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -1894,7 +1894,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfTableRows(Element element) throws IOException {
-		return getNumOfTableRows(element.getType(), element.getLocator());
+		return getNumOfTableRows(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -1908,8 +1908,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfTableRows(Locator type, String locator) throws IOException {
-		List<WebElement> rows = getTableRows(type, locator, 0);
-		return rows.size();
+		return getNumOfTableRows(type, locator, 0);
 	}
 
 	/**
@@ -1954,7 +1953,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<List<WebElement>> getTableColumns(Element element) throws IOException {
-		return getTableColumns(element.getType(), element.getLocator());
+		return locatorAction.getTableColumns(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -1968,7 +1967,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<List<WebElement>> getTableColumns(Locator type, String locator) throws IOException {
-		return getTableColumns(type, locator, 0);
+		return locatorAction.getTableColumns(type, locator, 0);
 	}
 
 	/**
@@ -1983,7 +1982,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<List<WebElement>> getTableColumns(Element element, int elementMatch) throws IOException {
-		return getTableColumns(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getTableColumns(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -2012,7 +2011,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfTableColumns(Element element) throws IOException {
-		return getNumOfTableColumns(element.getType(), element.getLocator());
+		return getNumOfTableColumns(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -2026,8 +2025,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int getNumOfTableColumns(Locator type, String locator) throws IOException {
-		List<List<WebElement>> columns = getTableColumns(type, locator);
-		return columns.size();
+		return getNumOfTableColumns(type, locator, 0);
 	}
 
 	/**
@@ -2075,7 +2073,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableRow(Element element, int rowNum) throws IOException {
-		return getTableRow(element.getType(), element.getLocator(), rowNum);
+		return locatorAction.getTableRow(element.getType(), element.getLocator(), 0, rowNum);
 	}
 
 	/**
@@ -2092,7 +2090,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableRow(Locator type, String locator, int rowNum) throws IOException {
-		return getTableRow(type, locator, 0, rowNum);
+		return locatorAction.getTableRow(type, locator, 0, rowNum);
 	}
 
 	/**
@@ -2110,7 +2108,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableRow(Element element, int elementMatch, int rowNum) throws IOException {
-		return getTableRow(element.getType(), element.getLocator(), elementMatch, rowNum);
+		return locatorAction.getTableRow(element.getType(), element.getLocator(), elementMatch, rowNum);
 	}
 
 	/**
@@ -2146,7 +2144,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableColumn(Element element, int colNum) throws IOException {
-		return getTableColumn(element.getType(), element.getLocator(), colNum);
+		return locatorAction.getTableColumn(element.getType(), element.getLocator(), 0, colNum);
 	}
 
 	/**
@@ -2163,7 +2161,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableColumn(Locator type, String locator, int colNum) throws IOException {
-		return getTableColumn(type, locator, 0, colNum);
+		return locatorAction.getTableColumn(type, locator, 0, colNum);
 	}
 
 	/**
@@ -2181,7 +2179,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public List<WebElement> getTableColumn(Element element, int elementMatch, int colNum) throws IOException {
-		return getTableColumn(element.getType(), element.getLocator(), elementMatch, colNum);
+		return locatorAction.getTableColumn(element.getType(), element.getLocator(), elementMatch, colNum);
 	}
 
 	/**
@@ -2221,7 +2219,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public WebElement getTableCell(Element element, int row, int col) throws IOException {
-		return getTableCell(element.getType(), element.getLocator(), row, col);
+		return locatorAction.getTableCell(element.getType(), element.getLocator(), 0, row, col);
 	}
 
 	/**
@@ -2242,7 +2240,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public WebElement getTableCell(Locator type, String locator, int row, int col) throws IOException {
-		return getTableCell(type, locator, 0, row, col);
+		return locatorAction.getTableCell(type, locator, 0, row, col);
 	}
 
 	/**
@@ -2264,7 +2262,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public WebElement getTableCell(Element element, int elementMatch, int row, int col) throws IOException {
-		return getTableCell(element.getType(), element.getLocator(), elementMatch, row, col);
+		return locatorAction.getTableCell(element.getType(), element.getLocator(), elementMatch, row, col);
 	}
 
 	/**
@@ -2306,7 +2304,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int click(Element element) throws IOException {
-		return click(element.getType(), element.getLocator());
+		return locatorAction.click(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -2321,7 +2319,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int click(Locator type, String locator) throws IOException {
-		return click(type, locator, 0);
+		return locatorAction.click(type, locator, 0);
 	}
 
 	/**
@@ -2337,7 +2335,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int click(Element element, int elementMatch) throws IOException {
-		return click(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.click(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -2368,7 +2366,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int submit(Element element) throws IOException {
-		return submit(element.getType(), element.getLocator());
+		return locatorAction.submit(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -2383,7 +2381,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int submit(Locator type, String locator) throws IOException {
-		return submit(type, locator, 0);
+		return locatorAction.submit(type, locator, 0);
 	}
 
 	/**
@@ -2399,7 +2397,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int submit(Element element, int elementMatch) throws IOException {
-		return submit(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.submit(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -2430,7 +2428,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int hover(Element element) throws IOException {
-		return hover(element.getType(), element.getLocator());
+		return locatorAction.hover(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -2445,7 +2443,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int hover(Locator type, String locator) throws IOException {
-		return hover(type, locator, 0);
+		return locatorAction.hover(type, locator, 0);
 	}
 
 	/**
@@ -2461,7 +2459,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int hover(Element element, int elementMatch) throws IOException {
-		return hover(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.hover(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -2492,7 +2490,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int blur(Element element) throws IOException {
-		return blur(element.getType(), element.getLocator());
+		return locatorAction.blur(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -2507,7 +2505,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int blur(Locator type, String locator) throws IOException {
-		return blur(type, locator, 0);
+		return locatorAction.blur(type, locator, 0);
 	}
 
 	/**
@@ -2523,7 +2521,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int blur(Element element, int elementMatch) throws IOException {
-		return blur(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.blur(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -2556,7 +2554,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int type(Element element, String text) throws IOException {
-		return type(element.getType(), element.getLocator(), text);
+		return locatorAction.type(element.getType(), element.getLocator(), 0, text);
 	}
 
 	/**
@@ -2573,7 +2571,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int type(Locator type, String locator, String text) throws IOException {
-		return type(type, locator, 0, text);
+		return locatorAction.type(type, locator, 0, text);
 	}
 
 	/**
@@ -2591,7 +2589,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int type(Element element, int elementMatch, String text) throws IOException {
-		return type(element.getType(), element.getLocator(), elementMatch, text);
+		return locatorAction.type(element.getType(), element.getLocator(), elementMatch, text);
 	}
 
 	/**
@@ -2626,7 +2624,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int type(Element element, Keys key) throws IOException {
-		return type(element.getType(), element.getLocator(), key);
+		return locatorAction.type(element.getType(), element.getLocator(), 0, key);
 	}
 
 	/**
@@ -2643,7 +2641,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int type(Locator type, String locator, Keys key) throws IOException {
-		return type(type, locator, 0, key);
+		return locatorAction.type(type, locator, 0, key);
 	}
 
 	/**
@@ -2661,7 +2659,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int type(Element element, int elementMatch, Keys key) throws IOException {
-		return type(element.getType(), element.getLocator(), elementMatch, key);
+		return locatorAction.type(element.getType(), element.getLocator(), elementMatch, key);
 	}
 
 	/**
@@ -2694,7 +2692,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int clear(Element element) throws IOException {
-		return clear(element.getType(), element.getLocator());
+		return locatorAction.clear(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -2709,7 +2707,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int clear(Locator type, String locator) throws IOException {
-		return clear(type, locator, 0);
+		return locatorAction.clear(type, locator, 0);
 	}
 
 	/**
@@ -2725,7 +2723,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int clear(Element element, int elementMatch) throws IOException {
-		return clear(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.clear(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -2778,7 +2776,7 @@ public class Action {
 	 */
 	public int select(Locator type, String locator, int value) throws IOException {
 		String[] options = getSelectOptions(type, locator);
-		return select(type, locator, 0, options[value]);
+		return locatorAction.select(type, locator, 0, options[value]);
 	}
 
 	/**
@@ -2819,7 +2817,7 @@ public class Action {
 	 */
 	public int select(Locator type, String locator, int elementMatch, int value) throws IOException {
 		String[] options = getSelectOptions(type, locator, elementMatch);
-		return select(type, locator, elementMatch, options[value]);
+		return locatorAction.select(type, locator, elementMatch, options[value]);
 	}
 
 	/**
@@ -2834,7 +2832,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int select(Element element, String value) throws IOException {
-		return select(element.getType(), element.getLocator(), value);
+		return locatorAction.select(element.getType(), element.getLocator(), 0, value);
 	}
 
 	/**
@@ -2851,7 +2849,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int select(Locator type, String locator, String value) throws IOException {
-		return select(type, locator, 0, value);
+		return locatorAction.select(type, locator, 0, value);
 	}
 
 	/**
@@ -2869,7 +2867,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int select(Element element, String value, int elementMatch) throws IOException {
-		return select(element.getType(), element.getLocator(), elementMatch, value);
+		return locatorAction.select(element.getType(), element.getLocator(), elementMatch, value);
 	}
 
 	/**
@@ -2903,7 +2901,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int move(Element element) throws IOException {
-		return move(element.getType(), element.getLocator());
+		return locatorAction.move(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -2919,7 +2917,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int move(Locator type, String locator) throws IOException {
-		return move(type, locator, 0);
+		return locatorAction.move(type, locator, 0);
 	}
 
 	/**
@@ -2936,7 +2934,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int move(Element element, int elementMatch) throws IOException {
-		return move(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.move(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -2971,7 +2969,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int move(Element element, long position) throws IOException {
-		return move(element.getType(), element.getLocator(), position);
+		return locatorAction.move(element.getType(), element.getLocator(), 0, position);
 	}
 
 	/**
@@ -3008,7 +3006,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int move(Element element, int elementMatch, long position) throws IOException {
-		return move(element.getType(), element.getLocator(), elementMatch, position);
+		return locatorAction.move(element.getType(), element.getLocator(), elementMatch, position);
 	}
 
 	/**
@@ -3170,7 +3168,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int selectFrame(Element element) throws IOException {
-		return selectFrame(element.getType(), element.getLocator());
+		return locatorAction.selectFrame(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -3185,7 +3183,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int selectFrame(Locator type, String locator) throws IOException {
-		return selectFrame(type, locator, 0);
+		return locatorAction.selectFrame(type, locator, 0);
 	}
 
 	/**
@@ -3201,7 +3199,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public int selectFrame(Element element, int elementMatch) throws IOException {
-		return selectFrame(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.selectFrame(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -3551,9 +3549,9 @@ public class Action {
 	 *            - maximum time to wait in seconds
 	 * @return double - the total time waited
 	 */
-	private double waitForPopup(long seconds) {
+	private double waitForPopup(double seconds) {
 		// wait for up to XX seconds for our error message
-		long end = System.currentTimeMillis() + (seconds * 1000);
+		double end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
 			try { // If results have been returned, the results are displayed in
 					// a drop down.
@@ -3608,7 +3606,7 @@ public class Action {
 	 *         steps
 	 */
 	public int waitForAlertPresent() {
-		return waitForAlertPresent(5);
+		return waitForAlertPresent(WAITFOR);
 	}
 
 	/**
@@ -3619,7 +3617,7 @@ public class Action {
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
-	public int waitForAlertPresent(long seconds) {
+	public int waitForAlertPresent(double seconds) {
 		String action = UPTO + seconds + " seconds for an alert to be present";
 		String expected = "An alert is present";
 		double timetook = waitForPopup(seconds);
@@ -3642,14 +3640,14 @@ public class Action {
 			waitForAlertPresent();
 		}
 		if (!isAlertPresent(false)) {
-			return "";
+			return null;
 		}
 		try {
 			Alert alert = driver.switchTo().alert();
 			return alert.getText();
 		} catch (Exception e) {
 			log.error(e);
-			return "";
+			return null;
 		}
 	}
 
@@ -3690,7 +3688,7 @@ public class Action {
 	 *         steps
 	 */
 	public int waitForConfirmationPresent() {
-		return waitForConfirmationPresent(5);
+		return waitForConfirmationPresent(WAITFOR);
 	}
 
 	/**
@@ -3701,7 +3699,7 @@ public class Action {
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
-	public int waitForConfirmationPresent(long seconds) {
+	public int waitForConfirmationPresent(double seconds) {
 		String action = UPTO + seconds + " seconds for a confirmation to be present";
 		String expected = "A confirmation is present";
 		double timetook = waitForPopup(seconds);
@@ -3726,14 +3724,14 @@ public class Action {
 			waitForConfirmationPresent();
 		}
 		if (!isConfirmationPresent(false)) {
-			return "";
+			return null;
 		}
 		try {
 			Alert alert = driver.switchTo().alert();
 			return alert.getText();
 		} catch (Exception e) {
 			log.error(e);
-			return "";
+			return null;
 		}
 	}
 
@@ -3774,7 +3772,7 @@ public class Action {
 	 *         steps
 	 */
 	public int waitForPromptPresent() {
-		return waitForPromptPresent(5);
+		return waitForPromptPresent(WAITFOR);
 	}
 
 	/**
@@ -3785,7 +3783,7 @@ public class Action {
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
-	public int waitForPromptPresent(long seconds) {
+	public int waitForPromptPresent(double seconds) {
 		String action = UPTO + seconds + " seconds for a prompt to be present";
 		String expected = "A prompt is present";
 		double timetook = waitForPopup(seconds);
@@ -3808,14 +3806,14 @@ public class Action {
 			waitForPromptPresent();
 		}
 		if (!isPromptPresent(false)) {
-			return "";
+			return null;
 		}
 		try {
 			Alert alert = driver.switchTo().alert();
 			return alert.getText();
 		} catch (Exception e) {
 			log.error(e);
-			return "";
+			return null;
 		}
 	}
 
@@ -3919,7 +3917,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Element element) throws IOException {
-		return isSomethingSelected(element.getType(), element.getLocator(), false);
+		return locatorAction.isSomethingSelected(element.getType(), element.getLocator(), 0, false);
 	}
 
 	/**
@@ -3933,7 +3931,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Element element, boolean print) throws IOException {
-		return isSomethingSelected(element.getType(), element.getLocator(), print);
+		return locatorAction.isSomethingSelected(element.getType(), element.getLocator(), 0, print);
 	}
 
 	/**
@@ -3948,7 +3946,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locator type, String locator) throws IOException {
-		return isSomethingSelected(type, locator, 0, false);
+		return locatorAction.isSomethingSelected(type, locator, 0, false);
 	}
 
 	/**
@@ -3964,7 +3962,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locator type, String locator, boolean print) throws IOException {
-		return isSomethingSelected(type, locator, 0, print);
+		return locatorAction.isSomethingSelected(type, locator, 0, print);
 	}
 
 	/**
@@ -3979,7 +3977,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Element element, int elementMatch) throws IOException {
-		return isSomethingSelected(element.getType(), element.getLocator(), elementMatch, false);
+		return locatorAction.isSomethingSelected(element.getType(), element.getLocator(), elementMatch, false);
 	}
 
 	/**
@@ -3996,7 +3994,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Element element, int elementMatch, boolean print) throws IOException {
-		return isSomethingSelected(element.getType(), element.getLocator(), elementMatch, print);
+		return locatorAction.isSomethingSelected(element.getType(), element.getLocator(), elementMatch, print);
 	}
 
 	/**
@@ -4013,7 +4011,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locator type, String locator, int elementMatch) throws IOException {
-		return isSomethingSelected(type, locator, elementMatch, false);
+		return locatorAction.isSomethingSelected(type, locator, elementMatch, false);
 	}
 
 	/**
@@ -4045,7 +4043,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getSelectedText(Element element) throws IOException {
-		return getSelectedText(element.getType(), element.getLocator());
+		return locatorAction.getSelectedText(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -4059,7 +4057,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getSelectedText(Locator type, String locator) throws IOException {
-		return getSelectedText(type, locator, 0);
+		return locatorAction.getSelectedText(type, locator, 0);
 	}
 
 	/**
@@ -4074,7 +4072,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getSelectedText(Element element, int elementMatch) throws IOException {
-		return getSelectedText(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getSelectedText(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -4103,7 +4101,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectedTexts(Element element) throws IOException {
-		return getSelectedTexts(element.getType(), element.getLocator());
+		return locatorAction.getSelectedTexts(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -4117,7 +4115,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectedTexts(Locator type, String locator) throws IOException {
-		return getSelectedTexts(type, locator, 0);
+		return locatorAction.getSelectedTexts(type, locator, 0);
 	}
 
 	/**
@@ -4132,7 +4130,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectedTexts(Element element, int elementMatch) throws IOException {
-		return getSelectedTexts(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getSelectedTexts(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -4161,7 +4159,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getSelectedValue(Element element) throws IOException {
-		return getSelectedValue(element.getType(), element.getLocator());
+		return locatorAction.getSelectedValue(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -4175,7 +4173,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getSelectedValue(Locator type, String locator) throws IOException {
-		return getSelectedValue(type, locator, 0);
+		return locatorAction.getSelectedValue(type, locator, 0);
 	}
 
 	/**
@@ -4190,7 +4188,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getSelectedValue(Element element, int elementMatch) throws IOException {
-		return getSelectedValue(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getSelectedValue(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -4219,7 +4217,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectedValues(Element element) throws IOException {
-		return getSelectedValues(element.getType(), element.getLocator());
+		return locatorAction.getSelectedValues(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -4233,7 +4231,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectedValues(Locator type, String locator) throws IOException {
-		return getSelectedValues(type, locator, 0);
+		return locatorAction.getSelectedValues(type, locator, 0);
 	}
 
 	/**
@@ -4248,7 +4246,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String[] getSelectedValues(Element element, int elementMatch) throws IOException {
-		return getSelectedValues(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getSelectedValues(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -4310,7 +4308,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getText(Element element) throws IOException {
-		return getText(element.getType(), element.getLocator());
+		return locatorAction.getText(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -4324,7 +4322,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getText(Locator type, String locator) throws IOException {
-		return getText(type, locator, 0);
+		return locatorAction.getText(type, locator, 0);
 	}
 
 	/**
@@ -4339,7 +4337,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getText(Element element, int elementMatch) throws IOException {
-		return getText(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getText(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -4368,7 +4366,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getValue(Element element) throws IOException {
-		return getValue(element.getType(), element.getLocator());
+		return locatorAction.getValue(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -4382,7 +4380,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getValue(Locator type, String locator) throws IOException {
-		return getValue(type, locator, 0);
+		return locatorAction.getValue(type, locator, 0);
 	}
 
 	/**
@@ -4397,7 +4395,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getValue(Element element, int elementMatch) throws IOException {
-		return getValue(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getValue(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -4428,7 +4426,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getCss(Element element, String attribute) throws IOException {
-		return getCss(element.getType(), element.getLocator(), attribute);
+		return locatorAction.getCss(element.getType(), element.getLocator(), 0, attribute);
 	}
 
 	/**
@@ -4444,7 +4442,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getCss(Locator type, String locator, String attribute) throws IOException {
-		return getCss(type, locator, 0, attribute);
+		return locatorAction.getCss(type, locator, 0, attribute);
 	}
 
 	/**
@@ -4461,7 +4459,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getCss(Element element, int elementMatch, String attribute) throws IOException {
-		return getCss(element.getType(), element.getLocator(), elementMatch, attribute);
+		return locatorAction.getCss(element.getType(), element.getLocator(), elementMatch, attribute);
 	}
 
 	/**
@@ -4494,7 +4492,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getAttribute(Element element, String attribute) throws IOException {
-		return getAttribute(element.getType(), element.getLocator(), attribute);
+		return locatorAction.getAttribute(element.getType(), element.getLocator(), 0, attribute);
 	}
 
 	/**
@@ -4510,7 +4508,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getAttribute(Locator type, String locator, String attribute) throws IOException {
-		return getAttribute(type, locator, 0, attribute);
+		return locatorAction.getAttribute(type, locator, 0, attribute);
 	}
 
 	/**
@@ -4527,7 +4525,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public String getAttribute(Element element, int elementMatch, String attribute) throws IOException {
-		return getAttribute(element.getType(), element.getLocator(), elementMatch, attribute);
+		return locatorAction.getAttribute(element.getType(), element.getLocator(), elementMatch, attribute);
 	}
 
 	/**
@@ -4558,7 +4556,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public Map<String, String> getAllAttributes(Element element) throws IOException {
-		return getAllAttributes(element.getType(), element.getLocator());
+		return locatorAction.getAllAttributes(element.getType(), element.getLocator(), 0);
 	}
 
 	/**
@@ -4572,7 +4570,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public Map<String, String> getAllAttributes(Locator type, String locator) throws IOException {
-		return getAllAttributes(type, locator, 0);
+		return locatorAction.getAllAttributes(type, locator, 0);
 	}
 
 	/**
@@ -4587,7 +4585,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public Map<String, String> getAllAttributes(Element element, int elementMatch) throws IOException {
-		return getAllAttributes(element.getType(), element.getLocator(), elementMatch);
+		return locatorAction.getAllAttributes(element.getType(), element.getLocator(), elementMatch);
 	}
 
 	/**
@@ -4618,7 +4616,7 @@ public class Action {
 			return driver.getCurrentUrl();
 		} catch (Exception e) {
 			log.error(e);
-			return "";
+			return null;
 		}
 	}
 
@@ -4678,7 +4676,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public Object getEval(Element element, String javascriptFunction) throws IOException {
-		return getEval(element.getType(), element.getLocator(), javascriptFunction);
+		return locatorAction.getEval(element.getType(), element.getLocator(), 0, javascriptFunction);
 	}
 
 	/**
@@ -4693,7 +4691,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public Object getEval(Locator type, String locator, String javascriptFunction) throws IOException {
-		return getEval(type, locator, 0, javascriptFunction);
+		return locatorAction.getEval(type, locator, 0, javascriptFunction);
 	}
 
 	/**
@@ -4709,7 +4707,7 @@ public class Action {
 	 * @throws IOException
 	 */
 	public Object getEval(Element element, int elementMatch, String javascriptFunction) throws IOException {
-		return getEval(element.getType(), element.getLocator(), elementMatch, javascriptFunction);
+		return locatorAction.getEval(element.getType(), element.getLocator(), elementMatch, javascriptFunction);
 	}
 
 	/**

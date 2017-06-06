@@ -119,11 +119,11 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementPresent(Locator type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementPresent(Locator type, String locator, int elementMatch, double seconds) throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + PRESENT;
 		String expected = type + " " + locator + " is present";
 		// wait for up to XX seconds for our error message
-		long end = System.currentTimeMillis() + (seconds * 1000);
+		double end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
 			try { // If results have been returned, the results are displayed in
 					// a drop down.
@@ -162,12 +162,12 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotPresent(Locator type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotPresent(Locator type, String locator, int elementMatch, double seconds)
 			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be present";
 		String expected = type + " " + locator + " is not present";
 		// wait for up to XX seconds for our error message
-		long end = System.currentTimeMillis() + (seconds * 1000);
+		double end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
 			if (!isElementPresent(type, locator, elementMatch, false)) {
 				break;
@@ -202,7 +202,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementDisplayed(Locator type, String locator, int elementMatch, long seconds)
+	public int waitForElementDisplayed(Locator type, String locator, int elementMatch, double seconds)
 			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + DISPLAYED;
 		String expected = type + " " + locator + " is displayed";
@@ -216,7 +216,7 @@ public class LocatorAction {
 		WebElement element = getWebElement(type, locator, elementMatch);
 		if (!element.isDisplayed()) {
 			// wait for up to XX seconds
-			long end = System.currentTimeMillis() + (seconds * 1000);
+			double end = System.currentTimeMillis() + (seconds * 1000);
 			while (System.currentTimeMillis() < end) {
 				if (element.isDisplayed()) {
 					break;
@@ -251,7 +251,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotDisplayed(Locator type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotDisplayed(Locator type, String locator, int elementMatch, double seconds)
 			throws IOException {
 		// this might fail if the element disappears completely
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be displayed";
@@ -260,7 +260,7 @@ public class LocatorAction {
 		WebElement element = getWebElement(type, locator, elementMatch);
 		if (element.isDisplayed()) {
 			// wait for up to XX seconds
-			long end = System.currentTimeMillis() + (seconds * 1000);
+			double end = System.currentTimeMillis() + (seconds * 1000);
 			while (System.currentTimeMillis() < end) {
 				if (!element.isDisplayed()) {
 					break;
@@ -295,7 +295,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementEnabled(Locator type, String locator, int elementMatch, long seconds) throws IOException {
+	public int waitForElementEnabled(Locator type, String locator, int elementMatch, double seconds) throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + ENABLED;
 		String expected = type + " " + locator + " is enabled";
 		double start = System.currentTimeMillis();
@@ -305,7 +305,7 @@ public class LocatorAction {
 		if (!isElementEnabled(type, locator, elementMatch, false)) {
 			WebElement element = getWebElement(type, locator, elementMatch);
 			// wait for up to XX seconds for our error message
-			long end = System.currentTimeMillis() + (seconds * 1000);
+			double end = System.currentTimeMillis() + (seconds * 1000);
 			while (System.currentTimeMillis() < end) {
 				// If results have been returned, the results are displayed
 				// in a drop down.
@@ -342,7 +342,7 @@ public class LocatorAction {
 	 *         steps
 	 * @throws IOException
 	 */
-	public int waitForElementNotEnabled(Locator type, String locator, int elementMatch, long seconds)
+	public int waitForElementNotEnabled(Locator type, String locator, int elementMatch, double seconds)
 			throws IOException {
 		// this might fail if the element is no longer present
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be enabled";
@@ -351,7 +351,7 @@ public class LocatorAction {
 		WebElement element = getWebElement(type, locator, elementMatch);
 		if (element.isEnabled()) {
 			// wait for up to XX seconds
-			long end = System.currentTimeMillis() + (seconds * 1000);
+			double end = System.currentTimeMillis() + (seconds * 1000);
 			while (System.currentTimeMillis() < end) {
 				if (!element.isEnabled()) {
 					break;
@@ -784,7 +784,7 @@ public class LocatorAction {
 	 */
 	public String getSelectedText(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isPresentInput(type, locator, elementMatch)) {
-			return "";
+			return null;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		Select dropdown = new Select(element);
@@ -834,7 +834,7 @@ public class LocatorAction {
 	 */
 	public String getSelectedValue(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isPresentInput(type, locator, elementMatch)) {
-			return "";
+			return null;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		Select dropdown = new Select(element);
@@ -884,7 +884,7 @@ public class LocatorAction {
 	 */
 	public String getText(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return "";
+			return null;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getText();
@@ -905,7 +905,7 @@ public class LocatorAction {
 	 */
 	public String getValue(Locator type, String locator, int elementMatch) throws IOException {
 		if (!isElementInput(type, locator, elementMatch, false)) {
-			return "";
+			return null;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getAttribute(VALUE);
@@ -928,7 +928,7 @@ public class LocatorAction {
 	 */
 	public String getCss(Locator type, String locator, int elementMatch, String attribute) throws IOException {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return "";
+			return null;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getCssValue(attribute);
@@ -951,7 +951,7 @@ public class LocatorAction {
 	 */
 	public String getAttribute(Locator type, String locator, int elementMatch, String attribute) throws IOException {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
-			return "";
+			return null;
 		}
 		WebElement element = getWebElement(type, locator, elementMatch);
 		return element.getAttribute(attribute);
