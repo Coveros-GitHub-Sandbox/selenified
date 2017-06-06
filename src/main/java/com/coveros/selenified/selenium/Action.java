@@ -177,20 +177,10 @@ public class Action {
 		return 0;
 	}
 
-	/**
-	 * a method for allowing Selenium to pause for a set amount of time
-	 *
-	 * @param seconds
-	 *            - the number of seconds to wait
-	 */
-	public int wait(int seconds) {
-		return wait((double) seconds);
-	}
-
 	// ///////////////////////////////////////
-	// generic navigational functionality
+	// waiting functionality
 	// ///////////////////////////////////////
-
+	
 	/**
 	 * a method for allowing Selenium to pause for a set amount of time
 	 *
@@ -212,10 +202,6 @@ public class Action {
 		file.recordAction(action, expected, WAITED + seconds + SECONDS, Result.SUCCESS);
 		return 0;
 	}
-
-	// ///////////////////////////////////////
-	// waiting functionality
-	// ///////////////////////////////////////
 
 	/**
 	 * a method for waiting until an element is present for a maximum of 5
