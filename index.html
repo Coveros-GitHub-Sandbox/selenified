@@ -3,8 +3,10 @@
 <head>
 <script type="text/javascript">
     window.onload = function() {
-        document.cookie = "cookie=cookietest";
-        var enable_button = document.getElementById("enable_button");
+        document.cookie = "cookie=cookietest; expires=Thu, 18 Dec 2019 12:00:00 UTC; path=/";
+        var alert_button = document.getElementById("alert_button");
+        var confirm_button = document.getElementById("confirm_button");
+        var prompt_button = document.getElementById("prompt_button");
         var five_second_button = document.getElementById("five_second_button");
         var scroll_button = document.getElementById("scroll_button");
         var clickBtn = document.getElementsByClassName('click')[0];
@@ -16,23 +18,36 @@
         var delayed_input = document.getElementById("delayed_input");
         var hover_over_me = document.getElementById("hover_over_me");
         var displayed_when_hovered = document.getElementById("displayed_when_hovered");
+        var new_window = document.getElementById("new_window");
 
         // Disable the button on initial page load
-        enable_button.disabled = true;
+        alert_button.disabled = true;
         five_second_button.disabled = true;
         delayed_input.disabled = true;
 
         //add event listener
         clickBtn.addEventListener('click', function(event) {
-            enable_button.disabled = !enable_button.disabled;
+            alert_button.disabled = !alert_button.disabled;
         });
 
-        enable_button.addEventListener('click', function(event) {
+        alert_button.addEventListener('click', function(event) {
             alert('Enabled!');
+        });
+
+        confirm_button.addEventListener('click', function(event) {
+            confirm('Is this not great?');
+        });
+
+        prompt_button.addEventListener('click', function(event) {
+            prompt('What do you think?');
         });
 
         scroll_button.addEventListener('click', function(event) {
             document.documentElement.style["height"] = "5000px";
+        });
+        
+        new_window.addEventListener('click', function(event) {
+            window.open("next_page.html");
         });
 
         delayed_display_button.addEventListener('click', function(event) {
@@ -144,8 +159,11 @@ tr:nth-child(even) {
 						Disable/Enable a html button</div>
 					<div id="hidden_div" name="hidden_div" class="hidden_div"></div>
 					<div id="enable_div" class="showup">
-						<input name="enable_button" id="enable_button" type="button"
-							value="Button" />
+						<input name="alert_button" id="alert_button" type="button"
+							value="Alert" /> <input name="confirm_button"
+							id="confirm_button" type="button" value="Confirm" /> <input
+							name="prompt_button" id="prompt_button" type="button"
+							value="Prompt" />
 					</div> <input name="five_second_button" id="five_second_button"
 					type="button" value="5 Second Button" /> <br /> <input
 					type="text" name="input_box" id="input_box" value="" /> <br>
@@ -186,7 +204,8 @@ tr:nth-child(even) {
 				</td>
 				<td>
 					<h2>
-						<a href="#" onclick="javascript:confirm('Confirmation')">I'M A LINK</a>
+						<a href="#" onclick="javascript:confirm('Confirmation')">I'M A
+							LINK</a>
 					</h2>
 					<table id="table">
 						<thead>
@@ -254,6 +273,8 @@ tr:nth-child(even) {
 							</tr>
 						</tbody>
 					</table>
+					<input name="new_window" id="new_window" type="button"
+							value="New Window" />
 				</td>
 			</tr>
 			<tr>

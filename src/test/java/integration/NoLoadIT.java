@@ -45,7 +45,7 @@ public class NoLoadIT extends TestBase {
 		org.testng.Assert.assertEquals(
 				asserts.getOutputFile().countInstancesOf("Opening new browser and loading up starting page"), 0);
 		// verify the page wasn't attempted to load
-		asserts.compareURL("http://172.31.2.65/");
+		asserts.compareURL(getTestSite());
 		// verify one issue from the above check
 		finish(1);
 	}

@@ -144,7 +144,11 @@ public class Action {
 	 */
 	public void killDriver() {
 		if (driver != null) {
-			driver.quit();
+			try {
+				driver.quit();
+			} catch (Exception e) {
+				log.error(e);
+			}
 		}
 	}
 
@@ -162,7 +166,7 @@ public class Action {
 			driver.get(url);
 		} catch (Exception e) {
 			log.error(e);
-			file.recordAction(action, expected, "Fail to Load " + url, Result.FAILURE);
+			file.recordAction(action, expected, "Fail to Load " + url + ". " + e.getMessage(), Result.FAILURE);
 			file.addError();
 			return 1;
 		}
@@ -199,7 +203,7 @@ public class Action {
 			Thread.sleep((long) (seconds * 1000));
 		} catch (InterruptedException e) {
 			log.error(e);
-			file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS, Result.FAILURE);
+			file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage(), Result.FAILURE);
 			file.addError();
 			Thread.currentThread().interrupt();
 			return 1;
@@ -3085,7 +3089,8 @@ public class Action {
 				driver.switchTo().window(winHandle);
 			}
 		} catch (Exception e) {
-			file.recordAction(action, expected, "New window was unable to be selected", Result.FAILURE);
+			file.recordAction(action, expected, "New window was unable to be selected. " + e.getMessage(),
+					Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3106,31 +3111,7 @@ public class Action {
 		try {
 			driver.switchTo().window(parentWindow);
 		} catch (Exception e) {
-			file.recordAction(action, expected, "Parent window was unable to be selected", Result.FAILURE);
-			file.addError();
-			log.error(e);
-			return 1;
-		}
-		file.recordAction(action, expected, expected, Result.SUCCESS);
-		return 0;
-	}
-
-	/**
-	 * a function to switch tabs. note that tab numbering starts at 0
-	 * 
-	 * @param tabNumber
-	 *            - the tab number, starts at 0
-	 * @return Integer - the number of errors encountered while executing these
-	 *         steps
-	 */
-	public int switchTab(int tabNumber) {
-		String action = "Switching to tab <b>" + tabNumber + "</b>";
-		String expected = "Tab <b>" + tabNumber + AVAILABLE;
-		try {
-			ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-			driver.switchTo().window(tabs.get(tabNumber));
-		} catch (Exception e) {
-			file.recordAction(action, expected, "Tab <b>" + tabNumber + NOTSELECTED,
+			file.recordAction(action, expected, "Parent window was unable to be selected. " + e.getMessage(),
 					Result.FAILURE);
 			file.addError();
 			log.error(e);
@@ -3158,8 +3139,7 @@ public class Action {
 		try {
 			driver.switchTo().frame(frameNumber);
 		} catch (Exception e) {
-			file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED,
-					Result.FAILURE);
+			file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3184,8 +3164,7 @@ public class Action {
 		try {
 			driver.switchTo().frame(frameIdentifier);
 		} catch (Exception e) {
-			file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED,
-					Result.FAILURE);
+			file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3268,28 +3247,79 @@ public class Action {
 		String expected = "New tab is opened";
 		try {
 			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "t");
 		} catch (Exception e) {
-			file.recordAction(action, expected, "New tab was unable to be opened", Result.FAILURE);
+			file.recordAction(action, expected, "New tab was unable to be opened. " + e.getMessage(), Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
 		}
 		file.recordAction(action, expected, expected, Result.SUCCESS);
-		return switchTab(1);
+		return 0;
 	}
-	
+
 	/**
-	 * a way to open a new tab, and have it selected. The page provided will be loaded
+	 * a way to open a new tab, and have it selected. The page provided will be
+	 * loaded
 	 * 
-	 * @param url - the url to load once the new tab is opened and selected
+	 * @param url
+	 *            - the url to load once the new tab is opened and selected
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
 	 */
 	public int openTab(String url) {
-		if( openTab() != 0 ) {
+		if (openTab() != 0) {
 			return 1;
 		}
 		return goToURL(url);
+	}
+
+	/**
+	 * a function to switch tabs. this method will switch to the next available
+	 * tab. if the last tab is already selected, it will loop back to the first
+	 * tab
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int switchNextTab() {
+		String action = "Switching to next tab ";
+		String expected = "Next tab <b>" + AVAILABLE;
+		try {
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_DOWN));
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_DOWN));
+		} catch (Exception e) {
+			file.recordAction(action, expected, "Next tab <b>" + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
+	}
+
+	/**
+	 * a function to switch tabs. this method will switch to the previous
+	 * available tab. if the first tab is already selected, it will loop back to
+	 * the last tab
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int switchPreviousTab() {
+		String action = "Switching to previous tab ";
+		String expected = "Previous tab <b>" + AVAILABLE;
+		try {
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_UP));
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_UP));
+		} catch (Exception e) {
+			file.recordAction(action, expected, "Previous tab <b>" + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
 	}
 
 	/**
@@ -3303,35 +3333,10 @@ public class Action {
 		String action = "Closing currently open tab";
 		String expected = "Tab is closed";
 		try {
-			driver.close();
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "w");
 		} catch (Exception e) {
-			file.recordAction(action, expected, "Tab was unable to be closed", Result.FAILURE);
-			file.addError();
-			log.error(e);
-			return 1;
-		}
-		file.recordAction(action, expected, expected, Result.SUCCESS);
-		return 0;
-	}
-
-	/**
-	 * a function to close the provided tab.
-	 * 
-	 * @param tabNumber
-	 *            - the tab number, starts at 0
-	 * @return Integer - the number of errors encountered while executing these
-	 *         steps
-	 */
-	public int closeTab(int tabNumber) {
-		String action = "Switching back to initial tab";
-		String expected = "Initial tab is selected and available";
-		try {
-			String currentTab = driver.getWindowHandle();
-			switchTab(tabNumber);
-			closeTab();
-			driver.switchTo().window(currentTab);
-		} catch (Exception e) {
-			file.recordAction(action, expected, "Tab was unable to be selected", Result.FAILURE);
+			file.recordAction(action, expected, "Tab was unable to be closed. " + e.getMessage(), Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3352,7 +3357,7 @@ public class Action {
 		try {
 			driver.manage().window().maximize();
 		} catch (Exception e) {
-			file.recordAction(action, expected, "Browser was unable to be maximized", Result.FAILURE);
+			file.recordAction(action, expected, "Browser was unable to be maximized. " + e.getMessage(), Result.FAILURE);
 			file.addError();
 			log.error(e);
 			return 1;
@@ -3379,8 +3384,15 @@ public class Action {
 			file.addError();
 			return 1; // indicates element not present
 		}
-		Alert alert = driver.switchTo().alert();
-		alert.accept();
+		try {
+			Alert alert = driver.switchTo().alert();
+			alert.accept();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, "Unable to click 'OK' on the alert. " + e.getMessage(), Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Clicked 'OK' on the alert", Result.SUCCESS);
 		return 0;
 	}
@@ -3403,8 +3415,15 @@ public class Action {
 			file.addError();
 			return 1; // indicates element not present
 		}
-		Alert alert = driver.switchTo().alert();
-		alert.accept();
+		try {
+			Alert alert = driver.switchTo().alert();
+			alert.accept();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, "Unable to click 'OK' on the confirmation. " + e.getMessage(), Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Clicked 'OK' on the confirmation", Result.SUCCESS);
 		return 0;
 	}
@@ -3427,8 +3446,15 @@ public class Action {
 			file.addError();
 			return 1; // indicates element not present
 		}
-		Alert alert = driver.switchTo().alert();
-		alert.dismiss();
+		try {
+			Alert alert = driver.switchTo().alert();
+			alert.dismiss();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, "Unable to click 'Cancel' on the confirmation. " + e.getMessage(), Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Clicked 'Cancel' on the confirmation", Result.SUCCESS);
 		return 0;
 	}
@@ -3451,8 +3477,15 @@ public class Action {
 			file.addError();
 			return 1; // indicates element not present
 		}
-		Alert alert = driver.switchTo().alert();
-		alert.accept();
+		try {
+			Alert alert = driver.switchTo().alert();
+			alert.accept();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, "Unable to click 'OK' on the prompt. " + e.getMessage(), Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Clicked 'OK' on the prompt", Result.SUCCESS);
 		return 0;
 	}
@@ -3475,8 +3508,15 @@ public class Action {
 			file.addError();
 			return 1; // indicates element not present
 		}
-		Alert alert = driver.switchTo().alert();
-		alert.dismiss();
+		try {
+			Alert alert = driver.switchTo().alert();
+			alert.dismiss();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, "Unable to click 'Cancel' on the prompt. " + e.getMessage(), Result.FAILURE);
+			file.addError();
+			return 1;
+		}
 		file.recordAction(action, expected, "Clicked 'Cancel' on the prompt", Result.SUCCESS);
 		return 0;
 	}
@@ -3499,9 +3539,16 @@ public class Action {
 			file.addError();
 			return 1; // indicates element not present
 		}
-		Alert alert = driver.switchTo().alert();
-		alert.sendKeys(text);
-		file.recordAction(action, expected, "Typed text '" + text + "' into prompt", Result.SUCCESS);
+		try {
+			Alert alert = driver.switchTo().alert();
+			alert.sendKeys(text);
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, "Unable to type into the prompt. " + e.getMessage(), Result.FAILURE);
+			file.addError();
+			return 1;
+		}
+		file.recordAction(action, expected, "Typed text '" + text + "' into the prompt", Result.SUCCESS);
 		return 0;
 	}
 
@@ -3610,8 +3657,13 @@ public class Action {
 		if (!isAlertPresent(false)) {
 			return "";
 		}
-		Alert alert = driver.switchTo().alert();
-		return alert.getText();
+		try {
+			Alert alert = driver.switchTo().alert();
+			return alert.getText();
+		} catch (Exception e) {
+			log.error(e);
+			return "";
+		}
 	}
 
 	/**
@@ -3689,8 +3741,13 @@ public class Action {
 		if (!isConfirmationPresent(false)) {
 			return "";
 		}
-		Alert alert = driver.switchTo().alert();
-		return alert.getText();
+		try {
+			Alert alert = driver.switchTo().alert();
+			return alert.getText();
+		} catch (Exception e) {
+			log.error(e);
+			return "";
+		}
 	}
 
 	/**
@@ -3766,8 +3823,13 @@ public class Action {
 		if (!isPromptPresent(false)) {
 			return "";
 		}
-		Alert alert = driver.switchTo().alert();
-		return alert.getText();
+		try {
+			Alert alert = driver.switchTo().alert();
+			return alert.getText();
+		} catch (Exception e) {
+			log.error(e);
+			return "";
+		}
 	}
 
 	/**
@@ -3779,7 +3841,7 @@ public class Action {
 	 */
 	public boolean isCookiePresent(String expectedCookieName) {
 		boolean isCookiePresent = false;
-		if (driver.manage().getCookieNamed(expectedCookieName) != null) {
+		if (getCookie(expectedCookieName) != null) {
 			isCookiePresent = true;
 		}
 		return isCookiePresent;
@@ -3793,7 +3855,12 @@ public class Action {
 	 * @return Cookie - the cookie
 	 */
 	public Cookie getCookie(String expectedCookieName) {
-		return driver.manage().getCookieNamed(expectedCookieName);
+		try {
+			return driver.manage().getCookieNamed(expectedCookieName);
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 
 	/**
@@ -3804,7 +3871,11 @@ public class Action {
 	 * @return String - the value of the cookie
 	 */
 	public String getCookieValue(String expectedCookieName) {
-		return getCookie(expectedCookieName).getValue();
+		Cookie cookie = getCookie(expectedCookieName);
+		if (cookie != null) {
+			return cookie.getValue();
+		}
+		return null;
 	}
 
 	/**
@@ -3815,7 +3886,11 @@ public class Action {
 	 * @return String - the path of the cookie
 	 */
 	public String getCookiePath(String expectedCookieName) {
-		return getCookie(expectedCookieName).getPath();
+		Cookie cookie = getCookie(expectedCookieName);
+		if (cookie != null) {
+			return cookie.getPath();
+		}
+		return null;
 	}
 
 	/**
@@ -3826,7 +3901,11 @@ public class Action {
 	 * @return String - the domain of the cookie
 	 */
 	public String getCookieDomain(String expectedCookieName) {
-		return getCookie(expectedCookieName).getDomain();
+		Cookie cookie = getCookie(expectedCookieName);
+		if (cookie != null) {
+			return cookie.getDomain();
+		}
+		return null;
 	}
 
 	/**
@@ -3837,7 +3916,11 @@ public class Action {
 	 * @return String - the expiration of the cookie
 	 */
 	public Date getCookieExpiration(String expectedCookieName) {
-		return getCookie(expectedCookieName).getExpiry();
+		Cookie cookie = getCookie(expectedCookieName);
+		if (cookie != null) {
+			return cookie.getExpiry();
+		}
+		return null;
 	}
 
 	/**
@@ -3849,7 +3932,21 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Element element) throws IOException {
-		return isSomethingSelected(element.getType(), element.getLocator());
+		return isSomethingSelected(element.getType(), element.getLocator(), false);
+	}
+
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @param print
+	 *            - whether or not to print out this wait statement
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Element element, boolean print) throws IOException {
+		return isSomethingSelected(element.getType(), element.getLocator(), print);
 	}
 
 	/**
@@ -3859,11 +3956,28 @@ public class Action {
 	 *            - the locator type e.g. Locators.id, Locators.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * 
 	 * @return boolean: is something selected or not
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locators type, String locator) throws IOException {
-		return isSomethingSelected(type, locator, 0);
+		return isSomethingSelected(type, locator, 0, false);
+	}
+
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param print
+	 *            - whether or not to print out this wait statement
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Locators type, String locator, boolean print) throws IOException {
+		return isSomethingSelected(type, locator, 0, print);
 	}
 
 	/**
@@ -3878,7 +3992,24 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Element element, int elementMatch) throws IOException {
-		return isSomethingSelected(element.getType(), element.getLocator(), elementMatch);
+		return isSomethingSelected(element.getType(), element.getLocator(), elementMatch, false);
+	}
+
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param element
+	 *            - the element to be waited for
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @param print
+	 *            - whether or not to print out this wait statement
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Element element, int elementMatch, boolean print) throws IOException {
+		return isSomethingSelected(element.getType(), element.getLocator(), elementMatch, print);
 	}
 
 	/**
@@ -3895,7 +4026,27 @@ public class Action {
 	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locators type, String locator, int elementMatch) throws IOException {
-		return locatorAction.isSomethingSelected(type, locator, elementMatch);
+		return isSomethingSelected(type, locator, elementMatch, false);
+	}
+
+	/**
+	 * determine if something is selected in a drop down
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locators.id, Locators.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @param print
+	 *            - whether or not to print out this wait statement
+	 * @return boolean: is something selected or not
+	 * @throws IOException
+	 */
+	public boolean isSomethingSelected(Locators type, String locator, int elementMatch, boolean print)
+			throws IOException {
+		return locatorAction.isSomethingSelected(type, locator, elementMatch, print);
 	}
 
 	/**
@@ -4138,7 +4289,12 @@ public class Action {
 	 * @return boolean - whether or not the text is present
 	 */
 	public boolean isTextPresentInSource(String expectedText) {
-		return driver.getPageSource().contains(expectedText);
+		try {
+			return driver.getPageSource().contains(expectedText);
+		} catch (Exception e) {
+			log.error(e);
+			return false;
+		}
 	}
 
 	/**
@@ -4149,8 +4305,13 @@ public class Action {
 	 * @return boolean - whether or not the text is present
 	 */
 	public boolean isTextPresent(String expectedText) {
-		String bodyText = driver.findElement(By.tagName("body")).getText();
-		return bodyText.contains(expectedText);
+		try {
+			String bodyText = driver.findElement(By.tagName("body")).getText();
+			return bodyText.contains(expectedText);
+		} catch (Exception e) {
+			log.error(e);
+			return false;
+		}
 	}
 
 	/**
@@ -4466,7 +4627,12 @@ public class Action {
 	 * @return String - current url
 	 */
 	public String getLocation() {
-		return driver.getCurrentUrl();
+		try {
+			return driver.getCurrentUrl();
+		} catch (Exception e) {
+			log.error(e);
+			return "";
+		}
 	}
 
 	/**
@@ -4476,7 +4642,12 @@ public class Action {
 	 * @return String - title
 	 */
 	public String getTitle() {
-		return driver.getTitle();
+		try {
+			return driver.getTitle();
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 
 	/**
@@ -4486,7 +4657,12 @@ public class Action {
 	 * @return String - page source
 	 */
 	public String getHtmlSource() {
-		return driver.getPageSource();
+		try {
+			return driver.getPageSource();
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 
 	/**
@@ -4496,8 +4672,13 @@ public class Action {
 	 * @return Object: any resultant output from the javascript command
 	 */
 	public Object getEval(String javascriptFunction) {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		return js.executeScript(javascriptFunction);
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			return js.executeScript(javascriptFunction);
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 
 	/**
