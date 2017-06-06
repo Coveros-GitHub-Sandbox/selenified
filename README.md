@@ -378,3 +378,7 @@ listed to make fixing tests or the app easier.
 If running within SecureCI™ and Jenkins, TestNG produces a JUnit XML results file. This is great for storing 
 results/metrics within Jenkins, and tracking trends. Additionally, consider archiving testing results to go along 
 with these trending results.
+
+## Open Issues
+Note that there are a few open issues with the framework
+* Running blur and type keys on a Mac can fail when threaded. Be cautious when running these tests
