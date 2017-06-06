@@ -18,19 +18,19 @@
  * under the License.
  */
 
-package selenified.exceptions;
+package com.coveros.selenified.exceptions;
 
 import java.io.IOException;
 
-public class InvalidBrowserException extends IOException {
+public class InvalidLocatorTypeException extends IOException {
 
-	private static final long serialVersionUID = 1560310848170077852L;
+	private static final long serialVersionUID = 4953865602802786545L;
 
-	public InvalidBrowserException() {
+	public InvalidLocatorTypeException() {
 		super();
 	}
 
-	public InvalidBrowserException(String msg) {
+	public InvalidLocatorTypeException(String msg) {
 		super(msg);
 	}
 }

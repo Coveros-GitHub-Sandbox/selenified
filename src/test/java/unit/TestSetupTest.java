@@ -14,9 +14,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import selenified.exceptions.InvalidBrowserException;
-import tools.TestSetup;
-import tools.output.Selenium.Browsers;
+
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.tools.TestSetup;
 
 public class TestSetupTest {
 

@@ -13,9 +13,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import selenified.exceptions.InvalidBrowserException;
-import tools.TestBase;
-import tools.output.Selenium.Browsers;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.tools.TestBase;
 
 public class TestBaseTest extends TestBase {
 

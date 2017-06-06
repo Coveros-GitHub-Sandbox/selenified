@@ -3,8 +3,8 @@ package unit;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import tools.output.Selenium.Locators;
-import tools.output.Element;
+import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Selenium.Locators;
 
 public class ElementTest {
 	

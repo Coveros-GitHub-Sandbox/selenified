@@ -18,14 +18,16 @@
  * under the License.
  */
 
-package tools.output;
-
-import tools.output.Selenium.Browsers;
-import tools.output.Selenium.Locators;
+package com.coveros.selenified.output;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.selenium.Selenium.Locators;
 
 /**
  * Test Output A custom generated output file outputFile.recording all actions

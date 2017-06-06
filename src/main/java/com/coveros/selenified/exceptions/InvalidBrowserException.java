@@ -18,19 +18,19 @@
  * under the License.
  */
 
-package selenified.exceptions;
+package com.coveros.selenified.exceptions;
 
 import java.io.IOException;
 
-public class InvalidEnvironmentException extends IOException {
+public class InvalidBrowserException extends IOException {
 
-	private static final long serialVersionUID = 3726739755420042312L;
+	private static final long serialVersionUID = 1560310848170077852L;
 
-	public InvalidEnvironmentException() {
+	public InvalidBrowserException() {
 		super();
 	}
 
-	public InvalidEnvironmentException(String msg) {
+	public InvalidBrowserException(String msg) {
 		super(msg);
 	}
 }

@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools.output;
+package com.coveros.selenified.selenium;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -26,15 +26,16 @@ import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.log4testng.Logger;
-import selenified.exceptions.InvalidActionException;
-import selenified.exceptions.InvalidBrowserException;
-import selenified.exceptions.InvalidLocatorTypeException;
-import tools.General;
-import tools.TestSetup;
-import tools.output.Assert.Result;
-import tools.output.Selenium.Browsers;
-import tools.output.Selenium.Locators;
-import tools.output.Element;
+
+import com.coveros.selenified.exceptions.InvalidActionException;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
+import com.coveros.selenified.output.Assert.Result;
+import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.selenium.Selenium.Locators;
+import com.coveros.selenified.tools.General;
+import com.coveros.selenified.tools.TestSetup;
 
 import java.io.File;
 import java.io.IOException;

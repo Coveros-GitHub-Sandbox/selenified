@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools;
+package com.coveros.selenified.tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +36,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.testng.log4testng.Logger;
 
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.selenium.Selenium.Browsers;
+
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.EdgeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import io.github.bonigarcia.wdm.OperaDriverManager;
-import selenified.exceptions.InvalidBrowserException;
-import tools.output.Selenium.Browsers;
 
 public class TestSetup {
 

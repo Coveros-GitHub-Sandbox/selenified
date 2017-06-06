@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools.output;
+package com.coveros.selenified.selenium;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,10 +38,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import selenified.exceptions.InvalidLocatorTypeException;
-import tools.General;
-import tools.output.Assert.Result;
-import tools.output.Selenium.Locators;
+import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
+import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.output.Assert.Result;
+import com.coveros.selenified.selenium.Selenium.Locators;
+import com.coveros.selenified.tools.General;
 
 /**
  * Selenium Webdriver Before each action is performed a screenshot is taken

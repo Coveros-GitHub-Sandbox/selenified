@@ -17,10 +17,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import tools.TestBase;
-import tools.output.Action;
-import tools.output.Element;
-import tools.output.Selenium.Locators;
+import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Selenium.Locators;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.tools.TestBase;
 
 public class ActionGetIT extends TestBase {
 
@@ -41,7 +41,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
-		tools.output.Assert asserts = this.asserts.get();
+		com.coveros.selenified.output.Assert asserts = this.asserts.get();
 		// perform some actions
 		if (actions.getBrowser().equals("NONE")) {
 			asserts.getOutputFile().addError();
@@ -56,7 +56,7 @@ public class ActionGetIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// use this object to verify our page looks as expected
-		tools.output.Assert asserts = this.asserts.get();
+		com.coveros.selenified.output.Assert asserts = this.asserts.get();
 		// perform some actions
 		if (actions.getCapabilities().equals(null)) {
 			asserts.getOutputFile().addError();

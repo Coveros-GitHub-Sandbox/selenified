@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools;
+package com.coveros.selenified.tools;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

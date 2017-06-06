@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools.output;
+package com.coveros.selenified.output;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,10 +33,11 @@ import java.util.List;
 
 import org.testng.log4testng.Logger;
 
-import tools.General;
-import tools.output.Selenium.Browsers;
-import tools.output.Assert.Result;
-import tools.output.Assert.Success;
+import com.coveros.selenified.output.Assert.Result;
+import com.coveros.selenified.output.Assert.Success;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.tools.General;
 
 /**
  * Test Output A custom generated output file outputFile.recording all actions

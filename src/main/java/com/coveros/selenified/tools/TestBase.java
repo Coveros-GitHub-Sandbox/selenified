@@ -18,19 +18,20 @@
  * under the License.
  */
 
-package tools;
+package com.coveros.selenified.tools;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
-import selenified.exceptions.InvalidBrowserException;
-import tools.output.OutputFile;
-import tools.output.Action;
-import tools.output.Assert;
-import tools.output.Selenium.Browsers;
-import tools.output.Selenium.DriverSetup;
+
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.output.Assert;
+import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.selenium.Selenium.DriverSetup;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -44,7 +45,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Listeners({ tools.Listener.class, tools.Transformer.class })
+@Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
 public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);

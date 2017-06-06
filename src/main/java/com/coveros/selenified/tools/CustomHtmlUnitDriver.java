@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools;
+package com.coveros.selenified.tools;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;

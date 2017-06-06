@@ -7,12 +7,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import selenified.exceptions.InvalidLocatorTypeException;
-import tools.TestBase;
-import tools.output.Action;
-import tools.output.Assert;
-import tools.output.Element;
-import tools.output.Selenium.Locators;
+import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
+import com.coveros.selenified.output.Assert;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Selenium.Locators;
+import com.coveros.selenified.tools.TestBase;
 
 public class ActionDoIT extends TestBase {
 

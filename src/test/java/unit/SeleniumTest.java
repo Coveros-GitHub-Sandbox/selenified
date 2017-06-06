@@ -3,9 +3,9 @@ package unit;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import selenified.exceptions.InvalidBrowserException;
-import tools.output.Selenium.Browsers;
-import tools.output.Selenium.DriverSetup;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.selenium.Selenium.Browsers;
+import com.coveros.selenified.selenium.Selenium.DriverSetup;
 
 public class SeleniumTest {
 	

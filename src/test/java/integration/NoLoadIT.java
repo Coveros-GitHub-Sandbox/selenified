@@ -9,10 +9,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import tools.TestBase;
-import tools.output.Action;
-import tools.output.Assert;
-import tools.output.Selenium.DriverSetup;
+import com.coveros.selenified.output.Assert;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Selenium.DriverSetup;
+import com.coveros.selenified.tools.TestBase;
+
 
 public class NoLoadIT extends TestBase {
 

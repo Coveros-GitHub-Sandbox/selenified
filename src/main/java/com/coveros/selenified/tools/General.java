@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools;
+package com.coveros.selenified.tools;
 
 import java.io.File;
 import java.io.IOException;

@@ -18,16 +18,17 @@
  * under the License.
  */
 
-package tools.output;
-
-import tools.General;
-import tools.output.Assert.Success;
-import tools.output.Selenium.Locators;
+package com.coveros.selenified.output;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+
+import com.coveros.selenified.output.Assert.Success;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Selenium.Locators;
+import com.coveros.selenified.tools.General;
 
 /**
  * Test Output A custom generated output file outputFile.recording all actions

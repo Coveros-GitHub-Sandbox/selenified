@@ -18,9 +18,9 @@
  * under the License.
  */
 
-package tools.output;
+package com.coveros.selenified.selenium;
 
-import selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 
 public class Selenium {
 

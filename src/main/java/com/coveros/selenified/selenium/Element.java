@@ -18,9 +18,9 @@
  * under the License.
  */
 
-package tools.output;
+package com.coveros.selenified.selenium;
 
-import tools.output.Selenium.Locators;
+import com.coveros.selenified.selenium.Selenium.Locators;
 
 public class Element {
 

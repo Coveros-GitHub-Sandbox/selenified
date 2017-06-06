@@ -13,13 +13,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.output.Assert.Result;
+import com.coveros.selenified.output.Assert.Success;
+import com.coveros.selenified.selenium.Selenium.Browsers;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-
-import tools.output.Selenium.Browsers;
-import tools.output.Assert.Result;
-import tools.output.Assert.Success;
-import tools.output.OutputFile;
 
 public class OutputFileTest {
 

@@ -18,19 +18,19 @@
  * under the License.
  */
 
-package selenified.exceptions;
+package com.coveros.selenified.exceptions;
 
 import java.io.IOException;
 
-public class InvalidTestTypeException extends IOException {
+public class InvalidEnvironmentException extends IOException {
 
-	private static final long serialVersionUID = -4707815990022887449L;
+	private static final long serialVersionUID = 3726739755420042312L;
 
-	public InvalidTestTypeException() {
+	public InvalidEnvironmentException() {
 		super();
 	}
 
-	public InvalidTestTypeException(String msg) {
+	public InvalidEnvironmentException(String msg) {
 		super(msg);
 	}
 }

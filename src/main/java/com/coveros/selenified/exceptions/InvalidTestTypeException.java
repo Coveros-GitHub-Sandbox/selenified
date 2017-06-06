@@ -18,19 +18,19 @@
  * under the License.
  */
 
-package selenified.exceptions;
+package com.coveros.selenified.exceptions;
 
 import java.io.IOException;
 
-public class InvalidDatabaseException extends IOException {
+public class InvalidTestTypeException extends IOException {
 
-	private static final long serialVersionUID = -5422368067006446079L;
+	private static final long serialVersionUID = -4707815990022887449L;
 
-	public InvalidDatabaseException() {
+	public InvalidTestTypeException() {
 		super();
 	}
 
-	public InvalidDatabaseException(String msg) {
+	public InvalidTestTypeException(String msg) {
 		super(msg);
 	}
 }

@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2017 Coveros, Inc.
  * 
@@ -19,19 +18,19 @@
  * under the License.
  */
 
-package selenified.exceptions;
+package com.coveros.selenified.exceptions;
 
 import java.io.IOException;
 
-public class InvalidActionException extends IOException {
+public class InvalidDatabaseException extends IOException {
 
-	private static final long serialVersionUID = -5288393641127953902L;
+	private static final long serialVersionUID = -5422368067006446079L;
 
-	public InvalidActionException() {
+	public InvalidDatabaseException() {
 		super();
 	}
 
-	public InvalidActionException(String msg) {
+	public InvalidDatabaseException(String msg) {
 		super(msg);
 	}
 }
