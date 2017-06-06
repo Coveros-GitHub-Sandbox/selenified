@@ -392,8 +392,8 @@ public class ActionDoIT extends TestBase {
 		finish(2);
 	}
 
-	@Test(singleThreaded = true, groups = { "integration-last", "actions", "do",
-			"blur" }, dependsOnGroups = { "integration" }, description = "An integration test to check the blur method")
+	@Test(groups = { "integrationLast", "actions", "do",
+			"blur" }, dependsOnGroups = "integration", description = "An integration test to check the blur method")
 	public void blurTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -550,8 +550,8 @@ public class ActionDoIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(singleThreaded = true, groups = { "integration-last", "actions", "do",
-			"type" }, dependsOnMethods = { "blurTest" }, description = "An integration test to check the type method")
+	@Test(groups = { "integrationLast", "actions", "do",
+			"type" }, dependsOnMethods = "blurTest", description = "An integration test to check the type method")
 	public void typeKeysInputTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
@@ -592,8 +592,8 @@ public class ActionDoIT extends TestBase {
 		finish();
 	}
 
-	@Test(singleThreaded = true, groups = { "integration-last", "actions", "do",
-			"type" }, dependsOnMethods = { "typeKeysInputTest" }, description = "An integration test to check the type method")
+	@Test(groups = { "integrationLast", "actions", "do",
+			"type" }, dependsOnMethods = "typeKeysInputTest", description = "An integration test to check the type method")
 	public void typeKeysSelectTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
