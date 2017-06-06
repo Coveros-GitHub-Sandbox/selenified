@@ -179,7 +179,8 @@ public class ActionSwitchIT extends TestBase {
 		// perform some actions
 		actions.openTab("https://www.google.com/");
 		actions.switchNextTab();
-		asserts.compareURL(getTestSite() + "/");
+		String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/"; 
+		asserts.compareURL(site);
 		// verify 1 issue
 		finish();
 	}
@@ -194,7 +195,8 @@ public class ActionSwitchIT extends TestBase {
 		// perform some actions
 		actions.openTab("https://www.google.com/");
 		actions.closeTab();
-		asserts.compareURL(getTestSite() + "/");
+		String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/"; 
+		asserts.compareURL(site);
 		// verify 1 issue
 		finish();
 	}

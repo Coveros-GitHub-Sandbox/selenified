@@ -65,7 +65,7 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration test to check the getCookie method")
 	public void getCookieTest() throws IOException, ParseException {
 		// our cookie date
@@ -81,7 +81,7 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration negative test to check the getCookie method")
 	public void negativeGetCookieTest() throws IOException {
 		// use this object to manipulate our page
@@ -93,7 +93,7 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration test to check the getCookieValue method")
 	public void getCookieValueTest() throws IOException, ParseException {
 		// use this object to manipulate our page
@@ -105,7 +105,7 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration negative test to check the getCookieValue method")
 	public void negativeGetCookieValueTest() throws IOException {
 		// use this object to manipulate our page
@@ -117,7 +117,7 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration test to check the getCookiePath method")
 	public void getCookiePathTest() throws IOException {
 		// use this object to manipulate our page
@@ -129,7 +129,7 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration negative test to check the getCookiePath method")
 	public void negativeGetCookiePathTest() throws IOException {
 		// use this object to manipulate our page
@@ -141,19 +141,19 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration test to check the getCookieDomain method")
 	public void getCookieDomainTest() throws IOException {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
 		String cookie = actions.getCookieDomain("cookie");
-		Assert.assertEquals(cookie, "localhost");
+		Assert.assertEquals(cookie, getTestSite().split("/")[2]);
 		// verify no issues
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration negative test to check the getCookieDomain method")
 	public void negativeGetCookieDomainTest() throws IOException {
 		// use this object to manipulate our page
@@ -165,7 +165,7 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration test to check the getCookieExpiration method")
 	public void getCookieExpirationTest() throws IOException, ParseException {
 		// our cookie date
@@ -181,7 +181,7 @@ public class ActionGetIT extends TestBase {
 		finish();
 	}
 
-	@Test(groups = { "integration", "actions", "get",
+	@Test(groups = { "integration", "actions", "get", "cookie",
 			"virtual" }, description = "An integration negative test to check the getCookieExpiration method")
 	public void negativeGetCookieExpirationTest() throws IOException {
 		// use this object to manipulate our page
