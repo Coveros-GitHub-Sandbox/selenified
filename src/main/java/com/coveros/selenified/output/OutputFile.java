@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools.output;
+package com.coveros.selenified.output;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,10 +33,11 @@ import java.util.List;
 
 import org.testng.log4testng.Logger;
 
-import tools.General;
-import tools.output.Selenium.Browsers;
-import tools.output.Assert.Result;
-import tools.output.Assert.Success;
+import com.coveros.selenified.output.Assert.Result;
+import com.coveros.selenified.output.Assert.Success;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Selenium.Browser;
+import com.coveros.selenified.tools.General;
 
 /**
  * Test Output A custom generated output file outputFile.recording all actions
@@ -64,7 +65,7 @@ public class OutputFile {
 	private String directory;
 	private File file;
 	private String filename;
-	private Browsers browser;
+	private Browser browser;
 	private List<String> screenshots = new ArrayList<>();
 
 	// timing of the test
@@ -94,7 +95,7 @@ public class OutputFile {
 	 * @param setBrowser
 	 *            - the browser we are performing this test on
 	 */
-	public OutputFile(String testDirectory, String testName, Browsers setBrowser) {
+	public OutputFile(String testDirectory, String testName, Browser setBrowser) {
 		test = testName;
 		browser = setBrowser;
 		directory = testDirectory;
@@ -319,7 +320,7 @@ public class OutputFile {
 		if (result == Result.SUCCESS) {
 			success = "Pass";
 		}
-		if ("Fail".equals(success) && browser != Browsers.HTMLUNIT) {
+		if ("Fail".equals(success) && browser != Browser.HTMLUNIT) {
 			// get a screen shot of our action
 			imageLink = captureEntirePageScreenshot();
 		}
@@ -360,7 +361,7 @@ public class OutputFile {
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
 			// get a screen shot of our action
 			String imageLink = "";
-			if (browser != Browsers.HTMLUNIT) {
+			if (browser != Browser.HTMLUNIT) {
 				imageLink = captureEntirePageScreenshot();
 			}
 			// determine time differences

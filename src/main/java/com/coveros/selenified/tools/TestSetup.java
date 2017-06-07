@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package tools;
+package com.coveros.selenified.tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +36,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.testng.log4testng.Logger;
 
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.selenium.Selenium.Browser;
+
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.EdgeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import io.github.bonigarcia.wdm.OperaDriverManager;
-import selenified.exceptions.InvalidBrowserException;
-import tools.output.Selenium.Browsers;
 
 public class TestSetup {
 
@@ -108,8 +109,8 @@ public class TestSetup {
 	 * @return List: a list of all browsers
 	 * @throws InvalidBrowserException
 	 */
-	public static List<Browsers> setBrowser() throws InvalidBrowserException {
-		List<Browsers> browsers = new ArrayList<>();
+	public static List<Browser> setBrowser() throws InvalidBrowserException {
+		List<Browser> browsers = new ArrayList<>();
 		// null input check
 		if (System.getProperty(BROWSER_INPUT) == null) {
 			return browsers;
@@ -120,7 +121,7 @@ public class TestSetup {
 			try {
 				String[] browserStrings = System.getProperty(BROWSER_INPUT).split(",");
 				for( String browserString : browserStrings ) {
-					browsers.add(Browsers.lookup(browserString));
+					browsers.add(Browser.lookup(browserString));
 				}
 			} catch (InvalidBrowserException e) {
 				log.error(e);
@@ -131,7 +132,7 @@ public class TestSetup {
 			for (String details : allDetails) {
 				Map<String, String> browserDetails = General.parseMap(details);
 				if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
-					browsers.add(Browsers.lookup(browserDetails.get(BROWSER_NAME_INPUT)));
+					browsers.add(Browser.lookup(browserDetails.get(BROWSER_NAME_INPUT)));
 				} else {
 					browsers.add(null);
 				}
@@ -152,7 +153,7 @@ public class TestSetup {
 			// determine our browser information
 			if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
 				capabilities.setCapability(CapabilityType.BROWSER_NAME,
-						Browsers.valueOf(browserDetails.get(BROWSER_NAME_INPUT)).toString());
+						Browser.valueOf(browserDetails.get(BROWSER_NAME_INPUT)).toString());
 			}
 			if (browserDetails.containsKey(BROWSER_VERSION_INPUT)) {
 				capabilities.setCapability(CapabilityType.VERSION, browserDetails.get(BROWSER_VERSION_INPUT));
@@ -176,7 +177,7 @@ public class TestSetup {
 	 *            - which browser are we running with
 	 * @throws InvalidBrowserException
 	 */
-	public void setupBrowserCapability(Browsers browser) throws InvalidBrowserException {
+	public void setupBrowserCapability(Browser browser) throws InvalidBrowserException {
 		switch (browser) { // check our browser
 		case HTMLUNIT:
 			capabilities = DesiredCapabilities.htmlUnitWithJs();
@@ -240,7 +241,7 @@ public class TestSetup {
 	 * @return WebDriver: the driver to interact with for the test
 	 * @throws InvalidBrowserException
 	 */
-	public static WebDriver setupDriver(Browsers browser, DesiredCapabilities capabilities)
+	public static WebDriver setupDriver(Browser browser, DesiredCapabilities capabilities)
 			throws InvalidBrowserException {
 		WebDriver driver;
 		// check our browser

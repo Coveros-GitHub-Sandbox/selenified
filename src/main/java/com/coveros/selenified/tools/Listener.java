@@ -18,14 +18,14 @@
  * under the License.
  */
 
-package tools;
+package com.coveros.selenified.tools;
 
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 
-import tools.output.Selenium.Browsers;
-import tools.output.Assert.Result;
+import com.coveros.selenified.output.Assert.Result;
+import com.coveros.selenified.selenium.Selenium.Browser;
 
 import java.io.File;
 
@@ -70,7 +70,7 @@ public class Listener extends TestListenerAdapter {
 		super.onTestFailure(test);
 
 		String testName = getTestName(test);
-		Browsers browser = (Browsers) test.getAttribute(BROWSER_INPUT);
+		Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
 		Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
 				+ getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
 				+ (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
@@ -84,7 +84,7 @@ public class Listener extends TestListenerAdapter {
 	public void onTestSkipped(ITestResult test) {
 		super.onTestSkipped(test);
 		String testName = getTestName(test);
-		Browsers browser = (Browsers) test.getAttribute(BROWSER_INPUT);
+		Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
 		Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
 				+ getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
 				+ (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
@@ -98,7 +98,7 @@ public class Listener extends TestListenerAdapter {
 	public void onTestSuccess(ITestResult test) {
 		super.onTestSuccess(test);
 		String testName = getTestName(test);
-		Browsers browser = (Browsers) test.getAttribute(BROWSER_INPUT);
+		Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
 		Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
 				+ getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
 				+ (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);

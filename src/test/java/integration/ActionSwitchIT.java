@@ -5,11 +5,11 @@ import java.io.IOException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import tools.TestBase;
-import tools.output.Action;
-import tools.output.Assert;
-import tools.output.Element;
-import tools.output.Selenium.Locators;
+import com.coveros.selenified.output.Assert;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Selenium.Locator;
+import com.coveros.selenified.tools.TestBase;
 
 public class ActionSwitchIT extends TestBase {
 
@@ -32,9 +32,9 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		asserts.checkElementNotDisplayed(Locator.ID, "message");
 		actions.selectFrame(0);
-		asserts.checkElementDisplayed(Locators.ID, "message");
+		asserts.checkElementDisplayed(Locator.ID, "message");
 		// verify no issues
 		finish();
 	}
@@ -47,7 +47,7 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		asserts.checkElementNotDisplayed(Locator.ID, "message");
 		actions.selectFrame(2);
 		// verify 1 issue
 		finish(1);
@@ -61,9 +61,9 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		asserts.checkElementNotDisplayed(Locator.ID, "message");
 		actions.selectFrame("some_frame");
-		asserts.checkElementDisplayed(Locators.ID, "message");
+		asserts.checkElementDisplayed(Locator.ID, "message");
 		// verify no issues
 		finish();
 	}
@@ -76,7 +76,7 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotDisplayed(Locators.ID, "message");
+		asserts.checkElementNotDisplayed(Locator.ID, "message");
 		actions.selectFrame("some_non_existent_frame");
 		// verify 1 issue
 		finish(1);
@@ -90,9 +90,9 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		asserts.checkElementNotDisplayed(Locators.ID, "message");
-		actions.selectFrame(Locators.ID, "some_frame");
-		asserts.checkElementDisplayed(Locators.ID, "message");
+		asserts.checkElementNotDisplayed(Locator.ID, "message");
+		actions.selectFrame(Locator.ID, "some_frame");
+		asserts.checkElementDisplayed(Locator.ID, "message");
 		// verify no issues
 		finish();
 	}
@@ -103,7 +103,7 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.selectFrame(new Element(Locators.ID, "non-existent-element"));
+		actions.selectFrame(new Element(Locator.ID, "non-existent-element"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -114,7 +114,7 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.selectFrame(new Element(Locators.ID, "some_other_frame"));
+		actions.selectFrame(new Element(Locator.ID, "some_other_frame"));
 		// verify 2 issues
 		finish(2);
 	}
@@ -125,7 +125,7 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.selectFrame(new Element(Locators.ID, "scroll_button"));
+		actions.selectFrame(new Element(Locator.ID, "scroll_button"));
 		// verify no issues
 		finish(1);
 	}
@@ -225,7 +225,7 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(Locators.ID, "new_window");
+		actions.click(Locator.ID, "new_window");
 		actions.switchToNewWindow();
 		asserts.checkTextVisible("You're on the next page");
 		// verify no issues
@@ -240,7 +240,7 @@ public class ActionSwitchIT extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		actions.click(new Element(Locators.ID, "new_window"));
+		actions.click(new Element(Locator.ID, "new_window"));
 		actions.switchToNewWindow();
 		asserts.checkTextVisible("You're on the next page");
 		actions.switchToParentWindow();

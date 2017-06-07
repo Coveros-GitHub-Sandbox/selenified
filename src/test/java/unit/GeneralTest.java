@@ -2,7 +2,8 @@ package unit;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import tools.General;
+
+import com.coveros.selenified.tools.General;
 
 import java.io.File;
 import java.lang.reflect.Method;

@@ -6,11 +6,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import tools.TestBase;
-import tools.output.Action;
-import tools.output.Assert;
-import tools.output.Element;
-import tools.output.Selenium.Locators;
+import com.coveros.selenified.output.Assert;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Selenium.Locator;
+import com.coveros.selenified.tools.TestBase;
+
 
 public class SampleTests extends TestBase {
 
@@ -46,7 +47,7 @@ public class SampleTests extends TestBase {
 		// use this object to manipulate our page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.select(Locators.ID, "car_list", listItem);
+		actions.select(Locator.ID, "car_list", listItem);
 		// close out the test
 		finish();
 	}
@@ -59,7 +60,7 @@ public class SampleTests extends TestBase {
 		// use this object to verify our page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
-		Element element = new Element(Locators.XPATH, "//form/input[@type='checkbox']");
+		Element element = new Element(Locator.XPATH, "//form/input[@type='checkbox']");
 		for (int option = 0; option < actions.getElementMatchCount(element); option++) {
 			actions.click(element, option);
 			asserts.checkElementChecked(element, option);

@@ -18,19 +18,20 @@
  * under the License.
  */
 
-package tools;
+package com.coveros.selenified.tools;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
-import selenified.exceptions.InvalidBrowserException;
-import tools.output.OutputFile;
-import tools.output.Action;
-import tools.output.Assert;
-import tools.output.Selenium.Browsers;
-import tools.output.Selenium.DriverSetup;
+
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.output.Assert;
+import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Selenium.Browser;
+import com.coveros.selenified.selenium.Selenium.DriverSetup;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -44,7 +45,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Listeners({ tools.Listener.class, tools.Transformer.class })
+@Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
 public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);
@@ -56,11 +57,11 @@ public class TestBase {
 	protected static DesiredCapabilities extraCapabilities = null;
 
 	// some passed in system params
-	protected static List<Browsers> browsers;
+	protected static List<Browser> browsers;
 	protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
 
 	// for individual tests
-	protected ThreadLocal<Browsers> browser = new ThreadLocal<>();
+	protected ThreadLocal<Browser> browser = new ThreadLocal<>();
 	protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
 	protected ThreadLocal<Assert> asserts = new ThreadLocal<>();
 	protected ThreadLocal<Action> actions = new ThreadLocal<>();
@@ -110,7 +111,7 @@ public class TestBase {
 	public static void initializeSystem() {
 		// check our browser
 		if (System.getProperty(BROWSER_INPUT) == null) {
-			System.setProperty(BROWSER_INPUT, Browsers.HTMLUNIT.toString());
+			System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
 		}
 		if (System.getProperty(APP_INPUT) != null) {
 			passedInTestSite(System.getProperty(APP_INPUT));
@@ -126,7 +127,7 @@ public class TestBase {
 	public static void setupTestParameters() throws InvalidBrowserException {
 		browsers = TestSetup.setBrowser();
 
-		for (Browsers browser : browsers) {
+		for (Browser browser : browsers) {
 			TestSetup setup = new TestSetup();
 			// are we running remotely on a hub
 			if (System.getProperty("hub") != null) {
@@ -231,7 +232,7 @@ public class TestBase {
 		}
 		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
-		Browsers myBrowser = browsers.get(invocationCount);
+		Browser myBrowser = browsers.get(invocationCount);
 		this.browser.set(myBrowser);
 		result.setAttribute(BROWSER_INPUT, myBrowser);
 

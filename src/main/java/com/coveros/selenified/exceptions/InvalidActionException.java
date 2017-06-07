@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2017 Coveros, Inc.
  * 
@@ -18,19 +19,19 @@
  * under the License.
  */
 
-package selenified.exceptions;
+package com.coveros.selenified.exceptions;
 
 import java.io.IOException;
 
-public class InvalidLocatorTypeException extends IOException {
+public class InvalidActionException extends IOException {
 
-	private static final long serialVersionUID = 4953865602802786545L;
+	private static final long serialVersionUID = -5288393641127953902L;
 
-	public InvalidLocatorTypeException() {
+	public InvalidActionException() {
 		super();
 	}
 
-	public InvalidLocatorTypeException(String msg) {
+	public InvalidActionException(String msg) {
 		super(msg);
 	}
 }

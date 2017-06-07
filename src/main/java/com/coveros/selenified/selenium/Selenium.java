@@ -18,9 +18,9 @@
  * under the License.
  */
 
-package tools.output;
+package com.coveros.selenified.selenium;
 
-import selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 
 public class Selenium {
 
@@ -61,7 +61,7 @@ public class Selenium {
 	 * options are: xpath, id, name, classname, css, paritallinktext, linktext,
 	 * tagname
 	 */
-	public enum Locators {
+	public enum Locator {
 		NONE, XPATH, ID, NAME, CLASSNAME, CSS, PARTIALLINKTEXT, LINKTEXT, TAGNAME
 	}
 
@@ -71,7 +71,7 @@ public class Selenium {
 	 * Android, Ipad (only locally - not on grid), Iphone (only locally, not on
 	 * grid), Opera, Safari, PhantomJS
 	 */
-	public enum Browsers {
+	public enum Browser {
 		NONE, HTMLUNIT, FIREFOX, MARIONETTE, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
 
 		/**
@@ -80,11 +80,11 @@ public class Selenium {
 		 * 
 		 * @param b
 		 *            - the string name of the browser
-		 * @return Browsers: the enum version of the browser
+		 * @return Browser: the enum version of the browser
 		 * @throws InvalidBrowserException
 		 */
-		public static Browsers lookup(String b) throws InvalidBrowserException {
-			for (Browsers browser : Browsers.values()) {
+		public static Browser lookup(String b) throws InvalidBrowserException {
+			for (Browser browser : Browser.values()) {
 				if (browser.name().equalsIgnoreCase(b)) {
 					return browser;
 				}
