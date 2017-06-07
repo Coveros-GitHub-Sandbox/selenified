@@ -3225,6 +3225,35 @@ public class Action {
 	}
 
 	/**
+	 * A private method to send a key combination both as control and command
+	 * (PC and Mac compatibile)
+	 * 
+	 * @param action
+	 *            - the action occurring
+	 * @param expected
+	 *            - the expected result
+	 * @param fail
+	 *            - the failed result
+	 * @param key
+	 *            - what key to send along with control and/or command
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	private int sendControlAndCommand(String action, String expected, String fail, String key) {
+		try {
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + key);
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + key);
+		} catch (Exception e) {
+			file.recordAction(action, expected, fail + e.getMessage(), Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
+	}
+
+	/**
 	 * a way to open a new tab, and have it selected. Note, no content will be
 	 * present on this new tab, use the goToURL method to open load some content
 	 * 
@@ -3232,19 +3261,7 @@ public class Action {
 	 *         steps
 	 */
 	public int openTab() {
-		String action = "Opening new tab";
-		String expected = "New tab is opened";
-		try {
-			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");
-			driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "t");
-		} catch (Exception e) {
-			file.recordAction(action, expected, "New tab was unable to be opened. " + e.getMessage(), Result.FAILURE);
-			file.addError();
-			log.error(e);
-			return 1;
-		}
-		file.recordAction(action, expected, expected, Result.SUCCESS);
-		return 0;
+		return sendControlAndCommand("Opening new tab", "New tab is opened", "New tab was unable to be opened. ", "t");
 	}
 
 	/**
@@ -3320,19 +3337,8 @@ public class Action {
 	 *         steps
 	 */
 	public int closeTab() {
-		String action = "Closing currently open tab";
-		String expected = "Tab is closed";
-		try {
-			driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
-			driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "w");
-		} catch (Exception e) {
-			file.recordAction(action, expected, "Tab was unable to be closed. " + e.getMessage(), Result.FAILURE);
-			file.addError();
-			log.error(e);
-			return 1;
-		}
-		file.recordAction(action, expected, expected, Result.SUCCESS);
-		return 0;
+		return sendControlAndCommand("Closing currently open tab", "Tab is closed", "Tab was unable to be closed. ",
+				"w");
 	}
 
 	/**
@@ -3358,6 +3364,113 @@ public class Action {
 	}
 
 	/**
+	 * A private method to accept (click 'OK' on) whatever popup is present on
+	 * the page
+	 * 
+	 * @param action
+	 *            - the action occurring
+	 * @param expected
+	 *            - the expected result
+	 * @param popup
+	 *            - the element we are interacting with
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	private int accept(String action, String expected, String popup) {
+		try {
+			Alert alert = driver.switchTo().alert();
+			alert.accept();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, "Unable to click 'OK' on the " + popup + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
+		file.recordAction(action, expected, "Clicked 'OK' on the " + popup, Result.SUCCESS);
+		return 0;
+	}
+
+	/**
+	 * A private method to dismiss (click 'Cancel' on) whatever popup is present
+	 * on the page
+	 * 
+	 * @param action
+	 *            - the action occurring
+	 * @param expected
+	 *            - the expected result
+	 * @param popup
+	 *            - the element we are interacting with
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	private int dismiss(String action, String expected, String popup) {
+		try {
+			Alert alert = driver.switchTo().alert();
+			alert.dismiss();
+		} catch (Exception e) {
+			log.error(e);
+			file.recordAction(action, expected, "Unable to click 'Cancel' on the " + popup + ". " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			return 1;
+		}
+		file.recordAction(action, expected, "Clicked 'Cancel' on the " + popup, Result.SUCCESS);
+		return 0;
+	}
+
+	/**
+	 * A private method to determine if a confirmation is present or not, and
+	 * can be interacted with
+	 * 
+	 * @param action
+	 *            - the action occurring
+	 * @param expected
+	 *            - the expected result
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	private int isConfirmation(String action, String expected) {
+		// wait for element to be present
+		if (!isConfirmationPresent(false)) {
+			waitForConfirmationPresent();
+		}
+		if (!isConfirmationPresent(false)) {
+			file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
+			file.addError();
+			return 1; // indicates element not present
+		}
+		return 0;
+	}
+
+	/**
+	 * A private method to determine if a prompt is present or not, and can be
+	 * interacted with
+	 * 
+	 * @param action
+	 *            - the action occurring
+	 * @param expected
+	 *            - the expected result
+	 * @param perform
+	 *            - the action occurring to the prompt
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	private int isPrompt(String action, String expected, String perform) {
+		// wait for element to be present
+		if (!isPromptPresent(false)) {
+			waitForPromptPresent();
+		}
+		if (!isPromptPresent(false)) {
+			file.recordAction(action, expected, "Unable to " + perform + " prompt as it is not present",
+					Result.FAILURE);
+			file.addError();
+			return 1; // indicates element not present
+		}
+		return 0;
+	}
+
+	/**
 	 * Some basic functionality for clicking 'OK' on an alert box
 	 *
 	 * @return Integer - the number of errors encountered while executing these
@@ -3375,17 +3488,7 @@ public class Action {
 			file.addError();
 			return 1; // indicates element not present
 		}
-		try {
-			Alert alert = driver.switchTo().alert();
-			alert.accept();
-		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'OK' on the alert. " + e.getMessage(), Result.FAILURE);
-			file.addError();
-			return 1;
-		}
-		file.recordAction(action, expected, "Clicked 'OK' on the alert", Result.SUCCESS);
-		return 0;
+		return accept(action, expected, "alert");
 	}
 
 	/**
@@ -3397,27 +3500,10 @@ public class Action {
 	public int acceptConfirmation() {
 		String action = "Clicking 'OK' on a confirmation";
 		String expected = "Confirmation is present to be clicked";
-		// wait for element to be present
-		if (!isConfirmationPresent(false)) {
-			waitForConfirmationPresent();
-		}
-		if (!isConfirmationPresent(false)) {
-			file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not present
-		}
-		try {
-			Alert alert = driver.switchTo().alert();
-			alert.accept();
-		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'OK' on the confirmation. " + e.getMessage(),
-					Result.FAILURE);
-			file.addError();
+		if (isConfirmation(action, expected) != 0) {
 			return 1;
 		}
-		file.recordAction(action, expected, "Clicked 'OK' on the confirmation", Result.SUCCESS);
-		return 0;
+		return accept(action, expected, "confirmation");
 	}
 
 	/**
@@ -3429,27 +3515,10 @@ public class Action {
 	public int dismissConfirmation() {
 		String action = "Clicking 'Cancel' on a confirmation";
 		String expected = "Confirmation is present to be clicked";
-		// wait for element to be present
-		if (!isConfirmationPresent(false)) {
-			waitForConfirmationPresent();
-		}
-		if (!isConfirmationPresent(false)) {
-			file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not present
-		}
-		try {
-			Alert alert = driver.switchTo().alert();
-			alert.dismiss();
-		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'Cancel' on the confirmation. " + e.getMessage(),
-					Result.FAILURE);
-			file.addError();
+		if (isConfirmation(action, expected) != 0) {
 			return 1;
 		}
-		file.recordAction(action, expected, "Clicked 'Cancel' on the confirmation", Result.SUCCESS);
-		return 0;
+		return dismiss(action, expected, "confirmation");
 	}
 
 	/**
@@ -3461,27 +3530,10 @@ public class Action {
 	public int acceptPrompt() {
 		String action = "Clicking 'OK' on a prompt";
 		String expected = "Prompt is present to be clicked";
-		// wait for element to be present
-		if (!isPromptPresent(false)) {
-			waitForPromptPresent();
-		}
-		if (!isPromptPresent(false)) {
-			file.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not present
-		}
-		try {
-			Alert alert = driver.switchTo().alert();
-			alert.accept();
-		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'OK' on the prompt. " + e.getMessage(),
-					Result.FAILURE);
-			file.addError();
+		if (isPrompt(action, expected, "click") != 0) {
 			return 1;
 		}
-		file.recordAction(action, expected, "Clicked 'OK' on the prompt", Result.SUCCESS);
-		return 0;
+		return accept(action, expected, "prompt");
 	}
 
 	/**
@@ -3493,27 +3545,10 @@ public class Action {
 	public int dismissPrompt() {
 		String action = "Clicking 'Cancel' on a prompt";
 		String expected = "Prompt is present to be clicked";
-		// wait for element to be present
-		if (!isPromptPresent(false)) {
-			waitForPromptPresent();
-		}
-		if (!isPromptPresent(false)) {
-			file.recordAction(action, expected, "Unable to click prompt as it is not present", Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not present
-		}
-		try {
-			Alert alert = driver.switchTo().alert();
-			alert.dismiss();
-		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, "Unable to click 'Cancel' on the prompt. " + e.getMessage(),
-					Result.FAILURE);
-			file.addError();
+		if (isPrompt(action, expected, "click") != 0) {
 			return 1;
 		}
-		file.recordAction(action, expected, "Clicked 'Cancel' on the prompt", Result.SUCCESS);
-		return 0;
+		return dismiss(action, expected, "prompt");
 	}
 
 	/**
@@ -3525,25 +3560,19 @@ public class Action {
 	public int typeIntoPrompt(String text) {
 		String action = "Typing text '" + text + "' into prompt";
 		String expected = "Prompt is present and enabled to have text " + text + " typed in";
-		// wait for element to be present
-		if (!isPromptPresent(false)) {
-			waitForPromptPresent();
-		}
-		if (!isPromptPresent(false)) {
-			file.recordAction(action, expected, "Unable to type in prompt as it is not present", Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not present
+		if (isPrompt(action, expected, "type into") != 0) {
+			return 1;
 		}
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.sendKeys(text);
 		} catch (Exception e) {
 			log.error(e);
-			file.recordAction(action, expected, "Unable to type into the prompt. " + e.getMessage(), Result.FAILURE);
+			file.recordAction(action, expected, "Unable to type into prompt. " + e.getMessage(), Result.FAILURE);
 			file.addError();
 			return 1;
 		}
-		file.recordAction(action, expected, "Typed text '" + text + "' into the prompt", Result.SUCCESS);
+		file.recordAction(action, expected, "Typed text '" + text + "' into prompt", Result.SUCCESS);
 		return 0;
 	}
 

@@ -1510,6 +1510,61 @@ public class LocatorAction {
 	}
 
 	/**
+	 * A private method to throw an error if moving to an element was
+	 * unsuccessful
+	 * 
+	 * @param e
+	 *            - the exception that was thrown
+	 * @param action
+	 *            - what is the action occurring
+	 * @param expected
+	 *            - what is the expected outcome of said action
+	 * @param type
+	 *            - the locator type e.g. Locator.id, Locator.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	private int cantMove(Exception e, String action, String expected, Locator type, String locator) {
+		log.error(e);
+		file.recordAction(action, expected, CANTMOVE + type + " " + locator + ". " + e.getMessage(), Result.FAILURE);
+		file.addError();
+		return 1;
+	}
+
+	/**
+	 * A private method to determine if the element moved towards is now
+	 * currently visible on the screen
+	 * 
+	 * @param action
+	 *            - what is the action occurring
+	 * @param expected
+	 *            - what is the expected outcome of said action
+	 * @param type
+	 *            - the locator type e.g. Locator.id, Locator.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 * @throws IOException
+	 */
+	private int isMoved(String action, String expected, Locator type, String locator, int elementMatch)
+			throws IOException {
+		if (!isElementDisplayed(type, locator, elementMatch, false)) {
+			file.recordAction(action, expected, type + " " + locator + " is not present on visible page",
+					Result.FAILURE);
+			file.addError();
+			return 1; // indicates element not visible
+		}
+		file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
+		return 0; // indicates element successfully moved to
+	}
+
+	/**
 	 * An extension of the basic Selenium action of 'moveToElement' This will
 	 * scroll or move the page to ensure the element is visible
 	 *
@@ -1536,21 +1591,9 @@ public class LocatorAction {
 			Actions builder = new Actions(driver);
 			builder.moveToElement(element);
 		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, CANTMOVE + type + " " + locator + ". " + e.getMessage(),
-					Result.FAILURE);
-			file.addError();
-			return 1;
+			return cantMove(e, action, expected, type, locator);
 		}
-
-		if (!isElementDisplayed(type, locator, elementMatch, false)) {
-			file.recordAction(action, expected, type + " " + locator + " is not present on visible page",
-					Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not visible
-		}
-		file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
-		return 0; // indicates element successfully moved to
+		return isMoved(action, expected, type, locator, elementMatch);
 	}
 
 	/**
@@ -1585,21 +1628,9 @@ public class LocatorAction {
 			long newPosition = elementPosition - position;
 			jse.executeScript("window.scrollBy(0, " + newPosition + ")");
 		} catch (Exception e) {
-			log.error(e);
-			file.recordAction(action, expected, CANTMOVE + type + " " + locator + ". " + e.getMessage(),
-					Result.FAILURE);
-			file.addError();
-			return 1;
+			return cantMove(e, action, expected, type, locator);
 		}
-
-		if (!isElementDisplayed(type, locator, elementMatch, false)) {
-			file.recordAction(action, expected, type + " " + locator + " is not present on visible page",
-					Result.FAILURE);
-			file.addError();
-			return 1; // indicates element not visible
-		}
-		file.recordAction(action, expected, type + " " + locator + " is present on visible page", Result.SUCCESS);
-		return 0; // indicates element successfully moved to
+		return isMoved(action, expected, type, locator, elementMatch);
 	}
 
 	/**
