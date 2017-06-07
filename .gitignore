@@ -32,6 +32,7 @@ local.properties
 .idea/
 src/main/main.iml
 src/test/test.iml
+selenified.iml
 
 # Eclipse Core
 .project
