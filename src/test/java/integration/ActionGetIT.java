@@ -148,7 +148,7 @@ public class ActionGetIT extends TestBase {
 		Action actions = this.actions.get();
 		// perform some actions
 		String cookie = actions.getCookieDomain("cookie");
-		Assert.assertEquals(cookie, getTestSite().split("/")[2]);
+		Assert.assertEquals(cookie, getTestSite().split("/")[2].split(":")[0]);
 		// verify no issues
 		finish();
 	}
