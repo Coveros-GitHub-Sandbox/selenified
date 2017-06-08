@@ -37,7 +37,7 @@ public class NoBrowserIT extends TestBase {
 	@Test(groups = { "integration",
 			"virtual" }, description = "An integration test to verify we can start a test without a browser")
 	public void verifyNoBrowser() throws IOException {
-		// use this object to manipulate our page
+		// use this object to manipulate the page
 		Action actions = this.actions.get();
 		// verify no selenium actions class was setup
 		Assert.assertNull(actions);

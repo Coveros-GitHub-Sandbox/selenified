@@ -297,8 +297,8 @@ public class General {
 	 * camel case to spaces, including ensuring the first word is capitalized
 	 * 
 	 * @param word
-	 *            - our input string
-	 * @return our fixed string
+	 *            - the input string
+	 * @return the fixed string
 	 */
 	public static String wordToSentence(String word) {
 		if (word == null) {
