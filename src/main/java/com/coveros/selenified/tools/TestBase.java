@@ -45,14 +45,31 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * TestBase contains all of the elements to setup the test suite, and to start
+ * and finish your tests. The site under test is set here should be set,
+ * otherwise a default value of google will be used. Before each suite is run,
+ * the system variables are gathered, to set the browser, test site, proxy, hub,
+ * etc. This class should be extended by each test class to allow for simple
+ * execution of tests.
+ * 
+ * By default each test run will launch a selenium browser, and open the defined
+ * test site. If no browser is needed for the test, override the startTest
+ * method. Similarly, if you don't want a URL to initially load, override the
+ * startTest method.
+ *
+ * @author Max Saperstone
+ * @version 2.0.0
+ * @lastupdate 6/8/2017
+ */
 @Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
 public class TestBase {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
 	private static String testSite = "https://www.google.com/";
-	private static String version;
-	private static String author = "Max Saperstone";
+	private static String version = "";
+	private static String author = "";
 
 	protected static DesiredCapabilities extraCapabilities = null;
 
@@ -105,11 +122,11 @@ public class TestBase {
 	}
 
 	/**
-	 * Initializes our test settings by setting default values for our browser
+	 * Initializes the test settings by setting default values for the browser
 	 * and URL if they are not specifically set
 	 */
 	public static void initializeSystem() {
-		// check our browser
+		// check the browser
 		if (System.getProperty(BROWSER_INPUT) == null) {
 			System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
 		}
@@ -152,7 +169,7 @@ public class TestBase {
 	}
 
 	/**
-	 * Runs once before any of our tests run, to parse and setup the static
+	 * Runs once before any of the tests run, to parse and setup the static
 	 * passed information such as browsers, proxy, hub, etc
 	 * 
 	 * @throws InvalidBrowserException
@@ -337,7 +354,7 @@ public class TestBase {
 		}
 
 		/**
-		 * Runs once before any of our tests run, to parse and setup the static
+		 * Runs once before any of the tests run, to parse and setup the static
 		 * passed information such as browsers, proxy, hub, etc
 		 */
 		public static MasterSuiteSetupConfigurator getInstance() {
@@ -349,7 +366,7 @@ public class TestBase {
 		}
 
 		/**
-		 * Runs once before any of our tests run, to parse and setup the static
+		 * Runs once before any of the tests run, to parse and setup the static
 		 * passed information such as browsers, proxy, hub, etc
 		 */
 		public void doSetup() throws InvalidBrowserException {

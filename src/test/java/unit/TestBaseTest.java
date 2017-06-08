@@ -30,7 +30,7 @@ public class TestBaseTest extends TestBase {
 		extraCapabilities = new DesiredCapabilities();
 		extraCapabilities.setCapability("ignoreProtectedModeSettings", true);
 		extraCapabilities.setCapability("unexpectedAlertBehaviour", "ignore");
-		// save our passed in information
+		// save the passed in information
 		if (System.getProperty("appURL") != null) {
 			setAppURL = System.getProperty("appURL");
 			System.clearProperty("appURL");

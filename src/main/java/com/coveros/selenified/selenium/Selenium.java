@@ -25,7 +25,7 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 public class Selenium {
 
 	/**
-	 * determining how to launch/start our browser. Do we even want a browser,
+	 * determining how to launch/start the browser. Do we even want a browser,
 	 * and if so do we wait for the initial page to load, or do we need to
 	 * perform other activities first
 	 */
