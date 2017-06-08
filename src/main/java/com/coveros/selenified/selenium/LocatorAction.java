@@ -61,7 +61,7 @@ public class LocatorAction {
 	private OutputFile file;
 
 	// what locator actions are available in webdriver
-	// this is our driver that will be used for all selenium actions
+	// this is the driver that will be used for all selenium actions
 	private WebDriver driver;
 
 	// constants
@@ -89,7 +89,7 @@ public class LocatorAction {
 	private static final String CANTMOVE = "Unable to move to ";
 
 	/**
-	 * our constructor, determining which browser use and how to run the
+	 * the constructor, determining which browser use and how to run the
 	 * browser: either grid or standalone
 	 *
 	 * @param driver
@@ -123,7 +123,7 @@ public class LocatorAction {
 			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + PRESENT;
 		String expected = type + " " + locator + " is present";
-		// wait for up to XX seconds for our error message
+		// wait for up to XX seconds for the error message
 		double end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
 			try { // If results have been returned, the results are displayed in
@@ -167,7 +167,7 @@ public class LocatorAction {
 			throws IOException {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be present";
 		String expected = type + " " + locator + " is not present";
-		// wait for up to XX seconds for our error message
+		// wait for up to XX seconds for the error message
 		double end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
 			if (!isElementPresent(type, locator, elementMatch, false)) {
@@ -306,7 +306,7 @@ public class LocatorAction {
 		}
 		if (!isElementEnabled(type, locator, elementMatch, false)) {
 			WebElement element = getWebElement(type, locator, elementMatch);
-			// wait for up to XX seconds for our error message
+			// wait for up to XX seconds for the error message
 			double end = System.currentTimeMillis() + (seconds * 1000);
 			while (System.currentTimeMillis() < end) {
 				// If results have been returned, the results are displayed
@@ -871,7 +871,7 @@ public class LocatorAction {
 	}
 
 	/**
-	 * our generic selenium get text from an element functionality implemented
+	 * the generic selenium get text from an element functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -892,7 +892,7 @@ public class LocatorAction {
 	}
 
 	/**
-	 * our generic selenium get value from an element functionality implemented
+	 * the generic selenium get value from an element functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -1208,7 +1208,7 @@ public class LocatorAction {
 	// ///////////////////////////////////
 
 	/**
-	 * our generic selenium click functionality implemented
+	 * the generic selenium click functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -1241,7 +1241,7 @@ public class LocatorAction {
 	}
 
 	/**
-	 * our generic selenium submit functionality implemented
+	 * the generic selenium submit functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -1390,7 +1390,7 @@ public class LocatorAction {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented for specific keys
+	 * the generic selenium type functionality implemented for specific keys
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -1426,7 +1426,7 @@ public class LocatorAction {
 	}
 
 	/**
-	 * our generic selenium clear functionality implemented
+	 * the generic selenium clear functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -1461,7 +1461,7 @@ public class LocatorAction {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath

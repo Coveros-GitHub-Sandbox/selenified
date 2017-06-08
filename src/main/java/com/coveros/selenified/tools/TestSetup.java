@@ -84,7 +84,7 @@ public class TestSetup {
 	public void setupProxy() {
 		// are we running through a proxy
 		if (System.getProperty(PROXY_INPUT) != null) {
-			// set our proxy information
+			// set the proxy information
 			Proxy proxy = new Proxy();
 			proxy.setHttpProxy(System.getProperty(PROXY_INPUT));
 			capabilities.setCapability(CapabilityType.PROXY, proxy);
@@ -150,7 +150,7 @@ public class TestSetup {
 	 */
 	public void setupBrowserDetails(Map<String, String> browserDetails) {
 		if (browserDetails != null) {
-			// determine our browser information
+			// determine the browser information
 			if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
 				capabilities.setCapability(CapabilityType.BROWSER_NAME,
 						Browser.valueOf(browserDetails.get(BROWSER_NAME_INPUT)).toString());
@@ -178,7 +178,7 @@ public class TestSetup {
 	 * @throws InvalidBrowserException
 	 */
 	public void setupBrowserCapability(Browser browser) throws InvalidBrowserException {
-		switch (browser) { // check our browser
+		switch (browser) { // check the browser
 		case HTMLUNIT:
 			capabilities = DesiredCapabilities.htmlUnitWithJs();
 			break;
@@ -215,7 +215,7 @@ public class TestSetup {
 		case PHANTOMJS:
 			capabilities = DesiredCapabilities.phantomjs();
 			break;
-		// if our browser is not listed, throw an error
+		// if the browser is not listed, throw an error
 		default:
 			throw new InvalidBrowserException("The selected browser " + browser);
 		}
@@ -244,7 +244,7 @@ public class TestSetup {
 	public static WebDriver setupDriver(Browser browser, DesiredCapabilities capabilities)
 			throws InvalidBrowserException {
 		WebDriver driver;
-		// check our browser
+		// check the browser
 		switch (browser) {
 		case HTMLUNIT:
 			driver = new CustomHtmlUnitDriver(capabilities);
@@ -276,7 +276,7 @@ public class TestSetup {
 			OperaDriverManager.getInstance().forceCache().setup();
 			driver = new OperaDriver(capabilities);
 			break;
-		// if our browser is not listed, throw an error
+		// if the browser is not listed, throw an error
 		default:
 			throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
 		}

@@ -89,7 +89,7 @@ public class LocatorAssert {
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> visible on the page");
 		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present and visible on the page",
 				Success.PASS);
@@ -115,7 +115,7 @@ public class LocatorAssert {
 				&& action.waitForElementNotDisplayed(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> present, but not visible on the page");
 		outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present and not visible on the page",
 				Success.PASS);
@@ -141,9 +141,9 @@ public class LocatorAssert {
 				&& action.waitForElementPresent(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + CHECKED);
-		// check for our object to the visible
+		// check for the object to the visible
 		if (!action.isElementChecked(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTCHECKED, Success.FAIL);
 			return 1;
@@ -171,9 +171,9 @@ public class LocatorAssert {
 				&& action.waitForElementPresent(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + NOTCHECKED);
-		// check for our object to the visible
+		// check for the object to the visible
 		if (action.isElementChecked(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> checked on the page", Success.FAIL);
 			return 1;
@@ -201,9 +201,9 @@ public class LocatorAssert {
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + CHECKED);
-		// check for our object to the visible
+		// check for the object to the visible
 		if (!action.isElementChecked(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTCHECKED, Success.FAIL);
 			return 1;
@@ -232,9 +232,9 @@ public class LocatorAssert {
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + NOTCHECKED);
-		// check for our object to the visible
+		// check for the object to the visible
 		if (action.isElementChecked(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + CHECKED, Success.FAIL);
 			return 1;
@@ -260,7 +260,7 @@ public class LocatorAssert {
 	 * @throws IOException
 	 */
 	private int checkEditable(Locator type, String locator, int elementMatch, String presence) throws IOException {
-		// check for our object to the editable
+		// check for the object to the editable
 		if (!action.isElementInput(type, locator, elementMatch)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but not an input on the page",
 					Success.FAIL);
@@ -292,7 +292,7 @@ public class LocatorAssert {
 	 * @throws IOException
 	 */
 	private int checkNotEditable(Locator type, String locator, int elementMatch, String presence) throws IOException {
-		// check for our object to the editable
+		// check for the object to the editable
 		boolean isElementEnabled = false;
 		if (action.isElementInput(type, locator, elementMatch)) {
 			isElementEnabled = action.isElementEnabled(type, locator, elementMatch);
@@ -326,7 +326,7 @@ public class LocatorAssert {
 				&& action.waitForElementPresent(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> editable on the page");
 		return checkEditable(type, locator, elementMatch, "present");
 	}
@@ -350,7 +350,7 @@ public class LocatorAssert {
 				&& action.waitForElementPresent(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> not editable on the page");
 		return checkNotEditable(type, locator, elementMatch, "present");
 	}
@@ -374,7 +374,7 @@ public class LocatorAssert {
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> visible and editable on the page");
 		return checkEditable(type, locator, elementMatch, "visable");
 	}
@@ -398,7 +398,7 @@ public class LocatorAssert {
 				&& action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> visible and not editable on the page");
 		return checkNotEditable(type, locator, elementMatch, "visible");
 	}
@@ -429,7 +429,7 @@ public class LocatorAssert {
 		Map<String, String> attributes = action.getAllAttributes(type, locator, elementMatch);
 		Set<String> keys = attributes.keySet();
 		String[] array = keys.toArray(new String[keys.size()]);
-		// outputFile.record our action
+		// outputFile.record the action
 		if (General.doesArrayContain(array, attribute)) {
 			outputFile.recordActual(
 					ELEMENT + type + " <i>" + locator + "</i> contains the attribute of <b>" + attribute + "</b>",
@@ -468,7 +468,7 @@ public class LocatorAssert {
 		Map<String, String> attributes = action.getAllAttributes(type, locator, elementMatch);
 		Set<String> keys = attributes.keySet();
 		String[] array = keys.toArray(new String[keys.size()]);
-		// outputFile.record our action
+		// outputFile.record the action
 		if (General.doesArrayContain(array, attribute)) {
 			outputFile.recordActual(
 					ELEMENT + type + " <i>" + locator + "</i> contains the attribute of <b>" + attribute + "</b>",
@@ -504,7 +504,7 @@ public class LocatorAssert {
 		}
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with class <b>" + expectedClass + "</b>");
 		String actualClass = action.getAttribute(type, locator, elementMatch, CLASS);
-		// outputFile.record our action
+		// outputFile.record the action
 		if (actualClass.equals(expectedClass)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + expectedClass + "</b>",
 					Success.PASS);
@@ -539,7 +539,7 @@ public class LocatorAssert {
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> containing class <b>" + expectedClass + "</b>");
 		String actualClass = action.getAttribute(type, locator, elementMatch, CLASS);
-		// outputFile.record our action
+		// outputFile.record the action
 		if (actualClass.contains(expectedClass)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass
 					+ "</b>, which contains <b>" + expectedClass + "</b>", Success.PASS);
@@ -574,7 +574,7 @@ public class LocatorAssert {
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> without class <b>" + unexpectedClass + "</b>");
 		String actualClass = action.getAttribute(type, locator, elementMatch, CLASS);
-		// outputFile.record our action
+		// outputFile.record the action
 		if (actualClass.contains(unexpectedClass)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass
 					+ "</b>, which contains <b>" + unexpectedClass + "</b>", Success.FAIL);
@@ -607,10 +607,10 @@ public class LocatorAssert {
 				&& action.waitForElementEnabled(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the option <b>" + option
 				+ "</b> available to be" + " selected on the page");
-		// check for our object to the editable
+		// check for the object to the editable
 		String[] allOptions = action.getSelectOptions(type, locator, elementMatch);
 		if (!Arrays.asList(allOptions).contains(option)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator
@@ -645,10 +645,10 @@ public class LocatorAssert {
 				&& action.waitForElementEnabled(type, locator, elementMatch) == 1) {
 			return 1;
 		}
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> without the option <b>" + option
 				+ "</b> available to be" + " selected on the page");
-		// check for our object to the editable
+		// check for the object to the editable
 		String[] allOptions = action.getSelectOptions(type, locator, elementMatch);
 		if (Arrays.asList(allOptions).contains(option)) {
 			outputFile.recordActual(ELEMENT + type + " <i>" + locator
@@ -765,10 +765,10 @@ public class LocatorAssert {
 	 */
 	public int compareTextValue(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> having a value of <b>" + expectedValue + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String elementValue;
 		if (!isPresent(type, locator, elementMatch)) {
 			return 1;
@@ -800,9 +800,9 @@ public class LocatorAssert {
 	 */
 	public int compareTextValueContains(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + HASVALUE + expectedValue + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String elementValue;
 		if (!isPresent(type, locator, elementMatch)) {
 			return 1;
@@ -835,10 +835,10 @@ public class LocatorAssert {
 	 */
 	public int compareInputValue(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> having a value of <b>" + expectedValue + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String elementValue;
 		if (!isPresent(type, locator, elementMatch)) {
 			return 1;
@@ -873,10 +873,10 @@ public class LocatorAssert {
 	 */
 	public int compareCssValue(Locator type, String locator, int elementMatch, String attribute, String expectedValue)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> having a css attribute of <i>" + attribute
 				+ "</i> with a value of <b>" + expectedValue + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String elementCssValue;
 		if (!isPresent(type, locator, elementMatch)) {
 			return 1;
@@ -910,10 +910,10 @@ public class LocatorAssert {
 	 */
 	public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> having a select value of <b>" + selectValue + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String[] elementValues;
 		if (!isPresentInputEnabled(type, locator, elementMatch)) {
 			return 1;
@@ -946,10 +946,10 @@ public class LocatorAssert {
 	 */
 	public int checkSelectValueNotPresent(Locator type, String locator, int elementMatch, String selectValue)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> without a select value of <b>" + selectValue + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String[] elementValues;
 		if (!isPresentInputEnabled(type, locator, elementMatch)) {
 			return 1;
@@ -983,10 +983,10 @@ public class LocatorAssert {
 	 */
 	public int compareSelectedValue(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> having a selected value of <b>" + expectedValue + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String elementValue;
 		if (!isPresentInputEnabled(type, locator, elementMatch)) {
 			return 1;
@@ -1019,10 +1019,10 @@ public class LocatorAssert {
 	 */
 	public int compareSelectedText(Locator type, String locator, int elementMatch, String expectedText)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> having a selected text of <b>" + expectedText + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String elementText;
 		if (!isPresentInputEnabled(type, locator, elementMatch)) {
 			return 1;
@@ -1055,10 +1055,10 @@ public class LocatorAssert {
 	 */
 	public int compareSelectedValueNotEqual(Locator type, String locator, int elementMatch, String expectedValue)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> not having a selected value of <b>"
 				+ expectedValue + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String elementValue;
 		if (!isPresentInputEnabled(type, locator, elementMatch)) {
 			return 1;
@@ -1091,10 +1091,10 @@ public class LocatorAssert {
 	 */
 	public int compareSelectValues(Locator type, String locator, int elementMatch, String... expectedValues)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(
 				EXPECTED + type + " <i>" + locator + "</i> with select values of <b>" + expectedValues + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		String[] elementValues;
 		if (!isPresentInputEnabled(type, locator, elementMatch)) {
 			return 1;
@@ -1138,10 +1138,10 @@ public class LocatorAssert {
 	 */
 	public int compareNumOfSelectOptions(Locator type, String locator, int elementMatch, int numOfOptions)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with number of select values equal to <b>"
 				+ numOfOptions + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		int elementValues;
 		if (!isPresentInputEnabled(type, locator, elementMatch)) {
 			return 1;
@@ -1178,10 +1178,10 @@ public class LocatorAssert {
 	 */
 	public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the number of table rows equal to <b>"
 				+ numOfRows + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		if (!isPresent(type, locator, elementMatch)) {
 			return 1;
 		}
@@ -1214,10 +1214,10 @@ public class LocatorAssert {
 	 */
 	public int compareNumOfTableColumns(Locator type, String locator, int elementMatch, int numOfColumns)
 			throws IOException {
-		// outputFile.record our action
+		// outputFile.record the action
 		outputFile.recordExpected(EXPECTED + type + " <i>" + locator
 				+ "</i> with the number of table columns equal to <b>" + numOfColumns + "</b>");
-		// check for our object to the present on the page
+		// check for the object to the present on the page
 		if (!isPresent(type, locator, elementMatch)) {
 			return 1;
 		}

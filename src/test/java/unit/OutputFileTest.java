@@ -62,7 +62,7 @@ public class OutputFileTest {
 		try (
 				// Reopen file
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-			// record our action
+			// record the action
 			out.write("1 2 3 4 5 1\n");
 		} catch (IOException e) {
 		}
@@ -71,7 +71,7 @@ public class OutputFileTest {
 		try (
 				// Reopen file
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-			// record our action
+			// record the action
 			out.write("1\n");
 		} catch (IOException e) {
 		}
@@ -84,7 +84,7 @@ public class OutputFileTest {
 		try (
 				// Reopen file
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-			// record our action
+			// record the action
 			out.write("1 2 3 4 5 1\n");
 			out.write("Hello World\n");
 		} catch (IOException e) {

@@ -60,7 +60,7 @@ public class Action {
 	private OutputFile file;
 
 	// what locator actions are available in webdriver
-	// this is our driver that will be used for all selenium actions
+	// this is the driver that will be used for all selenium actions
 	private WebDriver driver;
 
 	// what browsers are we interested in implementing
@@ -82,7 +82,7 @@ public class Action {
 	private static final double WAITFOR = 5;
 
 	/**
-	 * our constructor, determining which browser use and how to run the
+	 * the constructor, determining which browser use and how to run the
 	 * browser: either grid or standalone
 	 *
 	 * @param browser
@@ -113,9 +113,9 @@ public class Action {
 	}
 
 	/**
-	 * a method to allow retrieving our driver instance
+	 * a method to allow retrieving the driver instance
 	 *
-	 * @return WebDriver: access to the driver controlling our browser via
+	 * @return WebDriver: access to the driver controlling the browser via
 	 *         webdriver
 	 */
 	public WebDriver getDriver() {
@@ -123,7 +123,7 @@ public class Action {
 	}
 
 	/**
-	 * a method to allow retrieving our set browser
+	 * a method to allow retrieving the set browser
 	 *
 	 * @return Browser: the enum of the browser
 	 */
@@ -132,7 +132,7 @@ public class Action {
 	}
 
 	/**
-	 * a method to allow retreiving our set capabilities
+	 * a method to allow retreiving the set capabilities
 	 *
 	 * @return capabilities: the listing of set capabilities
 	 */
@@ -141,7 +141,7 @@ public class Action {
 	}
 
 	/**
-	 * a method to end our driver instance
+	 * a method to end the driver instance
 	 */
 	public void killDriver() {
 		if (driver != null) {
@@ -2293,11 +2293,11 @@ public class Action {
 	}
 
 	//////////////////////////////////
-	// override our SE actions
+	// override the SE actions
 	//////////////////////////////////
 
 	/**
-	 * our generic selenium click functionality implemented
+	 * the generic selenium click functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2310,7 +2310,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium click functionality implemented
+	 * the generic selenium click functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2325,7 +2325,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium click functionality implemented
+	 * the generic selenium click functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2341,7 +2341,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium click functionality implemented
+	 * the generic selenium click functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2359,7 +2359,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium submit functionality implemented
+	 * the generic selenium submit functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2372,7 +2372,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium submit functionality implemented
+	 * the generic selenium submit functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2387,7 +2387,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium submit functionality implemented
+	 * the generic selenium submit functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2403,7 +2403,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium submit functionality implemented
+	 * the generic selenium submit functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2545,7 +2545,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented
+	 * the generic selenium type functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2560,7 +2560,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented
+	 * the generic selenium type functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2577,7 +2577,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented
+	 * the generic selenium type functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2595,7 +2595,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented
+	 * the generic selenium type functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2615,7 +2615,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented for specific keys
+	 * the generic selenium type functionality implemented for specific keys
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2630,7 +2630,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented for specific keys
+	 * the generic selenium type functionality implemented for specific keys
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2647,7 +2647,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented for specific keys
+	 * the generic selenium type functionality implemented for specific keys
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2665,7 +2665,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium type functionality implemented for specific keys
+	 * the generic selenium type functionality implemented for specific keys
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2685,7 +2685,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium clear functionality implemented
+	 * the generic selenium clear functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2698,7 +2698,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium clear functionality implemented
+	 * the generic selenium clear functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2713,7 +2713,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium clear functionality implemented
+	 * the generic selenium clear functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2729,7 +2729,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium clear functionality implemented
+	 * the generic selenium clear functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2747,7 +2747,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2763,7 +2763,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2782,7 +2782,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2801,7 +2801,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2823,7 +2823,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2838,7 +2838,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -2855,7 +2855,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -2873,7 +2873,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic select selenium functionality
+	 * the generic select selenium functionality
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -3087,7 +3087,7 @@ public class Action {
 	}
 
 	/**
-	 * a function to switch back to your parent window.
+	 * a function to switch back to ythe parent window.
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
@@ -3331,7 +3331,7 @@ public class Action {
 
 	/**
 	 * a function to close tabs. note that if this is the only tab open, you
-	 * will end your session
+	 * will end ythe session
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
@@ -3589,7 +3589,7 @@ public class Action {
 	 * @return double - the total time waited
 	 */
 	private double waitForPopup(double seconds) {
-		// wait for up to XX seconds for our error message
+		// wait for up to XX seconds for the error message
 		double end = System.currentTimeMillis() + (seconds * 1000);
 		while (System.currentTimeMillis() < end) {
 			try { // If results have been returned, the results are displayed in
@@ -4322,7 +4322,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium is text present functionality implemented
+	 * the generic selenium is text present functionality implemented
 	 *
 	 * @param expectedText
 	 *            - the text we are expecting to be present on the page
@@ -4339,7 +4339,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium get text from an element functionality implemented
+	 * the generic selenium get text from an element functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -4351,7 +4351,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium get text from an element functionality implemented
+	 * the generic selenium get text from an element functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -4365,7 +4365,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium get text from an element functionality implemented
+	 * the generic selenium get text from an element functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -4380,7 +4380,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium get text from an element functionality implemented
+	 * the generic selenium get text from an element functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -4397,7 +4397,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium get value from an element functionality implemented
+	 * the generic selenium get value from an element functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -4409,7 +4409,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium get value from an element functionality implemented
+	 * the generic selenium get value from an element functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -4423,7 +4423,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium get value from an element functionality implemented
+	 * the generic selenium get value from an element functionality implemented
 	 *
 	 * @param element
 	 *            - the element to be waited for
@@ -4438,7 +4438,7 @@ public class Action {
 	}
 
 	/**
-	 * our generic selenium get value from an element functionality implemented
+	 * the generic selenium get value from an element functionality implemented
 	 *
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath

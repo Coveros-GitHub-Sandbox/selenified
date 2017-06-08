@@ -33,18 +33,18 @@ public class SampleTests extends TestBase {
 
 	@Test(groups = { "sample", "virtual" }, description = "A sample test to check a title")
 	public void sampleTest() throws IOException {
-		// use this object to verify our page looks as expected
+		// use this object to verify the page looks as expected
 		Assert asserts = this.asserts.get();
-		// perform our verification
+		// perform the verification
 		asserts.compareTitle("Selenified Test Page");
-		// perform our verification
+		// perform the verification
 		finish();
 	}
 
 	@Test(dataProvider = "car list items", groups = { "sample",
 			"virtual" }, description = "A sample test using a data provider to perform searches")
 	public void sampleTestWDataProvider(String listItem) throws IOException {
-		// use this object to manipulate our page
+		// use this object to manipulate the page
 		Action actions = this.actions.get();
 		// perform some actions
 		actions.select(Locator.ID, "car_list", listItem);
@@ -55,9 +55,9 @@ public class SampleTests extends TestBase {
 	@Test(groups = { "sample",
 			"virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
 	public void sampleTestLoopThroughElements() throws IOException {
-		// use this object to manipulate our page
+		// use this object to manipulate the page
 		Action actions = this.actions.get();
-		// use this object to verify our page looks as expected
+		// use this object to verify the page looks as expected
 		Assert asserts = this.asserts.get();
 		// perform some actions
 		Element element = new Element(Locator.XPATH, "//form/input[@type='checkbox']");

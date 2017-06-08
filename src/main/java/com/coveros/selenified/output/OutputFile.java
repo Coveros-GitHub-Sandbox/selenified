@@ -71,7 +71,7 @@ public class OutputFile {
 	// timing of the test
 	private long startTime;
 	private long lastTime = 0;
-	// this will track our step numbers
+	// this will track the step numbers
 	private int stepNum = 0;
 	// this will keep track of the errors
 	private int errors = 0;
@@ -213,7 +213,7 @@ public class OutputFile {
 	}
 
 	/**
-	 * creates the directory and file to hold our test output file
+	 * creates the directory and file to hold the test output file
 	 */
 	public void setupFile() {
 		if (!new File(directory).exists()) {
@@ -321,7 +321,7 @@ public class OutputFile {
 			success = "Pass";
 		}
 		if ("Fail".equals(success) && browser != Browser.HTMLUNIT) {
-			// get a screen shot of our action
+			// get a screen shot of the action
 			imageLink = captureEntirePageScreenshot();
 		}
 		// determine time differences
@@ -332,7 +332,7 @@ public class OutputFile {
 		try (
 				// Reopen file
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-			// record our action
+			// record the action
 			out.write(START_ROW);
 			out.write("    <td align='center'>" + stepNum + ".</td>\n");
 			out.write(START_CELL + action + END_CELL);
@@ -357,9 +357,9 @@ public class OutputFile {
 	 */
 	public void recordActual(String actualOutcome, Success result) {
 		try (
-				// reopen our log file
+				// reopen the log file
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-			// get a screen shot of our action
+			// get a screen shot of the action
 			String imageLink = "";
 			if (browser != Browser.HTMLUNIT) {
 				imageLink = captureEntirePageScreenshot();
@@ -369,16 +369,16 @@ public class OutputFile {
 			long dTime = currentTime.getTime() - lastTime;
 			long tTime = currentTime.getTime() - startTime;
 			lastTime = currentTime.getTime();
-			// write out our actual outcome
+			// write out the actual outcome
 			out.write(START_CELL + actualOutcome + imageLink + END_CELL);
 			out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
-			// write out our pass or fail result
+			// write out the pass or fail result
 			if (result == Success.PASS) {
 				out.write("    <td class='pass'>Pass</td>\n");
 			} else {
 				out.write("    <td class='fail'>Fail</td>\n");
 			}
-			// end our row
+			// end the row
 			out.write(END_ROW);
 		} catch (IOException e) {
 			log.error(e);
@@ -396,15 +396,15 @@ public class OutputFile {
 		stepNum++;
 
 		try (
-				// reopen our log file
+				// reopen the log file
 				FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-			// start our row
+			// start the row
 			out.write(START_ROW);
-			// log our step number
+			// log the step number
 			out.write("    <td align='center'>" + stepNum + ".</td>\n");
 			// leave the step blank as this is simply a check
 			out.write("    <td> </td>\n");
-			// write out our expected outcome
+			// write out the expected outcome
 			out.write(START_CELL + expectedOutcome + END_CELL);
 		} catch (IOException e) {
 			log.error(e);
@@ -633,7 +633,7 @@ public class OutputFile {
 			out.write(" </body>\n");
 			out.write("</html>\n");
 		}
-		// Record our metrics
+		// Record the metrics
 		int passes = countInstancesOf("<td class='pass'>Pass</td>");
 		int fails = countInstancesOf("<td class='fail'>Fail</td>");
 		replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes));
@@ -644,14 +644,14 @@ public class OutputFile {
 		} else {
 			replaceInFile("PASSORFAIL", "<font size='+2' class='fail'><b>FAIL</b></font>");
 		}
-		// record our time
+		// record the time
 		SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
 		String timeNow = stf.format(new Date());
 		long totalTime = (new Date()).getTime() - startTime;
 		long time = totalTime / 1000;
 		StringBuilder seconds = new StringBuilder(Integer.toString((int) (time % 60)));
 		StringBuilder minutes = new StringBuilder(Integer.toString((int) ((time % 3600) / 60)));
-		StringBuilder hours = new StringBuilder(Integer.toString((int) (time / 3600)));
+		StringBuilder hthes = new StringBuilder(Integer.toString((int) (time / 3600)));
 		for (int i = 0; i < 2; i++) {
 			if (seconds.length() < 2) {
 				seconds.insert(0, "0");
@@ -659,11 +659,11 @@ public class OutputFile {
 			if (minutes.length() < 2) {
 				minutes.insert(0, "0");
 			}
-			if (hours.length() < 2) {
-				hours.insert(0, "0");
+			if (hthes.length() < 2) {
+				hthes.insert(0, "0");
 			}
 		}
-		replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
+		replaceInFile("RUNTIME", hthes + ":" + minutes + ":" + seconds);
 		replaceInFile("TIMEFINISHED", timeNow);
 	}
 
@@ -738,14 +738,14 @@ public class OutputFile {
 	}
 
 	/**
-	 * simply add an encountered error to our error counter
+	 * simply add an encountered error to the error counter
 	 */
 	public void addError() {
 		errors++;
 	}
 
 	/**
-	 * add a given set of errors to our error counter
+	 * add a given set of errors to the error counter
 	 *
 	 * @param errorsToAdd
 	 *            - the number of errors to add
