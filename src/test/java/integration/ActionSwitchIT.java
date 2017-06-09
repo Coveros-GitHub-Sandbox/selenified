@@ -130,7 +130,7 @@ public class ActionSwitchIT extends TestBase {
 		finish(1);
 	}
 
-	@Test(groups = { "integration", "actions", "window",
+	@Test(groups = { "integration", "actions", "switch", "window",
 			"tab" }, description = "An integration test to check the maximizeScreen method")
 	public void maximizeScreenTest() throws IOException {
 		// use this object to manipulate the page
@@ -244,6 +244,23 @@ public class ActionSwitchIT extends TestBase {
 		actions.switchToNewWindow();
 		asserts.checkTextVisible("You're on the next page");
 		actions.switchToParentWindow();
+		asserts.checkTextNotVisible("You're on the next page");
+		// verify no issues
+		finish();
+	}
+	
+	@Test(groups = { "integration", "actions", "switch",
+	"window" }, description = "An integration test to check the switch method")
+	public void closeCurrentWindowTest() throws IOException {
+		// use this object to manipulate the page
+		Action actions = this.actions.get();
+		// use this object to verify the page looks as expected
+		Assert asserts = this.asserts.get();
+		// perform some actions
+		actions.click(new Element(Locator.ID, "new_window"));
+		actions.switchToNewWindow();
+		asserts.checkTextVisible("You're on the next page");
+		actions.closeCurrentWindow();
 		asserts.checkTextNotVisible("You're on the next page");
 		// verify no issues
 		finish();

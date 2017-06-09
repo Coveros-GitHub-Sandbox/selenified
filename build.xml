@@ -111,36 +111,6 @@
     </target>
 
     <!-- =================================
-          target: replace
-         ================================= -->
-    <target name="replace">
-        <replaceregexp
-               match="ZZZFIRSTPARTZZZ"
-               replace="&lt;br/&gt;&lt;br/&gt;&lt;b&gt;See detailed test case &lt;"
-               byline="true">
-            <fileset dir="${out-dir}" includes="**/*.html"/>
-        </replaceregexp>
-        <replaceregexp
-               match="ZZZSECONDPARTZZZ"
-               replace="&gt;here&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;"
-               byline="true">
-            <fileset dir="${out-dir}" includes="**/*.html"/>
-        </replaceregexp>
-        <replaceregexp
-               match=", public void.*"
-               replace="&lt;/td&gt;"
-               byline="true">
-            <fileset dir="${out-dir}" includes="**/*.html"/>
-        </replaceregexp>
-        <replaceregexp
-               match="&lt;br&gt;Parameters: null&lt;/td&gt;"
-               replace="&lt;/td&gt;"
-               byline="true">
-            <fileset dir="${out-dir}" includes="**/*.html"/>
-        </replaceregexp>
-    </target>
-
-    <!-- =================================
           target: junit-report
          ================================= -->
     <target name="junit-report">

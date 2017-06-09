@@ -3087,7 +3087,7 @@ public class Action {
 	}
 
 	/**
-	 * a function to switch back to ythe parent window.
+	 * a function to switch back to the parent window.
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
@@ -3099,6 +3099,30 @@ public class Action {
 			driver.switchTo().window(parentWindow);
 		} catch (Exception e) {
 			file.recordAction(action, expected, "Parent window was unable to be selected. " + e.getMessage(),
+					Result.FAILURE);
+			file.addError();
+			log.error(e);
+			return 1;
+		}
+		file.recordAction(action, expected, expected, Result.SUCCESS);
+		return 0;
+	}
+
+	/**
+	 * a function to close the currently selected window. After this window is
+	 * closed, ensure that focus is shifted to the next window using
+	 * switchToXxxWindow methods
+	 * 
+	 * @return Integer - the number of errors encountered while executing these
+	 *         steps
+	 */
+	public int closeCurrentWindow() {
+		String action = "Closing currently selected window";
+		String expected = "Current window is closed";
+		try {
+			driver.close();
+		} catch (Exception e) {
+			file.recordAction(action, expected, "Current window was unable to be closed. " + e.getMessage(),
 					Result.FAILURE);
 			file.addError();
 			log.error(e);
@@ -3331,7 +3355,7 @@ public class Action {
 
 	/**
 	 * a function to close tabs. note that if this is the only tab open, you
-	 * will end ythe session
+	 * will end the session
 	 * 
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
