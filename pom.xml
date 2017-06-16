@@ -5,8 +5,36 @@
 	<artifactId>selenified</artifactId>
 	<version>2.0.1-SNAPSHOT</version>
 	<properties>
-        	<suiteXmlFile>integration.xml</suiteXmlFile>            
-    	</properties>
+		<suiteXmlFile>integration.xml</suiteXmlFile>            
+	</properties>
+	<name>Selenified Testing Framework</name>
+	<description>Selenified provides traceable reporting for both web and API testing, wraps and extends Selenium calls to more appropriately handle testing errors, and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in parallel.</description>
+	<url>https://github.com/msaperst/selenified</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Max Saperstone</name>
+			<email>max.saperstone@coveros.com</email>
+			<organization>Coveros, Inc.</organization>
+			<organizationUrl>http://coveros.com</organizationUrl>
+		</developer>
+		<developer>
+			<name>Matt Grasberger</name>
+			<email>matt.grasberger@coveros.com</email>
+			<organization>Coveros, Inc.</organization>
+			<organizationUrl>http://coveros.com</organizationUrl>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git://github.com/msaperst/selenified.git</connection>
+		<developerConnection>scm:git:ssh://github.com:msaperst/selenified.git</developerConnection>
+		<url>https://github.com/msaperst/selenified/tree/master</url>
+	</scm>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
@@ -38,6 +66,7 @@
 			<artifactId>testng</artifactId>
 			<version>6.10</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
 		<dependency>
 			<groupId>io.github.bonigarcia</groupId>
 			<artifactId>webdrivermanager</artifactId>
@@ -203,6 +232,19 @@
 							<!-- Sets the output directory for the code coverage report. -->
 							<outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
