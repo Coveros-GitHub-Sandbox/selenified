@@ -5,16 +5,20 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<properties>
 		<suiteXmlFile>integration.xml</suiteXmlFile>
+		<failsafe.groups>virtual</failsafe.groups>
 	</properties>
+
 	<name>Selenified Testing Framework</name>
 	<description>Selenified provides traceable reporting for both web and API testing, wraps and extends Selenium calls to more appropriately handle testing errors, and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in parallel.</description>
 	<url>https://github.com/msaperst/selenified</url>
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+
 	<developers>
 		<developer>
 			<name>Max Saperstone</name>
@@ -29,11 +33,13 @@
 			<organizationUrl>http://coveros.com</organizationUrl>
 		</developer>
 	</developers>
+
 	<scm>
 		<connection>scm:git:git://github.com/msaperst/selenified.git</connection>
 		<developerConnection>scm:git:ssh://github.com:msaperst/selenified.git</developerConnection>
 		<url>https://github.com/msaperst/selenified/tree/master</url>
 	</scm>
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
@@ -84,6 +90,18 @@
 			<version>1.7.23</version>
 		</dependency>
 	</dependencies>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -114,6 +132,19 @@
 						<configuration>
 							<additionalparam>-Xdoclint:none</additionalparam>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -231,19 +262,6 @@
 							<!-- Sets the output directory for the code coverage report. -->
 							<outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
 						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>
