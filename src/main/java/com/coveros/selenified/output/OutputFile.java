@@ -315,12 +315,15 @@ public class OutputFile {
      */
     public void recordAction(String action, String expectedResult, String actualResult, Result result) {
         stepNum++;
-        String success = "Fail";
+        String success = "Check";
         String imageLink = "";
         if (result == Result.SUCCESS) {
             success = "Pass";
         }
-        if ("Fail".equals(success) && browser != Browser.HTMLUNIT) {
+        if (result == Result.FAILURE) {
+            success = "Fail";
+        }
+        if (!"Pass".equals(success) && browser != Browser.HTMLUNIT) {
             // get a screen shot of the action
             imageLink = captureEntirePageScreenshot();
         }
@@ -450,7 +453,10 @@ public class OutputFile {
             out.write("    word-wrap: break-word;\n");
             out.write(endBracket3);
             out.write("   .warning {\n");
-            out.write("    color:yellow;\n");
+            out.write("    color:orange;\n");
+            out.write(endBracket3);
+            out.write("   .check {\n");
+            out.write("    color:orange;\n");
             out.write(boldFont);
             out.write(endBracket3);
             out.write("   .fail {\n");

@@ -534,9 +534,20 @@ public class ActionDoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.type(new Element(Locator.ID, "hidden_div"), "This is a test");
-        // verify 2 issues
-        finish(2);
+        actions.type(new Element(Locator.ID, "transparent_input"), "This is a test");
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "actions", "do", "type",
+    "virtual" }, description = "An integration negative test to check the type method")
+    public void typeNotVisible2Test() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.type(new Element(Locator.ID, "hidden_input"), "This is a test");
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "type",
@@ -634,9 +645,20 @@ public class ActionDoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.type(new Element(Locator.ID, "hidden_div"), Keys.SPACE);
-        // verify 2 issues
-        finish(2);
+        actions.type(new Element(Locator.ID, "transparent_input"), Keys.SPACE);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "actions", "do", "type",
+    "virtual" }, description = "An integration negative test to check the type method")
+    public void typeKeysNotVisible2Test() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.type(new Element(Locator.ID, "hidden_input"), Keys.SPACE);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "type",
@@ -646,7 +668,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.type(new Element(Locator.CLASSNAME, "click"), Keys.SPACE);
-        // verify 2 issues
+        // verify 1 issue
         finish(1);
     }
 
