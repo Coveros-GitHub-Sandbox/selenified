@@ -74,6 +74,7 @@ public class LocatorAction {
 	private static final String SECONDS = " seconds for ";
 
 	private static final String CHECKING = "Checking for ";
+	private static final String TYPTED = "Typed text '";
 
 	private static final String PRESENT = " to be present";
 	private static final String DISPLAYED = " to be displayed";
@@ -1409,6 +1410,10 @@ public class LocatorAction {
 		if (!isPresentEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
+		Boolean warning = false;
+		if (!isElementDisplayed(type, locator, elementMatch, false)) {
+			warning = true;
+		}
 		try {
 			WebElement element = getWebElement(type, locator, elementMatch);
 			element.sendKeys(text);
@@ -1419,11 +1424,11 @@ public class LocatorAction {
 			file.addError();
 			return 1;
 		}
-		if (!isElementDisplayed(type, locator, elementMatch, false)) {
-			file.recordAction(action, expected, "Typed text '" + text + IN + type + " " + locator
+		if (warning) {
+			file.recordAction(action, expected, TYPTED + text + IN + type + " " + locator
 					+ ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
 		} else {
-			file.recordAction(action, expected, "Typed text '" + text + IN + type + " " + locator, Result.SUCCESS);
+			file.recordAction(action, expected, TYPTED + text + IN + type + " " + locator, Result.SUCCESS);
 		}
 		return 0;
 	}
@@ -1450,6 +1455,10 @@ public class LocatorAction {
 		if (!isPresentEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
+		Boolean warning = false;
+		if (!isElementDisplayed(type, locator, elementMatch, false)) {
+			warning = true;
+		}
 		try {
 			WebElement element = getWebElement(type, locator, elementMatch);
 			element.sendKeys(key);
@@ -1460,11 +1469,11 @@ public class LocatorAction {
 			file.addError();
 			return 1;
 		}
-		if (!isElementDisplayed(type, locator, elementMatch, false)) {
-			file.recordAction(action, expected, "Typed text '" + key + IN + type + " " + locator
+		if (warning) {
+			file.recordAction(action, expected, TYPTED + key + IN + type + " " + locator
 					+ ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
 		} else {
-			file.recordAction(action, expected, "Typed text '" + key + IN + type + " " + locator, Result.SUCCESS);
+			file.recordAction(action, expected, TYPTED + key + IN + type + " " + locator, Result.SUCCESS);
 		}
 		return 0;
 	}

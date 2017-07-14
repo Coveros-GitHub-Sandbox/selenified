@@ -110,7 +110,6 @@
 				<version>2.19.1</version>
 				<configuration>
 					<!-- Sets the VM argument line used when unit tests are run. -->
-					<argLine>${surefireArgLine}</argLine>
 					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
 					<skipTests>${skip.unit.tests}</skipTests>
 					<!-- Excludes integration tests when unit tests are run. -->
@@ -166,7 +165,6 @@
 						</goals>
 						<configuration>
 							<!-- Sets the VM argument line used when integration tests are run. -->
-							<argLine>${failsafeArgLine}</argLine>
 							<!-- Skips integration tests if the value of skip.integration.tests 
 								property is true -->
 							<skipTests>${skip.integration.tests}</skipTests>
@@ -179,7 +177,6 @@
 						</goals>
 						<configuration>
 							<!-- Sets the VM argument line used when integration tests are run. -->
-							<argLine>${failsafeArgLine}</argLine>
 							<!-- Skips integration tests if the value of skip.integration.tests 
 								property is true -->
 							<skipTests>${skip.integration.tests}</skipTests>

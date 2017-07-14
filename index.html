@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
 <script type="text/javascript">
     window.onload = function() {
         document.cookie = "cookie=cookietest; expires=Thu, 18 Dec 2019 12:00:00 UTC; path=/";
@@ -45,7 +49,7 @@
         scroll_button.addEventListener('click', function(event) {
             document.documentElement.style["height"] = "5000px";
         });
-        
+
         new_window.addEventListener('click', function(event) {
             window.open("next_page.html");
         });
@@ -200,8 +204,11 @@ tr:nth-child(even) {
 					<div id="hover_over_me" name="hover_over_me" class="showup">
 						<div id="displayed_when_hovered" name="displayed_when_hovered"
 							class="hidden_div">You Hovered!</div>
-					</div>
-					<input type="text" id="hidden_input" name="hidden_input" class="hidden_div" />
+					</div> <span class="btn btn-default btn-file"> <span>Browse</span>
+						<input type="file" id="transparent_input" name="transparent_input"
+						style="opacity: 0;" />
+				</span> <input type="file" id="hidden_input" name="hidden_input"
+					style="display: none;" />
 				</td>
 				<td>
 					<h2>
@@ -273,9 +280,8 @@ tr:nth-child(even) {
 								<td>Argentina</td>
 							</tr>
 						</tbody>
-					</table>
-					<input name="new_window" id="new_window" type="button"
-							value="New Window" />
+					</table> <input name="new_window" id="new_window" type="button"
+					value="New Window" />
 				</td>
 			</tr>
 			<tr>
