@@ -132,7 +132,6 @@ public class ActionGoIT extends TestBase {
         // perform some actions
         actions.deleteAllCookies();
         Cookie cookie = actions.getCookie("cookie");
-        actions.wait(500d);
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
