@@ -106,186 +106,186 @@
     };
 </script>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <title>Selenified Test Page</title>
 </head>
 <style>
 h2 {
-	text-align: center;
+    text-align: center;
 }
 
 table {
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 td, th {
-	border: 1px solid #dddddd;
-	text-align: left;
-	padding: 8px;
-	vertical-align: top;
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    vertical-align: top;
 }
 
 #align_table>tbody>tr>td {
-	border: none;
+    border: none;
 }
 
 tr:nth-child(even) {
-	background-color: #dddddd;
+    background-color: #dddddd;
 }
 
 .showup {
-	width: 100px;
-	height: 100px;
+    width: 100px;
+    height: 100px;
 }
 
 .click {
-	cursor: pointer;
-	padding-bottom: 10px;
+    cursor: pointer;
+    padding-bottom: 10px;
 }
 
 .hidden_div {
-	display: none;
+    display: none;
 }
 </style>
 </head>
 <body>
-	<table id="align_table" name="align_table" class="full_width">
-		<tbody>
-			<tr>
-				<td>
-					<div id="disable_click" class="click">Click me to
-						Disable/Enable a html button</div>
-					<div id="hidden_div" name="hidden_div" class="hidden_div"></div>
-					<div id="enable_div" class="showup">
-						<input name="alert_button" id="alert_button" type="button"
-							value="Alert" /> <input name="confirm_button"
-							id="confirm_button" type="button" value="Confirm" /> <input
-							name="prompt_button" id="prompt_button" type="button"
-							value="Prompt" />
-					</div> <input name="five_second_button" id="five_second_button"
-					type="button" value="5 Second Button" /> <br /> <input
-					type="text" name="input_box" id="input_box" value="" /> <br>
-					<input id="scroll_button" name="scroll_button" type="button"
-					value="Increase Page Height" /> <br /> <select id="car_list"
-					name="car_list">
-						<option value="volvo">Volvo</option>
-						<option value="saab">Saab</option>
-						<option value="mercedes">Mercedes</option>
-						<option value="audi">Audi</option>
-				</select> <br /> <select multiple id="car_list_multiple"
-					name="car_list_multiple">
-						<option value="volvo">Volvo</option>
-						<option value="saab">Saab</option>
-						<option value="opel">Opel</option>
-						<option value="audi">Audi</option>
-				</select> <br />
-					<form action="/next_page.html">
-						<input type="checkbox" name="that" id="that" value="That" /> That<br />
-						<input type="checkbox" name="this" id="this" value="This" /> This<br />
-						<input id="submit_button" name="submit_button" type="submit"
-							value="Submit" />
-					</form> <input id="delayed_display_button" name="delayed_display_button"
-					type="submit" value="Show Something" /> <input
-					id="delayed_hide_button" name="delayed_hide_button" type="submit"
-					value="Hide Something" class="hidden_div" />
-					<div id='delayed_div' name='delayed_div'></div> <input
-					id="delayed_enable_button" name="delayed_enable_button"
-					type="submit" value="Enable Input" /> <input id="delayed_input"
-					name="delayed_input" type="text" /> <br /> <textarea
-						id="textarea_input" name="textarea_input">A Pretty Text Area</textarea>
-					<br />
-					<div id="delayed_checkbox_div" name="delayed_checkbox_div"></div> <br />
-					<div id="hover_over_me" name="hover_over_me" class="showup">
-						<div id="displayed_when_hovered" name="displayed_when_hovered"
-							class="hidden_div">You Hovered!</div>
-					</div>
-				</td>
-				<td>
-					<h2>
-						<a href="#" onclick="javascript:confirm('Confirmation')">I'M A
-							LINK</a>
-					</h2>
-					<table id="table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Company</th>
-								<th>Contact</th>
-								<th>Country</th>
-							</tr>
-						</thead>
-						<tbody>
+    <table id="align_table" name="align_table" class="full_width">
+        <tbody>
+            <tr>
+                <td>
+                    <div id="disable_click" class="click">Click me to
+                        Disable/Enable a html button</div>
+                    <div id="hidden_div" name="hidden_div" class="hidden_div"></div>
+                    <div id="enable_div" class="showup">
+                        <input name="alert_button" id="alert_button" type="button"
+                            value="Alert" /> <input name="confirm_button"
+                            id="confirm_button" type="button" value="Confirm" /> <input
+                            name="prompt_button" id="prompt_button" type="button"
+                            value="Prompt" />
+                    </div> <input name="five_second_button" id="five_second_button"
+                    type="button" value="5 Second Button" /> <br /> <input
+                    type="text" name="input_box" id="input_box" value="" /> <br>
+                    <input id="scroll_button" name="scroll_button" type="button"
+                    value="Increase Page Height" /> <br /> <select id="car_list"
+                    name="car_list">
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="audi">Audi</option>
+                </select> <br /> <select multiple id="car_list_multiple"
+                    name="car_list_multiple">
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                        <option value="audi">Audi</option>
+                </select> <br />
+                    <form action="/next_page.html">
+                        <input type="checkbox" name="that" id="that" value="That" /> That<br />
+                        <input type="checkbox" name="this" id="this" value="This" /> This<br />
+                        <input id="submit_button" name="submit_button" type="submit"
+                            value="Submit" />
+                    </form> <input id="delayed_display_button" name="delayed_display_button"
+                    type="submit" value="Show Something" /> <input
+                    id="delayed_hide_button" name="delayed_hide_button" type="submit"
+                    value="Hide Something" class="hidden_div" />
+                    <div id='delayed_div' name='delayed_div'></div> <input
+                    id="delayed_enable_button" name="delayed_enable_button"
+                    type="submit" value="Enable Input" /> <input id="delayed_input"
+                    name="delayed_input" type="text" /> <br /> <textarea
+                        id="textarea_input" name="textarea_input">A Pretty Text Area</textarea>
+                    <br />
+                    <div id="delayed_checkbox_div" name="delayed_checkbox_div"></div> <br />
+                    <div id="hover_over_me" name="hover_over_me" class="showup">
+                        <div id="displayed_when_hovered" name="displayed_when_hovered"
+                            class="hidden_div">You Hovered!</div>
+                    </div>
+                </td>
+                <td>
+                    <h2>
+                        <a href="#" onclick="javascript:confirm('Confirmation')">I'M A
+                            LINK</a>
+                    </h2>
+                    <table id="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Company</th>
+                                <th>Contact</th>
+                                <th>Country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-							<tr>
-								<th>President</th>
-								<td>Alfreds Futterkiste</td>
-								<td>Maria Anders</td>
-								<td>Germany</td>
-							</tr>
-							<tr>
-								<th>CEO</th>
-								<td>Centro comercial Moctezuma</td>
-								<td>Francisco Chang</td>
-								<td>Mexico</td>
-							</tr>
-							<tr>
-								<th>Chairman</th>
-								<td>Ernst Handel</td>
-								<td>Roland Mendel</td>
-								<td>Austria</td>
-							</tr>
-							<tr>
-								<th>CFO</th>
-								<td>Island Trading</td>
-								<td>Helen Bennett</td>
-								<td>UK</td>
-							</tr>
-							<tr>
-								<th>Board Member</th>
-								<td>Laughing Bacchus Winecellars</td>
-								<td>Yoshi Tannamuri</td>
-								<td>Canada</td>
-							</tr>
-							<tr>
-								<th>Founder</th>
-								<td>Magazzini Alimentari Riuniti</td>
-								<td>Giovanni Rovelli</td>
-								<td>Italy</td>
-							</tr>
-						</tbody>
-					</table>
+                            <tr>
+                                <th>President</th>
+                                <td>Alfreds Futterkiste</td>
+                                <td>Maria Anders</td>
+                                <td>Germany</td>
+                            </tr>
+                            <tr>
+                                <th>CEO</th>
+                                <td>Centro comercial Moctezuma</td>
+                                <td>Francisco Chang</td>
+                                <td>Mexico</td>
+                            </tr>
+                            <tr>
+                                <th>Chairman</th>
+                                <td>Ernst Handel</td>
+                                <td>Roland Mendel</td>
+                                <td>Austria</td>
+                            </tr>
+                            <tr>
+                                <th>CFO</th>
+                                <td>Island Trading</td>
+                                <td>Helen Bennett</td>
+                                <td>UK</td>
+                            </tr>
+                            <tr>
+                                <th>Board Member</th>
+                                <td>Laughing Bacchus Winecellars</td>
+                                <td>Yoshi Tannamuri</td>
+                                <td>Canada</td>
+                            </tr>
+                            <tr>
+                                <th>Founder</th>
+                                <td>Magazzini Alimentari Riuniti</td>
+                                <td>Giovanni Rovelli</td>
+                                <td>Italy</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-					<table id="table_no_header">
-						<tbody>
-							<tr>
-								<th>CTO</th>
-								<td>IT Holdings</td>
-								<td>Rufus Garcia</td>
-								<td>Australia</td>
-							</tr>
-							<tr>
-								<th>Lead Scientist</th>
-								<td>Rockets Rockets Rockets</td>
-								<td>Kurt Wilkins</td>
-								<td>Argentina</td>
-							</tr>
-						</tbody>
-					</table>
-					<input name="new_window" id="new_window" type="button"
-							value="New Window" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2"><iframe id="some_frame" name="some_frame"
-						src="next_page.html"></iframe></td>
-			</tr>
-			<tr>
-				<td colspan="2"><iframe id="some_other_frame"
-						name="some_other_frame" class="hidden_div" src="next_page.html"></iframe></td>
-			</tr>
-		</tbody>
-	</table>
+                    <table id="table_no_header">
+                        <tbody>
+                            <tr>
+                                <th>CTO</th>
+                                <td>IT Holdings</td>
+                                <td>Rufus Garcia</td>
+                                <td>Australia</td>
+                            </tr>
+                            <tr>
+                                <th>Lead Scientist</th>
+                                <td>Rockets Rockets Rockets</td>
+                                <td>Kurt Wilkins</td>
+                                <td>Argentina</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input name="new_window" id="new_window" type="button"
+                            value="New Window" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><iframe id="some_frame" name="some_frame"
+                        src="next_page.html"></iframe></td>
+            </tr>
+            <tr>
+                <td colspan="2"><iframe id="some_other_frame"
+                        name="some_other_frame" class="hidden_div" src="next_page.html"></iframe></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
