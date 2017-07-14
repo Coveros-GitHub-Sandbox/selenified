@@ -1141,7 +1141,8 @@ public class LocatorAction {
 	}
 
 	/**
-	 * does a check to see if something is present, disaplayed, and enabled
+	 * does a check to see if something is present, displayed, and enabled. This
+	 * returns true if all three are true, otherwise, it returns false
 	 * 
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -1153,7 +1154,7 @@ public class LocatorAction {
 	 *            - what is the expected result
 	 * @param extra
 	 *            - what actually is occurring
-	 * @return Boolean: is the element enabled?
+	 * @return Boolean: is the element present, displayed, and enabled?
 	 * @throws IOException
 	 */
 	private boolean isPresentDisplayedEnabled(Locator type, String locator, int elementMatch, String action,
@@ -1171,7 +1172,8 @@ public class LocatorAction {
 	}
 
 	/**
-	 * does a check to see if something is present, disaplayed, and enabled
+	 * does a check to see if something is present, enabled, and an input. This
+	 * returns true if all three are true, otherwise, it returns false
 	 * 
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
@@ -1183,7 +1185,39 @@ public class LocatorAction {
 	 *            - what is the expected result
 	 * @param extra
 	 *            - what actually is occurring
-	 * @return Boolean: is the element enabled?
+	 * @return Boolean: is the element present, enabled, and an input?
+	 * @throws IOException
+	 */
+	private boolean isPresentEnabledInput(Locator type, String locator, int elementMatch, String action,
+			String expected, String extra) throws IOException {
+		// wait for element to be present
+		if (!isPresent(type, locator, elementMatch, action, expected, extra)) {
+			return false;
+		}
+		// wait for element to be enabled
+		if (!isEnabled(type, locator, elementMatch, action, expected, extra)) {
+			return false;
+		}
+		return isInput(type, locator, elementMatch, action, expected, extra);
+	}
+
+	/**
+	 * does a check to see if something is present, displayed, enabled, and an
+	 * input. This returns true if all four are true, otherwise, it returns
+	 * false
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locator.id, Locator.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param action
+	 *            - what action is occurring
+	 * @param expected
+	 *            - what is the expected result
+	 * @param extra
+	 *            - what actually is occurring
+	 * @return Boolean: is the element present, displayed, enabled, and an
+	 *         input?
 	 * @throws IOException
 	 */
 	private boolean isPresentDisplayedEnabledInput(Locator type, String locator, int elementMatch, String action,
@@ -1372,7 +1406,7 @@ public class LocatorAction {
 		String action = "Typing text '" + text + IN + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + text
 				+ " typed in";
-		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
+		if (!isPresentEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
 		try {
@@ -1385,7 +1419,12 @@ public class LocatorAction {
 			file.addError();
 			return 1;
 		}
-		file.recordAction(action, expected, "Typed text '" + text + IN + type + " " + locator, Result.SUCCESS);
+		if (!isElementDisplayed(type, locator, elementMatch, false)) {
+			file.recordAction(action, expected, "Typed text '" + text + IN + type + " " + locator
+					+ ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
+		} else {
+			file.recordAction(action, expected, "Typed text '" + text + IN + type + " " + locator, Result.SUCCESS);
+		}
 		return 0;
 	}
 
@@ -1408,7 +1447,7 @@ public class LocatorAction {
 	public int type(Locator type, String locator, int elementMatch, Keys key) throws IOException {
 		String action = "Typing key '" + key + IN + type + " " + locator;
 		String expected = type + " " + locator + " is present, displayed, and enabled to have text " + key + " entered";
-		if (!isPresentDisplayedEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
+		if (!isPresentEnabledInput(type, locator, elementMatch, action, expected, CANTTYPE)) {
 			return 1;
 		}
 		try {
@@ -1421,7 +1460,12 @@ public class LocatorAction {
 			file.addError();
 			return 1;
 		}
-		file.recordAction(action, expected, "Typed key '" + key + IN + type + " " + locator, Result.SUCCESS);
+		if (!isElementDisplayed(type, locator, elementMatch, false)) {
+			file.recordAction(action, expected, "Typed text '" + key + IN + type + " " + locator
+					+ ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
+		} else {
+			file.recordAction(action, expected, "Typed text '" + key + IN + type + " " + locator, Result.SUCCESS);
+		}
 		return 0;
 	}
 

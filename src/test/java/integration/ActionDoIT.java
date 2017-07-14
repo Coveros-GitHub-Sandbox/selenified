@@ -534,7 +534,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate the page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(new Element(Locator.ID, "hidden_div"), "This is a test");
+		actions.type(new Element(Locator.ID, "hidden_input"), "This is a test");
 		// verify 2 issues
 		finish(2);
 	}
@@ -634,7 +634,7 @@ public class ActionDoIT extends TestBase {
 		// use this object to manipulate the page
 		Action actions = this.actions.get();
 		// perform some actions
-		actions.type(new Element(Locator.ID, "hidden_div"), Keys.SPACE);
+		actions.type(new Element(Locator.ID, "hidden_input"), Keys.SPACE);
 		// verify 2 issues
 		finish(2);
 	}
