@@ -600,8 +600,7 @@ public class LocatorAssert {
      * @return Integer: 1 if a failure and 0 if a pass
      * @throws IOException
      */
-    public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option)
-            throws IOException {
+    public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option) throws IOException {
         // wait for the element
         if (!action.isElementEnabled(type, locator, elementMatch)
                 && action.waitForElementEnabled(type, locator, elementMatch) == 1) {
@@ -1176,8 +1175,7 @@ public class LocatorAssert {
      * @return Integer: 1 if a failure and 0 if a pass
      * @throws IOException
      */
-    public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows)
-            throws IOException {
+    public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows) throws IOException {
         // outputFile.record the action
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the number of table rows equal to <b>"
                 + numOfRows + "</b>");
@@ -1188,7 +1186,7 @@ public class LocatorAssert {
         int actualNumOfRows = action.getNumOfTableRows(type, locator, elementMatch);
         if (actualNumOfRows != numOfRows) {
             outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not have the number of rows <b>"
-                    + numOfRows + "</b> Instead, " + actualNumOfRows + " rows were found", Success.FAIL);
+                    + numOfRows + "</b>. Instead, " + actualNumOfRows + " rows were found", Success.FAIL);
             return 1;
         }
         outputFile.recordActual(ELEMENT + type + " <i>" + locator + "has " + actualNumOfRows + "</b> rows",
@@ -1224,11 +1222,51 @@ public class LocatorAssert {
         int actualNumOfCols = action.getNumOfTableColumns(type, locator, elementMatch);
         if (actualNumOfCols != numOfColumns) {
             outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not have the number of columns <b>"
-                    + numOfColumns + "</b> Instead, " + actualNumOfCols + " columns were found", Success.FAIL);
+                    + numOfColumns + "</b>. Instead, " + actualNumOfCols + " columns were found", Success.FAIL);
             return 1;
         }
         outputFile.recordActual(ELEMENT + type + " <i>" + locator + "has " + actualNumOfCols + "</b> columns",
                 Success.PASS);
+        return 0;
+    }
+
+    /**
+     * compares the text of expected table cell with the actual table cell text
+     * of a table with from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @param row
+     *            - the number of the row in the table - note, row numbering
+     *            starts at 1, NOT 0
+     * @param col
+     *            - the number of the column in the table - note, column
+     *            numbering starts at 1, NOT 0
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareTableCellText(Locator type, String locator, int elementMatch, int row, int col, String text)
+            throws IOException {
+        // outputFile.record the action
+        outputFile.recordExpected("Expected to find cell at row " + row + " and column " + col + " within element "
+                + type + " <i>" + locator + "</i> to have the text value of <b>" + text + "</b>");
+        // check for the object to the present on the page
+        if (!isPresent(type, locator, elementMatch)) {
+            return 1;
+        }
+        String actualText = action.getTableCell(type, locator, elementMatch, row, col).getText();
+        if (!actualText.equals(text)) {
+            outputFile.recordActual("Cell at row " + row + " and column " + col + " within element " + type + " <i>"
+                    + locator + "</i> has the text value of <b>" + actualText + "</b>", Success.FAIL);
+            return 1;
+        }
+        outputFile.recordActual("Cell at row " + row + " and column " + col + " within element " + type + " <i>"
+                + locator + "</i> has the text value of <b>" + actualText + "</b>", Success.PASS);
         return 0;
     }
 }
