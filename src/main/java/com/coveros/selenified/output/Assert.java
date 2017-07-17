@@ -2561,6 +2561,96 @@ public class Assert {
         return errors;
     }
 
+    /**
+     * compares the text of expected table cell with the actual table cell text
+     * of a table with from a table element
+     *
+     * @param element
+     *            - the element to be waited for
+     * @param row
+     *            - the number of the row in the table - note, row numbering
+     *            starts at 1, NOT 0
+     * @param col
+     *            - the number of the column in the table - note, column
+     *            numbering starts at 1, NOT 0
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareTableCellText(Element element, int row, int col, String text) throws IOException {
+        return compareTableCellText(element.getType(), element.getLocator(), 0, row, col, text);
+    }
+
+    /**
+     * compares the text of expected table cell with the actual table cell text
+     * of a table with from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param row
+     *            - the number of the row in the table - note, row numbering
+     *            starts at 1, NOT 0
+     * @param col
+     *            - the number of the column in the table - note, column
+     *            numbering starts at 1, NOT 0
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareTableCellText(Locator type, String locator, int row, int col, String text) throws IOException {
+        return compareTableCellText(type, locator, 0, row, col, text);
+    }
+
+    /**
+     * compares the text of expected table cell with the actual table cell text
+     * of a table with from a table element
+     *
+     * @param element
+     *            - the element to be waited for
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @param row
+     *            - the number of the row in the table - note, row numbering
+     *            starts at 1, NOT 0
+     * @param col
+     *            - the number of the column in the table - note, column
+     *            numbering starts at 1, NOT 0
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareTableCellText(Element element, int elementMatch, int row, int col, String text)
+            throws IOException {
+        return compareTableCellText(element.getType(), element.getLocator(), elementMatch, row, col, text);
+    }
+
+    /**
+     * compares the text of expected table cell with the actual table cell text
+     * of a table with from a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @param row
+     *            - the number of the row in the table - note, row numbering
+     *            starts at 1, NOT 0
+     * @param col
+     *            - the number of the column in the table - note, column
+     *            numbering starts at 1, NOT 0
+     * @return Integer: 1 if a failure and 0 if a pass
+     * @throws IOException
+     */
+    public int compareTableCellText(Locator type, String locator, int elementMatch, int row, int col, String text)
+            throws IOException {
+        int errors = locatorAssert.compareTableCellText(type, locator, elementMatch, row, col, text);
+        outputFile.addErrors(errors);
+        return errors;
+    }
+
     ///////////////////////////////////////////////////////////////////
     // this enum will be for a pass/fail
     ///////////////////////////////////////////////////////////////////

@@ -88,9 +88,9 @@ public class AssertIT extends TestBase {
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "asserts", "virtual" },
-            description = "An integration test to check the compareSelectValues method")
+
+    @Test(groups = { "integration", "asserts",
+            "virtual" }, description = "An integration test to check the compareSelectValues method")
     public void negativeCompareSelectValuesNotPresentTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -203,6 +203,39 @@ public class AssertIT extends TestBase {
     }
 
     @Test(groups = { "integration", "asserts",
+            "virtual" }, description = "An integration test to check the compareTableCellText method")
+    public void compareTableCellTextTest() throws IOException {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareTableCellText(Locator.ID, "table", 2, 2, "Francisco Chang");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "virtual" }, description = "An integration negative test to check the compareTableCellText method")
+    public void negativeCompareTableCellTextTest() throws IOException {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareTableCellText(new Element(Locator.ID, "table"), 1, 1, "Bad-Value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "virtual" }, description = "An integration negative test to check the compareTableCellText method")
+    public void negativeCompareTableCellTextNotPresetTest() throws IOException {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareTableCellText(new Element(Locator.ID, "non-existent-element"), 0, 0, "");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the checkSelectValuePresent method")
     public void checkSelectValuePresentTest() throws IOException {
         // use this object to verify the page looks as expected
@@ -300,9 +333,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkIfOptionInSelect method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfOptionInSelectDelayedTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -347,9 +380,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkIfOptionNotInSelect method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkIfOptionNotInSelect method")
     public void checkIfOptionNotInSelectDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         // use this object to manipulate the page
@@ -454,7 +487,7 @@ public class AssertIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "asserts" }, description = "An integration test to check the checkAlert method")
     public void checkAlertRegexTest() throws IOException {
         // use this object to manipulate the page
@@ -597,9 +630,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementChecked method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementChecked method")
     public void negativeCheckElementCheckedDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -641,9 +674,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementContainsClass method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementContainsClass method")
     public void negativeCheckElementContainsClassDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -652,7 +685,7 @@ public class AssertIT extends TestBase {
         // verify 1 issue
         finish(1);
     }
-    
+
     @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the checkElementDisplayed method")
     public void checkElementDisplayedTest() throws IOException {
@@ -685,9 +718,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementDisplayed method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementDisplayed method")
     public void checkElementDisplayedDelayed() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -735,9 +768,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementDisplayedAndChecked method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementDisplayedAndChecked method")
     public void negativeCheckElementDisplayedAndCheckedDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -768,9 +801,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementDisplayedAndEditable method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementDisplayedAndEditable method")
     public void checkElementDisplayedAndEditableDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -812,9 +845,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
     public void negativeCheckElementDisplayedAndNotEditableDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -859,9 +892,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
     public void checkElementDisplayedAndUncheckedDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -903,9 +936,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementDoesntContainClass method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementDoesntContainClass method")
     public void checkElementDoesntContainClassDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -947,9 +980,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
     public void checkElementDoesntHaveAttributeDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -1002,9 +1035,9 @@ public class AssertIT extends TestBase {
         // verify 1 issue
         finish(1);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementEditable method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementEditable method")
     public void checkElementEditableDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -1047,8 +1080,8 @@ public class AssertIT extends TestBase {
         finish(2);
     }
 
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementHasAttribute method")
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementHasAttribute method")
     public void negativeCheckElementHasAttributeDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -1057,7 +1090,7 @@ public class AssertIT extends TestBase {
         // verify 1 issue
         finish(1);
     }
-    
+
     @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the checkElementHasClass method")
     public void checkElementHasClassTest() throws IOException {
@@ -1090,9 +1123,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementHasClass method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -1137,9 +1170,9 @@ public class AssertIT extends TestBase {
         // verify 2 issue
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementNotChecked method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementNotChecked method")
     public void checkElementNotCheckedDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -1170,9 +1203,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" }, 
-            description = "An integration negative test to check the checkElementNotDisplayed method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementNotDisplayed method")
     public void checkElementNotDisplayedDelayedTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -1219,9 +1252,9 @@ public class AssertIT extends TestBase {
         // verify 2 issues
         finish(2);
     }
-    
-    @Test(groups = { "integration", "asserts" },
-            description = "An integration negative test to check the checkElementNotEditable method")
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the checkElementNotEditable method")
     public void negativeCheckElementNotEditableDelayedTest() throws IOException {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
