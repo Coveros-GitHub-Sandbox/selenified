@@ -230,7 +230,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.compareTableCellText(new Element(Locator.ID, "non-existent-element"), 0, 0, "");
+        asserts.compareTableCellText(new Element(Locator.ID, "non-existent-element"), 0, 0, 0, "");
         // verify 1 issue
         finish(1);
     }

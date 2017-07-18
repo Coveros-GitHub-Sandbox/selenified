@@ -22,17 +22,29 @@ public class ActionWaitIT extends TestBase {
         // dynamic check
         setVersion("0.0.1");
     }
+    
+    @Test(groups = { "integration", "actions",
+    "wait" }, description = "An integration negative test to check the wait method")
+    public void negativeWaitTest() throws IOException, InterruptedException {
+    	// use this object to manipulate the page
+    	Action actions = this.actions.get();
+    	// perform some actions
+    	actions.wait(6.0);
+    	actions.click(new Element(Locator.ID, "five_second_button"));
+    	// verify 2 issues
+    	finish(2);
+    }
 
     @Test(groups = { "integration", "actions",
-            "wait" }, description = "An integration negative test to check the goToURL method")
-    public void negativeWaitTest() throws IOException, InterruptedException {
+            "wait" }, description = "An integration negative test to check the wait method")
+    public void negativeWaitErrorTest() throws IOException, InterruptedException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
+        Thread.currentThread().interrupt();
         actions.wait(6.0);
-        actions.click(new Element(Locator.ID, "five_second_button"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "wait",
