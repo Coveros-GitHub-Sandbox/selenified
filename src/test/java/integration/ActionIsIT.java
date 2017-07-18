@@ -163,7 +163,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue( actions.isElementDisplayed(Locator.ID, "that") );
+        Assert.assertTrue(actions.isElementDisplayed(Locator.ID, "that"));
         // verify no issues
         finish();
     }
@@ -185,7 +185,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue( actions.isSomethingSelected(Locator.ID, "car_list"));
+        Assert.assertTrue(actions.isSomethingSelected(Locator.ID, "car_list"));
         // verify no issues
         finish();
     }
@@ -197,7 +197,7 @@ public class ActionIsIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(new Element(Locator.ID, "car_list_multiple"), 1);
-        Assert.assertTrue( actions.isSomethingSelected(Locator.ID, "car_list_multiple", true) );
+        Assert.assertTrue(actions.isSomethingSelected(Locator.ID, "car_list_multiple", true));
         // verify no issues
         finish();
     }
@@ -231,7 +231,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse( actions.isSomethingSelected(new Element(Locator.ID, "that"), true));
+        Assert.assertFalse(actions.isSomethingSelected(new Element(Locator.ID, "that"), true));
         // verify no issues
         finish();
     }
@@ -243,6 +243,17 @@ public class ActionIsIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         Assert.assertFalse(actions.isSomethingSelected(new Element(Locator.ID, "non-existent-name")));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if something is selected from an div")
+    public void isSomethingSelectedTextAreaTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Assert.assertFalse(actions.isSomethingSelected(new Element(Locator.ID, "textarea_input"), true));
         // verify no issues
         finish();
     }
@@ -329,8 +340,8 @@ public class ActionIsIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "is",
-            "virtual" }, description = "An integration test to check the isTextPresentInSthece method")
-    public void isTextPresentInStheceTest() throws IOException {
+            "virtual" }, description = "An integration test to check the isTextPresentInSource method")
+    public void isTextPresentInSourceTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -341,13 +352,25 @@ public class ActionIsIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "is",
-            "virtual" }, description = "An integration negative test to check the isTextPresentInSthece method")
-    public void negativeIsTextPresentInStheceTest() throws IOException {
+            "virtual" }, description = "An integration negative test to check the isTextPresentInSource method")
+    public void negativeIsTextPresentInSourceTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
         actions.click(new Element(Locator.ID, "submit_button"), 0);
         Assert.assertFalse(actions.isTextPresentInSource("Hello World"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration negative test to check the isTextPresentInSource method")
+    public void negativeIsTextPresentInSourceErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.isTextPresentInSource("Hello World");
         // verify no issues
         finish();
     }

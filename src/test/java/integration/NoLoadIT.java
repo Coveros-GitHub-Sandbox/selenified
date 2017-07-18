@@ -14,7 +14,6 @@ import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.tools.TestBase;
 
-
 public class NoLoadIT extends TestBase {
 
     @BeforeClass(alwaysRun = true)

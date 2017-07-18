@@ -132,7 +132,7 @@ public class TestSetupTest {
         Assert.assertTrue(browsers.contains(Browser.FIREFOX));
     }
 
-    @Test(expectedExceptions =  InvalidBrowserException.class)
+    @Test(expectedExceptions = InvalidBrowserException.class)
     public void setBrowserIllegalBrowserTest() throws InvalidBrowserException {
         System.setProperty("browser", "BadBrowser");
         TestSetup.setBrowser();

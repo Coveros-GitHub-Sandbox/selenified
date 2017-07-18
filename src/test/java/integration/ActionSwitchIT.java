@@ -2,6 +2,7 @@ package integration;
 
 import java.io.IOException;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -146,6 +147,20 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the openTab method")
+    public void openTabErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        WebDriver driver = actions.getDriver();
+        actions.setDriver(null);
+        actions.openTab("https://www.google.com/");
+        actions.setDriver(driver);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "switch",
+            "tab" }, description = "An integration test to check the openTab method")
     public void openEmptyTabTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -168,10 +183,24 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         actions.openTab("https://www.google.com/");
         actions.switchNextTab();
-        String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/"; 
+        String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/";
         asserts.compareURL(site);
-        // verify 1 issue
+        // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "switch",
+            "tab" }, description = "An integration test to check the switchTab method")
+    public void switchTabErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        WebDriver driver = actions.getDriver();
+        actions.setDriver(null);
+        actions.switchNextTab();
+        actions.setDriver(driver);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "switch",
@@ -184,10 +213,24 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         actions.openTab("https://www.google.com/");
         actions.closeTab();
-        String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/"; 
+        String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/";
         asserts.compareURL(site);
-        // verify 1 issue
+        // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "switch",
+            "tab" }, description = "An integration test to check the closeTab method")
+    public void closeTabErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        WebDriver driver = actions.getDriver();
+        actions.setDriver(null);
+        actions.closeTab();
+        actions.setDriver(driver);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "switch",
@@ -202,8 +245,22 @@ public class ActionSwitchIT extends TestBase {
         actions.switchPreviousTab();
         actions.closeTab();
         asserts.compareURL("https://www.google.com/");
-        // verify 1 issue
+        // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "switch",
+            "tab" }, description = "An integration test to check the closeTab method")
+    public void closeFirstTabErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        WebDriver driver = actions.getDriver();
+        actions.setDriver(null);
+        actions.switchPreviousTab();
+        actions.setDriver(driver);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "switch",
@@ -223,6 +280,20 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "window" }, description = "An integration test to check the switch method")
+    public void switchToNewWindowNoNewTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        WebDriver driver = actions.getDriver();
+        actions.setDriver(null);
+        actions.switchToNewWindow();
+        actions.setDriver(driver);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "switch",
+            "window" }, description = "An integration test to check the switch method")
     public void switchToParentWindowTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -237,9 +308,23 @@ public class ActionSwitchIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions", "switch",
-    "window" }, description = "An integration test to check the switch method")
+            "window" }, description = "An integration test to check the switch method")
+    public void switchToParentWindowNoParentTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        WebDriver driver = actions.getDriver();
+        actions.setDriver(null);
+        actions.switchToParentWindow();
+        actions.setDriver(driver);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "switch",
+            "window" }, description = "An integration test to check the switch method")
     public void closeCurrentWindowTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -253,5 +338,22 @@ public class ActionSwitchIT extends TestBase {
         asserts.checkTextNotVisible("You're on the next page");
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "switch",
+            "window" }, description = "An integration test to check the switch method")
+    public void closeCurrentWindowNoWindowTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        actions.click(new Element(Locator.ID, "new_window"));
+        actions.switchToNewWindow();
+        asserts.checkTextVisible("You're on the next page");
+        actions.closeCurrentWindow();
+        actions.closeCurrentWindow();
+        // verify 1 issue
+        finish(1);
     }
 }

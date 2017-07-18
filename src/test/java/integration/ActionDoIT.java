@@ -3,6 +3,8 @@ package integration;
 import java.io.IOException;
 
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -11,6 +13,7 @@ import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
 import com.coveros.selenified.output.Assert;
 import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -27,9 +30,41 @@ public class ActionDoIT extends TestBase {
         setVersion("0.0.1");
     }
 
-    @DataProvider(name = "car list items", parallel = true)
+    @DataProvider(name = "car list options", parallel = true)
     public Object[][] DataSetOptions() {
+        return new Object[][] { new Object[] { 0, "volvo" }, new Object[] { 1, "saab" },
+                new Object[] { 2, "mercedes" } };
+    }
+
+    @DataProvider(name = "car list items", parallel = true)
+    public Object[][] DataSetItems() {
         return new Object[][] { new Object[] { "volvo" }, new Object[] { "saab" }, new Object[] { "mercedes" } };
+    }
+
+    @Test(groups = { "integration", "actions", "do",
+            "virtual" }, description = "An integration negative test to check the goToURL method")
+    public void killDriverErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.killDriver();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "do",
+            "virtual" }, description = "An integration negative test to check the goToURL method")
+    public void killDriverNullTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        WebDriver driver = actions.getDriver();
+        actions.setDriver(null);
+        actions.killDriver();
+        actions.setDriver(driver);
+        // verify no issues
+        finish();
     }
 
     @Test(expectedExceptions = InvalidLocatorTypeException.class, groups = { "integration", "actions", "do",
@@ -284,6 +319,17 @@ public class ActionDoIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "do",
+            "click" }, description = "An integration negative test to check the click method")
+    public void clickUnderlayTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.click(new Element(Locator.ID, "underlay_span"));
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do",
             "submit" }, description = "An integration test to check the submit method")
     public void submitTest() throws IOException {
         // use this object to manipulate the page
@@ -428,13 +474,13 @@ public class ActionDoIT extends TestBase {
         finish(2);
     }
 
-    @Test(groups = { "integration", "actions", "do", "blur",
-            "virtual" }, description = "An integration negative test to check the blur method")
+    @Test(groups = { "integration", "actions", "do",
+            "blur" }, description = "An integration negative test to check the blur method")
     public void blurNotVisibleTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.blur(new Element(Locator.ID, "hidden_div"));
+        actions.blur(new Element(Locator.ID, "transparent_input"));
         // verify 2 issues
         finish(2);
     }
@@ -446,6 +492,20 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.blur(new Element(Locator.CLASSNAME, "click"));
+        // verify 2 issues
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do", "blur",
+            "virtual" }, description = "An integration negative test to check the blur method")
+    public void blurErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        WebDriver driver = actions.getDriver();
+        actions.setDriver(null);
+        actions.blur(new Element(Locator.CLASSNAME, "click"));
+        actions.setDriver(driver);
         // verify 2 issues
         finish(1);
     }
@@ -538,9 +598,9 @@ public class ActionDoIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions", "do", "type",
-    "virtual" }, description = "An integration negative test to check the type method")
+            "virtual" }, description = "An integration negative test to check the type method")
     public void typeNotVisible2Test() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -557,7 +617,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.type(new Element(Locator.CLASSNAME, "click"), "This is a test");
-        // verify 2 issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -649,9 +709,9 @@ public class ActionDoIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions", "do", "type",
-    "virtual" }, description = "An integration negative test to check the type method")
+            "virtual" }, description = "An integration negative test to check the type method")
     public void typeKeysNotVisible2Test() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -769,6 +829,31 @@ public class ActionDoIT extends TestBase {
         finish(1);
     }
 
+    @Test(dataProvider = "car list options", groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration test using a data provider to perform searches")
+    public void selectValueTest(int listItem, String listValue) throws IOException {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.select(Locator.ID, "car_list", listItem);
+        asserts.compareSelectedValue(Locator.ID, "car_list", listValue);
+        // close out the test
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration negative test to check the select method")
+    public void selectBadValueTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.select(new Element(Locator.ID, "car_list"), 9);
+        // verify 2 issues
+        finish(1);
+    }
+
     @Test(dataProvider = "car list items", groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration test using a data provider to perform searches")
     public void selectTest(String listItem) throws IOException {
@@ -834,7 +919,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(new Element(Locator.CLASSNAME, "click"), "option");
-        // verify 2 issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -845,7 +930,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(new Element(Locator.ID, "scroll_button"), "option");
-        // verify 2 issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -878,7 +963,18 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.move(new Element(Locator.ID, "hidden_div"));
-        // verify 2 issues
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do",
+            "move" }, description = "An integration negative test to check the move method")
+    public void moveOffscreenTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.move(new Element(Locator.ID, "offscreen_div"));
+        // verify 1 issue
         finish(1);
     }
 
@@ -911,7 +1007,18 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.move(new Element(Locator.ID, "hidden_div"), (long) 10);
-        // verify 2 issues
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do",
+            "move" }, description = "An integration negative test to check the move method")
+    public void moveAtOffscreenTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.move(new Element(Locator.ID, "offscreen_div"), (long) -10);
+        // verify 1 issue
         finish(1);
     }
 
@@ -936,5 +1043,43 @@ public class ActionDoIT extends TestBase {
         actions.scroll(500);
         // verify 1 issue
         finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "screenshot",
+            "do" }, description = "An integration test to check the takeScreenshot method")
+    public void takeScreenshotFirefoxLocalTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = new Action(Browser.FIREFOX, new DesiredCapabilities(), null);
+        System.setProperty("hubAddress", "LOCAL");
+        // perform some actions
+        actions.takeScreenshot("somefile");
+        actions.killDriver();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "screenshot",
+            "do" }, description = "An integration test to check the takeScreenshot method")
+    public void takeScreenshotFirefoxHubTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = new Action(Browser.FIREFOX, new DesiredCapabilities(), null);
+        System.setProperty("hubAddress", "HUB");
+        // perform some actions
+        actions.takeScreenshot("somefile");
+        actions.killDriver();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "screenshot",
+            "do" }, description = "An integration test to check the takeScreenshot method")
+    public void takeScreenshotHtmlUnitTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = new Action(Browser.HTMLUNIT, new DesiredCapabilities(), null);
+        // perform some actions
+        actions.takeScreenshot("somefile");
+        actions.killDriver();
+        // verify no issues
+        finish();
     }
 }

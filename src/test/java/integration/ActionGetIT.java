@@ -721,7 +721,7 @@ public class ActionGetIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getAllAttribute method")
+            "virtual" }, description = "A negative integration test to check the getAllAttribute method")
     public void getAllAttributeNotExistTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -754,7 +754,8 @@ public class ActionGetIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getEval method")
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "A negative integration test to check the getEval method")
     public void getElementEvalNotExistTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
@@ -837,16 +838,52 @@ public class ActionGetIT extends TestBase {
         // verify 1 issue
         finish(1);
     }
-    
+
     @Test(groups = { "integration", "actions",
-    "get" }, description = "An integration test to check the getHtmlSthece method")
-    public void getHtmlStheceTest() throws IOException {
+            "get" }, description = "An integration test to check the getHtmlSource method")
+    public void getHtmlSourceTest() throws IOException {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
         actions.click(new Element(Locator.ID, "submit_button"), 0);
         String source = actions.getHtmlSource();
-        Assert.assertTrue(source.contains( "You're on the next page"));
+        Assert.assertTrue(source.contains("You're on the next page"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration test to check the getElementMatchCount method")
+    public void getElementMatchCountTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        int matches = actions.getElementMatchCount(Locator.ID, "submit_button");
+        Assert.assertEquals(matches, 1);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration test to check the getElementMatchCount method")
+    public void getElementMatchCountMultipleTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        int matches = actions.getElementMatchCount(new Element(Locator.CLASSNAME, "overlay"));
+        Assert.assertEquals(matches, 3);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration negative test to check the getElementMatchCount method")
+    public void getElementMatchCountNotExistTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        int matches = actions.getElementMatchCount(new Element(Locator.ID, "non-existent-name"));
+        Assert.assertEquals(matches, 0);
         // verify no issues
         finish();
     }

@@ -12,7 +12,6 @@ import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
-
 public class SampleTests extends TestBase {
 
     @BeforeClass(alwaysRun = true)

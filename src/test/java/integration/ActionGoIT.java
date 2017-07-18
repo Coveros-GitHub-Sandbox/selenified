@@ -45,6 +45,29 @@ public class ActionGoIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the goBackOnePage method")
+    public void goBackOnePageNoBackTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.goBackOnePage();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the goBackOnePage method")
+    public void goBackOnePageErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.goBackOnePage();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageTest() throws IOException {
         // use this object to manipulate the page
@@ -63,6 +86,29 @@ public class ActionGoIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the goForwardOnePage method")
+    public void goForwardOnePageNoForwardTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.goForwardOnePage();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the goForwardOnePage method")
+    public void goForwardOnePageErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.goForwardOnePage();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPage method")
     public void refreshPageTest() throws IOException {
         // use this object to manipulate the page
@@ -74,6 +120,18 @@ public class ActionGoIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the refreshPage method")
+    public void refreshPageErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.refreshPage();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardTest() throws IOException {
         // use this object to manipulate the page
@@ -82,6 +140,18 @@ public class ActionGoIT extends TestBase {
         actions.refreshPageHard();
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the refreshPageHard method")
+    public void refreshPageHardErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.refreshPageHard();
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "go",
@@ -98,6 +168,23 @@ public class ActionGoIT extends TestBase {
         actions.setCookie(cookie);
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the setCookie method")
+    public void setCookieErrorTest() throws IOException, ParseException {
+        String dateval = "2011-11-17T09:52:13";
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite().split("/")[2].split(":")[0], "/",
+                df.parse(dateval));
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.setCookie(cookie);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "go",
@@ -120,7 +207,7 @@ public class ActionGoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.deleteCookie("new_cookie");
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -152,6 +239,18 @@ public class ActionGoIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the deleteAllCookies method")
+    public void deleteAllCookiesErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.deleteAllCookies();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenTest() throws IOException {
         // use this object to manipulate the page
@@ -160,5 +259,17 @@ public class ActionGoIT extends TestBase {
         actions.maximizeScreen();
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "go",
+            "virtual" }, description = "An integration test to check the maximizeScreen method")
+    public void maximizeScreenErrorTest() throws IOException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.killDriver();
+        actions.maximizeScreen();
+        // verify 1 issue
+        finish(1);
     }
 }

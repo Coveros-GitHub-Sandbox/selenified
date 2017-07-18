@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class General {
-    
+
     private static final int MAXFILENAMELENGTH = 200;
 
     private General() {
@@ -379,7 +379,7 @@ public class General {
                 testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));
             }
             currentName = testName.toString();
-            if( currentName.length() > MAXFILENAMELENGTH ) {
+            if (currentName.length() > MAXFILENAMELENGTH) {
                 currentName = methodName + dataProvider.toString().split(";")[1];
             }
         }

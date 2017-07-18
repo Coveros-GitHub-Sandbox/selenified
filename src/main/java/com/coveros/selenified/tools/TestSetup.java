@@ -120,7 +120,7 @@ public class TestSetup {
         if (!areBrowserDetailsSet()) {
             try {
                 String[] browserStrings = System.getProperty(BROWSER_INPUT).split(",");
-                for( String browserString : browserStrings ) {
+                for (String browserString : browserStrings) {
                     browsers.add(Browser.lookup(browserString));
                 }
             } catch (InvalidBrowserException e) {

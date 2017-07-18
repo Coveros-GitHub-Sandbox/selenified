@@ -123,6 +123,19 @@ public class Action {
     }
 
     /**
+     * a method to allow modifying the driver instance. Use with extreme
+     * caution!
+     * 
+     * @param driver
+     *            - the updated webdriver. Be sure not to create a fresh driver,
+     *            but instead, retrieve the currently instantated instance via
+     *            getDriver, and modify that
+     */
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    /**
      * a method to allow retrieving the set browser
      *
      * @return Browser: the enum of the browser
@@ -2778,6 +2791,15 @@ public class Action {
      */
     public int select(Locator type, String locator, int value) throws IOException {
         String[] options = getSelectOptions(type, locator);
+        if (value > options.length) {
+            String action = "Selecting " + value + " in " + type + " " + locator;
+            String expected = type + " " + locator + " is present, displayed, and enabled to have the value " + value
+                    + " selected";
+            file.recordAction(action, expected, "Unable to select the <i>" + value
+                    + "</i> option, as there are only <i>" + options.length + "</i> available.", Result.FAILURE);
+            file.addError();
+            return 1;
+        }
         return locatorAction.select(type, locator, 0, options[value]);
     }
 
@@ -2819,6 +2841,15 @@ public class Action {
      */
     public int select(Locator type, String locator, int elementMatch, int value) throws IOException {
         String[] options = getSelectOptions(type, locator, elementMatch);
+        if (value > options.length) {
+            String action = "Selecting " + value + " in " + type + " " + locator;
+            String expected = type + " " + locator + " is present, displayed, and enabled to have the value " + value
+                    + " selected";
+            file.recordAction(action, expected, "Unable to select the <i>" + value
+                    + "</i> option, as there are only <i>" + options.length + "</i> available.", Result.FAILURE);
+            file.addError();
+            return 1;
+        }
         return locatorAction.select(type, locator, elementMatch, options[value]);
     }
 
@@ -3468,10 +3499,11 @@ public class Action {
         String name = cookie.getName();
         String path = cookie.getPath();
         String value = cookie.getValue();
-    
+
         String action = "Setting up cookie with attributes:<div><table><tbody><tr><td>Domain</td><td>" + domain
                 + "</tr><tr><td>Expiration</td><td>" + expiry.toString() + "</tr><tr><td>Name</td><td>" + name
-                + "</tr><tr><td>Path</td><td>" + path + "</tr><tr><td>Value</td><td>" + value + "</tr></tbody></table></div><br/>";
+                + "</tr><tr><td>Path</td><td>" + path + "</tr><tr><td>Value</td><td>" + value
+                + "</tr></tbody></table></div><br/>";
         String expected = "Cookie is added";
         try {
             driver.manage().addCookie(cookie);
