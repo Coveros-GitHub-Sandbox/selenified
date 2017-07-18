@@ -65,7 +65,7 @@ public class TestBaseTest extends TestBase {
             System.setProperty("proxy", setProxy);
         }
     }
-    
+
     @BeforeMethod
     public void clearBrowser() {
         System.clearProperty("appURL");
@@ -73,7 +73,7 @@ public class TestBaseTest extends TestBase {
         System.clearProperty("hub");
         System.clearProperty("proxy");
     }
-    
+
     @Override
     public void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         // do nothing
@@ -130,7 +130,7 @@ public class TestBaseTest extends TestBase {
         Assert.assertTrue((boolean) capability.getCapability("ignoreProtectedModeSettings"));
         Assert.assertEquals(capability.getCapability("unexpectedAlertBehaviour"), "ignore");
     }
-    
+
     @Test
     public void siteTest() {
         setTestSite("yahoo");
@@ -139,13 +139,13 @@ public class TestBaseTest extends TestBase {
         setTestSite("google");
         Assert.assertEquals(getTestSite(), "yahoo");
     }
-    
+
     @Test
     public void versionTest() {
         setVersion("1.0.0");
         Assert.assertEquals(getVersion(), "1.0.0");
     }
-    
+
     @Test
     public void authorTest() {
         setAuthor("Max");

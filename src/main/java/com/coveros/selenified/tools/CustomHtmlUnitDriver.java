@@ -39,12 +39,13 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     }
 
     public CustomHtmlUnitDriver(Capabilities capabilities) {
-        super(capabilities);    //To change body of overridden methods use File | Settings | File Templates.
+        super(capabilities); // To change body of overridden methods use File |
+                                // Settings | File Templates.
     }
 
     @Override
     protected WebClient modifyWebClient(WebClient client) {
-        //currently does nothing, but may be changed in future versions
+        // currently does nothing, but may be changed in future versions
         WebClient modifiedClient = super.modifyWebClient(client);
 
         modifiedClient.getOptions().setThrowExceptionOnScriptError(false);

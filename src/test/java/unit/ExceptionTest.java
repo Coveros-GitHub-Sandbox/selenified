@@ -9,11 +9,11 @@ import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.tools.TestSetup;
 
 public class ExceptionTest {
-    
+
     @Test
     public void invalidBrowserExceptionTest() {
         try {
-            TestSetup.setupDriver(Browser.ANDROID, new DesiredCapabilities() );
+            TestSetup.setupDriver(Browser.ANDROID, new DesiredCapabilities());
             Assert.fail("Expected an InvalidBrowserException");
         } catch (InvalidBrowserException e) {
             Assert.assertEquals(e.getMessage(), "The selected browser ANDROID is not an applicable choice");
