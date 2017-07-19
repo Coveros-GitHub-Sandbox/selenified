@@ -1252,21 +1252,23 @@ public class LocatorAssert {
      */
     public int compareTableCellText(Locator type, String locator, int elementMatch, int row, int col, String text)
             throws IOException {
+        String column = " and column ";
+        String element = " within element ";
         // outputFile.record the action
-        outputFile.recordExpected("Expected to find cell at row " + row + " and column " + col + " within element "
-                + type + " <i>" + locator + "</i> to have the text value of <b>" + text + "</b>");
+        outputFile.recordExpected("Expected to find cell at row " + row + column + col + element + type + " <i>"
+                + locator + "</i> to have the text value of <b>" + text + "</b>");
         // check for the object to the present on the page
         if (!isPresent(type, locator, elementMatch)) {
             return 1;
         }
         String actualText = action.getTableCell(type, locator, elementMatch, row, col).getText();
         if (!actualText.equals(text)) {
-            outputFile.recordActual("Cell at row " + row + " and column " + col + " within element " + type + " <i>"
-                    + locator + "</i> has the text value of <b>" + actualText + "</b>", Success.FAIL);
+            outputFile.recordActual("Cell at row " + row + column + col + element + type + " <i>" + locator
+                    + "</i> has the text value of <b>" + actualText + "</b>", Success.FAIL);
             return 1;
         }
-        outputFile.recordActual("Cell at row " + row + " and column " + col + " within element " + type + " <i>"
-                + locator + "</i> has the text value of <b>" + actualText + "</b>", Success.PASS);
+        outputFile.recordActual("Cell at row " + row + column + col + element + type + " <i>" + locator
+                + "</i> has the text value of <b>" + actualText + "</b>", Success.PASS);
         return 0;
     }
 }
