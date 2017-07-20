@@ -68,7 +68,7 @@ public class ActionDoIT extends TestBase {
         finish();
     }
 
-    @Test(expectedExceptions = NullPointerException.class, groups = { "integration1", "actions", "do",
+    @Test(expectedExceptions = NullPointerException.class, groups = { "integration", "actions", "do",
             "virtual" }, description = "An integration test to verify we can't define an element with a bad locator")
     public void badLocatorTest() {
         // use this object to manipulate the page
