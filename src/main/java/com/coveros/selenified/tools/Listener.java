@@ -58,7 +58,7 @@ public class Listener extends TestListenerAdapter {
 	 * @return String: a string version of the test name
 	 */
 	private static String getTestName(ITestResult result) {
-		return General.getTestName(result.getName(), result.getParameters());
+		return General.getTestName(result.getName(), result.getClass().toString(), result.getParameters());
 	}
 
 	/**

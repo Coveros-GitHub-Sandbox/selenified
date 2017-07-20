@@ -352,7 +352,8 @@ public class General {
 	 * @return String: a unique name
 	 */
 	public static String getTestName(Method method, Object... dataProvider) {
-		return getTestName(method.getName(), dataProvider);
+		String className = method.getDeclaringClass().toString().substring(6);
+		return getTestName(method.getName(), className, dataProvider);
 	}
 
 	/**
@@ -361,14 +362,16 @@ public class General {
 	 * 
 	 * @param methodName
 	 *            - the name of the test method as a string
+	 * @param className
+	 *            - the class name of the test method as a string
 	 * @param dataProvider
 	 *            - an array of objects being passed to the test as data
 	 *            providers
 	 * @return String: a unique name
 	 */
-	public static String getTestName(String methodName, Object... dataProvider) {
-		StringBuilder testName = new StringBuilder(methodName);
-		String currentName = methodName;
+	public static String getTestName(String methodName, String className, Object... dataProvider) {
+		StringBuilder testName = new StringBuilder(methodName + "_" + className);
+		String currentName = testName.toString();
 		if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
 				&& !dataProvider[0].toString().startsWith("public")) {
 			testName.append("WithOption");
@@ -380,7 +383,7 @@ public class General {
 			}
 			currentName = testName.toString();
 			if( currentName.length() > MAXFILENAMELENGTH ) {
-				currentName = methodName + dataProvider.toString().split(";")[1];
+				currentName = methodName + "_" + className + dataProvider.toString().split(";")[1];
 			}
 		}
 		return currentName;
