@@ -1,9 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
- 
-<suite name="Sample Suite" parallel="methods" thread-count="20" verbose="3" >
-  <test name="Sample Test" >
-    <packages>
-      <package name="test" />
-   </packages>
- </test>
-</suite>

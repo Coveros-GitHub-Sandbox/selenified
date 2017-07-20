@@ -24,27 +24,27 @@ import com.coveros.selenified.selenium.Selenium.Locator;
 
 public class Element {
 
-	private Locator type;
-	private String locator;
+    private Locator type;
+    private String locator;
 
-	public Element(Locator type, String locator) {
-		this.setType(type);
-		this.setLocator(locator);
-	}
+    public Element(Locator type, String locator) {
+        this.setType(type);
+        this.setLocator(locator);
+    }
 
-	public void setType(Locator type) {
-		this.type = type;
-	}
+    public void setType(Locator type) {
+        this.type = type;
+    }
 
-	public void setLocator(String locator) {
-		this.locator = locator;
-	}
+    public void setLocator(String locator) {
+        this.locator = locator;
+    }
 
-	public Locator getType() {
-		return type;
-	}
+    public Locator getType() {
+        return type;
+    }
 
-	public String getLocator() {
-		return locator;
-	}
+    public String getLocator() {
+        return locator;
+    }
 }
