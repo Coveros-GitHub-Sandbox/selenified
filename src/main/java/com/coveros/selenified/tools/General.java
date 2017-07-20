@@ -328,8 +328,16 @@ public class General {
      * @return String: a unique name
      */
     public static String getTestName(Method method, Object... dataProvider) {
-        String className = method.getDeclaringClass().toString().substring(6);
-        return getTestName(method.getName(), className, dataProvider);
+        String className = "";
+        String packageName = "";
+        if (method.getDeclaringClass().getPackage() != null) {
+            className = method.getDeclaringClass().toString().substring(6).split("\\.")[1];
+            packageName = method.getDeclaringClass().toString().substring(6).split("\\.")[0];
+        }
+        else {
+            className = method.getDeclaringClass().toString().substring(6);
+        }
+        return getTestName(packageName, className, method.getName(), dataProvider);
     }
 
     /**
@@ -345,8 +353,14 @@ public class General {
      *            providers
      * @return String: a unique name
      */
-    public static String getTestName(String methodName, String className, Object... dataProvider) {
-        StringBuilder testName = new StringBuilder(methodName + "_" + className);
+    public static String getTestName(String packageName, String className, String methodName, Object... dataProvider) {
+        StringBuilder testName;
+        if ("".equals(packageName)) {
+            testName = new StringBuilder(className + "_" + methodName);
+        }
+        else {
+            testName = new StringBuilder(packageName + "_" + className + "_" + methodName);
+        }
         String currentName = testName.toString();
         if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
                 && !dataProvider[0].toString().startsWith("public")) {
@@ -359,7 +373,12 @@ public class General {
             }
             currentName = testName.toString();
             if (currentName.length() > MAXFILENAMELENGTH) {
-                currentName = methodName + "_" + className + dataProvider.toString().split(";")[1];
+                if ("".equals(packageName)) {
+                    currentName = className + "_" + methodName + dataProvider.toString().split(";")[1];
+                }
+                else {
+                    currentName = packageName + "_" + className + "_" + methodName + dataProvider.toString().split(";")[1];
+                }
             }
         }
         return currentName;

@@ -213,27 +213,27 @@ public class GeneralTest {
 
     @Test
     public void getTestNameTest(Method method) {
-        Assert.assertEquals(General.getTestName(method), "getTestNameTest_unit.GeneralTest");
-        Assert.assertEquals(General.getTestName("helloWorld", "UnitTests"), "helloWorld_UnitTests");
-        Assert.assertEquals(General.getTestName("helloWorld", "UnitTests", "python"),
-                "helloWorld_UnitTestsWithOptionPython");
-        Assert.assertEquals(General.getTestName("helloWorld", "UnitTests", "visual basic"),
-                "helloWorld_UnitTestsWithOptionVisualbasic");
-        Assert.assertEquals(General.getTestName("helloWorld", "UnitTests", "Python"),
-                "helloWorld_UnitTestsWithOptionPython");
-        Assert.assertEquals(General.getTestName("helloWorld", "UnitTests", "Python", "Perl"),
-                "helloWorld_UnitTestsWithOptionPythonPerl");
+        Assert.assertEquals(General.getTestName(method), "unit_GeneralTest_getTestNameTest");
+        Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
+        Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld", "python"),
+                "UnitTests_helloWorldWithOptionPython");
+        Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld", "visual basic"),
+                "UnitTests_helloWorldWithOptionVisualbasic");
+        Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld", "Python"),
+                "UnitTests_helloWorldWithOptionPython");
+        Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld", "Python", "Perl"),
+                "UnitTests_helloWorldWithOptionPythonPerl");
         Assert.assertEquals(
-                General.getTestName("helloWorld", "UnitTests", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+                General.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
                         "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
                         "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
                         "Gosu", "Powershell", "Squeak", "Gambas"),
-                "helloWorld_UnitTestsWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
-        String testName = General.getTestName("helloWorld", "UnitTests", "Python", "Perl", "Bash", "Java", "Ruby",
+                "UnitTests_helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
+        String testName = General.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
                 "Groovy", "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell",
                 "Swift", "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
                 "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
-        Assert.assertTrue(testName.matches("^helloWorld_UnitTests@[0-9a-f]+$"));
+        Assert.assertTrue(testName.matches("^UnitTests_helloWorld@[0-9a-f]+$"));
     }
 
     @Test

@@ -1,7 +1,5 @@
 package integration;
 
-import java.io.IOException;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -15,7 +13,7 @@ import com.coveros.selenified.tools.TestBase;
 public class ConflictAIT extends TestBase {
 
 	@BeforeClass(alwaysRun = true)
-	public void beforeClass() throws IOException {
+	public void beforeClass() {
 		// set the base URL for the tests here
 		setTestSite("http://172.31.2.65/");
 		// set the author of the tests here
@@ -27,7 +25,7 @@ public class ConflictAIT extends TestBase {
 
 	@Test(groups = { "integration", "conflict",
 			"virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
-	public void conflictingTestName() throws IOException {
+	public void conflictingTestName() {
 		// use this object to manipulate the page
 		Action actions = this.actions.get();
 		// use this object to verify the page looks as expected
