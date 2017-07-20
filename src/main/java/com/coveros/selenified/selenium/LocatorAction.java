@@ -20,7 +20,6 @@
 
 package com.coveros.selenified.selenium;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -115,10 +114,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int waitForElementPresent(Locator type, String locator, int elementMatch, double seconds) {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + PRESENT;
@@ -158,10 +156,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int waitForElementNotPresent(Locator type, String locator, int elementMatch, double seconds) {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + " to not be present";
@@ -197,10 +194,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int waitForElementDisplayed(Locator type, String locator, int elementMatch, double seconds) {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + DISPLAYED;
@@ -245,10 +241,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int waitForElementNotDisplayed(Locator type, String locator, int elementMatch, double seconds) {
 		// this might fail if the element disappears completely
@@ -288,10 +283,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int waitForElementEnabled(Locator type, String locator, int elementMatch, double seconds) {
 		String action = WAIT + seconds + SECONDS + type + " " + locator + ENABLED;
@@ -335,10 +329,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param seconds
-	 *            : the number of seconds to wait
+	 *            - the number of seconds to wait
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int waitForElementNotEnabled(Locator type, String locator, int elementMatch, double seconds) {
 		// this might fail if the element is no longer present
@@ -378,9 +371,8 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is present or not
-	 * @throws IOException
 	 */
 	public boolean isElementPresent(Locator type, String locator, int elementMatch, boolean print) {
 		boolean isPresent = false;
@@ -408,9 +400,8 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is present or not
-	 * @throws IOException
 	 */
 	public boolean isElementInput(Locator type, String locator, int elementMatch, boolean print) {
 		boolean isInput = false;
@@ -440,9 +431,8 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is present or not
-	 * @throws IOException
 	 */
 	public boolean isElementEnabled(Locator type, String locator, int elementMatch, boolean print) {
 		boolean isEnabled = false;
@@ -468,9 +458,8 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is checked or not
-	 * @throws IOException
 	 */
 	public boolean isElementChecked(Locator type, String locator, int elementMatch, boolean print) {
 		boolean isChecked = false;
@@ -496,9 +485,8 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param print
-	 *            : whether or not to printout the action
+	 *            - whether or not to printout the action
 	 * @return boolean: whether the element is displayed or not
-	 * @throws IOException
 	 */
 	public boolean isElementDisplayed(Locator type, String locator, int elementMatch, boolean print) {
 		boolean isDisplayed = false;
@@ -523,8 +511,9 @@ public class LocatorAction {
 	 * @param elementMatch
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
+	 * @param print
+	 *            - whether or not to printout the action
 	 * @return Boolean: was something selected in the drop down
-	 * @throws IOException
 	 */
 	public boolean isSomethingSelected(Locator type, String locator, int elementMatch, boolean print) {
 		boolean isSelected = false;
@@ -557,7 +546,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: the number of select options
-	 * @throws IOException
 	 */
 	public int getNumOfSelectOptions(Locator type, String locator, int elementMatch) {
 		// wait for element to be present
@@ -583,7 +571,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String[]: the options from the select element
-	 * @throws IOException
 	 */
 	public String[] getSelectOptions(Locator type, String locator, int elementMatch) {
 		// wait for element to be present
@@ -613,7 +600,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return List: a list of the table rows as WebElements
-	 * @throws IOException
 	 */
 	public List<WebElement> getTableRows(Locator type, String locator, int elementMatch) {
 		// wait for element to be present
@@ -639,7 +625,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return List: a list of the table columns as WebElements
-	 * @throws IOException
 	 */
 	public List<List<WebElement>> getTableColumns(Locator type, String locator, int elementMatch) {
 		// wait for element to be present
@@ -674,10 +659,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param rowNum
-	 *            : the row number of the table to obtain - note, row numbering
+	 *            - the row number of the table to obtain - note, row numbering
 	 *            starts at 1, NOT 0
 	 * @return List: a list of the table cells in the row as WebElements
-	 * @throws IOException
 	 */
 	public List<WebElement> getTableRow(Locator type, String locator, int elementMatch, int rowNum) {
 		List<WebElement> rows = getTableRows(type, locator, elementMatch);
@@ -705,10 +689,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param colNum
-	 *            : the column number of the table to obtain - note, column
+	 *            - the column number of the table to obtain - note, column
 	 *            numbering starts at 1, NOT 0
 	 * @return List: a list of the table cells in the column as WebElements
-	 * @throws IOException
 	 */
 	public List<WebElement> getTableColumn(Locator type, String locator, int elementMatch, int colNum) {
 		List<List<WebElement>> columns = getTableColumns(type, locator, elementMatch);
@@ -729,14 +712,13 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param rowNum
-	 *            : the number of the row in the table - note, row numbering
+	 *            - the number of the row in the table - note, row numbering
 	 *            starts at 1, NOT 0
 	 * @param colNum
-	 *            : the number of the column in the table - note, column
+	 *            - the number of the column in the table - note, column
 	 *            numbering starts at 1, NOT 0
 	 * @return WebElement: the cell element object, and all associated values
 	 *         with it
-	 * @throws IOException
 	 */
 	public WebElement getTableCell(Locator type, String locator, int elementMatch, int rowNum, int colNum) {
 		List<WebElement> row = getTableRow(type, locator, elementMatch, rowNum);
@@ -772,7 +754,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String: the option from the select element
-	 * @throws IOException
 	 */
 	public String getSelectedText(Locator type, String locator, int elementMatch) {
 		if (!isPresentInput(type, locator, elementMatch)) {
@@ -795,7 +776,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String[]: the options from the select element
-	 * @throws IOException
 	 */
 	public String[] getSelectedTexts(Locator type, String locator, int elementMatch) {
 		if (!isPresentInput(type, locator, elementMatch)) {
@@ -822,7 +802,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String: the options from the select element
-	 * @throws IOException
 	 */
 	public String getSelectedValue(Locator type, String locator, int elementMatch) {
 		if (!isPresentInput(type, locator, elementMatch)) {
@@ -845,7 +824,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String[]: the options from the select element
-	 * @throws IOException
 	 */
 	public String[] getSelectedValues(Locator type, String locator, int elementMatch) {
 		if (!isPresentInput(type, locator, elementMatch)) {
@@ -872,7 +850,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
-	 * @throws IOException
 	 */
 	public String getText(Locator type, String locator, int elementMatch) {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
@@ -893,7 +870,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the text of the element
-	 * @throws IOException
 	 */
 	public String getValue(Locator type, String locator, int elementMatch) {
 		if (!isElementInput(type, locator, elementMatch, false)) {
@@ -916,7 +892,6 @@ public class LocatorAction {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException
 	 */
 	public String getCss(Locator type, String locator, int elementMatch, String attribute) {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
@@ -939,7 +914,6 @@ public class LocatorAction {
 	 * @param attribute
 	 *            - the css attribute to be returned
 	 * @return String - the value of the css attribute
-	 * @throws IOException
 	 */
 	public String getAttribute(Locator type, String locator, int elementMatch, String attribute) {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
@@ -960,7 +934,6 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return String - the value of the css attribute
-	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
 	public Map<String, String> getAllAttributes(Locator type, String locator, int elementMatch) {
@@ -981,10 +954,17 @@ public class LocatorAction {
 
 	/**
 	 * a way to execute custom javascript functions
-	 *
+	 * 
+	 * @param type
+	 *            - the locator type e.g. Locator.id, Locator.xpath
+	 * @param locator
+	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @param javascriptFunction
+	 *            - the javascript function that is going to be executed
 	 * @return Object: any resultant output from the javascript command
-	 * @throws IOException
 	 */
 	public Object getEval(Locator type, String locator, int elementMatch, String javascriptFunction) {
 		if (!isElementPresent(type, locator, elementMatch, false)) {
@@ -1007,21 +987,17 @@ public class LocatorAction {
 	 * @param type
 	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
-	 *            - the locator string e.g. login, //input[@id='login'] <<<<<<<
-	 *            HEAD
+	 *            - the locator string e.g. login, //input[@id='login']
 	 * @param action
 	 *            - what action is occurring
 	 * @param expected
 	 *            - what is the expected result
-	 * @param extra
-	 *            - what actually is occurring
-	 * @return Boolean: is the element present? =======
 	 * @param elementMatch
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
-	 * @return Integer - the number of errors encountered while executing these
-	 *         steps >>>>>>> 0da6403478880421bb126c6ffcccf5eccdb2e6ae
-	 * @throws IOException
+	 * @param extra
+	 *            - what actually is occurring
+	 * @return Boolean: is the element present?
 	 */
 	private boolean isPresent(Locator type, String locator, int elementMatch, String action, String expected,
 			String extra) {
@@ -1053,7 +1029,6 @@ public class LocatorAction {
 	 * @param extra
 	 *            - what actually is occurring
 	 * @return Boolean: is the element displayed?
-	 * @throws IOException
 	 */
 	private boolean isDisplayed(Locator type, String locator, int elementMatch, String action, String expected,
 			String extra) {
@@ -1085,7 +1060,6 @@ public class LocatorAction {
 	 * @param extra
 	 *            - what actually is occurring
 	 * @return Boolean: is the element enabled?
-	 * @throws IOException
 	 */
 	private boolean isEnabled(Locator type, String locator, int elementMatch, String action, String expected,
 			String extra) {
@@ -1116,7 +1090,6 @@ public class LocatorAction {
 	 * @param extra
 	 *            - what actually is occurring
 	 * @return Boolean: is the element enabled?
-	 * @throws IOException
 	 */
 	private boolean isInput(Locator type, String locator, int elementMatch, String action, String expected,
 			String extra) {
@@ -1145,7 +1118,6 @@ public class LocatorAction {
 	 * @param extra
 	 *            - what actually is occurring
 	 * @return Boolean: is the element present, displayed, and enabled?
-	 * @throws IOException
 	 */
 	private boolean isPresentDisplayedEnabled(Locator type, String locator, int elementMatch, String action,
 			String expected, String extra) {
@@ -1176,7 +1148,6 @@ public class LocatorAction {
 	 * @param extra
 	 *            - what actually is occurring
 	 * @return Boolean: is the element present, enabled, and an input?
-	 * @throws IOException
 	 */
 	private boolean isPresentEnabledInput(Locator type, String locator, int elementMatch, String action,
 			String expected, String extra) {
@@ -1208,7 +1179,6 @@ public class LocatorAction {
 	 *            - what actually is occurring
 	 * @return Boolean: is the element present, displayed, enabled, and an
 	 *         input?
-	 * @throws IOException
 	 */
 	private boolean isPresentDisplayedEnabledInput(Locator type, String locator, int elementMatch, String action,
 			String expected, String extra) {
@@ -1238,9 +1208,11 @@ public class LocatorAction {
 	 *            - the locator type e.g. Locator.id, Locator.xpath
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
+	 * @param elementMatch
+	 *            - if there are multiple matches of the selector, this is which
+	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int click(Locator type, String locator, int elementMatch) {
 		String cantClick = "Unable to click ";
@@ -1276,7 +1248,6 @@ public class LocatorAction {
 	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int submit(Locator type, String locator, int elementMatch) {
 		String cantSubmit = "Unable to submit ";
@@ -1311,7 +1282,6 @@ public class LocatorAction {
 	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int hover(Locator type, String locator, int elementMatch) {
 		String cantHover = "Unable to hover over ";
@@ -1352,7 +1322,6 @@ public class LocatorAction {
 	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int blur(Locator type, String locator, int elementMatch) {
 		String cantFocus = "Unable to focus on ";
@@ -1387,10 +1356,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param text
-	 *            : the text to be typed in
+	 *            - the text to be typed in
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int type(Locator type, String locator, int elementMatch, String text) {
 		String action = "Typing text '" + text + IN + type + " " + locator;
@@ -1433,10 +1401,9 @@ public class LocatorAction {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @param key
-	 *            : the key to be pressed
+	 *            - the key to be pressed
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int type(Locator type, String locator, int elementMatch, Keys key) {
 		String action = "Typing key '" + key + IN + type + " " + locator;
@@ -1479,7 +1446,6 @@ public class LocatorAction {
 	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int clear(Locator type, String locator, int elementMatch) {
 		String cantClear = "Unable to clear ";
@@ -1516,7 +1482,6 @@ public class LocatorAction {
 	 *            - the select option to be selected
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int select(Locator type, String locator, int elementMatch, String value) {
 		String cantSelect = "Unable to select ";
@@ -1592,7 +1557,6 @@ public class LocatorAction {
 	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	private int isMoved(String action, String expected, Locator type, String locator, int elementMatch) {
 		if (!isElementDisplayed(type, locator, elementMatch, false)) {
@@ -1618,7 +1582,6 @@ public class LocatorAction {
 	 *            match (starting at 0) to interact with
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int move(Locator type, String locator, int elementMatch) {
 		String action = "Moving screen to " + type + " " + locator;
@@ -1652,7 +1615,6 @@ public class LocatorAction {
 	 *            - how many pixels above the element to scroll to
 	 * @return Integer - the number of errors encountered while executing these
 	 *         steps
-	 * @throws IOException
 	 */
 	public int move(Locator type, String locator, int elementMatch, long position) {
 		String action = "Moving screen to " + position + " pixels above " + type + " " + locator;
@@ -1829,7 +1791,6 @@ public class LocatorAction {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: how many element match the selector
-	 * @throws InvalidLocatorTypeException
 	 */
 	public int getElementMatchCount(Locator type, String locator) {
 		return getWebElements(type, locator).size();

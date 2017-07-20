@@ -20,7 +20,6 @@
 
 package com.coveros.selenified.output;
 
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -412,7 +411,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayed(Element element) {
 		return checkElementDisplayed(element.getType(), element.getLocator(), 0);
@@ -426,7 +424,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayed(Locator type, String locator) {
 		return checkElementDisplayed(type, locator, 0);
@@ -441,7 +438,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayed(Element element, int elementMatch) {
 		return checkElementDisplayed(element.getType(), element.getLocator(), elementMatch);
@@ -458,7 +454,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayed(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementDisplayed(type, locator, elementMatch);
@@ -472,7 +467,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotDisplayed(Element element) {
 		return checkElementNotDisplayed(element.getType(), element.getLocator(), 0);
@@ -486,7 +480,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotDisplayed(Locator type, String locator) {
 		return checkElementNotDisplayed(type, locator, 0);
@@ -501,7 +494,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotDisplayed(Element element, int elementMatch) {
 		return checkElementNotDisplayed(element.getType(), element.getLocator(), elementMatch);
@@ -518,7 +510,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotDisplayed(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementNotDisplayed(type, locator, elementMatch);
@@ -532,7 +523,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementChecked(Element element) {
 		return checkElementChecked(element.getType(), element.getLocator(), 0);
@@ -546,7 +536,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementChecked(Locator type, String locator) {
 		return checkElementChecked(type, locator, 0);
@@ -562,7 +551,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementChecked(Element element, int elementMatch) {
 		return checkElementChecked(element.getType(), element.getLocator(), elementMatch);
@@ -579,7 +567,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementChecked(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementChecked(type, locator, elementMatch);
@@ -594,7 +581,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotChecked(Element element) {
 		return checkElementNotChecked(element.getType(), element.getLocator(), 0);
@@ -608,7 +594,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotChecked(Locator type, String locator) {
 		return checkElementNotChecked(type, locator, 0);
@@ -623,7 +608,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotChecked(Element element, int elementMatch) {
 		return checkElementNotChecked(element.getType(), element.getLocator(), elementMatch);
@@ -640,7 +624,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotChecked(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementNotChecked(type, locator, elementMatch);
@@ -654,7 +637,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndChecked(Element element) {
 		return checkElementDisplayedAndChecked(element.getType(), element.getLocator(), 0);
@@ -668,7 +650,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndChecked(Locator type, String locator) {
 		return checkElementDisplayedAndChecked(type, locator, 0);
@@ -683,7 +664,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndChecked(Element element, int elementMatch) {
 		return checkElementDisplayedAndChecked(element.getType(), element.getLocator(), elementMatch);
@@ -700,7 +680,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndChecked(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementDisplayedAndChecked(type, locator, elementMatch);
@@ -714,7 +693,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndUnchecked(Element element) {
 		return checkElementDisplayedAndUnchecked(element.getType(), element.getLocator(), 0);
@@ -728,7 +706,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndUnchecked(Locator type, String locator) {
 		return checkElementDisplayedAndUnchecked(type, locator, 0);
@@ -743,7 +720,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndUnchecked(Element element, int elementMatch) {
 		return checkElementDisplayedAndUnchecked(element.getType(), element.getLocator(), elementMatch);
@@ -760,7 +736,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndUnchecked(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementDisplayedAndUnchecked(type, locator, elementMatch);
@@ -774,7 +749,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementEditable(Element element) {
 		return checkElementEditable(element.getType(), element.getLocator(), 0);
@@ -788,7 +762,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementEditable(Locator type, String locator) {
 		return checkElementEditable(type, locator, 0);
@@ -803,7 +776,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementEditable(Element element, int elementMatch) {
 		return checkElementEditable(element.getType(), element.getLocator(), elementMatch);
@@ -820,7 +792,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementEditable(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementEditable(type, locator, elementMatch);
@@ -834,7 +805,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotEditable(Element element) {
 		return checkElementNotEditable(element.getType(), element.getLocator(), 0);
@@ -848,7 +818,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotEditable(Locator type, String locator) {
 		return checkElementNotEditable(type, locator, 0);
@@ -863,7 +832,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotEditable(Element element, int elementMatch) {
 		return checkElementNotEditable(element.getType(), element.getLocator(), elementMatch);
@@ -880,7 +848,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementNotEditable(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementNotEditable(type, locator, elementMatch);
@@ -894,7 +861,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndEditable(Element element) {
 		return checkElementDisplayedAndEditable(element.getType(), element.getLocator(), 0);
@@ -908,7 +874,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndEditable(Locator type, String locator) {
 		return checkElementDisplayedAndEditable(type, locator, 0);
@@ -923,7 +888,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndEditable(Element element, int elementMatch) {
 		return checkElementDisplayedAndEditable(element.getType(), element.getLocator(), elementMatch);
@@ -940,7 +904,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndEditable(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementDisplayedAndEditable(type, locator, elementMatch);
@@ -954,7 +917,6 @@ public class Assert {
 	 * @param element
 	 *            - the element to be waited for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndNotEditable(Element element) {
 		return checkElementDisplayedAndNotEditable(element.getType(), element.getLocator(), 0);
@@ -968,7 +930,6 @@ public class Assert {
 	 * @param locator
 	 *            - the locator string e.g. login, //input[@id='login']
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndNotEditable(Locator type, String locator) {
 		return checkElementDisplayedAndNotEditable(type, locator, 0);
@@ -983,7 +944,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndNotEditable(Element element, int elementMatch) {
 		return checkElementDisplayedAndNotEditable(element.getType(), element.getLocator(), elementMatch);
@@ -1000,7 +960,6 @@ public class Assert {
 	 *            - if there are multiple matches of the selector, this is which
 	 *            match (starting at 0) to interact with
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDisplayedAndNotEditable(Locator type, String locator, int elementMatch) {
 		int errors = locatorAssert.checkElementDisplayedAndNotEditable(type, locator, elementMatch);
@@ -1016,7 +975,6 @@ public class Assert {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementHasAttribute(Element element, String attribute) {
 		return checkElementHasAttribute(element.getType(), element.getLocator(), 0, attribute);
@@ -1032,7 +990,6 @@ public class Assert {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementHasAttribute(Locator type, String locator, String attribute) {
 		return checkElementHasAttribute(type, locator, 0, attribute);
@@ -1049,7 +1006,6 @@ public class Assert {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementHasAttribute(Element element, int elementMatch, String attribute) {
 		return checkElementHasAttribute(element.getType(), element.getLocator(), elementMatch, attribute);
@@ -1068,10 +1024,8 @@ public class Assert {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkElementHasAttribute(Locator type, String locator, int elementMatch, String attribute)
-			{
+	public int checkElementHasAttribute(Locator type, String locator, int elementMatch, String attribute) {
 		int errors = locatorAssert.checkElementHasAttribute(type, locator, elementMatch, attribute);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1085,7 +1039,6 @@ public class Assert {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDoesntHaveAttribute(Element element, String attribute) {
 		return checkElementDoesntHaveAttribute(element.getType(), element.getLocator(), 0, attribute);
@@ -1101,7 +1054,6 @@ public class Assert {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDoesntHaveAttribute(Locator type, String locator, String attribute) {
 		return checkElementDoesntHaveAttribute(type, locator, 0, attribute);
@@ -1118,7 +1070,6 @@ public class Assert {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDoesntHaveAttribute(Element element, int elementMatch, String attribute) {
 		return checkElementDoesntHaveAttribute(element.getType(), element.getLocator(), elementMatch, attribute);
@@ -1137,10 +1088,8 @@ public class Assert {
 	 * @param attribute
 	 *            - the attribute to check for
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute)
-			{
+	public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute) {
 		int errors = locatorAssert.checkElementDoesntHaveAttribute(type, locator, elementMatch, attribute);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1154,7 +1103,6 @@ public class Assert {
 	 * @param expectedClass
 	 *            - the full expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementHasClass(Element element, String expectedClass) {
 		return checkElementHasClass(element.getType(), element.getLocator(), 0, expectedClass);
@@ -1170,7 +1118,6 @@ public class Assert {
 	 * @param expectedClass
 	 *            - the full expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementHasClass(Locator type, String locator, String expectedClass) {
 		return checkElementHasClass(type, locator, 0, expectedClass);
@@ -1187,7 +1134,6 @@ public class Assert {
 	 * @param expectedClass
 	 *            - the full expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementHasClass(Element element, int elementMatch, String expectedClass) {
 		return checkElementHasClass(element.getType(), element.getLocator(), elementMatch, expectedClass);
@@ -1206,10 +1152,8 @@ public class Assert {
 	 * @param expectedClass
 	 *            - the full expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkElementHasClass(Locator type, String locator, int elementMatch, String expectedClass)
-			{
+	public int checkElementHasClass(Locator type, String locator, int elementMatch, String expectedClass) {
 		int errors = locatorAssert.checkElementHasClass(type, locator, elementMatch, expectedClass);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1223,7 +1167,6 @@ public class Assert {
 	 * @param expectedClass
 	 *            - the expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementContainsClass(Element element, String expectedClass) {
 		return checkElementContainsClass(element.getType(), element.getLocator(), 0, expectedClass);
@@ -1239,7 +1182,6 @@ public class Assert {
 	 * @param expectedClass
 	 *            - the expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementContainsClass(Locator type, String locator, String expectedClass) {
 		return checkElementContainsClass(type, locator, 0, expectedClass);
@@ -1256,7 +1198,6 @@ public class Assert {
 	 * @param expectedClass
 	 *            - the expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementContainsClass(Element element, int elementMatch, String expectedClass) {
 		return checkElementContainsClass(element.getType(), element.getLocator(), elementMatch, expectedClass);
@@ -1275,10 +1216,8 @@ public class Assert {
 	 * @param expectedClass
 	 *            - the expected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass)
-			{
+	public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass) {
 		int errors = locatorAssert.checkElementContainsClass(type, locator, elementMatch, expectedClass);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1292,7 +1231,6 @@ public class Assert {
 	 * @param unexpectedClass
 	 *            - the unexpected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDoesntContainClass(Element element, String unexpectedClass) {
 		return checkElementDoesntContainClass(element.getType(), element.getLocator(), 0, unexpectedClass);
@@ -1308,7 +1246,6 @@ public class Assert {
 	 * @param unexpectedClass
 	 *            - the unexpected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkElementDoesntContainClass(Locator type, String locator, String unexpectedClass) {
 		return checkElementDoesntContainClass(type, locator, 0, unexpectedClass);
@@ -1325,10 +1262,8 @@ public class Assert {
 	 * @param unexpectedClass
 	 *            - the unexpected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkElementDoesntContainClass(Element element, int elementMatch, String unexpectedClass)
-			{
+	public int checkElementDoesntContainClass(Element element, int elementMatch, String unexpectedClass) {
 		return checkElementDoesntContainClass(element.getType(), element.getLocator(), elementMatch, unexpectedClass);
 	}
 
@@ -1345,10 +1280,8 @@ public class Assert {
 	 * @param unexpectedClass
 	 *            - the unexpected class value
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass)
-			{
+	public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass) {
 		int errors = locatorAssert.checkElementDoesntContainClass(type, locator, elementMatch, unexpectedClass);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1362,7 +1295,6 @@ public class Assert {
 	 * @param option
 	 *            the option expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkIfOptionInSelect(Element element, String option) {
 		return checkIfOptionInSelect(element.getType(), element.getLocator(), 0, option);
@@ -1378,7 +1310,6 @@ public class Assert {
 	 * @param option
 	 *            the option expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkIfOptionInSelect(Locator type, String locator, String option) {
 		return checkIfOptionInSelect(type, locator, 0, option);
@@ -1395,7 +1326,6 @@ public class Assert {
 	 * @param option
 	 *            the option expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkIfOptionInSelect(Element element, int elementMatch, String option) {
 		return checkIfOptionInSelect(element.getType(), element.getLocator(), elementMatch, option);
@@ -1414,7 +1344,6 @@ public class Assert {
 	 * @param option
 	 *            the option expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option) {
 		int errors = locatorAssert.checkIfOptionInSelect(type, locator, elementMatch, option);
@@ -1430,7 +1359,6 @@ public class Assert {
 	 * @param option
 	 *            the option not expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkIfOptionNotInSelect(Element element, String option) {
 		return checkIfOptionNotInSelect(element.getType(), element.getLocator(), 0, option);
@@ -1446,7 +1374,6 @@ public class Assert {
 	 * @param option
 	 *            the option not expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkIfOptionNotInSelect(Locator type, String locator, String option) {
 		return checkIfOptionNotInSelect(type, locator, 0, option);
@@ -1463,7 +1390,6 @@ public class Assert {
 	 * @param option
 	 *            the option not expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkIfOptionNotInSelect(Element element, int elementMatch, String option) {
 		return checkIfOptionNotInSelect(element.getType(), element.getLocator(), elementMatch, option);
@@ -1482,10 +1408,8 @@ public class Assert {
 	 * @param option
 	 *            the option not expected in the list
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkIfOptionNotInSelect(Locator type, String locator, int elementMatch, String option)
-			{
+	public int checkIfOptionNotInSelect(Locator type, String locator, int elementMatch, String option) {
 		int errors = locatorAssert.checkIfOptionNotInSelect(type, locator, elementMatch, option);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1587,7 +1511,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareTextValue(Element element, String expectedValue) {
 		return compareTextValue(element.getType(), element.getLocator(), 0, expectedValue);
@@ -1603,7 +1526,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareTextValue(Locator type, String locator, String expectedValue) {
 		return compareTextValue(type, locator, 0, expectedValue);
@@ -1620,7 +1542,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareTextValue(Element element, int elementMatch, String expectedValue) {
 		return compareTextValue(element.getType(), element.getLocator(), elementMatch, expectedValue);
@@ -1639,10 +1560,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareTextValue(Locator type, String locator, int elementMatch, String expectedValue)
-			{
+	public int compareTextValue(Locator type, String locator, int elementMatch, String expectedValue) {
 		int errors = locatorAssert.compareTextValue(type, locator, elementMatch, expectedValue);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1656,7 +1575,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareTextValueContains(Element element, String expectedValue) {
 		return compareTextValueContains(element.getType(), element.getLocator(), 0, expectedValue);
@@ -1672,7 +1590,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareTextValueContains(Locator type, String locator, String expectedValue) {
 		return compareTextValueContains(type, locator, 0, expectedValue);
@@ -1689,7 +1606,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareTextValueContains(Element element, int elementMatch, String expectedValue) {
 		return compareTextValueContains(element.getType(), element.getLocator(), elementMatch, expectedValue);
@@ -1708,10 +1624,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareTextValueContains(Locator type, String locator, int elementMatch, String expectedValue)
-			{
+	public int compareTextValueContains(Locator type, String locator, int elementMatch, String expectedValue) {
 		int errors = locatorAssert.compareTextValueContains(type, locator, elementMatch, expectedValue);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1766,7 +1680,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareInputValue(Element element, String expectedValue) {
 		return compareInputValue(element.getType(), element.getLocator(), 0, expectedValue);
@@ -1783,7 +1696,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareInputValue(Locator type, String locator, String expectedValue) {
 		return compareInputValue(type, locator, 0, expectedValue);
@@ -1801,7 +1713,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareInputValue(Element element, int elementMatch, String expectedValue) {
 		return compareInputValue(element.getType(), element.getLocator(), elementMatch, expectedValue);
@@ -1821,10 +1732,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareInputValue(Locator type, String locator, int elementMatch, String expectedValue)
-			{
+	public int compareInputValue(Locator type, String locator, int elementMatch, String expectedValue) {
 		int errors = locatorAssert.compareInputValue(type, locator, elementMatch, expectedValue);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1841,7 +1750,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected css value of the passed attribute of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareCssValue(Element element, String attribute, String expectedValue) {
 		return compareCssValue(element.getType(), element.getLocator(), 0, attribute, expectedValue);
@@ -1860,10 +1768,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected css value of the passed attribute of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareCssValue(Locator type, String locator, String attribute, String expectedValue)
-			{
+	public int compareCssValue(Locator type, String locator, String attribute, String expectedValue) {
 		return compareCssValue(type, locator, 0, attribute, expectedValue);
 	}
 
@@ -1881,10 +1787,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected css value of the passed attribute of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareCssValue(Element element, int elementMatch, String attribute, String expectedValue)
-			{
+	public int compareCssValue(Element element, int elementMatch, String attribute, String expectedValue) {
 		return compareCssValue(element.getType(), element.getLocator(), elementMatch, attribute, expectedValue);
 	}
 
@@ -1904,10 +1808,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected css value of the passed attribute of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareCssValue(Locator type, String locator, int elementMatch, String attribute, String expectedValue)
-			{
+	public int compareCssValue(Locator type, String locator, int elementMatch, String attribute, String expectedValue) {
 		int errors = locatorAssert.compareCssValue(type, locator, elementMatch, attribute, expectedValue);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1921,7 +1823,6 @@ public class Assert {
 	 * @param selectValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkSelectValuePresent(Element element, String selectValue) {
 		return checkSelectValuePresent(element.getType(), element.getLocator(), 0, selectValue);
@@ -1937,7 +1838,6 @@ public class Assert {
 	 * @param selectValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkSelectValuePresent(Locator type, String locator, String selectValue) {
 		return checkSelectValuePresent(type, locator, 0, selectValue);
@@ -1954,7 +1854,6 @@ public class Assert {
 	 * @param selectValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkSelectValuePresent(Element element, int elementMatch, String selectValue) {
 		return checkSelectValuePresent(element.getType(), element.getLocator(), elementMatch, selectValue);
@@ -1973,10 +1872,8 @@ public class Assert {
 	 * @param selectValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue)
-			{
+	public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue) {
 		int errors = locatorAssert.checkSelectValuePresent(type, locator, elementMatch, selectValue);
 		outputFile.addErrors(errors);
 		return errors;
@@ -1990,7 +1887,6 @@ public class Assert {
 	 * @param selectValue
 	 *            the unexpected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkSelectValueNotPresent(Element element, String selectValue) {
 		return checkSelectValueNotPresent(element.getType(), element.getLocator(), 0, selectValue);
@@ -2006,7 +1902,6 @@ public class Assert {
 	 * @param selectValue
 	 *            the unexpected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkSelectValueNotPresent(Locator type, String locator, String selectValue) {
 		return checkSelectValueNotPresent(type, locator, 0, selectValue);
@@ -2023,7 +1918,6 @@ public class Assert {
 	 * @param selectValue
 	 *            the unexpected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int checkSelectValueNotPresent(Element element, int elementMatch, String selectValue) {
 		return checkSelectValueNotPresent(element.getType(), element.getLocator(), elementMatch, selectValue);
@@ -2042,10 +1936,8 @@ public class Assert {
 	 * @param selectValue
 	 *            the unexpected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int checkSelectValueNotPresent(Locator type, String locator, int elementMatch, String selectValue)
-			{
+	public int checkSelectValueNotPresent(Locator type, String locator, int elementMatch, String selectValue) {
 		int errors = locatorAssert.checkSelectValueNotPresent(type, locator, elementMatch, selectValue);
 		outputFile.addErrors(errors);
 		return errors;
@@ -2060,7 +1952,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectedValue(Element element, String expectedValue) {
 		return compareSelectedValue(element.getType(), element.getLocator(), 0, expectedValue);
@@ -2077,7 +1968,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectedValue(Locator type, String locator, String expectedValue) {
 		return compareSelectedValue(type, locator, 0, expectedValue);
@@ -2095,7 +1985,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectedValue(Element element, int elementMatch, String expectedValue) {
 		return compareSelectedValue(element.getType(), element.getLocator(), elementMatch, expectedValue);
@@ -2115,10 +2004,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareSelectedValue(Locator type, String locator, int elementMatch, String expectedValue)
-			{
+	public int compareSelectedValue(Locator type, String locator, int elementMatch, String expectedValue) {
 		int errors = locatorAssert.compareSelectedValue(type, locator, elementMatch, expectedValue);
 		outputFile.addErrors(errors);
 		return errors;
@@ -2133,7 +2020,6 @@ public class Assert {
 	 * @param expectedText
 	 *            the expected input text of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectedText(Element element, String expectedText) {
 		return compareSelectedText(element.getType(), element.getLocator(), 0, expectedText);
@@ -2150,7 +2036,6 @@ public class Assert {
 	 * @param expectedText
 	 *            the expected input text of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectedText(Locator type, String locator, String expectedText) {
 		return compareSelectedText(type, locator, 0, expectedText);
@@ -2168,7 +2053,6 @@ public class Assert {
 	 * @param expectedText
 	 *            the expected input text of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectedText(Element element, int elementMatch, String expectedText) {
 		return compareSelectedText(element.getType(), element.getLocator(), elementMatch, expectedText);
@@ -2188,10 +2072,8 @@ public class Assert {
 	 * @param expectedText
 	 *            the expected input text of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareSelectedText(Locator type, String locator, int elementMatch, String expectedText)
-			{
+	public int compareSelectedText(Locator type, String locator, int elementMatch, String expectedText) {
 		int errors = locatorAssert.compareSelectedText(type, locator, elementMatch, expectedText);
 		outputFile.addErrors(errors);
 		return errors;
@@ -2206,7 +2088,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectedValueNotEqual(Element element, String expectedValue) {
 		return compareSelectedValueNotEqual(element.getType(), element.getLocator(), 0, expectedValue);
@@ -2223,7 +2104,6 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectedValueNotEqual(Locator type, String locator, String expectedValue) {
 		return compareSelectedValueNotEqual(type, locator, 0, expectedValue);
@@ -2241,10 +2121,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareSelectedValueNotEqual(Element element, int elementMatch, String expectedValue)
-			{
+	public int compareSelectedValueNotEqual(Element element, int elementMatch, String expectedValue) {
 		return compareSelectedValueNotEqual(element.getType(), element.getLocator(), elementMatch, expectedValue);
 	}
 
@@ -2262,10 +2140,8 @@ public class Assert {
 	 * @param expectedValue
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareSelectedValueNotEqual(Locator type, String locator, int elementMatch, String expectedValue)
-			{
+	public int compareSelectedValueNotEqual(Locator type, String locator, int elementMatch, String expectedValue) {
 		int errors = locatorAssert.compareSelectedValueNotEqual(type, locator, elementMatch, expectedValue);
 		outputFile.addErrors(errors);
 		return errors;
@@ -2280,7 +2156,6 @@ public class Assert {
 	 * @param expectedValues
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectValues(Element element, String... expectedValues) {
 		return compareSelectValues(element.getType(), element.getLocator(), 0, expectedValues);
@@ -2297,7 +2172,6 @@ public class Assert {
 	 * @param expectedValues
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectValues(Locator type, String locator, String... expectedValues) {
 		return compareSelectValues(type, locator, 0, expectedValues);
@@ -2315,7 +2189,6 @@ public class Assert {
 	 * @param expectedValues
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareSelectValues(Element element, int elementMatch, String... expectedValues) {
 		return compareSelectValues(element.getType(), element.getLocator(), elementMatch, expectedValues);
@@ -2335,10 +2208,8 @@ public class Assert {
 	 * @param expectedValues
 	 *            the expected input value of the element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareSelectValues(Locator type, String locator, int elementMatch, String... expectedValues)
-			{
+	public int compareSelectValues(Locator type, String locator, int elementMatch, String... expectedValues) {
 		int errors = locatorAssert.compareSelectValues(type, locator, elementMatch, expectedValues);
 		outputFile.addErrors(errors);
 		return errors;
@@ -2353,7 +2224,6 @@ public class Assert {
 	 * @param numOfOptions
 	 *            the expected number of options in the select element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfSelectOptions(Element element, int numOfOptions) {
 		return compareNumOfSelectOptions(element.getType(), element.getLocator(), 0, numOfOptions);
@@ -2370,7 +2240,6 @@ public class Assert {
 	 * @param numOfOptions
 	 *            the expected number of options in the select element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfSelectOptions(Locator type, String locator, int numOfOptions) {
 		return compareNumOfSelectOptions(type, locator, 0, numOfOptions);
@@ -2388,7 +2257,6 @@ public class Assert {
 	 * @param numOfOptions
 	 *            the expected number of options in the select element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfSelectOptions(Element element, int elementMatch, int numOfOptions) {
 		return compareNumOfSelectOptions(element.getType(), element.getLocator(), elementMatch, numOfOptions);
@@ -2408,10 +2276,8 @@ public class Assert {
 	 * @param numOfOptions
 	 *            the expected number of options in the select element
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareNumOfSelectOptions(Locator type, String locator, int elementMatch, int numOfOptions)
-			{
+	public int compareNumOfSelectOptions(Locator type, String locator, int elementMatch, int numOfOptions) {
 		int errors = locatorAssert.compareNumOfSelectOptions(type, locator, elementMatch, numOfOptions);
 		outputFile.addErrors(errors);
 		return errors;
@@ -2426,7 +2292,6 @@ public class Assert {
 	 * @param numOfRows
 	 *            the number of rows in a table
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfTableRows(Element element, int numOfRows) {
 		return compareNumOfTableRows(element.getType(), element.getLocator(), 0, numOfRows);
@@ -2443,7 +2308,6 @@ public class Assert {
 	 * @param numOfRows
 	 *            the number of rows in a table
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfTableRows(Locator type, String locator, int numOfRows) {
 		return compareNumOfTableRows(type, locator, 0, numOfRows);
@@ -2461,7 +2325,6 @@ public class Assert {
 	 * @param numOfRows
 	 *            the number of rows in a table
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfTableRows(Element element, int elementMatch, int numOfRows) {
 		return compareNumOfTableRows(element.getType(), element.getLocator(), elementMatch, numOfRows);
@@ -2481,7 +2344,6 @@ public class Assert {
 	 * @param numOfRows
 	 *            the number of rows in a table
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows) {
 		int errors = locatorAssert.compareNumOfTableRows(type, locator, elementMatch, numOfRows);
@@ -2498,7 +2360,6 @@ public class Assert {
 	 * @param numOfColumns
 	 *            the number of columns in a table
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfTableColumns(Element element, int numOfColumns) {
 		return compareNumOfTableColumns(element.getType(), element.getLocator(), 0, numOfColumns);
@@ -2515,7 +2376,6 @@ public class Assert {
 	 * @param numOfColumns
 	 *            the number of columns in a table
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfTableColumns(Locator type, String locator, int numOfColumns) {
 		return compareNumOfTableColumns(type, locator, 0, numOfColumns);
@@ -2533,7 +2393,6 @@ public class Assert {
 	 * @param numOfColumns
 	 *            the number of columns in a table
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareNumOfTableColumns(Element element, int elementMatch, int numOfColumns) {
 		return compareNumOfTableColumns(element.getType(), element.getLocator(), elementMatch, numOfColumns);
@@ -2553,10 +2412,8 @@ public class Assert {
 	 * @param numOfColumns
 	 *            the number of columns in a table
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareNumOfTableColumns(Locator type, String locator, int elementMatch, int numOfColumns)
-			{
+	public int compareNumOfTableColumns(Locator type, String locator, int elementMatch, int numOfColumns) {
 		int errors = locatorAssert.compareNumOfTableColumns(type, locator, elementMatch, numOfColumns);
 		outputFile.addErrors(errors);
 		return errors;
@@ -2574,8 +2431,9 @@ public class Assert {
 	 * @param col
 	 *            - the number of the column in the table - note, column
 	 *            numbering starts at 1, NOT 0
+	 * @param text
+	 *            - what text do we expect to be in the table cell
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareTableCellText(Element element, int row, int col, String text) {
 		return compareTableCellText(element.getType(), element.getLocator(), 0, row, col, text);
@@ -2595,8 +2453,9 @@ public class Assert {
 	 * @param col
 	 *            - the number of the column in the table - note, column
 	 *            numbering starts at 1, NOT 0
+	 * @param text
+	 *            - what text do we expect to be in the table cell
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
 	public int compareTableCellText(Locator type, String locator, int row, int col, String text) {
 		return compareTableCellText(type, locator, 0, row, col, text);
@@ -2617,11 +2476,11 @@ public class Assert {
 	 * @param col
 	 *            - the number of the column in the table - note, column
 	 *            numbering starts at 1, NOT 0
+	 * @param text
+	 *            - what text do we expect to be in the table cell
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareTableCellText(Element element, int elementMatch, int row, int col, String text)
-			{
+	public int compareTableCellText(Element element, int elementMatch, int row, int col, String text) {
 		return compareTableCellText(element.getType(), element.getLocator(), elementMatch, row, col, text);
 	}
 
@@ -2642,11 +2501,11 @@ public class Assert {
 	 * @param col
 	 *            - the number of the column in the table - note, column
 	 *            numbering starts at 1, NOT 0
+	 * @param text
+	 *            - what text do we expect to be in the table cell
 	 * @return Integer: 1 if a failure and 0 if a pass
-	 * @throws IOException
 	 */
-	public int compareTableCellText(Locator type, String locator, int elementMatch, int row, int col, String text)
-			{
+	public int compareTableCellText(Locator type, String locator, int elementMatch, int row, int col, String text) {
 		int errors = locatorAssert.compareTableCellText(type, locator, elementMatch, row, col, text);
 		outputFile.addErrors(errors);
 		return errors;
