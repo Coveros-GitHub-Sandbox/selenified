@@ -5,33 +5,89 @@ both web and API testing, wraps and extends Selenium calls to more appropriately
 and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in 
 parallel. It can be a great starting point for building or improving test automation in your organization.
 
-## Installation
-### Building the jar
-If you want to compile the jar from the source code, use maven. Maven can be used to run unit tests, run
-integration tests, build javadocs, and build the executable jar. To simply execute the unit tests, run the
-below command
-```
-mvn clean test
-```
-To also build the jars, run the below commands
-```
-mvn clean package
-```
-To run the integration tests, use the verify goal. The integration tests currently point at a private server
-hosting the file found in this base directory called `index.html`. In order to properly execute these tests,
-host this file, and set the testSite to point to the hosted file's location. This can be done dynamically through
-the command line, as outlined below in the Application URL section.
+## Test Examples
+### Getting Started
+One of Selenified's goals is to be a framework that is easy to drop in to an existing project. You can 
+easily have Selenified running within minutes using only a Maven POM, Java test class and a TestNG XML Suite.
 
-Some of the integration tests require a physical browser to run, and so they can be run two different ways, the 
-entire set with a browser, or a subset using HtmlUnit
-```
-mvn clean verify -Dbrowser=Firefox
-mvn clean verify -Dfailsafe.groups=virtual
+### Adding the Selenified Dependency
+It’s very simple to get started using Selenified. Just add selenified.jar to your project, and you can start 
+writing your test cases. If you’re using a build tool, simply add the jar as a dependency.
+
+#### Maven
+Update your pom.xml file to include
+```xml
+    <dependency>
+    <groupId>com.coveros</groupId>
+    <artifactId>selenified</artifactId>
+    <version>2.0.0</version>
+    <scope>test</scope>
+    </dependency>
 ```
 
-### Adding the jar to your project
-See the below sections on executing tests to see the proper way to source the jar, and add them to your 
-classpath
+#### Ant
+Update your ivy.xml file to include
+```xml
+    <ivy-module>
+     <dependencies>
+     <dependency org="com.coveros" name="selenified" rev="2.0.0"/>
+     </dependencies>
+    </ivy-module>
+```
+
+#### Gradle
+Update your build.gradle file to include
+```groovy
+    dependencies {
+        testCompile 'com.coveros:selenified:2.0.0'
+    }
+```
+
+Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
+
+```java
+    public class SampleTests extends TestBase {
+
+        @DataProvider(name = "google search terms", parallel = true)
+        public Object[][] DataSetOptions() {
+            return new Object[][] { new Object[] { "python" }, 
+                new Object[] { "perl" }, new Object[] { "bash" }, };
+        }
+
+        @Test(groups = { "sample" }, description = "A sample test to check a title")
+        public void sampleTest() {
+            // use this object to verify the page looks as expected
+            Assert asserts = this.asserts.get();
+            // perform some actions
+            asserts.compareTitle("Google");
+            // verify no issues
+            finish();
+        }
+
+        @Test(dataProvider = "google search terms", groups = { "sample" },
+                description = "A sample test using a data provider to perform searches")
+        public void sampleTestWDataProvider(String searchTerm) {
+            // use this object to manipulate the page
+            Action actions = this.actions.get();
+            // use this object to verify the page looks as expected
+            Assert asserts = this.asserts.get();
+            // perform some actions
+            actions.type(Locator.NAME, "q", searchTerm);
+            actions.click(Locator.NAME, "btnG");
+            actions.waitForElementDisplayed(Locator.ID, "resultStats");
+            asserts.compareTitle(searchTerm + " - Google Search");
+            // verify no issues
+            finish();
+        }
+    }
+```
+
+In the first test, sampleTest, the Assert class is used to check the title of the page. 
+In the next test, sampleTestWDataProvider, the Action and Assert classes are used to type 
+a search term, submit the search term and the wait for the page to load in order to verify the 
+title contains the same search term. The 'google search terms' dataProvider provides a search 
+term to the test. For more information on the Assert and Action class plus all the other classes 
+used by Selenified, check out the documentation [here](https://msaperst.github.io).
 
 ## Writing Tests
 ### Create A New Test Suite
@@ -48,7 +104,7 @@ See below for an example:
 
 ```java
     @BeforeClass (alwaysRun = true)
-    public void beforeClass() throws Exception {
+    public void beforeClass() {
         //set the base URL for the tests here
         testSite = "http://www.google.com/";
         //set the author of the tests here
@@ -66,7 +122,7 @@ See below for an example:
 
 ```java
     @BeforeMethod (alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 ```
@@ -79,7 +135,7 @@ See below for an example:
 
 ```java
     @BeforeMethod (alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
 ```
@@ -91,13 +147,13 @@ capabilities are required to the `extraCapabilities` object, and then call the p
 shown below
 
 ```java
-	@BeforeSuite(alwaysRun = true)
-	public void beforeSuite() throws InvalidBrowserException {
-		extraCapabilities = new DesiredCapabilities();
-		extraCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-		extraCapabilities.setCapability("ignoreProtectedModeSettings", true);
-		super.beforeSuite();
-	}
+    @BeforeSuite(alwaysRun = true)
+    public void beforeSuite() throws InvalidBrowserException {
+        extraCapabilities = new DesiredCapabilities();
+        extraCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+        extraCapabilities.setCapability("ignoreProtectedModeSettings", true);
+        super.beforeSuite();
+    }
 ```
 
 With this in mind, it may be helpful to structure tests based on functionality and attributes under test. 
@@ -142,7 +198,8 @@ for any and all selenium verifications.
 ```
 
 Similar to the first class, functionality from confirming an alert and element are present, to checking the css and 
-page source are all contained within this class. 
+page source are all contained within this class. Using methods from the Assert class will also provide screenshots when
+the assert test step is executed, which can be vital when debugging and adds additional traceability.
 
 Finally, in order to track errors within the tests, the last step of each test is comparing the value within errors
 to the number 0. This will then throw an error if any issues occurred during the test. All previous errors are caught
@@ -167,30 +224,30 @@ of your pages, use the provided `Element` object. After creating an `Element` ob
 interact with, these objects can be passed directly to the Action and Assert methods interacting with the page.
 This means instead of having an action looking like
 ```java
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
-	public void sampleTestWaitForElementPresent() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementPresent(Locators.name, "car_list");
-		// verify no issues
-		finish();
-	}
+    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
+    public void sampleTestWaitForElementPresent() {
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.waitForElementPresent(Locators.name, "car_list");
+        // verify no issues
+        finish();
+    }
 ```
 It could instead look like this
 ```java
     Element carList = new Element( Locators.name, "car_list");
 ```
 ```java
-	@Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
-	public void sampleTestWaitForElementPresent() throws Exception {
-		// use this object to manipulate our page
-		Action actions = this.actions.get();
-		// perform some actions
-		actions.waitForElementPresent(carList);
-		// verify no issues
-		finish();
-	}
+    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
+    public void sampleTestWaitForElementPresent() {
+        // use this object to manipulate our page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.waitForElementPresent(carList);
+        // verify no issues
+        finish();
+    }
 ```
 
 ### Update testng build file
@@ -383,6 +440,35 @@ listed to make fixing tests or the app easier.
 If running within SecureCI™ and Jenkins, TestNG produces a JUnit XML results file. This is great for storing 
 results/metrics within Jenkins, and tracking trends. Additionally, consider archiving testing results to go along 
 with these trending results.
+
+## Installation
+### Building the jar
+If you want to compile the jar from the source code, use maven. Maven can be used to run unit tests, run
+integration tests, build javadocs, and build the executable jar. To simply execute the unit tests, run the
+below command
+```
+mvn clean test
+```
+To also build the jars, run the below commands
+```
+mvn clean package
+```
+To run the integration tests, use the verify goal. The integration tests currently point at a private server
+hosting the file found in this base directory called `index.html`. In order to properly execute these tests,
+host this file, and set the testSite to point to the hosted file's location. This can be done dynamically through
+the command line, as outlined below in the Application URL section.
+
+Some of the integration tests require a physical browser to run, and so they can be run two different ways, the 
+entire set with a browser, or a subset using HtmlUnit
+```
+mvn clean verify -Dbrowser=Firefox
+mvn clean verify -Dfailsafe.groups=virtual
+```
+
+### Adding the jar to your project
+See the below sections on executing tests to see the proper way to source the jar, and add them to your 
+classpath
+
 
 ## Open Issues
 Note that there are a few open issues with the framework
