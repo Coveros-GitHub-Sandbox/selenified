@@ -48,7 +48,6 @@ Have a look at this example test class to get an idea of what you'll actually be
 ```java
     public class SampleTests extends TestBase {
 
-
         @DataProvider(name = "google search terms", parallel = true)
         public Object[][] DataSetOptions() {
             return new Object[][] { new Object[] { "python" }, 
