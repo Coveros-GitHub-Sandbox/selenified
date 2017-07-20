@@ -13,7 +13,7 @@ import com.coveros.selenified.tools.TestBase;
 public class ActionWaitIT extends TestBase {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() throws IOException {
+    public void beforeClass() {
         // set the base URL for the tests here
         setTestSite("http://172.31.2.65/");
         // set the author of the tests here
@@ -49,7 +49,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration test to check the waitForElementPresent method")
-    public void waitForElementPresentTest() throws IOException {
+    public void waitForElementPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -60,7 +60,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration negative test to check the waitForElementPresent method")
-    public void negativeWaitForElementPresentTest() throws IOException {
+    public void negativeWaitForElementPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -71,7 +71,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
-    public void waitForElementNotPresentTest() throws IOException {
+    public void waitForElementNotPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -82,7 +82,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration negative test to check the waitForElementNotPresent method")
-    public void negativeWaitForElementNotPresentTest() throws IOException {
+    public void negativeWaitForElementNotPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -93,7 +93,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration test to check the waitForElementDisplayed method")
-    public void waitForElementDisplayedTest() throws IOException {
+    public void waitForElementDisplayedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -104,7 +104,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the waitForElementDisplayed method")
-    public void waitForElementDisplayedDelayedPresenceTest() throws IOException {
+    public void waitForElementDisplayedDelayedPresenceTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -116,7 +116,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the waitForElementDisplayed method")
-    public void waitForElementDisplayedDelayedDisplayTest() throws IOException {
+    public void waitForElementDisplayedDelayedDisplayTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -128,7 +128,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration negative test to check the waitForElementDisplayed method")
-    public void negativeWaitForElementDisplayedTest() throws IOException {
+    public void negativeWaitForElementDisplayedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -139,7 +139,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration negative test to check the waitForElementDisplayed method")
-    public void negativeWaitForElementDisplayedHiddenTest() throws IOException {
+    public void negativeWaitForElementDisplayedHiddenTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -150,7 +150,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration test to check the WaitForElementNotDisplayed method")
-    public void waitForElementNotDisplayedTest() throws IOException {
+    public void waitForElementNotDisplayedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -161,7 +161,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the WaitForElementNotDisplayed method")
-    public void waitForElementNotDisplayedDelayedTest() throws IOException {
+    public void waitForElementNotDisplayedDelayedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -175,7 +175,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration negative test to check the WaitForElementNotDisplayed method")
-    public void negativeWaitForElementNotDisplayedTest() throws IOException {
+    public void negativeWaitForElementNotDisplayedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -186,7 +186,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration test to check the WaitForElementEnabled method")
-    public void waitForElementEnabledTest() throws IOException {
+    public void waitForElementEnabledTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -197,7 +197,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the WaitForElementEnabled method")
-    public void waitForElementEnabledDelayedPresenceTest() throws IOException {
+    public void waitForElementEnabledDelayedPresenceTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -209,7 +209,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration test to check the WaitForElementEnabled method")
-    public void waitForElementEnabledDelayedEnabledTest() throws IOException {
+    public void waitForElementEnabledDelayedEnabledTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -221,7 +221,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration negative test to check the WaitForElementEnabled method")
-    public void negativeWaitForElementEnabledTest() throws IOException {
+    public void negativeWaitForElementEnabledTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -232,7 +232,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
-    public void waitForElementNotEnabledTest() throws IOException {
+    public void waitForElementNotEnabledTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -243,7 +243,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
-    public void waitForElementNotEnabledDelayedTest() throws IOException {
+    public void waitForElementNotEnabledDelayedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -257,7 +257,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration negative test to check the WaitForElementNotEnabled method")
-    public void negativeWaitForNotElementEnabledTest() throws IOException {
+    public void negativeWaitForNotElementEnabledTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -268,7 +268,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the waitForPromptPresent method")
-    public void waitForPromptPresentTest() throws IOException {
+    public void waitForPromptPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -280,7 +280,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "A integration negative test to check the waitForPromptPresent method")
-    public void negativeWaitForPromptPresentTest() throws IOException {
+    public void negativeWaitForPromptPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -291,7 +291,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the waitForConfirmationPresent method")
-    public void waitForConfirmationPresentTest() throws IOException {
+    public void waitForConfirmationPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -303,7 +303,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration negative test to check the waitForConfirmationPresent method")
-    public void negativeWaitForConfirmationPresentTest() throws IOException {
+    public void negativeWaitForConfirmationPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -314,7 +314,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration test to check the waitForAlertPresent method")
-    public void waitForAlertPresentTest() throws IOException {
+    public void waitForAlertPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -327,7 +327,7 @@ public class ActionWaitIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration negative test to check the waitForAlertPresent method")
-    public void negativeWaitForAlertPresentTest() throws IOException {
+    public void negativeWaitForAlertPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions

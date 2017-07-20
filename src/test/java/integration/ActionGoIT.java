@@ -18,7 +18,7 @@ import com.coveros.selenified.tools.TestBase;
 public class ActionGoIT extends TestBase {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() throws IOException {
+    public void beforeClass() {
         // set the base URL for the tests here
         setTestSite("http://172.31.2.65/");
         // set the author of the tests here
@@ -30,7 +30,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goBackOnePage method")
-    public void goBackOnePageTest() throws IOException {
+    public void goBackOnePageTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -46,7 +46,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goBackOnePage method")
-    public void goBackOnePageNoBackTest() throws IOException {
+    public void goBackOnePageNoBackTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -57,7 +57,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goBackOnePage method")
-    public void goBackOnePageErrorTest() throws IOException {
+    public void goBackOnePageErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -69,7 +69,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
-    public void goForwardOnePageTest() throws IOException {
+    public void goForwardOnePageTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -87,7 +87,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
-    public void goForwardOnePageNoForwardTest() throws IOException {
+    public void goForwardOnePageNoForwardTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -98,7 +98,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
-    public void goForwardOnePageErrorTest() throws IOException {
+    public void goForwardOnePageErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -110,7 +110,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPage method")
-    public void refreshPageTest() throws IOException {
+    public void refreshPageTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -121,7 +121,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPage method")
-    public void refreshPageErrorTest() throws IOException {
+    public void refreshPageErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -133,7 +133,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPageHard method")
-    public void refreshPageHardTest() throws IOException {
+    public void refreshPageHardTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -144,7 +144,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPageHard method")
-    public void refreshPageHardErrorTest() throws IOException {
+    public void refreshPageHardErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -189,7 +189,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteCookie method")
-    public void deleteCookieTest() throws IOException {
+    public void deleteCookieTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -202,7 +202,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteCookie method")
-    public void deleteNonExistentCookieTest() throws IOException {
+    public void deleteNonExistentCookieTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -213,7 +213,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
-    public void deleteAllCookiesTest() throws IOException {
+    public void deleteAllCookiesTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -226,7 +226,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
-    public void deleteAllCookiesTwiceTest() throws IOException {
+    public void deleteAllCookiesTwiceTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -240,7 +240,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
-    public void deleteAllCookiesErrorTest() throws IOException {
+    public void deleteAllCookiesErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -252,7 +252,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the maximizeScreen method")
-    public void maximizeScreenTest() throws IOException {
+    public void maximizeScreenTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -263,7 +263,7 @@ public class ActionGoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the maximizeScreen method")
-    public void maximizeScreenErrorTest() throws IOException {
+    public void maximizeScreenErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions

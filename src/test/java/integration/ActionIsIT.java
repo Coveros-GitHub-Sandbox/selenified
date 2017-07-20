@@ -1,7 +1,5 @@
 package integration;
 
-import java.io.IOException;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,7 +12,7 @@ import com.coveros.selenified.tools.TestBase;
 public class ActionIsIT extends TestBase {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() throws IOException {
+    public void beforeClass() {
         // set the base URL for the tests here
         setTestSite("http://172.31.2.65/");
         // set the author of the tests here
@@ -26,7 +24,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is present")
-    public void isElementPresentTest() throws IOException {
+    public void isElementPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -37,7 +35,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is present")
-    public void isElementPresentNotExistTest() throws IOException {
+    public void isElementPresentNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -48,7 +46,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is input")
-    public void isElementInputTest() throws IOException {
+    public void isElementInputTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -59,7 +57,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is input")
-    public void isElementSelectTest() throws IOException {
+    public void isElementSelectTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -70,7 +68,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is input")
-    public void isElementTextAreaTest() throws IOException {
+    public void isElementTextAreaTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -81,7 +79,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is input")
-    public void isElementNotInputTest() throws IOException {
+    public void isElementNotInputTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -92,7 +90,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is input")
-    public void isElementInputNotExistTest() throws IOException {
+    public void isElementInputNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -103,7 +101,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is enabled")
-    public void isElementEnabledTest() throws IOException {
+    public void isElementEnabledTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -114,7 +112,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is enabled")
-    public void isElementEnabledNotExistTest() throws IOException {
+    public void isElementEnabledNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -125,7 +123,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "is" }, description = "An integration test to check if an element is checked")
-    public void isElementCheckedTest() throws IOException {
+    public void isElementCheckedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -137,7 +135,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "is" }, description = "An integration test to check if an element is checked")
-    public void isElementCheckedNotTest() throws IOException {
+    public void isElementCheckedNotTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -148,7 +146,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is checked")
-    public void isElementCheckedNotExistTest() throws IOException {
+    public void isElementCheckedNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -159,7 +157,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is displayed")
-    public void isElementDisplayedTest() throws IOException {
+    public void isElementDisplayedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -170,7 +168,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is displayed")
-    public void isElementDisplayedNotExistTest() throws IOException {
+    public void isElementDisplayedNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -181,7 +179,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if something is selected from a dropdown")
-    public void isSomethingSelectedTest() throws IOException {
+    public void isSomethingSelectedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -192,7 +190,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if something is selected from a dropdown")
-    public void isSomethingSelectedMultipleTest() throws IOException {
+    public void isSomethingSelectedMultipleTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -204,7 +202,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if something is selected from a dropdown")
-    public void isSomethingNotSelectedTest() throws IOException {
+    public void isSomethingNotSelectedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -215,7 +213,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if something is selected from a checkbox")
-    public void isSomethingCheckedTest() throws IOException {
+    public void isSomethingCheckedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -227,7 +225,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if something is selected from a checkbox")
-    public void isSomethingNotCheckedTest() throws IOException {
+    public void isSomethingNotCheckedTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -238,7 +236,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if something is selected from a non-existant element")
-    public void isSomethingSelectedNotExistTest() throws IOException {
+    public void isSomethingSelectedNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -249,7 +247,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if something is selected from an div")
-    public void isSomethingSelectedTextAreaTest() throws IOException {
+    public void isSomethingSelectedTextAreaTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -260,7 +258,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if something is selected from an div")
-    public void isSomethingSelectedNotSelectOrInputTest() throws IOException {
+    public void isSomethingSelectedNotSelectOrInputTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -271,7 +269,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "is" }, description = "An integration test to check the isAlertPresent method")
-    public void isAlertPresentTest() throws IOException {
+    public void isAlertPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -284,7 +282,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "is" }, description = "An integration negative test to check the isAlertPresent method")
-    public void negativeIsAlertPresentTest() throws IOException {
+    public void negativeIsAlertPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -295,7 +293,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "is" }, description = "An integration test to check the isConfirmationPresent method")
-    public void isConfirmationPresentTest() throws IOException {
+    public void isConfirmationPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -307,7 +305,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "is" }, description = "An integration negative test to check the isConfirmationPresent method")
-    public void negativeIsConfirmationPresentTest() throws IOException {
+    public void negativeIsConfirmationPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -318,7 +316,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "is" }, description = "An integration test to check the isPromptPresent method")
-    public void isPromptPresentTest() throws IOException {
+    public void isPromptPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -330,7 +328,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions",
             "is" }, description = "A integration negative test to check the isPromptPresent method")
-    public void negativeIsPromptPresentTest() throws IOException {
+    public void negativeIsPromptPresentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -341,7 +339,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check the isTextPresentInSource method")
-    public void isTextPresentInSourceTest() throws IOException {
+    public void isTextPresentInSourceTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -353,7 +351,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration negative test to check the isTextPresentInSource method")
-    public void negativeIsTextPresentInSourceTest() throws IOException {
+    public void negativeIsTextPresentInSourceTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -365,7 +363,7 @@ public class ActionIsIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration negative test to check the isTextPresentInSource method")
-    public void negativeIsTextPresentInSourceErrorTest() throws IOException {
+    public void negativeIsTextPresentInSourceErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions

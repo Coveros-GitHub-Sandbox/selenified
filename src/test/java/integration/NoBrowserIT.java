@@ -1,6 +1,5 @@
 package integration;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import org.testng.Assert;
@@ -17,7 +16,7 @@ import com.coveros.selenified.tools.TestBase;
 public class NoBrowserIT extends TestBase {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() throws IOException {
+    public void beforeClass() {
         // set the base URL for the tests here
         setTestSite("http://172.31.2.65/");
         // set the author of the tests here
@@ -29,13 +28,13 @@ public class NoBrowserIT extends TestBase {
 
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result)
-            throws IOException {
+            {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
     @Test(groups = { "integration",
             "virtual" }, description = "An integration test to verify we can start a test without a browser")
-    public void verifyNoBrowser() throws IOException {
+    public void verifyNoBrowser() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // verify no selenium actions class was setup

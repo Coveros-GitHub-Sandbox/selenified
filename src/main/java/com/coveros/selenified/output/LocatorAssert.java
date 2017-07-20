@@ -20,7 +20,6 @@
 
 package com.coveros.selenified.output;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -31,12 +30,13 @@ import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.General;
 
 /**
- * Test Output A custom generated output file outputFile.recording all actions
- * taken
+ * An extension of the custom reporting class, focusing on checks involving
+ * elements. This should never be called directly from any test steps, but
+ * instead supports the Assert class
  *
  * @author Max Saperstone
- * @version 2.0.0
- * @lastupdate 5/15/2017
+ * @version 2.0.1
+ * @lastupdate 7/20/2017
  */
 public class LocatorAssert {
 
@@ -81,9 +81,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementDisplayed(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementDisplayed(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementDisplayed(type, locator, elementMatch)
                 && action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -107,9 +106,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementNotDisplayed(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementNotDisplayed(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (action.isElementDisplayed(type, locator, elementMatch)
                 && action.waitForElementNotDisplayed(type, locator, elementMatch) == 1) {
@@ -133,9 +131,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementChecked(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementChecked(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -163,9 +160,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementNotChecked(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementNotChecked(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -193,9 +189,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementDisplayedAndChecked(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementDisplayedAndChecked(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementDisplayed(type, locator, elementMatch)
                 && action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -224,9 +219,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementDisplayedAndUnchecked(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementDisplayedAndUnchecked(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementDisplayed(type, locator, elementMatch)
                 && action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -257,9 +251,8 @@ public class LocatorAssert {
      * @param presence
      *            - what additional attribute is expected from the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    private int checkEditable(Locator type, String locator, int elementMatch, String presence) throws IOException {
+    private int checkEditable(Locator type, String locator, int elementMatch, String presence) {
         // check for the object to the editable
         if (!action.isElementInput(type, locator, elementMatch)) {
             outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but not an input on the page",
@@ -289,9 +282,8 @@ public class LocatorAssert {
      * @param presence
      *            - what additional attribute is expected from the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    private int checkNotEditable(Locator type, String locator, int elementMatch, String presence) throws IOException {
+    private int checkNotEditable(Locator type, String locator, int elementMatch, String presence) {
         // check for the object to the editable
         boolean isElementEnabled = false;
         if (action.isElementInput(type, locator, elementMatch)) {
@@ -318,9 +310,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementEditable(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementEditable(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -342,9 +333,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementNotEditable(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementNotEditable(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -366,9 +356,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementDisplayedAndEditable(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementDisplayedAndEditable(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementDisplayed(type, locator, elementMatch)
                 && action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -390,9 +379,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementDisplayedAndNotEditable(Locator type, String locator, int elementMatch) throws IOException {
+    public int checkElementDisplayedAndNotEditable(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.isElementDisplayed(type, locator, elementMatch)
                 && action.waitForElementDisplayed(type, locator, elementMatch) == 1) {
@@ -416,10 +404,8 @@ public class LocatorAssert {
      * @param attribute
      *            - the attribute to check for
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementHasAttribute(Locator type, String locator, int elementMatch, String attribute)
-            throws IOException {
+    public int checkElementHasAttribute(Locator type, String locator, int elementMatch, String attribute) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -454,10 +440,8 @@ public class LocatorAssert {
      * @param attribute
      *            - the attribute to check for
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute)
-            throws IOException {
+    public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -493,10 +477,8 @@ public class LocatorAssert {
      * @param expectedClass
      *            - the full expected class value
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementHasClass(Locator type, String locator, int elementMatch, String expectedClass)
-            throws IOException {
+    public int checkElementHasClass(Locator type, String locator, int elementMatch, String expectedClass) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -527,10 +509,8 @@ public class LocatorAssert {
      * @param expectedClass
      *            - the expected class value
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass)
-            throws IOException {
+    public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -562,10 +542,8 @@ public class LocatorAssert {
      * @param unexpectedClass
      *            - the unexpected class value
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass)
-            throws IOException {
+    public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass) {
         // wait for the element
         if (!action.isElementPresent(type, locator, elementMatch)
                 && action.waitForElementPresent(type, locator, elementMatch) == 1) {
@@ -598,9 +576,8 @@ public class LocatorAssert {
      * @param option
      *            the option expected in the list
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option) throws IOException {
+    public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option) {
         // wait for the element
         if (!action.isElementEnabled(type, locator, elementMatch)
                 && action.waitForElementEnabled(type, locator, elementMatch) == 1) {
@@ -635,10 +612,8 @@ public class LocatorAssert {
      * @param option
      *            the option not expected in the list
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkIfOptionNotInSelect(Locator type, String locator, int elementMatch, String option)
-            throws IOException {
+    public int checkIfOptionNotInSelect(Locator type, String locator, int elementMatch, String option) {
         // wait for the element
         if (!action.isElementEnabled(type, locator, elementMatch)
                 && action.waitForElementEnabled(type, locator, elementMatch) == 1) {
@@ -671,9 +646,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Boolean: whether the element is present or not
-     * @throws IOException
      */
-    private boolean isPresent(Locator type, String locator, int elementMatch) throws IOException {
+    private boolean isPresent(Locator type, String locator, int elementMatch) {
         if (!action.isElementPresent(type, locator, elementMatch)) {
             outputFile.recordActual(ELEMENT + type + " <i>" + locator + PRESENT, Success.FAIL);
             return false;
@@ -692,9 +666,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Boolean: whether the element is an input or not
-     * @throws IOException
      */
-    private boolean isInput(Locator type, String locator, int elementMatch) throws IOException {
+    private boolean isInput(Locator type, String locator, int elementMatch) {
         if (!action.isElementInput(type, locator, elementMatch)) {
             outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTINPUT, Success.FAIL);
             return false;
@@ -713,9 +686,8 @@ public class LocatorAssert {
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Boolean: whether the element is enabled or not
-     * @throws IOException
      */
-    private boolean isEnabled(Locator type, String locator, int elementMatch) throws IOException {
+    private boolean isEnabled(Locator type, String locator, int elementMatch) {
         if (!action.isElementEnabled(type, locator, elementMatch)) {
             outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTEDITABLE, Success.FAIL);
             return false;
@@ -735,9 +707,8 @@ public class LocatorAssert {
      *            match (starting at 0) to interact with
      * @return Boolean: whether the element is present, an input, and enabled or
      *         not
-     * @throws IOException
      */
-    private boolean isPresentInputEnabled(Locator type, String locator, int elementMatch) throws IOException {
+    private boolean isPresentInputEnabled(Locator type, String locator, int elementMatch) {
         if (!isPresent(type, locator, elementMatch)) {
             return false;
         }
@@ -760,10 +731,8 @@ public class LocatorAssert {
      * @param expectedValue
      *            the expected value of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareTextValue(Locator type, String locator, int elementMatch, String expectedValue)
-            throws IOException {
+    public int compareTextValue(Locator type, String locator, int elementMatch, String expectedValue) {
         // outputFile.record the action
         outputFile.recordExpected(
                 EXPECTED + type + " <i>" + locator + "</i> having a value of <b>" + expectedValue + "</b>");
@@ -795,10 +764,8 @@ public class LocatorAssert {
      * @param expectedValue
      *            the expected value of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareTextValueContains(Locator type, String locator, int elementMatch, String expectedValue)
-            throws IOException {
+    public int compareTextValueContains(Locator type, String locator, int elementMatch, String expectedValue) {
         // outputFile.record the action
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator + HASVALUE + expectedValue + "</b>");
         // check for the object to the present on the page
@@ -830,10 +797,8 @@ public class LocatorAssert {
      * @param expectedValue
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareInputValue(Locator type, String locator, int elementMatch, String expectedValue)
-            throws IOException {
+    public int compareInputValue(Locator type, String locator, int elementMatch, String expectedValue) {
         // outputFile.record the action
         outputFile.recordExpected(
                 EXPECTED + type + " <i>" + locator + "</i> having a value of <b>" + expectedValue + "</b>");
@@ -868,10 +833,8 @@ public class LocatorAssert {
      * @param expectedValue
      *            the expected css value of the passed attribute of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareCssValue(Locator type, String locator, int elementMatch, String attribute, String expectedValue)
-            throws IOException {
+    public int compareCssValue(Locator type, String locator, int elementMatch, String attribute, String expectedValue) {
         // outputFile.record the action
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> having a css attribute of <i>" + attribute
                 + "</i> with a value of <b>" + expectedValue + "</b>");
@@ -905,10 +868,8 @@ public class LocatorAssert {
      * @param selectValue
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue)
-            throws IOException {
+    public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue) {
         // outputFile.record the action
         outputFile.recordExpected(
                 EXPECTED + type + " <i>" + locator + "</i> having a select value of <b>" + selectValue + "</b>");
@@ -941,10 +902,8 @@ public class LocatorAssert {
      * @param selectValue
      *            the unexpected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int checkSelectValueNotPresent(Locator type, String locator, int elementMatch, String selectValue)
-            throws IOException {
+    public int checkSelectValueNotPresent(Locator type, String locator, int elementMatch, String selectValue) {
         // outputFile.record the action
         outputFile.recordExpected(
                 EXPECTED + type + " <i>" + locator + "</i> without a select value of <b>" + selectValue + "</b>");
@@ -978,10 +937,8 @@ public class LocatorAssert {
      * @param expectedValue
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareSelectedValue(Locator type, String locator, int elementMatch, String expectedValue)
-            throws IOException {
+    public int compareSelectedValue(Locator type, String locator, int elementMatch, String expectedValue) {
         // outputFile.record the action
         outputFile.recordExpected(
                 EXPECTED + type + " <i>" + locator + "</i> having a selected value of <b>" + expectedValue + "</b>");
@@ -1014,10 +971,8 @@ public class LocatorAssert {
      * @param expectedText
      *            the expected input text of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareSelectedText(Locator type, String locator, int elementMatch, String expectedText)
-            throws IOException {
+    public int compareSelectedText(Locator type, String locator, int elementMatch, String expectedText) {
         // outputFile.record the action
         outputFile.recordExpected(
                 EXPECTED + type + " <i>" + locator + "</i> having a selected text of <b>" + expectedText + "</b>");
@@ -1050,10 +1005,8 @@ public class LocatorAssert {
      * @param expectedValue
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareSelectedValueNotEqual(Locator type, String locator, int elementMatch, String expectedValue)
-            throws IOException {
+    public int compareSelectedValueNotEqual(Locator type, String locator, int elementMatch, String expectedValue) {
         // outputFile.record the action
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> not having a selected value of <b>"
                 + expectedValue + "</b>");
@@ -1086,10 +1039,8 @@ public class LocatorAssert {
      * @param expectedValues
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareSelectValues(Locator type, String locator, int elementMatch, String... expectedValues)
-            throws IOException {
+    public int compareSelectValues(Locator type, String locator, int elementMatch, String... expectedValues) {
         // outputFile.record the action
         outputFile.recordExpected(
                 EXPECTED + type + " <i>" + locator + "</i> with select values of <b>" + expectedValues + "</b>");
@@ -1133,10 +1084,8 @@ public class LocatorAssert {
      * @param numOfOptions
      *            the expected number of options in the select element
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareNumOfSelectOptions(Locator type, String locator, int elementMatch, int numOfOptions)
-            throws IOException {
+    public int compareNumOfSelectOptions(Locator type, String locator, int elementMatch, int numOfOptions) {
         // outputFile.record the action
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with number of select values equal to <b>"
                 + numOfOptions + "</b>");
@@ -1173,9 +1122,8 @@ public class LocatorAssert {
      * @param numOfRows
      *            the expected number of row elements of a table
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows) throws IOException {
+    public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows) {
         // outputFile.record the action
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the number of table rows equal to <b>"
                 + numOfRows + "</b>");
@@ -1208,10 +1156,8 @@ public class LocatorAssert {
      * @param numOfColumns
      *            the expected number of column elements of a table
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareNumOfTableColumns(Locator type, String locator, int elementMatch, int numOfColumns)
-            throws IOException {
+    public int compareNumOfTableColumns(Locator type, String locator, int elementMatch, int numOfColumns) {
         // outputFile.record the action
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator
                 + "</i> with the number of table columns equal to <b>" + numOfColumns + "</b>");
@@ -1247,11 +1193,11 @@ public class LocatorAssert {
      * @param col
      *            - the number of the column in the table - note, column
      *            numbering starts at 1, NOT 0
+     * @param text
+     *            - what text do we expect to be in the table cell
      * @return Integer: 1 if a failure and 0 if a pass
-     * @throws IOException
      */
-    public int compareTableCellText(Locator type, String locator, int elementMatch, int row, int col, String text)
-            throws IOException {
+    public int compareTableCellText(Locator type, String locator, int elementMatch, int row, int col, String text) {
         String column = " and column ";
         String element = " within element ";
         // outputFile.record the action
