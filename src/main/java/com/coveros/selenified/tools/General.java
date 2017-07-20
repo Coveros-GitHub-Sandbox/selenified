@@ -311,54 +311,54 @@ public class General {
         return out;
     }
 
-	/**
-	 * this method determines the unique test name, based on the parameters
-	 * passed in
-	 * 
-	 * @param method
-	 *            - the method under test to extract the name from
-	 * @param dataProvider
-	 *            - an array of objects being passed to the test as data
-	 *            providers
-	 * @return String: a unique name
-	 */
-	public static String getTestName(Method method, Object... dataProvider) {
-		String className = method.getDeclaringClass().toString().substring(6);
-		return getTestName(method.getName(), className, dataProvider);
-	}
+    /**
+     * this method determines the unique test name, based on the parameters
+     * passed in
+     * 
+     * @param method
+     *            - the method under test to extract the name from
+     * @param dataProvider
+     *            - an array of objects being passed to the test as data
+     *            providers
+     * @return String: a unique name
+     */
+    public static String getTestName(Method method, Object... dataProvider) {
+        String className = method.getDeclaringClass().toString().substring(6);
+        return getTestName(method.getName(), className, dataProvider);
+    }
 
-	/**
-	 * this method determines the unique test name, based on the parameters
-	 * passed in
-	 * 
-	 * @param methodName
-	 *            - the name of the test method as a string
-	 * @param className
-	 *            - the class name of the test method as a string
-	 * @param dataProvider
-	 *            - an array of objects being passed to the test as data
-	 *            providers
-	 * @return String: a unique name
-	 */
-	public static String getTestName(String methodName, String className, Object... dataProvider) {
-		StringBuilder testName = new StringBuilder(methodName + "_" + className);
-		String currentName = testName.toString();
-		if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-				&& !dataProvider[0].toString().startsWith("public")) {
-			testName.append("WithOption");
-			for (Object data : dataProvider) {
-				if (data == null || data.toString().startsWith("public")) {
-					break;
-				}
-				testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));
-			}
-			currentName = testName.toString();
-			if( currentName.length() > MAXFILENAMELENGTH ) {
-				currentName = methodName + "_" + className + dataProvider.toString().split(";")[1];
-			}
-		}
-		return currentName;
-	}
+    /**
+     * this method determines the unique test name, based on the parameters
+     * passed in
+     * 
+     * @param methodName
+     *            - the name of the test method as a string
+     * @param className
+     *            - the class name of the test method as a string
+     * @param dataProvider
+     *            - an array of objects being passed to the test as data
+     *            providers
+     * @return String: a unique name
+     */
+    public static String getTestName(String methodName, String className, Object... dataProvider) {
+        StringBuilder testName = new StringBuilder(methodName + "_" + className);
+        String currentName = testName.toString();
+        if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
+                && !dataProvider[0].toString().startsWith("public")) {
+            testName.append("WithOption");
+            for (Object data : dataProvider) {
+                if (data == null || data.toString().startsWith("public")) {
+                    break;
+                }
+                testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));
+            }
+            currentName = testName.toString();
+            if (currentName.length() > MAXFILENAMELENGTH) {
+                currentName = methodName + "_" + className + dataProvider.toString().split(";")[1];
+            }
+        }
+        return currentName;
+    }
 
     /**
      * a function to capitalize the first letter of each word in the provided

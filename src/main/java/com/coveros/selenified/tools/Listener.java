@@ -50,17 +50,18 @@ public class Listener extends TestListenerAdapter {
         return new File(test.getTestContext().getOutputDirectory()).getName();
     }
 
-	/**
-	 * determines the test name associated with the given tests
-	 * 
-	 * @param test
-	 *            - the testng itestresult object
-	 * @return String: a string version of the test name
-	 */
-	private static String getTestName(ITestResult result) {
-		String className = result.getTestClass().toString().substring(22,result.getTestClass().toString().length()-1);
-		return General.getTestName(result.getName(), className, result.getParameters());
-	}
+    /**
+     * determines the test name associated with the given tests
+     * 
+     * @param test
+     *            - the testng itestresult object
+     * @return String: a string version of the test name
+     */
+    private static String getTestName(ITestResult result) {
+        String className =
+                result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1);
+        return General.getTestName(result.getName(), className, result.getParameters());
+    }
 
     /**
      * Runs the default TestNG onTestFailure, and adds additional information
