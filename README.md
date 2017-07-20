@@ -8,22 +8,46 @@ parallel. It can be a great starting point for building or improving test automa
 ## Test Examples
 ### Getting Started
 One of Selenified's goals is to be a framework that is easy to drop in to an existing project. You can 
-easily have Selenified running within minutes using only a Maven POM, Java test class and a TestNG XML Suite. 
+easily have Selenified running within minutes using only a Maven POM, Java test class and a TestNG XML Suite.
+
+### Adding the Selenified Dependency
+It’s very simple to get started using Selenified. Just add selenified.jar to your project, and you can start 
+writing your test cases. If you’re using a build tool, simply add the jar as a dependency.
+
+#### Maven
+Update your pom.xml file to include
+```xml
+    <dependency>
+    <groupId>com.coveros</groupId>
+    <artifactId>selenified</artifactId>
+    <version>2.0.0</version>
+    <scope>test</scope>
+    </dependency>
+```
+
+#### Ant
+Update your ivy.xml file to include
+```xml
+    <ivy-module>
+     <dependencies>
+     <dependency org="com.coveros" name="selenified" rev="2.0.0"/>
+     </dependencies>
+    </ivy-module>
+```
+
+#### Gradle
+Update your build.gradle file to include
+```groovy
+    dependencies {
+        testCompile 'com.coveros:selenified:2.0.0'
+    }
+```
+
 Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
 
 ```java
     public class SampleTests extends TestBase {
 
-        @BeforeClass(alwaysRun = true)
-        public void beforeClass() throws IOException {
-            // set the base URL for the tests here
-            setTestSite("https://www.google.com");
-            // set the author of the tests here
-            setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
-            // set the version of the tests or of the software, possibly with a
-            // dynamic check
-            setVersion("0.0.1");
-        }
 
         @DataProvider(name = "google search terms", parallel = true)
         public Object[][] DataSetOptions() {
@@ -176,7 +200,7 @@ for any and all selenium verifications.
 
 Similar to the first class, functionality from confirming an alert and element are present, to checking the css and 
 page source are all contained within this class. Using methods from the Assert class will also provide screenshots when
-the assert test step is executed, which can be vital when debugging.
+the assert test step is executed, which can be vital when debugging and adds additional traceability.
 
 Finally, in order to track errors within the tests, the last step of each test is comparing the value within errors
 to the number 0. This will then throw an error if any issues occurred during the test. All previous errors are caught
