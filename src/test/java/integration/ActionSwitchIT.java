@@ -1,7 +1,5 @@
 package integration;
 
-import java.io.IOException;
-
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,7 +13,7 @@ import com.coveros.selenified.tools.TestBase;
 public class ActionSwitchIT extends TestBase {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() throws IOException {
+    public void beforeClass() {
         // set the base URL for the tests here
         setTestSite("http://172.31.2.65/");
         // set the author of the tests here
@@ -27,7 +25,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration test to check the frame method")
-    public void selectFrameIntTest() throws IOException {
+    public void selectFrameIntTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -42,7 +40,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration test to check the frame method")
-    public void selectFrameIntNotExistTest() throws IOException {
+    public void selectFrameIntNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -56,7 +54,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration test to check the frame method")
-    public void selectFrameNameTest() throws IOException {
+    public void selectFrameNameTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -71,7 +69,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration test to check the frame method")
-    public void selectFrameNameNotExistTest() throws IOException {
+    public void selectFrameNameNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -85,7 +83,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration test to check the frame method")
-    public void selectFrameTest() throws IOException {
+    public void selectFrameTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -100,7 +98,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration negative test to check the frame method")
-    public void selectFrameNotExistTest() throws IOException {
+    public void selectFrameNotExistTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -111,7 +109,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration negative test to check the frame method")
-    public void selectFrameNotVisibleTest() throws IOException {
+    public void selectFrameNotVisibleTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -122,7 +120,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration negative test to check the frame method")
-    public void selectFrameNotFrameTest() throws IOException {
+    public void selectFrameNotFrameTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -133,7 +131,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the openTab method")
-    public void openTabTest() throws IOException {
+    public void openTabTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -147,7 +145,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the openTab method")
-    public void openTabErrorTest() throws IOException {
+    public void openTabErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -161,7 +159,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the openTab method")
-    public void openEmptyTabTest() throws IOException {
+    public void openEmptyTabTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -175,7 +173,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the switchTab method")
-    public void switchTabTest() throws IOException {
+    public void switchTabTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -191,7 +189,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the switchTab method")
-    public void switchTabErrorTest() throws IOException {
+    public void switchTabErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -205,7 +203,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the closeTab method")
-    public void closeTabTest() throws IOException {
+    public void closeTabTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -221,7 +219,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the closeTab method")
-    public void closeTabErrorTest() throws IOException {
+    public void closeTabErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -235,7 +233,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the closeTab method")
-    public void closeFirstTabTest() throws IOException {
+    public void closeFirstTabTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -251,7 +249,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the closeTab method")
-    public void closeFirstTabErrorTest() throws IOException {
+    public void closeFirstTabErrorTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -265,7 +263,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "window" }, description = "An integration test to check the switch method")
-    public void switchToNewWindowTest() throws IOException {
+    public void switchToNewWindowTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -280,7 +278,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "window" }, description = "An integration test to check the switch method")
-    public void switchToNewWindowNoNewTest() throws IOException {
+    public void switchToNewWindowNoNewTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -294,7 +292,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "window" }, description = "An integration test to check the switch method")
-    public void switchToParentWindowTest() throws IOException {
+    public void switchToParentWindowTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -311,7 +309,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "window" }, description = "An integration test to check the switch method")
-    public void switchToParentWindowNoParentTest() throws IOException {
+    public void switchToParentWindowNoParentTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
@@ -325,7 +323,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "window" }, description = "An integration test to check the switch method")
-    public void closeCurrentWindowTest() throws IOException {
+    public void closeCurrentWindowTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -342,7 +340,7 @@ public class ActionSwitchIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "switch",
             "window" }, description = "An integration test to check the switch method")
-    public void closeCurrentWindowNoWindowTest() throws IOException {
+    public void closeCurrentWindowNoWindowTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
