@@ -215,7 +215,7 @@ public class OutputFileTest {
     }
 
     @Test
-    public void loadInitialPageTest() throws IOException {
+    public void loadInitialPageTest() {
         outputFile.loadInitialPage();
         Assert.assertEquals(file.length(), 0);
         Assert.assertEquals(outputFile.countInstancesOf("The starting page"), 0);

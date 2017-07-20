@@ -55,7 +55,7 @@ Have a look at this example test class to get an idea of what you'll actually be
         }
 
         @Test(groups = { "sample" }, description = "A sample test to check a title")
-        public void sampleTest() throws IOException {
+        public void sampleTest() {
             // use this object to verify the page looks as expected
             Assert asserts = this.asserts.get();
             // perform some actions
@@ -66,7 +66,7 @@ Have a look at this example test class to get an idea of what you'll actually be
 
         @Test(dataProvider = "google search terms", groups = { "sample" },
                 description = "A sample test using a data provider to perform searches")
-        public void sampleTestWDataProvider(String searchTerm) throws Exception {
+        public void sampleTestWDataProvider(String searchTerm) {
             // use this object to manipulate the page
             Action actions = this.actions.get();
             // use this object to verify the page looks as expected
@@ -104,7 +104,7 @@ See below for an example:
 
 ```java
     @BeforeClass (alwaysRun = true)
-    public void beforeClass() throws Exception {
+    public void beforeClass() {
         //set the base URL for the tests here
         testSite = "http://www.google.com/";
         //set the author of the tests here
@@ -122,7 +122,7 @@ See below for an example:
 
 ```java
     @BeforeMethod (alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 ```
@@ -135,7 +135,7 @@ See below for an example:
 
 ```java
     @BeforeMethod (alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
 ```
@@ -225,7 +225,7 @@ interact with, these objects can be passed directly to the Action and Assert met
 This means instead of having an action looking like
 ```java
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
-    public void sampleTestWaitForElementPresent() throws Exception {
+    public void sampleTestWaitForElementPresent() {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions
@@ -240,7 +240,7 @@ It could instead look like this
 ```
 ```java
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
-    public void sampleTestWaitForElementPresent() throws Exception {
+    public void sampleTestWaitForElementPresent() {
         // use this object to manipulate our page
         Action actions = this.actions.get();
         // perform some actions

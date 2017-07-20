@@ -36,7 +36,6 @@ import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -59,8 +58,8 @@ import java.util.Map;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 2.0.0
- * @lastupdate 6/8/2017
+ * @version 2.0.1
+ * @lastupdate 7/20/2017
  */
 @Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
 public class TestBase {
@@ -140,6 +139,8 @@ public class TestBase {
      * capabilities
      * 
      * @throws InvalidBrowserException
+     *             If a browser that is not one specified in the
+     *             Selenium.Browser class is used, this exception will be thrown
      */
     public static void setupTestParameters() throws InvalidBrowserException {
         browsers = TestSetup.setBrowser();
@@ -173,6 +174,8 @@ public class TestBase {
      * passed information such as browsers, proxy, hub, etc
      * 
      * @throws InvalidBrowserException
+     *             If a browser that is not one specified in the
+     *             Selenium.Browser class is used, this exception will be thrown
      */
     @BeforeSuite(alwaysRun = true)
     public void beforeSuite() throws InvalidBrowserException {
@@ -195,11 +198,9 @@ public class TestBase {
      * @param result
      *            - where are the test results stored. browser information will
      *            be kept here
-     * @throws IOException
      */
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result)
-            throws IOException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         startTest(dataProvider, method, test, result, DriverSetup.LOAD);
     }
 
@@ -222,10 +223,9 @@ public class TestBase {
      * @param selenium
      *            - is this a selenium test. if so, the webdriver content will
      *            be setup
-     * @throws IOException
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-            DriverSetup selenium) throws IOException {
+            DriverSetup selenium) {
         String testName = General.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
@@ -321,9 +321,8 @@ public class TestBase {
      * output logging file, and count any errors that were encountered during
      * the test, and fail the test if any errors were encountered
      * 
-     * @throws IOException
      */
-    public void finish() throws IOException {
+    public void finish() {
         OutputFile myFile = this.asserts.get().getOutputFile();
         myFile.endTestTemplateOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
@@ -337,9 +336,8 @@ public class TestBase {
      * 
      * @param errors
      *            - number of expected errors from the test
-     * @throws IOException
      */
-    protected void finish(int errors) throws IOException {
+    protected void finish(int errors) {
         OutputFile myFile = this.asserts.get().getOutputFile();
         myFile.endTestTemplateOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
@@ -356,6 +354,8 @@ public class TestBase {
         /**
          * Runs once before any of the tests run, to parse and setup the static
          * passed information such as browsers, proxy, hub, etc
+         * 
+         * @return null
          */
         public static MasterSuiteSetupConfigurator getInstance() {
             if (instance != null) {
@@ -368,6 +368,11 @@ public class TestBase {
         /**
          * Runs once before any of the tests run, to parse and setup the static
          * passed information such as browsers, proxy, hub, etc
+         * 
+         * @throws InvalidBrowserException
+         *             If a browser that is not one specified in the
+         *             Selenium.Browser class is used, this exception will be
+         *             thrown
          */
         public void doSetup() throws InvalidBrowserException {
             if (wasInvoked) {

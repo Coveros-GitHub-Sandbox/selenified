@@ -40,12 +40,15 @@ import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.tools.General;
 
 /**
- * Test Output A custom generated output file outputFile.recording all actions
- * taken
+ * A custom output file, recording all details of every step performed, both
+ * actions and asserts. Actions, expected results, and actual results are
+ * captured. All asserts have a screenshot taken for traceability, while all
+ * failing actions also have a screenshot taken to assist with debugging
+ * purposes
  *
  * @author Max Saperstone
- * @version 2.0.0
- * @lastupdate 5/13/2017
+ * @version 2.0.1
+ * @lastupdate 7/20/2017
  */
 public class OutputFile {
 
@@ -143,7 +146,7 @@ public class OutputFile {
     /**
      * adds the action class which controls actions within the browser
      * 
-     * @param action
+     * @param action - the action class associated with this output
      */
     public void setAction(Action action) {
         this.action = action;
@@ -152,7 +155,7 @@ public class OutputFile {
     /**
      * sets the url of the page under test
      * 
-     * @param pageURL
+     * @param pageURL - the initial page to open the browser to
      */
     public void setURL(String pageURL) {
         url = pageURL;
@@ -161,7 +164,7 @@ public class OutputFile {
     /**
      * sets the name of the suite of the test
      * 
-     * @param testSuite
+     * @param testSuite - the name of test suite
      */
     public void setSuite(String testSuite) {
         suite = testSuite;
@@ -170,7 +173,7 @@ public class OutputFile {
     /**
      * sets the name(s) of the group(s) of the tests
      * 
-     * @param testGroup
+     * @param testGroup - the name of the test group
      */
     public void setGroup(String testGroup) {
         group = testGroup;
@@ -179,7 +182,7 @@ public class OutputFile {
     /**
      * sets the date of the last time the test was modified
      * 
-     * @param date
+     * @param date - the date the test was last modified
      */
     public void setLastModified(Date date) {
         lastModified = date;
@@ -188,7 +191,7 @@ public class OutputFile {
     /**
      * sets the version of the test being run
      * 
-     * @param testVersion
+     * @param testVersion - the version associated with the test
      */
     public void setVersion(String testVersion) {
         version = testVersion;
@@ -197,7 +200,7 @@ public class OutputFile {
     /**
      * sets the author of the test
      * 
-     * @param testAuthor
+     * @param testAuthor - the author of the test
      */
     public void setAuthor(String testAuthor) {
         author = testAuthor;
@@ -206,7 +209,7 @@ public class OutputFile {
     /**
      * sets the objectives of the test being run
      * 
-     * @param testObjectives
+     * @param testObjectives - the testing objectives
      */
     public void setObjectives(String testObjectives) {
         objectives = testObjectives;
@@ -417,7 +420,6 @@ public class OutputFile {
     /**
      * Creates the specially formatted output header
      *
-     * @throws IOException
      *             - an IOException
      */
     public void createOutputHeader() {
@@ -599,9 +601,8 @@ public class OutputFile {
      * successfully
      * 
      * @return Integer: how many errors encountered
-     * @throws IOException
      */
-    public int loadInitialPage() throws IOException {
+    public int loadInitialPage() {
         String startingPage = "The starting page <i>";
         String act = "Opening new browser and loading up starting page";
         String expected = startingPage + url + "</i> will successfully load";
@@ -630,14 +631,15 @@ public class OutputFile {
     /**
      * ends and closes the test template
      *
-     * @throws IOException
      */
-    public void endTestTemplateOutputFile() throws IOException {
+    public void endTestTemplateOutputFile() {
         // reopen the file
         try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
             out.write("  </table>\n");
             out.write(" </body>\n");
             out.write("</html>\n");
+        } catch (IOException e) {
+            log.error(e);
         }
         // Record the metrics
         int passes = countInstancesOf("<td class='pass'>Pass</td>");

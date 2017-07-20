@@ -21,7 +21,6 @@
 package com.coveros.selenified.tools;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,9 +41,7 @@ public class General {
      * 
      * @param folder
      *            - the folder to check for files
-     * @return ArrayList<String>: an ArrayList with the of multiple files
-     * @throws IOException
-     *             - an IOException
+     * @return ArrayList: an ArrayList with the of multiple files
      */
     public static List<String> listFilesForFolder(File folder) {
         List<String> files = new ArrayList<>();
@@ -67,7 +64,7 @@ public class General {
      *            - the value to be added
      * @param length
      *            - the final desired length
-     * @return string: the input supplied with zeros on the right
+     * @return String: the input supplied with spaces padded on the right
      */
     public static String padRightSpace(String input, int length) {
         return padRight(input, length, " ");
@@ -80,7 +77,7 @@ public class General {
      *            - the value to be added
      * @param length
      *            - the final desired length
-     * @return string: the input supplied with zeros on the right
+     * @return String: the input supplied with zeros on the right
      */
     public static String padRightZeros(long input, int length) {
         return padRight(String.valueOf(input), length, "0");
@@ -93,7 +90,9 @@ public class General {
      *            - the value to be added
      * @param length
      *            - the final desired length
-     * @return string: the input supplied with zeros on the right
+     * @param value
+     *            - what value to we want to pad the string with
+     * @return String: the input supplied with a value padded on the right
      */
     public static String padRight(int input, int length, String value) {
         return padRight(String.valueOf(input), length, value);
@@ -106,7 +105,9 @@ public class General {
      *            - the value to be added
      * @param length
      *            - the final desired length
-     * @return string: the input supplied with zeros on the right
+     * @param value
+     *            - what value to we want to pad the string with
+     * @return String: the input supplied with a value padded on the right
      */
     public static String padRight(String input, int length, String value) {
         StringBuilder output = new StringBuilder(length);
@@ -126,7 +127,7 @@ public class General {
      *            - the value to be added
      * @param length
      *            - the final desired length
-     * @return string: the input supplied with zeros on the left
+     * @return String: the input supplied with spaces padded on the left
      */
     public static String padLeftSpace(String input, int length) {
         return padLeft(input, length, " ");
@@ -139,7 +140,7 @@ public class General {
      *            - the value to be added
      * @param length
      *            - the final desired length
-     * @return string: the input supplied with zeros on the left
+     * @return String: the input supplied with zeros padded on the left
      */
     public static String padLeftZeros(long input, int length) {
         return padLeft(String.valueOf(input), length, "0");
@@ -152,7 +153,9 @@ public class General {
      *            - the value to be added
      * @param length
      *            - the final desired length
-     * @return string: the input supplied with zeros on the left
+     * @param value
+     *            - what value to we want to pad the string with
+     * @return String: the input supplied with a value padded on the left
      */
     public static String padLeft(int input, int length, String value) {
         return padLeft(String.valueOf(input), length, value);
@@ -165,7 +168,9 @@ public class General {
      *            - the value to be added
      * @param length
      *            - the final desired length
-     * @return string: the input supplied with zeros on the left
+     * @param value
+     *            - what value to we want to pad the string with
+     * @return String: the input supplied with a value padded on the left
      */
     public static String padLeft(String input, int length, String value) {
         StringBuilder output = new StringBuilder(length);
@@ -390,8 +395,8 @@ public class General {
      * a function that breaks up a string, and places it into a map
      * 
      * @param input
-     *            - a string, with key and values separated by '=' and pairs
-     *            separated by '&'
+     *            - a string, with key and values separated by an equals (=) and pairs
+     *            separated by an ampersand (&amp;)
      * @return Map: a map with values
      */
     public static Map<String, String> parseMap(final String input) {

@@ -108,6 +108,8 @@ public class TestSetup {
      * 
      * @return List: a list of all browsers
      * @throws InvalidBrowserException
+     *             If a browser that is not one specified in the
+     *             Selenium.Browser class is used, this exception will be thrown
      */
     public static List<Browser> setBrowser() throws InvalidBrowserException {
         List<Browser> browsers = new ArrayList<>();
@@ -176,6 +178,8 @@ public class TestSetup {
      * @param browser
      *            - which browser are we running with
      * @throws InvalidBrowserException
+     *             If a browser that is not one specified in the
+     *             Selenium.Browser class is used, this exception will be thrown
      */
     public void setupBrowserCapability(Browser browser) throws InvalidBrowserException {
         switch (browser) { // check the browser
@@ -240,6 +244,8 @@ public class TestSetup {
      *            - what capabilities are being tested with
      * @return WebDriver: the driver to interact with for the test
      * @throws InvalidBrowserException
+     *             If a browser that is not one specified in the
+     *             Selenium.Browser class is used, this exception will be thrown
      */
     public static WebDriver setupDriver(Browser browser, DesiredCapabilities capabilities)
             throws InvalidBrowserException {

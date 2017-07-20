@@ -62,7 +62,7 @@ public class Selenium {
      * tagname
      */
     public enum Locator {
-        NONE, XPATH, ID, NAME, CLASSNAME, CSS, PARTIALLINKTEXT, LINKTEXT, TAGNAME
+        XPATH, ID, NAME, CLASSNAME, CSS, PARTIALLINKTEXT, LINKTEXT, TAGNAME
     }
 
     /**
@@ -82,6 +82,9 @@ public class Selenium {
          *            - the string name of the browser
          * @return Browser: the enum version of the browser
          * @throws InvalidBrowserException
+         *             If a browser that is not one specified in the
+         *             Selenium.Browser class is used, this exception will be
+         *             thrown
          */
         public static Browser lookup(String b) throws InvalidBrowserException {
             for (Browser browser : Browser.values()) {
