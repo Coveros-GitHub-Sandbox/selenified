@@ -68,17 +68,6 @@ public class ActionDoIT extends TestBase {
         finish();
     }
 
-    @Test(expectedExceptions = InvalidLocatorTypeException.class, groups = { "integration", "actions", "do",
-            "virtual" }, description = "An integration test to verify we can't define an element with a bad locator")
-    public void badLocatorTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // perform some actions
-        actions.click(Locator.NONE, "element");
-        // verify no issues
-        finish();
-    }
-
     @Test(groups = { "integration", "actions", "do", "url",
             "virtual" }, description = "An integration test to check the goToURL method")
     public void goToURLTest() {

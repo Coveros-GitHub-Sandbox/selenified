@@ -1718,12 +1718,7 @@ public class LocatorAction {
             byElement = By.tagName(locator);
             break;
         default:
-            try {
-                throw new InvalidLocatorTypeException(type + " is not a valid locator type");
-            } catch (InvalidLocatorTypeException e) {
-                byElement = null;
-                log.error(e);
-            }
+            byElement = By.id("");
         }
         return byElement;
     }
