@@ -317,6 +317,74 @@ public class General {
     }
 
     /**
+     * this method determines the unique test name, based on the parameters
+     * passed in
+     * 
+     * @param method
+     *            - the method under test to extract the name from
+     * @param dataProvider
+     *            - an array of objects being passed to the test as data
+     *            providers
+     * @return String: a unique name
+     */
+    public static String getTestName(Method method, Object... dataProvider) {
+        String className = "";
+        String packageName = "";
+        if (method.getDeclaringClass().getPackage() != null) {
+            className = method.getDeclaringClass().toString().substring(6).split("\\.")[1];
+            packageName = method.getDeclaringClass().toString().substring(6).split("\\.")[0];
+        }
+        else {
+            className = method.getDeclaringClass().toString().substring(6);
+        }
+        return getTestName(packageName, className, method.getName(), dataProvider);
+    }
+
+    /**
+     * this method determines the unique test name, based on the parameters
+     * passed in
+     * 
+     * @param methodName
+     *            - the name of the test method as a string
+     * @param className
+     *            - the class name of the test method as a string
+     * @param dataProvider
+     *            - an array of objects being passed to the test as data
+     *            providers
+     * @return String: a unique name
+     */
+    public static String getTestName(String packageName, String className, String methodName, Object... dataProvider) {
+        StringBuilder testName;
+        if ("".equals(packageName)) {
+            testName = new StringBuilder(className + "_" + methodName);
+        }
+        else {
+            testName = new StringBuilder(packageName + "_" + className + "_" + methodName);
+        }
+        String currentName = testName.toString();
+        if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
+                && !dataProvider[0].toString().startsWith("public")) {
+            testName.append("WithOption");
+            for (Object data : dataProvider) {
+                if (data == null || data.toString().startsWith("public")) {
+                    break;
+                }
+                testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));
+            }
+            currentName = testName.toString();
+            if (currentName.length() > MAXFILENAMELENGTH) {
+                if ("".equals(packageName)) {
+                    currentName = className + "_" + methodName + dataProvider.toString().split(";")[1];
+                }
+                else {
+                    currentName = packageName + "_" + className + "_" + methodName + dataProvider.toString().split(";")[1];
+                }
+            }
+        }
+        return currentName;
+    }
+
+    /**
      * a function to capitalize the first letter of each word in the provided
      * string
      * 
@@ -343,21 +411,6 @@ public class General {
             }
         }
         return out;
-    }
-
-    /**
-     * this method determines the unique test name, based on the parameters
-     * passed in
-     * 
-     * @param method
-     *            - the method under test to extract the name from
-     * @param dataProvider
-     *            - an array of objects being passed to the test as data
-     *            providers
-     * @return String: a unique name
-     */
-    public static String getTestName(Method method, Object... dataProvider) {
-        return getTestName(method.getName(), dataProvider);
     }
 
     /**
