@@ -1,18 +1,19 @@
 package com.coveros.selenified.services;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.JsonObject;
 
 public class Request {
 	private JsonObject data = new JsonObject();
-	private HashMap<String, String> params = new HashMap<>();
+	private Map<String, String> params = new HashMap<>();
 	
 	public Request(JsonObject data) {
 		this.data = data;
 	}
 	
-	public Request(HashMap<String, String> params) {
+	public Request(Map<String, String> params) {
 		this.params = params;
 	}
 
@@ -24,11 +25,11 @@ public class Request {
 		this.data = data;
 	}
 
-	public HashMap<String, String> getParams() {
+	public Map<String, String> getParams() {
 		return params;
 	}
 
-	public void setParams(HashMap<String, String> params) {
+	public void setParams(Map<String, String> params) {
 		this.params = params;
 	}
 }
