@@ -5,22 +5,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.commons.codec.binary.Base64;
+import org.testng.log4testng.Logger;
 
+import com.coveros.selenified.tools.General;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class HTTP {
+
+	private static final Logger log = Logger.getLogger(General.class);
+
 	public enum Protocol {
 		HTTP, HTTPS;
 	}
 
 	private Protocol protocol;
 	private String domain;
-	private String username = "";
-	private String password = "";
+	private String user = "";
+	private String pass = "";
 	private String serviceBase = "";
 
 	public HTTP(Protocol protocol, String domain) {
@@ -28,11 +32,11 @@ public class HTTP {
 		this.domain = domain;
 	}
 
-	public HTTP(Protocol protocol, String domain, String username, String password, String serviceBase) {
+	public HTTP(Protocol protocol, String domain, String user, String pass, String serviceBase) {
 		this.protocol = protocol;
 		this.domain = domain;
-		this.username = username;
-		this.password = password;
+		this.user = user;
+		this.pass = pass;
 		this.serviceBase = serviceBase;
 	}
 
@@ -52,20 +56,20 @@ public class HTTP {
 		this.domain = domain;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getuser() {
+		return user;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setuser(String user) {
+		this.user = user;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getpass() {
+		return pass;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setpass(String pass) {
+		this.pass = pass;
 	}
 
 	public String getServiceBase() {
@@ -92,58 +96,23 @@ public class HTTP {
 			}
 		}
 		HttpURLConnection connection = null;
-		BufferedReader rd = null;
 		try {
 			URL url = new URL(this.protocol.toString().toLowerCase() + "://" + this.domain + this.serviceBase + service
 					+ params.toString());
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
-			connection.setRequestProperty("Content-length", "0");
-			connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-			connection.setUseCaches(false);
-			connection.setAllowUserInteraction(false);
-			if (!"".equals(this.username) && !"".equals(this.password)) {
-				String userPassword = username + ":" + password;
-				String encoding = new String(Base64.encodeBase64(userPassword.getBytes()));
-				connection.setRequestProperty("Authorization", "Basic " + encoding);
-			}
+			connection = setupConnection(connection);
 			connection.connect();
-			int status = connection.getResponseCode();
 
-			switch (status) {
-			case 200:
-			case 201:
-				rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				break;
-			default:
-				rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				break;
-			}
-			StringBuilder sb = new StringBuilder();
-			String line;
-			while ((line = rd.readLine()) != null) {
-				sb.append(line);
-			}
-			JsonParser parser = new JsonParser();
-			JsonObject json = (JsonObject) parser.parse(sb.toString());
-			return new Response(status, json, sb.toString());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			return getResponse(connection);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 		} finally {
-			if (rd != null) {
-				try {
-					rd.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception e) {
-					e.printStackTrace();
+					log.error(e);
 				}
 			}
 		}
@@ -152,64 +121,23 @@ public class HTTP {
 
 	public Response post(String service, Request request) {
 		HttpURLConnection connection = null;
-		BufferedReader rd = null;
 		try {
 			URL url = new URL(
 					this.protocol.toString().toLowerCase() + "://" + this.domain + this.serviceBase + service);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Accept", "application/json");
-			connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-			connection.setDoOutput(true);
-			connection.setDoInput(true);
-			connection.setUseCaches(false);
-			connection.setAllowUserInteraction(false);
-			if (!"".equals(this.username) && !"".equals(this.password)) {
-				String userPassword = username + ":" + password;
-				String encoding = new String(Base64.encodeBase64(userPassword.getBytes()));
-				connection.setRequestProperty("Authorization", "Basic " + encoding);
-			}
-
-			OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-			wr.write(request.getData().toString());
-			wr.flush();
-
-			int status = connection.getResponseCode();
-
-			switch (status) {
-			case 200:
-			case 201:
-				rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				break;
-			default:
-				rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				break;
-			}
-			StringBuilder sb = new StringBuilder();
-			String line;
-			while ((line = rd.readLine()) != null) {
-				sb.append(line);
-			}
-			JsonParser parser = new JsonParser();
-			JsonObject json = (JsonObject) parser.parse(sb.toString());
-			return new Response(status, json, sb.toString());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			connection = setupConnection(connection);
+			connection.connect();
+			writeDataRequest(connection, request);
+			return getResponse(connection);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 		} finally {
-			if (rd != null) {
-				try {
-					rd.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception e) {
-					e.printStackTrace();
+					log.error(e);
 				}
 			}
 		}
@@ -218,64 +146,23 @@ public class HTTP {
 
 	public Response put(String service, Request request) {
 		HttpURLConnection connection = null;
-		BufferedReader rd = null;
 		try {
 			URL url = new URL(
 					this.protocol.toString().toLowerCase() + "://" + this.domain + this.serviceBase + service);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("PUT");
-			connection.setRequestProperty("Accept", "application/json");
-			connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-			connection.setDoOutput(true);
-			connection.setDoInput(true);
-			connection.setUseCaches(false);
-			connection.setAllowUserInteraction(false);
-			if (!"".equals(this.username) && !"".equals(this.password)) {
-				String userPassword = username + ":" + password;
-				String encoding = new String(Base64.encodeBase64(userPassword.getBytes()));
-				connection.setRequestProperty("Authorization", "Basic " + encoding);
-			}
-
-			OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-			wr.write(request.getData().toString());
-			wr.flush();
-
-			int status = connection.getResponseCode();
-
-			switch (status) {
-			case 200:
-			case 201:
-				rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				break;
-			default:
-				rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				break;
-			}
-			StringBuilder sb = new StringBuilder();
-			String line;
-			while ((line = rd.readLine()) != null) {
-				sb.append(line);
-			}
-			JsonParser parser = new JsonParser();
-			JsonObject json = (JsonObject) parser.parse(sb.toString());
-			return new Response(status, json, sb.toString());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			connection = setupConnection(connection);
+			connection.connect();
+			writeDataRequest(connection, request);
+			return getResponse(connection);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 		} finally {
-			if (rd != null) {
-				try {
-					rd.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception e) {
-					e.printStackTrace();
+					log.error(e);
 				}
 			}
 		}
@@ -288,71 +175,96 @@ public class HTTP {
 
 	public Response delete(String service, Request request) {
 		HttpURLConnection connection = null;
-		BufferedReader rd = null;
 		try {
 			URL url = new URL(
 					this.protocol.toString().toLowerCase() + "://" + this.domain + this.serviceBase + service);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("DELETE");
-			connection.setRequestProperty("Accept", "application/json");
-			connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-			connection.setDoOutput(true);
-			connection.setDoInput(true);
-			connection.setUseCaches(false);
-			connection.setAllowUserInteraction(false);
-			if (!"".equals(this.username) && !"".equals(this.password)) {
-				String userPassword = username + ":" + password;
-				String encoding = new String(Base64.encodeBase64(userPassword.getBytes()));
-				connection.setRequestProperty("Authorization", "Basic " + encoding);
-			}
-			
+			connection = setupConnection(connection);
+			connection.connect();
 			if (request != null) {
-				OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-				wr.write(request.getData().toString());
-				wr.flush();
-			} else {
-				connection.connect();
+				writeDataRequest(connection, request);
 			}
-
-			int status = connection.getResponseCode();
-
-			switch (status) {
-			case 200:
-			case 201:
-				rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				break;
-			default:
-				rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				break;
-			}
-			StringBuilder sb = new StringBuilder();
-			String line;
-			while ((line = rd.readLine()) != null) {
-				sb.append(line);
-			}
-			JsonParser parser = new JsonParser();
-			JsonObject json = (JsonObject) parser.parse(sb.toString());
-			return new Response(status, json, sb.toString());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			return getResponse(connection);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 		} finally {
-			if (rd != null) {
-				try {
-					rd.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 			if (connection != null) {
 				try {
 					connection.disconnect();
 				} catch (Exception e) {
-					e.printStackTrace();
+					log.error(e);
 				}
 			}
 		}
 		return null;
+	}
+
+	private HttpURLConnection setupConnection(HttpURLConnection connection) {
+		connection.setRequestProperty("Content-length", "0");
+		connection.setRequestProperty("Accept", "application/json");
+		connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		connection.setDoOutput(true);
+		connection.setDoInput(true);
+		connection.setUseCaches(false);
+		connection.setAllowUserInteraction(false);
+		if (!"".equals(this.user) && !"".equals(this.pass)) {
+			String userpass = user + ":" + pass;
+			String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
+			connection.setRequestProperty("Authorization", "Basic " + encoding);
+		}
+		return connection;
+	}
+	
+	private void writeDataRequest(HttpURLConnection connection, Request request) {
+		try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());) {
+			wr.write(request.getData().toString());
+			wr.flush();
+		} catch (IOException e) {
+			log.error(e);
+		}
+	}
+
+	private Response getResponse(HttpURLConnection connection) {
+		int status;
+		try {
+			status = connection.getResponseCode();
+		} catch (IOException e) {
+			log.error(e);
+			return null;
+		}
+		JsonObject json = new JsonObject();
+		String data = "";
+		// grab the output from our connection. If it's a 200 or 201, it'll be
+		// from the input stream. If it's an error, it'll be from the error
+		// stream
+		BufferedReader rd = null;
+		try {
+			rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		} catch (IOException e) {
+			log.warn(e);
+			rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+		} finally {
+			StringBuilder sb = new StringBuilder();
+			String line;
+			if (rd != null) {
+				try {
+					while ((line = rd.readLine()) != null) {
+						sb.append(line);
+					}
+				} catch (IOException e) {
+					log.error(e);
+				}
+				try {
+					rd.close();
+				} catch (IOException e) {
+					log.error(e);
+				}
+				data = sb.toString();
+				JsonParser parser = new JsonParser();
+				json = (JsonObject) parser.parse(data);
+			}
+		}
+		return new Response(status, json, data);
 	}
 }

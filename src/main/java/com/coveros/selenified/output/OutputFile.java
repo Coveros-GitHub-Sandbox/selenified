@@ -659,7 +659,7 @@ public class OutputFile {
         long time = totalTime / 1000;
         StringBuilder seconds = new StringBuilder(Integer.toString((int) (time % 60)));
         StringBuilder minutes = new StringBuilder(Integer.toString((int) ((time % 3600) / 60)));
-        StringBuilder hthes = new StringBuilder(Integer.toString((int) (time / 3600)));
+        StringBuilder hours = new StringBuilder(Integer.toString((int) (time / 3600)));
         for (int i = 0; i < 2; i++) {
             if (seconds.length() < 2) {
                 seconds.insert(0, "0");
@@ -667,11 +667,11 @@ public class OutputFile {
             if (minutes.length() < 2) {
                 minutes.insert(0, "0");
             }
-            if (hthes.length() < 2) {
-                hthes.insert(0, "0");
+            if (hours.length() < 2) {
+            	hours.insert(0, "0");
             }
         }
-        replaceInFile("RUNTIME", hthes + ":" + minutes + ":" + seconds);
+        replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
         replaceInFile("TIMEFINISHED", timeNow);
     }
 
