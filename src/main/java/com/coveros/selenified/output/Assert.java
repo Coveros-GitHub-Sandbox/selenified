@@ -2551,13 +2551,21 @@ public class Assert {
         return compareResponseCode(response, expectedResponseCode);
     }
     
+    public int comparePatchResponseCode(String endpoint, Request params, int expectedResponseCode) {
+        Response response = action.makePatchCall(endpoint, params, true);
+        return compareResponseCode(response, expectedResponseCode);
+    }
+    
     public int compareDeleteResponseCode(String endpoint, Request params, int expectedResponseCode) {
         Response response = action.makeDeleteCall(endpoint, params, true);
         return compareResponseCode(response, expectedResponseCode);
     }
     
     private int compareResponseData(Response response, JsonObject expectedResponseData) {
-        Success success = response.getObjectData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+        Success success = Success.FAIL;
+        if ( response.getObjectData() != null ) {
+            success = response.getObjectData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+        }
         outputFile.recordExpected("Expected to find a response of:" + outputFile.formatResponse(new Response(0, expectedResponseData, null)));
         outputFile.recordActual("Found a response of:" + outputFile.outputResponseData(response), success);
         outputFile.addErrors(success.errors);
@@ -2565,7 +2573,10 @@ public class Assert {
     }
     
     private int compareResponseData(Response response, JsonArray expectedResponseData) {
-        Success success = response.getArrayData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+        Success success = Success.FAIL;
+        if ( response.getArrayData() != null ) {
+            success = response.getArrayData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+        }
         outputFile.recordExpected("Expected to find a response of:" + outputFile.formatResponse(new Response(0, expectedResponseData, null)));
         outputFile.recordActual("Found a response of:" + outputFile.outputResponseData(response), success);
         outputFile.addErrors(success.errors);
@@ -2607,6 +2618,16 @@ public class Assert {
     
     public int comparePutResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
         Response response = action.makePutCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+    
+    public int comparePatchResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
+        Response response = action.makePatchCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+    
+    public int comparePatchResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
+        Response response = action.makePatchCall(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
     

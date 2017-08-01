@@ -4883,6 +4883,30 @@ public class Action {
         return response;
     }
     
+    public Response makePatchCall(String endpoint, Request params) {
+        return makePatchCall(endpoint, params, true);
+    }
+    
+    public Response makePatchCall(String endpoint, Request params, boolean print) {
+        String action = "Making <i>PATCH</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
+        action += file.outputRequestProperties(params);
+        String expected = "<i>PATCH</i> call was made successfully";
+        Response response;
+        try {
+            response = http.patch(endpoint, params);
+            if (print) {
+                file.recordAction(action, expected, expected, Result.SUCCESS);
+            }
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action, expected, "<i>PATCH</i> call failed. " + e.getMessage(),
+                    Result.FAILURE);
+            file.addError();
+            return null;
+        }
+        return response;
+    }
+    
     public Response makeDeleteCall(String endpoint, Request params) {
         return makeDeleteCall(endpoint, params, true);
     }

@@ -1,13 +1,12 @@
 package com.coveros.selenified.services;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.JsonObject;
 
 public class Request {
-    private JsonObject data = new JsonObject();
-    private Map<String, String> params = new HashMap<>();
+    private JsonObject data = null;
+    private Map<String, String> params = null;
     
     public Request(JsonObject data) {
         this.data = data;

@@ -99,6 +99,10 @@ public class HTTP {
         try {
             URL url = new URL(this.serviceBaseUrl + service + params.toString());
             connection = (HttpURLConnection) url.openConnection();
+            if ("PATCH".equals(call)) {
+                connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+                call = "POST";
+            }
             connection.setRequestMethod(call);
             connection.setRequestProperty("Content-length", "0");
             connection.setRequestProperty("Accept", "application/json");
@@ -130,7 +134,6 @@ public class HTTP {
         }
         return null;
     }
-
 
     private void writeDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());) {
@@ -180,11 +183,11 @@ public class HTTP {
                 JsonParser parser = new JsonParser();
                 try {
                     object = (JsonObject) parser.parse(data);
-                    response.setObjectData( object );
-                } catch(ClassCastException e) {
+                    response.setObjectData(object);
+                } catch (ClassCastException e) {
                     log.debug(e);
                     array = (JsonArray) parser.parse(data);
-                    response.setArrayData( array );
+                    response.setArrayData(array);
                 }
             }
         }
