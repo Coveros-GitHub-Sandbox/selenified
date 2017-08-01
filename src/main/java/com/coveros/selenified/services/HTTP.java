@@ -219,7 +219,7 @@ public class HTTP {
             connection.setDoInput(true);
             connection.setUseCaches(false);
             connection.setAllowUserInteraction(false);
-            if (this.user.isEmpty() && this.pass.isEmpty()) {
+            if (!this.user.isEmpty() && !this.pass.isEmpty()) {
                 String userpass = user + ":" + pass;
                 String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
                 connection.setRequestProperty("Authorization", "Basic " + encoding);

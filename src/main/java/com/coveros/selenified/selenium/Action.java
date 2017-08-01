@@ -5018,18 +5018,27 @@ public class Action {
      * @return Response: the response provided from the http call
      */
     public Response makeDeleteCall(String endpoint, Request params, boolean print) {
-        String action = "Making <i>DELETE</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
-        action += file.outputRequestProperties(params);
+        StringBuilder action = new StringBuilder();
+        action.append("Making <i>DELETE</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
+        if (!http.getuser().isEmpty() && !http.getpass().isEmpty()) {
+            action.append("<br/> with credentials: ");
+            action.append("<div><i>");
+            action.append("Username: " + http.getuser());
+            action.append("</div><div>");
+            action.append("Password: " + http.getpass());
+            action.append("</i></div>");
+        }
+        action.append(file.outputRequestProperties(params));
         String expected = "<i>DELETE</i> call was made successfully";
         Response response;
         try {
             response = http.delete(endpoint, params);
             if (print) {
-                file.recordAction(action, expected, expected, Result.SUCCESS);
+                file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
             }
         } catch (Exception e) {
             log.error(e);
-            file.recordAction(action, expected, "<i>DELETE</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.recordAction(action.toString(), expected, "<i>DELETE</i> call failed. " + e.getMessage(), Result.FAILURE);
             file.addError();
             return null;
         }

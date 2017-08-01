@@ -814,22 +814,22 @@ public class OutputFile {
             return "";
         }
         StringBuilder output = new StringBuilder();
-        output.append(" with parameters: ");
-        output.append("<div>");
+        output.append("<br/> with parameters: ");
+        output.append("<div><i>");
         if (params.getData() != null) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             output.append(gson.toJson(params.getData()));
         }
         if (params.getParams() != null) {
             for (Map.Entry<String, String> entry : params.getParams().entrySet()) {
-                output.append("<div><i>");
+                output.append("<div>");
                 output.append(entry.getKey());
                 output.append(" : ");
                 output.append(entry.getValue());
-                output.append("</i></div>");
+                output.append("</div>");
             }
         }
-        output.append("</div>");
+        output.append("</i></div>");
         return formatHTML(output.toString());
     }
 
