@@ -578,4 +578,102 @@ public class ServicesIT extends TestBase {
         // verify one issue
         finish(1);
     }
+
+    @Test(groups = { "integration", "services", "delete",
+            "virtual" }, description = "An integration test to verify the response code from a delete call")
+    public void compareDeleteResponseCode200Test() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 1);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 1);
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareDeleteResponseCode("posts/1", new Request(request), 200);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "services", "delete",
+            "virtual" }, description = "A negative integration test to verify the response code from a delete call")
+    public void compareDeleteResponseBadCode201Test() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 1);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 1);
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareDeleteResponseCode("posts/1", new Request(request), 201);
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "delete",
+            "virtual" }, description = "An integration test to verify the response code from a delete call")
+    public void compareDeleteResponseCode404Test() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 1);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 1);
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareDeleteResponseCode("post/", new Request(request), 404);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "services", "delete",
+            "virtual" }, description = "A negative integration test to verify the response code from a delete call")
+    public void compareDeleteResponseBadCode400Test() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 1);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 1);
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareDeleteResponseCode("post/", new Request(request), 400);
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "delete",
+            "virtual" }, description = "An integration test to verify the data from a delete call")
+    public void compareDeleteResponseDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 1);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 1);
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareDeleteResponseData("posts/1", new Request(request), new JsonObject());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "services", "delete",
+            "virtual" }, description = "A negative integration test to verify the data from a delete call")
+    public void compareDeleteResponseBadDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 1);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 1);
+        JsonObject response = new JsonObject();
+        response.addProperty("userId", 1);
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareDeleteResponseData("posts/1", new Request(request), response);
+        // verify one issue
+        finish(1);
+    }
 }
