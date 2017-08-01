@@ -17,43 +17,26 @@ public class HTTP {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
-	public enum Protocol {
-		HTTP, HTTPS;
-	}
-
-	private Protocol protocol;
-	private String domain;
+	private String serviceBaseUrl;
 	private String user = "";
 	private String pass = "";
-	private String serviceBase = "";
 
-	public HTTP(Protocol protocol, String domain) {
-		this.protocol = protocol;
-		this.domain = domain;
+	public HTTP(String serviceBaseUrl) {
+		this.serviceBaseUrl = serviceBaseUrl;
 	}
 
-	public HTTP(Protocol protocol, String domain, String user, String pass, String serviceBase) {
-		this.protocol = protocol;
-		this.domain = domain;
+	public HTTP(String serviceBaseUrl, String user, String pass) {
+		this.serviceBaseUrl = serviceBaseUrl;
 		this.user = user;
 		this.pass = pass;
-		this.serviceBase = serviceBase;
 	}
 
-	public Protocol getProtocol() {
-		return protocol;
+	public String getServiceBaseUrl() {
+		return serviceBaseUrl;
 	}
 
-	public void setProtocol(Protocol protocol) {
-		this.protocol = protocol;
-	}
-
-	public String getDomain() {
-		return domain;
-	}
-
-	public void setDomain(String domain) {
-		this.domain = domain;
+	public void setServiceBaseUrl(String serviceBaseUrl) {
+		this.serviceBaseUrl = serviceBaseUrl;
 	}
 
 	public String getuser() {
@@ -70,14 +53,6 @@ public class HTTP {
 
 	public void setpass(String pass) {
 		this.pass = pass;
-	}
-
-	public String getServiceBase() {
-		return serviceBase;
-	}
-
-	public void setServiceBase(String serviceBase) {
-		this.serviceBase = serviceBase;
 	}
 
 	public Response get(String service) {
@@ -97,7 +72,7 @@ public class HTTP {
 		}
 		HttpURLConnection connection = null;
 		try {
-			URL url = new URL(this.protocol.toString().toLowerCase() + "://" + this.domain + this.serviceBase + service
+			URL url = new URL(this.serviceBaseUrl + service
 					+ params.toString());
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
@@ -123,7 +98,7 @@ public class HTTP {
 		HttpURLConnection connection = null;
 		try {
 			URL url = new URL(
-					this.protocol.toString().toLowerCase() + "://" + this.domain + this.serviceBase + service);
+					this.serviceBaseUrl + service);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection = setupConnection(connection);
@@ -148,7 +123,7 @@ public class HTTP {
 		HttpURLConnection connection = null;
 		try {
 			URL url = new URL(
-					this.protocol.toString().toLowerCase() + "://" + this.domain + this.serviceBase + service);
+					this.serviceBaseUrl + service);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("PUT");
 			connection = setupConnection(connection);
@@ -177,7 +152,7 @@ public class HTTP {
 		HttpURLConnection connection = null;
 		try {
 			URL url = new URL(
-					this.protocol.toString().toLowerCase() + "://" + this.domain + this.serviceBase + service);
+					this.serviceBaseUrl + service);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("DELETE");
 			connection = setupConnection(connection);

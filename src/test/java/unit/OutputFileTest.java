@@ -293,7 +293,7 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileTest() throws IOException {
-        outputFile.endTestTemplateOutputFile();
+        outputFile.finalizeOutputFile();
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertEquals(content, "  </table>\r\n </body>\r\n</html>\r\n");
