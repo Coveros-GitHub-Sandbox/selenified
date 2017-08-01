@@ -124,19 +124,19 @@ public class TestBase {
     }
 
     public String getServicesUser() {
-    	return servicesUser;
+        return servicesUser;
     }
     
     public static void setServicesUser(String servicesUsername) {
-    	servicesUser = servicesUsername;
+        servicesUser = servicesUsername;
     }
     
     public String getServicesPass() {
-    	return servicesPass;
+        return servicesPass;
     }
     
     public static void setServicesPass(String servicesPassword) {
-    	servicesPass = servicesPassword;
+        servicesPass = servicesPassword;
     }
 
     /**
@@ -152,8 +152,8 @@ public class TestBase {
             passedInTestSite(System.getProperty(APP_INPUT));
         }
         if( System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null ) {
-        	servicesUser = System.getenv("SERVICES_USER");
-        	servicesPass = System.getenv("SERVICES_PASS");
+            servicesUser = System.getenv("SERVICES_USER");
+            servicesPass = System.getenv("SERVICES_PASS");
         }
     }
 
@@ -275,10 +275,10 @@ public class TestBase {
         Browser myBrowser = browsers.get(invocationCount);
         Assert myOutput;
         if( selenium.useBrowser() ) {
-        	myOutput = new Assert(outputDir, testName, myBrowser);
+            myOutput = new Assert(outputDir, testName, myBrowser);
         } else {
-        	myBrowser = Browser.NONE;
-        	myOutput = new Assert(outputDir, testName, testSite);
+            myBrowser = Browser.NONE;
+            myOutput = new Assert(outputDir, testName, testSite);
         }
         this.browser.set(myBrowser);
         result.setAttribute(BROWSER_INPUT, myBrowser);
