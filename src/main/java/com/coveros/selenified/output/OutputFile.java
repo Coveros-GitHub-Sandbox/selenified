@@ -801,6 +801,14 @@ public class OutputFile {
     // some comparisons for our services
     ///////////////////////////////////////////////////////////////////
 
+    /**
+     * Formats the request parameters to be 'prettily' printed out in HTML
+     * 
+     * @param params
+     *            - the parameters to be formatted. Either a JSON object, or a
+     *            hashmap
+     * @return String: a 'prettily' formatted string that is HTML safe to output
+     */
     public String outputRequestProperties(Request params) {
         if (params == null) {
             return "";
@@ -825,14 +833,17 @@ public class OutputFile {
         return formatHTML(output.toString());
     }
 
-    public String outputResponseData(Response response) {
+    /**
+     * Formats the response parameters to be 'prettily' printed out in HTML
+     * 
+     * @param response
+     *            - the http response to be formatted.
+     * @return String: a 'prettily' formatted string that is HTML safe to output
+     */
+    public String formatResponse(Response response) {
         if (response == null) {
             return "";
         }
-        return formatHTML(formatResponse(response));
-    }
-
-    public String formatResponse(Response response) {
         StringBuilder output = new StringBuilder();
         if (response.isData()) {
             output.append("<div>");
@@ -857,6 +868,9 @@ public class OutputFile {
      * @return String : the replaced result
      */
     public String formatHTML(String string) {
+        if( string == null ) {
+            return "";
+        }
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
     }
 }

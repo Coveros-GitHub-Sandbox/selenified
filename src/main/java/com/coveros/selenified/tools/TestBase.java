@@ -69,7 +69,7 @@ public class TestBase {
     private static String testSite = "https://www.google.com/";
     private static String version = "";
     private static String author = "";
-    
+
     private static String servicesUser = "";
     private static String servicesPass = "";
 
@@ -126,15 +126,15 @@ public class TestBase {
     public String getServicesUser() {
         return servicesUser;
     }
-    
+
     public static void setServicesUser(String servicesUsername) {
         servicesUser = servicesUsername;
     }
-    
+
     public String getServicesPass() {
         return servicesPass;
     }
-    
+
     public static void setServicesPass(String servicesPassword) {
         servicesPass = servicesPassword;
     }
@@ -151,7 +151,7 @@ public class TestBase {
         if (System.getProperty(APP_INPUT) != null) {
             passedInTestSite(System.getProperty(APP_INPUT));
         }
-        if( System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null ) {
+        if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
             servicesUser = System.getenv("SERVICES_USER");
             servicesPass = System.getenv("SERVICES_PASS");
         }
@@ -274,7 +274,7 @@ public class TestBase {
 
         Browser myBrowser = browsers.get(invocationCount);
         Assert myOutput;
-        if( selenium.useBrowser() ) {
+        if (selenium.useBrowser()) {
             myOutput = new Assert(outputDir, testName, myBrowser);
         } else {
             myBrowser = Browser.NONE;

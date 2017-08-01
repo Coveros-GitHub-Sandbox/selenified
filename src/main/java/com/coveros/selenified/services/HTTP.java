@@ -1,3 +1,23 @@
+/*
+ * Copyright 2017 Coveros, Inc.
+ * 
+ * This file is part of Selenified.
+ * 
+ * Selenified is licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy 
+ * of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on 
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License.
+ */
+
 package com.coveros.selenified.services;
 
 import java.io.BufferedReader;
@@ -14,10 +34,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/**
+ * A class designed to make HTTP calls. This is wrapped by the Action and Assert
+ * classes to ensure calls are properly written to logs, and data can be easily
+ * accessed
+ *
+ * @author Max Saperstone
+ * @version 2.0.1
+ * @lastupdate 8/1/2017
+ */
 public class HTTP {
 
     private static final Logger log = Logger.getLogger(General.class);
-    
+
     private static final String PATCH = "PATCH";
 
     private String serviceBaseUrl;
@@ -58,34 +87,110 @@ public class HTTP {
         this.pass = pass;
     }
 
+    /**
+     * A basic http get call
+     * 
+     * @param service
+     *            - the endpoint of the service under test
+     * @return Response: the response provided from the http call
+     */
     public Response get(String service) {
         return get(service, null);
     }
 
+    /**
+     * A basic http get call
+     * 
+     * @param service
+     *            - the endpoint of the service under test
+     * @param request
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
     public Response get(String service, Request request) {
         return call("GET", service, request);
     }
 
+    /**
+     * A basic http post call
+     * 
+     * @param service
+     *            - the endpoint of the service under test
+     * @param request
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
     public Response post(String service, Request request) {
         return call("POST", service, request);
     }
 
+    /**
+     * A basic http put call
+     * 
+     * @param service
+     *            - the endpoint of the service under test
+     * @param request
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
     public Response put(String service, Request request) {
         return call("PUT", service, request);
     }
 
+    /**
+     * A basic http patch call
+     * 
+     * @param service
+     *            - the endpoint of the service under test
+     * @param request
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
     public Response patch(String service, Request request) {
         return call(PATCH, service, request);
     }
 
+    /**
+     * A basic http delete call
+     * 
+     * @param service
+     *            - the endpoint of the service under test
+     * @return Response: the response provided from the http call
+     */
     public Response delete(String service) {
         return delete(service, null);
     }
 
+    /**
+     * A basic http delete call
+     * 
+     * @param service
+     *            - the endpoint of the service under test
+     * @param request
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
     public Response delete(String service, Request request) {
         return call("DELETE", service, request);
     }
 
+    /**
+     * A basic generic http call
+     * 
+     * @param call
+     *            - what method are we calling
+     * @param service
+     *            - the endpoint of the service under test
+     * @param request
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
     private Response call(String call, String service, Request request) {
         StringBuilder params = new StringBuilder();
         if (request != null && request.getParams() != null) {
@@ -138,6 +243,15 @@ public class HTTP {
         return null;
     }
 
+    /**
+     * pushes request data to the open http connection
+     * 
+     * @param connection
+     *            - the open connection of the http call
+     * @param request
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     */
     private void writeDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());) {
             wr.write(request.getData().toString());
@@ -147,6 +261,13 @@ public class HTTP {
         }
     }
 
+    /**
+     * extracts the response data from the open http connection
+     * 
+     * @param connection
+     *            - the open connection of the http call
+     * @return Response: the response provided from the http call
+     */
     private Response getResponse(HttpURLConnection connection) {
         int status;
         try {
