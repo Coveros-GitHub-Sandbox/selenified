@@ -570,7 +570,7 @@ public class OutputFile {
             out.write(swapRow);
             out.write("    <th>Date Tested</th>\n");
             out.write(START_CELL + datePart + END_CELL);
-            if (this.action.getBrowser() != null && this.action.getBrowser() != Browser.NONE) {
+            if (this.action != null && this.action.getBrowser() != null && this.action.getBrowser() != Browser.NONE) {
                 out.write("    <th>Browser</th>\n");
                 out.write(START_CELL + browser + END_CELL);
             } else {
