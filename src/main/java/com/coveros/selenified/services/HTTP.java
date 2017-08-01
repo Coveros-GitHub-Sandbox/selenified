@@ -17,6 +17,8 @@ import com.google.gson.JsonParser;
 public class HTTP {
 
     private static final Logger log = Logger.getLogger(General.class);
+    
+    private static final String PATCH = "PATCH";
 
     private String serviceBaseUrl;
     private String user = "";
@@ -73,7 +75,7 @@ public class HTTP {
     }
 
     public Response patch(String service, Request request) {
-        return call("PATCH", service, request);
+        return call(PATCH, service, request);
     }
 
     public Response delete(String service) {
@@ -99,11 +101,12 @@ public class HTTP {
         try {
             URL url = new URL(this.serviceBaseUrl + service + params.toString());
             connection = (HttpURLConnection) url.openConnection();
-            if ("PATCH".equals(call)) {
-                connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
-                call = "POST";
+            String method = call;
+            if (PATCH.equals(method)) {
+                connection.setRequestProperty("X-HTTP-Method-Override", PATCH);
+                method = "POST";
             }
-            connection.setRequestMethod(call);
+            connection.setRequestMethod(method);
             connection.setRequestProperty("Content-length", "0");
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
