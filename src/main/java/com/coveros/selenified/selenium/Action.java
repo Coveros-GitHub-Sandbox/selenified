@@ -5020,12 +5020,12 @@ public class Action {
     public Response makeDeleteCall(String endpoint, Request params, boolean print) {
         StringBuilder action = new StringBuilder();
         action.append("Making <i>DELETE</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
-        if (!http.getuser().isEmpty() && !http.getpass().isEmpty()) {
+        if (http.useCredentials()) {
             action.append("<br/> with credentials: ");
             action.append("<div><i>");
-            action.append("Username: " + http.getuser());
+            action.append("Username: " + http.getUser());
             action.append("</div><div>");
-            action.append("Password: " + http.getpass());
+            action.append("Password: " + http.getPass());
             action.append("</i></div>");
         }
         action.append(file.outputRequestProperties(params));

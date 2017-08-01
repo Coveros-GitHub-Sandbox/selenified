@@ -25,7 +25,7 @@ public class GeneralTest {
     @Test
     public void listFilesForFolderDirectoryTest() {
         List<String> files = General.listFilesForFolder(new File("./src/test/java"));
-        Assert.assertEquals(files.size(), 20);
+        Assert.assertEquals(files.size(), 21);
         Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
                 + "java" + File.separator + "integration" + File.separator + "ActionDoIT.java"));
         Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator

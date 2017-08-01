@@ -71,20 +71,24 @@ public class HTTP {
         this.serviceBaseUrl = serviceBaseUrl;
     }
 
-    public String getuser() {
+    public String getUser() {
         return user;
     }
 
-    public void setuser(String user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
-    public String getpass() {
+    public String getPass() {
         return pass;
     }
 
-    public void setpass(String pass) {
+    public void setPass(String pass) {
         this.pass = pass;
+    }
+    
+    public boolean useCredentials() {
+    	return !this.user.isEmpty() && !this.pass.isEmpty();
     }
 
     /**
@@ -219,7 +223,7 @@ public class HTTP {
             connection.setDoInput(true);
             connection.setUseCaches(false);
             connection.setAllowUserInteraction(false);
-            if (!this.user.isEmpty() && !this.pass.isEmpty()) {
+            if (useCredentials()) {
                 String userpass = user + ":" + pass;
                 String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
                 connection.setRequestProperty("Authorization", "Basic " + encoding);
