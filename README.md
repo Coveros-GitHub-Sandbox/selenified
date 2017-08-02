@@ -20,7 +20,7 @@ Update your pom.xml file to include
     <dependency>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.2</version>
     <scope>test</scope>
     </dependency>
 ```
@@ -30,7 +30,7 @@ Update your ivy.xml file to include
 ```xml
     <ivy-module>
      <dependencies>
-     <dependency org="com.coveros" name="selenified" rev="2.0.0"/>
+     <dependency org="com.coveros" name="selenified" rev="2.0.2"/>
      </dependencies>
     </ivy-module>
 ```
@@ -39,7 +39,7 @@ Update your ivy.xml file to include
 Update your build.gradle file to include
 ```groovy
     dependencies {
-        testCompile 'com.coveros:selenified:2.0.0'
+        testCompile 'com.coveros:selenified:2.0.2'
     }
 ```
 
@@ -54,7 +54,7 @@ Have a look at this example test class to get an idea of what you'll actually be
                 new Object[] { "perl" }, new Object[] { "bash" }, };
         }
 
-        @Test(groups = { "sample" }, description = "A sample test to check a title")
+        @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
         public void sampleTest() {
             // use this object to verify the page looks as expected
             Assert asserts = this.asserts.get();
@@ -65,7 +65,7 @@ Have a look at this example test class to get an idea of what you'll actually be
         }
 
         @Test(dataProvider = "google search terms", groups = { "sample" },
-                description = "A sample test using a data provider to perform searches")
+                description = "A sample selenium test using a data provider to perform searches")
         public void sampleTestWDataProvider(String searchTerm) {
             // use this object to manipulate the page
             Action actions = this.actions.get();
@@ -79,6 +79,19 @@ Have a look at this example test class to get an idea of what you'll actually be
             // verify no issues
             finish();
         }
+        
+        @Test(groups = { "sample" }, description = "An sample services test to verify the response code")
+    	public void sampleServicesTest() {
+	    	// the parameters to pass to google
+    		Map<String, String> params = new HashMap<>();
+	        params.put("q", "cheese");
+    	    // use this object to verify the page looks as expected
+	        Assert asserts = this.asserts.get();
+    	    // perform some actions
+        	asserts.compareGetResponseCode("", params, 200);
+	        // verify no issues
+    	    finish();
+    	}
     }
 ```
 
@@ -86,8 +99,10 @@ In the first test, sampleTest, the Assert class is used to check the title of th
 In the next test, sampleTestWDataProvider, the Action and Assert classes are used to type 
 a search term, submit the search term and the wait for the page to load in order to verify the 
 title contains the same search term. The 'google search terms' dataProvider provides a search 
-term to the test. For more information on the Assert and Action class plus all the other classes 
-used by Selenified, check out the documentation [here](https://msaperst.github.io).
+term to the test. In the third test, a call is made to the main google page, with the 
+parameters of q equaling 'cheese'. For more information on the Assert and Action class plus 
+all the other classes used by Selenified, check out the 
+documentation [here](https://msaperst.github.io).
 
 ## Writing Tests
 ### Create A New Test Suite
