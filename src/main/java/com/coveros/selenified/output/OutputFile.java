@@ -23,14 +23,20 @@ package com.coveros.selenified.output;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.testng.log4testng.Logger;
 
@@ -708,6 +714,43 @@ public class OutputFile {
         }
         replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
         replaceInFile("TIMEFINISHED", timeNow);
+        if(System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))){
+            packageTestResults();
+        }
+    }
+    
+    /**
+     * packages the test result file along with screenshots into a zip file
+     *
+     */
+    public void packageTestResults() {
+        try {
+            // Create new zip file
+            File f = new File(directory, filename + "_RESULTS.zip");
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f));
+            
+            // Add html results to zip file
+            ZipEntry e = new ZipEntry(filename);
+            out.putNextEntry(e);
+            Path path = FileSystems.getDefault().getPath(directory, filename);
+            byte[] data = Files.readAllBytes(path);
+            out.write(data, 0, data.length);
+            out.closeEntry();
+            
+            // Add screenshots to zip file
+            for(String screenshot : screenshots) {
+                ZipEntry s = new ZipEntry(screenshot.replaceAll(".*\\/", ""));
+                out.putNextEntry(s);
+                Path screenPath = FileSystems.getDefault().getPath(screenshot);
+                byte[] screenData = Files.readAllBytes(screenPath);
+                out.write(screenData, 0, screenData.length);
+                out.closeEntry();
+            }
+            out.close();
+        }
+        catch (IOException e) {
+            log.error(e);
+        }
     }
 
     /**
@@ -725,8 +768,8 @@ public class OutputFile {
                     + imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
             imageLink += " <a href='javascript:void(0)' onclick='displayImage(\""
                     + imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
-            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='file:///"
-                    + imageName + "' width='" + embeddedImageWidth + "px' style='display:none;'>";
+            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='"
+                    + imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth + "px' style='display:none;'>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
         }

@@ -126,7 +126,7 @@ public class OutputFileTest {
         Assert.assertEquals(outputFile.generateImageLink(directory.toString()),
                 "<br/><b><font class='fail'>No Image Preview</font></b>");
         Assert.assertEquals(outputFile.generateImageLink("directory/1234"),
-                "<br/><a href='javascript:void(0)' onclick='toggleImage(\"1234\")'>Toggle Screenshot Thumbnail</a> <a href='javascript:void(0)' onclick='displayImage(\"1234\")'>View Screenshot Fullscreen</a><br/><img id='1234' border='1px' src='file:///directory/1234' width='300px' style='display:none;'>");
+                "<br/><a href='javascript:void(0)' onclick='toggleImage(\"1234\")'>Toggle Screenshot Thumbnail</a> <a href='javascript:void(0)' onclick='displayImage(\"1234\")'>View Screenshot Fullscreen</a><br/><img id='1234' border='1px' src='1234' width='300px' style='display:none;'>");
     }
 
     @Test
@@ -303,6 +303,7 @@ public class OutputFileTest {
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertEquals(content, "  </table>\r\n </body>\r\n</html>\r\n");
+        Assert.assertTrue(new File(directory, file.getName() + "_RESULTS.zip").exists());
     }
 
     @Test
