@@ -484,6 +484,13 @@ mvn clean verify -Dfailsafe.groups=virtual
 See the below sections on executing tests to see the proper way to source the jar, and add them to your 
 classpath
 
+### Packaging Results
+If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
+and set it to true
+```
+mvn clean verify -Dbrowser=Firefox -DpackageResults=true
+```
+The zipped results will be placed in the same directory as the test results
 
 ## Open Issues
 Note that there are a few open issues with the framework
