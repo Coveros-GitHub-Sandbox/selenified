@@ -147,6 +147,19 @@ public class ServicesIT extends TestBase {
 
     @Test(groups = { "integration", "services", "httpget",
             "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetResponseContainsSingleBadObjectDataTest() {
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "2");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts/6", responsePairs);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
     public void checkGetResponseContainsMultipleObjectDataTest() {
         Map<String, String> responsePairs = new HashMap<String, String>();
         responsePairs.put("userId", "1");
@@ -157,6 +170,20 @@ public class ServicesIT extends TestBase {
         asserts.checkGetResponseContainsData("posts/6", responsePairs);
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetResponseContainsMultipleBadObjectDataTest() {
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "1");
+        responsePairs.put("id", "7");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts/6", responsePairs);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "services", "httpget",
@@ -174,6 +201,23 @@ public class ServicesIT extends TestBase {
         asserts.checkGetResponseContainsData("posts", json);
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetResponseContainsBadArrayDataTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("userId", 3);
+        json.addProperty("id", 1);
+        json.addProperty("title", "sunt aut facere repellat provident occaecati excepturi optio reprehenderit");
+        json.addProperty("body",
+                "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts", json);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "services", "httpget",
@@ -232,6 +276,106 @@ public class ServicesIT extends TestBase {
         // perform some actions
         asserts.compareGetResponseData("posts", response);
         // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetParamsResponseContainsSingleObjectDataTest() {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "6");
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "1");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts/6", new Request(params), responsePairs);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetParamsResponseContainsSingleBadObjectDataTest() {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "6");
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "8");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts/6", new Request(params), responsePairs);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetParamsResponseContainsMultipleObjectDataTest() {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "6");
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "1");
+        responsePairs.put("id", "6");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts/6", new Request(params), responsePairs);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetParamsResponseContainsBadMultipleObjectDataTest() {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "6");
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "1");
+        responsePairs.put("id", "8");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts/6", new Request(params), responsePairs);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetParamsResponseContainsArrayDataTest() {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "6");
+        JsonObject json = new JsonObject();
+        json.addProperty("userId", 6);
+        json.addProperty("id", 51);
+        json.addProperty("title", "soluta aliquam aperiam consequatur illo quis voluptas");
+        json.addProperty("body",
+                "sunt dolores aut doloribus\ndolore doloribus voluptates tempora et\ndoloremque et quo\ncum asperiores sit consectetur dolorem");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts", new Request(params), json);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "services", "httpget",
+            "virtual" }, description = "An integration test to verify the data from a get call")
+    public void checkGetParamsResponseContainsBadArrayDataTest() {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "6");
+        JsonObject json = new JsonObject();
+        json.addProperty("userId", 1);
+        json.addProperty("id", 3);
+        json.addProperty("title", "sunt aut facere repellat provident occaecati excepturi optio reprehenderit");
+        json.addProperty("body",
+                "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkGetResponseContainsData("posts", new Request(params), json);
+        // verify 1 issue
         finish(1);
     }
 
@@ -392,6 +536,76 @@ public class ServicesIT extends TestBase {
 
     @Test(groups = { "integration", "services", "httppost",
             "virtual" }, description = "An integration test to verify the data from a post call")
+    public void checkPostResponseContainsSingleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("title", "foo");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 2);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "2");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPostResponseContainsData("posts/", new Request(request), responsePairs);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "services", "httppost",
+    "virtual" }, description = "An integration test to verify the data from a post call")
+    public void checkPostResponseContainsBadSingleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("title", "foo");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 2);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "3");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPostResponseContainsData("posts/", new Request(request), responsePairs);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httppost",
+            "virtual" }, description = "An integration test to verify the data from a post call")
+    public void checkPostResponseContainsMultipleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("title", "foo");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 2);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "2");
+        responsePairs.put("id", "101");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPostResponseContainsData("posts/", new Request(request), responsePairs);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "services", "httppost",
+    "virtual" }, description = "An integration test to verify the data from a post call")
+    public void checkPostResponseContainsBadMultipleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("title", "foo");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 2);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "2");
+        responsePairs.put("id", "104");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPostResponseContainsData("posts/", new Request(request), responsePairs);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httppost",
+            "virtual" }, description = "An integration test to verify the data from a post call")
     public void comparePostResponseDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -493,6 +707,80 @@ public class ServicesIT extends TestBase {
 
     @Test(groups = { "integration", "services", "httpput",
             "virtual" }, description = "An integration test to verify the data from a put call")
+    public void checkPutResponseContainsSingleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 3);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 3);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "3");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPutResponseContainsData("posts/3", new Request(request), responsePairs);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "services", "httpput",
+            "virtual" }, description = "An integration test to verify the data from a put call")
+    public void checkPutResponseContainsBadSingleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 3);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 3);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "4");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPutResponseContainsData("posts/3", new Request(request), responsePairs);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httpput",
+            "virtual" }, description = "An integration test to verify the data from a put call")
+    public void checkPutResponseContainsMultipleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 3);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 3);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("id", "3");
+        responsePairs.put("body", "bar");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPutResponseContainsData("posts/3", new Request(request), responsePairs);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "services", "httpput",
+            "virtual" }, description = "An integration test to verify the data from a put call")
+    public void checkPutResponseContainsBadMultipleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 3);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 3);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("id", "3");
+        responsePairs.put("body", "bar1");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPutResponseContainsData("posts/3", new Request(request), responsePairs);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httpput",
+            "virtual" }, description = "An integration test to verify the data from a put call")
     public void comparePutResponseDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 3);
@@ -586,6 +874,80 @@ public class ServicesIT extends TestBase {
         // perform some actions
         asserts.comparePatchResponseCode("post/", new Request(request), 400);
         // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httppatch",
+            "virtual" }, description = "An integration test to verify the data from a patch call")
+    public void checkPatchResponseContainsSingleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 4);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 4);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "4");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPatchResponseContainsData("posts/4", new Request(request), responsePairs);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "services", "httppatch",
+    "virtual" }, description = "An integration test to verify the data from a patch call")
+    public void checkPatchResponseContainsBadSingleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 4);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 4);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "6");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPatchResponseContainsData("posts/4", new Request(request), responsePairs);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "services", "httppatch",
+            "virtual" }, description = "An integration test to verify the data from a patch call")
+    public void checkPatchResponseContainsMultipleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 4);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 4);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "4");
+        responsePairs.put("title", "foo1");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPatchResponseContainsData("posts/4", new Request(request), responsePairs);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "services", "httppatch",
+    "virtual" }, description = "An integration test to verify the data from a patch call")
+    public void checkPatchResponseContainsBadMultipleDataTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("id", 4);
+        request.addProperty("title", "foo1");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 4);
+        Map<String, String> responsePairs = new HashMap<String, String>();
+        responsePairs.put("userId", "4");
+        responsePairs.put("title1", "foo1");
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.checkPatchResponseContainsData("posts/4", new Request(request), responsePairs);
+        // verify 1 issue
         finish(1);
     }
 
