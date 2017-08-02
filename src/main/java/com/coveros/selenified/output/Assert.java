@@ -67,6 +67,8 @@ public class Assert {
     private static final String TEXT = "The text <b>";
     private static final String PRESENT = "</b> is present on the page";
     private static final String VISIBLE = "</b> is visible on the page";
+    
+    private static final String RESPONSE = "Found a response of:";
 
     //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
@@ -2665,7 +2667,7 @@ public class Assert {
         }
         outputFile.recordExpected("Expected to find a response of:"
                 + outputFile.formatResponse(new Response(0, expectedResponseData, null)));
-        outputFile.recordActual("Found a response of:" + outputFile.formatResponse(response), success);
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2687,7 +2689,7 @@ public class Assert {
         }
         outputFile.recordExpected("Expected to find a response of:"
                 + outputFile.formatResponse(new Response(0, expectedResponseData, null)));
-        outputFile.recordActual("Found a response of:" + outputFile.formatResponse(response), success);
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2933,7 +2935,7 @@ public class Assert {
         }
         outputFile.recordExpected(
                 "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>");
-        outputFile.recordActual("Found a response of:" + outputFile.formatResponse(response), success);
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2957,7 +2959,7 @@ public class Assert {
         }
         outputFile.recordExpected("Expected to find a response containing: "
                 + outputFile.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
-        outputFile.recordActual("Found a response of:" + outputFile.formatResponse(response), success);
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2979,7 +2981,7 @@ public class Assert {
         }
         outputFile.recordExpected("Expected to find a response containing:"
                 + outputFile.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
-        outputFile.recordActual("Found a response of:" + outputFile.formatResponse(response), success);
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
