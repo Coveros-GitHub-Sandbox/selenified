@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.log4testng.Logger;
 
@@ -37,7 +38,11 @@ import com.coveros.selenified.output.Assert.Result;
 import com.coveros.selenified.output.Assert.Success;
 import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Selenium.Browser;
+import com.coveros.selenified.services.Request;
+import com.coveros.selenified.services.Response;
 import com.coveros.selenified.tools.General;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * A custom output file, recording all details of every step performed, both
@@ -69,6 +74,7 @@ public class OutputFile {
     private File file;
     private String filename;
     private Browser browser;
+    private String service;
     private List<String> screenshots = new ArrayList<>();
 
     // timing of the test
@@ -86,6 +92,24 @@ public class OutputFile {
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
+
+    /**
+     * Creates a new instance of the OutputFile, which will serve as the
+     * detailed log
+     * 
+     * @param testDirectory
+     *            - a string of the directory holding the files
+     * @param testName
+     *            - a string value of the test name, typically the method name
+     */
+    public OutputFile(String testDirectory, String testName, String setServiceURL) {
+        test = testName;
+        service = setServiceURL;
+        directory = testDirectory;
+        filename = testName + "NONE.html";
+        file = new File(directory, filename);
+        setupFile();
+    }
 
     /**
      * Creates a new instance of the OutputFile, which will serve as the
@@ -146,7 +170,8 @@ public class OutputFile {
     /**
      * adds the action class which controls actions within the browser
      * 
-     * @param action - the action class associated with this output
+     * @param action
+     *            - the action class associated with this output
      */
     public void setAction(Action action) {
         this.action = action;
@@ -155,7 +180,8 @@ public class OutputFile {
     /**
      * sets the url of the page under test
      * 
-     * @param pageURL - the initial page to open the browser to
+     * @param pageURL
+     *            - the initial page to open the browser to
      */
     public void setURL(String pageURL) {
         url = pageURL;
@@ -164,7 +190,8 @@ public class OutputFile {
     /**
      * sets the name of the suite of the test
      * 
-     * @param testSuite - the name of test suite
+     * @param testSuite
+     *            - the name of test suite
      */
     public void setSuite(String testSuite) {
         suite = testSuite;
@@ -173,7 +200,8 @@ public class OutputFile {
     /**
      * sets the name(s) of the group(s) of the tests
      * 
-     * @param testGroup - the name of the test group
+     * @param testGroup
+     *            - the name of the test group
      */
     public void setGroup(String testGroup) {
         group = testGroup;
@@ -182,7 +210,8 @@ public class OutputFile {
     /**
      * sets the date of the last time the test was modified
      * 
-     * @param date - the date the test was last modified
+     * @param date
+     *            - the date the test was last modified
      */
     public void setLastModified(Date date) {
         lastModified = date;
@@ -191,7 +220,8 @@ public class OutputFile {
     /**
      * sets the version of the test being run
      * 
-     * @param testVersion - the version associated with the test
+     * @param testVersion
+     *            - the version associated with the test
      */
     public void setVersion(String testVersion) {
         version = testVersion;
@@ -200,7 +230,8 @@ public class OutputFile {
     /**
      * sets the author of the test
      * 
-     * @param testAuthor - the author of the test
+     * @param testAuthor
+     *            - the author of the test
      */
     public void setAuthor(String testAuthor) {
         author = testAuthor;
@@ -209,7 +240,8 @@ public class OutputFile {
     /**
      * sets the objectives of the test being run
      * 
-     * @param testObjectives - the testing objectives
+     * @param testObjectives
+     *            - the testing objectives
      */
     public void setObjectives(String testObjectives) {
         objectives = testObjectives;
@@ -367,7 +399,7 @@ public class OutputFile {
                 FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
             // get a screen shot of the action
             String imageLink = "";
-            if (browser != Browser.HTMLUNIT) {
+            if (browser != null && browser != Browser.HTMLUNIT && browser != Browser.NONE) {
                 imageLink = captureEntirePageScreenshot();
             }
             // determine time differences
@@ -420,7 +452,7 @@ public class OutputFile {
     /**
      * Creates the specially formatted output header
      *
-     *             - an IOException
+     * - an IOException
      */
     public void createOutputHeader() {
         // setup some constants
@@ -538,9 +570,12 @@ public class OutputFile {
             out.write(swapRow);
             out.write("    <th>Date Tested</th>\n");
             out.write(START_CELL + datePart + END_CELL);
-            if (this.action != null) {
+            if (this.action != null && this.action.getBrowser() != null && this.action.getBrowser() != Browser.NONE) {
                 out.write("    <th>Browser</th>\n");
                 out.write(START_CELL + browser + END_CELL);
+            } else {
+                out.write("    <th>Service</th>\n");
+                out.write(START_CELL + service + END_CELL);
             }
             out.write(swapRow);
             out.write("    <th>Test Run Time</th>\n");
@@ -632,7 +667,7 @@ public class OutputFile {
      * ends and closes the test template
      *
      */
-    public void endTestTemplateOutputFile() {
+    public void finalizeOutputFile() {
         // reopen the file
         try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
             out.write("  </table>\n");
@@ -659,7 +694,7 @@ public class OutputFile {
         long time = totalTime / 1000;
         StringBuilder seconds = new StringBuilder(Integer.toString((int) (time % 60)));
         StringBuilder minutes = new StringBuilder(Integer.toString((int) ((time % 3600) / 60)));
-        StringBuilder hthes = new StringBuilder(Integer.toString((int) (time / 3600)));
+        StringBuilder hours = new StringBuilder(Integer.toString((int) (time / 3600)));
         for (int i = 0; i < 2; i++) {
             if (seconds.length() < 2) {
                 seconds.insert(0, "0");
@@ -667,11 +702,11 @@ public class OutputFile {
             if (minutes.length() < 2) {
                 minutes.insert(0, "0");
             }
-            if (hthes.length() < 2) {
-                hthes.insert(0, "0");
+            if (hours.length() < 2) {
+                hours.insert(0, "0");
             }
         }
-        replaceInFile("RUNTIME", hthes + ":" + minutes + ":" + seconds);
+        replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
         replaceInFile("TIMEFINISHED", timeNow);
     }
 
@@ -760,5 +795,82 @@ public class OutputFile {
      */
     public void addErrors(int errorsToAdd) {
         errors += errorsToAdd;
+    }
+
+    ///////////////////////////////////////////////////////////////////
+    // some comparisons for our services
+    ///////////////////////////////////////////////////////////////////
+
+    /**
+     * Formats the request parameters to be 'prettily' printed out in HTML
+     * 
+     * @param params
+     *            - the parameters to be formatted. Either a JSON object, or a
+     *            hashmap
+     * @return String: a 'prettily' formatted string that is HTML safe to output
+     */
+    public String outputRequestProperties(Request params) {
+        if (params == null) {
+            return "";
+        }
+        StringBuilder output = new StringBuilder();
+        output.append("<br/> with parameters: ");
+        output.append("<div><i>");
+        if (params.getData() != null) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            output.append(gson.toJson(params.getData()));
+        }
+        if (params.getParams() != null) {
+            for (Map.Entry<String, String> entry : params.getParams().entrySet()) {
+                output.append("<div>");
+                output.append(entry.getKey());
+                output.append(" : ");
+                output.append(entry.getValue());
+                output.append("</div>");
+            }
+        }
+        output.append("</i></div>");
+        return formatHTML(output.toString());
+    }
+
+    /**
+     * Formats the response parameters to be 'prettily' printed out in HTML
+     * 
+     * @param response
+     *            - the http response to be formatted.
+     * @return String: a 'prettily' formatted string that is HTML safe to output
+     */
+    public String formatResponse(Response response) {
+        if (response == null) {
+            return "";
+        }
+        StringBuilder output = new StringBuilder();
+        if (response.isData()) {
+            output.append("<div><i>");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            if (response.getArrayData() != null) {
+                output.append(gson.toJson(response.getArrayData()));
+            }
+            if (response.getObjectData() != null) {
+                output.append(gson.toJson(response.getObjectData()));
+            }
+            output.append("</i></div>");
+        }
+        return formatHTML(output.toString());
+    }
+
+    /**
+     * This takes a generic string and replaces spaces and new lines with HTML
+     * friendly pieces for display purposes
+     * 
+     * @param html
+     *            : the html string
+     * @return String : the replaced result
+     */
+    public String formatHTML(String string) {
+        if( string == null ) {
+            return "";
+        }
+        return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
     }
 }

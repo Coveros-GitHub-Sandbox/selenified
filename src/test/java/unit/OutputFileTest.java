@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -17,8 +19,12 @@ import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.output.Assert.Result;
 import com.coveros.selenified.output.Assert.Success;
 import com.coveros.selenified.selenium.Selenium.Browser;
+import com.coveros.selenified.services.Request;
+import com.coveros.selenified.services.Response;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class OutputFileTest {
 
@@ -293,9 +299,147 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileTest() throws IOException {
-        outputFile.endTestTemplateOutputFile();
+        outputFile.finalizeOutputFile();
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertEquals(content, "  </table>\r\n </body>\r\n</html>\r\n");
+    }
+
+    @Test
+    public void outputRequestPropertiesNullTest() {
+        Assert.assertEquals(outputFile.outputRequestProperties(null), "");
+    }
+
+    @Test
+    public void outputRequestPropertiesNullNullTest() {
+        Request request = new Request(new JsonObject());
+        request.setData(null);
+        Assert.assertEquals(outputFile.outputRequestProperties(request),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesEmptyDataTest() {
+        Request request = new Request(new JsonObject());
+        Assert.assertEquals(outputFile.outputRequestProperties(request),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesDataTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("hello", "world");
+        Request request = new Request(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesEmptyParamsTest() {
+        Request request = new Request(new HashMap<String, String>());
+        Assert.assertEquals(outputFile.outputRequestProperties(request),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesParamsTest() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("hello", "world");
+        Request request = new Request(map);
+        Assert.assertEquals(outputFile.outputRequestProperties(request),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesBothTest() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("hello", "world");
+        Request request = new Request(map);
+        JsonObject json = new JsonObject();
+        json.addProperty("hello", "world");
+        request.setData(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}<div>hello&nbsp;:&nbsp;world</div></i></div>");
+    }
+
+    @Test
+    public void formatResponseNullTest() {
+        Assert.assertEquals(outputFile.formatResponse(null), "");
+    }
+
+    @Test
+    public void formatResponseNullNullTest() {
+        JsonObject json = new JsonObject();
+        Response response = new Response(0, json, null);
+        response.setObjectData(null);
+        Assert.assertEquals(outputFile.formatResponse(response), "");
+    }
+
+    @Test
+    public void formatResponseEmptyObjectTest() {
+        JsonObject json = new JsonObject();
+        Response response = new Response(0, json, null);
+        Assert.assertEquals(outputFile.formatResponse(response), "<div><i>{}</i></div>");
+    }
+
+    @Test
+    public void formatRequestObjectTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("hello", "world");
+        Response response = new Response(0, json, null);
+        Assert.assertEquals(outputFile.formatResponse(response),
+                "<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
+    }
+
+    @Test
+    public void formatResponseEmptyArrayTest() {
+        JsonArray json = new JsonArray();
+        Response response = new Response(0, json, null);
+        Assert.assertEquals(outputFile.formatResponse(response), "<div><i>[]</i></div>");
+    }
+
+    @Test
+    public void formatResponseArrayTest() {
+        JsonArray json = new JsonArray();
+        json.add("world");
+        Response response = new Response(0, json, null);
+        Assert.assertEquals(outputFile.formatResponse(response), "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]</i></div>");
+    }
+
+    @Test
+    public void formatResponseBothTest() {
+        JsonArray array = new JsonArray();
+        array.add("world");
+        Response response = new Response(0, array, null);
+        JsonObject object = new JsonObject();
+        object.addProperty("hello", "world");
+        response.setObjectData(object);
+        Assert.assertEquals(outputFile.formatResponse(response),
+                "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
+    }
+
+    @Test
+    public void formatHTMLNullTest() {
+        Assert.assertEquals(outputFile.formatHTML(null), "");
+    }
+
+    @Test
+    public void formatHTMLEmptyTest() {
+        Assert.assertEquals(outputFile.formatHTML(""), "");
+    }
+
+    @Test
+    public void formatHTMLNewlineTest() {
+        Assert.assertEquals(outputFile.formatHTML("\n"), "<br/>");
+    }
+
+    @Test
+    public void formatHTMLSpaceTest() {
+        Assert.assertEquals(outputFile.formatHTML(" "), "&nbsp;");
+    }
+
+    @Test
+    public void formatHTMLFullTest() {
+        Assert.assertEquals(outputFile.formatHTML("hello world\nhello world"), "hello&nbsp;world<br/>hello&nbsp;world");
     }
 }

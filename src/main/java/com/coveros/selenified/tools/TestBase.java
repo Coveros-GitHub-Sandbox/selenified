@@ -70,6 +70,9 @@ public class TestBase {
     private static String version = "";
     private static String author = "";
 
+    private static String servicesUser = "";
+    private static String servicesPass = "";
+
     protected static DesiredCapabilities extraCapabilities = null;
 
     // some passed in system params
@@ -120,9 +123,25 @@ public class TestBase {
         author = auth;
     }
 
+    public String getServicesUser() {
+        return servicesUser;
+    }
+
+    public static void setServicesUser(String servicesUsername) {
+        servicesUser = servicesUsername;
+    }
+
+    public String getServicesPass() {
+        return servicesPass;
+    }
+
+    public static void setServicesPass(String servicesPassword) {
+        servicesPass = servicesPassword;
+    }
+
     /**
-     * Initializes the test settings by setting default values for the browser
-     * and URL if they are not specifically set
+     * Initializes the test settings by setting default values for the browser,
+     * URL, and credentials if they are not specifically set
      */
     public static void initializeSystem() {
         // check the browser
@@ -131,6 +150,10 @@ public class TestBase {
         }
         if (System.getProperty(APP_INPUT) != null) {
             passedInTestSite(System.getProperty(APP_INPUT));
+        }
+        if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
+            servicesUser = System.getenv("SERVICES_USER");
+            servicesPass = System.getenv("SERVICES_PASS");
         }
     }
 
@@ -250,6 +273,13 @@ public class TestBase {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Browser myBrowser = browsers.get(invocationCount);
+        Assert myOutput;
+        if (selenium.useBrowser()) {
+            myOutput = new Assert(outputDir, testName, myBrowser);
+        } else {
+            myBrowser = Browser.NONE;
+            myOutput = new Assert(outputDir, testName, testSite);
+        }
         this.browser.set(myBrowser);
         result.setAttribute(BROWSER_INPUT, myBrowser);
 
@@ -257,7 +287,6 @@ public class TestBase {
         myCapability.setCapability("name", testName);
         this.capability.set(myCapability);
 
-        Assert myOutput = new Assert(testName, myBrowser, outputDir);
         OutputFile myFile = myOutput.getOutputFile();
         myFile.setURL(testSite);
         myFile.setSuite(test.getName());
@@ -269,16 +298,17 @@ public class TestBase {
         myFile.setAuthor(author);
         myFile.setObjectives(description);
         myFile.setStartTime();
+        Action action = new Action(testSite, servicesUser, servicesPass, myFile);
         if (selenium.useBrowser()) {
             try {
-                Action action = new Action(myBrowser, myCapability, myFile);
-                this.actions.set(action);
-                myFile.setAction(action);
-                myOutput.setSeleniumHelper(action);
+                action = new Action(myBrowser, myCapability, myFile);
             } catch (InvalidBrowserException | MalformedURLException e) {
                 log.error(e);
             }
         }
+        this.actions.set(action);
+        myFile.setAction(action);
+        myOutput.setSeleniumHelper(action);
         myFile.createOutputHeader();
         if (selenium.loadPage()) {
             this.errors.set(myFile.loadInitialPage());
@@ -324,7 +354,7 @@ public class TestBase {
      */
     public void finish() {
         OutputFile myFile = this.asserts.get().getOutputFile();
-        myFile.endTestTemplateOutputFile();
+        myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
     }
@@ -339,7 +369,7 @@ public class TestBase {
      */
     protected void finish(int errors) {
         OutputFile myFile = this.asserts.get().getOutputFile();
-        myFile.endTestTemplateOutputFile();
+        myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
     }
