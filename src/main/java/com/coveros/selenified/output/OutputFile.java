@@ -846,7 +846,7 @@ public class OutputFile {
         }
         StringBuilder output = new StringBuilder();
         if (response.isData()) {
-            output.append("<div>");
+            output.append("<div><i>");
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             if (response.getArrayData() != null) {
                 output.append(gson.toJson(response.getArrayData()));
@@ -854,7 +854,7 @@ public class OutputFile {
             if (response.getObjectData() != null) {
                 output.append(gson.toJson(response.getObjectData()));
             }
-            output.append("</div>");
+            output.append("</i></div>");
         }
         return formatHTML(output.toString());
     }

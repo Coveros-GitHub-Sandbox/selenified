@@ -88,7 +88,7 @@ public class HTTP {
     }
     
     public boolean useCredentials() {
-    	return !this.user.isEmpty() && !this.pass.isEmpty();
+        return !this.user.isEmpty() && !this.pass.isEmpty();
     }
 
     /**
