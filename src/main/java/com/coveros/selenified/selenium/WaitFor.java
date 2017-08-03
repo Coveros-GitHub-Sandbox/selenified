@@ -12,7 +12,7 @@ import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.General;
 
-public class Wait {
+public class WaitFor {
 
     private static final Logger log = Logger.getLogger(General.class);
 
@@ -27,7 +27,6 @@ public class Wait {
     private Is is;
 
     // constants
-    private static final String SECONDS = " seconds";
     private static final String WAITED = "Waited ";
     private static final double WAITFOR = 5;
     private static final String UPTO = "Wait up to ";
@@ -38,7 +37,7 @@ public class Wait {
     private static final String DISPLAYED = " to be displayed";
     private static final String ENABLED = " to be enabled";
 
-    public Wait(WebDriver driver, OutputFile file) {
+    public WaitFor(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.file = file;
         this.is = new Is(driver, file);
@@ -49,31 +48,6 @@ public class Wait {
     // ///////////////////////////////////////
 
     /**
-     * a method for allowing Selenium to pause for a set amount of time
-     *
-     * @param seconds
-     *            - the number of seconds to wait
-     * @return Integer: the number of errors encountered while executing these
-     *         steps
-     */
-    public int wait(double seconds) {
-        String action = "Wait " + seconds + SECONDS;
-        String expected = WAITED + seconds + SECONDS;
-        try {
-            Thread.sleep((long) (seconds * 1000));
-        } catch (InterruptedException e) {
-            log.error(e);
-            file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage(),
-                    Result.FAILURE);
-            file.addError();
-            Thread.currentThread().interrupt();
-            return 1;
-        }
-        file.recordAction(action, expected, WAITED + seconds + SECONDS, Result.SUCCESS);
-        return 0;
-    }
-
-    /**
      * a method for waiting until an element is present for a maximum of 5
      * seconds
      * 
@@ -82,8 +56,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementPresent(Element element) {
-        return forElementPresent(element, WAITFOR);
+    public int elementPresent(Element element) {
+        return elementPresent(element, WAITFOR);
     }
 
     /**
@@ -97,8 +71,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementPresent(Locator type, String locator) {
-        return forElementPresent(new Element(type, locator), WAITFOR);
+    public int elementPresent(Locator type, String locator) {
+        return elementPresent(new Element(type, locator), WAITFOR);
     }
 
     /**
@@ -113,8 +87,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementPresent(Locator type, String locator, double seconds) {
-        return forElementPresent(new Element(type, locator), seconds);
+    public int elementPresent(Locator type, String locator, double seconds) {
+        return elementPresent(new Element(type, locator), seconds);
     }
 
     /**
@@ -131,8 +105,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementPresent(Locator type, String locator, int elementMatch) {
-        return forElementPresent(new Element(type, locator, elementMatch), WAITFOR);
+    public int elementPresent(Locator type, String locator, int elementMatch) {
+        return elementPresent(new Element(type, locator, elementMatch), WAITFOR);
     }
 
     /**
@@ -151,8 +125,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementPresent(Locator type, String locator, int elementMatch, double seconds) {
-        return forElementPresent(new Element(type, locator, elementMatch), seconds);
+    public int elementPresent(Locator type, String locator, int elementMatch, double seconds) {
+        return elementPresent(new Element(type, locator, elementMatch), seconds);
     }
 
     /**
@@ -164,8 +138,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotPresent(Element element) {
-        return forElementNotPresent(element, WAITFOR);
+    public int elementNotPresent(Element element) {
+        return elementNotPresent(element, WAITFOR);
     }
 
     /**
@@ -179,8 +153,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotPresent(Locator type, String locator) {
-        return forElementNotPresent(new Element(type, locator), WAITFOR);
+    public int elementNotPresent(Locator type, String locator) {
+        return elementNotPresent(new Element(type, locator), WAITFOR);
     }
 
     /**
@@ -195,8 +169,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotPresent(Locator type, String locator, double seconds) {
-        return forElementNotPresent(new Element(type, locator), seconds);
+    public int elementNotPresent(Locator type, String locator, double seconds) {
+        return elementNotPresent(new Element(type, locator), seconds);
     }
 
     /**
@@ -213,8 +187,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotPresent(Locator type, String locator, int elementMatch) {
-        return forElementNotPresent(new Element(type, locator, elementMatch), WAITFOR);
+    public int elementNotPresent(Locator type, String locator, int elementMatch) {
+        return elementNotPresent(new Element(type, locator, elementMatch), WAITFOR);
     }
 
     /**
@@ -233,8 +207,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotPresent(Locator type, String locator, int elementMatch, double seconds) {
-        return forElementNotPresent(new Element(type, locator, elementMatch), seconds);
+    public int elementNotPresent(Locator type, String locator, int elementMatch, double seconds) {
+        return elementNotPresent(new Element(type, locator, elementMatch), seconds);
     }
 
     /**
@@ -246,8 +220,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementDisplayed(Element element) {
-        return forElementDisplayed(element, WAITFOR);
+    public int elementDisplayed(Element element) {
+        return elementDisplayed(element, WAITFOR);
     }
 
     /**
@@ -261,8 +235,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementDisplayed(Locator type, String locator) {
-        return forElementDisplayed(new Element(type, locator), WAITFOR);
+    public int elementDisplayed(Locator type, String locator) {
+        return elementDisplayed(new Element(type, locator), WAITFOR);
     }
 
     /**
@@ -277,8 +251,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementDisplayed(Locator type, String locator, double seconds) {
-        return forElementDisplayed(new Element(type, locator), seconds);
+    public int elementDisplayed(Locator type, String locator, double seconds) {
+        return elementDisplayed(new Element(type, locator), seconds);
     }
 
     /**
@@ -295,8 +269,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementDisplayed(Locator type, String locator, int elementMatch) {
-        return forElementDisplayed(new Element(type, locator, elementMatch), WAITFOR);
+    public int elementDisplayed(Locator type, String locator, int elementMatch) {
+        return elementDisplayed(new Element(type, locator, elementMatch), WAITFOR);
     }
 
     /**
@@ -315,8 +289,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementDisplayed(Locator type, String locator, int elementMatch, double seconds) {
-        return forElementDisplayed(new Element(type, locator, elementMatch), seconds);
+    public int elementDisplayed(Locator type, String locator, int elementMatch, double seconds) {
+        return elementDisplayed(new Element(type, locator, elementMatch), seconds);
     }
 
     /**
@@ -328,8 +302,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotDisplayed(Element element) {
-        return forElementNotDisplayed(element, WAITFOR);
+    public int elementNotDisplayed(Element element) {
+        return elementNotDisplayed(element, WAITFOR);
     }
 
     /**
@@ -343,8 +317,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotDisplayed(Locator type, String locator) {
-        return forElementNotDisplayed(new Element(type, locator), WAITFOR);
+    public int elementNotDisplayed(Locator type, String locator) {
+        return elementNotDisplayed(new Element(type, locator), WAITFOR);
     }
 
     /**
@@ -359,8 +333,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotDisplayed(Locator type, String locator, double seconds) {
-        return forElementNotDisplayed(new Element(type, locator), seconds);
+    public int elementNotDisplayed(Locator type, String locator, double seconds) {
+        return elementNotDisplayed(new Element(type, locator), seconds);
     }
 
     /**
@@ -377,8 +351,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotDisplayed(Locator type, String locator, int elementMatch) {
-        return forElementNotDisplayed(new Element(type, locator, elementMatch), WAITFOR);
+    public int elementNotDisplayed(Locator type, String locator, int elementMatch) {
+        return elementNotDisplayed(new Element(type, locator, elementMatch), WAITFOR);
     }
 
     /**
@@ -397,8 +371,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotDisplayed(Locator type, String locator, int elementMatch, double seconds) {
-        return forElementNotDisplayed(new Element(type, locator, elementMatch), seconds);
+    public int elementNotDisplayed(Locator type, String locator, int elementMatch, double seconds) {
+        return elementNotDisplayed(new Element(type, locator, elementMatch), seconds);
     }
 
     /**
@@ -410,8 +384,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementEnabled(Element element) {
-        return forElementEnabled(element, WAITFOR);
+    public int elementEnabled(Element element) {
+        return elementEnabled(element, WAITFOR);
     }
 
     /**
@@ -425,8 +399,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementEnabled(Locator type, String locator) {
-        return forElementEnabled(new Element(type, locator), WAITFOR);
+    public int elementEnabled(Locator type, String locator) {
+        return elementEnabled(new Element(type, locator), WAITFOR);
     }
 
     /**
@@ -441,8 +415,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementEnabled(Locator type, String locator, double seconds) {
-        return forElementEnabled(new Element(type, locator), seconds);
+    public int elementEnabled(Locator type, String locator, double seconds) {
+        return elementEnabled(new Element(type, locator), seconds);
     }
 
     /**
@@ -459,8 +433,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementEnabled(Locator type, String locator, int elementMatch) {
-        return forElementEnabled(new Element(type, locator, elementMatch), WAITFOR);
+    public int elementEnabled(Locator type, String locator, int elementMatch) {
+        return elementEnabled(new Element(type, locator, elementMatch), WAITFOR);
     }
 
     /**
@@ -479,8 +453,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementEnabled(Locator type, String locator, int elementMatch, double seconds) {
-        return forElementEnabled(new Element(type, locator, elementMatch), seconds);
+    public int elementEnabled(Locator type, String locator, int elementMatch, double seconds) {
+        return elementEnabled(new Element(type, locator, elementMatch), seconds);
     }
 
     /**
@@ -492,8 +466,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotEnabled(Element element) {
-        return forElementNotEnabled(element, WAITFOR);
+    public int elementNotEnabled(Element element) {
+        return elementNotEnabled(element, WAITFOR);
     }
 
     /**
@@ -507,8 +481,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotEnabled(Locator type, String locator) {
-        return forElementNotEnabled(new Element(type, locator), WAITFOR);
+    public int elementNotEnabled(Locator type, String locator) {
+        return elementNotEnabled(new Element(type, locator), WAITFOR);
     }
 
     /**
@@ -523,8 +497,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotEnabled(Locator type, String locator, double seconds) {
-        return forElementNotEnabled(new Element(type, locator), seconds);
+    public int elementNotEnabled(Locator type, String locator, double seconds) {
+        return elementNotEnabled(new Element(type, locator), seconds);
     }
 
     /**
@@ -541,8 +515,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotEnabled(Locator type, String locator, int elementMatch) {
-        return forElementNotEnabled(new Element(type, locator, elementMatch), WAITFOR);
+    public int elementNotEnabled(Locator type, String locator, int elementMatch) {
+        return elementNotEnabled(new Element(type, locator, elementMatch), WAITFOR);
     }
 
     /**
@@ -561,8 +535,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotEnabled(Locator type, String locator, int elementMatch, double seconds) {
-        return forElementNotEnabled(new Element(type, locator, elementMatch), seconds);
+    public int elementNotEnabled(Locator type, String locator, int elementMatch, double seconds) {
+        return elementNotEnabled(new Element(type, locator, elementMatch), seconds);
     }
 
     /**
@@ -571,8 +545,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forAlertPresent() {
-        return forAlertPresent(WAITFOR);
+    public int alertPresent() {
+        return alertPresent(WAITFOR);
     }
 
     /**
@@ -581,8 +555,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forConfirmationPresent() {
-        return forConfirmationPresent(WAITFOR);
+    public int confirmationPresent() {
+        return confirmationPresent(WAITFOR);
     }
 
     /**
@@ -591,8 +565,8 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forPromptPresent() {
-        return forPromptPresent(WAITFOR);
+    public int promptPresent() {
+        return promptPresent(WAITFOR);
     }
 
     ///////////////////////////////////////////////////
@@ -609,7 +583,7 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forElementPresent(Element element, double seconds) {
+    public int elementPresent(Element element, double seconds) {
         element.setDriver(driver);
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + PRESENT;
         String expected = element.prettyOutputStart() + "is present";
@@ -647,7 +621,7 @@ public class Wait {
      * @return Integer - the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotPresent(Element element, double seconds) {
+    public int elementNotPresent(Element element, double seconds) {
         element.setDriver(driver);
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be present";
         String expected = element.prettyOutputStart() + " is not present";
@@ -681,13 +655,13 @@ public class Wait {
      * @return Integer - the number of errors encountered while executing these
      *         steps
      */
-    public int forElementDisplayed(Element element, double seconds) {
+    public int elementDisplayed(Element element, double seconds) {
         element.setDriver(driver);
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + DISPLAYED;
         String expected = element.prettyOutputStart() + " is displayed";
         double start = System.currentTimeMillis();
         if (!is.elementPresent(element, false)) {
-            int success = forElementPresent(element, seconds);
+            int success = elementPresent(element, seconds);
             if (success == 1) {
                 return success;
             }
@@ -724,7 +698,7 @@ public class Wait {
      * @return Integer - the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotDisplayed(Element element, double seconds) {
+    public int elementNotDisplayed(Element element, double seconds) {
         element.setDriver(driver);
         // this might fail if the element disappears completely
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be displayed";
@@ -762,13 +736,13 @@ public class Wait {
      * @return Integer - the number of errors encountered while executing these
      *         steps
      */
-    public int forElementEnabled(Element element, double seconds) {
+    public int elementEnabled(Element element, double seconds) {
         element.setDriver(driver);
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + ENABLED;
         String expected = element.prettyOutputStart() + " is enabled";
         double start = System.currentTimeMillis();
         if (!is.elementPresent(element, false)) {
-            forElementPresent(element, seconds);
+            elementPresent(element, seconds);
         }
         if (!is.elementEnabled(element, false)) {
             WebElement webElement = element.getWebElement();
@@ -804,7 +778,7 @@ public class Wait {
      * @return Integer - the number of errors encountered while executing these
      *         steps
      */
-    public int forElementNotEnabled(Element element, double seconds) {
+    public int elementNotEnabled(Element element, double seconds) {
         element.setDriver(driver);
         // this might fail if the element is no longer present
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be enabled";
@@ -840,7 +814,7 @@ public class Wait {
      *            - maximum time to wait in seconds
      * @return double - the total time waited
      */
-    private double forPopup(double seconds) {
+    private double popup(double seconds) {
         // wait for up to XX seconds for the error message
         double end = System.currentTimeMillis() + (seconds * 1000);
         while (System.currentTimeMillis() < end) {
@@ -864,10 +838,10 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forAlertPresent(double seconds) {
+    public int alertPresent(double seconds) {
         String action = UPTO + seconds + " seconds for an alert to be present";
         String expected = "An alert is present";
-        double timetook = forPopup(seconds);
+        double timetook = popup(seconds);
         if (!is.alertPresent()) {
             file.recordAction(action, expected, WAITING + timetook + " seconds, an alert is not present",
                     Result.FAILURE);
@@ -886,10 +860,10 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forConfirmationPresent(double seconds) {
+    public int confirmationPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a confirmation to be present";
         String expected = "A confirmation is present";
-        double timetook = forPopup(seconds);
+        double timetook = popup(seconds);
         if (!is.confirmationPresent()) {
             file.recordAction(action, expected, WAITING + timetook + " seconds, a confirmation is not present",
                     Result.FAILURE);
@@ -909,10 +883,10 @@ public class Wait {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int forPromptPresent(double seconds) {
+    public int promptPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a prompt to be present";
         String expected = "A prompt is present";
-        double timetook = forPopup(seconds);
+        double timetook = popup(seconds);
         if (!is.promptPresent()) {
             file.recordAction(action, expected, WAITING + timetook + " seconds, a prompt is not present",
                     Result.FAILURE);

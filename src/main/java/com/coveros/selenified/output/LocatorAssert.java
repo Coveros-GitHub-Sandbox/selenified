@@ -85,7 +85,7 @@ public class LocatorAssert {
     public int checkElementDisplayed(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.driverWait().forElementDisplayed(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -110,7 +110,7 @@ public class LocatorAssert {
     public int checkElementNotDisplayed(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (action.is().elementDisplayed(type, locator, elementMatch)
-                && action.driverWait().forElementNotDisplayed(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementNotDisplayed(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -135,7 +135,7 @@ public class LocatorAssert {
     public int checkElementChecked(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -164,7 +164,7 @@ public class LocatorAssert {
     public int checkElementNotChecked(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -193,7 +193,7 @@ public class LocatorAssert {
     public int checkElementDisplayedAndChecked(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.driverWait().forElementDisplayed(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -223,7 +223,7 @@ public class LocatorAssert {
     public int checkElementDisplayedAndUnchecked(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.driverWait().forElementDisplayed(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -314,7 +314,7 @@ public class LocatorAssert {
     public int checkElementEditable(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -337,7 +337,7 @@ public class LocatorAssert {
     public int checkElementNotEditable(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -360,7 +360,7 @@ public class LocatorAssert {
     public int checkElementDisplayedAndEditable(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.driverWait().forElementDisplayed(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -383,7 +383,7 @@ public class LocatorAssert {
     public int checkElementDisplayedAndNotEditable(Locator type, String locator, int elementMatch) {
         // wait for the element
         if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.driverWait().forElementDisplayed(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -408,7 +408,7 @@ public class LocatorAssert {
     public int checkElementHasAttribute(Locator type, String locator, int elementMatch, String attribute) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with attribute <b>" + attribute + "</b>");
@@ -444,7 +444,7 @@ public class LocatorAssert {
     public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         outputFile
@@ -481,7 +481,7 @@ public class LocatorAssert {
     public int checkElementHasClass(Locator type, String locator, int elementMatch, String expectedClass) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with class <b>" + expectedClass + "</b>");
@@ -513,7 +513,7 @@ public class LocatorAssert {
     public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         outputFile.recordExpected(
@@ -546,7 +546,7 @@ public class LocatorAssert {
     public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.driverWait().forElementPresent(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
             return 1;
         }
         outputFile.recordExpected(
@@ -580,7 +580,7 @@ public class LocatorAssert {
     public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option) {
         // wait for the element
         if (!action.is().elementEnabled(type, locator, elementMatch)
-                && action.driverWait().forElementEnabled(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementEnabled(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
@@ -616,7 +616,7 @@ public class LocatorAssert {
     public int checkIfOptionNotInSelect(Locator type, String locator, int elementMatch, String option) {
         // wait for the element
         if (!action.is().elementEnabled(type, locator, elementMatch)
-                && action.driverWait().forElementEnabled(type, locator, elementMatch) == 1) {
+                && action.waitFor().elementEnabled(type, locator, elementMatch) == 1) {
             return 1;
         }
         // outputFile.record the action
