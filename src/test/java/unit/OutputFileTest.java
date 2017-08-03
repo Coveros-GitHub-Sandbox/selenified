@@ -303,7 +303,20 @@ public class OutputFileTest {
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertEquals(content, "  </table>\r\n </body>\r\n</html>\r\n");
+    }
+    
+    @Test
+    public void packageResultsTest() throws IOException {
+        System.setProperty("packageResults", "true");
+        outputFile.finalizeOutputFile();
         Assert.assertTrue(new File(directory, file.getName() + "_RESULTS.zip").exists());
+    }
+    
+    @Test
+    public void packageResultsNegativeTest() throws IOException {
+        System.setProperty("packageResults", "false");
+        outputFile.finalizeOutputFile();
+        Assert.assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
     }
 
     @Test
