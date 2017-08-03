@@ -29,7 +29,7 @@ public class Get {
     // the is class to determine if something exists
     private Is is;
     // the wait class to determine if we need to wait for something
-    private Wait wait;
+    private WaitFor waitFor;
 
     // constants
     private static final String VALUE = "value";
@@ -37,7 +37,7 @@ public class Get {
     public Get(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.is = new Is(driver, file);
-        this.wait = new Wait(driver, file);
+        this.waitFor = new WaitFor(driver, file);
     }
 
     // ////////////////////////////////////
@@ -673,7 +673,7 @@ public class Get {
         element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element, false)) {
-            wait.forElementPresent(element, 5);
+            waitFor.elementPresent(element, 5);
         }
         if (!is.elementPresent(element, false)) {
             return false;
@@ -889,7 +889,7 @@ public class Get {
         element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {
-            wait.forElementPresent(element);
+            waitFor.elementPresent(element);
         }
         if (!is.elementPresent(element)) {
             return 0;
@@ -910,7 +910,7 @@ public class Get {
         element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {
-            wait.forElementPresent(element);
+            waitFor.elementPresent(element);
         }
         if (!is.elementPresent(element)) {
             return new String[0];
@@ -935,7 +935,7 @@ public class Get {
         element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {
-            wait.forElementPresent(element);
+            waitFor.elementPresent(element);
         }
         if (!is.elementPresent(element)) {
             return new ArrayList<>();
@@ -968,7 +968,7 @@ public class Get {
         element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {
-            wait.forElementPresent(element);
+            waitFor.elementPresent(element);
         }
         if (!is.elementPresent(element)) {
             return new ArrayList<>();
@@ -1133,7 +1133,7 @@ public class Get {
      */
     public String alert() {
         if (!is.alertPresent()) {
-            wait.forAlertPresent();
+            waitFor.alertPresent();
         }
         if (!is.alertPresent()) {
             return null;
@@ -1154,7 +1154,7 @@ public class Get {
      */
     public String confirmation() {
         if (!is.confirmationPresent()) {
-            wait.forConfirmationPresent();
+            waitFor.confirmationPresent();
         }
         if (!is.confirmationPresent()) {
             return null;
@@ -1175,7 +1175,7 @@ public class Get {
      */
     public String prompt() {
         if (!is.promptPresent()) {
-            wait.forPromptPresent();
+            waitFor.promptPresent();
         }
         if (!is.promptPresent()) {
             return null;

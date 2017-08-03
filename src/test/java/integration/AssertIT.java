@@ -1211,7 +1211,7 @@ public class AssertIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.click(Locator.ID, "delayed_display_button");
-        actions.driverWait().forElementDisplayed(Locator.ID, "delayed_hide_button");
+        actions.waitFor().elementDisplayed(Locator.ID, "delayed_hide_button");
         actions.click(Locator.ID, "delayed_hide_button");
         asserts.checkElementNotDisplayed(new Element(Locator.ID, "delayed_hide_button"), 0);
         // verify no issues

@@ -74,7 +74,7 @@ public class Action {
     // the is class to determine if something exists
     private Is is;
     // the wait class to determine if we need to wait for something
-    private Wait wait;
+    private WaitFor waitFor;
     // the wait class to retrieve information about the element
     private Get get;
     // the page class to perform general actions on the page
@@ -139,7 +139,7 @@ public class Action {
         }
 
         is = new Is(driver, file);
-        wait = new Wait(driver, file);
+        waitFor = new WaitFor(driver, file);
         get = new Get(driver, file);
         page = new Page(driver, browser, file);
     }
@@ -172,8 +172,8 @@ public class Action {
         return is;
     }
 
-    public Wait driverWait() {
-        return wait;
+    public WaitFor waitFor() {
+        return waitFor;
     }
 
     public Get get() {
@@ -732,7 +732,7 @@ public class Action {
     private int isConfirmation(String action, String expected) {
         // wait for element to be present
         if (!is.confirmationPresent()) {
-            wait.forConfirmationPresent();
+            waitFor.confirmationPresent();
         }
         if (!is.confirmationPresent()) {
             file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
@@ -758,7 +758,7 @@ public class Action {
     private int isPrompt(String action, String expected, String perform) {
         // wait for element to be present
         if (!is.promptPresent()) {
-            wait.forPromptPresent();
+            waitFor.promptPresent();
         }
         if (!is.promptPresent()) {
             file.recordAction(action, expected, "Unable to " + perform + " prompt as it is not present",
@@ -780,7 +780,7 @@ public class Action {
         String expected = "Alert is present to be clicked";
         // wait for element to be present
         if (!is.alertPresent()) {
-            wait.forAlertPresent();
+            waitFor.alertPresent();
         }
         if (!is.alertPresent()) {
             file.recordAction(action, expected, "Unable to click alert as it is not present", Result.FAILURE);
@@ -895,7 +895,7 @@ public class Action {
     private boolean isPresent(Element element, String action, String expected, String extra) {
         // wait for element to be present
         if (!is.elementPresent(element)) {
-            wait.forElementPresent(element);
+            waitFor.elementPresent(element);
         }
         if (!is.elementPresent(element)) {
             file.recordAction(action, expected, extra + element.prettyOutput() + NOTPRESENT, Result.FAILURE);
@@ -923,7 +923,7 @@ public class Action {
     private boolean isDisplayed(Element element, String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.elementDisplayed(element)) {
-            wait.forElementDisplayed(element);
+            waitFor.elementDisplayed(element);
         }
         if (!is.elementDisplayed(element)) {
             file.recordAction(action, expected, extra + element.prettyOutput() + NOTDISPLAYED, Result.FAILURE);
@@ -951,7 +951,7 @@ public class Action {
     private boolean isEnabled(Element element, String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.elementEnabled(element)) {
-            wait.forElementEnabled(element);
+            waitFor.elementEnabled(element);
         }
         if (!is.elementEnabled(element)) {
             file.recordAction(action, expected, extra + element.prettyOutput() + NOTENABLED, Result.FAILURE);
