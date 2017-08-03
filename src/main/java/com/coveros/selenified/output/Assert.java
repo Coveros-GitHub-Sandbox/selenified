@@ -117,9 +117,9 @@ public class Assert {
         outputFile.recordExpected("Expected to find alert with the text <b>" + expectedAlert + ONPAGE);
         // check for the object to the visible
         String alert = "";
-        boolean isAlertPresent = action.isAlertPresent();
+        boolean isAlertPresent = action.is().alertPresent();
         if (isAlertPresent) {
-            alert = action.getAlert();
+            alert = action.get().alert();
         }
         if (!isAlertPresent) {
             outputFile.recordActual(NOALERT, Success.FAIL);
@@ -153,9 +153,9 @@ public class Assert {
         outputFile.recordExpected("Expected to find an alert on the page");
         // check for the object to the visible
         String alert = "";
-        boolean isAlertPresent = action.isAlertPresent();
+        boolean isAlertPresent = action.is().alertPresent();
         if (isAlertPresent) {
-            alert = action.getAlert();
+            alert = action.get().alert();
         }
         if (!isAlertPresent) {
             outputFile.recordActual(NOALERT, Success.FAIL);
@@ -179,7 +179,7 @@ public class Assert {
         // outputFile.record the action
         outputFile.recordExpected("Expected not to find an alert on the page");
         // check for the object to the visible
-        boolean isAlertPresent = action.isAlertPresent();
+        boolean isAlertPresent = action.is().alertPresent();
         if (isAlertPresent) {
             outputFile.recordActual("An alert is present on the page", Success.FAIL);
             outputFile.addError();
@@ -205,9 +205,9 @@ public class Assert {
         outputFile.recordExpected("Expected to find confirmation with the text <b>" + expectedConfirmation + ONPAGE);
         // check for the object to the visible
         String confirmation = "";
-        boolean isConfirmationPresent = action.isConfirmationPresent();
+        boolean isConfirmationPresent = action.is().confirmationPresent();
         if (isConfirmationPresent) {
-            confirmation = action.getConfirmation();
+            confirmation = action.get().confirmation();
         }
         if (!isConfirmationPresent) {
             outputFile.recordActual(NOCONFIRMATION, Success.FAIL);
@@ -234,9 +234,9 @@ public class Assert {
         outputFile.recordExpected("Expected to find a confirmation on the page");
         // check for the object to the visible
         String confirmation = "";
-        boolean isConfirmationPresent = action.isConfirmationPresent();
+        boolean isConfirmationPresent = action.is().confirmationPresent();
         if (isConfirmationPresent) {
-            confirmation = action.getConfirmation();
+            confirmation = action.get().confirmation();
         }
         if (!isConfirmationPresent) {
             outputFile.recordActual(NOCONFIRMATION, Success.FAIL);
@@ -256,7 +256,7 @@ public class Assert {
         // outputFile.record the action
         outputFile.recordExpected("Expected to find a confirmation on the page");
         // check for the object to the visible
-        boolean isConfirmationPresent = action.isConfirmationPresent();
+        boolean isConfirmationPresent = action.is().confirmationPresent();
         if (isConfirmationPresent) {
             outputFile.recordActual("A confirmation is present on the page", Success.FAIL);
             outputFile.addError();
@@ -278,9 +278,9 @@ public class Assert {
         outputFile.recordExpected("Expected to find prompt with the text <b>" + expectedPrompt + ONPAGE);
         // check for the object to the visible
         String prompt = "";
-        boolean isPromptPresent = action.isPromptPresent();
+        boolean isPromptPresent = action.is().promptPresent();
         if (isPromptPresent) {
-            prompt = action.getPrompt();
+            prompt = action.get().prompt();
         }
         if (!isPromptPresent) {
             outputFile.recordActual(NOPROMPT, Success.FAIL);
@@ -306,9 +306,9 @@ public class Assert {
         outputFile.recordExpected("Expected to find prompt on the page");
         // check for the object to the visible
         String prompt = "";
-        boolean isPromptPresent = action.isPromptPresent();
+        boolean isPromptPresent = action.is().promptPresent();
         if (isPromptPresent) {
-            prompt = action.getPrompt();
+            prompt = action.get().prompt();
         }
         if (!isPromptPresent) {
             outputFile.recordActual(NOPROMPT, Success.FAIL);
@@ -328,7 +328,7 @@ public class Assert {
         // outputFile.record the action
         outputFile.recordExpected("Expected not to find prompt on the page");
         // check for the object to the visible
-        boolean isPromptPresent = action.isPromptPresent();
+        boolean isPromptPresent = action.is().promptPresent();
         if (isPromptPresent) {
             outputFile.recordActual("A prompt is present on the page", Success.FAIL);
             outputFile.addError();
@@ -353,9 +353,9 @@ public class Assert {
                 "Expected to find cookie with the name <b>" + cookieName + VALUE + expectedCookieValue + STORED);
         // check for the object to the visible
         String cookieValue = "";
-        boolean isCookiePresent = action.isCookiePresent(cookieName);
+        boolean isCookiePresent = action.is().cookiePresent(cookieName);
         if (isCookiePresent) {
-            cookieValue = action.getCookieValue(cookieName);
+            cookieValue = action.get().cookieValue(cookieName);
         }
         if (!isCookiePresent) {
             outputFile.recordActual(NOCOOKIE + cookieName + STORED, Success.FAIL);
@@ -384,9 +384,9 @@ public class Assert {
         outputFile.recordExpected("Expected to find cookie with the name <b>" + expectedCookieName + STORED);
         // check for the object to the visible
         String cookieValue = "";
-        boolean isCookiePresent = action.isCookiePresent(expectedCookieName);
+        boolean isCookiePresent = action.is().cookiePresent(expectedCookieName);
         if (isCookiePresent) {
-            cookieValue = action.getCookieValue(expectedCookieName);
+            cookieValue = action.get().cookieValue(expectedCookieName);
         }
         if (!isCookiePresent) {
             outputFile.recordActual(NOCOOKIE + expectedCookieName + STORED, Success.FAIL);
@@ -408,7 +408,7 @@ public class Assert {
         // outputFile.record the action
         outputFile.recordExpected("Expected to find no cookie with the name <b>" + unexpectedCookieName + STORED);
         // check for the object to the visible
-        boolean isCookiePresent = action.isCookiePresent(unexpectedCookieName);
+        boolean isCookiePresent = action.is().cookiePresent(unexpectedCookieName);
         if (isCookiePresent) {
             outputFile.recordActual(COOKIE + unexpectedCookieName + STORED, Success.FAIL);
             outputFile.addError();
@@ -1441,7 +1441,7 @@ public class Assert {
         for (String expectedText : expectedTexts) {
             outputFile.recordExpected("Expected to find text <b>" + expectedText + "</b> visible on the page");
             // check for the object to the visible
-            boolean isPresent = action.isTextPresent(expectedText);
+            boolean isPresent = action.is().textPresent(expectedText);
             if (!isPresent) {
                 outputFile.recordActual(TEXT + expectedText + "</b> is not visible on the page", Success.FAIL);
                 outputFile.addError();
@@ -1466,7 +1466,7 @@ public class Assert {
         for (String expectedText : expectedTexts) {
             outputFile.recordExpected("Expected not to find text <b>" + expectedText + "</b> visible on the page");
             // check for the object to the visible
-            boolean isPresent = action.isTextPresent(expectedText);
+            boolean isPresent = action.is().textPresent(expectedText);
             if (isPresent) {
                 outputFile.recordActual(TEXT + expectedText + VISIBLE, Success.FAIL);
                 outputFile.addError();
@@ -1498,7 +1498,7 @@ public class Assert {
         outputFile.recordExpected("Expected to find text " + allTexts + " visible on the page");
         // check for the object to the visible
         for (String expectedText : expectedTexts) {
-            isPresent = action.isTextPresent(expectedText);
+            isPresent = action.is().textPresent(expectedText);
             if (isPresent) {
                 foundText = expectedText;
                 break;
@@ -1654,7 +1654,7 @@ public class Assert {
     public int compareTitle(String expectedTitle) {
         // outputFile.record the action
         outputFile.recordExpected("Expected to be on page with the title of <i>" + expectedTitle + "</i>");
-        String actualTitle = action.getTitle();
+        String actualTitle = action.get().title();
         if (!actualTitle.equalsIgnoreCase(expectedTitle)) {
             outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.FAIL);
             outputFile.addError();
@@ -1674,7 +1674,7 @@ public class Assert {
     public int compareURL(String expectedURL) {
         // outputFile.record the action
         outputFile.recordExpected("Expected to be on page with the URL of <i>" + expectedURL + "</i>");
-        String actualURL = action.getLocation();
+        String actualURL = action.get().location();
         if (!actualURL.equalsIgnoreCase(expectedURL)) {
             outputFile.recordActual("The page URL  reads <b>" + actualURL + "</b>", Success.FAIL);
             outputFile.addError();
@@ -2574,7 +2574,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int compareGetResponseCode(String endpoint, Request params, int expectedResponseCode) {
-        Response response = action.makeGetCall(endpoint, params, true);
+        Response response = action.call().get(endpoint, params, true);
         return compareResponseCode(response, expectedResponseCode);
     }
 
@@ -2592,7 +2592,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePostResponseCode(String endpoint, Request params, int expectedResponseCode) {
-        Response response = action.makePostCall(endpoint, params, true);
+        Response response = action.call().post(endpoint, params, true);
         return compareResponseCode(response, expectedResponseCode);
     }
 
@@ -2610,7 +2610,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePutResponseCode(String endpoint, Request params, int expectedResponseCode) {
-        Response response = action.makePutCall(endpoint, params, true);
+        Response response = action.call().put(endpoint, params, true);
         return compareResponseCode(response, expectedResponseCode);
     }
 
@@ -2628,7 +2628,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePatchResponseCode(String endpoint, Request params, int expectedResponseCode) {
-        Response response = action.makePatchCall(endpoint, params, true);
+        Response response = action.call().patch(endpoint, params, true);
         return compareResponseCode(response, expectedResponseCode);
     }
 
@@ -2646,7 +2646,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int compareDeleteResponseCode(String endpoint, Request params, int expectedResponseCode) {
-        Response response = action.makeDeleteCall(endpoint, params, true);
+        Response response = action.call().delete(endpoint, params, true);
         return compareResponseCode(response, expectedResponseCode);
     }
 
@@ -2736,7 +2736,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int compareGetResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
-        Response response = action.makeGetCall(endpoint, params, true);
+        Response response = action.call().get(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2754,7 +2754,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int compareGetResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
-        Response response = action.makeGetCall(endpoint, params, true);
+        Response response = action.call().get(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2772,7 +2772,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePostResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
-        Response response = action.makePostCall(endpoint, params, true);
+        Response response = action.call().post(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2790,7 +2790,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePostResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
-        Response response = action.makePostCall(endpoint, params, true);
+        Response response = action.call().post(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2808,7 +2808,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePutResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
-        Response response = action.makePutCall(endpoint, params, true);
+        Response response = action.call().put(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2826,7 +2826,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePutResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
-        Response response = action.makePutCall(endpoint, params, true);
+        Response response = action.call().put(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2844,7 +2844,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePatchResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
-        Response response = action.makePatchCall(endpoint, params, true);
+        Response response = action.call().patch(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2862,7 +2862,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int comparePatchResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
-        Response response = action.makePatchCall(endpoint, params, true);
+        Response response = action.call().patch(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2880,7 +2880,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int compareDeleteResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
-        Response response = action.makeDeleteCall(endpoint, params, true);
+        Response response = action.call().delete(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -2898,7 +2898,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int compareDeleteResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
-        Response response = action.makeDeleteCall(endpoint, params, true);
+        Response response = action.call().delete(endpoint, params, true);
         return compareResponseData(response, expectedResponseData);
     }
 
@@ -3049,7 +3049,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkGetResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
-        Response response = action.makeGetCall(endpoint, params, true);
+        Response response = action.call().get(endpoint, params, true);
         return checkResponseContainsData(response, expectedPairs);
     }
 
@@ -3070,7 +3070,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkGetResponseContainsData(String endpoint, Request params, String key, JsonElement expectedJson) {
-        Response response = action.makeGetCall(endpoint, params, true);
+        Response response = action.call().get(endpoint, params, true);
         return checkResponseContainsData(response, key, expectedJson);
     }
 
@@ -3089,7 +3089,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkGetResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
-        Response response = action.makeGetCall(endpoint, params, true);
+        Response response = action.call().get(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
     
@@ -3108,7 +3108,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPostResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
-        Response response = action.makePostCall(endpoint, params, true);
+        Response response = action.call().post(endpoint, params, true);
         return checkResponseContainsData(response, expectedPairs);
     }
 
@@ -3129,7 +3129,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPostResponseContainsData(String endpoint, Request params, String key, JsonElement expectedJson) {
-        Response response = action.makePostCall(endpoint, params, true);
+        Response response = action.call().post(endpoint, params, true);
         return checkResponseContainsData(response, key, expectedJson);
     }
 
@@ -3148,7 +3148,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPostResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
-        Response response = action.makePostCall(endpoint, params, true);
+        Response response = action.call().post(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
     
@@ -3167,7 +3167,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPutResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
-        Response response = action.makePutCall(endpoint, params, true);
+        Response response = action.call().put(endpoint, params, true);
         return checkResponseContainsData(response, expectedPairs);
     }
 
@@ -3188,7 +3188,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPutResponseContainsData(String endpoint, Request params, String key, JsonElement expectedJson) {
-        Response response = action.makePutCall(endpoint, params, true);
+        Response response = action.call().put(endpoint, params, true);
         return checkResponseContainsData(response, key, expectedJson);
     }
 
@@ -3207,7 +3207,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPutResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
-        Response response = action.makePutCall(endpoint, params, true);
+        Response response = action.call().put(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
     
@@ -3226,7 +3226,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPatchResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
-        Response response = action.makePatchCall(endpoint, params, true);
+        Response response = action.call().patch(endpoint, params, true);
         return checkResponseContainsData(response, expectedPairs);
     }
 
@@ -3247,7 +3247,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPatchResponseContainsData(String endpoint, Request params, String key, JsonObject expectedJson) {
-        Response response = action.makePatchCall(endpoint, params, true);
+        Response response = action.call().patch(endpoint, params, true);
         return checkResponseContainsData(response, key, expectedJson);
     }
 
@@ -3266,7 +3266,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkPatchResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
-        Response response = action.makePatchCall(endpoint, params, true);
+        Response response = action.call().patch(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
     
@@ -3285,7 +3285,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkDeleteResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
-        Response response = action.makeDeleteCall(endpoint, params, true);
+        Response response = action.call().delete(endpoint, params, true);
         return checkResponseContainsData(response, expectedPairs);
     }
 
@@ -3306,7 +3306,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkDeleteResponseContainsData(String endpoint, Request params, String key, JsonObject expectedJson) {
-        Response response = action.makeDeleteCall(endpoint, params, true);
+        Response response = action.call().delete(endpoint, params, true);
         return checkResponseContainsData(response, key, expectedJson);
     }
 
@@ -3325,7 +3325,7 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkDeleteResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
-        Response response = action.makeDeleteCall(endpoint, params, true);
+        Response response = action.call().delete(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
 
