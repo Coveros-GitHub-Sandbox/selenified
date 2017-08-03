@@ -86,7 +86,7 @@ public class HTTP {
     public void setPass(String pass) {
         this.pass = pass;
     }
-    
+
     public boolean useCredentials() {
         return !this.user.isEmpty() && !this.pass.isEmpty();
     }

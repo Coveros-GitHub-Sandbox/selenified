@@ -27,8 +27,7 @@ public class NoLoadIT extends TestBase {
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result)
-            {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
 

@@ -550,9 +550,9 @@ public class ServicesIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "services", "httppost",
-    "virtual" }, description = "An integration test to verify the data from a post call")
+            "virtual" }, description = "An integration test to verify the data from a post call")
     public void checkPostResponseContainsBadSingleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -585,9 +585,9 @@ public class ServicesIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "services", "httppost",
-    "virtual" }, description = "An integration test to verify the data from a post call")
+            "virtual" }, description = "An integration test to verify the data from a post call")
     public void checkPostResponseContainsBadMultipleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -894,9 +894,9 @@ public class ServicesIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "services", "httppatch",
-    "virtual" }, description = "An integration test to verify the data from a patch call")
+            "virtual" }, description = "An integration test to verify the data from a patch call")
     public void checkPatchResponseContainsBadSingleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 4);
@@ -931,9 +931,9 @@ public class ServicesIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "services", "httppatch",
-    "virtual" }, description = "An integration test to verify the data from a patch call")
+            "virtual" }, description = "An integration test to verify the data from a patch call")
     public void checkPatchResponseContainsBadMultipleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 4);

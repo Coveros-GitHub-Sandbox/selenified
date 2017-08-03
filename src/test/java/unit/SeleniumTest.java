@@ -49,12 +49,12 @@ public class SeleniumTest {
     public void browsersInvalidTest() throws InvalidBrowserException {
         Browser.lookup("HELLOWORLD");
     }
-    
+
     @Test
     public void errorsForPassTest() {
         Assert.assertEquals(Success.PASS.getErrors(), 0);
     }
-    
+
     @Test
     public void errorsForFailTest() {
         Assert.assertEquals(Success.FAIL.getErrors(), 1);

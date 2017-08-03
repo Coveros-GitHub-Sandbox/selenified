@@ -868,7 +868,7 @@ public class OutputFile {
      * @return String : the replaced result
      */
     public String formatHTML(String string) {
-        if( string == null ) {
+        if (string == null) {
             return "";
         }
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
