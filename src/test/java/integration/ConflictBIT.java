@@ -31,7 +31,7 @@ public class ConflictBIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         Element element = new Element(Locator.XPATH, "//form/input[@type='checkbox']");
-        for (int match = 0; match < element.getMatchCount(); match++) {
+        for (int match = 0; match < actions.get().matchCount(element); match++) {
             element.setMatch(match);
             actions.click(element);
             asserts.checkElementChecked(element);

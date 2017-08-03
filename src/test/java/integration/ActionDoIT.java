@@ -3,7 +3,6 @@ package integration;
 import java.net.MalformedURLException;
 
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -49,20 +48,6 @@ public class ActionDoIT extends TestBase {
         // perform some actions
         actions.killDriver();
         actions.killDriver();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "actions", "do",
-            "virtual" }, description = "An integration negative test to check the goToURL method")
-    public void killDriverNullTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // perform some actions
-        WebDriver driver = actions.getDriver();
-        actions.setDriver(null);
-        actions.killDriver();
-        actions.setDriver(driver);
         // verify no issues
         finish();
     }
@@ -492,20 +477,6 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.blur(new Element(Locator.CLASSNAME, "click"));
-        // verify 2 issues
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "actions", "do", "blur",
-            "virtual" }, description = "An integration negative test to check the blur method")
-    public void blurErrorTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // perform some actions
-        WebDriver driver = actions.getDriver();
-        actions.setDriver(null);
-        actions.blur(new Element(Locator.CLASSNAME, "click"));
-        actions.setDriver(driver);
         // verify 2 issues
         finish(1);
     }

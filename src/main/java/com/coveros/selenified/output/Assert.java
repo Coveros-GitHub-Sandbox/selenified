@@ -69,6 +69,7 @@ public class Assert {
     private static final String VISIBLE = "</b> is visible on the page";
 
     private static final String RESPONSE = "Found a response of:";
+    private static final String NORESPONSE = "No response code available, as the call failed to execute properly";
 
     //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
@@ -1685,6 +1686,20 @@ public class Assert {
     }
 
     /**
+     * 
+     * @param element
+     *            - the element to be matched
+     * @param expectedMatchedElements
+     *            - the expected number of elements on the page that match the
+     *            module
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareElementMatches(Element element, int expectedMatchedElements) {
+        // TODO
+        return 1;
+    }
+
+    /**
      * compares the expected element input value with the actual value from an
      * element
      *
@@ -2539,9 +2554,14 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     private int compareResponseCode(Response response, int expectedResponseCode) {
-        Success success = (response.getCode() == expectedResponseCode) ? Success.PASS : Success.FAIL;
+        Success success = Success.FAIL;
+        String actual = NORESPONSE;
+        if (response != null) {
+            success = (response.getCode() == expectedResponseCode) ? Success.PASS : Success.FAIL;
+            actual = "Found a response code of <b>" + response.getCode() + "</b>";
+        }
         outputFile.recordExpected("Expected to find a response code of <b>" + expectedResponseCode + "</b>");
-        outputFile.recordActual("Found a response code of <b>" + response.getCode() + "</b>", success);
+        outputFile.recordActual(actual, success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2662,12 +2682,16 @@ public class Assert {
      */
     private int compareResponseData(Response response, JsonObject expectedResponseData) {
         Success success = Success.FAIL;
-        if (response.getObjectData() != null) {
-            success = response.getObjectData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+        String actual = NORESPONSE;
+        if (response != null) {
+            actual = RESPONSE + outputFile.formatResponse(response);
+            if (response.getObjectData() != null) {
+                success = response.getObjectData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+            }
         }
         outputFile.recordExpected("Expected to find a response of:"
                 + outputFile.formatResponse(new Response(0, expectedResponseData, null)));
-        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.recordActual(actual, success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2684,12 +2708,16 @@ public class Assert {
      */
     private int compareResponseData(Response response, JsonArray expectedResponseData) {
         Success success = Success.FAIL;
-        if (response.getArrayData() != null) {
-            success = response.getArrayData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+        String actual = NORESPONSE;
+        if (response != null) {
+            actual = RESPONSE + outputFile.formatResponse(response);
+            if (response.getArrayData() != null) {
+                success = response.getArrayData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+            }
         }
         outputFile.recordExpected("Expected to find a response of:"
                 + outputFile.formatResponse(new Response(0, expectedResponseData, null)));
-        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.recordActual(actual, success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2920,23 +2948,27 @@ public class Assert {
     private int checkResponseContainsData(Response response, Map<String, String> expectedPairs) {
         StringBuilder expectedString = new StringBuilder();
         Success success = Success.FAIL;
-        if (response.getObjectData() != null) {
-            success = Success.PASS;
-            for (Map.Entry<String, String> entry : expectedPairs.entrySet()) {
-                expectedString.append("<div>");
-                expectedString.append(entry.getKey());
-                expectedString.append(" : ");
-                expectedString.append(entry.getValue());
-                expectedString.append("</div>");
-                if (!response.getObjectData().has(entry.getKey())
-                        || !response.getObjectData().get(entry.getKey()).getAsString().equals(entry.getValue())) {
-                    success = Success.FAIL;
+        String actual = NORESPONSE;
+        if (response != null) {
+            actual = RESPONSE + outputFile.formatResponse(response);
+            if (response.getObjectData() != null) {
+                success = Success.PASS;
+                for (Map.Entry<String, String> entry : expectedPairs.entrySet()) {
+                    expectedString.append("<div>");
+                    expectedString.append(entry.getKey());
+                    expectedString.append(" : ");
+                    expectedString.append(entry.getValue());
+                    expectedString.append("</div>");
+                    if (!response.getObjectData().has(entry.getKey())
+                            || !response.getObjectData().get(entry.getKey()).getAsString().equals(entry.getValue())) {
+                        success = Success.FAIL;
+                    }
                 }
             }
         }
         outputFile.recordExpected(
                 "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>");
-        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.recordActual(actual, success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2955,12 +2987,16 @@ public class Assert {
      */
     private int checkResponseContainsData(Response response, String key, JsonElement expectedJson) {
         Success success = Success.FAIL;
-        if (response.getObjectData() != null) {
-            success = response.getObjectData().get(key).equals(expectedJson) ? Success.PASS : Success.FAIL;
+        String actual = NORESPONSE;
+        if (response != null) {
+            actual = RESPONSE + outputFile.formatResponse(response);
+            if (response.getObjectData() != null) {
+                success = response.getObjectData().get(key).equals(expectedJson) ? Success.PASS : Success.FAIL;
+            }
         }
         outputFile.recordExpected("Expected to find a response containing: "
                 + outputFile.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
-        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.recordActual(actual, success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
@@ -2977,12 +3013,16 @@ public class Assert {
      */
     private int checkResponseContainsData(Response response, JsonElement expectedJson) {
         Success success = Success.FAIL;
-        if (response.getArrayData() != null) {
-            success = response.getArrayData().contains(expectedJson) ? Success.PASS : Success.FAIL;
+        String actual = NORESPONSE;
+        if (response != null) {
+            actual = RESPONSE + outputFile.formatResponse(response);
+            if (response.getArrayData() != null) {
+                success = response.getArrayData().contains(expectedJson) ? Success.PASS : Success.FAIL;
+            }
         }
         outputFile.recordExpected("Expected to find a response containing:"
                 + outputFile.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
-        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.recordActual(actual, success);
         outputFile.addErrors(success.errors);
         return success.errors;
     }
