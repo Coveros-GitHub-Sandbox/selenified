@@ -333,7 +333,7 @@ public class OutputFile {
         String imageName = generateImageName();
         String imageLink = generateImageLink(imageName);
         try {
-            action.takeScreenshot(imageName);
+            action.page().takeScreenshot(imageName);
             screenshots.add(imageName);
         } catch (Exception e1) {
             log.error(e1);
@@ -651,9 +651,9 @@ public class OutputFile {
         if (action != null) {
             try {
                 action.getDriver().get(url);
-                if (!action.getLocation().contains(url)) {
+                if (!action.get().location().contains(url)) {
                     recordAction(act, expected,
-                            startingPage + action.getLocation() + "</i> loaded instead of <i>" + url + "</i>",
+                            startingPage + action.get().location() + "</i> loaded instead of <i>" + url + "</i>",
                             Result.FAILURE);
                     addError();
                     return 1;
