@@ -6,6 +6,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.output.OutputFile;
@@ -23,9 +24,6 @@ public class Is {
     // this is the driver that will be used for all selenium actions
     private WebDriver driver;
 
-    // the wait class to retrieve information about the element
-    private Get get;
-
     // constants
     private static final String CHECKING = "Checking for ";
     private static final String PRESENT = " to be present";
@@ -36,7 +34,6 @@ public class Is {
     public Is(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.file = file;
-        this.get = new Get(driver, file);
     }
 
     // ////////////////////////////////////
@@ -590,7 +587,7 @@ public class Is {
      */
     public boolean cookiePresent(String expectedCookieName) {
         boolean isCookiePresent = false;
-        if (get.cookie(expectedCookieName) != null) {
+        if (driver.manage().getCookieNamed(expectedCookieName) != null) {
             isCookiePresent = true;
         }
         return isCookiePresent;
@@ -768,7 +765,8 @@ public class Is {
             if ("input".equalsIgnoreCase(webElement.getTagName())) {
                 isSelected = webElement.isSelected();
             } else if ("select".equalsIgnoreCase(webElement.getTagName())) {
-                isSelected = get.selectedValues(element).length > 0;
+                Select dropdown = new Select(webElement);
+                isSelected = dropdown.getAllSelectedOptions().size() > 0;
             }
         }
         if (print) {

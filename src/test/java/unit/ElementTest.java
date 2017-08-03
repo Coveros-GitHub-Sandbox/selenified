@@ -65,24 +65,24 @@ public class ElementTest {
     @Test
     public void checkPrettyOutputTest() {
         Element element = new Element(Locator.ID, "myId");
-        Assert.assertEquals(element.prettyOutput(), "");
+        Assert.assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> ");
     }
 
     @Test
     public void checkPrettyOutputStartTest() {
         Element element = new Element(Locator.ID, "myId");
-        Assert.assertEquals(element.prettyOutputStart(), "");
+        Assert.assertEquals(element.prettyOutputStart(), "Element with <i>ID</i> of <i>myId</i>");
     }
 
     @Test
     public void checkPrettyOutputEndTest() {
         Element element = new Element(Locator.ID, "myId");
-        Assert.assertEquals(element.prettyOutputEnd(), "");
+        Assert.assertEquals(element.prettyOutputEnd(), "element with <i>ID</i> of <i>myId</i>.");
     }
 
     @Test
     public void checkPrettyOutputLowercaseTest() {
         Element element = new Element(Locator.ID, "myId");
-        Assert.assertEquals(element.prettyOutputLowercase(), "");
+        Assert.assertEquals(element.prettyOutputLowercase(), "element with <i>ID</i> of <i>myId</i>");
     }
 }
