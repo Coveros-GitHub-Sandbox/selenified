@@ -86,7 +86,7 @@ public class ActionDoIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.goToURL("https://www.google.com/");
+        actions.page().goToURL("https://www.google.com/");
         asserts.compareURL("https://www.google.com/");
         // verify no issues
         finish();
@@ -100,7 +100,7 @@ public class ActionDoIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.goToURL("https://www.yahoo.com/");
+        actions.page().goToURL("https://www.yahoo.com/");
         asserts.compareURL("https://www.google.com/");
         // verify 1 issue
         finish(1);
@@ -112,7 +112,7 @@ public class ActionDoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goToURL("https:///");
+        actions.page().goToURL("https:///");
         // verify 1 issue
         finish(1);
     }
@@ -1029,7 +1029,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.NAME, "scroll_button");
-        actions.scroll(50);
+        actions.page().scroll(50);
         // verify no issues
         finish();
     }
@@ -1040,7 +1040,7 @@ public class ActionDoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.scroll(500);
+        actions.page().scroll(500);
         // verify 1 issue
         finish(1);
     }
@@ -1052,7 +1052,7 @@ public class ActionDoIT extends TestBase {
         Action actions = new Action(Browser.FIREFOX, new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "LOCAL");
         // perform some actions
-        actions.takeScreenshot("somefile");
+        actions.page().takeScreenshot("somefile");
         actions.killDriver();
         // verify no issues
         finish();
@@ -1065,7 +1065,7 @@ public class ActionDoIT extends TestBase {
         Action actions = new Action(Browser.FIREFOX, new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "HUB");
         // perform some actions
-        actions.takeScreenshot("somefile");
+        actions.page().takeScreenshot("somefile");
         actions.killDriver();
         // verify no issues
         finish();
@@ -1077,7 +1077,7 @@ public class ActionDoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = new Action(Browser.HTMLUNIT, new DesiredCapabilities(), null);
         // perform some actions
-        actions.takeScreenshot("somefile");
+        actions.page().takeScreenshot("somefile");
         actions.killDriver();
         // verify no issues
         finish();
