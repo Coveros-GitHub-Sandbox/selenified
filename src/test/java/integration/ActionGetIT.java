@@ -852,29 +852,35 @@ public class ActionGetIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getElementMatchCount method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
         // perform some actions
-        Assert.assertEquals(new Element(Locator.ID, "submit_button"), 1);
+        Assert.assertEquals(actions.get().matchCount(new Element(Locator.ID, "submit_button")), 1);
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getElementMatchCount method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountMultipleTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
         // perform some actions
-        Assert.assertEquals(new Element(Locator.CLASSNAME, "overlay"), 3);
+        Assert.assertEquals(actions.get().matchCount(new Element(Locator.CLASSNAME, "overlay")), 3);
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration negative test to check the getElementMatchCount method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration negative test to check the getElementMatchCount method")
     public void getElementMatchCountNotExistTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
         // perform some actions
-        Assert.assertEquals(new Element(Locator.ID, "non-existent-name"), 0);
+        Assert.assertEquals(actions.get().matchCount(new Element(Locator.ID, "non-existent-name")), 0);
         // verify no issues
         finish();
     }

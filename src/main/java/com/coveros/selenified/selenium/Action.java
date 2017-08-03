@@ -199,19 +199,6 @@ public class Action {
     }
 
     /**
-     * a method to allow modifying the driver instance. Use with extreme
-     * caution!
-     * 
-     * @param driver
-     *            - the updated webdriver. Be sure not to create a fresh driver,
-     *            but instead, retrieve the currently instantated instance via
-     *            getDriver, and modify that
-     */
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
-    }
-
-    /**
      * a method to allow retrieving the set browser
      *
      * @return Browser: the enum of the browser

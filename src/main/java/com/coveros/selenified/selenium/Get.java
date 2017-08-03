@@ -45,6 +45,19 @@ public class Get {
     // ////////////////////////////////////
 
     /**
+     * a method to determine how many elements match the selector
+     * 
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @return Integer: how many element match the selector
+     */
+    public int matchCount(Locator type, String locator) {
+        return matchCount(new Element(type, locator));
+    }
+
+    /**
      * get the option from the select drop down
      *
      * @param type
@@ -638,6 +651,18 @@ public class Get {
     ///////////////////////////////////////////////////
 
     /**
+     * a method to determine how many elements match the selector
+     * 
+     * @param element
+     *            - the element to be checked
+     * @return Integer: how many element match the selector
+     */
+    public int matchCount(Element element) {
+        element.setDriver(driver);
+        return element.getWebElements().size();
+    }
+
+    /**
      * is the passed in element present, and if it is, is it an input
      * 
      * @param element
@@ -645,6 +670,7 @@ public class Get {
      * @return Boolean: is the element present AND an input
      */
     private boolean isPresentInput(Element element) {
+        element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element, false)) {
             wait.forElementPresent(element, 5);
@@ -663,6 +689,7 @@ public class Get {
      * @return String: the option from the select element
      */
     public String selectedText(Element element) {
+        element.setDriver(driver);
         if (!isPresentInput(element)) {
             return null;
         }
@@ -680,6 +707,7 @@ public class Get {
      * @return String[]: the options from the select element
      */
     public String[] selectedTexts(Element element) {
+        element.setDriver(driver);
         if (!isPresentInput(element)) {
             return new String[0];
         }
@@ -701,6 +729,7 @@ public class Get {
      * @return String: the options from the select element
      */
     public String selectedValue(Element element) {
+        element.setDriver(driver);
         if (!isPresentInput(element)) {
             return null;
         }
@@ -718,6 +747,7 @@ public class Get {
      * @return String[]: the options from the select element
      */
     public String[] selectedValues(Element element) {
+        element.setDriver(driver);
         if (!isPresentInput(element)) {
             return new String[0];
         }
@@ -739,6 +769,7 @@ public class Get {
      * @return String - the text of the element
      */
     public String text(Element element) {
+        element.setDriver(driver);
         if (!is.elementPresent(element)) {
             return null;
         }
@@ -754,6 +785,7 @@ public class Get {
      * @return String - the text of the element
      */
     public String value(Element element) {
+        element.setDriver(driver);
         if (!is.elementInput(element)) {
             return null;
         }
@@ -771,6 +803,7 @@ public class Get {
      * @return String - the value of the css attribute
      */
     public String css(Element element, String attribute) {
+        element.setDriver(driver);
         if (!is.elementPresent(element)) {
             return null;
         }
@@ -788,6 +821,7 @@ public class Get {
      * @return String - the value of the css attribute
      */
     public String attribute(Element element, String attribute) {
+        element.setDriver(driver);
         if (!is.elementPresent(element)) {
             return null;
         }
@@ -804,6 +838,7 @@ public class Get {
      */
     @SuppressWarnings("unchecked")
     public Map<String, String> allAttributes(Element element) {
+        element.setDriver(driver);
         if (!is.elementPresent(element)) {
             return new HashMap<>();
         }
@@ -829,6 +864,7 @@ public class Get {
      * @return Object: any resultant output from the javascript command
      */
     public Object eval(Element element, String javascriptFunction) {
+        element.setDriver(driver);
         if (!is.elementPresent(element)) {
             return null;
         }
@@ -850,6 +886,7 @@ public class Get {
      * @return Integer: the number of select options
      */
     public int numOfSelectOptions(Element element) {
+        element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {
             wait.forElementPresent(element);
@@ -870,6 +907,7 @@ public class Get {
      * @return String[]: the options from the select element
      */
     public String[] selectOptions(Element element) {
+        element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {
             wait.forElementPresent(element);
@@ -894,6 +932,7 @@ public class Get {
      * @return List: a list of the table rows as WebElements
      */
     public List<WebElement> tableRows(Element element) {
+        element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {
             wait.forElementPresent(element);
@@ -926,6 +965,7 @@ public class Get {
      * @return List: a list of the table columns as WebElements
      */
     public List<List<WebElement>> tableColumns(Element element) {
+        element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {
             wait.forElementPresent(element);

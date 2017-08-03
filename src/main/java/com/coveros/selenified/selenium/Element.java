@@ -80,19 +80,39 @@ public class Element {
         return driver;
     }
 
+    /**
+     * A nice output to identify the element by locator and selector
+     * 
+     * @return String: text identifying how the element was located
+     */
     public String prettyOutputStart() {
         return "Element with <i>" + type.toString() + "</i> of <i>" + locator + "</i>";
     }
 
+    /**
+     * A nice output to identify the element by locator and selector
+     * 
+     * @return String: text identifying how the element was located
+     */
     public String prettyOutputLowercase() {
         String output = prettyOutputStart();
         return Character.toLowerCase(output.charAt(0)) + output.substring(1);
     }
 
+    /**
+     * A nice output to identify the element by locator and selector
+     * 
+     * @return String: text identifying how the element was located
+     */
     public String prettyOutput() {
         return " " + prettyOutputLowercase() + " ";
     }
 
+    /**
+     * A nice output to identify the element by locator and selector
+     * 
+     * @return String: text identifying how the element was located
+     */
     public String prettyOutputEnd() {
         return prettyOutputLowercase() + ".";
     }
@@ -104,10 +124,6 @@ public class Element {
     /**
      * a method to determine selenium's By object using selenium webdriver
      *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
      * @return By: the selenium object
      * @throws InvalidLocatorTypeException
      */
@@ -149,15 +165,6 @@ public class Element {
      * a method to grab the identified matching web element using selenium
      * webdriver
      *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param elementMatch
-     *            - the number of the matching element, starting the count at 0;
      * @return WebElement: the element object, and all associated values with it
      * @throws InvalidLocatorTypeException
      */
@@ -172,28 +179,11 @@ public class Element {
     /**
      * a method to grab all matching web elements using selenium webdriver
      *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
      * @return List<WebElement>: a list of element objects, and all associated
      *         values with them
      * @throws InvalidLocatorTypeException
      */
     public List<WebElement> getWebElements() {
         return driver.findElements(defineByElement());
-    }
-
-    /**
-     * a method to determine how many elements match the selector
-     * 
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: how many element match the selector
-     */
-    public int getMatchCount() {
-        return getWebElements().size();
     }
 }
