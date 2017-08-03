@@ -724,10 +724,9 @@ public class OutputFile {
      *
      */
     public void packageTestResults() {
-        try {
-            // Create new zip file
-            File f = new File(directory, filename + "_RESULTS.zip");
-            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f));
+        File f = new File(directory, filename + "_RESULTS.zip");
+        try (// Create new zip file
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
             
             // Add html results to zip file
             ZipEntry e = new ZipEntry(filename);
