@@ -33,7 +33,7 @@ public class General {
 
     private static final int MAXFILENAMELENGTH = 200;
     private static final String PUBLIC = "public";
-    
+
     private General() {
     }
 
@@ -334,8 +334,7 @@ public class General {
         if (method.getDeclaringClass().getPackage() != null) {
             className = method.getDeclaringClass().toString().substring(6).split("\\.")[1];
             packageName = method.getDeclaringClass().toString().substring(6).split("\\.")[0];
-        }
-        else {
+        } else {
             className = method.getDeclaringClass().toString().substring(6);
         }
         return getTestName(packageName, className, method.getName(), dataProvider);
@@ -358,8 +357,7 @@ public class General {
         StringBuilder testName;
         if ("".equals(packageName)) {
             testName = new StringBuilder(className + "_" + methodName);
-        }
-        else {
+        } else {
             testName = new StringBuilder(packageName + "_" + className + "_" + methodName);
         }
         String currentName = testName.toString();
@@ -376,9 +374,9 @@ public class General {
             if (currentName.length() > MAXFILENAMELENGTH) {
                 if ("".equals(packageName)) {
                     currentName = className + "_" + methodName + dataProvider.toString().split(";")[1];
-                }
-                else {
-                    currentName = packageName + "_" + className + "_" + methodName + dataProvider.toString().split(";")[1];
+                } else {
+                    currentName = packageName + "_" + className + "_" + methodName
+                            + dataProvider.toString().split(";")[1];
                 }
             }
         }
@@ -449,8 +447,8 @@ public class General {
      * a function that breaks up a string, and places it into a map
      * 
      * @param input
-     *            - a string, with key and values separated by an equals (=) and pairs
-     *            separated by an ampersand (&amp;)
+     *            - a string, with key and values separated by an equals (=) and
+     *            pairs separated by an ampersand (&amp;)
      * @return Map: a map with values
      */
     public static Map<String, String> parseMap(final String input) {

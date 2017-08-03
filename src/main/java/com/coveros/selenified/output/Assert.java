@@ -67,7 +67,7 @@ public class Assert {
     private static final String TEXT = "The text <b>";
     private static final String PRESENT = "</b> is present on the page";
     private static final String VISIBLE = "</b> is visible on the page";
-    
+
     private static final String RESPONSE = "Found a response of:";
 
     //////////////////////////////////////////////////////////////////
@@ -2928,7 +2928,8 @@ public class Assert {
                 expectedString.append(" : ");
                 expectedString.append(entry.getValue());
                 expectedString.append("</div>");
-                if (!response.getObjectData().has(entry.getKey()) || !response.getObjectData().get(entry.getKey()).getAsString().equals(entry.getValue())) {
+                if (!response.getObjectData().has(entry.getKey())
+                        || !response.getObjectData().get(entry.getKey()).getAsString().equals(entry.getValue())) {
                     success = Success.FAIL;
                 }
             }
@@ -2985,14 +2986,14 @@ public class Assert {
         outputFile.addErrors(success.errors);
         return success.errors;
     }
-    
+
     /**
      * checks to see if actual response json payload of a get call contains the
      * expected json element, and write that out to the output file
      * 
      * @param endpoint
      *            - the endpoint of the service under test
-* @param expectedPairs
+     * @param expectedPairs
      *            a hashmap with string key value pairs expected in the json
      *            response
      * @return Integer: 1 if a failure and 0 if a pass
@@ -3033,7 +3034,7 @@ public class Assert {
         Request request = null;
         return checkGetResponseContainsData(endpoint, request, expectedJson);
     }
-    
+
     /**
      * checks to see if actual response json payload of a get call contains the
      * expected json element, and write that out to the output file
@@ -3092,7 +3093,7 @@ public class Assert {
         Response response = action.call().get(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
-    
+
     /**
      * checks to see if actual response json payload of a post call contains the
      * expected json element, and write that out to the output file
@@ -3151,7 +3152,7 @@ public class Assert {
         Response response = action.call().post(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
-    
+
     /**
      * checks to see if actual response json payload of a put call contains the
      * expected json element, and write that out to the output file
@@ -3210,7 +3211,7 @@ public class Assert {
         Response response = action.call().put(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
-    
+
     /**
      * checks to see if actual response json payload of a patch call contains
      * the expected json element, and write that out to the output file
@@ -3269,7 +3270,7 @@ public class Assert {
         Response response = action.call().patch(endpoint, params, true);
         return checkResponseContainsData(response, expectedJson);
     }
-    
+
     /**
      * checks to see if actual response json payload of a delete call contains
      * the expected json element, and write that out to the output file

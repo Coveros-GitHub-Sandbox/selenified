@@ -1060,7 +1060,7 @@ public class ActionDoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "screenshot",
             "do" }, description = "An integration test to check the takeScreenshot method")
-    public void takeScreenshotFirefoxHubTest() throws InvalidBrowserException, MalformedURLException  {
+    public void takeScreenshotFirefoxHubTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the page
         Action actions = new Action(Browser.FIREFOX, new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "HUB");
@@ -1073,7 +1073,7 @@ public class ActionDoIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "screenshot",
             "do" }, description = "An integration test to check the takeScreenshot method")
-    public void takeScreenshotHtmlUnitTest() throws InvalidBrowserException, MalformedURLException  {
+    public void takeScreenshotHtmlUnitTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the page
         Action actions = new Action(Browser.HTMLUNIT, new DesiredCapabilities(), null);
         // perform some actions
