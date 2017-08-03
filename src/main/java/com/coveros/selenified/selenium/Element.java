@@ -33,7 +33,7 @@ public class Element {
 
     private Locator type;
     private String locator;
-    private int elementMatch = 0;
+    private int match = 0;
 
     private WebDriver driver;
 
@@ -42,10 +42,10 @@ public class Element {
         this.setLocator(locator);
     }
 
-    public Element(Locator type, String locator, int elementMatch) {
+    public Element(Locator type, String locator, int match) {
         this.setType(type);
         this.setLocator(locator);
-        this.setElementMatch(elementMatch);
+        this.setMatch(match);
     }
 
     public void setType(Locator type) {
@@ -56,8 +56,8 @@ public class Element {
         this.locator = locator;
     }
 
-    public void setElementMatch(int elementMatch) {
-        this.elementMatch = elementMatch;
+    public void setMatch(int match) {
+        this.match = match;
     }
 
     public void setDriver(WebDriver driver) {
@@ -72,8 +72,8 @@ public class Element {
         return locator;
     }
 
-    public int getElementMatch() {
-        return elementMatch;
+    public int getMatch() {
+        return match;
     }
 
     public WebDriver getDriver() {
@@ -98,7 +98,7 @@ public class Element {
     }
 
     //////////////////////////////////////////////////////
-    // obtaining element values
+    // setup element values
     //////////////////////////////////////////////////////
 
     /**
@@ -163,8 +163,8 @@ public class Element {
      */
     public WebElement getWebElement() {
         List<WebElement> elements = getWebElements();
-        if (elements.size() > elementMatch) {
-            return elements.get(elementMatch);
+        if (elements.size() > match) {
+            return elements.get(match);
         }
         return driver.findElement(defineByElement());
     }
