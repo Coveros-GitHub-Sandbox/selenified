@@ -309,7 +309,9 @@ public class OutputFileTest {
     public void packageResultsTest() throws IOException {
         System.setProperty("packageResults", "true");
         outputFile.finalizeOutputFile();
-        Assert.assertTrue(new File(directory, file.getName() + "_RESULTS.zip").exists());
+        File results = new File(directory, file.getName() + "_RESULTS.zip");
+        Assert.assertTrue(results.exists());
+        results.delete();
     }
     
     @Test
