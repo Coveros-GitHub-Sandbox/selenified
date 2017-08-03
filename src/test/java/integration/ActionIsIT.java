@@ -28,7 +28,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue(actions.isElementPresent(Locator.ID, "submit_button"));
+        Assert.assertTrue(actions.is().elementPresent(Locator.ID, "submit_button"));
         // verify no issues
         finish();
     }
@@ -39,7 +39,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isElementPresent(new Element(Locator.ID, "non-existent-name"), true));
+        Assert.assertFalse(actions.is().elementPresent(new Element(Locator.ID, "non-existent-name"), true));
         // verify no issues
         finish();
     }
@@ -50,7 +50,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue(actions.isElementInput(Locator.ID, "input_box"));
+        Assert.assertTrue(actions.is().elementInput(Locator.ID, "input_box"));
         // verify no issues
         finish();
     }
@@ -61,7 +61,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue(actions.isElementInput(Locator.ID, "car_list"));
+        Assert.assertTrue(actions.is().elementInput(Locator.ID, "car_list"));
         // verify no issues
         finish();
     }
@@ -72,7 +72,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue(actions.isElementInput(Locator.ID, "textarea_input"));
+        Assert.assertTrue(actions.is().elementInput(Locator.ID, "textarea_input"));
         // verify no issues
         finish();
     }
@@ -83,7 +83,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isElementInput(new Element(Locator.ID, "disable_click"), true));
+        Assert.assertFalse(actions.is().elementInput(new Element(Locator.ID, "disable_click"), true));
         // verify no issues
         finish();
     }
@@ -94,7 +94,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isElementInput(new Element(Locator.ID, "non-existent-name")));
+        Assert.assertFalse(actions.is().elementInput(new Element(Locator.ID, "non-existent-name")));
         // verify no issues
         finish();
     }
@@ -105,7 +105,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue(actions.isElementEnabled(Locator.ID, "scroll_button"));
+        Assert.assertTrue(actions.is().elementEnabled(Locator.ID, "scroll_button"));
         // verify no issues
         finish();
     }
@@ -116,7 +116,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isElementEnabled(new Element(Locator.ID, "non-existent-name"), true));
+        Assert.assertFalse(actions.is().elementEnabled(new Element(Locator.ID, "non-existent-name"), true));
         // verify no issues
         finish();
     }
@@ -128,7 +128,7 @@ public class ActionIsIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.ID, "that");
-        Assert.assertTrue(actions.isElementChecked(Locator.ID, "that"));
+        Assert.assertTrue(actions.is().elementChecked(Locator.ID, "that"));
         // verify no issues
         finish();
     }
@@ -139,7 +139,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isElementChecked(new Element(Locator.ID, "that")));
+        Assert.assertFalse(actions.is().elementChecked(new Element(Locator.ID, "that")));
         // verify no issues
         finish();
     }
@@ -150,7 +150,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isElementChecked(new Element(Locator.ID, "non-existent-name"), true));
+        Assert.assertFalse(actions.is().elementChecked(new Element(Locator.ID, "non-existent-name"), true));
         // verify no issues
         finish();
     }
@@ -161,7 +161,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue(actions.isElementDisplayed(Locator.ID, "that"));
+        Assert.assertTrue(actions.is().elementDisplayed(Locator.ID, "that"));
         // verify no issues
         finish();
     }
@@ -172,7 +172,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isElementDisplayed(new Element(Locator.ID, "non-existent-name"), true));
+        Assert.assertFalse(actions.is().elementDisplayed(new Element(Locator.ID, "non-existent-name"), true));
         // verify no issues
         finish();
     }
@@ -183,7 +183,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertTrue(actions.isSomethingSelected(Locator.ID, "car_list"));
+        Assert.assertTrue(actions.is().somethingSelected(Locator.ID, "car_list"));
         // verify no issues
         finish();
     }
@@ -195,7 +195,7 @@ public class ActionIsIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(new Element(Locator.ID, "car_list_multiple"), 1);
-        Assert.assertTrue(actions.isSomethingSelected(Locator.ID, "car_list_multiple", true));
+        Assert.assertTrue(actions.is().somethingSelected(Locator.ID, "car_list_multiple", true));
         // verify no issues
         finish();
     }
@@ -206,7 +206,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isSomethingSelected(new Element(Locator.ID, "car_list_multiple"), true));
+        Assert.assertFalse(actions.is().somethingSelected(new Element(Locator.ID, "car_list_multiple"), true));
         // verify no issues
         finish();
     }
@@ -218,7 +218,7 @@ public class ActionIsIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(new Element(Locator.ID, "that"));
-        Assert.assertTrue(actions.isSomethingSelected(Locator.ID, "that"));
+        Assert.assertTrue(actions.is().somethingSelected(Locator.ID, "that"));
         // verify no issues
         finish();
     }
@@ -229,7 +229,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isSomethingSelected(new Element(Locator.ID, "that"), true));
+        Assert.assertFalse(actions.is().somethingSelected(new Element(Locator.ID, "that"), true));
         // verify no issues
         finish();
     }
@@ -240,7 +240,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isSomethingSelected(new Element(Locator.ID, "non-existent-name")));
+        Assert.assertFalse(actions.is().somethingSelected(new Element(Locator.ID, "non-existent-name")));
         // verify no issues
         finish();
     }
@@ -251,7 +251,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isSomethingSelected(new Element(Locator.ID, "textarea_input"), true));
+        Assert.assertFalse(actions.is().somethingSelected(new Element(Locator.ID, "textarea_input"), true));
         // verify no issues
         finish();
     }
@@ -262,7 +262,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isSomethingSelected(new Element(Locator.ID, "disable_click"), true));
+        Assert.assertFalse(actions.is().somethingSelected(new Element(Locator.ID, "disable_click"), true));
         // verify no issues
         finish();
     }
@@ -275,7 +275,7 @@ public class ActionIsIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        Assert.assertTrue(actions.isAlertPresent());
+        Assert.assertTrue(actions.is().alertPresent());
         // verify no issues
         finish();
     }
@@ -286,7 +286,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isAlertPresent(true));
+        Assert.assertFalse(actions.is().alertPresent(true));
         // verify no issues
         finish();
     }
@@ -298,7 +298,7 @@ public class ActionIsIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.ID, "confirm_button");
-        Assert.assertTrue(actions.isConfirmationPresent());
+        Assert.assertTrue(actions.is().confirmationPresent());
         // verify no issues
         finish();
     }
@@ -309,7 +309,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isConfirmationPresent(true));
+        Assert.assertFalse(actions.is().confirmationPresent(true));
         // verify no issues
         finish();
     }
@@ -321,7 +321,7 @@ public class ActionIsIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.ID, "prompt_button");
-        Assert.assertTrue(actions.isPromptPresent());
+        Assert.assertTrue(actions.is().promptPresent());
         // verify no issues
         finish();
     }
@@ -332,7 +332,7 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        Assert.assertFalse(actions.isPromptPresent(true));
+        Assert.assertFalse(actions.is().promptPresent(true));
         // verify no issues
         finish();
     }
@@ -343,8 +343,8 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.click(new Element(Locator.ID, "submit_button"), 0);
-        Assert.assertTrue(actions.isTextPresentInSource("You're on the next page"));
+        actions.click(new Element(Locator.ID, "submit_button"));
+        Assert.assertTrue(actions.is().textPresentInSource("You're on the next page"));
         // verify no issues
         finish();
     }
@@ -355,8 +355,8 @@ public class ActionIsIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.click(new Element(Locator.ID, "submit_button"), 0);
-        Assert.assertFalse(actions.isTextPresentInSource("Hello World"));
+        actions.click(new Element(Locator.ID, "submit_button"));
+        Assert.assertFalse(actions.is().textPresentInSource("Hello World"));
         // verify no issues
         finish();
     }
@@ -368,7 +368,7 @@ public class ActionIsIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.killDriver();
-        actions.isTextPresentInSource("Hello World");
+        actions.is().textPresentInSource("Hello World");
         // verify no issues
         finish();
     }

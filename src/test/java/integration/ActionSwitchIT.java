@@ -137,7 +137,7 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.openTab("https://www.google.com/");
+        actions.page().openTab("https://www.google.com/");
         asserts.compareURL("https://www.google.com/");
         // verify no issues
         finish();
@@ -151,7 +151,7 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         WebDriver driver = actions.getDriver();
         actions.setDriver(null);
-        actions.openTab("https://www.google.com/");
+        actions.page().openTab("https://www.google.com/");
         actions.setDriver(driver);
         // verify 1 issue
         finish(1);
@@ -165,7 +165,7 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.openTab();
+        actions.page().openTab();
         asserts.compareURL(getTestSite());
         // verify no issues
         finish(1);
@@ -179,8 +179,8 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.openTab("https://www.google.com/");
-        actions.switchNextTab();
+        actions.page().openTab("https://www.google.com/");
+        actions.page().switchNextTab();
         String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/";
         asserts.compareURL(site);
         // verify no issues
@@ -195,7 +195,7 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         WebDriver driver = actions.getDriver();
         actions.setDriver(null);
-        actions.switchNextTab();
+        actions.page().switchNextTab();
         actions.setDriver(driver);
         // verify 1 issue
         finish(1);
@@ -209,8 +209,8 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.openTab("https://www.google.com/");
-        actions.closeTab();
+        actions.page().openTab("https://www.google.com/");
+        actions.page().closeTab();
         String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/";
         asserts.compareURL(site);
         // verify no issues
@@ -225,7 +225,7 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         WebDriver driver = actions.getDriver();
         actions.setDriver(null);
-        actions.closeTab();
+        actions.page().closeTab();
         actions.setDriver(driver);
         // verify 1 issue
         finish(1);
@@ -239,9 +239,9 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.openTab("https://www.google.com/");
-        actions.switchPreviousTab();
-        actions.closeTab();
+        actions.page().openTab("https://www.google.com/");
+        actions.page().switchPreviousTab();
+        actions.page().closeTab();
         asserts.compareURL("https://www.google.com/");
         // verify no issues
         finish();
@@ -255,7 +255,7 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         WebDriver driver = actions.getDriver();
         actions.setDriver(null);
-        actions.switchPreviousTab();
+        actions.page().switchPreviousTab();
         actions.setDriver(driver);
         // verify 1 issue
         finish(1);
@@ -270,7 +270,7 @@ public class ActionSwitchIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.click(Locator.ID, "new_window");
-        actions.switchToNewWindow();
+        actions.page().switchToNewWindow();
         asserts.checkTextVisible("You're on the next page");
         // verify no issues
         finish();
@@ -284,7 +284,7 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         WebDriver driver = actions.getDriver();
         actions.setDriver(null);
-        actions.switchToNewWindow();
+        actions.page().switchToNewWindow();
         actions.setDriver(driver);
         // verify 1 issue
         finish(1);
@@ -299,9 +299,9 @@ public class ActionSwitchIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.click(new Element(Locator.ID, "new_window"));
-        actions.switchToNewWindow();
+        actions.page().switchToNewWindow();
         asserts.checkTextVisible("You're on the next page");
-        actions.switchToParentWindow();
+        actions.page().switchToParentWindow();
         asserts.checkTextNotVisible("You're on the next page");
         // verify no issues
         finish();
@@ -315,7 +315,7 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         WebDriver driver = actions.getDriver();
         actions.setDriver(null);
-        actions.switchToParentWindow();
+        actions.page().switchToParentWindow();
         actions.setDriver(driver);
         // verify 1 issue
         finish(1);
@@ -330,9 +330,9 @@ public class ActionSwitchIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.click(new Element(Locator.ID, "new_window"));
-        actions.switchToNewWindow();
+        actions.page().switchToNewWindow();
         asserts.checkTextVisible("You're on the next page");
-        actions.closeCurrentWindow();
+        actions.page().closeCurrentWindow();
         asserts.checkTextNotVisible("You're on the next page");
         // verify no issues
         finish();
@@ -347,10 +347,10 @@ public class ActionSwitchIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.click(new Element(Locator.ID, "new_window"));
-        actions.switchToNewWindow();
+        actions.page().switchToNewWindow();
         asserts.checkTextVisible("You're on the next page");
-        actions.closeCurrentWindow();
-        actions.closeCurrentWindow();
+        actions.page().closeCurrentWindow();
+        actions.page().closeCurrentWindow();
         // verify 1 issue
         finish(1);
     }

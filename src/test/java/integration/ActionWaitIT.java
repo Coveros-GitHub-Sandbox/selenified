@@ -53,7 +53,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementPresent(Locator.NAME, "car_list");
+        actions.driverWait().forElementPresent(Locator.NAME, "car_list");
         // verify no issues
         finish();
     }
@@ -64,7 +64,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementPresent(new Element(Locator.NAME, "non-existent-name"));
+        actions.driverWait().forElementPresent(new Element(Locator.NAME, "non-existent-name"));
         // verify 1 issue
         finish(1);
     }
@@ -75,7 +75,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementNotPresent(Locator.NAME, "non-existent-name");
+        actions.driverWait().forElementNotPresent(Locator.NAME, "non-existent-name");
         // verify no issues
         finish();
     }
@@ -86,7 +86,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementNotPresent(new Element(Locator.NAME, "car_list"));
+        actions.driverWait().forElementNotPresent(new Element(Locator.NAME, "car_list"));
         // verify 1 issue
         finish(1);
     }
@@ -97,7 +97,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementDisplayed(Locator.NAME, "car_list");
+        actions.driverWait().forElementDisplayed(Locator.NAME, "car_list");
         // verify no issues
         finish();
     }
@@ -109,7 +109,7 @@ public class ActionWaitIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitForElementDisplayed(Locator.NAME, "added_div");
+        actions.driverWait().forElementDisplayed(Locator.NAME, "added_div");
         // verify no issues
         finish();
     }
@@ -121,7 +121,7 @@ public class ActionWaitIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitForElementDisplayed(Locator.NAME, "delayed_hide_button");
+        actions.driverWait().forElementDisplayed(Locator.NAME, "delayed_hide_button");
         // verify no issues
         finish();
     }
@@ -132,7 +132,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementDisplayed(new Element(Locator.NAME, "non-existent-name"));
+        actions.driverWait().forElementDisplayed(new Element(Locator.NAME, "non-existent-name"));
         // verify 1 issue
         finish(1);
     }
@@ -143,7 +143,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementDisplayed(new Element(Locator.NAME, "hidden_div"));
+        actions.driverWait().forElementDisplayed(new Element(Locator.NAME, "hidden_div"));
         // verify 1 issue
         finish(1);
     }
@@ -154,7 +154,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementNotDisplayed(Locator.NAME, "hidden_div");
+        actions.driverWait().forElementNotDisplayed(Locator.NAME, "hidden_div");
         // verify no issues
         finish();
     }
@@ -166,9 +166,9 @@ public class ActionWaitIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitForElementDisplayed(Locator.NAME, "delayed_hide_button");
+        actions.driverWait().forElementDisplayed(Locator.NAME, "delayed_hide_button");
         actions.click(Locator.NAME, "delayed_hide_button");
-        actions.waitForElementNotDisplayed(Locator.NAME, "delayed_hide_button");
+        actions.driverWait().forElementNotDisplayed(Locator.NAME, "delayed_hide_button");
         // verify no issues
         finish();
     }
@@ -179,7 +179,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
-        actions.waitForElementNotDisplayed(new Element(Locator.NAME, "car_list"));
+        actions.driverWait().forElementNotDisplayed(new Element(Locator.NAME, "car_list"));
         // verify 1 issue
         finish(1);
     }
@@ -190,7 +190,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementEnabled(Locator.NAME, "car_list");
+        actions.driverWait().forElementEnabled(Locator.NAME, "car_list");
         // verify no issues
         finish();
     }
@@ -202,7 +202,7 @@ public class ActionWaitIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitForElementEnabled(Locator.NAME, "added_div");
+        actions.driverWait().forElementEnabled(Locator.NAME, "added_div");
         // verify no issues
         finish();
     }
@@ -214,7 +214,7 @@ public class ActionWaitIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.NAME, "delayed_enable_button");
-        actions.waitForElementEnabled(Locator.NAME, "delayed_input");
+        actions.driverWait().forElementEnabled(Locator.NAME, "delayed_input");
         // verify no issues
         finish();
     }
@@ -225,7 +225,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementEnabled(new Element(Locator.NAME, "alert_button"));
+        actions.driverWait().forElementEnabled(new Element(Locator.NAME, "alert_button"));
         // verify 1 issue
         finish(1);
     }
@@ -236,7 +236,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementNotEnabled(Locator.NAME, "alert_button");
+        actions.driverWait().forElementNotEnabled(Locator.NAME, "alert_button");
         // verify no issues
         finish();
     }
@@ -248,9 +248,9 @@ public class ActionWaitIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.NAME, "delayed_enable_button");
-        actions.waitForElementEnabled(Locator.NAME, "delayed_input");
+        actions.driverWait().forElementEnabled(Locator.NAME, "delayed_input");
         actions.click(Locator.NAME, "delayed_enable_button");
-        actions.waitForElementNotEnabled(Locator.NAME, "delayed_input");
+        actions.driverWait().forElementNotEnabled(Locator.NAME, "delayed_input");
         // verify no issues
         finish();
     }
@@ -261,7 +261,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForElementNotEnabled(new Element(Locator.NAME, "car_list"));
+        actions.driverWait().forElementNotEnabled(new Element(Locator.NAME, "car_list"));
         // verify 1 issue
         finish(1);
     }
@@ -273,7 +273,7 @@ public class ActionWaitIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.ID, "prompt_button");
-        actions.waitForPromptPresent();
+        actions.driverWait().forPromptPresent();
         // verify no issues
         finish();
     }
@@ -284,7 +284,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForPromptPresent();
+        actions.driverWait().forPromptPresent();
         // verify 1 issue
         finish(1);
     }
@@ -296,7 +296,7 @@ public class ActionWaitIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(Locator.ID, "confirm_button");
-        actions.waitForConfirmationPresent();
+        actions.driverWait().forConfirmationPresent();
         // verify no issues
         finish();
     }
@@ -307,7 +307,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForConfirmationPresent();
+        actions.driverWait().forConfirmationPresent();
         // verify 1 issue
         finish(1);
     }
@@ -320,7 +320,7 @@ public class ActionWaitIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        actions.waitForAlertPresent();
+        actions.driverWait().forAlertPresent();
         // verify no issues
         finish();
     }
@@ -331,7 +331,7 @@ public class ActionWaitIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.waitForAlertPresent();
+        actions.driverWait().forAlertPresent();
         // verify 1 issue
         finish(1);
     }

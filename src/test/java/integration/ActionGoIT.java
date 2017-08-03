@@ -38,7 +38,7 @@ public class ActionGoIT extends TestBase {
         // perform some actions
         actions.submit(Locator.ID, "submit_button");
         asserts.checkTextVisible("You're on the next page");
-        actions.goBackOnePage();
+        actions.page().goBack();
         asserts.checkTextNotVisible("You're on the next page");
         // verify no issues
         finish();
@@ -50,7 +50,7 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goBackOnePage();
+        actions.page().goBack();
         // verify no issues
         finish();
     }
@@ -62,7 +62,7 @@ public class ActionGoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.killDriver();
-        actions.goBackOnePage();
+        actions.page().goBack();
         // verify 1 issue
         finish(1);
     }
@@ -77,9 +77,9 @@ public class ActionGoIT extends TestBase {
         // perform some actions
         actions.submit(Locator.ID, "submit_button");
         asserts.checkTextVisible("You're on the next page");
-        actions.goBackOnePage();
+        actions.page().goBack();
         asserts.checkTextNotVisible("You're on the next page");
-        actions.goForwardOnePage();
+        actions.page().goForward();
         asserts.checkTextVisible("You're on the next page");
         // verify no issues
         finish();
@@ -91,7 +91,7 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.goForwardOnePage();
+        actions.page().goForward();
         // verify no issues
         finish();
     }
@@ -103,7 +103,7 @@ public class ActionGoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.killDriver();
-        actions.goForwardOnePage();
+        actions.page().goForward();
         // verify 1 issue
         finish(1);
     }
@@ -114,7 +114,7 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.refreshPage();
+        actions.page().refresh();
         // verify no issues
         finish();
     }
@@ -126,7 +126,7 @@ public class ActionGoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.killDriver();
-        actions.refreshPage();
+        actions.page().refresh();
         // verify 1 issue
         finish(1);
     }
@@ -137,7 +137,7 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.refreshPageHard();
+        actions.page().refreshHard();
         // verify no issues
         finish();
     }
@@ -149,7 +149,7 @@ public class ActionGoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.killDriver();
-        actions.refreshPageHard();
+        actions.page().refreshHard();
         // verify 1 issue
         finish(1);
     }
@@ -165,7 +165,7 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.setCookie(cookie);
+        actions.page().setCookie(cookie);
         // verify no issues
         finish();
     }
@@ -182,7 +182,7 @@ public class ActionGoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.killDriver();
-        actions.setCookie(cookie);
+        actions.page().setCookie(cookie);
         // verify 1 issue
         finish(1);
     }
@@ -193,8 +193,8 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.deleteCookie("cookie");
-        Cookie cookie = actions.getCookie("cookie");
+        actions.page().deleteCookie("cookie");
+        Cookie cookie = actions.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -206,7 +206,7 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.deleteCookie("new_cookie");
+        actions.page().deleteCookie("new_cookie");
         // verify 1 issue
         finish(1);
     }
@@ -217,8 +217,8 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.deleteAllCookies();
-        Cookie cookie = actions.getCookie("cookie");
+        actions.page().deleteAllCookies();
+        Cookie cookie = actions.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -230,9 +230,9 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.deleteAllCookies();
-        actions.deleteAllCookies();
-        Cookie cookie = actions.getCookie("cookie");
+        actions.page().deleteAllCookies();
+        actions.page().deleteAllCookies();
+        Cookie cookie = actions.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -245,7 +245,7 @@ public class ActionGoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.killDriver();
-        actions.deleteAllCookies();
+        actions.page().deleteAllCookies();
         // verify 1 issue
         finish(1);
     }
@@ -256,7 +256,7 @@ public class ActionGoIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        actions.maximizeScreen();
+        actions.page().maximize();
         // verify no issues
         finish();
     }
@@ -268,7 +268,7 @@ public class ActionGoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.killDriver();
-        actions.maximizeScreen();
+        actions.page().maximize();
         // verify 1 issue
         finish(1);
     }
