@@ -193,7 +193,7 @@ public class Element {
      *            - the locator string e.g. login, //input[@id='login']
      * @return Integer: how many element match the selector
      */
-    public int getElementMatchCount() {
+    public int getMatchCount() {
         return getWebElements().size();
     }
 }

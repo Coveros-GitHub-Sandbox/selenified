@@ -83,6 +83,9 @@ public class Action {
     private Call call;
 
     // our constants
+    private static final String SECONDS = " seconds";
+    private static final String WAITED = "Waited ";
+
     private static final String FRAME = "Frame <b>";
     private static final String AVAILABLE = "</b> is available and selected";
     private static final String NOTSELECTED = "</b> was unable to be selected";
@@ -242,6 +245,31 @@ public class Action {
     //////////////////////////////////
     // override the SE actions
     //////////////////////////////////
+
+    /**
+     * a method for allowing Selenium to pause for a set amount of time
+     *
+     * @param seconds
+     *            - the number of seconds to wait
+     * @return Integer: the number of errors encountered while executing these
+     *         steps
+     */
+    public int wait(double seconds) {
+        String action = "Wait " + seconds + SECONDS;
+        String expected = WAITED + seconds + SECONDS;
+        try {
+            Thread.sleep((long) (seconds * 1000));
+        } catch (InterruptedException e) {
+            log.error(e);
+            file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage(),
+                    Result.FAILURE);
+            file.addError();
+            Thread.currentThread().interrupt();
+            return 1;
+        }
+        file.recordAction(action, expected, WAITED + seconds + SECONDS, Result.SUCCESS);
+        return 0;
+    }
 
     /**
      * the generic selenium click functionality implemented
