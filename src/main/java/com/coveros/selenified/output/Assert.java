@@ -27,6 +27,7 @@ import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
+import com.coveros.selenified.selenium.State;
 
 /**
  * A custom reporting class, which provides logging and screenshots for all
@@ -43,6 +44,9 @@ public class Assert {
     private OutputFile outputFile;
 
     private LocatorAssert locatorAssert;
+
+    // the is class to determine the state of an element
+    private State state;
 
     // constants
     private static final String ONPAGE = "</b> on the page";
@@ -78,24 +82,40 @@ public class Assert {
      */
     public Assert(String outputDir, String testsName, Browser browser) {
         outputFile = new OutputFile(outputDir, testsName, browser);
+        state = new State(action, outputFile);
     }
 
     public Assert(String outputDir, String testsName, String serviceURL) {
         outputFile = new OutputFile(outputDir, testsName, serviceURL);
+        state = new State(action, outputFile);
     }
 
-    public void setSeleniumHelper(Action thisSelHelper) {
-        action = thisSelHelper;
+    public void setAction(Action action) {
+        this.action = action;
         locatorAssert = new LocatorAssert(action, outputFile);
+        state.setAction(action);
     }
 
     public void setOutputFile(OutputFile thisOutputFile) {
         outputFile = thisOutputFile;
+        state.setOutputFile(outputFile);
     }
 
     public OutputFile getOutputFile() {
         return outputFile;
     }
+
+    ///////////////////////////////////////////////////////
+    // instantiating our additional assert classes for further use
+    ///////////////////////////////////////////////////////
+
+    public State state() {
+        return state;
+    }
+
+    ///////////////////////////////////////////////////////
+    // some basic asserts
+    ///////////////////////////////////////////////////////
 
     /**
      * checks to see if an alert is correct on the page
@@ -408,568 +428,6 @@ public class Assert {
         }
         outputFile.recordActual(NOCOOKIE + unexpectedCookieName + STORED, Success.PASS);
         return 0;
-    }
-
-    /**
-     * checks to see if an element is visible on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayed(Element element) {
-        return checkElementDisplayed(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an element is visible on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayed(Locator type, String locator) {
-        return checkElementDisplayed(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an element is visible on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayed(Element element, int elementMatch) {
-        return checkElementDisplayed(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an element is visible on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayed(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementDisplayed(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an element is not visible on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotDisplayed(Element element) {
-        return checkElementNotDisplayed(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an element is not visible on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotDisplayed(Locator type, String locator) {
-        return checkElementNotDisplayed(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an element is not visible on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotDisplayed(Element element, int elementMatch) {
-        return checkElementNotDisplayed(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an element is not visible on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotDisplayed(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementNotDisplayed(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an object is checked on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementChecked(Element element) {
-        return checkElementChecked(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an object is checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementChecked(Locator type, String locator) {
-        return checkElementChecked(type, locator, 0);
-
-    }
-
-    /**
-     * checks to see if an object is checked on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementChecked(Element element, int elementMatch) {
-        return checkElementChecked(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an object is checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementChecked(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementChecked(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-
-    }
-
-    /**
-     * checks to see if an object is not checked on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotChecked(Element element) {
-        return checkElementNotChecked(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an object is not checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotChecked(Locator type, String locator) {
-        return checkElementNotChecked(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an object is not checked on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotChecked(Element element, int elementMatch) {
-        return checkElementNotChecked(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an object is not checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotChecked(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementNotChecked(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an object is visible and checked on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndChecked(Element element) {
-        return checkElementDisplayedAndChecked(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an object is visible and checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndChecked(Locator type, String locator) {
-        return checkElementDisplayedAndChecked(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an object is visible and checked on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndChecked(Element element, int elementMatch) {
-        return checkElementDisplayedAndChecked(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an object is visible and checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndChecked(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementDisplayedAndChecked(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an object is visible and not checked on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndUnchecked(Element element) {
-        return checkElementDisplayedAndUnchecked(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an object is visible and not checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndUnchecked(Locator type, String locator) {
-        return checkElementDisplayedAndUnchecked(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an object is visible and not checked on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndUnchecked(Element element, int elementMatch) {
-        return checkElementDisplayedAndUnchecked(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an object is visible and not checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndUnchecked(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementDisplayedAndUnchecked(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an element is editable on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementEditable(Element element) {
-        return checkElementEditable(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an element is editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementEditable(Locator type, String locator) {
-        return checkElementEditable(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an element is editable on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementEditable(Element element, int elementMatch) {
-        return checkElementEditable(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an element is editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementEditable(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementEditable(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an element is not editable on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotEditable(Element element) {
-        return checkElementNotEditable(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an element is not editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotEditable(Locator type, String locator) {
-        return checkElementNotEditable(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an element is not editable on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotEditable(Element element, int elementMatch) {
-        return checkElementNotEditable(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an element is not editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotEditable(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementNotEditable(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an element is visible and editable on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndEditable(Element element) {
-        return checkElementDisplayedAndEditable(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an element is visible and editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndEditable(Locator type, String locator) {
-        return checkElementDisplayedAndEditable(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an element is visible and editable on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndEditable(Element element, int elementMatch) {
-        return checkElementDisplayedAndEditable(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an element is visible and editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndEditable(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementDisplayedAndEditable(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an element is visible and not editable on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndNotEditable(Element element) {
-        return checkElementDisplayedAndNotEditable(element.getType(), element.getLocator(), 0);
-    }
-
-    /**
-     * checks to see if an element is visible and not editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndNotEditable(Locator type, String locator) {
-        return checkElementDisplayedAndNotEditable(type, locator, 0);
-    }
-
-    /**
-     * checks to see if an element is visible and not editable on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndNotEditable(Element element, int elementMatch) {
-        return checkElementDisplayedAndNotEditable(element.getType(), element.getLocator(), elementMatch);
-    }
-
-    /**
-     * checks to see if an element is visible and not editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndNotEditable(Locator type, String locator, int elementMatch) {
-        int errors = locatorAssert.checkElementDisplayedAndNotEditable(type, locator, elementMatch);
-        outputFile.addErrors(errors);
-        return errors;
     }
 
     /**

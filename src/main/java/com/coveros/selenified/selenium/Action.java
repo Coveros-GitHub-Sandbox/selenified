@@ -188,6 +188,10 @@ public class Action {
         return call;
     }
 
+    ///////////////////////////////////////////////////////
+    // some nicely wrapped selenium actions
+    ///////////////////////////////////////////////////////
+
     /**
      * a method to allow retrieving the driver instance
      *
