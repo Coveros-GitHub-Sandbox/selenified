@@ -354,7 +354,6 @@ public class State {
     public int displayed(Element element) {
         // wait for the element
         if (!action.is().elementDisplayed(element) && action.waitFor().elementDisplayed(element) == 1) {
-            file.addError();
             return 1;
         }
         // file.record the action
@@ -448,7 +447,6 @@ public class State {
     public int checked(Element element) {
         // wait for the element
         if (!action.is().elementPresent(element) && action.waitFor().elementPresent(element) == 1) {
-            file.addError();
             return 1;
         }
         // file.record the action
@@ -473,7 +471,6 @@ public class State {
     public int notChecked(Element element) {
         // wait for the element
         if (!action.is().elementPresent(element) && action.waitFor().elementPresent(element) == 1) {
-            file.addError();
             return 1;
         }
         // outputFile.record the action
@@ -498,7 +495,6 @@ public class State {
     public int displayedAndChecked(Element element) {
         // wait for the element
         if (!action.is().elementDisplayed(element) && action.waitFor().elementDisplayed(element) == 1) {
-            file.addError();
             return 1;
         }
         // file.record the action
@@ -523,7 +519,6 @@ public class State {
     public int displayedAndUnchecked(Element element) {
         // wait for the element
         if (!action.is().elementDisplayed(element) && action.waitFor().elementDisplayed(element) == 1) {
-            file.addError();
             return 1;
         }
         // file.record the action
@@ -549,7 +544,6 @@ public class State {
     public int editable(Element element) {
         // wait for the element
         if (!action.is().elementPresent(element) && action.waitFor().elementPresent(element) == 1) {
-            file.addError();
             return 1;
         }
         // file.record the action
@@ -584,7 +578,6 @@ public class State {
     public int displayedAndEditable(Element element) {
         // wait for the element
         if (!action.is().elementDisplayed(element) && action.waitFor().elementDisplayed(element) == 1) {
-            file.addError();
             return 1;
         }
         // file.record the action
@@ -602,7 +595,6 @@ public class State {
     public int displayedAndNotEditable(Element element) {
         // wait for the element
         if (!action.is().elementDisplayed(element) && action.waitFor().elementDisplayed(element) == 1) {
-            file.addError();
             return 1;
         }
         // file.record the action

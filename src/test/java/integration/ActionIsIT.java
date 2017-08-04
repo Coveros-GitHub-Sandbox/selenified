@@ -100,6 +100,95 @@ public class ActionIsIT extends TestBase {
     }
 
     @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is input")
+    public void isElementSelectInputTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Assert.assertFalse(actions.is().elementSelect(Locator.ID, "input_box"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is input")
+    public void isElementSelectSelectTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Assert.assertTrue(actions.is().elementSelect(Locator.ID, "car_list"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is input")
+    public void isElementSelectTextAreaTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Assert.assertFalse(actions.is().elementSelect(Locator.ID, "textarea_input"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is input")
+    public void isElementSelectNotSelectTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Assert.assertFalse(actions.is().elementSelect(new Element(Locator.ID, "disable_click"), true));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is input")
+    public void isElementSelectNotExistTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Assert.assertFalse(actions.is().elementSelect(new Element(Locator.ID, "non-existent-name")));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is a table")
+    public void isElementTableTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.click(Locator.ID, "that");
+        Assert.assertTrue(actions.is().elementTable(Locator.ID, "table"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is a table")
+    public void isElementTableNotTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Assert.assertFalse(actions.is().elementTable(new Element(Locator.ID, "that")));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is a table")
+    public void isElementTableNotExistTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Assert.assertFalse(actions.is().elementTable(new Element(Locator.ID, "non-existent-name"), true));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is enabled")
     public void isElementEnabledTest() {
         // use this object to manipulate the page
@@ -188,8 +277,8 @@ public class ActionIsIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "is",
-            "virtual" }, description = "An integration test to check if something is selected from a dropdown")
+    @Test(groups = { "integration", "actions",
+            "is" }, description = "An integration test to check if something is selected from a dropdown")
     public void isSomethingSelectedMultipleTest() {
         // use this object to manipulate the page
         Action actions = this.actions.get();

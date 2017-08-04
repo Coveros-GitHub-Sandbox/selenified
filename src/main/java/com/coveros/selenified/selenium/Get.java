@@ -66,8 +66,8 @@ public class Get {
      *            - the locator string e.g. login, //input[@id='login']
      * @return String: the option from the select element
      */
-    public String selectedText(Locator type, String locator) {
-        return selectedText(new Element(type, locator));
+    public String selectedOption(Locator type, String locator) {
+        return selectedOption(new Element(type, locator));
     }
 
     /**
@@ -82,8 +82,8 @@ public class Get {
      *            match (starting at 0) to interact with
      * @return String: the option from the select element
      */
-    public String selectedText(Locator type, String locator, int elementMatch) {
-        return selectedText(new Element(type, locator, elementMatch));
+    public String selectedOption(Locator type, String locator, int elementMatch) {
+        return selectedOption(new Element(type, locator, elementMatch));
     }
 
     /**
@@ -95,8 +95,8 @@ public class Get {
      *            - the locator string e.g. login, //input[@id='login']
      * @return String[]: the options from the select element
      */
-    public String[] selectedTexts(Locator type, String locator) {
-        return selectedTexts(new Element(type, locator));
+    public String[] selectedOptions(Locator type, String locator) {
+        return selectedOptions(new Element(type, locator));
     }
 
     /**
@@ -111,8 +111,8 @@ public class Get {
      *            match (starting at 0) to interact with
      * @return String[]: the options from the select element
      */
-    public String[] selectedTexts(Locator type, String locator, int elementMatch) {
-        return selectedTexts(new Element(type, locator, elementMatch));
+    public String[] selectedOptions(Locator type, String locator, int elementMatch) {
+        return selectedOptions(new Element(type, locator, elementMatch));
     }
 
     /**
@@ -476,6 +476,35 @@ public class Get {
     }
 
     /**
+     * get the options from the select drop down
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @return String[]: the options from the select element
+     */
+    public String[] selectValues(Locator type, String locator, int elementMatch) {
+        return selectValues(new Element(type, locator, elementMatch));
+    }
+
+    /**
+     * get the options from the select drop down
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @return String[]: the options from the select element
+     */
+    public String[] selectValues(Locator type, String locator) {
+        return selectValues(new Element(type, locator));
+    }
+
+    /**
      * get the contents of a specific cell
      *
      * @param type
@@ -688,7 +717,7 @@ public class Get {
      *            - the element to obtain information from
      * @return String: the option from the select element
      */
-    public String selectedText(Element element) {
+    public String selectedOption(Element element) {
         element.setDriver(driver);
         if (!isPresentInput(element)) {
             return null;
@@ -706,7 +735,7 @@ public class Get {
      *            - the element to obtain information from
      * @return String[]: the options from the select element
      */
-    public String[] selectedTexts(Element element) {
+    public String[] selectedOptions(Element element) {
         element.setDriver(driver);
         if (!isPresentInput(element)) {
             return new String[0];
@@ -907,6 +936,31 @@ public class Get {
      * @return String[]: the options from the select element
      */
     public String[] selectOptions(Element element) {
+        element.setDriver(driver);
+        // wait for element to be present
+        if (!is.elementPresent(element)) {
+            waitFor.elementPresent(element);
+        }
+        if (!is.elementPresent(element)) {
+            return new String[0];
+        }
+        WebElement webElement = element.getWebElement();
+        List<WebElement> allOptions = webElement.findElements(By.tagName("option"));
+        String[] options = new String[allOptions.size()];
+        for (int i = 0; i < allOptions.size(); i++) {
+            options[i] = allOptions.get(i).getText();
+        }
+        return options;
+    }
+
+    /**
+     * get the values from the select drop down
+     *
+     * @param element
+     *            - the element to obtain information from
+     * @return String[]: the options from the select element
+     */
+    public String[] selectValues(Element element) {
         element.setDriver(driver);
         // wait for element to be present
         if (!is.elementPresent(element)) {

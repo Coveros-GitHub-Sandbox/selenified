@@ -25,7 +25,7 @@ public class SampleTests extends TestBase {
 
     @DataProvider(name = "car list items", parallel = true)
     public Object[][] DataSetOptions() {
-        return new Object[][] { new Object[] { "volvo" }, new Object[] { "saab" }, new Object[] { "mercedes" } };
+        return new Object[][] { new Object[] { "Volvo" }, new Object[] { "Saab" }, new Object[] { "Mercedes" } };
     }
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check a title")
