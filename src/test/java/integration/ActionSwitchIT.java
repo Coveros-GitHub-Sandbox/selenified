@@ -30,9 +30,9 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkElementNotDisplayed(Locator.ID, "message");
+        asserts.state().notDisplayed(Locator.ID, "message");
         actions.selectFrame(0);
-        asserts.checkElementDisplayed(Locator.ID, "message");
+        asserts.state().displayed(Locator.ID, "message");
         // verify no issues
         finish();
     }
@@ -45,7 +45,7 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkElementNotDisplayed(Locator.ID, "message");
+        asserts.state().notDisplayed(Locator.ID, "message");
         actions.selectFrame(2);
         // verify 1 issue
         finish(1);
@@ -59,9 +59,9 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkElementNotDisplayed(Locator.ID, "message");
+        asserts.state().notDisplayed(Locator.ID, "message");
         actions.selectFrame("some_frame");
-        asserts.checkElementDisplayed(Locator.ID, "message");
+        asserts.state().displayed(Locator.ID, "message");
         // verify no issues
         finish();
     }
@@ -74,7 +74,7 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkElementNotDisplayed(Locator.ID, "message");
+        asserts.state().notDisplayed(Locator.ID, "message");
         actions.selectFrame("some_non_existent_frame");
         // verify 1 issue
         finish(1);
@@ -88,9 +88,9 @@ public class ActionSwitchIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkElementNotDisplayed(Locator.ID, "message");
+        asserts.state().notDisplayed(Locator.ID, "message");
         actions.selectFrame(Locator.ID, "some_frame");
-        asserts.checkElementDisplayed(Locator.ID, "message");
+        asserts.state().displayed(Locator.ID, "message");
         // verify no issues
         finish();
     }

@@ -381,7 +381,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.hover(Locator.ID, "hover_over_me");
-        asserts.checkElementDisplayed(new Element(Locator.ID, "displayed_when_hovered"));
+        asserts.state().displayed(new Element(Locator.ID, "displayed_when_hovered"));
         // verify 2 issues
         finish();
     }
@@ -396,7 +396,7 @@ public class ActionDoIT extends TestBase {
         // perform some actions
         actions.hover(Locator.ID, "hover_over_me");
         actions.hover(Locator.ID, "scroll_button");
-        asserts.checkElementNotDisplayed(new Element(Locator.ID, "displayed_when_hovered"));
+        asserts.state().notDisplayed(new Element(Locator.ID, "displayed_when_hovered"));
         // verify 2 issues
         finish();
     }
@@ -518,7 +518,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "this", " ");
-        asserts.checkElementChecked(Locator.ID, "this");
+        asserts.state().checked(Locator.ID, "this");
         // verify no issues
         finish();
     }
@@ -629,7 +629,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "this", Keys.SPACE);
-        asserts.checkElementChecked(Locator.ID, "this");
+        asserts.state().checked(Locator.ID, "this");
         // verify no issues
         finish();
     }

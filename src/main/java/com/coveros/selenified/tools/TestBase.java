@@ -308,7 +308,7 @@ public class TestBase {
         }
         this.actions.set(action);
         myFile.setAction(action);
-        myOutput.setSeleniumHelper(action);
+        myOutput.setAction(action);
         myFile.createOutputHeader();
         if (selenium.loadPage()) {
             this.errors.set(myFile.loadInitialPage());

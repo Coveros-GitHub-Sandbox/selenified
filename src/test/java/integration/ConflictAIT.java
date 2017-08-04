@@ -35,7 +35,7 @@ public class ConflictAIT extends TestBase {
         for (int match = 0; match < actions.get().matchCount(element); match++) {
             element.setMatch(match);
             actions.click(element);
-            asserts.checkElementChecked(element);
+            asserts.state().checked(element);
         }
         // close out the test
         finish();

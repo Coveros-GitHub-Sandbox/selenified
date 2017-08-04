@@ -48,10 +48,8 @@ public class LocatorAssert {
     private static final String ELEMENT = "The element with ";
     private static final String CLASS = "class";
 
-    private static final String CHECKED = "</i> is checked on the page";
     private static final String PRESENT = "</i> is not present on the page";
 
-    private static final String NOTCHECKED = "</i> is not checked on the page";
     private static final String NOTINPUT = "</i> is not an input on the page";
     private static final String NOTEDITABLE = "</i> is not editable on the page";
 
@@ -59,7 +57,6 @@ public class LocatorAssert {
     private static final String HASVALUE = "</i> contains the value of <b>";
     private static final String ONLYVALUE = ", only the values <b>";
     private static final String CLASSVALUE = "</i> has a class value of <b>";
-    private static final String IS = "</i> is ";
 
     public LocatorAssert(Action action, OutputFile outputFile) {
         this.action = action;
@@ -69,327 +66,6 @@ public class LocatorAssert {
     // /////////////////////////////////////////////////////////////////////////
     // a bunch of methods to negatively check for objects using selenium calls
     // ///////////////////////////////////////////////////////////////////////
-
-    /**
-     * checks to see if an element is visible on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayed(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> visible on the page");
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present and visible on the page",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an element is not visible on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotDisplayed(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (action.is().elementDisplayed(type, locator, elementMatch)
-                && action.waitFor().elementNotDisplayed(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> present, but not visible on the page");
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is present and not visible on the page",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an object is checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementChecked(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + CHECKED);
-        // check for the object to the visible
-        if (!action.is().elementChecked(type, locator, elementMatch)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTCHECKED, Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + CHECKED, Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an object is not checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotChecked(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + NOTCHECKED);
-        // check for the object to the visible
-        if (action.is().elementChecked(type, locator, elementMatch)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> checked on the page", Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTCHECKED, Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an object is visible and checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndChecked(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + CHECKED);
-        // check for the object to the visible
-        if (!action.is().elementChecked(type, locator, elementMatch)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + NOTCHECKED, Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is checked and visible on the page",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an object is visible and not checked on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndUnchecked(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + NOTCHECKED);
-        // check for the object to the visible
-        if (action.is().elementChecked(type, locator, elementMatch)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + CHECKED, Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> is not checked and visible on the page",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if the actual element is editable
-     * 
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param presence
-     *            - what additional attribute is expected from the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    private int checkEditable(Locator type, String locator, int elementMatch, String presence) {
-        // check for the object to the editable
-        if (!action.is().elementInput(type, locator, elementMatch)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but not an input on the page",
-                    Success.FAIL);
-            return 1;
-        }
-        if (!action.is().elementEnabled(type, locator, elementMatch)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but not editable on the page",
-                    Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " and editable on the page",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if the actual element is editable
-     * 
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param presence
-     *            - what additional attribute is expected from the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    private int checkNotEditable(Locator type, String locator, int elementMatch, String presence) {
-        // check for the object to the editable
-        boolean isElementEnabled = false;
-        if (action.is().elementInput(type, locator, elementMatch)) {
-            isElementEnabled = action.is().elementEnabled(type, locator, elementMatch);
-        }
-        if (isElementEnabled) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " but editable on the page",
-                    Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + IS + presence + " and not editable on the page",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an element is editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementEditable(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> editable on the page");
-        return checkEditable(type, locator, elementMatch, "present");
-    }
-
-    /**
-     * checks to see if an element is not editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementNotEditable(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> not editable on the page");
-        return checkNotEditable(type, locator, elementMatch, "present");
-    }
-
-    /**
-     * checks to see if an element is visible and editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndEditable(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> visible and editable on the page");
-        return checkEditable(type, locator, elementMatch, "visable");
-    }
-
-    /**
-     * checks to see if an element is visible and not editable on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDisplayedAndNotEditable(Locator type, String locator, int elementMatch) {
-        // wait for the element
-        if (!action.is().elementDisplayed(type, locator, elementMatch)
-                && action.waitFor().elementDisplayed(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> visible and not editable on the page");
-        return checkNotEditable(type, locator, elementMatch, "visible");
-    }
 
     /**
      * checks to see if an element has an attribute associated with it
@@ -490,39 +166,6 @@ public class LocatorAssert {
         if (actualClass.equals(expectedClass)) {
             outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + expectedClass + "</b>",
                     Success.PASS);
-            return 0;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass + "</b>", Success.FAIL);
-        return 1;
-    }
-
-    /**
-     * checks to see if an element contains a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedClass
-     *            - the expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        outputFile.recordExpected(
-                EXPECTED + type + " <i>" + locator + "</i> containing class <b>" + expectedClass + "</b>");
-        String actualClass = action.get().attribute(type, locator, elementMatch, CLASS);
-        // outputFile.record the action
-        if (actualClass.contains(expectedClass)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass
-                    + "</b>, which contains <b>" + expectedClass + "</b>", Success.PASS);
             return 0;
         }
         outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass + "</b>", Success.FAIL);
@@ -1216,5 +859,38 @@ public class LocatorAssert {
         outputFile.recordActual("Cell at row " + row + column + col + element + type + " <i>" + locator
                 + "</i> has the text value of <b>" + actualText + "</b>", Success.PASS);
         return 0;
+    }
+
+    /**
+     * checks to see if an element contains a particular class
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @param expectedClass
+     *            - the expected class value
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass) {
+        // wait for the element
+        if (!action.is().elementPresent(type, locator, elementMatch)
+                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
+            return 1;
+        }
+        outputFile.recordExpected(
+                EXPECTED + type + " <i>" + locator + "</i> containing class <b>" + expectedClass + "</b>");
+        String actualClass = action.get().attribute(type, locator, elementMatch, CLASS);
+        // outputFile.record the action
+        if (actualClass.contains(expectedClass)) {
+            outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass
+                    + "</b>, which contains <b>" + expectedClass + "</b>", Success.PASS);
+            return 0;
+        }
+        outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass + "</b>", Success.FAIL);
+        return 1;
     }
 }
