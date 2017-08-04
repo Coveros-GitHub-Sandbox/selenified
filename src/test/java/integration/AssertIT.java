@@ -44,39 +44,6 @@ public class AssertIT extends TestBase {
     }
 
     @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the compareNumOfSelectOptions method")
-    public void compareNumOfSelectOptionsTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfSelectOptions(Locator.NAME, "car_list", 4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareNumOfSelectOptions method")
-    public void negativeCompareNumOfSelectOptionsTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfSelectOptions(new Element(Locator.NAME, "car_list"), 0);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the compareNumOfSelectOptions method")
-    public void negativeCompareNumOfSelectOptionsNotEnabledTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfSelectOptions(new Element(Locator.NAME, "alert_button"), 0, 0);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the compareSelectOptions method")
     public void compareSelectOptionsTest() {
         // use this object to verify the page looks as expected
@@ -135,72 +102,6 @@ public class AssertIT extends TestBase {
     }
 
     @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the compareNumOfTableRows method")
-    public void compareNumOfTableRowsTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfTableRows(Locator.ID, "table", 7);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareNumOfTableRows method")
-    public void negativeCompareNumOfTableRowsTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfTableRows(new Element(Locator.ID, "table"), 0);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareNumOfTableRows method")
-    public void negativeCompareNumOfTableRowsNotPresentTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfTableRows(new Element(Locator.ID, "non-existent-element"), 0, 0);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the compareNumOfTableColumns method")
-    public void compareNumOfTableColumnsTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfTableColumns(Locator.ID, "table", 4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareNumOfTableColumns method")
-    public void negativeCompareNumOfTableColumnsTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfTableColumns(new Element(Locator.ID, "table"), 0);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareNumOfTableColumns method")
-    public void negativeCompareNumOfTableColumnsNotPresetTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareNumOfTableColumns(new Element(Locator.ID, "non-existent-element"), 0, 0);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the compareTableCellText method")
     public void compareTableCellTextTest() {
         // use this object to verify the page looks as expected
@@ -255,17 +156,6 @@ public class AssertIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkSelectValuePresent method")
-    public void negativeCheckSelectValuePresentNotEnabledTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkSelectValuePresent(new Element(Locator.ID, "alert_button"), 0, "ford");
-        // verify 1 issue
-        finish(1);
-    }
-
     @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the checkSelectValueNotPresent method")
     public void checkSelectValueNotPresentTest() {
@@ -296,53 +186,6 @@ public class AssertIT extends TestBase {
         // perform some actions
         asserts.checkSelectValueNotPresent(new Element(Locator.ID, "alert_button"), 0, "volvo");
         // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the checkIfOptionInSelect method")
-    public void checkIfOptionInSelectTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkIfOptionInSelect(Locator.ID, "car_list", "audi");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the checkIfOptionInSelect method")
-    public void negativeCheckIfOptionInSelectTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkIfOptionInSelect(new Element(Locator.ID, "car_list"), "ford");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkIfOptionInSelect method")
-    public void negativeCheckIfOptionInSelectNotEnabledTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkIfOptionInSelect(new Element(Locator.ID, "alert_button"), 0, "ford");
-        // verify 2 issues
-        finish(2);
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkIfOptionInSelect method")
-    public void negativeCheckIfOptionInSelectDelayedTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        actions.click(Locator.ID, "delayed_enable_button");
-        asserts.checkIfOptionInSelect(Locator.ID, "delayed_input", "ford");
-        // verify 1 issues
         finish(1);
     }
 
@@ -594,50 +437,6 @@ public class AssertIT extends TestBase {
     }
 
     @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the checkElementContainsClass method")
-    public void checkElementContainsClassTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementContainsClass(Locator.ID, "hidden_div", "hidden_div");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the checkElementContainsClass method")
-    public void negativeCheckElementContainsClassTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementContainsClass(new Element(Locator.ID, "hidden_div"), "wrong_class");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the checkElementContainsClass method")
-    public void negativeCheckElementContainsClassNotPresentTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementContainsClass(new Element(Locator.ID, "non-existent-element"), 0, "wrong_class");
-        // verify 2 issues
-        finish(2);
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkElementContainsClass method")
-    public void negativeCheckElementContainsClassDelayedTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementContainsClass(Locator.ID, "check", "wrong_class");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the checkElementDoesntContainClass method")
     public void checkElementDoesntContainClassTest() {
         // use this object to verify the page looks as expected
@@ -723,50 +522,6 @@ public class AssertIT extends TestBase {
         asserts.checkElementDoesntHaveAttribute(Locator.ID, "check", "name");
         // verify no issues
         finish();
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration test to check the checkElementHasAttribute method")
-    public void checkElementHasAttributeTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementHasAttribute(Locator.ID, "car_list", "name");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkElementHasAttribute method")
-    public void negativeCheckElementHasAttributeTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementHasAttribute(new Element(Locator.ID, "car_list"), "class");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkElementHasAttribute method")
-    public void negativeCheckElementHasAttributeNotPresentTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementHasAttribute(new Element(Locator.ID, "non-existent-element"), 0, "class");
-        // verify 2 issues
-        finish(2);
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkElementHasAttribute method")
-    public void negativeCheckElementHasAttributeDelayedTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkElementHasAttribute(Locator.ID, "check", "class");
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = { "integration", "asserts",
@@ -1038,39 +793,6 @@ public class AssertIT extends TestBase {
     }
 
     @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the compareSelectedText method")
-    public void compareSelectedTextTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareSelectedText(Locator.ID, "car_list", "Volvo");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareSelectedText method")
-    public void negativeCompareSelectedTextTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareSelectedText(new Element(Locator.ID, "car_list"), "wrong value");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the compareSelectedText method")
-    public void negativeCompareSelectedTextNotEnabledTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareSelectedText(new Element(Locator.ID, "alert_button"), 0, "wrong value");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the compareSelectedValue method")
     public void compareSelectedValueTest() {
         // use this object to verify the page looks as expected
@@ -1181,39 +903,6 @@ public class AssertIT extends TestBase {
     }
 
     @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the compareTextValueContains method")
-    public void compareTextValueContainsTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareTextValueContains(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", "Centro comer");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareTextValueContains method")
-    public void negativeCompareTextValueContainsTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareTextValueContains(new Element(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]"), "Anders");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareTextValueContains method")
-    public void negativeCompareTextValueContainsNotPresentTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareTextValueContains(new Element(Locator.ID, "non-existent-element"), 0, "Anders");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
             "virtual" }, description = "An integration test to check the checkCookie method")
     public void checkCookieTest() {
         // use this object to verify the page looks as expected
@@ -1286,6 +975,39 @@ public class AssertIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.checkCookiePresent("wrongcookie");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "virtual" }, description = "An integration test to check the compareSelectedText method")
+    public void compareSelectedTextTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareSelectedOption(Locator.ID, "car_list", "Volvo");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "virtual" }, description = "An integration negative test to check the compareSelectedText method")
+    public void negativeCompareSelectedTextTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareSelectedOption(new Element(Locator.ID, "car_list"), "wrong value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration",
+            "asserts" }, description = "An integration negative test to check the compareSelectedText method")
+    public void negativeCompareSelectedTextNotEnabledTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.compareSelectedOption(new Element(Locator.ID, "alert_button"), 0, "wrong value");
         // verify 1 issue
         finish(1);
     }

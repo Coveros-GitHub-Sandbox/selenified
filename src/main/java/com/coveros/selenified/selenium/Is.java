@@ -192,6 +192,152 @@ public class Is {
     }
 
     /**
+     * a method for checking if an element is a select element
+     *
+     * @param element
+     *            - the element to be waited for
+     * @return boolean: whether the element is an input or not
+     */
+    public boolean elementSelect(Element element) {
+        return elementSelect(element, false);
+    }
+
+    /**
+     * a method for checking if an element is a select element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @return boolean: whether the element is an input or not
+     */
+    public boolean elementSelect(Locator type, String locator) {
+        return elementSelect(new Element(type, locator), false);
+    }
+
+    /**
+     * a method for checking if an element is a select element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param print
+     *            - whether or not to printout the action
+     * @return boolean: whether the element is present or not
+     */
+    public boolean elementSelect(Locator type, String locator, boolean print) {
+        return elementSelect(new Element(type, locator), print);
+    }
+
+    /**
+     * a method for checking if an element is a select element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @return boolean: whether the element is an input or not
+     */
+    public boolean elementSelect(Locator type, String locator, int elementMatch) {
+        return elementSelect(new Element(type, locator, elementMatch), false);
+    }
+
+    /**
+     * a method for checking if an element is a select element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @param print
+     *            - whether or not to printout the action
+     * @return boolean: whether the element is present or not
+     */
+    public boolean elementSelect(Locator type, String locator, int elementMatch, boolean print) {
+        return elementSelect(new Element(type, locator, elementMatch), print);
+    }
+
+    /**
+     * a method for checking if an element is a table element
+     *
+     * @param element
+     *            - the element to be waited for
+     * @return boolean: whether the element is an input or not
+     */
+    public boolean elementTable(Element element) {
+        return elementTable(element, false);
+    }
+
+    /**
+     * a method for checking if an element is a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @return boolean: whether the element is an input or not
+     */
+    public boolean elementTable(Locator type, String locator) {
+        return elementTable(new Element(type, locator), false);
+    }
+
+    /**
+     * a method for checking if an element is a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param print
+     *            - whether or not to printout the action
+     * @return boolean: whether the element is present or not
+     */
+    public boolean elementTable(Locator type, String locator, boolean print) {
+        return elementTable(new Element(type, locator), print);
+    }
+
+    /**
+     * a method for checking if an element is a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @return boolean: whether the element is an input or not
+     */
+    public boolean elementTable(Locator type, String locator, int elementMatch) {
+        return elementTable(new Element(type, locator, elementMatch), false);
+    }
+
+    /**
+     * a method for checking if an element is a table element
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @param print
+     *            - whether or not to printout the action
+     * @return boolean: whether the element is present or not
+     */
+    public boolean elementTable(Locator type, String locator, int elementMatch, boolean print) {
+        return elementTable(new Element(type, locator, elementMatch), print);
+    }
+
+    /**
      * a method for checking if an element is enabled
      *
      * @param element
@@ -675,6 +821,58 @@ public class Is {
         }
         if (print) {
             file.recordExpected(CHECKING + element.prettyOutput() + " to be an input element");
+        }
+        return isInput;
+    }
+
+    /**
+     * a method for checking if an element is a select element
+     *
+     * @param element
+     *            - the element to be checked
+     * @param print
+     *            - whether or not to printout the action
+     * @return boolean: whether the element is present or not
+     */
+    public boolean elementSelect(Element element, boolean print) {
+        element.setDriver(driver);
+        boolean isInput = false;
+        try {
+            WebElement webElement = element.getWebElement();
+            if ("select".equalsIgnoreCase(webElement.getTagName())) {
+                isInput = true;
+            }
+        } catch (NoSuchElementException e) {
+            log.error(e);
+        }
+        if (print) {
+            file.recordExpected(CHECKING + element.prettyOutput() + " to be a select element");
+        }
+        return isInput;
+    }
+
+    /**
+     * a method for checking if an element is a table element
+     *
+     * @param element
+     *            - the element to be checked
+     * @param print
+     *            - whether or not to printout the action
+     * @return boolean: whether the element is present or not
+     */
+    public boolean elementTable(Element element, boolean print) {
+        element.setDriver(driver);
+        boolean isInput = false;
+        try {
+            WebElement webElement = element.getWebElement();
+            if ("table".equalsIgnoreCase(webElement.getTagName())) {
+                isInput = true;
+            }
+        } catch (NoSuchElementException e) {
+            log.error(e);
+        }
+        if (print) {
+            file.recordExpected(CHECKING + element.prettyOutput() + " to be a table element");
         }
         return isInput;
     }

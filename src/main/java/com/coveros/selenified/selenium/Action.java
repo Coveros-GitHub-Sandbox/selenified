@@ -1367,7 +1367,7 @@ public class Action {
         try {
             WebElement webElement = element.getWebElement();
             Select dropdown = new Select(webElement);
-            dropdown.selectByValue(value);
+            dropdown.selectByVisibleText(value);
         } catch (Exception e) {
             log.error(e);
             file.recordAction(action, expected, cantSelect + element.prettyOutput() + ". " + e.getMessage(),

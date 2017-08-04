@@ -200,7 +200,7 @@ public class ActionGetIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         String[] options = actions.get().selectOptions(Locator.NAME, "car_list");
-        Assert.assertEquals(options, new String[] { "volvo", "saab", "mercedes", "audi" });
+        Assert.assertEquals(options, new String[] { "Volvo", "Saab", "Mercedes", "Audi" });
         // verify no issues
         finish();
     }
@@ -438,7 +438,7 @@ public class ActionGetIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        String text = actions.get().selectedText(Locator.ID, "car_list");
+        String text = actions.get().selectedOption(Locator.ID, "car_list");
         Assert.assertEquals(text, "Volvo");
         // verify no issues
         finish();
@@ -450,7 +450,7 @@ public class ActionGetIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        String text = actions.get().selectedText(new Element(Locator.ID, "non-existent-name"));
+        String text = actions.get().selectedOption(new Element(Locator.ID, "non-existent-name"));
         Assert.assertNull(text);
         // verify 1 issue
         finish(1);
@@ -462,7 +462,7 @@ public class ActionGetIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        String text = actions.get().selectedText(Locator.ID, "table");
+        String text = actions.get().selectedOption(Locator.ID, "table");
         Assert.assertNull(text);
         // verify no issues
         finish();
@@ -474,7 +474,7 @@ public class ActionGetIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        String[] text = actions.get().selectedTexts(Locator.ID, "car_list");
+        String[] text = actions.get().selectedOptions(Locator.ID, "car_list");
         Assert.assertEquals(text, new String[] { "Volvo" });
         // verify no issues
         finish();
@@ -486,7 +486,7 @@ public class ActionGetIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        String[] text = actions.get().selectedTexts(new Element(Locator.ID, "non-existent-name"));
+        String[] text = actions.get().selectedOptions(new Element(Locator.ID, "non-existent-name"));
         Assert.assertEquals(text, new String[0]);
         // verify 1 issue
         finish(1);
@@ -498,7 +498,7 @@ public class ActionGetIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
-        String[] text = actions.get().selectedTexts(Locator.ID, "table");
+        String[] text = actions.get().selectedOptions(Locator.ID, "table");
         Assert.assertEquals(text, new String[0]);
         // verify no issues
         finish();

@@ -20,6 +20,7 @@
 
 package com.coveros.selenified.output;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +29,8 @@ import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.State;
+import com.coveros.selenified.selenium.Contains;
+import com.coveros.selenified.tools.General;
 
 /**
  * A custom reporting class, which provides logging and screenshots for all
@@ -47,6 +50,8 @@ public class Assert {
 
     // the is class to determine the state of an element
     private State state;
+    // the is class to determine if an element contains something
+    private Contains contains;
 
     // constants
     private static final String ONPAGE = "</b> on the page";
@@ -83,22 +88,26 @@ public class Assert {
     public Assert(String outputDir, String testsName, Browser browser) {
         outputFile = new OutputFile(outputDir, testsName, browser);
         state = new State(action, outputFile);
+        contains = new Contains(action, outputFile);
     }
 
     public Assert(String outputDir, String testsName, String serviceURL) {
         outputFile = new OutputFile(outputDir, testsName, serviceURL);
         state = new State(action, outputFile);
+        contains = new Contains(action, outputFile);
     }
 
     public void setAction(Action action) {
         this.action = action;
         locatorAssert = new LocatorAssert(action, outputFile);
         state.setAction(action);
+        contains.setAction(action);
     }
 
     public void setOutputFile(OutputFile thisOutputFile) {
         outputFile = thisOutputFile;
         state.setOutputFile(outputFile);
+        contains.setAction(action);
     }
 
     public OutputFile getOutputFile() {
@@ -111,6 +120,10 @@ public class Assert {
 
     public State state() {
         return state;
+    }
+
+    public Contains contains() {
+        return contains;
     }
 
     ///////////////////////////////////////////////////////
@@ -431,67 +444,131 @@ public class Assert {
     }
 
     /**
-     * checks to see if an element has an attribute associated with it
+     * checks to see if text is visible on the page
      *
-     * @param element
-     *            - the element to be waited for
-     * @param attribute
-     *            - the attribute to check for
+     * @param expectedTexts
+     *            the expected text to be visible
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkElementHasAttribute(Element element, String attribute) {
-        return checkElementHasAttribute(element.getType(), element.getLocator(), 0, attribute);
-    }
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementHasAttribute(Locator type, String locator, String attribute) {
-        return checkElementHasAttribute(type, locator, 0, attribute);
-    }
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementHasAttribute(Element element, int elementMatch, String attribute) {
-        return checkElementHasAttribute(element.getType(), element.getLocator(), elementMatch, attribute);
-    }
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementHasAttribute(Locator type, String locator, int elementMatch, String attribute) {
-        int errors = locatorAssert.checkElementHasAttribute(type, locator, elementMatch, attribute);
-        outputFile.addErrors(errors);
+    public int checkTextVisible(String... expectedTexts) {
+        // outputFile.record the action
+        int errors = 0;
+        for (String expectedText : expectedTexts) {
+            outputFile.recordExpected("Expected to find text <b>" + expectedText + "</b> visible on the page");
+            // check for the object to the visible
+            boolean isPresent = action.is().textPresent(expectedText);
+            if (!isPresent) {
+                outputFile.recordActual(TEXT + expectedText + "</b> is not visible on the page", Success.FAIL);
+                outputFile.addError();
+                errors++;
+            } else {
+                outputFile.recordActual(TEXT + expectedText + VISIBLE, Success.PASS);
+            }
+        }
         return errors;
+    }
+
+    /**
+     * checks to see if text is not visible on the page
+     *
+     * @param expectedTexts
+     *            the expected text to be invisible
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkTextNotVisible(String... expectedTexts) {
+        // outputFile.record the action
+        int errors = 0;
+        for (String expectedText : expectedTexts) {
+            outputFile.recordExpected("Expected not to find text <b>" + expectedText + "</b> visible on the page");
+            // check for the object to the visible
+            boolean isPresent = action.is().textPresent(expectedText);
+            if (isPresent) {
+                outputFile.recordActual(TEXT + expectedText + VISIBLE, Success.FAIL);
+                outputFile.addError();
+                errors++;
+            } else {
+                outputFile.recordActual(TEXT + expectedText + "</b> is not visible on the page", Success.PASS);
+            }
+        }
+        return errors;
+    }
+
+    /**
+     * checks to see if text is visible on the page
+     *
+     * @param expectedTexts
+     *            the expected text to be visible
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkTextVisibleOR(String... expectedTexts) {
+        // outputFile.record the action
+        int errors = 0;
+        boolean isPresent = false;
+        String foundText = "";
+        StringBuilder allTexts = new StringBuilder();
+        for (String expectedText : expectedTexts) {
+            allTexts.append("<b>" + expectedText + "</b> or ");
+        }
+        allTexts.setLength(allTexts.length() - 4);
+        outputFile.recordExpected("Expected to find text " + allTexts + " visible on the page");
+        // check for the object to the visible
+        for (String expectedText : expectedTexts) {
+            isPresent = action.is().textPresent(expectedText);
+            if (isPresent) {
+                foundText = expectedText;
+                break;
+            }
+        }
+        if (!isPresent) {
+            outputFile.recordActual(
+                    "None of the texts " + allTexts.toString().replace(" or ", ", ") + " are visible on the page",
+                    Success.FAIL);
+            outputFile.addError();
+            errors++;
+            return errors;
+        }
+        outputFile.recordActual(TEXT + foundText + VISIBLE, Success.PASS);
+        return errors;
+    }
+
+    /**
+     * compares the actual title a page is on to the expected title
+     *
+     * @param expectedTitle
+     *            the friendly name of the page
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareTitle(String expectedTitle) {
+        // outputFile.record the action
+        outputFile.recordExpected("Expected to be on page with the title of <i>" + expectedTitle + "</i>");
+        String actualTitle = action.get().title();
+        if (!actualTitle.equalsIgnoreCase(expectedTitle)) {
+            outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.FAIL);
+            outputFile.addError();
+            return 1;
+        }
+        outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.PASS);
+        return 0;
+    }
+
+    /**
+     * compares the actual URL a page is on to the expected URL
+     *
+     * @param expectedURL
+     *            the URL of the page
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareURL(String expectedURL) {
+        // outputFile.record the action
+        outputFile.recordExpected("Expected to be on page with the URL of <i>" + expectedURL + "</i>");
+        String actualURL = action.get().location();
+        if (!actualURL.equalsIgnoreCase(expectedURL)) {
+            outputFile.recordActual("The page URL  reads <b>" + actualURL + "</b>", Success.FAIL);
+            outputFile.addError();
+            return 1;
+        }
+        outputFile.recordActual("The page URL reads <b>" + actualURL + "</b>", Success.PASS);
+        return 0;
     }
 
     /**
@@ -623,70 +700,6 @@ public class Assert {
     }
 
     /**
-     * checks to see if an element contains a particular class
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedClass
-     *            - the expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementContainsClass(Element element, String expectedClass) {
-        return checkElementContainsClass(element.getType(), element.getLocator(), 0, expectedClass);
-    }
-
-    /**
-     * checks to see if an element contains a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedClass
-     *            - the expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementContainsClass(Locator type, String locator, String expectedClass) {
-        return checkElementContainsClass(type, locator, 0, expectedClass);
-    }
-
-    /**
-     * checks to see if an element contains a particular class
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedClass
-     *            - the expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementContainsClass(Element element, int elementMatch, String expectedClass) {
-        return checkElementContainsClass(element.getType(), element.getLocator(), elementMatch, expectedClass);
-    }
-
-    /**
-     * checks to see if an element contains a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedClass
-     *            - the expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass) {
-        int errors = locatorAssert.checkElementContainsClass(type, locator, elementMatch, expectedClass);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
      * checks to see if an element does not contain a particular class
      *
      * @param element
@@ -746,70 +759,6 @@ public class Assert {
      */
     public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass) {
         int errors = locatorAssert.checkElementDoesntContainClass(type, locator, elementMatch, unexpectedClass);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an option is available to be selected on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param option
-     *            the option expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionInSelect(Element element, String option) {
-        return checkIfOptionInSelect(element.getType(), element.getLocator(), 0, option);
-    }
-
-    /**
-     * checks to see if an option is available to be selected on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param option
-     *            the option expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionInSelect(Locator type, String locator, String option) {
-        return checkIfOptionInSelect(type, locator, 0, option);
-    }
-
-    /**
-     * checks to see if an option is available to be selected on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param option
-     *            the option expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionInSelect(Element element, int elementMatch, String option) {
-        return checkIfOptionInSelect(element.getType(), element.getLocator(), elementMatch, option);
-    }
-
-    /**
-     * checks to see if an option is available to be selected on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param option
-     *            the option expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option) {
-        int errors = locatorAssert.checkIfOptionInSelect(type, locator, elementMatch, option);
         outputFile.addErrors(errors);
         return errors;
     }
@@ -879,94 +828,6 @@ public class Assert {
     }
 
     /**
-     * checks to see if text is visible on the page
-     *
-     * @param expectedTexts
-     *            the expected text to be visible
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkTextVisible(String... expectedTexts) {
-        // outputFile.record the action
-        int errors = 0;
-        for (String expectedText : expectedTexts) {
-            outputFile.recordExpected("Expected to find text <b>" + expectedText + "</b> visible on the page");
-            // check for the object to the visible
-            boolean isPresent = action.is().textPresent(expectedText);
-            if (!isPresent) {
-                outputFile.recordActual(TEXT + expectedText + "</b> is not visible on the page", Success.FAIL);
-                outputFile.addError();
-                errors++;
-            } else {
-                outputFile.recordActual(TEXT + expectedText + VISIBLE, Success.PASS);
-            }
-        }
-        return errors;
-    }
-
-    /**
-     * checks to see if text is not visible on the page
-     *
-     * @param expectedTexts
-     *            the expected text to be invisible
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkTextNotVisible(String... expectedTexts) {
-        // outputFile.record the action
-        int errors = 0;
-        for (String expectedText : expectedTexts) {
-            outputFile.recordExpected("Expected not to find text <b>" + expectedText + "</b> visible on the page");
-            // check for the object to the visible
-            boolean isPresent = action.is().textPresent(expectedText);
-            if (isPresent) {
-                outputFile.recordActual(TEXT + expectedText + VISIBLE, Success.FAIL);
-                outputFile.addError();
-                errors++;
-            } else {
-                outputFile.recordActual(TEXT + expectedText + "</b> is not visible on the page", Success.PASS);
-            }
-        }
-        return errors;
-    }
-
-    /**
-     * checks to see if text is visible on the page
-     *
-     * @param expectedTexts
-     *            the expected text to be visible
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkTextVisibleOR(String... expectedTexts) {
-        // outputFile.record the action
-        int errors = 0;
-        boolean isPresent = false;
-        String foundText = "";
-        StringBuilder allTexts = new StringBuilder();
-        for (String expectedText : expectedTexts) {
-            allTexts.append("<b>" + expectedText + "</b> or ");
-        }
-        allTexts.setLength(allTexts.length() - 4);
-        outputFile.recordExpected("Expected to find text " + allTexts + " visible on the page");
-        // check for the object to the visible
-        for (String expectedText : expectedTexts) {
-            isPresent = action.is().textPresent(expectedText);
-            if (isPresent) {
-                foundText = expectedText;
-                break;
-            }
-        }
-        if (!isPresent) {
-            outputFile.recordActual(
-                    "None of the texts " + allTexts.toString().replace(" or ", ", ") + " are visible on the page",
-                    Success.FAIL);
-            outputFile.addError();
-            errors++;
-            return errors;
-        }
-        outputFile.recordActual(TEXT + foundText + VISIBLE, Success.PASS);
-        return errors;
-    }
-
-    /**
      * compares the expected element value with the actual value from an element
      *
      * @param element
@@ -1028,110 +889,6 @@ public class Assert {
         int errors = locatorAssert.compareTextValue(type, locator, elementMatch, expectedValue);
         outputFile.addErrors(errors);
         return errors;
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValueContains(Element element, String expectedValue) {
-        return compareTextValueContains(element.getType(), element.getLocator(), 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValueContains(Locator type, String locator, String expectedValue) {
-        return compareTextValueContains(type, locator, 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValueContains(Element element, int elementMatch, String expectedValue) {
-        return compareTextValueContains(element.getType(), element.getLocator(), elementMatch, expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValueContains(Locator type, String locator, int elementMatch, String expectedValue) {
-        int errors = locatorAssert.compareTextValueContains(type, locator, elementMatch, expectedValue);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * compares the actual title a page is on to the expected title
-     *
-     * @param expectedTitle
-     *            the friendly name of the page
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTitle(String expectedTitle) {
-        // outputFile.record the action
-        outputFile.recordExpected("Expected to be on page with the title of <i>" + expectedTitle + "</i>");
-        String actualTitle = action.get().title();
-        if (!actualTitle.equalsIgnoreCase(expectedTitle)) {
-            outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.FAIL);
-            outputFile.addError();
-            return 1;
-        }
-        outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.PASS);
-        return 0;
-    }
-
-    /**
-     * compares the actual URL a page is on to the expected URL
-     *
-     * @param expectedURL
-     *            the URL of the page
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareURL(String expectedURL) {
-        // outputFile.record the action
-        outputFile.recordExpected("Expected to be on page with the URL of <i>" + expectedURL + "</i>");
-        String actualURL = action.get().location();
-        if (!actualURL.equalsIgnoreCase(expectedURL)) {
-            outputFile.recordActual("The page URL  reads <b>" + actualURL + "</b>", Success.FAIL);
-            outputFile.addError();
-            return 1;
-        }
-        outputFile.recordActual("The page URL reads <b>" + actualURL + "</b>", Success.PASS);
-        return 0;
     }
 
     /**
@@ -1293,70 +1050,6 @@ public class Assert {
     }
 
     /**
-     * checks to see if an element select value exists
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValuePresent(Element element, String selectValue) {
-        return checkSelectValuePresent(element.getType(), element.getLocator(), 0, selectValue);
-    }
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValuePresent(Locator type, String locator, String selectValue) {
-        return checkSelectValuePresent(type, locator, 0, selectValue);
-    }
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValuePresent(Element element, int elementMatch, String selectValue) {
-        return checkSelectValuePresent(element.getType(), element.getLocator(), elementMatch, selectValue);
-    }
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue) {
-        int errors = locatorAssert.checkSelectValuePresent(type, locator, elementMatch, selectValue);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
      * checks to see if an element select value does not exist
      *
      * @param element
@@ -1498,8 +1191,8 @@ public class Assert {
      *            the expected input text of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int compareSelectedText(Element element, String expectedText) {
-        return compareSelectedText(element.getType(), element.getLocator(), 0, expectedText);
+    public int compareSelectedOption(Element element, String expectedText) {
+        return compareSelectedOption(element.getType(), element.getLocator(), 0, expectedText);
     }
 
     /**
@@ -1514,8 +1207,8 @@ public class Assert {
      *            the expected input text of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int compareSelectedText(Locator type, String locator, String expectedText) {
-        return compareSelectedText(type, locator, 0, expectedText);
+    public int compareSelectedOption(Locator type, String locator, String expectedText) {
+        return compareSelectedOption(type, locator, 0, expectedText);
     }
 
     /**
@@ -1531,8 +1224,8 @@ public class Assert {
      *            the expected input text of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int compareSelectedText(Element element, int elementMatch, String expectedText) {
-        return compareSelectedText(element.getType(), element.getLocator(), elementMatch, expectedText);
+    public int compareSelectedOption(Element element, int elementMatch, String expectedText) {
+        return compareSelectedOption(element.getType(), element.getLocator(), elementMatch, expectedText);
     }
 
     /**
@@ -1550,8 +1243,8 @@ public class Assert {
      *            the expected input text of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int compareSelectedText(Locator type, String locator, int elementMatch, String expectedText) {
-        int errors = locatorAssert.compareSelectedText(type, locator, elementMatch, expectedText);
+    public int compareSelectedOption(Locator type, String locator, int elementMatch, String expectedText) {
+        int errors = locatorAssert.compareSelectedOption(type, locator, elementMatch, expectedText);
         outputFile.addErrors(errors);
         return errors;
     }
@@ -1693,210 +1386,6 @@ public class Assert {
     }
 
     /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param numOfOptions
-     *            the expected number of options in the select element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfSelectOptions(Element element, int numOfOptions) {
-        return compareNumOfSelectOptions(element.getType(), element.getLocator(), 0, numOfOptions);
-    }
-
-    /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param numOfOptions
-     *            the expected number of options in the select element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfSelectOptions(Locator type, String locator, int numOfOptions) {
-        return compareNumOfSelectOptions(type, locator, 0, numOfOptions);
-    }
-
-    /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfOptions
-     *            the expected number of options in the select element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfSelectOptions(Element element, int elementMatch, int numOfOptions) {
-        return compareNumOfSelectOptions(element.getType(), element.getLocator(), elementMatch, numOfOptions);
-    }
-
-    /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfOptions
-     *            the expected number of options in the select element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfSelectOptions(Locator type, String locator, int elementMatch, int numOfOptions) {
-        int errors = locatorAssert.compareNumOfSelectOptions(type, locator, elementMatch, numOfOptions);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * compares the number of expected rows with the actual number of rows of a
-     * table with from a table element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param numOfRows
-     *            the number of rows in a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableRows(Element element, int numOfRows) {
-        return compareNumOfTableRows(element.getType(), element.getLocator(), 0, numOfRows);
-    }
-
-    /**
-     * compares the number of expected rows with the actual number of rows of a
-     * table with from a table element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param numOfRows
-     *            the number of rows in a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableRows(Locator type, String locator, int numOfRows) {
-        return compareNumOfTableRows(type, locator, 0, numOfRows);
-    }
-
-    /**
-     * compares the number of expected rows with the actual number of rows of a
-     * table with from a table element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfRows
-     *            the number of rows in a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableRows(Element element, int elementMatch, int numOfRows) {
-        return compareNumOfTableRows(element.getType(), element.getLocator(), elementMatch, numOfRows);
-    }
-
-    /**
-     * compares the number of expected rows with the actual number of rows of a
-     * table with from a table element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfRows
-     *            the number of rows in a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows) {
-        int errors = locatorAssert.compareNumOfTableRows(type, locator, elementMatch, numOfRows);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * compares the number of expected columns with the actual number of columns
-     * of a table with from a table element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param numOfColumns
-     *            the number of columns in a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableColumns(Element element, int numOfColumns) {
-        return compareNumOfTableColumns(element.getType(), element.getLocator(), 0, numOfColumns);
-    }
-
-    /**
-     * compares the number of expected columns with the actual number of columns
-     * of a table with from a table element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param numOfColumns
-     *            the number of columns in a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableColumns(Locator type, String locator, int numOfColumns) {
-        return compareNumOfTableColumns(type, locator, 0, numOfColumns);
-    }
-
-    /**
-     * compares the number of expected columns with the actual number of columns
-     * of a table with from a table element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfColumns
-     *            the number of columns in a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableColumns(Element element, int elementMatch, int numOfColumns) {
-        return compareNumOfTableColumns(element.getType(), element.getLocator(), elementMatch, numOfColumns);
-    }
-
-    /**
-     * compares the number of expected columns with the actual number of columns
-     * of a table with from a table element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfColumns
-     *            the number of columns in a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableColumns(Locator type, String locator, int elementMatch, int numOfColumns) {
-        int errors = locatorAssert.compareNumOfTableColumns(type, locator, elementMatch, numOfColumns);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
      * compares the text of expected table cell with the actual table cell text
      * of a table with from a table element
      *
@@ -1991,6 +1480,73 @@ public class Assert {
     ///////////////////////////////////////////////////////////////////
     // this enum will be for a pass/fail
     ///////////////////////////////////////////////////////////////////
+
+    /**
+     * checks to see if an element select value exists
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param selectValue
+     *            the expected input value of the element
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkSelectValuePresent(Locator type, String locator, String selectValue) {
+        return checkSelectValuePresent(new Element(type, locator), selectValue);
+    }
+
+    /**
+     * checks to see if an element select value exists
+     *
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param elementMatch
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @param selectValue
+     *            the expected input value of the element
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue) {
+        return checkSelectValuePresent(new Element(type, locator, elementMatch), selectValue);
+    }
+
+    /**
+     * checks to see if an element select value exists
+     *
+     * @param element
+     *            - the element to be assessed
+     * @param selectValue
+     *            the expected input value of the element
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkSelectValuePresent(Element element, String selectValue) {
+        String EXPECTED = "Expected to find element with ";
+        String ELEMENT = "The element with ";
+        String HASVALUE = "</i> contains the value of <b>";
+        String ONLYVALUE = ", only the values <b>";
+
+        // outputFile.record the action
+        outputFile.recordExpected(
+                EXPECTED + element.prettyOutput() + "</i> having a select value of <b>" + selectValue + "</b>");
+        // check for the object to the present on the page
+        String[] elementValues;
+        // if (!isPresentInputEnabled(element)) {
+        // return 1;
+        // } else {
+        elementValues = action.get().selectedValues(element);
+        // }
+        if (General.doesArrayContain(elementValues, selectValue)) {
+            outputFile.recordActual(ELEMENT + element.prettyOutput() + HASVALUE + selectValue + "</b>", Success.PASS);
+            return 0;
+        }
+        outputFile.recordActual(ELEMENT + element.prettyOutput() + "</i> does not contain the value of <b>"
+                + selectValue + "</b>" + ONLYVALUE + Arrays.toString(elementValues) + "</b>", Success.FAIL);
+        return 1;
+    }
 
     /**
      * An enumeration used to determine if the tests pass or fail

@@ -65,8 +65,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().checked(Locator.ID, "non-existent-element");
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts",
@@ -98,8 +98,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().displayed(new Element(Locator.ID, "non_existent"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts", "state",
@@ -109,8 +109,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().displayed(new Element(Locator.ID, "hidden_div"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts",
@@ -159,8 +159,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().displayedAndChecked(new Element(Locator.ID, "non-existent-element"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts",
@@ -170,7 +170,7 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().displayedAndChecked(Locator.ID, "check");
-        // verify 1 issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -192,8 +192,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().displayedAndEditable(new Element(Locator.ID, "non_existent"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts",
@@ -236,8 +236,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().displayedAndNotEditable(new Element(Locator.ID, "non-existent-element", 0));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts",
@@ -283,8 +283,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().displayedAndUnchecked(new Element(Locator.ID, "non-existent-element", 0));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts",
@@ -316,8 +316,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().editable(new Element(Locator.ID, "non_existent"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts", "state",
@@ -385,8 +385,8 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.state().notChecked(new Element(Locator.ID, "non-existent-element", 0));
-        // verify 2 issue
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "asserts",

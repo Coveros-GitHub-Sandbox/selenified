@@ -81,42 +81,6 @@ public class LocatorAssert {
      *            - the attribute to check for
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkElementHasAttribute(Locator type, String locator, int elementMatch, String attribute) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with attribute <b>" + attribute + "</b>");
-        Map<String, String> attributes = action.get().allAttributes(type, locator, elementMatch);
-        Set<String> keys = attributes.keySet();
-        String[] array = keys.toArray(new String[keys.size()]);
-        // outputFile.record the action
-        if (General.doesArrayContain(array, attribute)) {
-            outputFile.recordActual(
-                    ELEMENT + type + " <i>" + locator + "</i> contains the attribute of <b>" + attribute + "</b>",
-                    Success.PASS);
-            return 0;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not contain the attribute of <b>"
-                + attribute + "</b>" + ONLYVALUE + Arrays.toString(array) + "</b>", Success.FAIL);
-        return 1;
-    }
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
     public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute) {
         // wait for the element
         if (!action.is().elementPresent(type, locator, elementMatch)
@@ -203,42 +167,6 @@ public class LocatorAssert {
         }
         outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not contain a class value of <b>"
                 + unexpectedClass + "</b>", Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an option is available to be selected on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param option
-     *            the option expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionInSelect(Locator type, String locator, int elementMatch, String option) {
-        // wait for the element
-        if (!action.is().elementEnabled(type, locator, elementMatch)
-                && action.waitFor().elementEnabled(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the option <b>" + option
-                + "</b> available to be" + " selected on the page");
-        // check for the object to the editable
-        String[] allOptions = action.get().selectOptions(type, locator, elementMatch);
-        if (!Arrays.asList(allOptions).contains(option)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator
-                    + "</i> is editable and present but does not contain the option " + "<b>" + option + "</b>",
-                    Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator
-                + "</i> is editable and present and contains the option " + "<b>" + option + "</b>", Success.PASS);
         return 0;
     }
 
@@ -395,38 +323,6 @@ public class LocatorAssert {
     }
 
     /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValueContains(Locator type, String locator, int elementMatch, String expectedValue) {
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + HASVALUE + expectedValue + "</b>");
-        // check for the object to the present on the page
-        String elementValue;
-        if (!isPresent(type, locator, elementMatch)) {
-            return 1;
-        } else {
-            elementValue = action.get().text(type, locator, elementMatch);
-        }
-        if (!elementValue.contains(expectedValue)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + VALUE + elementValue + "</b>", Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + VALUE + elementValue + "</b>", Success.PASS);
-        return 0;
-    }
-
-    /**
      * compares the expected element input value with the actual value from an
      * element
      *
@@ -496,40 +392,6 @@ public class LocatorAssert {
         outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> has a css attribute of <i>" + attribute
                 + "</i> with the value of <b>" + elementCssValue + "</b>", Success.PASS);
         return 0;
-    }
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue) {
-        // outputFile.record the action
-        outputFile.recordExpected(
-                EXPECTED + type + " <i>" + locator + "</i> having a select value of <b>" + selectValue + "</b>");
-        // check for the object to the present on the page
-        String[] elementValues;
-        if (!isPresentInputEnabled(type, locator, elementMatch)) {
-            return 1;
-        } else {
-            elementValues = action.get().selectedValues(type, locator, elementMatch);
-        }
-        if (General.doesArrayContain(elementValues, selectValue)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + HASVALUE + selectValue + "</b>", Success.PASS);
-            return 0;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not contain the value of <b>"
-                + selectValue + "</b>" + ONLYVALUE + Arrays.toString(elementValues) + "</b>", Success.FAIL);
-        return 1;
     }
 
     /**
@@ -615,7 +477,7 @@ public class LocatorAssert {
      *            the expected input text of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int compareSelectedText(Locator type, String locator, int elementMatch, String expectedText) {
+    public int compareSelectedOption(Locator type, String locator, int elementMatch, String expectedText) {
         // outputFile.record the action
         outputFile.recordExpected(
                 EXPECTED + type + " <i>" + locator + "</i> having a selected text of <b>" + expectedText + "</b>");
@@ -624,7 +486,7 @@ public class LocatorAssert {
         if (!isPresentInputEnabled(type, locator, elementMatch)) {
             return 1;
         } else {
-            elementText = action.get().selectedText(type, locator, elementMatch);
+            elementText = action.get().selectedOption(type, locator, elementMatch);
         }
         if (!elementText.equals(expectedText)) {
             outputFile.recordActual(ELEMENT + type + " <i>" + locator + VALUE + elementText + "</b>", Success.FAIL);
@@ -714,112 +576,6 @@ public class LocatorAssert {
     }
 
     /**
-     * compares the number of expected attributes from a select value with the
-     * actual number of attributes from the element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfOptions
-     *            the expected number of options in the select element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfSelectOptions(Locator type, String locator, int elementMatch, int numOfOptions) {
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with number of select values equal to <b>"
-                + numOfOptions + "</b>");
-        // check for the object to the present on the page
-        int elementValues;
-        if (!isPresentInputEnabled(type, locator, elementMatch)) {
-            return 1;
-        } else {
-            elementValues = action.get().numOfSelectOptions(type, locator, elementMatch);
-        }
-        if (elementValues != numOfOptions) {
-            outputFile.recordActual(
-                    ELEMENT + type + " <i>" + locator + "</i> has <b>" + numOfOptions + "</b>" + " select options",
-                    Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(
-                ELEMENT + type + " <i>" + locator + "</i> has <b>" + numOfOptions + "</b>" + " select options",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
-     * compares the number of expected rows with the actual number of rows of a
-     * table with from a table element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfRows
-     *            the expected number of row elements of a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableRows(Locator type, String locator, int elementMatch, int numOfRows) {
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> with the number of table rows equal to <b>"
-                + numOfRows + "</b>");
-        // check for the object to the present on the page
-        if (!isPresent(type, locator, elementMatch)) {
-            return 1;
-        }
-        int actualNumOfRows = action.get().numOfTableRows(type, locator, elementMatch);
-        if (actualNumOfRows != numOfRows) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not have the number of rows <b>"
-                    + numOfRows + "</b>. Instead, " + actualNumOfRows + " rows were found", Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "has " + actualNumOfRows + "</b> rows",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
-     * compares the number of expected columns with the actual number of columns
-     * of a table with from a table element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param numOfColumns
-     *            the expected number of column elements of a table
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareNumOfTableColumns(Locator type, String locator, int elementMatch, int numOfColumns) {
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator
-                + "</i> with the number of table columns equal to <b>" + numOfColumns + "</b>");
-        // check for the object to the present on the page
-        if (!isPresent(type, locator, elementMatch)) {
-            return 1;
-        }
-        int actualNumOfCols = action.get().numOfTableColumns(type, locator, elementMatch);
-        if (actualNumOfCols != numOfColumns) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not have the number of columns <b>"
-                    + numOfColumns + "</b>. Instead, " + actualNumOfCols + " columns were found", Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "has " + actualNumOfCols + "</b> columns",
-                Success.PASS);
-        return 0;
-    }
-
-    /**
      * compares the text of expected table cell with the actual table cell text
      * of a table with from a table element
      *
@@ -859,38 +615,5 @@ public class LocatorAssert {
         outputFile.recordActual("Cell at row " + row + column + col + element + type + " <i>" + locator
                 + "</i> has the text value of <b>" + actualText + "</b>", Success.PASS);
         return 0;
-    }
-
-    /**
-     * checks to see if an element contains a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedClass
-     *            - the expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementContainsClass(Locator type, String locator, int elementMatch, String expectedClass) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        outputFile.recordExpected(
-                EXPECTED + type + " <i>" + locator + "</i> containing class <b>" + expectedClass + "</b>");
-        String actualClass = action.get().attribute(type, locator, elementMatch, CLASS);
-        // outputFile.record the action
-        if (actualClass.contains(expectedClass)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass
-                    + "</b>, which contains <b>" + expectedClass + "</b>", Success.PASS);
-            return 0;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass + "</b>", Success.FAIL);
-        return 1;
     }
 }

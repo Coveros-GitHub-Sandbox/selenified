@@ -31,13 +31,13 @@ public class ActionDoIT extends TestBase {
 
     @DataProvider(name = "car list options", parallel = true)
     public Object[][] DataSetOptions() {
-        return new Object[][] { new Object[] { 0, "volvo" }, new Object[] { 1, "saab" },
-                new Object[] { 2, "mercedes" } };
+        return new Object[][] { new Object[] { 0, "Volvo" }, new Object[] { 1, "Saab" },
+                new Object[] { 2, "Mercedes" } };
     }
 
     @DataProvider(name = "car list items", parallel = true)
     public Object[][] DataSetItems() {
-        return new Object[][] { new Object[] { "volvo" }, new Object[] { "saab" }, new Object[] { "mercedes" } };
+        return new Object[][] { new Object[] { "Volvo" }, new Object[] { "Saab" }, new Object[] { "Mercedes" } };
     }
 
     @Test(groups = { "integration", "actions", "do",
@@ -809,7 +809,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(Locator.ID, "car_list", listItem);
-        asserts.compareSelectedValue(Locator.ID, "car_list", listValue);
+        asserts.compareSelectedOption(Locator.ID, "car_list", listValue);
         // close out the test
         finish();
     }
@@ -834,7 +834,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(Locator.ID, "car_list", listItem);
-        asserts.compareSelectedValue(Locator.ID, "car_list", listItem);
+        asserts.compareSelectedOption(Locator.ID, "car_list", listItem);
         // close out the test
         finish();
     }
