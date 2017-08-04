@@ -34,6 +34,20 @@ public class Call {
      *            call
      * @return Response: the response provided from the http call
      */
+    public Response get(String endpoint) {
+        return get(endpoint, null, true);
+    }
+
+    /**
+     * performs a get http call and writes that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
     public Response get(String endpoint, Request params) {
         return get(endpoint, params, true);
     }
@@ -54,9 +68,10 @@ public class Call {
         String action = "Making <i>GET</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
         action += file.outputRequestProperties(params);
         String expected = "<i>GET</i> call was made successfully";
-        Response response;
+        Response response = new Response(file);
         try {
             response = http.get(endpoint, params);
+            response.setOutputFile(file);
             if (print) {
                 file.recordAction(action, expected, expected, Result.SUCCESS);
             }
@@ -99,9 +114,10 @@ public class Call {
         String action = "Making <i>POST</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
         action += file.outputRequestProperties(params);
         String expected = "<i>POST</i> call was made successfully";
-        Response response;
+        Response response = new Response(file);
         try {
             response = http.post(endpoint, params);
+            response.setOutputFile(file);
             if (print) {
                 file.recordAction(action, expected, expected, Result.SUCCESS);
             }
@@ -144,9 +160,10 @@ public class Call {
         String action = "Making <i>PUT</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
         action += file.outputRequestProperties(params);
         String expected = "<i>PUT</i> call was made successfully";
-        Response response;
+        Response response = new Response(file);
         try {
             response = http.put(endpoint, params);
+            response.setOutputFile(file);
             if (print) {
                 file.recordAction(action, expected, expected, Result.SUCCESS);
             }
@@ -189,9 +206,10 @@ public class Call {
         String action = "Making <i>PATCH</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
         action += file.outputRequestProperties(params);
         String expected = "<i>PATCH</i> call was made successfully";
-        Response response;
+        Response response = new Response(file);
         try {
             response = http.patch(endpoint, params);
+            response.setOutputFile(file);
             if (print) {
                 file.recordAction(action, expected, expected, Result.SUCCESS);
             }
@@ -243,9 +261,10 @@ public class Call {
         }
         action.append(file.outputRequestProperties(params));
         String expected = "<i>DELETE</i> call was made successfully";
-        Response response;
+        Response response = new Response(file);
         try {
             response = http.delete(endpoint, params);
+            response.setOutputFile(file);
             if (print) {
                 file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
             }
