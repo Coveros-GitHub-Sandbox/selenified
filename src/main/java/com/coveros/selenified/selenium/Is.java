@@ -25,6 +25,7 @@ public class Is {
     private WebDriver driver;
 
     // constants
+    private static final String SELECT = "select";
     private static final String CHECKING = "Checking for ";
     private static final String PRESENT = " to be present";
     private static final String DISPLAYED = " to be displayed";
@@ -813,7 +814,7 @@ public class Is {
             WebElement webElement = element.getWebElement();
             if ("input".equalsIgnoreCase(webElement.getTagName())
                     || "textarea".equalsIgnoreCase(webElement.getTagName())
-                    || "select".equalsIgnoreCase(webElement.getTagName())) {
+                    || SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 isInput = true;
             }
         } catch (NoSuchElementException e) {
@@ -839,7 +840,7 @@ public class Is {
         boolean isInput = false;
         try {
             WebElement webElement = element.getWebElement();
-            if ("select".equalsIgnoreCase(webElement.getTagName())) {
+            if (SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 isInput = true;
             }
         } catch (NoSuchElementException e) {
@@ -962,7 +963,7 @@ public class Is {
             WebElement webElement = element.getWebElement();
             if ("input".equalsIgnoreCase(webElement.getTagName())) {
                 isSelected = webElement.isSelected();
-            } else if ("select".equalsIgnoreCase(webElement.getTagName())) {
+            } else if (SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 Select dropdown = new Select(webElement);
                 isSelected = dropdown.getAllSelectedOptions().size() > 0;
             }
