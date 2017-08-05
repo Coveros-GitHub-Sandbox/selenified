@@ -28,7 +28,6 @@ public class WaitFor {
 
     // constants
     private static final String WAITED = "Waited ";
-    private static final double WAITFOR = 5;
     private static final String UPTO = "Wait up to ";
     private static final String WAITING = "After waiting ";
     private static final String SECONDS_FOR = " seconds for ";
@@ -37,10 +36,16 @@ public class WaitFor {
     private static final String DISPLAYED = " to be displayed";
     private static final String ENABLED = " to be enabled";
 
+    private double defaultWait = 5;
+
     public WaitFor(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.file = file;
         this.is = new Is(driver, file);
+    }
+    
+    public void changeDefaultWait(double seconds) {
+    	defaultWait = seconds;
     }
 
     // ///////////////////////////////////////
@@ -57,7 +62,7 @@ public class WaitFor {
      *         steps
      */
     public int elementPresent(Element element) {
-        return elementPresent(element, WAITFOR);
+        return elementPresent(element, defaultWait);
     }
 
     /**
@@ -72,7 +77,7 @@ public class WaitFor {
      *         steps
      */
     public int elementPresent(Locator type, String locator) {
-        return elementPresent(new Element(type, locator), WAITFOR);
+        return elementPresent(new Element(type, locator), defaultWait);
     }
 
     /**
@@ -106,7 +111,7 @@ public class WaitFor {
      *         steps
      */
     public int elementPresent(Locator type, String locator, int elementMatch) {
-        return elementPresent(new Element(type, locator, elementMatch), WAITFOR);
+        return elementPresent(new Element(type, locator, elementMatch), defaultWait);
     }
 
     /**
@@ -139,7 +144,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotPresent(Element element) {
-        return elementNotPresent(element, WAITFOR);
+        return elementNotPresent(element, defaultWait);
     }
 
     /**
@@ -154,7 +159,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotPresent(Locator type, String locator) {
-        return elementNotPresent(new Element(type, locator), WAITFOR);
+        return elementNotPresent(new Element(type, locator), defaultWait);
     }
 
     /**
@@ -188,7 +193,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotPresent(Locator type, String locator, int elementMatch) {
-        return elementNotPresent(new Element(type, locator, elementMatch), WAITFOR);
+        return elementNotPresent(new Element(type, locator, elementMatch), defaultWait);
     }
 
     /**
@@ -221,7 +226,7 @@ public class WaitFor {
      *         steps
      */
     public int elementDisplayed(Element element) {
-        return elementDisplayed(element, WAITFOR);
+        return elementDisplayed(element, defaultWait);
     }
 
     /**
@@ -236,7 +241,7 @@ public class WaitFor {
      *         steps
      */
     public int elementDisplayed(Locator type, String locator) {
-        return elementDisplayed(new Element(type, locator), WAITFOR);
+        return elementDisplayed(new Element(type, locator), defaultWait);
     }
 
     /**
@@ -270,7 +275,7 @@ public class WaitFor {
      *         steps
      */
     public int elementDisplayed(Locator type, String locator, int elementMatch) {
-        return elementDisplayed(new Element(type, locator, elementMatch), WAITFOR);
+        return elementDisplayed(new Element(type, locator, elementMatch), defaultWait);
     }
 
     /**
@@ -303,7 +308,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotDisplayed(Element element) {
-        return elementNotDisplayed(element, WAITFOR);
+        return elementNotDisplayed(element, defaultWait);
     }
 
     /**
@@ -318,7 +323,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotDisplayed(Locator type, String locator) {
-        return elementNotDisplayed(new Element(type, locator), WAITFOR);
+        return elementNotDisplayed(new Element(type, locator), defaultWait);
     }
 
     /**
@@ -352,7 +357,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotDisplayed(Locator type, String locator, int elementMatch) {
-        return elementNotDisplayed(new Element(type, locator, elementMatch), WAITFOR);
+        return elementNotDisplayed(new Element(type, locator, elementMatch), defaultWait);
     }
 
     /**
@@ -385,7 +390,7 @@ public class WaitFor {
      *         steps
      */
     public int elementEnabled(Element element) {
-        return elementEnabled(element, WAITFOR);
+        return elementEnabled(element, defaultWait);
     }
 
     /**
@@ -400,7 +405,7 @@ public class WaitFor {
      *         steps
      */
     public int elementEnabled(Locator type, String locator) {
-        return elementEnabled(new Element(type, locator), WAITFOR);
+        return elementEnabled(new Element(type, locator), defaultWait);
     }
 
     /**
@@ -434,7 +439,7 @@ public class WaitFor {
      *         steps
      */
     public int elementEnabled(Locator type, String locator, int elementMatch) {
-        return elementEnabled(new Element(type, locator, elementMatch), WAITFOR);
+        return elementEnabled(new Element(type, locator, elementMatch), defaultWait);
     }
 
     /**
@@ -467,7 +472,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotEnabled(Element element) {
-        return elementNotEnabled(element, WAITFOR);
+        return elementNotEnabled(element, defaultWait);
     }
 
     /**
@@ -482,7 +487,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotEnabled(Locator type, String locator) {
-        return elementNotEnabled(new Element(type, locator), WAITFOR);
+        return elementNotEnabled(new Element(type, locator), defaultWait);
     }
 
     /**
@@ -516,7 +521,7 @@ public class WaitFor {
      *         steps
      */
     public int elementNotEnabled(Locator type, String locator, int elementMatch) {
-        return elementNotEnabled(new Element(type, locator, elementMatch), WAITFOR);
+        return elementNotEnabled(new Element(type, locator, elementMatch), defaultWait);
     }
 
     /**
@@ -546,7 +551,7 @@ public class WaitFor {
      *         steps
      */
     public int alertPresent() {
-        return alertPresent(WAITFOR);
+        return alertPresent(defaultWait);
     }
 
     /**
@@ -556,7 +561,7 @@ public class WaitFor {
      *         steps
      */
     public int confirmationPresent() {
-        return confirmationPresent(WAITFOR);
+        return confirmationPresent(defaultWait);
     }
 
     /**
@@ -566,7 +571,7 @@ public class WaitFor {
      *         steps
      */
     public int promptPresent() {
-        return promptPresent(WAITFOR);
+        return promptPresent(defaultWait);
     }
 
     ///////////////////////////////////////////////////
