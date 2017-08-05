@@ -586,7 +586,7 @@ public class WaitFor {
     public int elementPresent(Element element, double seconds) {
         element.setDriver(driver);
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + PRESENT;
-        String expected = element.prettyOutputStart() + "is present";
+        String expected = element.prettyOutputStart() + " is present";
         // wait for up to XX seconds for the error message
         double end = System.currentTimeMillis() + (seconds * 1000);
         while (System.currentTimeMillis() < end) {

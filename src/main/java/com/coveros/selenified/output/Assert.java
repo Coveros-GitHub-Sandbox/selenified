@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Excludes;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.State;
@@ -52,6 +53,8 @@ public class Assert {
     private State state;
     // the is class to determine if an element contains something
     private Contains contains;
+    // the is class to determine if an element doesn't contain something
+    private Excludes excludes;
 
     // constants
     private static final String ONPAGE = "</b> on the page";
@@ -89,12 +92,14 @@ public class Assert {
         outputFile = new OutputFile(outputDir, testsName, browser);
         state = new State(action, outputFile);
         contains = new Contains(action, outputFile);
+        excludes = new Excludes(action, outputFile);
     }
 
     public Assert(String outputDir, String testsName, String serviceURL) {
         outputFile = new OutputFile(outputDir, testsName, serviceURL);
         state = new State(action, outputFile);
         contains = new Contains(action, outputFile);
+        excludes = new Excludes(action, outputFile);
     }
 
     public void setAction(Action action) {
@@ -102,12 +107,15 @@ public class Assert {
         locatorAssert = new LocatorAssert(action, outputFile);
         state.setAction(action);
         contains.setAction(action);
+        excludes.setAction(action);
     }
 
     public void setOutputFile(OutputFile thisOutputFile) {
         outputFile = thisOutputFile;
         state.setOutputFile(outputFile);
-        contains.setAction(action);
+        contains.setOutputFile(outputFile);
+        excludes.setOutputFile(outputFile);
+
     }
 
     public OutputFile getOutputFile() {
@@ -124,6 +132,10 @@ public class Assert {
 
     public Contains contains() {
         return contains;
+    }
+
+    public Excludes excludes() {
+        return excludes;
     }
 
     ///////////////////////////////////////////////////////
@@ -572,70 +584,6 @@ public class Assert {
     }
 
     /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntHaveAttribute(Element element, String attribute) {
-        return checkElementDoesntHaveAttribute(element.getType(), element.getLocator(), 0, attribute);
-    }
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntHaveAttribute(Locator type, String locator, String attribute) {
-        return checkElementDoesntHaveAttribute(type, locator, 0, attribute);
-    }
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntHaveAttribute(Element element, int elementMatch, String attribute) {
-        return checkElementDoesntHaveAttribute(element.getType(), element.getLocator(), elementMatch, attribute);
-    }
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute) {
-        int errors = locatorAssert.checkElementDoesntHaveAttribute(type, locator, elementMatch, attribute);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
      * checks to see if an element has a particular class
      *
      * @param element
@@ -695,134 +643,6 @@ public class Assert {
      */
     public int checkElementHasClass(Locator type, String locator, int elementMatch, String expectedClass) {
         int errors = locatorAssert.checkElementHasClass(type, locator, elementMatch, expectedClass);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an element does not contain a particular class
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param unexpectedClass
-     *            - the unexpected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntContainClass(Element element, String unexpectedClass) {
-        return checkElementDoesntContainClass(element.getType(), element.getLocator(), 0, unexpectedClass);
-    }
-
-    /**
-     * checks to see if an element does not contain a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param unexpectedClass
-     *            - the unexpected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntContainClass(Locator type, String locator, String unexpectedClass) {
-        return checkElementDoesntContainClass(type, locator, 0, unexpectedClass);
-    }
-
-    /**
-     * checks to see if an element does not contain a particular class
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param unexpectedClass
-     *            - the unexpected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntContainClass(Element element, int elementMatch, String unexpectedClass) {
-        return checkElementDoesntContainClass(element.getType(), element.getLocator(), elementMatch, unexpectedClass);
-    }
-
-    /**
-     * checks to see if an element does not contain a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param unexpectedClass
-     *            - the unexpected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass) {
-        int errors = locatorAssert.checkElementDoesntContainClass(type, locator, elementMatch, unexpectedClass);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an option is not available to be selected on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param option
-     *            the option not expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionNotInSelect(Element element, String option) {
-        return checkIfOptionNotInSelect(element.getType(), element.getLocator(), 0, option);
-    }
-
-    /**
-     * checks to see if an option is not available to be selected on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param option
-     *            the option not expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionNotInSelect(Locator type, String locator, String option) {
-        return checkIfOptionNotInSelect(type, locator, 0, option);
-    }
-
-    /**
-     * checks to see if an option is not available to be selected on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param option
-     *            the option not expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionNotInSelect(Element element, int elementMatch, String option) {
-        return checkIfOptionNotInSelect(element.getType(), element.getLocator(), elementMatch, option);
-    }
-
-    /**
-     * checks to see if an option is not available to be selected on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param option
-     *            the option not expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionNotInSelect(Locator type, String locator, int elementMatch, String option) {
-        int errors = locatorAssert.checkIfOptionNotInSelect(type, locator, elementMatch, option);
         outputFile.addErrors(errors);
         return errors;
     }
@@ -1045,70 +865,6 @@ public class Assert {
      */
     public int compareCssValue(Locator type, String locator, int elementMatch, String attribute, String expectedValue) {
         int errors = locatorAssert.compareCssValue(type, locator, elementMatch, attribute, expectedValue);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * checks to see if an element select value does not exist
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param selectValue
-     *            the unexpected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValueNotPresent(Element element, String selectValue) {
-        return checkSelectValueNotPresent(element.getType(), element.getLocator(), 0, selectValue);
-    }
-
-    /**
-     * checks to see if an element select value does not exist
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param selectValue
-     *            the unexpected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValueNotPresent(Locator type, String locator, String selectValue) {
-        return checkSelectValueNotPresent(type, locator, 0, selectValue);
-    }
-
-    /**
-     * checks to see if an element select value does not exist
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param selectValue
-     *            the unexpected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValueNotPresent(Element element, int elementMatch, String selectValue) {
-        return checkSelectValueNotPresent(element.getType(), element.getLocator(), elementMatch, selectValue);
-    }
-
-    /**
-     * checks to see if an element select value does not exist
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param selectValue
-     *            the unexpected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValueNotPresent(Locator type, String locator, int elementMatch, String selectValue) {
-        int errors = locatorAssert.checkSelectValueNotPresent(type, locator, elementMatch, selectValue);
         outputFile.addErrors(errors);
         return errors;
     }

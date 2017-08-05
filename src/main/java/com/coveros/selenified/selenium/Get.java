@@ -33,6 +33,7 @@ public class Get {
 
     // constants
     private static final String VALUE = "value";
+    private static final String OPTION = "option";
 
     public Get(WebDriver driver, OutputFile file) {
         this.driver = driver;
@@ -877,7 +878,7 @@ public class Get {
             return (Map<String, String>) js.executeScript(
                     "var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;",
                     webElement);
-        } catch (Exception e) {
+        } catch (NoSuchMethodError | Exception e) {
             log.error(e);
             return null;
         }
@@ -901,7 +902,7 @@ public class Get {
             WebElement webElement = element.getWebElement();
             JavascriptExecutor js = (JavascriptExecutor) driver;
             return js.executeScript(javascriptFunction, webElement);
-        } catch (Exception e) {
+        } catch (NoSuchMethodError | Exception e) {
             log.error(e);
             return null;
         }
@@ -924,7 +925,7 @@ public class Get {
             return 0;
         }
         WebElement webElement = element.getWebElement();
-        List<WebElement> allOptions = webElement.findElements(By.tagName("option"));
+        List<WebElement> allOptions = webElement.findElements(By.tagName(OPTION));
         return allOptions.size();
     }
 
@@ -945,7 +946,7 @@ public class Get {
             return new String[0];
         }
         WebElement webElement = element.getWebElement();
-        List<WebElement> allOptions = webElement.findElements(By.tagName("option"));
+        List<WebElement> allOptions = webElement.findElements(By.tagName(OPTION));
         String[] options = new String[allOptions.size()];
         for (int i = 0; i < allOptions.size(); i++) {
             options[i] = allOptions.get(i).getText();
@@ -970,7 +971,7 @@ public class Get {
             return new String[0];
         }
         WebElement webElement = element.getWebElement();
-        List<WebElement> allOptions = webElement.findElements(By.tagName("option"));
+        List<WebElement> allOptions = webElement.findElements(By.tagName(OPTION));
         String[] options = new String[allOptions.size()];
         for (int i = 0; i < allOptions.size(); i++) {
             options[i] = allOptions.get(i).getAttribute(VALUE);
@@ -1174,7 +1175,7 @@ public class Get {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             return js.executeScript(javascriptFunction);
-        } catch (Exception e) {
+        } catch (NoSuchMethodError | Exception e) {
             log.error(e);
             return null;
         }
