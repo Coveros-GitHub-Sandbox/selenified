@@ -113,7 +113,7 @@ public class ActionDoIT extends TestBase {
         actions.click(Locator.CLASSNAME, "click");
         actions.click(Locator.CSS, "input#alert_button");
         actions.acceptAlert();
-        asserts.checkAlertNotPresent();
+        asserts.alertNotPresent();
         // verify no issues
         finish();
     }
@@ -139,7 +139,7 @@ public class ActionDoIT extends TestBase {
         // perform some actions
         actions.click(Locator.CSS, "input#confirm_button");
         actions.acceptConfirmation();
-        asserts.checkConfirmationNotPresent();
+        asserts.confirmationNotPresent();
         // verify no issues
         finish();
     }
@@ -165,7 +165,7 @@ public class ActionDoIT extends TestBase {
         // perform some actions
         actions.click(Locator.CSS, "input#confirm_button");
         actions.dismissConfirmation();
-        asserts.checkConfirmationNotPresent();
+        asserts.confirmationNotPresent();
         // verify no issues
         finish();
     }
@@ -191,7 +191,7 @@ public class ActionDoIT extends TestBase {
         // perform some actions
         actions.click(Locator.CSS, "input#prompt_button");
         actions.acceptPrompt();
-        asserts.checkPromptNotPresent();
+        asserts.promptNotPresent();
         // verify no issues
         finish();
     }
@@ -217,7 +217,7 @@ public class ActionDoIT extends TestBase {
         // perform some actions
         actions.click(Locator.CSS, "input#prompt_button");
         actions.dismissPrompt();
-        asserts.checkConfirmationNotPresent();
+        asserts.confirmationNotPresent();
         // verify no issues
         finish();
     }
@@ -265,7 +265,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.click(Locator.LINKTEXT, "I'M A LINK");
-        asserts.checkConfirmationPresent();
+        asserts.confirmationPresent();
         // verify no issues
         finish();
     }
@@ -323,7 +323,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.submit(Locator.ID, "submit_button");
-        asserts.checkTextVisible("You're on the next page");
+        asserts.textPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -432,7 +432,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.blur(Locator.ID, "input_box");
-        asserts.checkAlertPresent();
+        asserts.alertPresent();
         // verify no issues
         finish();
     }
@@ -601,7 +601,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "input_box", Keys.TAB);
-        asserts.checkAlertPresent();
+        asserts.alertPresent();
         // verify no issues
         finish();
     }

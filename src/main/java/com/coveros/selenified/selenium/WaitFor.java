@@ -43,9 +43,9 @@ public class WaitFor {
         this.file = file;
         this.is = new Is(driver, file);
     }
-    
+
     public void changeDefaultWait(double seconds) {
-    	defaultWait = seconds;
+        defaultWait = seconds;
     }
 
     // ///////////////////////////////////////

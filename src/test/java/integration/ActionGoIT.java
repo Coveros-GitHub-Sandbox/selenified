@@ -37,9 +37,9 @@ public class ActionGoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.submit(Locator.ID, "submit_button");
-        asserts.checkTextVisible("You're on the next page");
+        asserts.textPresent("You're on the next page");
         actions.page().goBack();
-        asserts.checkTextNotVisible("You're on the next page");
+        asserts.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -76,11 +76,11 @@ public class ActionGoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.submit(Locator.ID, "submit_button");
-        asserts.checkTextVisible("You're on the next page");
+        asserts.textPresent("You're on the next page");
         actions.page().goBack();
-        asserts.checkTextNotVisible("You're on the next page");
+        asserts.textNotPresent("You're on the next page");
         actions.page().goForward();
-        asserts.checkTextVisible("You're on the next page");
+        asserts.textPresent("You're on the next page");
         // verify no issues
         finish();
     }
