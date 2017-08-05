@@ -31,8 +31,8 @@ public class ActionWaitIT extends TestBase {
         // perform some actions
         actions.wait(6.0);
         actions.click(new Element(Locator.ID, "five_second_button"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions",

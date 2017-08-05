@@ -125,8 +125,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.acceptAlert();
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "alert",
@@ -151,8 +151,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.acceptConfirmation();
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "alert",
@@ -177,8 +177,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.dismissConfirmation();
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "alert",
@@ -203,8 +203,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.acceptPrompt();
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "alert",
@@ -229,8 +229,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.dismissPrompt();
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "alert",
@@ -252,8 +252,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.typeIntoPrompt("yes!");
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do",
@@ -277,8 +277,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(new Element(Locator.CSS, "input#alert_button"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "click",
@@ -288,8 +288,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(new Element(Locator.ID, "non-existent-element"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "click",
@@ -299,8 +299,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.click(new Element(Locator.ID, "hidden_div"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do",
@@ -335,8 +335,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.submit(new Element(Locator.CSS, "input#alert_button"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "submit",
@@ -346,8 +346,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.submit(new Element(Locator.ID, "non-existent-element"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "submit",
@@ -357,8 +357,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.submit(new Element(Locator.ID, "hidden_div"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "submit",
@@ -408,8 +408,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.hover(new Element(Locator.ID, "non-existent-element"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "hover",
@@ -419,8 +419,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.hover(new Element(Locator.ID, "hidden_div"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do",
@@ -444,8 +444,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.blur(new Element(Locator.ID, "non-existent-element"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "blur",
@@ -455,8 +455,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.blur(new Element(Locator.CSS, "input#alert_button"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do",
@@ -466,8 +466,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.blur(new Element(Locator.ID, "transparent_input"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "blur",
@@ -544,8 +544,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.type(new Element(Locator.TAGNAME, "non-existent-element"), "This is a test");
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "type",
@@ -555,8 +555,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.type(new Element(Locator.CSS, "input#alert_button"), "This is a test");
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "type",
@@ -655,8 +655,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.type(new Element(Locator.ID, "non-existent-element"), Keys.SPACE);
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "type",
@@ -666,8 +666,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.type(new Element(Locator.CSS, "input#alert_button"), Keys.SPACE);
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "type",
@@ -763,8 +763,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.clear(new Element(Locator.ID, "non-existent-element"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "clear",
@@ -774,8 +774,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.clear(new Element(Locator.CSS, "input#alert_button"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "clear",
@@ -785,8 +785,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.clear(new Element(Locator.ID, "hidden_div"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "clear",
@@ -857,8 +857,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(new Element(Locator.PARTIALLINKTEXT, "non-existent-element"), "option");
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "select",
@@ -868,8 +868,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(new Element(Locator.CSS, "input#alert_button"), "option");
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "select",
@@ -879,8 +879,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(new Element(Locator.ID, "hidden_div"), "option");
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "select",
@@ -923,8 +923,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.move(new Element(Locator.ID, "non-existent-element"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "move",
@@ -967,8 +967,8 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.move(new Element(Locator.ID, "non-existent-element"), (long) 10);
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do",
