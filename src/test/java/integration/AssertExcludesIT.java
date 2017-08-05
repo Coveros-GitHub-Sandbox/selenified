@@ -22,7 +22,7 @@ public class AssertExcludesIT extends TestBase {
         setVersion("0.0.1");
     }
 
-    @Test(groups = { "integration", "asserts",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration test to check the checkSelectValueNotPresent method")
     public void checkSelectValueNotPresentTest() {
         // use this object to verify the page looks as expected
@@ -33,7 +33,7 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the checkSelectValueNotPresent method")
     public void negativeCheckSelectValueNotPresentTest() {
         // use this object to verify the page looks as expected
@@ -44,8 +44,8 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkSelectValueNotPresent method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration negative test to check the checkSelectValueNotPresent method")
     public void negativeCheckSelectValueNotPresentNotEnabledTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -55,7 +55,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration test to check the checkIfOptionNotInSelect method")
     public void checkIfOptionNotInSelectTest() {
         // use this object to verify the page looks as expected
@@ -66,19 +66,19 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the checkIfOptionNotInSelect method")
     public void negativeCheckIfOptionNotInSelectTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().selectOption(new Element(Locator.ID, "car_list"), "audi");
+        asserts.excludes().selectOption(new Element(Locator.ID, "car_list"), "Audi");
         // verify 1 issue
         finish(1);
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkIfOptionNotInSelect method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration negative test to check the checkIfOptionNotInSelect method")
     public void negativeCheckIfOptionNotInSelectNotEnabledTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -88,22 +88,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkIfOptionNotInSelect method")
-    public void checkIfOptionNotInSelectDelayedTest() {
-        // use this object to verify the page looks as expected
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        actions.click(Locator.ID, "delayed_enable_button");
-        asserts.excludes().selectOption(Locator.ID, "delayed_input", "ford");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration test to check the checkElementDoesntContainClass method")
     public void checkElementDoesntContainClassTest() {
         // use this object to verify the page looks as expected
@@ -114,7 +99,7 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the checkElementDoesntContainClass method")
     public void negativeCheckElementDoesntContainClassTest() {
         // use this object to verify the page looks as expected
@@ -125,7 +110,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the checkElementDoesntContainClass method")
     public void negativeCheckElementDoesntContainClassNotPresentTest() {
         // use this object to verify the page looks as expected
@@ -136,8 +121,8 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkElementDoesntContainClass method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration negative test to check the checkElementDoesntContainClass method")
     public void checkElementDoesntContainClassDelayedTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -147,8 +132,8 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration test to check the checkElementDoesntHaveAttribute method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration test to check the checkElementDoesntHaveAttribute method")
     public void checkElementDoesntHaveAttributeTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -158,8 +143,8 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
     public void negativeCheckElementDoesntHaveAttributeTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -169,8 +154,8 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
     public void negativeCheckElementDoesntHaveAttributeNotPresentTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -180,8 +165,8 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
     public void checkElementDoesntHaveAttributeDelayedTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -191,7 +176,7 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts", "contains",
+    @Test(groups = { "integration", "asserts", "excludes", "contains",
             "virtual" }, description = "An integration test to check the compareTextValueExcludes method")
     public void compareTextValueExcludesTest() {
         // use this object to verify the page looks as expected
@@ -202,7 +187,7 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts", "contains",
+    @Test(groups = { "integration", "asserts", "excludes", "contains",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareTextValueExcludesTest() {
         // use this object to verify the page looks as expected
@@ -213,7 +198,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts", "contains",
+    @Test(groups = { "integration", "asserts", "excludes", "contains",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareTextValueExcludesNotPresentTest() {
         // use this object to verify the page looks as expected
@@ -224,7 +209,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts", "contains",
+    @Test(groups = { "integration", "asserts", "excludes", "contains",
             "virtual" }, description = "An integration test to check the compareTextValueExcludes method")
     public void compareValueExcludesTest() {
         // use this object to verify the page looks as expected
@@ -235,7 +220,7 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts", "contains",
+    @Test(groups = { "integration", "asserts", "excludes", "contains",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareValueExcludesTest() {
         // use this object to verify the page looks as expected
@@ -246,7 +231,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts", "contains",
+    @Test(groups = { "integration", "asserts", "excludes", "contains",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareValueNotInputExcludesTest() {
         // use this object to verify the page looks as expected
@@ -257,7 +242,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts", "contains",
+    @Test(groups = { "integration", "asserts", "excludes", "contains",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareValueExcludesNotPresentTest() {
         // use this object to verify the page looks as expected

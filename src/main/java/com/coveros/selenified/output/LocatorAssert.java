@@ -40,8 +40,8 @@ public class LocatorAssert {
     private OutputFile outputFile;
 
     // constants
-    private static final String EXPECTED = "Expected to find element with ";
-    private static final String ELEMENT = "The element with ";
+    private static final String EXPECTED = "Expected to find ";
+    private static final String ELEMENT = "The ";
     private static final String CLASS = "class";
 
     private static final String PRESENT = "</i> is not present on the page";

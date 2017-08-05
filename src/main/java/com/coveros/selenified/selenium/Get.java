@@ -837,8 +837,13 @@ public class Get {
         if (!is.elementPresent(element)) {
             return null;
         }
-        WebElement webElement = element.getWebElement();
-        return webElement.getCssValue(attribute);
+        try {
+            WebElement webElement = element.getWebElement();
+            return webElement.getCssValue(attribute);
+        } catch (NoSuchMethodError | Exception e) {
+            log.error(e);
+            return null;
+        }
     }
 
     /**
