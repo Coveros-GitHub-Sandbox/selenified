@@ -43,28 +43,6 @@ public class AssertIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the checkSelectValuePresent method")
-    public void checkSelectValuePresentTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkSelectValuePresent(Locator.ID, "car_list", "volvo");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the checkSelectValuePresent method")
-    public void negativeCheckSelectValuePresentTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkSelectValuePresent(new Element(Locator.ID, "car_list"), "ford");
-        // verify 1 issue
-        finish(1);
-    }
-
     @Test(groups = { "integration",
             "asserts" }, description = "An integration test to check the checkAlertPresent method")
     public void checkAlertPresentTest() {
@@ -75,7 +53,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkAlertPresent();
+        asserts.alertPresent();
         // verify no issues
         finish();
     }
@@ -86,7 +64,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkAlertPresent();
+        asserts.alertPresent();
         // verify 1 issue
         finish(1);
     }
@@ -101,7 +79,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkConfirmationPresent();
+        asserts.confirmationPresent();
         // verify no issues
         finish();
     }
@@ -112,7 +90,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkConfirmationPresent();
+        asserts.confirmationPresent();
         // verify 1 issue
         finish(1);
     }
@@ -123,7 +101,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkAlertNotPresent();
+        asserts.alertNotPresent();
         // verify no issues
         finish();
     }
@@ -138,7 +116,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkAlertNotPresent();
+        asserts.alertNotPresent();
         // verify 1 issue
         finish(1);
     }
@@ -152,7 +130,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkAlert("Enabled!");
+        asserts.alertPresent("Enabled!");
         // verify no issues
         finish();
     }
@@ -166,7 +144,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkAlert("([A-Z])\\w+!");
+        asserts.alertPresent("([A-Z])\\w+!");
         // verify no issues
         finish();
     }
@@ -177,7 +155,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkAlert("Disabled!");
+        asserts.alertPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -192,7 +170,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkAlert("Disabled!");
+        asserts.alertPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -207,7 +185,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkConfirmation("Enabled!");
+        asserts.confirmationPresent("Enabled!");
         // verify no issues
         finish();
     }
@@ -222,7 +200,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkConfirmation("Disabled!");
+        asserts.confirmationPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -233,9 +211,9 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkConfirmation("Disabled!");
-        // verify 2 issues
-        finish(2);
+        asserts.confirmationPresent("Disabled!");
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration",
@@ -244,7 +222,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkConfirmationNotPresent();
+        asserts.confirmationNotPresent();
         // verify no issues
         finish();
     }
@@ -259,7 +237,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkConfirmationNotPresent();
+        asserts.confirmationNotPresent();
         // verify 1 issue
         finish(1);
     }
@@ -273,7 +251,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkPrompt("Enabled!");
+        asserts.promptPresent("Enabled!");
         // verify no issues
         finish();
     }
@@ -284,7 +262,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkPrompt("Enabled!");
+        asserts.promptPresent("Enabled!");
         // verify 1 issue
         finish(1);
     }
@@ -299,7 +277,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkPrompt("Disabled!");
+        asserts.promptPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -314,7 +292,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkPromptPresent();
+        asserts.promptPresent();
         // verify no issues
         finish();
     }
@@ -325,7 +303,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkPromptPresent();
+        asserts.promptPresent();
         // verify 1 issue
         finish(1);
     }
@@ -336,7 +314,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkPromptNotPresent();
+        asserts.promptNotPresent();
         // verify no issues
         finish();
     }
@@ -351,7 +329,7 @@ public class AssertIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "disable_click");
         actions.click(Locator.ID, "alert_button");
-        asserts.checkPromptNotPresent();
+        asserts.promptNotPresent();
         // verify 1 issue
         finish(1);
     }
@@ -362,7 +340,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkTextNotVisible("No such text on the page");
+        asserts.textNotPresent("No such text on the page");
         // verify no issues
         finish();
     }
@@ -373,7 +351,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkTextNotVisible("Click me to Disable/Enable a html button");
+        asserts.textNotPresent("Click me to Disable/Enable a html button");
         // verify 1 issue
         finish(1);
     }
@@ -384,7 +362,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkTextVisible("Click me to Disable/Enable a html button");
+        asserts.textPresent("Click me to Disable/Enable a html button");
         // verify no issues
         finish();
     }
@@ -395,62 +373,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkTextVisible("No such text on the page");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the checkTextVisibleOR method")
-    public void checkTextVisibleORTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkTextVisibleOR("Click me to Disable/Enable a html button", "Not found on page", "This");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the checkTextVisibleOR method")
-    public void negativeCheckTextVisibleORTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.checkTextVisibleOR("No such text on the page", "Not found", "None");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration test to check the compareSelectedValueNotEqual method")
-    public void compareSelectedValueNotEqualTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareSelectedValueNotEqual(Locator.ID, "car_list", "audi");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "virtual" }, description = "An integration negative test to check the compareSelectedValueNotEqual method")
-    public void negativeCompareSelectedValueNotEqualTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareSelectedValueNotEqual(new Element(Locator.ID, "car_list"), "volvo");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration",
-            "asserts" }, description = "An integration negative test to check the compareSelectedValueNotEqual method")
-    public void negativeCompareSelectedValueNotEqualNotEnabledTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
-        // perform some actions
-        asserts.compareSelectedValueNotEqual(new Element(Locator.ID, "enabled_button"), 0, "volvo");
+        asserts.textPresent("No such text on the page");
         // verify 1 issue
         finish(1);
     }
@@ -461,7 +384,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkCookie("cookie", "cookietest");
+        asserts.cookieExists("cookie", "cookietest");
         // verify no issues
         finish();
     }
@@ -472,7 +395,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkCookie("cookie", "negativecookietest");
+        asserts.cookieExists("cookie", "negativecookietest");
         // verify 1 issue
         finish(1);
     }
@@ -483,7 +406,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkCookie("wrongcookie", "cookietest");
+        asserts.cookieExists("wrongcookie", "cookietest");
         // verify 1 issue
         finish(1);
     }
@@ -494,7 +417,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkCookieNotPresent("wrongcookie");
+        asserts.cookieNotExists("wrongcookie");
         // verify no issues
         finish();
     }
@@ -505,7 +428,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkCookieNotPresent("cookie");
+        asserts.cookieNotExists("cookie");
         // verify 1 issue
         finish(1);
     }
@@ -516,7 +439,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkCookiePresent("cookie");
+        asserts.cookieExists("cookie");
         // verify no issues
         finish();
     }
@@ -527,7 +450,7 @@ public class AssertIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.checkCookiePresent("wrongcookie");
+        asserts.cookieExists("wrongcookie");
         // verify 1 issue
         finish(1);
     }

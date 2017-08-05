@@ -214,7 +214,7 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         actions.click(Locator.ID, "new_window");
         actions.page().switchToNewWindow();
-        asserts.checkTextVisible("You're on the next page");
+        asserts.textPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -229,9 +229,9 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         actions.click(new Element(Locator.ID, "new_window"));
         actions.page().switchToNewWindow();
-        asserts.checkTextVisible("You're on the next page");
+        asserts.textPresent("You're on the next page");
         actions.page().switchToParentWindow();
-        asserts.checkTextNotVisible("You're on the next page");
+        asserts.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -246,9 +246,9 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         actions.click(new Element(Locator.ID, "new_window"));
         actions.page().switchToNewWindow();
-        asserts.checkTextVisible("You're on the next page");
+        asserts.textPresent("You're on the next page");
         actions.page().closeCurrentWindow();
-        asserts.checkTextNotVisible("You're on the next page");
+        asserts.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -263,7 +263,7 @@ public class ActionSwitchIT extends TestBase {
         // perform some actions
         actions.click(new Element(Locator.ID, "new_window"));
         actions.page().switchToNewWindow();
-        asserts.checkTextVisible("You're on the next page");
+        asserts.textPresent("You're on the next page");
         actions.page().closeCurrentWindow();
         actions.page().closeCurrentWindow();
         // verify 1 issue

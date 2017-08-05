@@ -20,19 +20,15 @@
 
 package com.coveros.selenified.output;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Equals;
 import com.coveros.selenified.selenium.Excludes;
 import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.State;
 import com.coveros.selenified.selenium.Contains;
-import com.coveros.selenified.tools.General;
 
 /**
  * A custom reporting class, which provides logging and screenshots for all
@@ -47,8 +43,6 @@ public class Assert {
 
     private Action action;
     private OutputFile outputFile;
-
-    private LocatorAssert locatorAssert;
 
     // the is class to determine the state of an element
     private State state;
@@ -75,7 +69,6 @@ public class Assert {
 
     private static final String TEXT = "The text <b>";
     private static final String PRESENT = "</b> is present on the page";
-    private static final String VISIBLE = "</b> is visible on the page";
 
     //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
@@ -109,7 +102,6 @@ public class Assert {
 
     public void setAction(Action action) {
         this.action = action;
-        locatorAssert = new LocatorAssert(action, outputFile);
         state.setAction(action);
         contains.setAction(action);
         excludes.setAction(action);
@@ -149,53 +141,109 @@ public class Assert {
     }
 
     ///////////////////////////////////////////////////////
-    // some basic asserts
+    // assertions about the page in general
     ///////////////////////////////////////////////////////
 
     /**
-     * checks to see if an alert is correct on the page
+     * compares the actual URL a page is on to the expected URL
      *
-     * @param expectedAlert
-     *            the expected text of the alert
+     * @param expectedURL
+     *            the URL of the page
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkAlert(String expectedAlert) {
+    public int compareURL(String expectedURL) {
         // outputFile.record the action
-        outputFile.recordExpected("Expected to find alert with the text <b>" + expectedAlert + ONPAGE);
-        // check for the object to the visible
-        String alert = "";
-        boolean isAlertPresent = action.is().alertPresent();
-        if (isAlertPresent) {
-            alert = action.get().alert();
-        }
-        if (!isAlertPresent) {
-            outputFile.recordActual(NOALERT, Success.FAIL);
+        outputFile.recordExpected("Expected to be on page with the URL of <i>" + expectedURL + "</i>");
+        String actualURL = action.get().location();
+        if (!actualURL.equalsIgnoreCase(expectedURL)) {
+            outputFile.recordActual("The page URL  reads <b>" + actualURL + "</b>", Success.FAIL);
             outputFile.addError();
             return 1;
         }
-        Pattern patt = Pattern.compile(expectedAlert);
-        Matcher m = patt.matcher(alert);
-        boolean isCorrect;
-        if (expectedAlert.contains("\\")) {
-            isCorrect = m.matches();
-        } else {
-            isCorrect = alert.equals(expectedAlert);
-        }
-        if (!isCorrect) {
-            outputFile.recordActual(ALERTTEXT + alert + PRESENT, Success.FAIL);
-            outputFile.addError();
-            return 1;
-        }
-        outputFile.recordActual(ALERTTEXT + alert + PRESENT, Success.PASS);
+        outputFile.recordActual("The page URL reads <b>" + actualURL + "</b>", Success.PASS);
         return 0;
     }
+
+    /**
+     * compares the actual title a page is on to the expected title
+     *
+     * @param expectedTitle
+     *            the friendly name of the page
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareTitle(String expectedTitle) {
+        // outputFile.record the action
+        outputFile.recordExpected("Expected to be on page with the title of <i>" + expectedTitle + "</i>");
+        String actualTitle = action.get().title();
+        if (!actualTitle.equalsIgnoreCase(expectedTitle)) {
+            outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.FAIL);
+            outputFile.addError();
+            return 1;
+        }
+        outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.PASS);
+        return 0;
+    }
+
+    /**
+     * checks to see if text is visible on the page
+     *
+     * @param expectedTexts
+     *            the expected text to be visible
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int textPresent(String... expectedTexts) {
+        // outputFile.record the action
+        int errors = 0;
+        for (String expectedText : expectedTexts) {
+            outputFile.recordExpected("Expected to find text <b>" + expectedText + "</b> visible on the page");
+            // check for the object to the visible
+            boolean isPresent = action.is().textPresent(expectedText);
+            if (!isPresent) {
+                outputFile.recordActual(TEXT + expectedText + "</b> is not present on the page", Success.FAIL);
+                outputFile.addError();
+                errors++;
+            } else {
+                outputFile.recordActual(TEXT + expectedText + PRESENT, Success.PASS);
+            }
+        }
+        return errors;
+    }
+
+    /**
+     * checks to see if text is not visible on the page
+     *
+     * @param expectedTexts
+     *            the expected text to be invisible
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int textNotPresent(String... expectedTexts) {
+        // outputFile.record the action
+        int errors = 0;
+        for (String expectedText : expectedTexts) {
+            outputFile.recordExpected("Expected not to find text <b>" + expectedText + "</b> visible on the page");
+            // check for the object to the visible
+            boolean isPresent = action.is().textPresent(expectedText);
+            if (isPresent) {
+                outputFile.recordActual(TEXT + expectedText + PRESENT, Success.FAIL);
+                outputFile.addError();
+                errors++;
+            } else {
+                outputFile.recordActual(TEXT + expectedText + "</b> is not present on the page", Success.PASS);
+            }
+        }
+        return errors;
+    }
+
+    ///////////////////////////////////////////////////////
+    // assertions about pop-ups
+    ///////////////////////////////////////////////////////
 
     /**
      * checks to see if an alert is present on the page
      *
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkAlertPresent() {
+    public int alertPresent() {
         // outputFile.record the action
         outputFile.recordExpected("Expected to find an alert on the page");
         // check for the object to the visible
@@ -213,16 +261,12 @@ public class Assert {
         return 0;
     }
 
-    // /////////////////////////////////////////////////////////////////////////
-    // a bunch of methods to positively check for objects using selenium calls
-    // ///////////////////////////////////////////////////////////////////////
-
     /**
      * checks to see if an alert is not present on the page
      *
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkAlertNotPresent() {
+    public int alertNotPresent() {
         // outputFile.record the action
         outputFile.recordExpected("Expected not to find an alert on the page");
         // check for the object to the visible
@@ -236,38 +280,41 @@ public class Assert {
         return 0;
     }
 
-    // /////////////////////////////////////////////////////////////////////////
-    // a bunch of methods to negatively check for objects using selenium calls
-    // ///////////////////////////////////////////////////////////////////////
-
     /**
-     * checks to see if a confirmation is correct on the page
+     * checks to see if an alert is correct on the page
      *
-     * @param expectedConfirmation
-     *            the expected text of the confirmation
+     * @param expectedAlertText
+     *            the expected text of the alert
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkConfirmation(String expectedConfirmation) {
+    public int alertPresent(String expectedAlertText) {
         // outputFile.record the action
-        outputFile.recordExpected("Expected to find confirmation with the text <b>" + expectedConfirmation + ONPAGE);
+        outputFile.recordExpected("Expected to find alert with the text <b>" + expectedAlertText + ONPAGE);
         // check for the object to the visible
-        String confirmation = "";
-        boolean isConfirmationPresent = action.is().confirmationPresent();
-        if (isConfirmationPresent) {
-            confirmation = action.get().confirmation();
+        String alert = "";
+        boolean isAlertPresent = action.is().alertPresent();
+        if (isAlertPresent) {
+            alert = action.get().alert();
         }
-        if (!isConfirmationPresent) {
-            outputFile.recordActual(NOCONFIRMATION, Success.FAIL);
-            outputFile.addError();
-            outputFile.addError();
-            return 1;
-        }
-        if (!expectedConfirmation.equals(confirmation)) {
-            outputFile.recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, Success.FAIL);
+        if (!isAlertPresent) {
+            outputFile.recordActual(NOALERT, Success.FAIL);
             outputFile.addError();
             return 1;
         }
-        outputFile.recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, Success.PASS);
+        Pattern patt = Pattern.compile(expectedAlertText);
+        Matcher m = patt.matcher(alert);
+        boolean isCorrect;
+        if (expectedAlertText.contains("\\")) {
+            isCorrect = m.matches();
+        } else {
+            isCorrect = alert.equals(expectedAlertText);
+        }
+        if (!isCorrect) {
+            outputFile.recordActual(ALERTTEXT + alert + PRESENT, Success.FAIL);
+            outputFile.addError();
+            return 1;
+        }
+        outputFile.recordActual(ALERTTEXT + alert + PRESENT, Success.PASS);
         return 0;
     }
 
@@ -276,7 +323,7 @@ public class Assert {
      *
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkConfirmationPresent() {
+    public int confirmationPresent() {
         // outputFile.record the action
         outputFile.recordExpected("Expected to find a confirmation on the page");
         // check for the object to the visible
@@ -299,7 +346,7 @@ public class Assert {
      *
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkConfirmationNotPresent() {
+    public int confirmationNotPresent() {
         // outputFile.record the action
         outputFile.recordExpected("Expected to find a confirmation on the page");
         // check for the object to the visible
@@ -314,32 +361,33 @@ public class Assert {
     }
 
     /**
-     * checks to see if a prompt is correct on the page
+     * checks to see if a confirmation is correct on the page
      *
-     * @param expectedPrompt
+     * @param expectedConfirmation
      *            the expected text of the confirmation
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkPrompt(String expectedPrompt) {
+    public int confirmationPresent(String expectedConfirmationText) {
         // outputFile.record the action
-        outputFile.recordExpected("Expected to find prompt with the text <b>" + expectedPrompt + ONPAGE);
+        outputFile
+                .recordExpected("Expected to find confirmation with the text <b>" + expectedConfirmationText + ONPAGE);
         // check for the object to the visible
-        String prompt = "";
-        boolean isPromptPresent = action.is().promptPresent();
-        if (isPromptPresent) {
-            prompt = action.get().prompt();
+        String confirmation = "";
+        boolean isConfirmationPresent = action.is().confirmationPresent();
+        if (isConfirmationPresent) {
+            confirmation = action.get().confirmation();
         }
-        if (!isPromptPresent) {
-            outputFile.recordActual(NOPROMPT, Success.FAIL);
+        if (!isConfirmationPresent) {
+            outputFile.recordActual(NOCONFIRMATION, Success.FAIL);
             outputFile.addError();
             return 1;
         }
-        if (!expectedPrompt.equals(prompt)) {
-            outputFile.recordActual(PROMPTTEXT + prompt + PRESENT, Success.FAIL);
+        if (!expectedConfirmationText.equals(confirmation)) {
+            outputFile.recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, Success.FAIL);
             outputFile.addError();
             return 1;
         }
-        outputFile.recordActual(PROMPTTEXT + prompt + PRESENT, Success.PASS);
+        outputFile.recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, Success.PASS);
         return 0;
     }
 
@@ -348,7 +396,7 @@ public class Assert {
      *
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkPromptPresent() {
+    public int promptPresent() {
         // outputFile.record the action
         outputFile.recordExpected("Expected to find prompt on the page");
         // check for the object to the visible
@@ -371,7 +419,7 @@ public class Assert {
      *
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkPromptNotPresent() {
+    public int promptNotPresent() {
         // outputFile.record the action
         outputFile.recordExpected("Expected not to find prompt on the page");
         // check for the object to the visible
@@ -386,38 +434,38 @@ public class Assert {
     }
 
     /**
-     * checks to see if a cookie is correct for the page
+     * checks to see if a prompt is correct on the page
      *
-     * @param cookieName
-     *            the name of the cookie
-     * @param expectedCookieValue
-     *            the expected value of the cookie
+     * @param expectedPromptText
+     *            the expected text of the confirmation
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkCookie(String cookieName, String expectedCookieValue) {
+    public int promptPresent(String expectedPromptText) {
         // outputFile.record the action
-        outputFile.recordExpected(
-                "Expected to find cookie with the name <b>" + cookieName + VALUE + expectedCookieValue + STORED);
+        outputFile.recordExpected("Expected to find prompt with the text <b>" + expectedPromptText + ONPAGE);
         // check for the object to the visible
-        String cookieValue = "";
-        boolean isCookiePresent = action.is().cookiePresent(cookieName);
-        if (isCookiePresent) {
-            cookieValue = action.get().cookieValue(cookieName);
+        String prompt = "";
+        boolean isPromptPresent = action.is().promptPresent();
+        if (isPromptPresent) {
+            prompt = action.get().prompt();
         }
-        if (!isCookiePresent) {
-            outputFile.recordActual(NOCOOKIE + cookieName + STORED, Success.FAIL);
+        if (!isPromptPresent) {
+            outputFile.recordActual(NOPROMPT, Success.FAIL);
             outputFile.addError();
             return 1;
         }
-        if (!cookieValue.equals(expectedCookieValue)) {
-            outputFile.recordActual(COOKIE + cookieName + "</b> is stored for the page, but the value "
-                    + "of the cookie is " + cookieValue, Success.FAIL);
+        if (!expectedPromptText.equals(prompt)) {
+            outputFile.recordActual(PROMPTTEXT + prompt + PRESENT, Success.FAIL);
             outputFile.addError();
             return 1;
         }
-        outputFile.recordActual(COOKIE + cookieName + VALUE + cookieValue + STORED, Success.PASS);
+        outputFile.recordActual(PROMPTTEXT + prompt + PRESENT, Success.PASS);
         return 0;
     }
+
+    ///////////////////////////////////////////////////////
+    // assertions about cookies
+    ///////////////////////////////////////////////////////
 
     /**
      * checks to see if a cookie is present on the page
@@ -426,7 +474,7 @@ public class Assert {
      *            the name of the cookie
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkCookiePresent(String expectedCookieName) {
+    public int cookieExists(String expectedCookieName) {
         // outputFile.record the action
         outputFile.recordExpected("Expected to find cookie with the name <b>" + expectedCookieName + STORED);
         // check for the object to the visible
@@ -451,7 +499,7 @@ public class Assert {
      *            the name of the cookie
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkCookieNotPresent(String unexpectedCookieName) {
+    public int cookieNotExists(String unexpectedCookieName) {
         // outputFile.record the action
         outputFile.recordExpected("Expected to find no cookie with the name <b>" + unexpectedCookieName + STORED);
         // check for the object to the visible
@@ -466,285 +514,42 @@ public class Assert {
     }
 
     /**
-     * checks to see if text is visible on the page
+     * checks to see if a cookie is correct for the page
      *
-     * @param expectedTexts
-     *            the expected text to be visible
+     * @param cookieName
+     *            the name of the cookie
+     * @param expectedCookieValue
+     *            the expected value of the cookie
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int checkTextVisible(String... expectedTexts) {
+    public int cookieExists(String cookieName, String expectedCookieValue) {
         // outputFile.record the action
-        int errors = 0;
-        for (String expectedText : expectedTexts) {
-            outputFile.recordExpected("Expected to find text <b>" + expectedText + "</b> visible on the page");
-            // check for the object to the visible
-            boolean isPresent = action.is().textPresent(expectedText);
-            if (!isPresent) {
-                outputFile.recordActual(TEXT + expectedText + "</b> is not visible on the page", Success.FAIL);
-                outputFile.addError();
-                errors++;
-            } else {
-                outputFile.recordActual(TEXT + expectedText + VISIBLE, Success.PASS);
-            }
-        }
-        return errors;
-    }
-
-    /**
-     * checks to see if text is not visible on the page
-     *
-     * @param expectedTexts
-     *            the expected text to be invisible
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkTextNotVisible(String... expectedTexts) {
-        // outputFile.record the action
-        int errors = 0;
-        for (String expectedText : expectedTexts) {
-            outputFile.recordExpected("Expected not to find text <b>" + expectedText + "</b> visible on the page");
-            // check for the object to the visible
-            boolean isPresent = action.is().textPresent(expectedText);
-            if (isPresent) {
-                outputFile.recordActual(TEXT + expectedText + VISIBLE, Success.FAIL);
-                outputFile.addError();
-                errors++;
-            } else {
-                outputFile.recordActual(TEXT + expectedText + "</b> is not visible on the page", Success.PASS);
-            }
-        }
-        return errors;
-    }
-
-    /**
-     * checks to see if text is visible on the page
-     *
-     * @param expectedTexts
-     *            the expected text to be visible
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkTextVisibleOR(String... expectedTexts) {
-        // outputFile.record the action
-        int errors = 0;
-        boolean isPresent = false;
-        String foundText = "";
-        StringBuilder allTexts = new StringBuilder();
-        for (String expectedText : expectedTexts) {
-            allTexts.append("<b>" + expectedText + "</b> or ");
-        }
-        allTexts.setLength(allTexts.length() - 4);
-        outputFile.recordExpected("Expected to find text " + allTexts + " visible on the page");
+        outputFile.recordExpected(
+                "Expected to find cookie with the name <b>" + cookieName + VALUE + expectedCookieValue + STORED);
         // check for the object to the visible
-        for (String expectedText : expectedTexts) {
-            isPresent = action.is().textPresent(expectedText);
-            if (isPresent) {
-                foundText = expectedText;
-                break;
-            }
+        String cookieValue = "";
+        boolean isCookiePresent = action.is().cookiePresent(cookieName);
+        if (isCookiePresent) {
+            cookieValue = action.get().cookieValue(cookieName);
         }
-        if (!isPresent) {
-            outputFile.recordActual(
-                    "None of the texts " + allTexts.toString().replace(" or ", ", ") + " are visible on the page",
-                    Success.FAIL);
-            outputFile.addError();
-            errors++;
-            return errors;
-        }
-        outputFile.recordActual(TEXT + foundText + VISIBLE, Success.PASS);
-        return errors;
-    }
-
-    /**
-     * compares the actual title a page is on to the expected title
-     *
-     * @param expectedTitle
-     *            the friendly name of the page
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTitle(String expectedTitle) {
-        // outputFile.record the action
-        outputFile.recordExpected("Expected to be on page with the title of <i>" + expectedTitle + "</i>");
-        String actualTitle = action.get().title();
-        if (!actualTitle.equalsIgnoreCase(expectedTitle)) {
-            outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.FAIL);
+        if (!isCookiePresent) {
+            outputFile.recordActual(NOCOOKIE + cookieName + STORED, Success.FAIL);
             outputFile.addError();
             return 1;
         }
-        outputFile.recordActual("The page title reads <b>" + actualTitle + "</b>", Success.PASS);
-        return 0;
-    }
-
-    /**
-     * compares the actual URL a page is on to the expected URL
-     *
-     * @param expectedURL
-     *            the URL of the page
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareURL(String expectedURL) {
-        // outputFile.record the action
-        outputFile.recordExpected("Expected to be on page with the URL of <i>" + expectedURL + "</i>");
-        String actualURL = action.get().location();
-        if (!actualURL.equalsIgnoreCase(expectedURL)) {
-            outputFile.recordActual("The page URL  reads <b>" + actualURL + "</b>", Success.FAIL);
+        if (!cookieValue.equals(expectedCookieValue)) {
+            outputFile.recordActual(COOKIE + cookieName + "</b> is stored for the page, but the value "
+                    + "of the cookie is " + cookieValue, Success.FAIL);
             outputFile.addError();
             return 1;
         }
-        outputFile.recordActual("The page URL reads <b>" + actualURL + "</b>", Success.PASS);
+        outputFile.recordActual(COOKIE + cookieName + VALUE + cookieValue + STORED, Success.PASS);
         return 0;
-    }
-
-    /**
-     * 
-     * @param element
-     *            - the element to be matched
-     * @param expectedMatchedElements
-     *            - the expected number of elements on the page that match the
-     *            module
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareElementMatches(Element element, int expectedMatchedElements) {
-        // TODO
-        return 1;
-    }
-
-    /**
-     * compares the expected element select value with the actual value from an
-     * element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedValueNotEqual(Element element, String expectedValue) {
-        return compareSelectedValueNotEqual(element.getType(), element.getLocator(), 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element select value with the actual value from an
-     * element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedValueNotEqual(Locator type, String locator, String expectedValue) {
-        return compareSelectedValueNotEqual(type, locator, 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element select value with the actual value from an
-     * element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedValueNotEqual(Element element, int elementMatch, String expectedValue) {
-        return compareSelectedValueNotEqual(element.getType(), element.getLocator(), elementMatch, expectedValue);
-    }
-
-    /**
-     * compares the expected element select value with the actual value from an
-     * element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedValueNotEqual(Locator type, String locator, int elementMatch, String expectedValue) {
-        int errors = locatorAssert.compareSelectedValueNotEqual(type, locator, elementMatch, expectedValue);
-        outputFile.addErrors(errors);
-        return errors;
     }
 
     ///////////////////////////////////////////////////////////////////
     // this enum will be for a pass/fail
     ///////////////////////////////////////////////////////////////////
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValuePresent(Locator type, String locator, String selectValue) {
-        return checkSelectValuePresent(new Element(type, locator), selectValue);
-    }
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValuePresent(Locator type, String locator, int elementMatch, String selectValue) {
-        return checkSelectValuePresent(new Element(type, locator, elementMatch), selectValue);
-    }
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param element
-     *            - the element to be assessed
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValuePresent(Element element, String selectValue) {
-        String EXPECTED = "Expected to find ";
-        String ELEMENT = "The ";
-        String HASVALUE = "</i> contains the value of <b>";
-        String ONLYVALUE = ", only the values <b>";
-
-        // outputFile.record the action
-        outputFile.recordExpected(
-                EXPECTED + element.prettyOutput() + "</i> having a select value of <b>" + selectValue + "</b>");
-        // check for the object to the present on the page
-        String[] elementValues;
-        // if (!isPresentInputEnabled(element)) {
-        // return 1;
-        // } else {
-        elementValues = action.get().selectedValues(element);
-        // }
-        if (General.doesArrayContain(elementValues, selectValue)) {
-            outputFile.recordActual(ELEMENT + element.prettyOutput() + HASVALUE + selectValue + "</b>", Success.PASS);
-            return 0;
-        }
-        outputFile.recordActual(ELEMENT + element.prettyOutput() + "</i> does not contain the value of <b>"
-                + selectValue + "</b>" + ONLYVALUE + Arrays.toString(elementValues) + "</b>", Success.FAIL);
-        return 1;
-    }
 
     /**
      * An enumeration used to determine if the tests pass or fail
