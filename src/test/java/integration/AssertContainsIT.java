@@ -324,4 +324,48 @@ public class AssertContainsIT extends TestBase {
         // verify 1 issue
         finish(1);
     }
+
+    @Test(groups = { "integration", "asserts", "contains",
+            "virtual" }, description = "An integration test to check the compareTextValueContains method")
+    public void compareValueContainsTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.contains().value(Locator.ID, "textarea_input", "Pretty");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts", "contains",
+            "virtual" }, description = "An integration negative test to check the compareTextValueContains method")
+    public void negativeCompareValueContainsTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.contains().value(new Element(Locator.ID, "textarea_input"), "Anders");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "contains",
+            "virtual" }, description = "An integration negative test to check the compareTextValueContains method")
+    public void negativeCompareValueNotInputContainsTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.contains().value(new Element(Locator.ID, "overlay_span"), "Anders");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "contains",
+            "virtual" }, description = "An integration negative test to check the compareTextValueContains method")
+    public void negativeCompareValueContainsNotPresentTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.contains().value(new Element(Locator.ID, "non-existent-element"), "Anders");
+        // verify 1 issue
+        finish(1);
+    }
 }

@@ -21,13 +21,9 @@
 package com.coveros.selenified.output;
 
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-
 import com.coveros.selenified.output.Assert.Success;
 import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.tools.General;
 
 /**
  * An extension of the custom reporting class, focusing on checks involving
@@ -54,8 +50,6 @@ public class LocatorAssert {
     private static final String NOTEDITABLE = "</i> is not editable on the page";
 
     private static final String VALUE = "</i> has the value of <b>";
-    private static final String HASVALUE = "</i> contains the value of <b>";
-    private static final String ONLYVALUE = ", only the values <b>";
     private static final String CLASSVALUE = "</i> has a class value of <b>";
 
     public LocatorAssert(Action action, OutputFile outputFile) {
@@ -66,43 +60,6 @@ public class LocatorAssert {
     // /////////////////////////////////////////////////////////////////////////
     // a bunch of methods to negatively check for objects using selenium calls
     // ///////////////////////////////////////////////////////////////////////
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntHaveAttribute(Locator type, String locator, int elementMatch, String attribute) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        outputFile
-                .recordExpected(EXPECTED + type + " <i>" + locator + "</i> without attribute <b>" + attribute + "</b>");
-        Map<String, String> attributes = action.get().allAttributes(type, locator, elementMatch);
-        Set<String> keys = attributes.keySet();
-        String[] array = keys.toArray(new String[keys.size()]);
-        // outputFile.record the action
-        if (General.doesArrayContain(array, attribute)) {
-            outputFile.recordActual(
-                    ELEMENT + type + " <i>" + locator + "</i> contains the attribute of <b>" + attribute + "</b>",
-                    Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not contain the attribute of <b>"
-                + attribute + "</b>" + ONLYVALUE + Arrays.toString(array) + "</b>", Success.PASS);
-        return 0;
-    }
 
     /**
      * checks to see if an element has a particular class
@@ -134,76 +91,6 @@ public class LocatorAssert {
         }
         outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass + "</b>", Success.FAIL);
         return 1;
-    }
-
-    /**
-     * checks to see if an element does not contain a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param unexpectedClass
-     *            - the unexpected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementDoesntContainClass(Locator type, String locator, int elementMatch, String unexpectedClass) {
-        // wait for the element
-        if (!action.is().elementPresent(type, locator, elementMatch)
-                && action.waitFor().elementPresent(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        outputFile.recordExpected(
-                EXPECTED + type + " <i>" + locator + "</i> without class <b>" + unexpectedClass + "</b>");
-        String actualClass = action.get().attribute(type, locator, elementMatch, CLASS);
-        // outputFile.record the action
-        if (actualClass.contains(unexpectedClass)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + CLASSVALUE + actualClass
-                    + "</b>, which contains <b>" + unexpectedClass + "</b>", Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not contain a class value of <b>"
-                + unexpectedClass + "</b>", Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an option is not available to be selected on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param option
-     *            the option not expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkIfOptionNotInSelect(Locator type, String locator, int elementMatch, String option) {
-        // wait for the element
-        if (!action.is().elementEnabled(type, locator, elementMatch)
-                && action.waitFor().elementEnabled(type, locator, elementMatch) == 1) {
-            return 1;
-        }
-        // outputFile.record the action
-        outputFile.recordExpected(EXPECTED + type + " <i>" + locator + "</i> without the option <b>" + option
-                + "</b> available to be" + " selected on the page");
-        // check for the object to the editable
-        String[] allOptions = action.get().selectOptions(type, locator, elementMatch);
-        if (Arrays.asList(allOptions).contains(option)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator
-                    + "</i> is editable and present and contains the option " + "<b>" + option + "</b>", Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator
-                + "</i> is editable and present but does not contain the option " + "<b>" + option + "</b>",
-                Success.PASS);
-        return 0;
     }
 
     /**
@@ -391,40 +278,6 @@ public class LocatorAssert {
         }
         outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> has a css attribute of <i>" + attribute
                 + "</i> with the value of <b>" + elementCssValue + "</b>", Success.PASS);
-        return 0;
-    }
-
-    /**
-     * checks to see if an element select value does not exist
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param selectValue
-     *            the unexpected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkSelectValueNotPresent(Locator type, String locator, int elementMatch, String selectValue) {
-        // outputFile.record the action
-        outputFile.recordExpected(
-                EXPECTED + type + " <i>" + locator + "</i> without a select value of <b>" + selectValue + "</b>");
-        // check for the object to the present on the page
-        String[] elementValues;
-        if (!isPresentInputEnabled(type, locator, elementMatch)) {
-            return 1;
-        } else {
-            elementValues = action.get().selectedValues(type, locator, elementMatch);
-        }
-        if (General.doesArrayContain(elementValues, selectValue)) {
-            outputFile.recordActual(ELEMENT + type + " <i>" + locator + HASVALUE + selectValue + "</b>", Success.FAIL);
-            return 1;
-        }
-        outputFile.recordActual(ELEMENT + type + " <i>" + locator + "</i> does not contain the value of <b>"
-                + selectValue + "</b>, only the values <b>" + Arrays.toString(elementValues) + "</b>", Success.PASS);
         return 0;
     }
 
