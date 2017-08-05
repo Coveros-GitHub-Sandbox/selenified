@@ -740,7 +740,6 @@ public class Action {
         }
         if (!is.confirmationPresent()) {
             file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
-            file.addError();
             return 1; // indicates element not present
         }
         return 0;
@@ -767,7 +766,6 @@ public class Action {
         if (!is.promptPresent()) {
             file.recordAction(action, expected, "Unable to " + perform + " prompt as it is not present",
                     Result.FAILURE);
-            file.addError();
             return 1; // indicates element not present
         }
         return 0;
@@ -788,7 +786,6 @@ public class Action {
         }
         if (!is.alertPresent()) {
             file.recordAction(action, expected, "Unable to click alert as it is not present", Result.FAILURE);
-            file.addError();
             return 1; // indicates element not present
         }
         return accept(action, expected, "alert");
@@ -903,7 +900,6 @@ public class Action {
         }
         if (!is.elementPresent(element)) {
             file.recordAction(action, expected, extra + element.prettyOutput() + NOTPRESENT, Result.FAILURE);
-            file.addError();
             // indicates element not present
             return false;
         }
@@ -931,7 +927,6 @@ public class Action {
         }
         if (!is.elementDisplayed(element)) {
             file.recordAction(action, expected, extra + element.prettyOutput() + NOTDISPLAYED, Result.FAILURE);
-            file.addError();
             // indicates element not displayed
             return false;
         }
@@ -959,7 +954,6 @@ public class Action {
         }
         if (!is.elementEnabled(element)) {
             file.recordAction(action, expected, extra + element.prettyOutput() + NOTENABLED, Result.FAILURE);
-            file.addError();
             // indicates element not enabled
             return false;
         }

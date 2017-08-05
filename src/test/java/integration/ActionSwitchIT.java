@@ -102,8 +102,8 @@ public class ActionSwitchIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.selectFrame(new Element(Locator.ID, "non-existent-element"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "switch", "frame",
@@ -113,8 +113,8 @@ public class ActionSwitchIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.selectFrame(new Element(Locator.ID, "some_other_frame"));
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "switch", "frame",
