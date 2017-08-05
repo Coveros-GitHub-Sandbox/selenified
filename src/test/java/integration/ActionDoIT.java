@@ -490,7 +490,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "input_box", "This is a test");
-        asserts.compareInputValue(Locator.ID, "input_box", "This is a test");
+        asserts.equals().value(Locator.ID, "input_box", "This is a test");
         // verify no issues
         finish();
     }
@@ -504,7 +504,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "textarea_input", " With More Text");
-        asserts.compareInputValue(Locator.ID, "textarea_input", "A Pretty Text Area With More Text");
+        asserts.equals().value(Locator.ID, "textarea_input", "A Pretty Text Area With More Text");
         // verify no issues
         finish();
     }
@@ -532,7 +532,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "car_list", "A");
-        asserts.compareSelectedValue(Locator.ID, "car_list", "audi");
+        asserts.equals().selectedValue(Locator.ID, "car_list", "audi");
         // verify no issues
         finish();
     }
@@ -615,7 +615,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "textarea_input", Keys.BACK_SPACE);
-        asserts.compareInputValue(Locator.ID, "textarea_input", "A Pretty Text Are");
+        asserts.equals().value(Locator.ID, "textarea_input", "A Pretty Text Are");
         // verify no issues
         finish();
     }
@@ -643,7 +643,7 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "car_list", Keys.DOWN);
-        asserts.compareSelectedValue(Locator.ID, "car_list", "saab");
+        asserts.equals().selectedValue(Locator.ID, "car_list", "saab");
         // verify no issues
         finish();
     }
@@ -712,9 +712,9 @@ public class ActionDoIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.type(Locator.ID, "input_box", "Text");
-        asserts.compareInputValue(Locator.ID, "input_box", "Text");
+        asserts.equals().value(Locator.ID, "input_box", "Text");
         actions.clear(Locator.ID, "input_box");
-        asserts.compareInputValue(Locator.ID, "input_box", "");
+        asserts.equals().value(Locator.ID, "input_box", "");
         // verify no issues
         finish();
     }
@@ -727,9 +727,9 @@ public class ActionDoIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.compareInputValue(Locator.ID, "textarea_input", "A Pretty Text Area");
+        asserts.equals().value(Locator.ID, "textarea_input", "A Pretty Text Area");
         actions.clear(Locator.ID, "textarea_input");
-        asserts.compareInputValue(Locator.ID, "textarea_input", "");
+        asserts.equals().value(Locator.ID, "textarea_input", "");
         // verify no issues
         finish();
     }
@@ -809,7 +809,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(Locator.ID, "car_list", listItem);
-        asserts.compareSelectedOption(Locator.ID, "car_list", listValue);
+        asserts.equals().selectedOption(Locator.ID, "car_list", listValue);
         // close out the test
         finish();
     }
@@ -834,7 +834,7 @@ public class ActionDoIT extends TestBase {
         Action actions = this.actions.get();
         // perform some actions
         actions.select(Locator.ID, "car_list", listItem);
-        asserts.compareSelectedOption(Locator.ID, "car_list", listItem);
+        asserts.equals().selectedOption(Locator.ID, "car_list", listItem);
         // close out the test
         finish();
     }

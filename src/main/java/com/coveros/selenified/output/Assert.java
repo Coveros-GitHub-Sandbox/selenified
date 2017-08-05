@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Element;
+import com.coveros.selenified.selenium.Equals;
 import com.coveros.selenified.selenium.Excludes;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
@@ -55,6 +56,8 @@ public class Assert {
     private Contains contains;
     // the is class to determine if an element doesn't contain something
     private Excludes excludes;
+    // the is class to determine if an element has attributes equal to something
+    private Equals equals;
 
     // constants
     private static final String ONPAGE = "</b> on the page";
@@ -93,6 +96,7 @@ public class Assert {
         state = new State(action, outputFile);
         contains = new Contains(action, outputFile);
         excludes = new Excludes(action, outputFile);
+        equals = new Equals(action, outputFile);
     }
 
     public Assert(String outputDir, String testsName, String serviceURL) {
@@ -100,6 +104,7 @@ public class Assert {
         state = new State(action, outputFile);
         contains = new Contains(action, outputFile);
         excludes = new Excludes(action, outputFile);
+        equals = new Equals(action, outputFile);
     }
 
     public void setAction(Action action) {
@@ -108,6 +113,7 @@ public class Assert {
         state.setAction(action);
         contains.setAction(action);
         excludes.setAction(action);
+        equals.setAction(action);
     }
 
     public void setOutputFile(OutputFile thisOutputFile) {
@@ -115,7 +121,7 @@ public class Assert {
         state.setOutputFile(outputFile);
         contains.setOutputFile(outputFile);
         excludes.setOutputFile(outputFile);
-
+        equals.setOutputFile(outputFile);
     }
 
     public OutputFile getOutputFile() {
@@ -136,6 +142,10 @@ public class Assert {
 
     public Excludes excludes() {
         return excludes;
+    }
+
+    public Equals equals() {
+        return equals;
     }
 
     ///////////////////////////////////////////////////////
@@ -584,134 +594,6 @@ public class Assert {
     }
 
     /**
-     * checks to see if an element has a particular class
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedClass
-     *            - the full expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementHasClass(Element element, String expectedClass) {
-        return checkElementHasClass(element.getType(), element.getLocator(), 0, expectedClass);
-    }
-
-    /**
-     * checks to see if an element has a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedClass
-     *            - the full expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementHasClass(Locator type, String locator, String expectedClass) {
-        return checkElementHasClass(type, locator, 0, expectedClass);
-    }
-
-    /**
-     * checks to see if an element has a particular class
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedClass
-     *            - the full expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementHasClass(Element element, int elementMatch, String expectedClass) {
-        return checkElementHasClass(element.getType(), element.getLocator(), elementMatch, expectedClass);
-    }
-
-    /**
-     * checks to see if an element has a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedClass
-     *            - the full expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int checkElementHasClass(Locator type, String locator, int elementMatch, String expectedClass) {
-        int errors = locatorAssert.checkElementHasClass(type, locator, elementMatch, expectedClass);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValue(Element element, String expectedValue) {
-        return compareTextValue(element.getType(), element.getLocator(), 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValue(Locator type, String locator, String expectedValue) {
-        return compareTextValue(type, locator, 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValue(Element element, int elementMatch, String expectedValue) {
-        return compareTextValue(element.getType(), element.getLocator(), elementMatch, expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTextValue(Locator type, String locator, int elementMatch, String expectedValue) {
-        int errors = locatorAssert.compareTextValue(type, locator, elementMatch, expectedValue);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
      * 
      * @param element
      *            - the element to be matched
@@ -723,286 +605,6 @@ public class Assert {
     public int compareElementMatches(Element element, int expectedMatchedElements) {
         // TODO
         return 1;
-    }
-
-    /**
-     * compares the expected element input value with the actual value from an
-     * element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareInputValue(Element element, String expectedValue) {
-        return compareInputValue(element.getType(), element.getLocator(), 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element input value with the actual value from an
-     * element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareInputValue(Locator type, String locator, String expectedValue) {
-        return compareInputValue(type, locator, 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element input value with the actual value from an
-     * element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareInputValue(Element element, int elementMatch, String expectedValue) {
-        return compareInputValue(element.getType(), element.getLocator(), elementMatch, expectedValue);
-    }
-
-    /**
-     * compares the expected element input value with the actual value from an
-     * element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareInputValue(Locator type, String locator, int elementMatch, String expectedValue) {
-        int errors = locatorAssert.compareInputValue(type, locator, elementMatch, expectedValue);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * compares the expected element css attribute value with the actual css
-     * attribute value from an element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param attribute
-     *            - the css attribute to be checked
-     * @param expectedValue
-     *            the expected css value of the passed attribute of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareCssValue(Element element, String attribute, String expectedValue) {
-        return compareCssValue(element.getType(), element.getLocator(), 0, attribute, expectedValue);
-    }
-
-    /**
-     * compares the expected element css attribute value with the actual css
-     * attribute value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param attribute
-     *            - the css attribute to be checked
-     * @param expectedValue
-     *            the expected css value of the passed attribute of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareCssValue(Locator type, String locator, String attribute, String expectedValue) {
-        return compareCssValue(type, locator, 0, attribute, expectedValue);
-    }
-
-    /**
-     * compares the expected element css attribute value with the actual css
-     * attribute value from an element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the css attribute to be checked
-     * @param expectedValue
-     *            the expected css value of the passed attribute of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareCssValue(Element element, int elementMatch, String attribute, String expectedValue) {
-        return compareCssValue(element.getType(), element.getLocator(), elementMatch, attribute, expectedValue);
-    }
-
-    /**
-     * compares the expected element css attribute value with the actual css
-     * attribute value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the css attribute to be checked
-     * @param expectedValue
-     *            the expected css value of the passed attribute of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareCssValue(Locator type, String locator, int elementMatch, String attribute, String expectedValue) {
-        int errors = locatorAssert.compareCssValue(type, locator, elementMatch, attribute, expectedValue);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * compares the expected element select value with the actual value from an
-     * element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedValue(Element element, String expectedValue) {
-        return compareSelectedValue(element.getType(), element.getLocator(), 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element select value with the actual value from an
-     * element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedValue(Locator type, String locator, String expectedValue) {
-        return compareSelectedValue(type, locator, 0, expectedValue);
-    }
-
-    /**
-     * compares the expected element select value with the actual value from an
-     * element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedValue(Element element, int elementMatch, String expectedValue) {
-        return compareSelectedValue(element.getType(), element.getLocator(), elementMatch, expectedValue);
-    }
-
-    /**
-     * compares the expected element select value with the actual value from an
-     * element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedValue(Locator type, String locator, int elementMatch, String expectedValue) {
-        int errors = locatorAssert.compareSelectedValue(type, locator, elementMatch, expectedValue);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * compares the expected element select test with the actual value from an
-     * element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedText
-     *            the expected input text of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedOption(Element element, String expectedText) {
-        return compareSelectedOption(element.getType(), element.getLocator(), 0, expectedText);
-    }
-
-    /**
-     * compares the expected element select test with the actual value from an
-     * element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedText
-     *            the expected input text of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedOption(Locator type, String locator, String expectedText) {
-        return compareSelectedOption(type, locator, 0, expectedText);
-    }
-
-    /**
-     * compares the expected element select test with the actual value from an
-     * element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedText
-     *            the expected input text of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedOption(Element element, int elementMatch, String expectedText) {
-        return compareSelectedOption(element.getType(), element.getLocator(), elementMatch, expectedText);
-    }
-
-    /**
-     * compares the expected element select test with the actual value from an
-     * element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedText
-     *            the expected input text of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectedOption(Locator type, String locator, int elementMatch, String expectedText) {
-        int errors = locatorAssert.compareSelectedOption(type, locator, elementMatch, expectedText);
-        outputFile.addErrors(errors);
-        return errors;
     }
 
     /**
@@ -1073,166 +675,6 @@ public class Assert {
         return errors;
     }
 
-    /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param expectedValues
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectValues(Element element, String... expectedValues) {
-        return compareSelectValues(element.getType(), element.getLocator(), 0, expectedValues);
-    }
-
-    /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedValues
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectValues(Locator type, String locator, String... expectedValues) {
-        return compareSelectValues(type, locator, 0, expectedValues);
-    }
-
-    /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValues
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectValues(Element element, int elementMatch, String... expectedValues) {
-        return compareSelectValues(element.getType(), element.getLocator(), elementMatch, expectedValues);
-    }
-
-    /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValues
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareSelectValues(Locator type, String locator, int elementMatch, String... expectedValues) {
-        int errors = locatorAssert.compareSelectValues(type, locator, elementMatch, expectedValues);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
-    /**
-     * compares the text of expected table cell with the actual table cell text
-     * of a table with from a table element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param row
-     *            - the number of the row in the table - note, row numbering
-     *            starts at 1, NOT 0
-     * @param col
-     *            - the number of the column in the table - note, column
-     *            numbering starts at 1, NOT 0
-     * @param text
-     *            - what text do we expect to be in the table cell
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTableCellText(Element element, int row, int col, String text) {
-        return compareTableCellText(element.getType(), element.getLocator(), 0, row, col, text);
-    }
-
-    /**
-     * compares the text of expected table cell with the actual table cell text
-     * of a table with from a table element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param row
-     *            - the number of the row in the table - note, row numbering
-     *            starts at 1, NOT 0
-     * @param col
-     *            - the number of the column in the table - note, column
-     *            numbering starts at 1, NOT 0
-     * @param text
-     *            - what text do we expect to be in the table cell
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTableCellText(Locator type, String locator, int row, int col, String text) {
-        return compareTableCellText(type, locator, 0, row, col, text);
-    }
-
-    /**
-     * compares the text of expected table cell with the actual table cell text
-     * of a table with from a table element
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param row
-     *            - the number of the row in the table - note, row numbering
-     *            starts at 1, NOT 0
-     * @param col
-     *            - the number of the column in the table - note, column
-     *            numbering starts at 1, NOT 0
-     * @param text
-     *            - what text do we expect to be in the table cell
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTableCellText(Element element, int elementMatch, int row, int col, String text) {
-        return compareTableCellText(element.getType(), element.getLocator(), elementMatch, row, col, text);
-    }
-
-    /**
-     * compares the text of expected table cell with the actual table cell text
-     * of a table with from a table element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param row
-     *            - the number of the row in the table - note, row numbering
-     *            starts at 1, NOT 0
-     * @param col
-     *            - the number of the column in the table - note, column
-     *            numbering starts at 1, NOT 0
-     * @param text
-     *            - what text do we expect to be in the table cell
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int compareTableCellText(Locator type, String locator, int elementMatch, int row, int col, String text) {
-        int errors = locatorAssert.compareTableCellText(type, locator, elementMatch, row, col, text);
-        outputFile.addErrors(errors);
-        return errors;
-    }
-
     ///////////////////////////////////////////////////////////////////
     // this enum will be for a pass/fail
     ///////////////////////////////////////////////////////////////////
@@ -1280,8 +722,8 @@ public class Assert {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int checkSelectValuePresent(Element element, String selectValue) {
-        String EXPECTED = "Expected to find element with ";
-        String ELEMENT = "The element with ";
+        String EXPECTED = "Expected to find ";
+        String ELEMENT = "The ";
         String HASVALUE = "</i> contains the value of <b>";
         String ONLYVALUE = ", only the values <b>";
 

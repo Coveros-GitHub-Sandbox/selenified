@@ -17,12 +17,10 @@ public class Excludes {
     private Action action;
 
     // constants
-    private static final String EXPECTED = "Expected to find element with ";
-    private static final String ELEMENT = "The element with ";
+    private static final String EXPECTED = "Expected to find ";
     private static final String CLASS = "class";
 
     private static final String NOTINPUT = " is not an input on the page";
-    private static final String NOTSELECT = " is not a select on the page";
 
     private static final String VALUE = " has the value of <b>";
     private static final String HASVALUE = " contains the value of <b>";
@@ -249,40 +247,6 @@ public class Excludes {
     ///////////////////////////////////////////////////
 
     /**
-     * Determines if the element is a select
-     * 
-     * @param element
-     *            - the element to be assessed
-     * @return Boolean: whether the element is an select or not
-     */
-    private boolean isSelect(Element element) {
-        if (!action.is().elementSelect(element)) {
-            file.recordActual(ELEMENT + element.prettyOutput() + NOTSELECT, Success.FAIL);
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Determines if the element is a present, and if it is, it is a select
-     * 
-     * @param element
-     *            - the element to be assessed
-     * @param expected
-     *            - the expected outcome
-     * @return Boolean: whether the element is a select or not
-     */
-    private boolean isPresentSelect(Element element, String expected) {
-        // wait for the element
-        if (!action.is().elementPresent(element) && action.waitFor().elementPresent(element) == 1) {
-            return false;
-        }
-        file.recordExpected(expected);
-        // verify this is a select element
-        return isSelect(element);
-    }
-
-    /**
      * checks to see if an element does not contain a particular class
      *
      * @param element
@@ -301,12 +265,13 @@ public class Excludes {
         String actualClass = action.get().attribute(element, CLASS);
         // file.record the action
         if (actualClass.contains(unexpectedClass)) {
-            file.recordActual(ELEMENT + element.prettyOutput() + CLASSVALUE + actualClass + "</b>, which contains <b>"
+            file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>"
                     + unexpectedClass + "</b>", Success.FAIL);
+            file.addError();
             return 1;
         }
         file.recordActual(
-                ELEMENT + element.prettyOutput() + " does not contain a class value of <b>" + unexpectedClass + "</b>",
+                element.prettyOutputStart() + " does not contain a class value of <b>" + unexpectedClass + "</b>",
                 Success.PASS);
         return 0;
     }
@@ -337,12 +302,13 @@ public class Excludes {
         String[] allAttributes = keys.toArray(new String[keys.size()]);
         // file.record the action
         if (Arrays.asList(allAttributes).contains(attribute)) {
-            file.recordActual(ELEMENT + element.prettyOutput() + " contains the attribute of <b>" + attribute + "</b>",
+            file.recordActual(element.prettyOutputStart() + " contains the attribute of <b>" + attribute + "</b>",
                     Success.FAIL);
+            file.addError();
             return 1;
         }
-        file.recordActual(ELEMENT + element.prettyOutput() + " does not contain the attribute of <b>" + attribute
-                + "</b>" + ONLYVALUE + Arrays.toString(allAttributes) + "</b>", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>"
+                + ONLYVALUE + Arrays.toString(allAttributes) + "</b>", Success.PASS);
         return 0;
     }
 
@@ -365,11 +331,11 @@ public class Excludes {
         // check for the object to the present on the page
         String elementValue = action.get().text(element);
         if (elementValue.contains(expectedValue)) {
-            file.recordActual(ELEMENT + element.prettyOutput() + VALUE + elementValue + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.FAIL);
             file.addError();
             return 1;
         }
-        file.recordActual(ELEMENT + element.prettyOutput() + VALUE + elementValue + "</b>", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
         return 0;
     }
 
@@ -391,18 +357,18 @@ public class Excludes {
         }
         // verify this is an input element
         if (!action.is().elementInput(element)) {
-            file.recordActual(ELEMENT + element.prettyOutput() + NOTINPUT, Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + NOTINPUT, Success.FAIL);
             file.addError();
             return 1;
         }
         // check for the object to the present on the page
         String elementValue = action.get().value(element);
         if (elementValue.contains(expectedValue)) {
-            file.recordActual(ELEMENT + element.prettyOutput() + VALUE + elementValue + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.FAIL);
             file.addError();
             return 1;
         }
-        file.recordActual(ELEMENT + element.prettyOutput() + VALUE + elementValue + "</b>", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
         return 0;
     }
 
@@ -417,22 +383,20 @@ public class Excludes {
      */
     public int selectOption(Element element, String option) {
         // wait for the select
-        if (!isPresentSelect(element, EXPECTED + element.prettyOutput() + " without the option <b>" + option
-                + "</b> available to be selected on the page")) {
-            file.addError();
+        if (!Helper.isPresentSelect(action, file, element, EXPECTED + element.prettyOutput() + " without the option <b>"
+                + option + "</b> available to be selected on the page")) {
             return 1;
         }
         // check for the object to the editable
         String[] allOptions = action.get().selectOptions(element);
         if (Arrays.asList(allOptions).contains(option)) {
-            file.recordActual(ELEMENT + element.prettyOutput() + "</i> is editable and present and contains the option "
-                    + "<b>" + option + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + " is editable and present and contains the option " + "<b>"
+                    + option + "</b>", Success.FAIL);
             file.addError();
             return 1;
         }
-        file.recordActual(ELEMENT + element.prettyOutput()
-                + "</i> is editable and present but does not contain the option " + "<b>" + option + "</b>",
-                Success.PASS);
+        file.recordActual(element.prettyOutputStart() + " is editable and present but does not contain the option "
+                + "<b>" + option + "</b>", Success.PASS);
         return 0;
     }
 
@@ -447,19 +411,18 @@ public class Excludes {
      */
     public int selectValue(Element element, String selectValue) {
         // wait for the select
-        if (!isPresentSelect(element, EXPECTED + element.prettyOutput() + " without a select value of <b>" + selectValue
-                + "</b> available to be selected on the page")) {
-            file.addError();
+        if (!Helper.isPresentSelect(action, file, element, EXPECTED + element.prettyOutput()
+                + " without a select value of <b>" + selectValue + "</b> available to be selected on the page")) {
             return 1;
         }
         // check for the object to the present on the page
         String[] elementValues = action.get().selectValues(element);
         if (Arrays.asList(elementValues).contains(selectValue)) {
-            file.recordActual(ELEMENT + element.prettyOutput() + HASVALUE + selectValue + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + HASVALUE + selectValue + "</b>", Success.FAIL);
             file.addError();
             return 1;
         }
-        file.recordActual(ELEMENT + element.prettyOutput() + " does not contain the value of <b>" + selectValue
+        file.recordActual(element.prettyOutputStart() + " does not contain the value of <b>" + selectValue
                 + "</b>, only the values <b>" + Arrays.toString(elementValues) + "</b>", Success.PASS);
         return 0;
     }
