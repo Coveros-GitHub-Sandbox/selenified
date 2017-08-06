@@ -4,7 +4,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.output.Assert;
-import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -38,7 +37,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().selectValue(new Element(Locator.ID, "car_list"), "volvo");
+        asserts.excludes().selectValue(Locator.ID, "car_list", 0, "volvo");
         // verify 1 issue
         finish(1);
     }
@@ -49,7 +48,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().selectValue(new Element(Locator.ID, "alert_button"), "volvo");
+        asserts.excludes().selectValue(Locator.ID, "alert_button", "volvo");
         // verify 1 issue
         finish(1);
     }
@@ -71,7 +70,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().selectOption(new Element(Locator.ID, "car_list"), "Audi");
+        asserts.excludes().selectOption(Locator.ID, "car_list", 0, "Audi");
         // verify 1 issue
         finish(1);
     }
@@ -82,7 +81,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().selectOption(new Element(Locator.ID, "alert_button"), "audi");
+        asserts.excludes().selectOption(Locator.ID, "alert_button", "audi");
         // verify 1 issue
         finish(1);
     }
@@ -104,7 +103,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().classs(new Element(Locator.ID, "hidden_div"), "hidden_div");
+        asserts.excludes().classs(Locator.ID, "hidden_div", 0, "hidden_div");
         // verify 1 issue
         finish(1);
     }
@@ -115,7 +114,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().classs(new Element(Locator.ID, "non-existent-element"), "hidden_div");
+        asserts.excludes().classs(Locator.ID, "non-existent-element", "hidden_div");
         // verify 1 issues
         finish(1);
     }
@@ -148,7 +147,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().attribute(new Element(Locator.ID, "car_list"), "name");
+        asserts.excludes().attribute(Locator.ID, "car_list", 0, "name");
         // verify 1 issue
         finish(1);
     }
@@ -159,7 +158,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().attribute(new Element(Locator.ID, "non-existent-element"), "name");
+        asserts.excludes().attribute(Locator.ID, "non-existent-element", "name");
         // verify 1 issue
         finish(1);
     }
@@ -192,7 +191,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().text(new Element(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]"), "Centro comer");
+        asserts.excludes().text(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", 0, "Centro comer");
         // verify 1 issue
         finish(1);
     }
@@ -203,7 +202,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().text(new Element(Locator.ID, "non-existent-element"), "Anders");
+        asserts.excludes().text(Locator.ID, "non-existent-element", "Anders");
         // verify 1 issue
         finish(1);
     }
@@ -225,7 +224,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().value(new Element(Locator.ID, "textarea_input"), "Pretty");
+        asserts.excludes().value(Locator.ID, "textarea_input", 0, "Pretty");
         // verify 1 issue
         finish(1);
     }
@@ -236,7 +235,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().value(new Element(Locator.ID, "overlay_span"), "Anders");
+        asserts.excludes().value(Locator.ID, "overlay_span", "Anders");
         // verify 1 issue
         finish(1);
     }
@@ -247,7 +246,7 @@ public class AssertExcludesIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.excludes().value(new Element(Locator.ID, "non-existent-element"), "Anders");
+        asserts.excludes().value(Locator.ID, "non-existent-element", "Anders");
         // verify 1 issue
         finish(1);
     }

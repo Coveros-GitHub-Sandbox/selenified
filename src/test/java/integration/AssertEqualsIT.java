@@ -4,7 +4,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.output.Assert;
-import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -38,7 +37,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().selectValues(new Element(Locator.NAME, "non-existent-element"),
+        asserts.equals().selectValues(Locator.NAME, "non-existent-element", 0,
                 new String[] { "volvo", "ford", "mercedes", "audi" });
         // verify 1 issue
         finish(1);
@@ -50,7 +49,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().selectValues(new Element(Locator.NAME, "car_list"),
+        asserts.equals().selectValues(Locator.NAME, "car_list",
                 new String[] { "volvo", "ford", "mercedes", "audi" });
         // verify 1 issue
         finish(1);
@@ -96,7 +95,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().text(new Element(Locator.ID, "table"), 1, 1, "Bad-Value");
+        asserts.equals().text(Locator.ID, "table", 0, 1, 1, "Bad-Value");
         // verify 1 issue
         finish(1);
     }
@@ -107,7 +106,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().text(new Element(Locator.ID, "non-existent-element"), 0, 0, "");
+        asserts.equals().text(Locator.ID, "non-existent-element", 0, 0, "");
         // verify 1 issue
         finish(1);
     }
@@ -129,7 +128,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().classs(new Element(Locator.ID, "hidden_div"), "wrong_class");
+        asserts.equals().classs(Locator.ID, "hidden_div", 0, "wrong_class");
         // verify 1 issue
         finish(1);
     }
@@ -140,7 +139,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().classs(new Element(Locator.ID, "non-existent-element"), "wrong_class");
+        asserts.equals().classs(Locator.ID, "non-existent-element", "wrong_class");
         // verify 1 issue
         finish(1);
     }
@@ -173,7 +172,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().cssValue(new Element(Locator.ID, "hidden_div"), "display", "inline");
+        asserts.equals().cssValue(Locator.ID, "hidden_div", 0, "display", "inline");
         // verify 1 issue
         finish(1);
     }
@@ -184,7 +183,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().cssValue(new Element(Locator.ID, "non-existent-element"), "display", "inline");
+        asserts.equals().cssValue(Locator.ID, "non-existent-element", "display", "inline");
         // verify 1 issue
         finish(1);
     }
@@ -206,7 +205,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().value(new Element(Locator.ID, "that"), "wrong value");
+        asserts.equals().value(Locator.ID, "that", 0, "wrong value");
         // verify 1 issue
         finish(1);
     }
@@ -228,7 +227,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().selectedValue(new Element(Locator.ID, "car_list"), "wrong value");
+        asserts.equals().selectedValue(Locator.ID, "car_list", 0, "wrong value");
         // verify 1 issue
         finish(1);
     }
@@ -239,7 +238,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().selectedValue(new Element(Locator.ID, "enabled_button"), "wrong value");
+        asserts.equals().selectedValue(Locator.ID, "enabled_button", "wrong value");
         // verify 1 issue
         finish(1);
     }
@@ -272,7 +271,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().text(new Element(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]"), "Maria Anders");
+        asserts.equals().text(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", 0, "Maria Anders");
         // verify 1 issue
         finish(1);
     }
@@ -283,7 +282,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().text(new Element(Locator.ID, "non-existent-element"), "Maria Anders");
+        asserts.equals().text(Locator.ID, "non-existent-element", "Maria Anders");
         // verify 1 issue
         finish(1);
     }
@@ -305,7 +304,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().value(new Element(Locator.ID, "textarea_input"), "Maria Anders");
+        asserts.equals().value(Locator.ID, "textarea_input", 0, "Maria Anders");
         // verify 1 issue
         finish(1);
     }
@@ -316,7 +315,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().value(new Element(Locator.ID, "hover_over_me"), "Maria Anders");
+        asserts.equals().value(Locator.ID, "hover_over_me", "Maria Anders");
         // verify 1 issue
         finish(1);
     }
@@ -327,7 +326,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().value(new Element(Locator.ID, "non-existent-element"), "Maria Anders");
+        asserts.equals().value(Locator.ID, "non-existent-element", "Maria Anders");
         // verify 1 issue
         finish(1);
     }
@@ -349,7 +348,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().selectedOption(new Element(Locator.ID, "car_list"), "wrong value");
+        asserts.equals().selectedOption(Locator.ID, "car_list", 0, "wrong value");
         // verify 1 issue
         finish(1);
     }
@@ -360,7 +359,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().selectedOption(new Element(Locator.ID, "alert_button"), "wrong value");
+        asserts.equals().selectedOption(Locator.ID, "alert_button", "wrong value");
         // verify 1 issue
         finish(1);
     }
