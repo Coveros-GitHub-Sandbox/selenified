@@ -36,7 +36,7 @@ public class WaitFor {
     private static final String DISPLAYED = " to be displayed";
     private static final String ENABLED = " to be enabled";
 
-    private double defaultWait = 5;
+    private double defaultWait = 5.0;
 
     public WaitFor(WebDriver driver, OutputFile file) {
         this.driver = driver;

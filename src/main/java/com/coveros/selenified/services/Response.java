@@ -39,7 +39,7 @@ public class Response {
     private int code;
     private JsonObject object = null;
     private JsonArray array = null;
-    private String message;
+    private String message = null;
 
     // this will be the name of the file we write all commands out to
     private OutputFile file;
