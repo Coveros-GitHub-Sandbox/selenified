@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import com.coveros.selenified.output.Assert;
 import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -39,7 +38,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().selectOptions(new Element(Locator.NAME, "car_list"), 0);
+        asserts.contains().selectOptions(Locator.NAME, "car_list", 0, 0);
         // verify 1 issue
         finish(1);
     }
@@ -50,7 +49,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().selectOptions(new Element(Locator.NAME, "alert_button"), 0);
+        asserts.contains().selectOptions(Locator.NAME, "alert_button", 0);
         // verify 1 issue
         finish(1);
     }
@@ -72,7 +71,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().rows(new Element(Locator.ID, "table"), 0);
+        asserts.contains().rows(Locator.ID, "table", 0, 0);
         // verify 1 issue
         finish(1);
     }
@@ -83,7 +82,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().rows(new Element(Locator.ID, "non-existent-element"), 0);
+        asserts.contains().rows(Locator.ID, "non-existent-element", 0);
         // verify 1 issue
         finish(1);
     }
@@ -105,7 +104,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().columns(new Element(Locator.ID, "table"), 0);
+        asserts.contains().columns(Locator.ID, "table", 0, 0);
         // verify 1 issue
         finish(1);
     }
@@ -116,7 +115,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().columns(new Element(Locator.ID, "non-existent-element"), 0);
+        asserts.contains().columns(Locator.ID, "non-existent-element", 0);
         // verify 1 issue
         finish(1);
     }
@@ -138,7 +137,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().selectOption(new Element(Locator.ID, "car_list"), "Ford");
+        asserts.contains().selectOption(Locator.ID, "car_list", 0, "Ford");
         // verify 1 issue
         finish(1);
     }
@@ -149,7 +148,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().selectOption(new Element(Locator.ID, "alert_button"), "Ford");
+        asserts.contains().selectOption(Locator.ID, "alert_button", "Ford");
         // verify 1 issue
         finish(1);
     }
@@ -174,7 +173,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().selectValue(new Element(Locator.ID, "car_list"), "ford");
+        asserts.contains().selectValue(Locator.ID, "car_list", "ford");
         // verify 1 issue
         finish(1);
     }
@@ -185,7 +184,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().selectValue(new Element(Locator.ID, "alert_button"), "ford");
+        asserts.contains().selectValue(Locator.ID, "alert_button", 0, "ford");
         // verify 1 issue
         finish(1);
     }
@@ -221,7 +220,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().classs(new Element(Locator.ID, "hidden_div"), "wrong_class");
+        asserts.contains().classs(Locator.ID, "hidden_div", 0, "wrong_class");
         // verify 1 issue
         finish(1);
     }
@@ -232,7 +231,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().classs(new Element(Locator.ID, "non-existent-element"), "wrong_class");
+        asserts.contains().classs(Locator.ID, "non-existent-element", "wrong_class");
         // verify 1 issue
         finish(1);
     }
@@ -265,7 +264,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().attribute(new Element(Locator.ID, "car_list"), "class");
+        asserts.contains().attribute(Locator.ID, "car_list", 0, "class");
         // verify 1 issue
         finish(1);
     }
@@ -276,7 +275,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().attribute(new Element(Locator.ID, "non-existent-element"), "class");
+        asserts.contains().attribute(Locator.ID, "non-existent-element", "class");
         // verify 1 issue
         finish(1);
     }
@@ -309,7 +308,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().text(new Element(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]"), "Anders");
+        asserts.contains().text(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", 0, "Anders");
         // verify 1 issue
         finish(1);
     }
@@ -320,7 +319,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().text(new Element(Locator.ID, "non-existent-element"), "Anders");
+        asserts.contains().text(Locator.ID, "non-existent-element", "Anders");
         // verify 1 issue
         finish(1);
     }
@@ -342,7 +341,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().value(new Element(Locator.ID, "textarea_input"), "Anders");
+        asserts.contains().value(Locator.ID, "textarea_input", 0, "Anders");
         // verify 1 issue
         finish(1);
     }
@@ -353,7 +352,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().value(new Element(Locator.ID, "overlay_span"), "Anders");
+        asserts.contains().value(Locator.ID, "overlay_span", "Anders");
         // verify 1 issue
         finish(1);
     }
@@ -364,7 +363,7 @@ public class AssertContainsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.contains().value(new Element(Locator.ID, "non-existent-element"), "Anders");
+        asserts.contains().value(Locator.ID, "non-existent-element", "Anders");
         // verify 1 issue
         finish(1);
     }

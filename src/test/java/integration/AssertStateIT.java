@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import com.coveros.selenified.output.Assert;
 import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -53,7 +52,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().checked(new Element(Locator.ID, "this"));
+        asserts.state().checked(Locator.ID, "this", 0);
         // verify 1 issue
         finish(1);
     }
@@ -75,7 +74,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().checked(Locator.ID, "check");
+        asserts.state().checked(Locator.ID, "check", 0);
         // verify 1 issue
         finish(1);
     }
@@ -97,7 +96,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayed(new Element(Locator.ID, "non_existent"));
+        asserts.state().displayed(Locator.ID, "non_existent", 0);
         // verify 1 issue
         finish(1);
     }
@@ -108,7 +107,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayed(new Element(Locator.ID, "hidden_div"));
+        asserts.state().displayed(Locator.ID, "hidden_div");
         // verify 1 issue
         finish(1);
     }
@@ -147,7 +146,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayedAndChecked(new Element(Locator.ID, "this"));
+        asserts.state().displayedAndChecked(Locator.ID, "this", 0);
         // verify 1 issue
         finish(1);
     }
@@ -158,7 +157,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayedAndChecked(new Element(Locator.ID, "non-existent-element"));
+        asserts.state().displayedAndChecked(Locator.ID, "non-existent-element");
         // verify 1 issue
         finish(1);
     }
@@ -180,7 +179,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayedAndEditable(new Element(Locator.ID, "input_box"));
+        asserts.state().displayedAndEditable(Locator.ID, "input_box");
         // verify no issues
         finish();
     }
@@ -191,7 +190,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayedAndEditable(new Element(Locator.ID, "non_existent"));
+        asserts.state().displayedAndEditable(Locator.ID, "non_existent", 0);
         // verify 1 issue
         finish(1);
     }
@@ -202,7 +201,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayedAndEditable(new Element(Locator.ID, "check"));
+        asserts.state().displayedAndEditable(Locator.ID, "check");
         // verify no issues
         finish();
     }
@@ -224,7 +223,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayedAndNotEditable(new Element(Locator.ID, "input_box"));
+        asserts.state().displayedAndNotEditable(Locator.ID, "input_box", 0);
         // verify 1 issue
         finish(1);
     }
@@ -235,7 +234,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayedAndNotEditable(new Element(Locator.ID, "non-existent-element", 0));
+        asserts.state().displayedAndNotEditable(Locator.ID, "non-existent-element");
         // verify 1 issue
         finish(1);
     }
@@ -271,7 +270,7 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.click(Locator.ID, "this");
-        asserts.state().displayedAndUnchecked(new Element(Locator.ID, "this"));
+        asserts.state().displayedAndUnchecked(Locator.ID, "this", 0);
         // verify 1 issue
         finish(1);
     }
@@ -282,7 +281,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().displayedAndUnchecked(new Element(Locator.ID, "non-existent-element", 0));
+        asserts.state().displayedAndUnchecked(Locator.ID, "non-existent-element");
         // verify 1 issue
         finish(1);
     }
@@ -315,7 +314,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().editable(new Element(Locator.ID, "non_existent"));
+        asserts.state().editable(Locator.ID, "non_existent", 0);
         // verify 1 issue
         finish(1);
     }
@@ -326,7 +325,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().editable(new Element(Locator.ID, "table", 0));
+        asserts.state().editable(Locator.ID, "table");
         // verify 1 issue
         finish(1);
     }
@@ -373,7 +372,7 @@ public class AssertStateIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         actions.click(Locator.ID, "that");
-        asserts.state().notChecked(new Element(Locator.ID, "that"));
+        asserts.state().notChecked(Locator.ID, "that", 0);
         // verify 1 issue
         finish(1);
     }
@@ -384,7 +383,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().notChecked(new Element(Locator.ID, "non-existent-element", 0));
+        asserts.state().notChecked(Locator.ID, "non-existent-element");
         // verify 1 issue
         finish(1);
     }
@@ -417,7 +416,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().notDisplayed(new Element(Locator.ID, "scroll_button"));
+        asserts.state().notDisplayed(Locator.ID, "scroll_button", 0);
         // verify 1 issue
         finish(1);
     }
@@ -433,7 +432,7 @@ public class AssertStateIT extends TestBase {
         actions.click(Locator.ID, "delayed_display_button");
         actions.waitFor().elementDisplayed(Locator.ID, "delayed_hide_button");
         actions.click(Locator.ID, "delayed_hide_button");
-        asserts.state().notDisplayed(new Element(Locator.ID, "delayed_hide_button"), 0);
+        asserts.state().notDisplayed(Locator.ID, "delayed_hide_button");
         // verify no issues
         finish();
     }
@@ -455,7 +454,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().notEditable(new Element(Locator.ID, "that"));
+        asserts.state().notEditable(Locator.ID, "that", 0);
         // verify 1 issue
         finish(1);
     }
@@ -466,7 +465,7 @@ public class AssertStateIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.state().notEditable(new Element(Locator.ID, "non-existent-element", 0));
+        asserts.state().notEditable(Locator.ID, "non-existent-element");
         // verify 1 issue
         finish(1);
     }
