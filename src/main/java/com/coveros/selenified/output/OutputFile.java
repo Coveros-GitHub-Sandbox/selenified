@@ -358,7 +358,7 @@ public class OutputFile {
         if (result == Result.FAILURE) {
             success = "Fail";
         }
-        if (!"Pass".equals(success) && browser != Browser.HTMLUNIT) {
+        if (!"Pass".equals(success) && browser != null && browser != Browser.NONE && browser != Browser.HTMLUNIT) {
             // get a screen shot of the action
             imageLink = captureEntirePageScreenshot();
         }

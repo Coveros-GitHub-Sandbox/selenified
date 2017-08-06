@@ -79,7 +79,7 @@ public class Call {
             log.error(e);
             file.recordAction(action, expected, "<i>GET</i> call failed. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            return null;
+            return response;
         }
         return response;
     }
@@ -125,7 +125,7 @@ public class Call {
             log.error(e);
             file.recordAction(action, expected, "<i>POST</i> call failed. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            return null;
+            return response;
         }
         return response;
     }
@@ -171,7 +171,7 @@ public class Call {
             log.error(e);
             file.recordAction(action, expected, "<i>PUT</i> call failed. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            return null;
+            return response;
         }
         return response;
     }
@@ -217,7 +217,7 @@ public class Call {
             log.error(e);
             file.recordAction(action, expected, "<i>PATCH</i> call failed. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            return null;
+            return response;
         }
         return response;
     }
@@ -273,7 +273,7 @@ public class Call {
             file.recordAction(action.toString(), expected, "<i>DELETE</i> call failed. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            return null;
+            return response;
         }
         return response;
     }
