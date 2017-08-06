@@ -32,8 +32,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.output.Assert.Result;
 import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.selenium.Assert.Result;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.services.Call;

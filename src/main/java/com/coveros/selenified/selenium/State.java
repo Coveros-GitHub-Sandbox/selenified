@@ -1,7 +1,7 @@
 package com.coveros.selenified.selenium;
 
-import com.coveros.selenified.output.Assert.Success;
 import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.selenium.Assert.Success;
 import com.coveros.selenified.selenium.Selenium.Locator;
 
 public class State {
@@ -75,20 +75,6 @@ public class State {
      */
     public int notDisplayed(Locator type, String locator) {
         return notDisplayed(new Element(type, locator));
-    }
-
-    /**
-     * checks to see if an element is not visible on the page
-     *
-     * @param element
-     *            - the element to be waited for
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int notDisplayed(Element element, int elementMatch) {
-        return notDisplayed(element.getType(), element.getLocator(), elementMatch);
     }
 
     /**

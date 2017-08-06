@@ -3,7 +3,7 @@ package integration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.output.Assert;
+import com.coveros.selenified.selenium.Assert;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -49,8 +49,7 @@ public class AssertEqualsIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        asserts.equals().selectValues(Locator.NAME, "car_list",
-                new String[] { "volvo", "ford", "mercedes", "audi" });
+        asserts.equals().selectValues(Locator.NAME, "car_list", new String[] { "volvo", "ford", "mercedes", "audi" });
         // verify 1 issue
         finish(1);
     }

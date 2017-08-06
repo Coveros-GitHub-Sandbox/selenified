@@ -9,8 +9,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.output.Assert;
 import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Assert;
 import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;

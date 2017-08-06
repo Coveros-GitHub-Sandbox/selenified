@@ -10,8 +10,8 @@ import org.openqa.selenium.Cookie;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.output.Assert;
 import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Assert;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 

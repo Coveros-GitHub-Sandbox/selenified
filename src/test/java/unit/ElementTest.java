@@ -1,10 +1,12 @@
 package unit;
 
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Locator;
+import com.coveros.selenified.tools.CustomHtmlUnitDriver;
 
 public class ElementTest {
 
@@ -36,6 +38,15 @@ public class ElementTest {
     }
 
     @Test
+    public void checkElementDriverTest() {
+        Element element = new Element(Locator.ID, "myId");
+        Assert.assertNull(element.getDriver());
+
+        element.setDriver(new CustomHtmlUnitDriver());
+        Assert.assertEquals(((HtmlUnitDriver) element.getDriver()).getCapabilities().getBrowserName(), "htmlunit");
+    }
+
+    @Test
     public void checkFullElementTypeTest() {
         Element element = new Element(Locator.ID, "myId", 2);
         Assert.assertEquals(element.getType(), Locator.ID);
@@ -60,6 +71,15 @@ public class ElementTest {
 
         element.setMatch(5);
         Assert.assertEquals(element.getMatch(), 5);
+    }
+
+    @Test
+    public void checkFullElementDriverTest() {
+        Element element = new Element(Locator.ID, "myId", 2);
+        Assert.assertNull(element.getDriver());
+
+        element.setDriver(new CustomHtmlUnitDriver());
+        Assert.assertEquals(((HtmlUnitDriver) element.getDriver()).getCapabilities().getBrowserName(), "htmlunit");
     }
 
     @Test

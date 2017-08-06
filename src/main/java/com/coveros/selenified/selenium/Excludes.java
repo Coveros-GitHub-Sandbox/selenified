@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
-import com.coveros.selenified.output.Assert.Success;
 import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.selenium.Assert.Success;
 import com.coveros.selenified.selenium.Selenium.Locator;
 
 public class Excludes {
