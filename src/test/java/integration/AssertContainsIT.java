@@ -224,6 +224,20 @@ public class AssertContainsIT extends TestBase {
         // verify 1 issues
         finish(1);
     }
+    
+    @Test(groups = { "integration", "asserts",
+    "contains" }, description = "An integration negative test to check the checkIfOptionInSelect method")
+    public void negativeCheckIfValueInSelectCheckDelayedTest() {
+    	// use this object to manipulate the page
+    	Action actions = this.actions.get();
+    	// use this object to verify the page looks as expected
+    	Assert asserts = this.asserts.get();
+    	// perform some actions
+    	actions.click(Locator.ID, "delayed_enable_button");
+    	asserts.contains().selectValue(Locator.ID, "check", "ford");
+    	// verify 1 issues
+    	finish(1);
+    }
 
     @Test(groups = { "integration", "asserts", "contains",
             "virtual" }, description = "An integration test to check the checkElementContainsClass method")
