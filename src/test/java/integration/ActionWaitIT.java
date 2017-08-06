@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -20,6 +21,30 @@ public class ActionWaitIT extends TestBase {
         // set the version of the tests or of the software, possibly with a
         // dynamic check
         setVersion("0.0.1");
+    }
+    
+    @Test(groups = { "integration", "actions",
+            "wait" }, description = "An integration negative test to check the wait method")
+    public void waitTest() throws IOException, InterruptedException {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.wait(5.0);
+        actions.click(Locator.ID, "five_second_button");
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "actions",
+    "wait" }, description = "An integration test to check changing the default wait method")
+    public void setDefaultWaitTest() {
+    	// use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.waitFor().changeDefaultWait(3.0);
+        actions.click(Locator.ID, "five_second_button");
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions",
@@ -121,6 +146,17 @@ public class ActionWaitIT extends TestBase {
         actions.waitFor().elementNotPresent(Locator.NAME, "non-existent-name", 0);
         // verify no issues
         finish();
+    }
+    
+    @Test(groups = { "integration", "actions", "wait",
+    "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
+    public void waitForElementNotPresent4Test() {
+    	// use this object to manipulate the page
+    	Action actions = this.actions.get();
+    	// perform some actions
+    	actions.waitFor().elementNotPresent(new Element(Locator.NAME, "non-existent-name"));
+    	// verify no issues
+    	finish();
     }
 
     @Test(groups = { "integration", "actions", "wait",
@@ -293,6 +329,17 @@ public class ActionWaitIT extends TestBase {
         actions.waitFor().elementNotEnabled(Locator.NAME, "alert_button");
         // verify no issues
         finish();
+    }
+    
+    @Test(groups = { "integration", "actions",
+    "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
+    public void waitForElementNotEnabled2Test() {
+    	// use this object to manipulate the page
+    	Action actions = this.actions.get();
+    	// perform some actions
+    	actions.waitFor().elementNotEnabled(new Element(Locator.NAME, "alert_button"));
+    	// verify no issues
+    	finish();
     }
 
     @Test(groups = { "integration", "actions",
