@@ -18,17 +18,13 @@
  * under the License.
  */
 
-package com.coveros.selenified.output;
+package com.coveros.selenified.selenium;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Equals;
-import com.coveros.selenified.selenium.Excludes;
+import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.selenium.State;
-import com.coveros.selenified.selenium.Contains;
 
 /**
  * A custom reporting class, which provides logging and screenshots for all

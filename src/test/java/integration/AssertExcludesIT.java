@@ -3,7 +3,7 @@ package integration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.output.Assert;
+import com.coveros.selenified.selenium.Assert;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -174,7 +174,7 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts", "excludes", "contains",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration test to check the compareTextValueExcludes method")
     public void compareTextValueExcludesTest() {
         // use this object to verify the page looks as expected
@@ -185,7 +185,18 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts", "excludes", "contains",
+    @Test(groups = { "integration", "asserts", "excludes",
+            "virtual" }, description = "An integration test to check the compareTextValueExcludes method")
+    public void compareTextValueExcludesDelayedTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.excludes().text(Locator.ID, "check", "Anders");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareTextValueExcludesTest() {
         // use this object to verify the page looks as expected
@@ -196,7 +207,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts", "excludes", "contains",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareTextValueExcludesNotPresentTest() {
         // use this object to verify the page looks as expected
@@ -207,7 +218,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts", "excludes", "contains",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration test to check the compareTextValueExcludes method")
     public void compareValueExcludesTest() {
         // use this object to verify the page looks as expected
@@ -218,7 +229,18 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts", "excludes", "contains",
+    @Test(groups = { "integration", "asserts", "excludes",
+            "virtual" }, description = "An integration test to check the compareTextValueExcludes method")
+    public void compareValueExcludesDelayedTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.excludes().value(Locator.ID, "check", "Anders");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareValueExcludesTest() {
         // use this object to verify the page looks as expected
@@ -229,7 +251,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts", "excludes", "contains",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareValueNotInputExcludesTest() {
         // use this object to verify the page looks as expected
@@ -240,7 +262,7 @@ public class AssertExcludesIT extends TestBase {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts", "excludes", "contains",
+    @Test(groups = { "integration", "asserts", "excludes",
             "virtual" }, description = "An integration negative test to check the compareTextValueExcludes method")
     public void negativeCompareValueExcludesNotPresentTest() {
         // use this object to verify the page looks as expected

@@ -23,7 +23,7 @@ package com.coveros.selenified.services;
 import java.util.Map;
 
 import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.output.Assert.Success;
+import com.coveros.selenified.selenium.Assert.Success;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

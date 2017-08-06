@@ -3,8 +3,8 @@ package integration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.output.Assert;
 import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Assert;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.TestBase;
 
@@ -111,6 +111,17 @@ public class AssertContainsIT extends TestBase {
 
     @Test(groups = { "integration", "asserts", "contains",
             "virtual" }, description = "An integration negative test to check the compareNumOfTableColumns method")
+    public void negativeCompareNumOfTableColumnsNotTableTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.contains().columns(Locator.ID, "check", 0);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "contains",
+            "virtual" }, description = "An integration negative test to check the compareNumOfTableColumns method")
     public void negativeCompareNumOfTableColumnsNotPresetTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -165,6 +176,17 @@ public class AssertContainsIT extends TestBase {
         asserts.contains().selectOption(Locator.ID, "delayed_input", "Ford");
         // verify 1 issues
         finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "contains",
+            "virtual" }, description = "An integration negative test to check the checkIfOptionInSelect method")
+    public void checkIfValueInSelectTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.contains().selectValue(Locator.ID, "car_list", "audi");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "asserts", "contains",
@@ -303,6 +325,17 @@ public class AssertContainsIT extends TestBase {
     }
 
     @Test(groups = { "integration", "asserts", "contains",
+            "virtual" }, description = "An integration test to check the compareTextValueContains method")
+    public void compareTextValueContainsDelayedTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.contains().text(Locator.ID, "check", "");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts", "contains",
             "virtual" }, description = "An integration negative test to check the compareTextValueContains method")
     public void negativeCompareTextValueContainsTest() {
         // use this object to verify the page looks as expected
@@ -331,6 +364,17 @@ public class AssertContainsIT extends TestBase {
         Assert asserts = this.asserts.get();
         // perform some actions
         asserts.contains().value(Locator.ID, "textarea_input", "Pretty");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts", "contains",
+            "virtual" }, description = "An integration test to check the compareTextValueContains method")
+    public void compareValueContainsDelayedTest() {
+        // use this object to verify the page looks as expected
+        Assert asserts = this.asserts.get();
+        // perform some actions
+        asserts.contains().value(Locator.ID, "check", "");
         // verify no issues
         finish();
     }

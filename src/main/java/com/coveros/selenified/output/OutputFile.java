@@ -34,9 +34,9 @@ import java.util.Map;
 
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.output.Assert.Result;
-import com.coveros.selenified.output.Assert.Success;
 import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Assert.Result;
+import com.coveros.selenified.selenium.Assert.Success;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;

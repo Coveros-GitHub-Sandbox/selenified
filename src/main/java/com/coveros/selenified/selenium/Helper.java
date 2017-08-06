@@ -1,7 +1,7 @@
 package com.coveros.selenified.selenium;
 
 import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.output.Assert.Success;
+import com.coveros.selenified.selenium.Assert.Success;
 
 public class Helper {
 

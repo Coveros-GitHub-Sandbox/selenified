@@ -40,7 +40,7 @@ public class ActionGetIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
-        com.coveros.selenified.output.Assert asserts = this.asserts.get();
+        com.coveros.selenified.selenium.Assert asserts = this.asserts.get();
         // perform some actions
         if (actions.getBrowser().equals("NONE")) {
             asserts.getOutputFile().addError();
@@ -55,7 +55,7 @@ public class ActionGetIT extends TestBase {
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
-        com.coveros.selenified.output.Assert asserts = this.asserts.get();
+        com.coveros.selenified.selenium.Assert asserts = this.asserts.get();
         // perform some actions
         if (actions.getCapabilities().equals(null)) {
             asserts.getOutputFile().addError();
@@ -718,18 +718,18 @@ public class ActionGetIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions",
-    "get" }, description = "An integration test to check the getAllAttribute method")
+            "get" }, description = "An integration test to check the getAllAttribute method")
     public void getAllAttributeNoneTest() {
-    	// use this object to manipulate the page
-    	Action actions = this.actions.get();
-    	// perform some actions
-    	Map<String, String> attributes = actions.get().allAttributes(Locator.TAGNAME, "thead", 0);
-    	Map<String, String> expected = new HashMap<>();
-    	Assert.assertEquals(attributes, expected);
-    	// verify no issues
-    	finish();
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        Map<String, String> attributes = actions.get().allAttributes(Locator.TAGNAME, "thead", 0);
+        Map<String, String> expected = new HashMap<>();
+        Assert.assertEquals(attributes, expected);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
