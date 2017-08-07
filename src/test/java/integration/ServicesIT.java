@@ -101,7 +101,7 @@ public class ServicesIT extends TestBase {
         // use this object to verify the page looks as expected
         Action actions = this.actions.get();
         // perform some actions
-        actions.call().get("posts/", new Request(params)).assertEquals(201);
+        actions.call().get("posts/", new Request(params), false).assertEquals(201);
         // verify one issue
         finish(1);
     }
@@ -499,7 +499,7 @@ public class ServicesIT extends TestBase {
         // use this object to verify the page looks as expected
         Action actions = this.actions.get();
         // perform some actions
-        actions.call().post("posts/", new Request(request)).assertEquals(200);
+        actions.call().post("posts/", new Request(request), false).assertEquals(200);
         // verify one issue
         finish(1);
     }
@@ -668,7 +668,7 @@ public class ServicesIT extends TestBase {
         // use this object to verify the page looks as expected
         Action actions = this.actions.get();
         // perform some actions
-        actions.call().put("posts/3", new Request(request)).assertEquals(201);
+        actions.call().put("posts/3", new Request(request), false).assertEquals(201);
         // verify one issue
         finish(1);
     }
@@ -840,7 +840,7 @@ public class ServicesIT extends TestBase {
         // use this object to verify the page looks as expected
         Action actions = this.actions.get();
         // perform some actions
-        actions.call().patch("posts/4", new Request(request)).assertEquals(201);
+        actions.call().patch("posts/4", new Request(request), false).assertEquals(201);
         // verify one issue
         finish(1);
     }
@@ -1012,7 +1012,7 @@ public class ServicesIT extends TestBase {
         // use this object to verify the page looks as expected
         Action actions = this.actions.get();
         // perform some actions
-        actions.call().delete("posts/5", new Request(request)).assertEquals(201);
+        actions.call().delete("posts/5", new Request(request), false).assertEquals(201);
         // verify one issue
         finish(1);
     }
