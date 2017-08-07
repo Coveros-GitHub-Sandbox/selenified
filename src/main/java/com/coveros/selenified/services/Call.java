@@ -65,19 +65,21 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint, Request params, boolean print) {
-        String action = "Making <i>GET</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
-        action += file.outputRequestProperties(params);
+        StringBuilder action = new StringBuilder();
+        action.append("Making <i>GET</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
+        action.append(appendCredentials());
+        action.append(file.outputRequestProperties(params));
         String expected = "<i>GET</i> call was made successfully";
         Response response = new Response(file);
         try {
             response = http.get(endpoint, params);
             response.setOutputFile(file);
             if (print) {
-                file.recordAction(action, expected, expected, Result.SUCCESS);
+                file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
             }
         } catch (Exception e) {
             log.error(e);
-            file.recordAction(action, expected, "<i>GET</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.recordAction(action.toString(), expected, "<i>GET</i> call failed. " + e.getMessage(), Result.FAILURE);
             file.addError();
             response = new Response(0);
             response.setOutputFile(file);
@@ -113,19 +115,22 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params, boolean print) {
-        String action = "Making <i>POST</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
-        action += file.outputRequestProperties(params);
+        StringBuilder action = new StringBuilder();
+        action.append("Making <i>POST</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
+        action.append(appendCredentials());
+        action.append(file.outputRequestProperties(params));
         String expected = "<i>POST</i> call was made successfully";
         Response response = new Response(file);
         try {
             response = http.post(endpoint, params);
             response.setOutputFile(file);
             if (print) {
-                file.recordAction(action, expected, expected, Result.SUCCESS);
+                file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
             }
         } catch (Exception e) {
             log.error(e);
-            file.recordAction(action, expected, "<i>POST</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.recordAction(action.toString(), expected, "<i>POST</i> call failed. " + e.getMessage(),
+                    Result.FAILURE);
             file.addError();
             response = new Response(0);
             response.setOutputFile(file);
@@ -161,19 +166,21 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params, boolean print) {
-        String action = "Making <i>PUT</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
-        action += file.outputRequestProperties(params);
+        StringBuilder action = new StringBuilder();
+        action.append("Making <i>PUT</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
+        action.append(appendCredentials());
+        action.append(file.outputRequestProperties(params));
         String expected = "<i>PUT</i> call was made successfully";
         Response response = new Response(file);
         try {
             response = http.put(endpoint, params);
             response.setOutputFile(file);
             if (print) {
-                file.recordAction(action, expected, expected, Result.SUCCESS);
+                file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
             }
         } catch (Exception e) {
             log.error(e);
-            file.recordAction(action, expected, "<i>PUT</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.recordAction(action.toString(), expected, "<i>PUT</i> call failed. " + e.getMessage(), Result.FAILURE);
             file.addError();
             response = new Response(0);
             response.setOutputFile(file);
@@ -209,19 +216,22 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response patch(String endpoint, Request params, boolean print) {
-        String action = "Making <i>PATCH</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
-        action += file.outputRequestProperties(params);
+        StringBuilder action = new StringBuilder();
+        action.append("Making <i>PATCH</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
+        action.append(appendCredentials());
+        action.append(file.outputRequestProperties(params));
         String expected = "<i>PATCH</i> call was made successfully";
         Response response = new Response(file);
         try {
             response = http.patch(endpoint, params);
             response.setOutputFile(file);
             if (print) {
-                file.recordAction(action, expected, expected, Result.SUCCESS);
+                file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
             }
         } catch (Exception e) {
             log.error(e);
-            file.recordAction(action, expected, "<i>PATCH</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.recordAction(action.toString(), expected, "<i>PATCH</i> call failed. " + e.getMessage(),
+                    Result.FAILURE);
             file.addError();
             response = new Response(0);
             response.setOutputFile(file);
@@ -259,14 +269,7 @@ public class Call {
     public Response delete(String endpoint, Request params, boolean print) {
         StringBuilder action = new StringBuilder();
         action.append("Making <i>DELETE</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
-        if (http.useCredentials()) {
-            action.append("<br/> with credentials: ");
-            action.append("<div><i>");
-            action.append("Username: " + http.getUser());
-            action.append("</div><div>");
-            action.append("Password: " + http.getPass());
-            action.append("</i></div>");
-        }
+        action.append(appendCredentials());
         action.append(file.outputRequestProperties(params));
         String expected = "<i>DELETE</i> call was made successfully";
         Response response = new Response(file);
@@ -286,5 +289,18 @@ public class Call {
             return response;
         }
         return response;
+    }
+
+    private String appendCredentials() {
+        StringBuilder credentials = new StringBuilder();
+        if (http.useCredentials()) {
+            credentials.append("<br/> with credentials: ");
+            credentials.append("<div><i>");
+            credentials.append("Username: " + http.getUser());
+            credentials.append("</div><div>");
+            credentials.append("Password: " + http.getPass());
+            credentials.append("</i></div>");
+        }
+        return credentials.toString();
     }
 }
