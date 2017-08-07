@@ -361,7 +361,7 @@ public class OutputFileTest {
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertEquals(content, "  </table>\r\n </body>\r\n</html>\r\n");
     }
-    
+
     @Test
     public void packageResultsTest() throws IOException {
         System.setProperty("packageResults", "true");
@@ -370,7 +370,7 @@ public class OutputFileTest {
         Assert.assertTrue(results.exists());
         results.delete();
     }
-    
+
     @Test
     public void packageResultsNegativeTest() throws IOException {
         System.setProperty("packageResults", "false");

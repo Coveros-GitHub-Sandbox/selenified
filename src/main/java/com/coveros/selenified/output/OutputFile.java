@@ -714,11 +714,11 @@ public class OutputFile {
         }
         replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
         replaceInFile("TIMEFINISHED", timeNow);
-        if(System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))){
+        if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
             packageTestResults();
         }
     }
-    
+
     /**
      * packages the test result file along with screenshots into a zip file
      *
@@ -726,8 +726,8 @@ public class OutputFile {
     public void packageTestResults() {
         File f = new File(directory, filename + "_RESULTS.zip");
         try (// Create new zip file
-            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
-            
+                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
+
             // Add html results to zip file
             ZipEntry e = new ZipEntry(filename);
             out.putNextEntry(e);
@@ -735,9 +735,9 @@ public class OutputFile {
             byte[] data = Files.readAllBytes(path);
             out.write(data, 0, data.length);
             out.closeEntry();
-            
+
             // Add screenshots to zip file
-            for(String screenshot : screenshots) {
+            for (String screenshot : screenshots) {
                 ZipEntry s = new ZipEntry(screenshot.replaceAll(".*\\/", ""));
                 out.putNextEntry(s);
                 Path screenPath = FileSystems.getDefault().getPath(screenshot);
@@ -746,8 +746,7 @@ public class OutputFile {
                 out.closeEntry();
             }
             out.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             log.error(e);
         }
     }
@@ -768,7 +767,8 @@ public class OutputFile {
             imageLink += " <a href='javascript:void(0)' onclick='displayImage(\""
                     + imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
             imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='"
-                    + imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth + "px' style='display:none;'>";
+                    + imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth
+                    + "px' style='display:none;'>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
         }
