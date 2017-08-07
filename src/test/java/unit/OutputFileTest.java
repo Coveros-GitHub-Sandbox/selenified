@@ -46,13 +46,19 @@ public class OutputFileTest {
     }
 
     @Test
+    void setupFileFreshTest() {
+        new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        Assert.assertFalse(new File("/somenewdir/fileAndroid.html").exists());
+    }
+
+    @Test
     public void setupFileTest() {
         Assert.assertEquals(file.length(), 0);
         Assert.assertTrue(directory.exists());
         Assert.assertTrue(file.exists());
 
         // do it again, ensure nothing breaks when it already exists
-        outputFile = new OutputFile("directory", "file", Browser.ANDROID);
+        new OutputFile("directory", "file", Browser.ANDROID);
         Assert.assertEquals(file.length(), 0);
         Assert.assertTrue(directory.exists());
         Assert.assertTrue(file.exists());
@@ -86,6 +92,14 @@ public class OutputFileTest {
     }
 
     @Test
+    public void countInstanceOfBadFileTest() {
+        file.delete();
+        directory.delete();
+        outputFile.countInstancesOf("1");
+        // we are just verifying that no errors were thrown
+    }
+
+    @Test
     public void replaceInFileTest() {
         try (
                 // Reopen file
@@ -99,6 +113,21 @@ public class OutputFileTest {
         Assert.assertEquals(outputFile.countInstancesOf("1"), 0);
         outputFile.replaceInFile("2 2 3 4 5 2", "Hello World");
         Assert.assertEquals(outputFile.countInstancesOf("Hello World"), 2);
+    }
+
+    @Test
+    public void replaceInBadFileTest() {
+        file.delete();
+        directory.delete();
+        outputFile.replaceInFile("1", "2");
+        // we are just verifying that no errors were thrown
+    }
+
+    @Test
+    public void replaceIntoBadFile() {
+        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        file.replaceInFile("1", "2");
+        // we are just verifying that no errors were thrown
     }
 
     @Test
@@ -221,6 +250,13 @@ public class OutputFileTest {
     }
 
     @Test
+    public void createOutputHeaderBadFileTest() {
+        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        file.createOutputHeader();
+        // we are just verifying that no errors were thrown
+    }
+
+    @Test
     public void loadInitialPageTest() {
         outputFile.loadInitialPage();
         Assert.assertEquals(file.length(), 0);
@@ -268,6 +304,13 @@ public class OutputFileTest {
     }
 
     @Test
+    public void recordActionBadFile() {
+        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        file.recordAction("my action", "expected", "actual", Result.WARNING);
+        // we are just verifying that no errors were thrown
+    }
+
+    @Test
     public void recordExpected() throws IOException {
         outputFile.setStartTime(new Date().getTime());
         outputFile.recordExpected("expected");
@@ -275,6 +318,13 @@ public class OutputFileTest {
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertEquals(content,
                 "   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>expected</td>\n");
+    }
+
+    @Test
+    public void recordExpectedBadFile() {
+        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        file.recordExpected("expected");
+        // we are just verifying that no errors were thrown
     }
 
     @Test
@@ -295,6 +345,13 @@ public class OutputFileTest {
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
                 "    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void recordActualBadFile() {
+        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        file.recordActual("actual", Success.FAIL);
+        // we are just verifying that no errors were thrown
     }
 
     @Test
