@@ -24,6 +24,9 @@ public class ServicesErrorIT extends TestBase {
         // set the version of the tests or of the software, possibly with a
         // dynamic check
         setVersion("0.0.1");
+        // for this particular test, we want to set some bogus credentials
+        setServicesUser("servicesUsername");
+        setServicesPass("servicesPassword");
     }
 
     @BeforeMethod(alwaysRun = true)
