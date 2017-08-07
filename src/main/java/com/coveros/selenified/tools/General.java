@@ -373,10 +373,32 @@ public class General {
             currentName = testName.toString();
             if (currentName.length() > MAXFILENAMELENGTH) {
                 if ("".equals(packageName)) {
-                    currentName = className + "_" + methodName + dataProvider.toString().split(";")[1];		//NOSONAR - purposefully using toString on object to obtain unique random hash
+                    currentName = className + "_" + methodName + dataProvider.toString().split(";")[1]; // NOSONAR
+                                                                                                        // -
+                                                                                                        // purposefully
+                                                                                                        // using
+                                                                                                        // toString
+                                                                                                        // on
+                                                                                                        // object
+                                                                                                        // to
+                                                                                                        // obtain
+                                                                                                        // unique
+                                                                                                        // random
+                                                                                                        // hash
                 } else {
                     currentName = packageName + "_" + className + "_" + methodName
-                            + dataProvider.toString().split(";")[1];	//NOSONAR - purposefully using toString on object to obtain unique random hash
+                            + dataProvider.toString().split(";")[1]; // NOSONAR
+                                                                        // -
+                                                                        // purposefully
+                                                                        // using
+                                                                        // toString
+                                                                        // on
+                                                                        // object
+                                                                        // to
+                                                                        // obtain
+                                                                        // unique
+                                                                        // random
+                                                                        // hash
                 }
             }
         }
@@ -437,7 +459,18 @@ public class General {
             }
             currentName = testName.toString();
             if (currentName.length() > MAXFILENAMELENGTH) {
-                currentName = methodName + dataProvider.toString().split(";")[1];		//NOSONAR - purposefully using toString on object to obtain unique random hash
+                currentName = methodName + dataProvider.toString().split(";")[1]; // NOSONAR
+                                                                                    // -
+                                                                                    // purposefully
+                                                                                    // using
+                                                                                    // toString
+                                                                                    // on
+                                                                                    // object
+                                                                                    // to
+                                                                                    // obtain
+                                                                                    // unique
+                                                                                    // random
+                                                                                    // hash
             }
         }
         return currentName;

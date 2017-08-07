@@ -8,7 +8,7 @@ import com.coveros.selenified.selenium.Assert.Success;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.output.OutputFile;
 
-public class Contains {
+public class Contains implements Subset {
     // this will be the name of the file we write all commands out to
     private OutputFile file;
 
@@ -43,208 +43,6 @@ public class Contains {
     // ///////////////////////////////////////
     // assessing functionality
     // ///////////////////////////////////////
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int attribute(Locator type, String locator, String attribute) {
-        return attribute(new Element(type, locator), attribute);
-    }
-
-    /**
-     * checks to see if an element has an attribute associated with it
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param attribute
-     *            - the attribute to check for
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int attribute(Locator type, String locator, int elementMatch, String attribute) {
-        return attribute(new Element(type, locator, elementMatch), attribute);
-    }
-
-    // ///////////////////////////////////////
-    // assessing functionality
-    // ///////////////////////////////////////
-
-    /**
-     * checks to see if an element contains a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedClass
-     *            - the expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int classs(Locator type, String locator, String expectedClass) {
-        return classs(new Element(type, locator), expectedClass);
-    }
-
-    /**
-     * checks to see if an element contains a particular class
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedClass
-     *            - the expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int classs(Locator type, String locator, int elementMatch, String expectedClass) {
-        return classs(new Element(type, locator, elementMatch), expectedClass);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int text(Locator type, String locator, String expectedValue) {
-        return text(new Element(type, locator), expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int text(Locator type, String locator, int elementMatch, String expectedValue) {
-        return text(new Element(type, locator, elementMatch), expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int value(Locator type, String locator, String expectedValue) {
-        return value(new Element(type, locator), expectedValue);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param expectedValue
-     *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int value(Locator type, String locator, int elementMatch, String expectedValue) {
-        return value(new Element(type, locator, elementMatch), expectedValue);
-    }
-
-    /**
-     * checks to see if an option is available to be selected on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param option
-     *            the option expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int selectOption(Locator type, String locator, String option) {
-        return selectOption(new Element(type, locator), option);
-    }
-
-    /**
-     * checks to see if an option is available to be selected on the page
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param option
-     *            the option expected in the list
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int selectOption(Locator type, String locator, int elementMatch, String option) {
-        return selectOption(new Element(type, locator, elementMatch), option);
-    }
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int selectValue(Locator type, String locator, String selectValue) {
-        return selectValue(new Element(type, locator), selectValue);
-    }
-
-    /**
-     * checks to see if an element select value exists
-     *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
-     * @param selectValue
-     *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
-     */
-    public int selectValue(Locator type, String locator, int elementMatch, String selectValue) {
-        return selectValue(new Element(type, locator, elementMatch), selectValue);
-    }
 
     /**
      * compares the expected attributes from a select value with the actual
@@ -352,7 +150,8 @@ public class Contains {
     }
 
     ///////////////////////////////////////////////////
-    // Our actual full implementation of the above overloaded methods
+    // Our actual full implementation of the above and inherited overloaded
+    /////////////////////////////////////////////////// methods
     ///////////////////////////////////////////////////
 
     /**
@@ -431,12 +230,12 @@ public class Contains {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int text(Element element, String expectedValue) {
-        // file.record the action
-        file.recordExpected(EXPECTED + element.prettyOutput() + HASVALUE + expectedValue + "</b>");
         // wait for the element
         if (!action.is().elementPresent(element) && action.waitFor().elementPresent(element) == 1) {
             return 1;
         }
+        // file.record the action
+        file.recordExpected(EXPECTED + element.prettyOutput() + HASVALUE + expectedValue + "</b>");
         // check for the object to the present on the page
         String elementValue = action.get().text(element);
         if (!elementValue.contains(expectedValue)) {
@@ -458,12 +257,12 @@ public class Contains {
      * @return Integer: 1 if a failure and 0 if a pass
      */
     public int value(Element element, String expectedValue) {
-        // file.record the action
-        file.recordExpected(EXPECTED + element.prettyOutput() + HASVALUE + expectedValue + "</b>");
         // wait for the element
         if (!action.is().elementPresent(element) && action.waitFor().elementPresent(element) == 1) {
             return 1;
         }
+        // file.record the action
+        file.recordExpected(EXPECTED + element.prettyOutput() + HASVALUE + expectedValue + "</b>");
         // verify this is an input element
         if (!action.is().elementInput(element)) {
             file.recordActual(element.prettyOutputStart() + NOTINPUT, Success.FAIL);
