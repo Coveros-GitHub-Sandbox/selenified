@@ -22,7 +22,7 @@ public class ActionWaitIT extends TestBase {
         // dynamic check
         setVersion("0.0.1");
     }
-    
+
     @Test(groups = { "integration", "actions",
             "wait" }, description = "An integration negative test to check the wait method")
     public void waitTest() throws IOException, InterruptedException {
@@ -34,11 +34,11 @@ public class ActionWaitIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions",
-    "wait" }, description = "An integration test to check changing the default wait method")
+            "wait" }, description = "An integration test to check changing the default wait method")
     public void setDefaultWaitTest() {
-    	// use this object to manipulate the page
+        // use this object to manipulate the page
         Action actions = this.actions.get();
         // perform some actions
         actions.waitFor().changeDefaultWait(3.0);
@@ -147,16 +147,16 @@ public class ActionWaitIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions", "wait",
-    "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
+            "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent4Test() {
-    	// use this object to manipulate the page
-    	Action actions = this.actions.get();
-    	// perform some actions
-    	actions.waitFor().elementNotPresent(new Element(Locator.NAME, "non-existent-name"));
-    	// verify no issues
-    	finish();
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.waitFor().elementNotPresent(new Element(Locator.NAME, "non-existent-name"));
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "wait",
@@ -330,16 +330,16 @@ public class ActionWaitIT extends TestBase {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions",
-    "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
+            "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabled2Test() {
-    	// use this object to manipulate the page
-    	Action actions = this.actions.get();
-    	// perform some actions
-    	actions.waitFor().elementNotEnabled(new Element(Locator.NAME, "alert_button"));
-    	// verify no issues
-    	finish();
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.waitFor().elementNotEnabled(new Element(Locator.NAME, "alert_button"));
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions",

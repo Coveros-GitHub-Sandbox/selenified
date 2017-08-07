@@ -185,8 +185,8 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts", "excludes",
-            "virtual" }, description = "An integration test to check the compareTextValueExcludes method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration test to check the compareTextValueExcludes method")
     public void compareTextValueExcludesDelayedTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
@@ -229,8 +229,8 @@ public class AssertExcludesIT extends TestBase {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts", "excludes",
-            "virtual" }, description = "An integration test to check the compareTextValueExcludes method")
+    @Test(groups = { "integration", "asserts",
+            "excludes" }, description = "An integration test to check the compareTextValueExcludes method")
     public void compareValueExcludesDelayedTest() {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
