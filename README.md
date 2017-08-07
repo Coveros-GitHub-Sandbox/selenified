@@ -265,6 +265,43 @@ It could instead look like this
     }
 ```
 
+#### Locators
+Selenified uses locators to find different elements on a webpage during testing. There are 8 different types of locators supported: xpath, id, name, classname, css, partial link text, link text, and tagname. Locators are used to navigate the HTML Document Object Model, returning a single web element or a list of web elements with common locator attributes. For example, you may create an element with the locator type 'tagname' and the locator 'h3' to then call the getWebElements method with the locator. This returns a list of all HTML elements on the webpage with the 'h3' tag. To be more specific, locators like id are often used to return a single web element, being that the id attribute of a web element is supposed to be unique. An elementMatch can also be provided when using locators that match more than one element. For example, calling the method click() on an element with the locator type 'classname', the locator 'filter-button', and the elementMatch 3 will return the third element with the class attribute equal to 'filter-button'.
+
+##### Examples
+Xpath:
+```java
+Element carList = new Element( Locators.XPATH, "//*[@id='align_table']/tbody/tr[1]/td[1]/select[1]");
+```
+Id:
+```java
+Element carList = new Element( Locators.ID, "car_list");
+```
+Name:
+```java
+Element carList = new Element( Locators.NAME, "car_list");
+```
+Classname:
+```java
+Element carList = new Element( Locators.CLASSNAME, "dropdown-default");
+```
+CSS:
+```java
+Element carList = new Element( Locators.CSS, "#car_list");
+```
+Partial link text:
+```java
+Element nextImageLink = new Element( Locators.PARTIALLINKTEXT, "next");
+```
+Link text:
+```java
+Element nextImageLink = new Element( Locators.LINKTEXT, "next image");
+```
+Tag name:
+```java
+Element carList = new Element( Locators.TAGNAME, "select", 0);
+```
+
 ### Update testng build file
 When tests are executed from the commandline, the build file dictates which tests to execute. When a new package, 
 class or method is added to the test suite, they need to be included in the XML file if you want them to run. 
