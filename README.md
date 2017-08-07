@@ -268,6 +268,9 @@ It could instead look like this
 #### Locators
 Selenified uses locators to find different elements on a webpage during testing. There are 8 different types of locators supported: xpath, id, name, classname, css, partial link text, link text, and tagname. Locators are used to navigate the HTML Document Object Model, returning a single web element or a list of web elements with common locator attributes. For example, you may create an element with the locator type 'tagname' and the locator 'h3' to then call the getWebElements method with the locator. This returns a list of all HTML elements on the webpage with the 'h3' tag. To be more specific, locators like id are often used to return a single web element, being that the id attribute of a web element is supposed to be unique. An elementMatch can also be provided when using locators that match more than one element. For example, calling the method click() on an element with the locator type 'classname', the locator 'filter-button', and the elementMatch 3 will return the third element with the class attribute equal to 'filter-button'.
 
+##### Identifying Locators
+The easiest way to identify locators for elements you want to test is to use a web browser. There are many tools to assist in finding locators, but you may not always need a tool. Start by right-clicking on an element and then click 'Inspect' (Chrome)  or 'Inspect Element' (Firefox). From here you are then presented with the HTML source of the page with the selected element highlighted. Look at the element's attributes for a unique locator such as an id or class name. If your element has an id or class name, search through the rest of the webpage source to ensure that your element's id or class name attribute is unique. Command or Ctrl + F is the quickest way to do this. Other attributes can be used if unique as well, such as name, link text (if the element is a link), or tagname. If an element does not have a unique locator, you can use an xpath locator or provide an index to specify a single element out of all the elements that match the locator. To copy an element's xpath in Chrome, right click on the element after inspecting it and mouseover 'Copy', then click on 'Copy Xpath'. In Firefox, you'll have to use an Add-on like 'Xpath Checker'. Xpaths are powerful and can always provide a unique selector, but because of the way they often traverse the DOM specifically, they can be very brittle and possibly break with any change to your webpage layout.  
+
 ##### Examples
 Xpath:
 ```java
@@ -299,7 +302,16 @@ Element nextImageLink = new Element( Locators.LINKTEXT, "next image");
 ```
 Tag name:
 ```java
-Element carList = new Element( Locators.TAGNAME, "select", 0);
+Element carList = new Element( Locators.TAGNAME, "select");
+```
+Duplicate locators:
+First, create the element with the non-unique locator
+```java
+Element carList = new Element( Locators.TAGNAME, "select");
+```
+Then perform the action, while also providing an index to specify the element out of the matching elements:
+```java
+actions.click(carList, 3);
 ```
 
 ### Update testng build file
