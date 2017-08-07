@@ -719,7 +719,7 @@ public class WaitFor {
             // wait for up to XX seconds
             double end = System.currentTimeMillis() + (seconds * 1000);
             while (System.currentTimeMillis() < end) {
-                if (!is.elementPresent(element, false) || !webElement.isDisplayed()) {
+                if (!webElement.isDisplayed()) {
                     break;
                 }
             }
@@ -804,7 +804,7 @@ public class WaitFor {
             // wait for up to XX seconds
             double end = System.currentTimeMillis() + (seconds * 1000);
             while (System.currentTimeMillis() < end) {
-                if (!is.elementPresent(element, false) || !webElement.isEnabled()) {
+                if (!webElement.isEnabled()) {
                     break;
                 }
             }
