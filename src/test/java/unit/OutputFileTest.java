@@ -46,7 +46,7 @@ public class OutputFileTest {
     }
 
     @Test
-    void setupFileFreshTest() {
+    public void setupFileFreshTest() {
         new OutputFile("/somenewdir", "file", Browser.ANDROID);
         Assert.assertFalse(new File("/somenewdir/fileAndroid.html").exists());
     }
@@ -364,17 +364,32 @@ public class OutputFileTest {
 
     @Test
     public void packageResultsTest() throws IOException {
+        outputFile.finalizeOutputFile();
+        Assert.assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
+    }
+
+    @Test
+    public void packageResultsPositiveTest() throws IOException {
+        OutputFile outputFile = new OutputFile("results", "file", Browser.ANDROID);
+        File directory = new File("results");
+        File file = new File("results", "fileANDROID.html");
+
         System.setProperty("packageResults", "true");
         outputFile.finalizeOutputFile();
-        File results = new File(directory, file.getName() + "_RESULTS.zip");
+        System.clearProperty("packageResults");
+        File results = new File("results", file.getName() + "_RESULTS.zip");
         Assert.assertTrue(results.exists());
+
+        file.delete();
         results.delete();
+        directory.delete();
     }
 
     @Test
     public void packageResultsNegativeTest() throws IOException {
         System.setProperty("packageResults", "false");
         outputFile.finalizeOutputFile();
+        System.clearProperty("packageResults");
         Assert.assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
     }
 
