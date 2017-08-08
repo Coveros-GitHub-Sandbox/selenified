@@ -32,7 +32,8 @@ import java.util.Random;
 public class General {
 
     private static final int MAXFILENAMELENGTH = 200;
-
+    private static final String PUBLIC = "public";
+    
     private General() {
     }
 
@@ -328,7 +329,7 @@ public class General {
      * @return String: a unique name
      */
     public static String getTestName(Method method, Object... dataProvider) {
-        String className = "";
+        String className;
         String packageName = "";
         if (method.getDeclaringClass().getPackage() != null) {
             className = method.getDeclaringClass().toString().substring(6).split("\\.")[1];
@@ -363,10 +364,10 @@ public class General {
         }
         String currentName = testName.toString();
         if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-                && !dataProvider[0].toString().startsWith("public")) {
+                && !dataProvider[0].toString().startsWith(PUBLIC)) {
             testName.append("WithOption");
             for (Object data : dataProvider) {
-                if (data == null || data.toString().startsWith("public")) {
+                if (data == null || data.toString().startsWith(PUBLIC)) {
                     break;
                 }
                 testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));
@@ -428,10 +429,10 @@ public class General {
         StringBuilder testName = new StringBuilder(methodName);
         String currentName = methodName;
         if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-                && !dataProvider[0].toString().startsWith("public")) {
+                && !dataProvider[0].toString().startsWith(PUBLIC)) {
             testName.append("WithOption");
             for (Object data : dataProvider) {
-                if (data == null || data.toString().startsWith("public")) {
+                if (data == null || data.toString().startsWith(PUBLIC)) {
                     break;
                 }
                 testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));

@@ -20,6 +20,7 @@
 
 package com.coveros.selenified.output;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +28,11 @@ import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
+import com.coveros.selenified.services.Request;
+import com.coveros.selenified.services.Response;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 /**
  * A custom reporting class, which provides logging and screenshots for all
@@ -61,12 +67,15 @@ public class Assert {
     private static final String TEXT = "The text <b>";
     private static final String PRESENT = "</b> is present on the page";
     private static final String VISIBLE = "</b> is visible on the page";
+    
+    private static final String RESPONSE = "Found a response of:";
 
     //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
 
     /**
-     * the complex test out constructor taking in all test document information
+     * the detailed test results constructor that will setup the our test output
+     * file for all documentation and information for browser based testing
      *
      * @param testsName
      *            the name of the file we will write out to
@@ -75,8 +84,12 @@ public class Assert {
      * @param outputDir
      *            the output directory to store the results
      */
-    public Assert(String testsName, Browser browser, String outputDir) {
+    public Assert(String outputDir, String testsName, Browser browser) {
         outputFile = new OutputFile(outputDir, testsName, browser);
+    }
+
+    public Assert(String outputDir, String testsName, String serviceURL) {
+        outputFile = new OutputFile(outputDir, testsName, serviceURL);
     }
 
     public void setSeleniumHelper(Action thisSelHelper) {
@@ -2512,13 +2525,849 @@ public class Assert {
     }
 
     ///////////////////////////////////////////////////////////////////
+    // some comparisons for our services
+    ///////////////////////////////////////////////////////////////////
+
+    /**
+     * compares actual response code to the expected response code, and write
+     * that out to the output file
+     * 
+     * @param response
+     *            - the http response
+     * @param expectedResponseCode
+     *            - the expected response code
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    private int compareResponseCode(Response response, int expectedResponseCode) {
+        Success success = (response.getCode() == expectedResponseCode) ? Success.PASS : Success.FAIL;
+        outputFile.recordExpected("Expected to find a response code of <b>" + expectedResponseCode + "</b>");
+        outputFile.recordActual("Found a response code of <b>" + response.getCode() + "</b>", success);
+        outputFile.addErrors(success.errors);
+        return success.errors;
+    }
+
+    /**
+     * compares actual response code of a get call to the expected response
+     * code, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param expectedResponseCode
+     *            - the expected response code
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareGetResponseCode(String endpoint, int expectedResponseCode) {
+        return compareGetResponseCode(endpoint, null, expectedResponseCode);
+    }
+
+    /**
+     * compares actual response code of a get call to the expected response
+     * code, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseCode
+     *            - the expected response code
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareGetResponseCode(String endpoint, Request params, int expectedResponseCode) {
+        Response response = action.makeGetCall(endpoint, params, true);
+        return compareResponseCode(response, expectedResponseCode);
+    }
+
+    /**
+     * compares actual response code of a post call to the expected response
+     * code, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseCode
+     *            - the expected response code
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePostResponseCode(String endpoint, Request params, int expectedResponseCode) {
+        Response response = action.makePostCall(endpoint, params, true);
+        return compareResponseCode(response, expectedResponseCode);
+    }
+
+    /**
+     * compares actual response code of a put call to the expected response
+     * code, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseCode
+     *            - the expected response code
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePutResponseCode(String endpoint, Request params, int expectedResponseCode) {
+        Response response = action.makePutCall(endpoint, params, true);
+        return compareResponseCode(response, expectedResponseCode);
+    }
+
+    /**
+     * compares actual response code of a patch call to the expected response
+     * code, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseCode
+     *            - the expected response code
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePatchResponseCode(String endpoint, Request params, int expectedResponseCode) {
+        Response response = action.makePatchCall(endpoint, params, true);
+        return compareResponseCode(response, expectedResponseCode);
+    }
+
+    /**
+     * compares actual response code of a delete call to the expected response
+     * code, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseCode
+     *            - the expected response code
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareDeleteResponseCode(String endpoint, Request params, int expectedResponseCode) {
+        Response response = action.makeDeleteCall(endpoint, params, true);
+        return compareResponseCode(response, expectedResponseCode);
+    }
+
+    /**
+     * compares actual response json payload to the expected response json
+     * payload, and write that out to the output file
+     * 
+     * @param response
+     *            - the http response
+     * @param expectedResponseData
+     *            - the expected response json object
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    private int compareResponseData(Response response, JsonObject expectedResponseData) {
+        Success success = Success.FAIL;
+        if (response.getObjectData() != null) {
+            success = response.getObjectData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+        }
+        outputFile.recordExpected("Expected to find a response of:"
+                + outputFile.formatResponse(new Response(0, expectedResponseData, null)));
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.addErrors(success.errors);
+        return success.errors;
+    }
+
+    /**
+     * compares actual response json payload to the expected response json
+     * payload, and write that out to the output file
+     * 
+     * @param response
+     *            - the http response
+     * @param expectedResponseData
+     *            - the expected response json array
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    private int compareResponseData(Response response, JsonArray expectedResponseData) {
+        Success success = Success.FAIL;
+        if (response.getArrayData() != null) {
+            success = response.getArrayData().equals(expectedResponseData) ? Success.PASS : Success.FAIL;
+        }
+        outputFile.recordExpected("Expected to find a response of:"
+                + outputFile.formatResponse(new Response(0, expectedResponseData, null)));
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.addErrors(success.errors);
+        return success.errors;
+    }
+
+    /**
+     * compares actual response json payload of a get call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param expectedResponseData
+     *            - the expected response json object
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareGetResponseData(String endpoint, JsonObject expectedResponseData) {
+        return compareGetResponseData(endpoint, null, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a get call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param expectedResponseData
+     *            - the expected response json array
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareGetResponseData(String endpoint, JsonArray expectedResponseData) {
+        return compareGetResponseData(endpoint, null, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a get call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json object
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareGetResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
+        Response response = action.makeGetCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a get call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json array
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareGetResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
+        Response response = action.makeGetCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a post call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json object
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePostResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
+        Response response = action.makePostCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a post call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json array
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePostResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
+        Response response = action.makePostCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a put call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json object
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePutResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
+        Response response = action.makePutCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a put call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json array
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePutResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
+        Response response = action.makePutCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a patch call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json object
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePatchResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
+        Response response = action.makePatchCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a patch call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json array
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int comparePatchResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
+        Response response = action.makePatchCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a delete call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json object
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareDeleteResponseData(String endpoint, Request params, JsonObject expectedResponseData) {
+        Response response = action.makeDeleteCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    /**
+     * compares actual response json payload of a delete call to the expected
+     * response json payload, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedResponseData
+     *            - the expected response json array
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int compareDeleteResponseData(String endpoint, Request params, JsonArray expectedResponseData) {
+        Response response = action.makeDeleteCall(endpoint, params, true);
+        return compareResponseData(response, expectedResponseData);
+    }
+
+    ///////////////////////////////////////////////////////////////////
     // this enum will be for a pass/fail
     ///////////////////////////////////////////////////////////////////
 
-    public enum Success {
-        PASS, FAIL
+    /**
+     * checks to see if actual response json payload to the expected json
+     * element, and write that out to the output file
+     * 
+     * @param response
+     *            - the http response
+     * @param expectedPairs
+     *            a hashmap with string key value pairs expected in the json
+     *            response
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    private int checkResponseContainsData(Response response, Map<String, String> expectedPairs) {
+        StringBuilder expectedString = new StringBuilder();
+        Success success = Success.FAIL;
+        if (response.getObjectData() != null) {
+            success = Success.PASS;
+            for (Map.Entry<String, String> entry : expectedPairs.entrySet()) {
+                expectedString.append("<div>");
+                expectedString.append(entry.getKey());
+                expectedString.append(" : ");
+                expectedString.append(entry.getValue());
+                expectedString.append("</div>");
+                if (!response.getObjectData().has(entry.getKey()) || !response.getObjectData().get(entry.getKey()).getAsString().equals(entry.getValue())) {
+                    success = Success.FAIL;
+                }
+            }
+        }
+        outputFile.recordExpected(
+                "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>");
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.addErrors(success.errors);
+        return success.errors;
     }
 
+    /**
+     * checks to see if actual response json payload to the expected json
+     * element, and write that out to the output file
+     * 
+     * @param response
+     *            - the http response
+     * @param key
+     *            - a String key value expected in the result
+     * @param expectedJson
+     *            - the expected response json object
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    private int checkResponseContainsData(Response response, String key, JsonElement expectedJson) {
+        Success success = Success.FAIL;
+        if (response.getObjectData() != null) {
+            success = response.getObjectData().get(key).equals(expectedJson) ? Success.PASS : Success.FAIL;
+        }
+        outputFile.recordExpected("Expected to find a response containing: "
+                + outputFile.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.addErrors(success.errors);
+        return success.errors;
+    }
+
+    /**
+     * checks to see if actual response json payload to the expected json
+     * element, and write that out to the output file
+     * 
+     * @param response
+     *            - the http response
+     * @param expectedJson
+     *            - the expected response json array
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    private int checkResponseContainsData(Response response, JsonElement expectedJson) {
+        Success success = Success.FAIL;
+        if (response.getArrayData() != null) {
+            success = response.getArrayData().contains(expectedJson) ? Success.PASS : Success.FAIL;
+        }
+        outputFile.recordExpected("Expected to find a response containing:"
+                + outputFile.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
+        outputFile.recordActual(RESPONSE + outputFile.formatResponse(response), success);
+        outputFile.addErrors(success.errors);
+        return success.errors;
+    }
+    
+    /**
+     * checks to see if actual response json payload of a get call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+* @param expectedPairs
+     *            a hashmap with string key value pairs expected in the json
+     *            response
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkGetResponseContainsData(String endpoint, Map<String, String> expectedPairs) {
+        return checkGetResponseContainsData(endpoint, null, expectedPairs);
+    }
+
+    /**
+     * checks to see if actual response json payload of a get call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param key
+     *            - a String key value expected in the result
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkGetResponseContainsData(String endpoint, String key, JsonElement expectedJson) {
+        return checkGetResponseContainsData(endpoint, null, key, expectedJson);
+    }
+
+    /**
+     * checks to see if actual response json payload of a get call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkGetResponseContainsData(String endpoint, JsonObject expectedJson) {
+        Request request = null;
+        return checkGetResponseContainsData(endpoint, request, expectedJson);
+    }
+    
+    /**
+     * checks to see if actual response json payload of a get call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedPairs
+     *            a hashmap with string key value pairs expected in the json
+     *            response
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkGetResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
+        Response response = action.makeGetCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedPairs);
+    }
+
+    /**
+     * checks to see if actual response json payload of a get call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param key
+     *            - a String key value expected in the result
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkGetResponseContainsData(String endpoint, Request params, String key, JsonElement expectedJson) {
+        Response response = action.makeGetCall(endpoint, params, true);
+        return checkResponseContainsData(response, key, expectedJson);
+    }
+
+    /**
+     * checks to see if actual response json payload of a get call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkGetResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
+        Response response = action.makeGetCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedJson);
+    }
+    
+    /**
+     * checks to see if actual response json payload of a post call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedPairs
+     *            a hashmap with string key value pairs expected in the json
+     *            response
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPostResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
+        Response response = action.makePostCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedPairs);
+    }
+
+    /**
+     * checks to see if actual response json payload of a post call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param key
+     *            - a String key value expected in the result
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPostResponseContainsData(String endpoint, Request params, String key, JsonElement expectedJson) {
+        Response response = action.makePostCall(endpoint, params, true);
+        return checkResponseContainsData(response, key, expectedJson);
+    }
+
+    /**
+     * checks to see if actual response json payload of a post call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPostResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
+        Response response = action.makePostCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedJson);
+    }
+    
+    /**
+     * checks to see if actual response json payload of a put call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedPairs
+     *            a hashmap with string key value pairs expected in the json
+     *            response
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPutResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
+        Response response = action.makePutCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedPairs);
+    }
+
+    /**
+     * checks to see if actual response json payload of a put call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param key
+     *            - a String key value expected in the result
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPutResponseContainsData(String endpoint, Request params, String key, JsonElement expectedJson) {
+        Response response = action.makePutCall(endpoint, params, true);
+        return checkResponseContainsData(response, key, expectedJson);
+    }
+
+    /**
+     * checks to see if actual response json payload of a put call contains the
+     * expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPutResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
+        Response response = action.makePutCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedJson);
+    }
+    
+    /**
+     * checks to see if actual response json payload of a patch call contains
+     * the expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedPairs
+     *            a hashmap with string key value pairs expected in the json
+     *            response
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPatchResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
+        Response response = action.makePatchCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedPairs);
+    }
+
+    /**
+     * checks to see if actual response json payload of a patch call contains
+     * the expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param key
+     *            - a String key value expected in the result
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPatchResponseContainsData(String endpoint, Request params, String key, JsonObject expectedJson) {
+        Response response = action.makePatchCall(endpoint, params, true);
+        return checkResponseContainsData(response, key, expectedJson);
+    }
+
+    /**
+     * checks to see if actual response json payload of a patch call contains
+     * the expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkPatchResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
+        Response response = action.makePatchCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedJson);
+    }
+    
+    /**
+     * checks to see if actual response json payload of a delete call contains
+     * the expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedPairs
+     *            a hashmap with string key value pairs expected in the json
+     *            response
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkDeleteResponseContainsData(String endpoint, Request params, Map<String, String> expectedPairs) {
+        Response response = action.makeDeleteCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedPairs);
+    }
+
+    /**
+     * checks to see if actual response json payload of a delete call contains
+     * the expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param key
+     *            - a String key value expected in the result
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkDeleteResponseContainsData(String endpoint, Request params, String key, JsonObject expectedJson) {
+        Response response = action.makeDeleteCall(endpoint, params, true);
+        return checkResponseContainsData(response, key, expectedJson);
+    }
+
+    /**
+     * checks to see if actual response json payload of a delete call contains
+     * the expected json element, and write that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param expectedJson
+     *            - the expected response json element to be present in the
+     *            response data
+     * @return Integer: 1 if a failure and 0 if a pass
+     */
+    public int checkDeleteResponseContainsData(String endpoint, Request params, JsonObject expectedJson) {
+        Response response = action.makeDeleteCall(endpoint, params, true);
+        return checkResponseContainsData(response, expectedJson);
+    }
+
+    ///////////////////////////////////////////////////////////////////
+    // this enum will be for a pass/fail
+    ///////////////////////////////////////////////////////////////////
+
+    /**
+     * An enumeration used to determine if the tests pass or fail
+     * 
+     * @author Max Saperstone
+     *
+     */
+    public enum Success {
+        PASS, FAIL;
+
+        protected int errors;
+
+        /**
+         * Are errors associated with the enumeration
+         */
+        static {
+            PASS.errors = 0;
+            FAIL.errors = 1;
+        }
+
+        /**
+         * Retrieve the errors associated with the enumeration
+         * 
+         * @return Integer: the errors associated with the enumeration
+         */
+        public int getErrors() {
+            return this.errors;
+        }
+    }
+
+    /**
+     * An enumeration used to give status for each test step
+     * 
+     * @author Max Saperstone
+     *
+     */
     public enum Result {
         WARNING, SUCCESS, FAILURE, SKIPPED
     }

@@ -20,7 +20,7 @@ Update your pom.xml file to include
     <dependency>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.2</version>
     <scope>test</scope>
     </dependency>
 ```
@@ -30,7 +30,7 @@ Update your ivy.xml file to include
 ```xml
     <ivy-module>
      <dependencies>
-     <dependency org="com.coveros" name="selenified" rev="2.0.0"/>
+     <dependency org="com.coveros" name="selenified" rev="2.0.2"/>
      </dependencies>
     </ivy-module>
 ```
@@ -39,7 +39,7 @@ Update your ivy.xml file to include
 Update your build.gradle file to include
 ```groovy
     dependencies {
-        testCompile 'com.coveros:selenified:2.0.0'
+        testCompile 'com.coveros:selenified:2.0.2'
     }
 ```
 
@@ -54,7 +54,7 @@ Have a look at this example test class to get an idea of what you'll actually be
                 new Object[] { "perl" }, new Object[] { "bash" }, };
         }
 
-        @Test(groups = { "sample" }, description = "A sample test to check a title")
+        @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
         public void sampleTest() {
             // use this object to verify the page looks as expected
             Assert asserts = this.asserts.get();
@@ -65,7 +65,7 @@ Have a look at this example test class to get an idea of what you'll actually be
         }
 
         @Test(dataProvider = "google search terms", groups = { "sample" },
-                description = "A sample test using a data provider to perform searches")
+                description = "A sample selenium test using a data provider to perform searches")
         public void sampleTestWDataProvider(String searchTerm) {
             // use this object to manipulate the page
             Action actions = this.actions.get();
@@ -79,6 +79,19 @@ Have a look at this example test class to get an idea of what you'll actually be
             // verify no issues
             finish();
         }
+        
+        @Test(groups = { "sample" }, description = "An sample services test to verify the response code")
+    	public void sampleServicesTest() {
+	    	// the parameters to pass to google
+    		Map<String, String> params = new HashMap<>();
+	        params.put("q", "cheese");
+    	    // use this object to verify the page looks as expected
+	        Assert asserts = this.asserts.get();
+    	    // perform some actions
+        	asserts.compareGetResponseCode("", params, 200);
+	        // verify no issues
+    	    finish();
+    	}
     }
 ```
 
@@ -86,8 +99,10 @@ In the first test, sampleTest, the Assert class is used to check the title of th
 In the next test, sampleTestWDataProvider, the Action and Assert classes are used to type 
 a search term, submit the search term and the wait for the page to load in order to verify the 
 title contains the same search term. The 'google search terms' dataProvider provides a search 
-term to the test. For more information on the Assert and Action class plus all the other classes 
-used by Selenified, check out the documentation [here](https://msaperst.github.io).
+term to the test. In the third test, a call is made to the main google page, with the 
+parameters of q equaling 'cheese'. For more information on the Assert and Action class plus 
+all the other classes used by Selenified, check out the 
+documentation [here](https://msaperst.github.io).
 
 ## Writing Tests
 ### Create A New Test Suite
@@ -248,6 +263,55 @@ It could instead look like this
         // verify no issues
         finish();
     }
+```
+
+#### Locators
+Selenified uses locators to find different elements on a webpage during testing. There are 8 different types of locators supported: xpath, id, name, classname, css, partial link text, link text, and tagname. Locators are used to navigate the HTML Document Object Model, returning a single web element or a list of web elements with common locator attributes. For example, you may create an element with the locator type 'tagname' and the locator 'h3' to then call the getWebElements method with the locator. This returns a list of all HTML elements on the webpage with the 'h3' tag. To be more specific, locators like id are often used to return a single web element, being that the id attribute of a web element is supposed to be unique. An elementMatch can also be provided when using locators that match more than one element. For example, calling the method click() on an element with the locator type 'classname', the locator 'filter-button', and the elementMatch 3 will return the third element with the class attribute equal to 'filter-button'.
+
+##### Identifying Locators
+The easiest way to identify locators for elements you want to test is to use a web browser. There are many tools to assist in finding locators, but you may not always need a tool. Start by right-clicking on an element and then click 'Inspect' (Chrome)  or 'Inspect Element' (Firefox). From here you are then presented with the HTML source of the page with the selected element highlighted. Look at the element's attributes for a unique locator such as an id or class name. If your element has an id or class name, search through the rest of the webpage source to ensure that your element's id or class name attribute is unique. Command or Ctrl + F is the quickest way to do this. Other attributes can be used if unique as well, such as name, link text (if the element is a link), or tagname. If an element does not have a unique locator, you can use an xpath locator or provide an index to specify a single element out of all the elements that match the locator. To copy an element's xpath in Chrome, right click on the element after inspecting it and mouseover 'Copy', then click on 'Copy Xpath'. In Firefox, you'll have to use an Add-on like 'Xpath Checker'. Xpaths are powerful and can always provide a unique selector, but because of the way they often traverse the DOM specifically, they can be very brittle and possibly break with any change to your webpage layout.  
+
+##### Examples
+Xpath:
+```java
+Element carList = new Element( Locators.XPATH, "//*[@id='align_table']/tbody/tr[1]/td[1]/select[1]");
+```
+Id:
+```java
+Element carList = new Element( Locators.ID, "car_list");
+```
+Name:
+```java
+Element carList = new Element( Locators.NAME, "car_list");
+```
+Classname:
+```java
+Element carList = new Element( Locators.CLASSNAME, "dropdown-default");
+```
+CSS:
+```java
+Element carList = new Element( Locators.CSS, "#car_list");
+```
+Partial link text:
+```java
+Element nextImageLink = new Element( Locators.PARTIALLINKTEXT, "next");
+```
+Link text:
+```java
+Element nextImageLink = new Element( Locators.LINKTEXT, "next image");
+```
+Tag name:
+```java
+Element carList = new Element( Locators.TAGNAME, "select");
+```
+Duplicate locators:
+First, create the element with the non-unique locator
+```java
+Element carList = new Element( Locators.TAGNAME, "select");
+```
+Then perform the action, while also providing an index to specify the element out of the matching elements:
+```java
+actions.click(carList, 3);
 ```
 
 ### Update testng build file
@@ -469,6 +533,13 @@ mvn clean verify -Dfailsafe.groups=virtual
 See the below sections on executing tests to see the proper way to source the jar, and add them to your 
 classpath
 
+### Packaging Results
+If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
+and set it to true
+```
+mvn clean verify -Dbrowser=Firefox -DpackageResults=true
+```
+The zipped results will be placed in the same directory as the test results
 
 ## Open Issues
 Note that there are a few open issues with the framework

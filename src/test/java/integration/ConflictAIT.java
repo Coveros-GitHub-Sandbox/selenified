@@ -25,6 +25,7 @@ public class ConflictAIT extends TestBase {
     @Test(groups = { "integration", "conflict", "virtual" },
             description = "A sample test to show how to loop through elements with multiple matches")
     public void conflictingTestName() {
+        System.setProperty("packageResults", "true");
         // use this object to manipulate the page
         Action actions = this.actions.get();
         // use this object to verify the page looks as expected
@@ -37,5 +38,6 @@ public class ConflictAIT extends TestBase {
         }
         // close out the test
         finish();
+        System.setProperty("packageResults", "false");
     }
 }

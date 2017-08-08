@@ -32,6 +32,9 @@ import com.coveros.selenified.output.Assert.Result;
 import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
+import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.services.Request;
+import com.coveros.selenified.services.Response;
 import com.coveros.selenified.tools.General;
 import com.coveros.selenified.tools.TestSetup;
 
@@ -65,6 +68,9 @@ public class Action {
     // this is the browser that we are using
     private Browser browser;
     private DesiredCapabilities capabilities;
+
+    // if we're not using a browser, what services will we be interacting with
+    private HTTP http;
 
     private LocatorAction locatorAction;
     private String parentWindow;
@@ -112,6 +118,25 @@ public class Action {
         }
 
         this.locatorAction = new LocatorAction(driver, file);
+    }
+
+    /**
+     * the detailed test results constructor that will setup the our test output
+     * file for all documentation and information for services based testing
+     * 
+     * @param serviceBaseUrl
+     *            the base url for access services; e.g.
+     *            'http://my.domain.com/services/'
+     * @param username
+     *            the username needed for basic header authorization - leave
+     *            null if not needed
+     * @param password
+     *            the username needed for basic header authorization - leave
+     *            null if not needed
+     */
+    public Action(String serviceBaseUrl, String username, String password, OutputFile file) {
+        http = new HTTP(serviceBaseUrl, username, password);
+        this.file = file;
     }
 
     /**
@@ -1595,7 +1620,7 @@ public class Action {
      *            TestOutput.generateImageName
      */
     public void takeScreenshot(String imageName) {
-        if (browser == Browser.HTMLUNIT) {
+        if (browser == null || browser == Browser.HTMLUNIT || browser == Browser.NONE) {
             return;
         }
         try {
@@ -4780,5 +4805,243 @@ public class Action {
      */
     public Object getEval(Locator type, String locator, int elementMatch, String javascriptFunction) {
         return locatorAction.getEval(type, locator, elementMatch, javascriptFunction);
+    }
+
+    ///////////////////////////////////////////////////////////////////
+    // some simple actions for our services
+    ///////////////////////////////////////////////////////////////////
+
+    /**
+     * performs a get http call and writes that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
+    public Response makeGetCall(String endpoint, Request params) {
+        return makeGetCall(endpoint, params, true);
+    }
+
+    /**
+     * performs a get http call
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param print
+     *            - do we want to print this statement out to the output file
+     * @return Response: the response provided from the http call
+     */
+    public Response makeGetCall(String endpoint, Request params, boolean print) {
+        String action = "Making <i>GET</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
+        action += file.outputRequestProperties(params);
+        String expected = "<i>GET</i> call was made successfully";
+        Response response;
+        try {
+            response = http.get(endpoint, params);
+            if (print) {
+                file.recordAction(action, expected, expected, Result.SUCCESS);
+            }
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action, expected, "<i>GET</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            return null;
+        }
+        return response;
+    }
+    
+    /**
+     * performs a post http call and writes that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
+    public Response makePostCall(String endpoint, Request params) {
+        return makePostCall(endpoint, params, true);
+    }
+
+    /**
+     * performs a post http call
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param print
+     *            - do we want to print this statement out to the output file
+     * @return Response: the response provided from the http call
+     */
+    public Response makePostCall(String endpoint, Request params, boolean print) {
+        String action = "Making <i>POST</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
+        action += file.outputRequestProperties(params);
+        String expected = "<i>POST</i> call was made successfully";
+        Response response;
+        try {
+            response = http.post(endpoint, params);
+            if (print) {
+                file.recordAction(action, expected, expected, Result.SUCCESS);
+            }
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action, expected, "<i>POST</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            return null;
+        }
+        return response;
+    }
+
+    /**
+     * performs a put http call and writes that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
+    public Response makePutCall(String endpoint, Request params) {
+        return makePutCall(endpoint, params, true);
+    }
+
+    /**
+     * performs a put http call
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param print
+     *            - do we want to print this statement out to the output file
+     * @return Response: the response provided from the http call
+     */
+    public Response makePutCall(String endpoint, Request params, boolean print) {
+        String action = "Making <i>PUT</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
+        action += file.outputRequestProperties(params);
+        String expected = "<i>PUT</i> call was made successfully";
+        Response response;
+        try {
+            response = http.put(endpoint, params);
+            if (print) {
+                file.recordAction(action, expected, expected, Result.SUCCESS);
+            }
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action, expected, "<i>PUT</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            return null;
+        }
+        return response;
+    }
+
+    /**
+     * performs a patch http call and writes that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
+    public Response makePatchCall(String endpoint, Request params) {
+        return makePatchCall(endpoint, params, true);
+    }
+
+    /**
+     * performs a patch http call
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param print
+     *            - do we want to print this statement out to the output file
+     * @return Response: the response provided from the http call
+     */
+    public Response makePatchCall(String endpoint, Request params, boolean print) {
+        String action = "Making <i>PATCH</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>";
+        action += file.outputRequestProperties(params);
+        String expected = "<i>PATCH</i> call was made successfully";
+        Response response;
+        try {
+            response = http.patch(endpoint, params);
+            if (print) {
+                file.recordAction(action, expected, expected, Result.SUCCESS);
+            }
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action, expected, "<i>PATCH</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            return null;
+        }
+        return response;
+    }
+
+    /**
+     * performs a delete http call and writes that out to the output file
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @return Response: the response provided from the http call
+     */
+    public Response makeDeleteCall(String endpoint, Request params) {
+        return makeDeleteCall(endpoint, params, true);
+    }
+
+    /**
+     * performs a delete http call
+     * 
+     * @param endpoint
+     *            - the endpoint of the service under test
+     * @param params
+     *            - the parameters to be passed to the endpoint for the service
+     *            call
+     * @param print
+     *            - do we want to print this statement out to the output file
+     * @return Response: the response provided from the http call
+     */
+    public Response makeDeleteCall(String endpoint, Request params, boolean print) {
+        StringBuilder action = new StringBuilder();
+        action.append("Making <i>DELETE</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
+        if (http.useCredentials()) {
+            action.append("<br/> with credentials: ");
+            action.append("<div><i>");
+            action.append("Username: " + http.getUser());
+            action.append("</div><div>");
+            action.append("Password: " + http.getPass());
+            action.append("</i></div>");
+        }
+        action.append(file.outputRequestProperties(params));
+        String expected = "<i>DELETE</i> call was made successfully";
+        Response response;
+        try {
+            response = http.delete(endpoint, params);
+            if (print) {
+                file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
+            }
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action.toString(), expected, "<i>DELETE</i> call failed. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            return null;
+        }
+        return response;
     }
 }
