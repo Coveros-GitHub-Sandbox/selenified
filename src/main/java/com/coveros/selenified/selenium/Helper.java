@@ -9,10 +9,6 @@ public class Helper {
     private static final String NOTSELECT = " is not a select on the page";
     private static final String NOTTABLE = " is not a table on the page";
 
-    private Helper() {
-        // do nothing
-    }
-
     /**
      * Determines if the element is a select
      * 

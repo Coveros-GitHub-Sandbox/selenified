@@ -129,7 +129,7 @@ public class Element {
      */
     private By defineByElement() {
         // consider adding strengthening
-        By byElement;
+        By byElement = By.id("");;
         switch (type) { // determine which locator type we are interested in
         case XPATH:
             byElement = By.xpath(locator);
@@ -155,8 +155,6 @@ public class Element {
         case TAGNAME:
             byElement = By.tagName(locator);
             break;
-        default:
-            byElement = By.id("");
         }
         return byElement;
     }

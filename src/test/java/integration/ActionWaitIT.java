@@ -263,7 +263,7 @@ public class ActionWaitIT extends TestBase {
         finish();
     }
     
-    @Test(groups = { "integration", "actions", "wait1" },
+    @Test(groups = { "integration", "actions", "wait" },
             description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedDeletedTest() {
         // use this object to manipulate the page
@@ -381,7 +381,7 @@ public class ActionWaitIT extends TestBase {
         finish();
     }
     
-    @Test(groups = { "integration", "actions", "wait1" },
+    @Test(groups = { "integration", "actions", "wait" },
             description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledDeletedTest() {
         // use this object to manipulate the page

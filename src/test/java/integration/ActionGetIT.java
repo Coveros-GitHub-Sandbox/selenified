@@ -215,6 +215,30 @@ public class ActionGetIT extends TestBase {
         // verify 1 issue
         finish(1);
     }
+    
+    @Test(groups = { "integration", "actions", "get", "virtual" },
+            description = "An integration test to check the getSelectOptions method")
+    public void getSelectValuesTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        String[] options = actions.get().selectValues(Locator.NAME, "car_list");
+        Assert.assertEquals(options, new String[] { "volvo", "saab", "mercedes", "audi" });
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get", "virtual" },
+            description = "An integration test to check the getSelectOptions method")
+    public void getSelectValuesNotExistTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        String[] options = actions.get().selectValues(Locator.NAME, "non-existent-name", 0);
+        Assert.assertEquals(options, new String[] {});
+        // verify 1 issue
+        finish(1);
+    }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getNumOfSelectOptions method")
