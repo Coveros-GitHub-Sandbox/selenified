@@ -34,9 +34,8 @@ public class ActionUnitErrorIT extends TestBase {
 		if (actions.getBrowser().equals(Browser.HTMLUNIT)) {
 			String css = actions.get().css(new Element(Locator.CSS, "input#alert_button"), "style");
 			Assert.assertNull(css);
-		} else {
-			finish();
 		}
+		finish();
 	}
 	
 	@Test(groups = { "integration", "actions", "unit",
@@ -48,9 +47,8 @@ public class ActionUnitErrorIT extends TestBase {
 		if (actions.getBrowser().equals(Browser.HTMLUNIT)) {
 			Map<String, String> attributes = actions.get().allAttributes(new Element(Locator.CSS, "input#alert_button"));
 			Assert.assertNull(attributes);
-		} else {
-			finish();
 		}
+		finish();
 	}
 	
 	@Test(groups = { "integration", "actions", "unit",
@@ -62,9 +60,8 @@ public class ActionUnitErrorIT extends TestBase {
 		if (actions.getBrowser().equals(Browser.HTMLUNIT)) {
 			Object eval = actions.get().eval("console.out('hello world')");
 			Assert.assertNull(eval);
-		} else {
-			finish();
 		}
+		finish();
 	}
 	
 	@Test(groups = { "integration", "actions", "unit",
@@ -76,8 +73,7 @@ public class ActionUnitErrorIT extends TestBase {
 		if (actions.getBrowser().equals(Browser.HTMLUNIT)) {
 			Object eval = actions.get().eval(new Element(Locator.CSS, "input#alert_button"), "console.out('hello world')");
 			Assert.assertNull(eval);
-		} else {
-			finish();
 		}
+		finish();
 	}
 }
