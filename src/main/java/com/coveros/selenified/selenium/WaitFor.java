@@ -719,8 +719,16 @@ public class WaitFor {
             // wait for up to XX seconds
             double end = System.currentTimeMillis() + (seconds * 1000);
             while (System.currentTimeMillis() < end) {
-                if (!is.elementPresent(element, false) || !webElement.isDisplayed()) {
-                    break;
+                try {
+                    if (!webElement.isDisplayed()) {
+                        break;
+                    }
+                }
+                catch (StaleElementReferenceException e){
+                    log.error(e);
+                    file.recordAction(action, expected, element.prettyOutput() + " has been removed from the page, and therefore not displayed",
+                            Result.SUCCESS);
+                    return 0;
                 }
             }
         }
@@ -804,8 +812,16 @@ public class WaitFor {
             // wait for up to XX seconds
             double end = System.currentTimeMillis() + (seconds * 1000);
             while (System.currentTimeMillis() < end) {
-                if (!is.elementPresent(element, false) || !webElement.isEnabled()) {
-                    break;
+                try {
+                    if (!webElement.isEnabled()) {
+                        break;
+                    }
+                }
+                catch (StaleElementReferenceException e){
+                    log.error(e);
+                    file.recordAction(action, expected, element.prettyOutput() + " has been removed from the page, and therefore not displayed",
+                            Result.SUCCESS);
+                    return 0;
                 }
             }
         }
