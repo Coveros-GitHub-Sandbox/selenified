@@ -360,8 +360,8 @@ public class ActionGetIT extends TestBase {
         // perform some actions
         List<WebElement> rows = actions.get().tableRows(Locator.ID, "table", 1);
         Assert.assertEquals(rows.size(), 7);
-        Assert.assertEquals(rows.get(0).getText(), "Company Contact Country");
-        Assert.assertEquals(rows.get(1).getText(), "President Alfreds Futterkiste Maria Anders Germany");
+        Assert.assertTrue(rows.get(0).getText().matches("Company\\s*Contact\\s*Country"));
+        Assert.assertTrue(rows.get(1).getText().matches("President\\s*Alfreds\\s*Futterkiste\\s*Maria\\s*Anders\\s*Germany"));
         // verify no issues
         finish();
     }
