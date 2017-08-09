@@ -23,7 +23,9 @@ public class Contains implements Subset {
     private static final String NOTINPUT = " is not an input on the page";
 
     private static final String VALUE = " has the value of <b>";
+    private static final String TEXT = " has the text of <b>";
     private static final String HASVALUE = " contains the value of <b>";
+    private static final String HASTEXT = " contains the text of <b>";
     private static final String ONLYVALUE = ", only the values <b>";
     private static final String CLASSVALUE = " has a class value of <b>";
 
@@ -235,15 +237,15 @@ public class Contains implements Subset {
             return 1;
         }
         // file.record the action
-        file.recordExpected(EXPECTED + element.prettyOutput() + HASVALUE + expectedValue + "</b>");
+        file.recordExpected(EXPECTED + element.prettyOutput() + HASTEXT + expectedValue + "</b>");
         // check for the object to the present on the page
         String elementValue = action.get().text(element);
         if (!elementValue.contains(expectedValue)) {
-            file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + TEXT + elementValue + "</b>", Success.FAIL);
             file.addError();
             return 1;
         }
-        file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + TEXT + elementValue + "</b>", Success.PASS);
         return 0;
     }
 
