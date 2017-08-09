@@ -600,7 +600,7 @@ public class ActionDoIT extends TestBase {
         // use this object to verify the page looks as expected
         Assert asserts = this.asserts.get();
         // perform some actions
-        actions.type(Locator.ID, "input_box", Keys.TAB);
+        actions.type(Locator.ID, "input_box", 0, Keys.TAB);
         asserts.alertPresent();
         // verify no issues
         finish();
