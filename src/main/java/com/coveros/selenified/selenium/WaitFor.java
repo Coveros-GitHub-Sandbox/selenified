@@ -715,22 +715,20 @@ public class WaitFor {
         }
         double start = System.currentTimeMillis();
         WebElement webElement = element.getWebElement();
-        if (webElement.isDisplayed()) {
-            // wait for up to XX seconds
-            double end = System.currentTimeMillis() + (seconds * 1000);
-            while (System.currentTimeMillis() < end) {
-                try {
-                    if (!webElement.isDisplayed()) {
-                        break;
-                    }
-                }
-                catch (StaleElementReferenceException e){
-                    log.error(e);
-                    file.recordAction(action, expected, element.prettyOutput() + " has been removed from the page, and therefore not displayed",
-                            Result.SUCCESS);
-                    return 0;
+        // wait for up to XX seconds
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        try {
+            while (webElement.isDisplayed() && System.currentTimeMillis() < end) {
+                if (!webElement.isDisplayed()) {
+                    break;
                 }
             }
+        } catch (StaleElementReferenceException e) {
+            log.error(e);
+            file.recordAction(action, expected,
+                    element.prettyOutput() + " has been removed from the page, and therefore not displayed",
+                    Result.SUCCESS);
+            return 0;
         }
         double timetook = (System.currentTimeMillis() - start) / 1000;
         if (webElement.isDisplayed()) {
@@ -808,22 +806,20 @@ public class WaitFor {
         }
         double start = System.currentTimeMillis();
         WebElement webElement = element.getWebElement();
-        if (webElement.isEnabled()) {
-            // wait for up to XX seconds
-            double end = System.currentTimeMillis() + (seconds * 1000);
-            while (System.currentTimeMillis() < end) {
-                try {
-                    if (!webElement.isEnabled()) {
-                        break;
-                    }
-                }
-                catch (StaleElementReferenceException e){
-                    log.error(e);
-                    file.recordAction(action, expected, element.prettyOutput() + " has been removed from the page, and therefore not displayed",
-                            Result.SUCCESS);
-                    return 0;
+        // wait for up to XX seconds
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        try {
+            while (webElement.isEnabled() && System.currentTimeMillis() < end) {
+                if (!webElement.isEnabled()) {
+                    break;
                 }
             }
+        } catch (StaleElementReferenceException e) {
+            log.error(e);
+            file.recordAction(action, expected,
+                    element.prettyOutput() + " has been removed from the page, and therefore not displayed",
+                    Result.SUCCESS);
+            return 0;
         }
         double timetook = (System.currentTimeMillis() - start) / 1000;
         if (webElement.isEnabled()) {
