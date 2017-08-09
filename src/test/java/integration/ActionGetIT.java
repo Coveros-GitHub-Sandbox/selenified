@@ -215,6 +215,30 @@ public class ActionGetIT extends TestBase {
         // verify 1 issue
         finish(1);
     }
+    
+    @Test(groups = { "integration", "actions", "get", "virtual" },
+            description = "An integration test to check the getSelectOptions method")
+    public void getSelectValuesTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        String[] options = actions.get().selectValues(Locator.NAME, "car_list");
+        Assert.assertEquals(options, new String[] { "volvo", "saab", "mercedes", "audi" });
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get", "virtual" },
+            description = "An integration test to check the getSelectOptions method")
+    public void getSelectValuesNotExistTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        String[] options = actions.get().selectValues(Locator.NAME, "non-existent-name", 0);
+        Assert.assertEquals(options, new String[] {});
+        // verify 1 issue
+        finish(1);
+    }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getNumOfSelectOptions method")
@@ -328,6 +352,32 @@ public class ActionGetIT extends TestBase {
         finish(1);
     }
 
+    @Test(groups = { "integration", "actions", "get", "virtual" },
+            description = "An integration test to check the getTableRow method")
+    public void getTableRowsTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        List<WebElement> rows = actions.get().tableRows(Locator.ID, "table", 1);
+        Assert.assertEquals(rows.size(), 7);
+        Assert.assertEquals(rows.get(0).getText(), "Company Contact Country");
+        Assert.assertEquals(rows.get(1).getText(), "President Alfreds Futterkiste Maria Anders Germany");
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "actions", "get", "virtual" },
+            description = "An integration test to check the getTableRow method")
+    public void getTableRowsNotExistTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        List<WebElement> rows = actions.get().tableRows(Locator.ID, "non-existent-name", 1);
+        Assert.assertEquals(rows, new ArrayList<>());
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableColumn method")
     public void getTableColumnTest() {
@@ -367,6 +417,37 @@ public class ActionGetIT extends TestBase {
         // perform some actions
         List<WebElement> column = actions.get().tableColumn(Locator.ID, "non-existent-name", 1);
         Assert.assertEquals(column, new ArrayList<>());
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "get", "virtual" },
+            description = "An integration test to check the getTableColumn method")
+    public void getTableColumnsTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        List<List<WebElement>> columns = actions.get().tableColumns(Locator.ID, "table", 1);
+        Assert.assertEquals(columns.size(), 4);
+        Assert.assertEquals(columns.get(1).get(0).getText(), "Company");
+        Assert.assertEquals(columns.get(1).get(1).getText(), "Alfreds Futterkiste");
+        Assert.assertEquals(columns.get(1).get(2).getText(), "Centro comercial Moctezuma");
+        Assert.assertEquals(columns.get(1).get(3).getText(), "Ernst Handel");
+        Assert.assertEquals(columns.get(1).get(4).getText(), "Island Trading");
+        Assert.assertEquals(columns.get(1).get(5).getText(), "Laughing Bacchus Winecellars");
+        Assert.assertEquals(columns.get(1).get(6).getText(), "Magazzini Alimentari Riuniti");
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "actions", "get", "virtual" },
+            description = "An integration test to check the getTableColumn method")
+    public void getTableColumnsNotExistTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        List<List<WebElement>> columns = actions.get().tableColumns(Locator.ID, "non-existent-name", 1);
+        Assert.assertEquals(columns, new ArrayList<>());
         // verify 1 issue
         finish(1);
     }

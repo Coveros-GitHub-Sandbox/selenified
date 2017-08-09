@@ -262,6 +262,20 @@ public class ActionWaitIT extends TestBase {
         // verify no issues
         finish();
     }
+    
+    @Test(groups = { "integration", "actions", "wait" },
+            description = "An integration test to check the WaitForElementNotDisplayed method")
+    public void waitForElementNotDisplayedDeletedTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.click(Locator.NAME, "delayed_display_button");
+        actions.waitFor().elementDisplayed(Locator.NAME, "delayed_hide_button");
+        actions.click(Locator.NAME, "delayed_hide_button");
+        actions.waitFor().elementNotDisplayed(Locator.NAME, "added_div", 0);
+        // verify no issues
+        finish();
+    }
 
     @Test(groups = { "integration", "actions", "wait",
             "virtual" }, description = "An integration negative test to check the WaitForElementNotDisplayed method")
@@ -363,6 +377,20 @@ public class ActionWaitIT extends TestBase {
         actions.waitFor().elementEnabled(Locator.NAME, "delayed_input");
         actions.click(Locator.NAME, "delayed_enable_button");
         actions.waitFor().elementNotEnabled(Locator.NAME, "delayed_input", 0);
+        // verify no issues
+        finish();
+    }
+    
+    @Test(groups = { "integration", "actions", "wait" },
+            description = "An integration test to check the WaitForElementNotEnabled method")
+    public void waitForElementNotEnabledDeletedTest() {
+        // use this object to manipulate the page
+        Action actions = this.actions.get();
+        // perform some actions
+        actions.click(Locator.NAME, "delayed_display_button");
+        actions.waitFor().elementDisplayed(Locator.NAME, "delayed_hide_button");
+        actions.click(Locator.NAME, "delayed_hide_button");
+        actions.waitFor().elementNotEnabled(Locator.NAME, "added_div", 0);
         // verify no issues
         finish();
     }

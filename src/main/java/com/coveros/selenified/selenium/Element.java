@@ -20,17 +20,22 @@
 
 package com.coveros.selenified.selenium;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
 import com.coveros.selenified.selenium.Selenium.Locator;
+import com.coveros.selenified.tools.General;
 
 public class Element {
 
+    private static final Logger log = Logger.getLogger(General.class);
+    
     private Locator type;
     private String locator;
     private int match = 0;
@@ -127,7 +132,7 @@ public class Element {
      * @return By: the selenium object
      * @throws InvalidLocatorTypeException
      */
-    private By defineByElement() {
+    private By defineByElement() throws InvalidLocatorTypeException {
         // consider adding strengthening
         By byElement;
         switch (type) { // determine which locator type we are interested in
@@ -156,7 +161,7 @@ public class Element {
             byElement = By.tagName(locator);
             break;
         default:
-            byElement = By.id("");
+            throw new InvalidLocatorTypeException();
         }
         return byElement;
     }
@@ -173,7 +178,12 @@ public class Element {
         if (elements.size() > match) {
             return elements.get(match);
         }
-        return driver.findElement(defineByElement());
+        try {
+            return driver.findElement(defineByElement());
+        } catch (InvalidLocatorTypeException e) {
+            log.error(e);
+            return null;
+        }
     }
 
     /**
@@ -184,6 +194,11 @@ public class Element {
      * @throws InvalidLocatorTypeException
      */
     public List<WebElement> getWebElements() {
-        return driver.findElements(defineByElement());
+        try {
+            return driver.findElements(defineByElement());
+        } catch (InvalidLocatorTypeException e) {
+            log.error(e);
+            return new ArrayList<>();
+        }
     }
 }
