@@ -3,7 +3,7 @@ package integration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Page;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.element.Element;
 import com.coveros.selenified.tools.Selenified;
@@ -24,10 +24,10 @@ public class ConflictBIT extends Selenified {
     @Test(groups = { "integration", "conflict",
             "virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
     public void conflictingTestName() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        Element element = page.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
+        Element element = app.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
         for (int match = 0; match < element.get().matchCount(); match++) {
             element.setMatch(match);
             element.click();

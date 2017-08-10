@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Page;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.tools.Selenified;
@@ -35,10 +35,10 @@ public class NoBrowserIT extends Selenified {
     @Test(groups = { "integration",
             "virtual" }, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowser() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // verify no selenium actions class was setup
-        Assert.assertNull(page);
+        Assert.assertNull(app);
         // verify no issues
         finish();
     }
@@ -46,7 +46,7 @@ public class NoBrowserIT extends Selenified {
     @Test(groups = { "integration",
             "virtual" }, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowserActions() {
-        // use this object to manipulate the page
+        // use this object to manipulate the app
         Browser browser = this.browser.get();
         // verify no selenium actions class was setup
         Assert.assertEquals(browser, Browser.NONE);

@@ -31,7 +31,7 @@ import com.coveros.selenified.selenium.element.Element;
 import com.coveros.selenified.tools.General;
 import com.coveros.selenified.tools.TestSetup;
 
-public class Page {
+public class App {
 
 	private static final Logger log = Logger.getLogger(General.class);
 
@@ -98,7 +98,7 @@ public class Page {
 	 *             If the provided hub address isn't a URL, this exception will
 	 *             be thrown
 	 */
-	public Page(Browser browser, DesiredCapabilities capabilities, OutputFile file)
+	public App(Browser browser, DesiredCapabilities capabilities, OutputFile file)
 			throws InvalidBrowserException, MalformedURLException {
 		this.browser = browser;
 		this.capabilities = capabilities;

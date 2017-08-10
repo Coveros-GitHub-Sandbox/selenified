@@ -28,7 +28,7 @@ import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.selenium.Page;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.services.Call;
@@ -84,7 +84,7 @@ public class Selenified {
     protected ThreadLocal<Browser> browser = new ThreadLocal<>();
     protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
     protected ThreadLocal<OutputFile> files = new ThreadLocal<>();
-    protected ThreadLocal<Page> pages = new ThreadLocal<>();
+    protected ThreadLocal<App> apps = new ThreadLocal<>();
     protected ThreadLocal<Call> calls = new ThreadLocal<>();
     protected ThreadLocal<Integer> errors = new ThreadLocal<>();
 
@@ -282,20 +282,20 @@ public class Selenified {
         OutputFile myFile;
         if( selenium.useBrowser() ) {
         	myFile = new OutputFile(outputDir, testName, myBrowser);
-        	Page page = null;
+        	App app = null;
 			try {
-				page = new Page(myBrowser, myCapability, myFile);
+				app = new App(myBrowser, myCapability, myFile);
 			} catch (InvalidBrowserException | MalformedURLException e) {
                 log.error(e);
 			}
-        	this.pages.set(page);
+        	this.apps.set(app);
         	this.calls.set(null);
-        	myFile.setPage(page);
+        	myFile.setPage(app);
         } else {
         	myFile = new OutputFile(outputDir, testName, testSite);
         	HTTP http = new HTTP(testSite, servicesUser, servicesPass);
         	Call call = new Call(http, myFile);
-        	this.pages.set(null);
+        	this.apps.set(null);
         	this.calls.set(call);
         	myBrowser = Browser.NONE;
         }
@@ -314,7 +314,7 @@ public class Selenified {
         myFile.setStartTime();
         myFile.createOutputHeader();
         if (selenium.loadPage()) {
-            this.errors.set(myFile.loadInitialPage());	//should look at moving this to page object
+            this.errors.set(myFile.loadInitialPage());	//should look at moving this to app object
         } else {
             this.errors.set(0);
         }
@@ -341,8 +341,8 @@ public class Selenified {
     @AfterMethod(alwaysRun = true)
     public void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         String testName = General.getTestName(method, dataProvider);
-        if (this.pages.get() != null) {
-            this.pages.get().killDriver();
+        if (this.apps.get() != null) {
+            this.apps.get().killDriver();
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);

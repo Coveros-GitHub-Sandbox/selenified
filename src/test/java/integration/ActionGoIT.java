@@ -10,7 +10,7 @@ import org.openqa.selenium.Cookie;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Page;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.Selenified;
 
@@ -30,13 +30,13 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.newElement(Locator.ID, "submit_button").submit();
-        page.textPresent("You're on the next page");
-        page.goBack();
-        page.textNotPresent("You're on the next page");
+        app.newElement(Locator.ID, "submit_button").submit();
+        app.textPresent("You're on the next page");
+        app.goBack();
+        app.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -44,10 +44,10 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageNoBackTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.goBack();
+        app.goBack();
         // verify no issues
         finish();
     }
@@ -55,11 +55,11 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageErrorTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.killDriver();
-        page.goBack();
+        app.killDriver();
+        app.goBack();
         // verify 1 issue
         finish(1);
     }
@@ -67,15 +67,15 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.newElement(Locator.ID, "submit_button").submit();
-        page.textPresent("You're on the next page");
-        page.goBack();
-        page.textNotPresent("You're on the next page");
-        page.goForward();
-        page.textPresent("You're on the next page");
+        app.newElement(Locator.ID, "submit_button").submit();
+        app.textPresent("You're on the next page");
+        app.goBack();
+        app.textNotPresent("You're on the next page");
+        app.goForward();
+        app.textPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -83,10 +83,10 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageNoForwardTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.goForward();
+        app.goForward();
         // verify no issues
         finish();
     }
@@ -94,11 +94,11 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageErrorTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.killDriver();
-        page.goForward();
+        app.killDriver();
+        app.goForward();
         // verify 1 issue
         finish(1);
     }
@@ -106,10 +106,10 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPage method")
     public void refreshPageTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.refresh();
+        app.refresh();
         // verify no issues
         finish();
     }
@@ -117,11 +117,11 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPage method")
     public void refreshPageErrorTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.killDriver();
-        page.refresh();
+        app.killDriver();
+        app.refresh();
         // verify 1 issue
         finish(1);
     }
@@ -129,10 +129,10 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.refreshHard();
+        app.refreshHard();
         // verify no issues
         finish();
     }
@@ -140,11 +140,11 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardErrorTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.killDriver();
-        page.refreshHard();
+        app.killDriver();
+        app.refreshHard();
         // verify 1 issue
         finish(1);
     }
@@ -157,10 +157,10 @@ public class ActionGoIT extends Selenified {
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite().split("/")[2].split(":")[0], "/",
                 df.parse(dateval));
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.setCookie(cookie);
+        app.setCookie(cookie);
         // verify no issues
         finish();
     }
@@ -173,11 +173,11 @@ public class ActionGoIT extends Selenified {
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite().split("/")[2].split(":")[0], "/",
                 df.parse(dateval));
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.killDriver();
-        page.setCookie(cookie);
+        app.killDriver();
+        app.setCookie(cookie);
         // verify 1 issue
         finish(1);
     }
@@ -185,11 +185,11 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteCookie method")
     public void deleteCookieTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.deleteCookie("cookie");
-        Cookie cookie = page.get().cookie("cookie");
+        app.deleteCookie("cookie");
+        Cookie cookie = app.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -198,10 +198,10 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteCookie method")
     public void deleteNonExistentCookieTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.deleteCookie("new_cookie");
+        app.deleteCookie("new_cookie");
         // verify 1 issue
         finish(1);
     }
@@ -209,11 +209,11 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.deleteAllCookies();
-        Cookie cookie = page.get().cookie("cookie");
+        app.deleteAllCookies();
+        Cookie cookie = app.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -222,12 +222,12 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesTwiceTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.deleteAllCookies();
-        page.deleteAllCookies();
-        Cookie cookie = page.get().cookie("cookie");
+        app.deleteAllCookies();
+        app.deleteAllCookies();
+        Cookie cookie = app.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -236,11 +236,11 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesErrorTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.killDriver();
-        page.deleteAllCookies();
+        app.killDriver();
+        app.deleteAllCookies();
         // verify 1 issue
         finish(1);
     }
@@ -248,10 +248,10 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.maximize();
+        app.maximize();
         // verify no issues
         finish();
     }
@@ -259,11 +259,11 @@ public class ActionGoIT extends Selenified {
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenErrorTest() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.killDriver();
-        page.maximize();
+        app.killDriver();
+        app.maximize();
         // verify 1 issue
         finish(1);
     }

@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Page;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.tools.Selenified;
 
@@ -31,16 +31,16 @@ public class NoLoadIT extends Selenified {
 	}
 
 	@Test(groups = { "integration",
-			"virtual" }, description = "An integration test to verify we can start a test with a browser, but won't load any page")
+			"virtual" }, description = "An integration test to verify we can start a test with a browser, but won't load any app")
 	public void verifyNoLoad() {
-		// use this object to manipulate the page
-		Page page = this.pages.get();
+		// use this object to manipulate the app
+		App app = this.apps.get();
 		// verify a selenium actions class was setup
-		org.testng.Assert.assertNotNull(page);
+		org.testng.Assert.assertNotNull(app);
 		org.testng.Assert.assertEquals(
-				page.getOutputFile().countInstancesOf("Opening new browser and loading up starting page"), 0);
-		// verify the page wasn't attempted to load
-		page.urlEquals(getTestSite());
+				app.getOutputFile().countInstancesOf("Opening new browser and loading up starting app"), 0);
+		// verify the app wasn't attempted to load
+		app.urlEquals(getTestSite());
 		// verify one issue from the above check
 		finish(1);
 	}

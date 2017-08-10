@@ -40,7 +40,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.selenium.Page;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
@@ -50,7 +50,7 @@ import com.google.gson.GsonBuilder;
 
 /**
  * A custom output file, recording all details of every step performed, both
- * actions and page. Actions, expected results, and actual results are
+ * actions and app. Actions, expected results, and actual results are
  * captured. All asserts have a screenshot taken for traceability, while all
  * failing actions also have a screenshot taken to assist with debugging
  * purposes
@@ -63,7 +63,7 @@ public class OutputFile {
 
     private static final Logger log = Logger.getLogger(General.class);
 
-    private Page page = null;
+    private App app = null;
 
     private String url;
     private String suite;
@@ -172,23 +172,23 @@ public class OutputFile {
     }
 
     /**
-     * adds the page class which controls actions within the browser
+     * adds the app class which controls actions within the browser
      * 
      * @param action
      *            - the action class associated with this output
      */
-    public void setPage(Page page) {
-        this.page = page;
+    public void setPage(App app) {
+        this.app = app;
     }
 
     /**
-     * sets the url of the page under test
+     * sets the url of the app under test
      * 
-     * @param pageURL
-     *            - the initial page to open the browser to
+     * @param appURL
+     *            - the initial app to open the browser to
      */
-    public void setURL(String pageURL) {
-        url = pageURL;
+    public void setURL(String appURL) {
+        url = appURL;
     }
 
     /**
@@ -323,7 +323,7 @@ public class OutputFile {
     }
 
     /**
-     * a helper function to capture the entire page screen shot
+     * a helper function to capture the entire app screen shot
      *
      * @return new image link
      */
@@ -331,7 +331,7 @@ public class OutputFile {
         String imageName = generateImageName();
         String imageLink = generateImageLink(imageName);
         try {
-            page.takeScreenshot(imageName);
+            app.takeScreenshot(imageName);
             screenshots.add(imageName);
         } catch (Exception e1) {
             log.error(e1);
@@ -574,7 +574,7 @@ public class OutputFile {
             out.write(swapRow);
             out.write("    <th>Date Tested</th>\n");
             out.write(START_CELL + datePart + END_CELL);
-            if (this.page != null && this.page.getBrowser() != null && this.page.getBrowser() != Browser.NONE) {
+            if (this.app != null && this.app.getBrowser() != null && this.app.getBrowser() != Browser.NONE) {
                 out.write("    <th>Browser</th>\n");
                 out.write(START_CELL + browser + END_CELL);
             } else {
@@ -636,22 +636,22 @@ public class OutputFile {
     }
 
     /**
-     * loads the initial page specified by the url, and ensures the page loads
+     * loads the initial app specified by the url, and ensures the app loads
      * successfully
      * 
      * @return Integer: how many errors encountered
      */
     public int loadInitialPage() {
-        String startingPage = "The starting page <i>";
-        String act = "Opening new browser and loading up starting page";
+        String startingPage = "The starting app <i>";
+        String act = "Opening new browser and loading up starting app";
         String expected = startingPage + url + "</i> will successfully load";
 
-        if (page != null) {
+        if (app != null) {
             try {
-            	page.getDriver().get(url);
-                if (!page.get().location().contains(url)) {
+            	app.getDriver().get(url);
+                if (!app.get().location().contains(url)) {
                     recordAction(act, expected,
-                            startingPage + page.get().location() + "</i> loaded instead of <i>" + url + "</i>",
+                            startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
                             Result.FAILURE);
                     addError();
                     return 1;

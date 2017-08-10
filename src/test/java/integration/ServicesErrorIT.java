@@ -52,7 +52,7 @@ public class ServicesErrorIT extends Selenified {
         request.addProperty("title", "foo");
         request.addProperty("body", "bar");
         request.addProperty("userId", 2);
-        // use this object to verify the page looks as expected
+        // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         call.post("posts/", new Request(request)).assertEquals(201);
@@ -68,7 +68,7 @@ public class ServicesErrorIT extends Selenified {
         request.addProperty("title", "foo1");
         request.addProperty("body", "bar");
         request.addProperty("userId", 3);
-        // use this object to verify the page looks as expected
+        // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         call.put("posts/3", new Request(request)).assertEquals(200);
@@ -84,7 +84,7 @@ public class ServicesErrorIT extends Selenified {
         request.addProperty("title", "foo1");
         request.addProperty("body", "bar");
         request.addProperty("userId", 4);
-        // use this object to verify the page looks as expected
+        // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         call.patch("posts/4", new Request(request)).assertEquals(200);
@@ -100,7 +100,7 @@ public class ServicesErrorIT extends Selenified {
         request.addProperty("title", "foo1");
         request.addProperty("body", "bar");
         request.addProperty("userId", 5);
-        // use this object to verify the page looks as expected
+        // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         call.delete("posts/5", new Request(request)).assertEquals(200);

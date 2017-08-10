@@ -1,15 +1,15 @@
-package integration;
+package sample;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Page;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.element.Element;
 import com.coveros.selenified.tools.Selenified;
 
-public class SampleTests extends Selenified {
+public class SimpleSampleIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -29,10 +29,10 @@ public class SampleTests extends Selenified {
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check a title")
     public void sampleTest() {
-    	// use this object to manipulate the page
-        Page page = this.pages.get();
+    	// use this object to manipulate the app
+        App app = this.apps.get();
         // perform the verification
-        page.titleEquals("Selenified Test Page");
+        app.titleEquals("Selenified Test Page");
         // perform the verification
         finish();
     }
@@ -40,10 +40,10 @@ public class SampleTests extends Selenified {
     @Test(dataProvider = "car list items", groups = { "sample",
             "virtual" }, description = "A sample test using a data provider to perform searches")
     public void sampleTestWDataProvider(String listItem) {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        page.newElement(Locator.ID, "car_list").select(listItem);
+        app.newElement(Locator.ID, "car_list").select(listItem);
         // close out the test
         finish();
     }
@@ -51,10 +51,10 @@ public class SampleTests extends Selenified {
     @Test(groups = { "sample",
             "virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
     public void sampleTestLoopThroughElements() {
-        // use this object to manipulate the page
-        Page page = this.pages.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        Element element = page.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
+        Element element = app.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
         for (int match = 0; match < element.get().matchCount(); match++) {
             element.setMatch(match);
             element.click();
