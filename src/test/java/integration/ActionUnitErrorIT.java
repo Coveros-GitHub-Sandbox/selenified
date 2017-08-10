@@ -6,13 +6,13 @@ import org.testng.annotations.Test;
 import java.util.Map;
 
 import org.testng.Assert;
-import com.coveros.selenified.selenium.Action;
+
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class ActionUnitErrorIT extends TestBase {
+public class ActionUnitErrorIT extends Selenified {
 
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass() {
@@ -29,10 +29,10 @@ public class ActionUnitErrorIT extends TestBase {
 			"virtual" }, description = "An integration negative test to check the get css method")
 	public void getCssErrorTest() {
 		// use this object to manipulate the page
-		Action actions = this.actions.get();
+		Page page = this.pages.get();
 		// perform some actions
-		if (actions.getBrowser().equals(Browser.HTMLUNIT)) {
-			String css = actions.get().css(new Element(Locator.CSS, "input#alert_button"), "style");
+		if (page.getBrowser().equals(Browser.HTMLUNIT)) {
+			String css = page.newElement(Locator.CSS, "input#alert_button").get().css("style");
 			Assert.assertNull(css);
 		}
 		finish();
@@ -42,10 +42,10 @@ public class ActionUnitErrorIT extends TestBase {
 	"virtual" }, description = "An integration negative test to check the get all attributes method")
 	public void getAllAttributesErrorTest() {
 		// use this object to manipulate the page
-		Action actions = this.actions.get();
+		Page page = this.pages.get();
 		// perform some actions
-		if (actions.getBrowser().equals(Browser.HTMLUNIT)) {
-			Map<String, String> attributes = actions.get().allAttributes(new Element(Locator.CSS, "input#alert_button"));
+		if (page.getBrowser().equals(Browser.HTMLUNIT)) {
+			Map<String, String> attributes = page.newElement(Locator.CSS, "input#alert_button").get().allAttributes();
 			Assert.assertNull(attributes);
 		}
 		finish();
@@ -55,10 +55,10 @@ public class ActionUnitErrorIT extends TestBase {
 	"virtual" }, description = "An integration negative test to check the get eval method")
 	public void getEvalErrorTest() {
 		// use this object to manipulate the page
-		Action actions = this.actions.get();
+		Page page = this.pages.get();
 		// perform some actions
-		if (actions.getBrowser().equals(Browser.HTMLUNIT)) {
-			Object eval = actions.get().eval("console.out('hello world')");
+		if (page.getBrowser().equals(Browser.HTMLUNIT)) {
+			Object eval = page.get().eval("console.out('hello world')");
 			Assert.assertNull(eval);
 		}
 		finish();
@@ -68,10 +68,10 @@ public class ActionUnitErrorIT extends TestBase {
 	"virtual" }, description = "An integration negative test to check the get eval method")
 	public void getEvalElementErrorTest() {
 		// use this object to manipulate the page
-		Action actions = this.actions.get();
+		Page page = this.pages.get();
 		// perform some actions
-		if (actions.getBrowser().equals(Browser.HTMLUNIT)) {
-			Object eval = actions.get().eval(new Element(Locator.CSS, "input#alert_button"), "console.out('hello world')");
+		if (page.getBrowser().equals(Browser.HTMLUNIT)) {
+			Object eval = page.newElement(Locator.CSS, "input#alert_button").get().eval("console.out('hello world')");
 			Assert.assertNull(eval);
 		}
 		finish();

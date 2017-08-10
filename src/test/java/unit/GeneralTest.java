@@ -51,7 +51,7 @@ public class GeneralTest {
         Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
                 + "java" + File.separator + "unit" + File.separator + "OutputFileTest.java"));
         Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
-                + "java" + File.separator + "unit" + File.separator + "TestBaseTest.java"));
+                + "java" + File.separator + "unit" + File.separator + "SelenifiedTest.java"));
         Assert.assertTrue(files.contains("." + File.separator + "src" + File.separator + "test" + File.separator
                 + "java" + File.separator + "unit" + File.separator + "TestSetupTest.java"));
     }

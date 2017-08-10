@@ -15,9 +15,9 @@ import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class TestBaseTest extends TestBase {
+public class SelenifiedTest extends Selenified {
 
     private String setAppURL = null;
     private String setBrowser = null;
@@ -86,13 +86,13 @@ public class TestBaseTest extends TestBase {
 
     @Test
     public void initializeSystemTest() {
-        TestBase.initializeSystem();
+        Selenified.initializeSystem();
         Assert.assertEquals(System.getProperty("browser"), "HTMLUNIT");
         Assert.assertEquals(getTestSite(), "https://www.google.com/");
 
         System.setProperty("browser", "Chrome");
         System.setProperty("appURL", "http://www.yahoo.com");
-        TestBase.initializeSystem();
+        Selenified.initializeSystem();
         Assert.assertEquals(System.getProperty("browser"), "Chrome");
         Assert.assertEquals(getTestSite(), "http://www.yahoo.com");
     }
@@ -100,7 +100,7 @@ public class TestBaseTest extends TestBase {
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupTestParametersBadBrowserTest() throws InvalidBrowserException {
         System.setProperty("browser", "BadBrowser");
-        TestBase.setupTestParameters();
+        Selenified.setupTestParameters();
     }
 
     @Test
@@ -109,8 +109,8 @@ public class TestBaseTest extends TestBase {
         expectedBrowser.add(Browser.CHROME);
         System.setProperty("browser", "CHROME");
 
-        TestBase.setupTestParameters();
-        Assert.assertEquals(TestBase.browsers, expectedBrowser);
+        Selenified.setupTestParameters();
+        Assert.assertEquals(Selenified.browsers, expectedBrowser);
     }
 
     @Test
@@ -120,8 +120,8 @@ public class TestBaseTest extends TestBase {
         expectedBrowser.add(Browser.EDGE);
         System.setProperty("browser", "CHROME,EDGE");
 
-        TestBase.setupTestParameters();
-        Assert.assertEquals(TestBase.browsers, expectedBrowser);
+        Selenified.setupTestParameters();
+        Assert.assertEquals(Selenified.browsers, expectedBrowser);
     }
 
     @Test

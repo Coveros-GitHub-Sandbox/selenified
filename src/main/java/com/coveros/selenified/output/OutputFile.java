@@ -50,7 +50,7 @@ import com.google.gson.GsonBuilder;
 
 /**
  * A custom output file, recording all details of every step performed, both
- * actions and asserts. Actions, expected results, and actual results are
+ * actions and page. Actions, expected results, and actual results are
  * captured. All asserts have a screenshot taken for traceability, while all
  * failing actions also have a screenshot taken to assist with debugging
  * purposes

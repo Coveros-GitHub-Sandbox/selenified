@@ -10,12 +10,11 @@ import org.openqa.selenium.Cookie;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert;
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class ActionGoIT extends TestBase {
+public class ActionGoIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -32,14 +31,12 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.submit(Locator.ID, "submit_button");
-        asserts.textPresent("You're on the next page");
-        actions.page().goBack();
-        asserts.textNotPresent("You're on the next page");
+        page.newElement(Locator.ID, "submit_button").submit();
+        page.textPresent("You're on the next page");
+        page.goBack();
+        page.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -48,9 +45,9 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageNoBackTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().goBack();
+        page.goBack();
         // verify no issues
         finish();
     }
@@ -59,10 +56,10 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageErrorTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.killDriver();
-        actions.page().goBack();
+        page.killDriver();
+        page.goBack();
         // verify 1 issue
         finish(1);
     }
@@ -71,16 +68,14 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.submit(Locator.ID, "submit_button");
-        asserts.textPresent("You're on the next page");
-        actions.page().goBack();
-        asserts.textNotPresent("You're on the next page");
-        actions.page().goForward();
-        asserts.textPresent("You're on the next page");
+        page.newElement(Locator.ID, "submit_button").submit();
+        page.textPresent("You're on the next page");
+        page.goBack();
+        page.textNotPresent("You're on the next page");
+        page.goForward();
+        page.textPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -89,9 +84,9 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageNoForwardTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().goForward();
+        page.goForward();
         // verify no issues
         finish();
     }
@@ -100,10 +95,10 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageErrorTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.killDriver();
-        actions.page().goForward();
+        page.killDriver();
+        page.goForward();
         // verify 1 issue
         finish(1);
     }
@@ -112,9 +107,9 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the refreshPage method")
     public void refreshPageTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().refresh();
+        page.refresh();
         // verify no issues
         finish();
     }
@@ -123,10 +118,10 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the refreshPage method")
     public void refreshPageErrorTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.killDriver();
-        actions.page().refresh();
+        page.killDriver();
+        page.refresh();
         // verify 1 issue
         finish(1);
     }
@@ -135,9 +130,9 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().refreshHard();
+        page.refreshHard();
         // verify no issues
         finish();
     }
@@ -146,10 +141,10 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardErrorTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.killDriver();
-        actions.page().refreshHard();
+        page.killDriver();
+        page.refreshHard();
         // verify 1 issue
         finish(1);
     }
@@ -163,9 +158,9 @@ public class ActionGoIT extends TestBase {
         Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite().split("/")[2].split(":")[0], "/",
                 df.parse(dateval));
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().setCookie(cookie);
+        page.setCookie(cookie);
         // verify no issues
         finish();
     }
@@ -179,10 +174,10 @@ public class ActionGoIT extends TestBase {
         Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite().split("/")[2].split(":")[0], "/",
                 df.parse(dateval));
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.killDriver();
-        actions.page().setCookie(cookie);
+        page.killDriver();
+        page.setCookie(cookie);
         // verify 1 issue
         finish(1);
     }
@@ -191,10 +186,10 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the deleteCookie method")
     public void deleteCookieTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().deleteCookie("cookie");
-        Cookie cookie = actions.get().cookie("cookie");
+        page.deleteCookie("cookie");
+        Cookie cookie = page.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -204,9 +199,9 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the deleteCookie method")
     public void deleteNonExistentCookieTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().deleteCookie("new_cookie");
+        page.deleteCookie("new_cookie");
         // verify 1 issue
         finish(1);
     }
@@ -215,10 +210,10 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().deleteAllCookies();
-        Cookie cookie = actions.get().cookie("cookie");
+        page.deleteAllCookies();
+        Cookie cookie = page.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -228,11 +223,11 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesTwiceTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().deleteAllCookies();
-        actions.page().deleteAllCookies();
-        Cookie cookie = actions.get().cookie("cookie");
+        page.deleteAllCookies();
+        page.deleteAllCookies();
+        Cookie cookie = page.get().cookie("cookie");
         org.testng.Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -242,10 +237,10 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesErrorTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.killDriver();
-        actions.page().deleteAllCookies();
+        page.killDriver();
+        page.deleteAllCookies();
         // verify 1 issue
         finish(1);
     }
@@ -254,9 +249,9 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().maximize();
+        page.maximize();
         // verify no issues
         finish();
     }
@@ -265,10 +260,10 @@ public class ActionGoIT extends TestBase {
             "virtual" }, description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenErrorTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.killDriver();
-        actions.page().maximize();
+        page.killDriver();
+        page.maximize();
         // verify 1 issue
         finish(1);
     }

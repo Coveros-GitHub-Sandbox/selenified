@@ -3,13 +3,12 @@ package integration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert;
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class ConflictBIT extends TestBase {
+public class ConflictBIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -26,15 +25,13 @@ public class ConflictBIT extends TestBase {
             "virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
     public void conflictingTestName() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        Element element = new Element(Locator.XPATH, "//form/input[@type='checkbox']");
-        for (int match = 0; match < actions.get().matchCount(element); match++) {
+        Element element = page.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
+        for (int match = 0; match < element.get().matchCount(); match++) {
             element.setMatch(match);
-            actions.click(element);
-            asserts.state().checked(element);
+            element.click();
+            element.assertState().checked();
         }
         // close out the test
         finish();

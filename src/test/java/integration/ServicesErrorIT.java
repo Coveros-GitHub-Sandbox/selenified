@@ -7,13 +7,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
+import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 import com.google.gson.JsonObject;
 
-public class ServicesErrorIT extends TestBase {
+public class ServicesErrorIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -37,10 +37,10 @@ public class ServicesErrorIT extends TestBase {
     @Test(groups = { "integration", "services", "httpget",
             "virtual" }, description = "An integration test to verify the response code from a get call")
     public void compareGetResponseCode200Test() {
-        // use this object to verify the page looks as expected
-        Action actions = this.actions.get();
+        // use this object to make calls
+        Call call = this.calls.get();
         // perform some actions
-        actions.call().get("posts/").assertEquals(200);
+        call.get("posts/").assertEquals(200);
         // verify 2 issues
         finish(2);
     }
@@ -53,9 +53,9 @@ public class ServicesErrorIT extends TestBase {
         request.addProperty("body", "bar");
         request.addProperty("userId", 2);
         // use this object to verify the page looks as expected
-        Action actions = this.actions.get();
+        Call call = this.calls.get();
         // perform some actions
-        actions.call().post("posts/", new Request(request)).assertEquals(201);
+        call.post("posts/", new Request(request)).assertEquals(201);
         // verify 2 issues
         finish(2);
     }
@@ -69,9 +69,9 @@ public class ServicesErrorIT extends TestBase {
         request.addProperty("body", "bar");
         request.addProperty("userId", 3);
         // use this object to verify the page looks as expected
-        Action actions = this.actions.get();
+        Call call = this.calls.get();
         // perform some actions
-        actions.call().put("posts/3", new Request(request)).assertEquals(200);
+        call.put("posts/3", new Request(request)).assertEquals(200);
         // verify 2 issues
         finish(2);
     }
@@ -85,9 +85,9 @@ public class ServicesErrorIT extends TestBase {
         request.addProperty("body", "bar");
         request.addProperty("userId", 4);
         // use this object to verify the page looks as expected
-        Action actions = this.actions.get();
+        Call call = this.calls.get();
         // perform some actions
-        actions.call().patch("posts/4", new Request(request)).assertEquals(200);
+        call.patch("posts/4", new Request(request)).assertEquals(200);
         // verify 2 issues
         finish(2);
     }
@@ -101,9 +101,9 @@ public class ServicesErrorIT extends TestBase {
         request.addProperty("body", "bar");
         request.addProperty("userId", 5);
         // use this object to verify the page looks as expected
-        Action actions = this.actions.get();
+        Call call = this.calls.get();
         // perform some actions
-        actions.call().delete("posts/5", new Request(request)).assertEquals(200);
+        call.delete("posts/5", new Request(request)).assertEquals(200);
         // verify 2 issues
         finish(2);
     }

@@ -9,11 +9,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Page;
+import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class NoBrowserIT extends TestBase {
+public class NoBrowserIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -35,9 +36,9 @@ public class NoBrowserIT extends TestBase {
             "virtual" }, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowser() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // verify no selenium actions class was setup
-        Assert.assertNotNull(actions);
+        Assert.assertNull(page);
         // verify no issues
         finish();
     }
@@ -46,9 +47,9 @@ public class NoBrowserIT extends TestBase {
             "virtual" }, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowserActions() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Browser browser = this.browser.get();
         // verify no selenium actions class was setup
-        Assert.assertEquals(actions.getBrowser(), null);
+        Assert.assertEquals(browser, Browser.NONE);
         // verify no issues
         finish();
     }

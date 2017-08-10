@@ -4,13 +4,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert;
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class SampleTests extends TestBase {
+public class SampleTests extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -30,10 +29,10 @@ public class SampleTests extends TestBase {
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check a title")
     public void sampleTest() {
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+    	// use this object to manipulate the page
+        Page page = this.pages.get();
         // perform the verification
-        asserts.compareTitle("Selenified Test Page");
+        page.titleEquals("Selenified Test Page");
         // perform the verification
         finish();
     }
@@ -42,9 +41,9 @@ public class SampleTests extends TestBase {
             "virtual" }, description = "A sample test using a data provider to perform searches")
     public void sampleTestWDataProvider(String listItem) {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.select(Locator.ID, "car_list", listItem);
+        page.newElement(Locator.ID, "car_list").select(listItem);
         // close out the test
         finish();
     }
@@ -53,15 +52,13 @@ public class SampleTests extends TestBase {
             "virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
     public void sampleTestLoopThroughElements() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        Element element = new Element(Locator.XPATH, "//form/input[@type='checkbox']");
-        for (int match = 0; match < actions.get().matchCount(element); match++) {
+        Element element = page.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
+        for (int match = 0; match < element.get().matchCount(); match++) {
             element.setMatch(match);
-            actions.click(element);
-            asserts.state().checked(element);
+            element.click();
+            element.assertState().checked();
         }
         // close out the test
         finish();

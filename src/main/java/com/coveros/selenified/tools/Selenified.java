@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TestBase contains all of the elements to setup the test suite, and to start
+ * Selenified contains all of the elements to setup the test suite, and to start
  * and finish your tests. The site under test is set here should be set,
  * otherwise a default value of google will be used. Before each suite is run,
  * the system variables are gathered, to set the browser, test site, proxy, hub,
@@ -63,7 +63,7 @@ import java.util.Map;
  * @lastupdate 7/20/2017
  */
 @Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
-public class TestBase {
+public class Selenified {
 
     private static final Logger log = Logger.getLogger(General.class);
 
@@ -83,6 +83,7 @@ public class TestBase {
     // for individual tests
     protected ThreadLocal<Browser> browser = new ThreadLocal<>();
     protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
+    protected ThreadLocal<OutputFile> files = new ThreadLocal<>();
     protected ThreadLocal<Page> pages = new ThreadLocal<>();
     protected ThreadLocal<Call> calls = new ThreadLocal<>();
     protected ThreadLocal<Integer> errors = new ThreadLocal<>();
@@ -288,11 +289,13 @@ public class TestBase {
                 log.error(e);
 			}
         	this.pages.set(page);
+        	this.calls.set(null);
         	myFile.setPage(page);
         } else {
         	myFile = new OutputFile(outputDir, testName, testSite);
         	HTTP http = new HTTP(testSite, servicesUser, servicesPass);
         	Call call = new Call(http, myFile);
+        	this.pages.set(null);
         	this.calls.set(call);
         	myBrowser = Browser.NONE;
         }
@@ -315,6 +318,7 @@ public class TestBase {
         } else {
             this.errors.set(0);
         }
+        this.files.set(myFile);
     }
 
     /**
@@ -351,7 +355,7 @@ public class TestBase {
      * 
      */
     public void finish() {
-        OutputFile myFile = this.pages.get().getOutputFile();
+        OutputFile myFile = this.files.get();
         myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
@@ -366,7 +370,7 @@ public class TestBase {
      *            - number of expected errors from the test
      */
     protected void finish(int errors) {
-        OutputFile myFile = this.pages.get().getOutputFile();
+        OutputFile myFile = this.files.get();
         myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);

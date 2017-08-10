@@ -3,13 +3,11 @@ package integration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert;
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class ActionSwitchIT extends TestBase {
+public class ActionSwitchIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -26,13 +24,11 @@ public class ActionSwitchIT extends TestBase {
             "virtual" }, description = "An integration test to check the frame method")
     public void selectFrameIntTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        asserts.state().notDisplayed(Locator.ID, "message");
-        actions.selectFrame(0);
-        asserts.state().displayed(Locator.ID, "message");
+        page.newElement(Locator.ID, "message").assertState().notDisplayed();
+        page.selectFrame(0);
+        page.newElement(Locator.ID, "message").assertState().displayed();
         // verify no issues
         finish();
     }
@@ -41,12 +37,10 @@ public class ActionSwitchIT extends TestBase {
             "virtual" }, description = "An integration test to check the frame method")
     public void selectFrameIntNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        asserts.state().notDisplayed(Locator.ID, "message");
-        actions.selectFrame(2);
+        page.newElement(Locator.ID, "message").assertState().notDisplayed();
+        page.selectFrame(2);
         // verify 1 issue
         finish(1);
     }
@@ -55,13 +49,11 @@ public class ActionSwitchIT extends TestBase {
             "virtual" }, description = "An integration test to check the frame method")
     public void selectFrameNameTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        asserts.state().notDisplayed(Locator.ID, "message");
-        actions.selectFrame("some_frame");
-        asserts.state().displayed(Locator.ID, "message");
+        page.newElement(Locator.ID, "message").assertState().notDisplayed();
+        page.selectFrame("some_frame");
+        page.newElement(Locator.ID, "message").assertState().displayed();
         // verify no issues
         finish();
     }
@@ -70,12 +62,10 @@ public class ActionSwitchIT extends TestBase {
             "virtual" }, description = "An integration test to check the frame method")
     public void selectFrameNameNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        asserts.state().notDisplayed(Locator.ID, "message");
-        actions.selectFrame("some_non_existent_frame");
+        page.newElement(Locator.ID, "message").assertState().notDisplayed();
+        page.selectFrame("some_non_existent_frame");
         // verify 1 issue
         finish(1);
     }
@@ -84,13 +74,11 @@ public class ActionSwitchIT extends TestBase {
             "virtual" }, description = "An integration test to check the frame method")
     public void selectFrameTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        asserts.state().notDisplayed(Locator.ID, "message");
-        actions.selectFrame(Locator.ID, "some_frame");
-        asserts.state().displayed(Locator.ID, "message");
+        page.newElement(Locator.ID, "message").assertState().notDisplayed();
+        page.newElement(Locator.ID, "some_frame").selectFrame();
+        page.newElement(Locator.ID, "message").assertState().displayed();
         // verify no issues
         finish();
     }
@@ -99,9 +87,9 @@ public class ActionSwitchIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the frame method")
     public void selectFrameNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.selectFrame(new Element(Locator.ID, "non-existent-element"));
+        page.newElement(Locator.ID, "non-existent-element").selectFrame();
         // verify 1 issue
         finish(1);
     }
@@ -110,9 +98,9 @@ public class ActionSwitchIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the frame method")
     public void selectFrameNotVisibleTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.selectFrame(new Element(Locator.ID, "some_other_frame"));
+        page.newElement(Locator.ID, "some_other_frame").selectFrame();
         // verify 1 issue
         finish(1);
     }
@@ -121,9 +109,9 @@ public class ActionSwitchIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the frame method")
     public void selectFrameNotFrameTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.selectFrame(new Element(Locator.ID, "scroll_button"));
+        page.newElement(Locator.ID, "scroll_button").selectFrame();
         // verify no issues
         finish(1);
     }
@@ -132,12 +120,10 @@ public class ActionSwitchIT extends TestBase {
             "tab" }, description = "An integration test to check the openTab method")
     public void openTabTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().openTab("https://www.google.com/");
-        asserts.compareURL("https://www.google.com/");
+        page.openTab("https://www.google.com/");
+        page.urlEquals("https://www.google.com/");
         // verify no issues
         finish();
     }
@@ -146,12 +132,10 @@ public class ActionSwitchIT extends TestBase {
             "tab" }, description = "An integration test to check the openTab method")
     public void openEmptyTabTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().openTab();
-        asserts.compareURL(getTestSite());
+        page.openTab();
+        page.urlEquals(getTestSite());
         // verify no issues
         finish(1);
     }
@@ -160,14 +144,12 @@ public class ActionSwitchIT extends TestBase {
             "tab" }, description = "An integration test to check the switchTab method")
     public void switchTabTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().openTab("https://www.google.com/");
-        actions.page().switchNextTab();
+        page.openTab("https://www.google.com/");
+        page.switchNextTab();
         String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/";
-        asserts.compareURL(site);
+        page.urlEquals(site);
         // verify no issues
         finish();
     }
@@ -176,14 +158,12 @@ public class ActionSwitchIT extends TestBase {
             "tab" }, description = "An integration test to check the closeTab method")
     public void closeTabTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().openTab("https://www.google.com/");
-        actions.page().closeTab();
+        page.openTab("https://www.google.com/");
+        page.closeTab();
         String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/";
-        asserts.compareURL(site);
+        page.urlEquals(site);
         // verify no issues
         finish();
     }
@@ -192,14 +172,12 @@ public class ActionSwitchIT extends TestBase {
             "tab" }, description = "An integration test to check the closeTab method")
     public void closeFirstTabTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.page().openTab("https://www.google.com/");
-        actions.page().switchPreviousTab();
-        actions.page().closeTab();
-        asserts.compareURL("https://www.google.com/");
+        page.openTab("https://www.google.com/");
+        page.switchPreviousTab();
+        page.closeTab();
+        page.urlEquals("https://www.google.com/");
         // verify no issues
         finish();
     }
@@ -208,13 +186,11 @@ public class ActionSwitchIT extends TestBase {
             "window" }, description = "An integration test to check the switch method")
     public void switchToNewWindowTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "new_window");
-        actions.page().switchToNewWindow();
-        asserts.textPresent("You're on the next page");
+        page.newElement(Locator.ID, "new_window").click();
+        page.switchToNewWindow();
+        page.textPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -223,15 +199,13 @@ public class ActionSwitchIT extends TestBase {
             "window" }, description = "An integration test to check the switch method")
     public void switchToParentWindowTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(new Element(Locator.ID, "new_window"));
-        actions.page().switchToNewWindow();
-        asserts.textPresent("You're on the next page");
-        actions.page().switchToParentWindow();
-        asserts.textNotPresent("You're on the next page");
+        page.newElement(Locator.ID, "new_window").click();
+        page.switchToNewWindow();
+        page.textPresent("You're on the next page");
+        page.switchToParentWindow();
+        page.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -240,15 +214,13 @@ public class ActionSwitchIT extends TestBase {
             "window" }, description = "An integration test to check the switch method")
     public void closeCurrentWindowTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(new Element(Locator.ID, "new_window"));
-        actions.page().switchToNewWindow();
-        asserts.textPresent("You're on the next page");
-        actions.page().closeCurrentWindow();
-        asserts.textNotPresent("You're on the next page");
+        page.newElement(Locator.ID, "new_window").click();
+        page.switchToNewWindow();
+        page.textPresent("You're on the next page");
+        page.closeCurrentWindow();
+        page.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -257,15 +229,13 @@ public class ActionSwitchIT extends TestBase {
             "window" }, description = "An integration test to check the switch method")
     public void closeCurrentWindowNoWindowTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(new Element(Locator.ID, "new_window"));
-        actions.page().switchToNewWindow();
-        asserts.textPresent("You're on the next page");
-        actions.page().closeCurrentWindow();
-        actions.page().closeCurrentWindow();
+        page.newElement(Locator.ID, "new_window").click();
+        page.switchToNewWindow();
+        page.textPresent("You're on the next page");
+        page.closeCurrentWindow();
+        page.closeCurrentWindow();
         // verify 1 issue
         finish(1);
     }

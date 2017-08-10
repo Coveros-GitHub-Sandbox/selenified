@@ -4,12 +4,11 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class ActionIsIT extends TestBase {
+public class ActionIsIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -26,9 +25,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is present")
     public void isElementPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementPresent(Locator.ID, "submit_button"));
+        Assert.assertTrue(page.newElement(Locator.ID, "submit_button").is().present());
         // verify no issues
         finish();
     }
@@ -37,9 +36,9 @@ public class ActionIsIT extends TestBase {
             description = "An integration test to check if an element is present")
     public void isElementPresentPrintTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementPresent(Locator.ID, "submit_button", true));
+        Assert.assertTrue(page.newElement(Locator.ID, "submit_button").is().present(true));
         // verify no issues
         finish();
     }
@@ -48,9 +47,9 @@ public class ActionIsIT extends TestBase {
             description = "An integration test to check if an element is present")
     public void isElementPresentMatchTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementPresent(Locator.ID, "submit_button", 0));
+        Assert.assertTrue(page.newElement(Locator.ID, "submit_button", 0).is().present());
         // verify no issues
         finish();
     }
@@ -59,9 +58,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is present")
     public void isElementPresentNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementPresent(Locator.ID, "non-existent-name", 0, true));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name", 0).is().present(true));
         // verify no issues
         finish();
     }
@@ -70,9 +69,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementInputTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementInput(Locator.ID, "input_box", true));
+        Assert.assertTrue(page.newElement(Locator.ID, "input_box").is().input(true));
         // verify no issues
         finish();
     }
@@ -81,9 +80,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementSelectTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementInput(Locator.ID, "car_list", 0));
+        Assert.assertTrue(page.newElement(Locator.ID, "car_list", 0).is().input());
         // verify no issues
         finish();
     }
@@ -92,9 +91,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementTextAreaTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementInput(Locator.ID, "textarea_input"));
+        Assert.assertTrue(page.newElement(Locator.ID, "textarea_input").is().input());
         // verify no issues
         finish();
     }
@@ -103,9 +102,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementNotInputTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementInput(Locator.ID, "disable_click", 0, true));
+        Assert.assertFalse(page.newElement(Locator.ID, "disable_click", 0).is().input(true));
         // verify no issues
         finish();
     }
@@ -114,9 +113,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementInputNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementInput(Locator.ID, "non-existent-name"));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name").is().input());
         // verify no issues
         finish();
     }
@@ -125,9 +124,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementSelectInputTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementSelect(Locator.ID, "input_box"));
+        Assert.assertFalse(page.newElement(Locator.ID, "input_box").is().select());
         // verify no issues
         finish();
     }
@@ -136,9 +135,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementSelectSelectTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementSelect(Locator.ID, "car_list", 0));
+        Assert.assertTrue(page.newElement(Locator.ID, "car_list", 0).is().select());
         // verify no issues
         finish();
     }
@@ -147,9 +146,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementSelectTextAreaTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementSelect(Locator.ID, "textarea_input", true));
+        Assert.assertFalse(page.newElement(Locator.ID, "textarea_input").is().select(true));
         // verify no issues
         finish();
     }
@@ -158,9 +157,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementSelectNotSelectTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementSelect(Locator.ID, "disable_click", 0, true));
+        Assert.assertFalse(page.newElement(Locator.ID, "disable_click", 0).is().select(true));
         // verify no issues
         finish();
     }
@@ -169,9 +168,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is input")
     public void isElementSelectNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementSelect(Locator.ID, "non-existent-name"));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name").is().select());
         // verify no issues
         finish();
     }
@@ -180,10 +179,10 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is a table")
     public void isElementTableTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "that");
-        Assert.assertTrue(actions.is().elementTable(Locator.ID, "table"));
+        page.newElement(Locator.ID, "that").click();
+        Assert.assertTrue(page.newElement(Locator.ID, "table").is().table());
         // verify no issues
         finish();
     }
@@ -192,9 +191,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is a table")
     public void isElementTableNotTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementTable(Locator.ID, "that", 0));
+        Assert.assertFalse(page.newElement(Locator.ID, "that", 0).is().table());
         // verify no issues
         finish();
     }
@@ -203,9 +202,9 @@ public class ActionIsIT extends TestBase {
             description = "An integration test to check if an element is a table")
     public void isElementTableNotPrintMatchTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementTable(Locator.ID, "that", 0, true));
+        Assert.assertFalse(page.newElement(Locator.ID, "that", 0).is().table(true));
         // verify no issues
         finish();
     }
@@ -214,9 +213,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is a table")
     public void isElementTableNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementTable(Locator.ID, "non-existent-name", true));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name").is().table(true));
         // verify no issues
         finish();
     }
@@ -225,9 +224,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is enabled")
     public void isElementEnabledTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementEnabled(Locator.ID, "scroll_button"));
+        Assert.assertTrue(page.newElement(Locator.ID, "scroll_button").is().enabled());
         // verify no issues
         finish();
     }
@@ -236,9 +235,9 @@ public class ActionIsIT extends TestBase {
             description = "An integration test to check if an element is enabled")
     public void isElementEnabledPrintTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementEnabled(Locator.ID, "scroll_button", true));
+        Assert.assertTrue(page.newElement(Locator.ID, "scroll_button").is().enabled(true));
         // verify no issues
         finish();
     }
@@ -247,9 +246,9 @@ public class ActionIsIT extends TestBase {
             description = "An integration test to check if an element is enabled")
     public void isElementEnabledMatchTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementEnabled(Locator.ID, "scroll_button", 0));
+        Assert.assertTrue(page.newElement(Locator.ID, "scroll_button", 0).is().enabled());
         // verify no issues
         finish();
     }
@@ -258,9 +257,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is enabled")
     public void isElementEnabledNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementEnabled(Locator.ID, "non-existent-name", 0, true));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name", 0).is().enabled(true));
         // verify no issues
         finish();
     }
@@ -269,10 +268,10 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "An integration test to check if an element is checked")
     public void isElementCheckedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "that");
-        Assert.assertTrue(actions.is().elementChecked(Locator.ID, "that"));
+        page.newElement(Locator.ID, "that").click();
+        Assert.assertTrue(page.newElement(Locator.ID, "that").is().checked());
         // verify no issues
         finish();
     }
@@ -281,9 +280,9 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "An integration test to check if an element is checked")
     public void isElementCheckedNotTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementChecked(Locator.ID, "that", 0));
+        Assert.assertFalse(page.newElement(Locator.ID, "that", 0).is().checked());
         // verify no issues
         finish();
     }
@@ -292,9 +291,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is checked")
     public void isElementCheckedNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementChecked(Locator.ID, "non-existent-name", true));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name").is().checked(true));
         // verify no issues
         finish();
     }
@@ -303,9 +302,9 @@ public class ActionIsIT extends TestBase {
             description = "An integration test to check if an element is checked")
     public void isElementCheckedNotExistMatchPrintTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementChecked(Locator.ID, "non-existent-name", 0, true));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name", 0).is().checked(true));
         // verify no issues
         finish();
     }
@@ -314,9 +313,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is displayed")
     public void isElementDisplayedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementDisplayed(Locator.ID, "that"));
+        Assert.assertTrue(page.newElement(Locator.ID, "that").is().displayed());
         // verify no issues
         finish();
     }
@@ -325,9 +324,9 @@ public class ActionIsIT extends TestBase {
             description = "An integration test to check if an element is displayed")
     public void isElementDisplayedPrintTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementDisplayed(Locator.ID, "that", true));
+        Assert.assertTrue(page.newElement(Locator.ID, "that").is().displayed(true));
         // verify no issues
         finish();
     }
@@ -336,9 +335,9 @@ public class ActionIsIT extends TestBase {
             description = "An integration test to check if an element is displayed")
     public void isElementDisplayedMatchTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().elementDisplayed(Locator.ID, "that", 0));
+        Assert.assertTrue(page.newElement(Locator.ID, "that", 0).is().displayed());
         // verify no issues
         finish();
     }
@@ -347,9 +346,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if an element is displayed")
     public void isElementDisplayedNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().elementDisplayed(Locator.ID, "non-existent-name", 0, true));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name", 0).is().displayed(true));
         // verify no issues
         finish();
     }
@@ -358,9 +357,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if something is selected from a dropdown")
     public void isSomethingSelectedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertTrue(actions.is().somethingSelected(Locator.ID, "car_list"));
+        Assert.assertTrue(page.newElement(Locator.ID, "car_list").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -369,10 +368,10 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "An integration test to check if something is selected from a dropdown")
     public void isSomethingSelectedMultipleTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.select(Locator.ID, "car_list_multiple", 1);
-        Assert.assertTrue(actions.is().somethingSelected(Locator.ID, "car_list_multiple", 0));
+        page.newElement(Locator.ID, "car_list_multiple").select(1);
+        Assert.assertTrue(page.newElement(Locator.ID, "car_list_multiple", 0).is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -381,9 +380,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if something is selected from a dropdown")
     public void isSomethingNotSelectedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().somethingSelected(Locator.ID, "car_list_multiple", true));
+        Assert.assertFalse(page.newElement(Locator.ID, "car_list_multiple").is().somethingSelected(true));
         // verify no issues
         finish();
     }
@@ -392,10 +391,10 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if something is selected from a checkbox")
     public void isSomethingCheckedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "that");
-        Assert.assertTrue(actions.is().somethingSelected(Locator.ID, "that", 0, true));
+        page.newElement(Locator.ID, "that").click();
+        Assert.assertTrue(page.newElement(Locator.ID, "that", 0).is().somethingSelected(true));
         // verify no issues
         finish();
     }
@@ -404,9 +403,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if something is selected from a checkbox")
     public void isSomethingNotCheckedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().somethingSelected(new Element(Locator.ID, "that")));
+        Assert.assertFalse(page.newElement(Locator.ID, "that").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -415,9 +414,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if something is selected from a non-existant element")
     public void isSomethingSelectedNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().somethingSelected(Locator.ID, "non-existent-name"));
+        Assert.assertFalse(page.newElement(Locator.ID, "non-existent-name").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -426,9 +425,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if something is selected from an div")
     public void isSomethingSelectedTextAreaTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().somethingSelected(Locator.ID, "textarea_input"));
+        Assert.assertFalse(page.newElement(Locator.ID, "textarea_input").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -437,9 +436,9 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check if something is selected from an div")
     public void isSomethingSelectedNotSelectOrInputTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().somethingSelected(Locator.ID, "disable_click"));
+        Assert.assertFalse(page.newElement(Locator.ID, "disable_click").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -448,11 +447,11 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "An integration test to check the isAlertPresent method")
     public void isAlertPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "disable_click");
-        actions.click(Locator.ID, "alert_button");
-        Assert.assertTrue(actions.is().alertPresent());
+        page.newElement(Locator.ID, "disable_click").click();
+        page.newElement(Locator.ID, "alert_button").click();
+        Assert.assertTrue(page.is().alertPresent());
         // verify no issues
         finish();
     }
@@ -461,9 +460,9 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "An integration negative test to check the isAlertPresent method")
     public void negativeIsAlertPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().alertPresent(true));
+        Assert.assertFalse(page.is().alertPresent(true));
         // verify no issues
         finish();
     }
@@ -472,10 +471,10 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "An integration test to check the isConfirmationPresent method")
     public void isConfirmationPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "confirm_button");
-        Assert.assertTrue(actions.is().confirmationPresent());
+        page.newElement(Locator.ID, "confirm_button").click();
+        Assert.assertTrue(page.is().confirmationPresent());
         // verify no issues
         finish();
     }
@@ -484,9 +483,9 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "An integration negative test to check the isConfirmationPresent method")
     public void negativeIsConfirmationPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().confirmationPresent(true));
+        Assert.assertFalse(page.is().confirmationPresent(true));
         // verify no issues
         finish();
     }
@@ -495,10 +494,10 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "An integration test to check the isPromptPresent method")
     public void isPromptPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "prompt_button");
-        Assert.assertTrue(actions.is().promptPresent());
+        page.newElement(Locator.ID, "prompt_button").click();
+        Assert.assertTrue(page.is().promptPresent());
         // verify no issues
         finish();
     }
@@ -507,9 +506,9 @@ public class ActionIsIT extends TestBase {
             "is" }, description = "A integration negative test to check the isPromptPresent method")
     public void negativeIsPromptPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        Assert.assertFalse(actions.is().promptPresent(true));
+        Assert.assertFalse(page.is().promptPresent(true));
         // verify no issues
         finish();
     }
@@ -518,10 +517,10 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration test to check the isTextPresentInSource method")
     public void isTextPresentInSourceTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "submit_button");
-        Assert.assertTrue(actions.is().textPresentInSource("You're on the next page"));
+        page.newElement(Locator.ID, "submit_button").click();
+        Assert.assertTrue(page.is().textPresentInSource("You're on the next page"));
         // verify no issues
         finish();
     }
@@ -530,10 +529,10 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the isTextPresentInSource method")
     public void negativeIsTextPresentInSourceTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "submit_button");
-        Assert.assertFalse(actions.is().textPresentInSource("Hello World"));
+        page.newElement(Locator.ID, "submit_button").click();
+        Assert.assertFalse(page.is().textPresentInSource("Hello World"));
         // verify no issues
         finish();
     }
@@ -542,10 +541,10 @@ public class ActionIsIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the isTextPresentInSource method")
     public void negativeIsTextPresentInSourceErrorTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.killDriver();
-        actions.is().textPresentInSource("Hello World");
+        page.killDriver();
+        page.is().textPresentInSource("Hello World");
         // verify no issues
         finish();
     }

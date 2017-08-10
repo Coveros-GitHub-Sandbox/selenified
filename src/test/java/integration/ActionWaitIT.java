@@ -5,12 +5,11 @@ import java.io.IOException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class ActionWaitIT extends TestBase {
+public class ActionWaitIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass() {
@@ -27,10 +26,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration negative test to check the wait method")
     public void waitTest() throws IOException, InterruptedException {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.wait(5.0);
-        actions.click(Locator.ID, "five_second_button");
+        page.wait(5.0);
+        page.newElement(Locator.ID, "five_second_button").click();
         // verify no issues
         finish();
     }
@@ -39,10 +38,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check changing the default wait method")
     public void setDefaultWaitTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().changeDefaultWait(3.0);
-        actions.click(Locator.ID, "five_second_button");
+        page.waitFor().changeDefaultWait(3.0);
+        page.newElement(Locator.ID, "five_second_button").click();
         // verify 1 issue
         finish(1);
     }
@@ -51,10 +50,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration negative test to check the wait method")
     public void negativeWaitTest() throws IOException, InterruptedException {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.wait(6.0);
-        actions.click(Locator.ID, "five_second_button");
+        page.wait(6.0);
+        page.newElement(Locator.ID, "five_second_button").click();
         // verify 1 issue
         finish(1);
     }
@@ -63,10 +62,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration negative test to check the wait method")
     public void negativeWaitErrorTest() throws IOException, InterruptedException {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
         Thread.currentThread().interrupt();
-        actions.wait(6.0);
+        page.wait(6.0);
         // verify 1 issue
         finish(1);
     }
@@ -75,9 +74,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementPresent(Locator.NAME, "car_list");
+        page.newElement(Locator.NAME, "car_list").waitFor().present();
         // verify no issues
         finish();
     }
@@ -86,9 +85,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresent2Test() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementPresent(Locator.NAME, "car_list", 5.0);
+        page.newElement(Locator.NAME, "car_list").waitFor().present(5.0);
         // verify no issues
         finish();
     }
@@ -97,9 +96,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresent3Test() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementPresent(Locator.NAME, "car_list", 0);
+        page.newElement(Locator.NAME, "car_list", 0).waitFor().present();
         // verify no issues
         finish();
     }
@@ -108,9 +107,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the waitForElementPresent method")
     public void negativeWaitForElementPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementPresent(Locator.NAME, "non-existent-name", 0, 5.0);
+        page.newElement(Locator.NAME, "non-existent-name", 0).waitFor().present(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -119,9 +118,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotPresent(Locator.NAME, "non-existent-name");
+        page.newElement(Locator.NAME, "non-existent-name").waitFor().notPresent();
         // verify no issues
         finish();
     }
@@ -130,9 +129,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent2Test() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotPresent(Locator.NAME, "non-existent-name", 5.0);
+        page.newElement(Locator.NAME, "non-existent-name").waitFor().notPresent(5.0);
         // verify no issues
         finish();
     }
@@ -141,9 +140,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent3Test() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotPresent(Locator.NAME, "non-existent-name", 0);
+        page.newElement(Locator.NAME, "non-existent-name", 0).waitFor().notPresent();
         // verify no issues
         finish();
     }
@@ -152,9 +151,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent4Test() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotPresent(new Element(Locator.NAME, "non-existent-name"));
+        page.newElement(Locator.NAME, "non-existent-name").waitFor().notPresent();
         // verify no issues
         finish();
     }
@@ -163,9 +162,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the waitForElementNotPresent method")
     public void negativeWaitForElementNotPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotPresent(Locator.NAME, "car_list", 0, 5.0);
+        page.newElement(Locator.NAME, "car_list", 0).waitFor().notPresent(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -174,9 +173,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementDisplayed(Locator.NAME, "car_list");
+        page.newElement(Locator.NAME, "car_list").waitFor().displayed();
         // verify no issues
         finish();
     }
@@ -185,10 +184,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedDelayedPresenceTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitFor().elementDisplayed(Locator.NAME, "added_div", 0);
+        page.newElement(Locator.NAME, "delayed_display_button").click();
+        page.newElement(Locator.NAME, "added_div", 0).waitFor().displayed();
         // verify no issues
         finish();
     }
@@ -197,10 +196,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedDelayedDisplayTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitFor().elementDisplayed(Locator.NAME, "delayed_hide_button", 5.0);
+        page.newElement(Locator.NAME, "delayed_display_button").click();
+        page.newElement(Locator.NAME, "delayed_hide_button").waitFor().displayed(5.0);
         // verify no issues
         finish();
     }
@@ -209,9 +208,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the waitForElementDisplayed method")
     public void negativeWaitForElementDisplayedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementDisplayed(Locator.NAME, "non-existent-name", 0, 5.0);
+        page.newElement(Locator.NAME, "non-existent-name", 0).waitFor().displayed(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -220,9 +219,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the waitForElementDisplayed method")
     public void negativeWaitForElementDisplayedHiddenTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementDisplayed(Locator.NAME, "hidden_div");
+        page.newElement(Locator.NAME, "hidden_div").waitFor().displayed();
         // verify 1 issue
         finish(1);
     }
@@ -231,9 +230,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotDisplayed(Locator.NAME, "hidden_div");
+        page.newElement(Locator.NAME, "hidden_div").waitFor().notDisplayed();
         // verify no issues
         finish();
     }
@@ -242,9 +241,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedNotPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotDisplayed(Locator.NAME, "non_existent", 5.0);
+        page.newElement(Locator.NAME, "non_existent").waitFor().notDisplayed(5.0);
         // verify no issues
         finish();
     }
@@ -253,12 +252,12 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedDelayedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitFor().elementDisplayed(Locator.NAME, "delayed_hide_button");
-        actions.click(Locator.NAME, "delayed_hide_button");
-        actions.waitFor().elementNotDisplayed(Locator.NAME, "delayed_hide_button", 0);
+        page.newElement(Locator.NAME, "delayed_display_button").click();
+        page.newElement(Locator.NAME, "delayed_hide_button").waitFor().displayed();
+        page.newElement(Locator.NAME, "delayed_hide_button").click();
+        page.newElement(Locator.NAME, "delayed_hide_button", 0).waitFor().notDisplayed();
         // verify no issues
         finish();
     }
@@ -267,12 +266,12 @@ public class ActionWaitIT extends TestBase {
             description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedDeletedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitFor().elementDisplayed(Locator.NAME, "delayed_hide_button");
-        actions.click(Locator.NAME, "delayed_hide_button");
-        actions.waitFor().elementNotDisplayed(Locator.NAME, "added_div", 0);
+        page.newElement(Locator.NAME, "delayed_display_button").click();
+        page.newElement(Locator.NAME, "delayed_hide_button").waitFor().displayed();
+        page.newElement(Locator.NAME, "delayed_hide_button").click();
+        page.newElement(Locator.NAME, "added_div", 0).waitFor().notDisplayed();
         // verify no issues
         finish();
     }
@@ -281,9 +280,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the WaitForElementNotDisplayed method")
     public void negativeWaitForElementNotDisplayedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // use this object to verify the page looks as expected
-        actions.waitFor().elementNotDisplayed(Locator.NAME, "car_list", 0, 5.0);
+        page.newElement(Locator.NAME, "car_list", 0).waitFor().notDisplayed(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -292,9 +291,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementEnabled(Locator.NAME, "car_list");
+        page.newElement(Locator.NAME, "car_list").waitFor().enabled();
         // verify no issues
         finish();
     }
@@ -303,10 +302,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledDelayedPresenceTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitFor().elementEnabled(Locator.NAME, "added_div", 0);
+        page.newElement(Locator.NAME, "delayed_display_button").click();
+        page.newElement(Locator.NAME, "added_div", 0).waitFor().enabled();
         // verify no issues
         finish();
     }
@@ -315,10 +314,10 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledDelayedEnabledTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.NAME, "delayed_enable_button");
-        actions.waitFor().elementEnabled(Locator.NAME, "delayed_input", 5.0);
+        page.newElement(Locator.NAME, "delayed_enable_button").click();
+        page.newElement(Locator.NAME, "delayed_input").waitFor().enabled(5.0);
         // verify no issues
         finish();
     }
@@ -327,9 +326,9 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration negative test to check the WaitForElementEnabled method")
     public void negativeWaitForElementEnabledTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementEnabled(Locator.NAME, "alert_button", 0, 5.0);
+        page.newElement(Locator.NAME, "alert_button", 0).waitFor().enabled(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -338,9 +337,9 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotEnabled(Locator.NAME, "alert_button");
+        page.newElement(Locator.NAME, "alert_button").waitFor().notEnabled();
         // verify no issues
         finish();
     }
@@ -349,9 +348,9 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabled2Test() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotEnabled(new Element(Locator.NAME, "alert_button"));
+        page.newElement(Locator.NAME, "alert_button").waitFor().notEnabled();
         // verify no issues
         finish();
     }
@@ -360,9 +359,9 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledNotExistTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotEnabled(Locator.NAME, "non_existent", 5.0);
+        page.newElement(Locator.NAME, "non_existent").waitFor().notEnabled(5.0);
         // verify no issues
         finish();
     }
@@ -371,12 +370,12 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledDelayedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.NAME, "delayed_enable_button");
-        actions.waitFor().elementEnabled(Locator.NAME, "delayed_input");
-        actions.click(Locator.NAME, "delayed_enable_button");
-        actions.waitFor().elementNotEnabled(Locator.NAME, "delayed_input", 0);
+        page.newElement(Locator.NAME, "delayed_enable_button").click();
+        page.newElement(Locator.NAME, "delayed_input").waitFor().enabled();
+        page.newElement(Locator.NAME, "delayed_enable_button").click();
+        page.newElement(Locator.NAME, "delayed_input", 0).waitFor().notEnabled();
         // verify no issues
         finish();
     }
@@ -385,12 +384,12 @@ public class ActionWaitIT extends TestBase {
             description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledDeletedTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.NAME, "delayed_display_button");
-        actions.waitFor().elementDisplayed(Locator.NAME, "delayed_hide_button");
-        actions.click(Locator.NAME, "delayed_hide_button");
-        actions.waitFor().elementNotEnabled(Locator.NAME, "added_div", 0);
+        page.newElement(Locator.NAME, "delayed_display_button").click();
+        page.newElement(Locator.NAME, "delayed_hide_button").waitFor().displayed();
+        page.newElement(Locator.NAME, "delayed_hide_button").click();
+        page.newElement(Locator.NAME, "added_div", 0).waitFor().notEnabled();
         // verify no issues
         finish();
     }
@@ -399,9 +398,9 @@ public class ActionWaitIT extends TestBase {
             "virtual" }, description = "An integration negative test to check the WaitForElementNotEnabled method")
     public void negativeWaitForNotElementEnabledTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().elementNotEnabled(Locator.NAME, "car_list", 0, 5.0);
+        page.newElement(Locator.NAME, "car_list", 0).waitFor().notEnabled(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -410,10 +409,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the waitForPromptPresent method")
     public void waitForPromptPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "prompt_button");
-        actions.waitFor().promptPresent();
+        page.newElement(Locator.ID, "prompt_button").click();
+        page.waitFor().promptPresent();
         // verify no issues
         finish();
     }
@@ -422,9 +421,9 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "A integration negative test to check the waitForPromptPresent method")
     public void negativeWaitForPromptPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().promptPresent();
+        page.waitFor().promptPresent();
         // verify 1 issue
         finish(1);
     }
@@ -433,10 +432,10 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the waitForConfirmationPresent method")
     public void waitForConfirmationPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "confirm_button");
-        actions.waitFor().confirmationPresent();
+        page.newElement(Locator.ID, "confirm_button").click();
+        page.waitFor().confirmationPresent();
         // verify no issues
         finish();
     }
@@ -445,9 +444,9 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration negative test to check the waitForConfirmationPresent method")
     public void negativeWaitForConfirmationPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().confirmationPresent();
+        page.waitFor().confirmationPresent();
         // verify 1 issue
         finish(1);
     }
@@ -456,11 +455,11 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration test to check the waitForAlertPresent method")
     public void waitForAlertPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.click(Locator.ID, "disable_click");
-        actions.click(Locator.ID, "alert_button");
-        actions.waitFor().alertPresent();
+        page.newElement(Locator.ID, "disable_click").click();
+        page.newElement(Locator.ID, "alert_button").click();
+        page.waitFor().alertPresent();
         // verify no issues
         finish();
     }
@@ -469,9 +468,9 @@ public class ActionWaitIT extends TestBase {
             "wait" }, description = "An integration negative test to check the waitForAlertPresent method")
     public void negativeWaitForAlertPresentTest() {
         // use this object to manipulate the page
-        Action actions = this.actions.get();
+        Page page = this.pages.get();
         // perform some actions
-        actions.waitFor().alertPresent();
+        page.waitFor().alertPresent();
         // verify 1 issue
         finish(1);
     }
