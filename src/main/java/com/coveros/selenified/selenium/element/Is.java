@@ -14,8 +14,8 @@ public class Is {
 
     private static final Logger log = Logger.getLogger(General.class);
 
-	// what element are we trying to interact with on the page
-	private Element element;
+    // what element are we trying to interact with on the page
+    private Element element;
 
     // this will be the name of the file we write all commands out to
     private OutputFile file;
@@ -30,7 +30,7 @@ public class Is {
 
     public Is(Element element, OutputFile file) {
         this.element = element;
-    	this.file = file;
+        this.file = file;
     }
 
     // ////////////////////////////////////

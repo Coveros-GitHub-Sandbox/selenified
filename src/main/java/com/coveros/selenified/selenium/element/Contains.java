@@ -9,15 +9,15 @@ import com.coveros.selenified.output.OutputFile;
 
 public class Contains implements Subset {
 
-	// this will be the name of the file we write all commands out to
+    // this will be the name of the file we write all commands out to
     private OutputFile file;
 
-	// what element are we trying to interact with on the page
-	private Element element;
-	
-	// a class used to determine if elements are selects or tables
-	private Helper helper;
-	
+    // what element are we trying to interact with on the page
+    private Element element;
+
+    // a class used to determine if elements are selects or tables
+    private Helper helper;
+
     // constants
     private static final String EXPECTED = "Expected to find ";
     private static final String CLASS = "class";
@@ -168,8 +168,8 @@ public class Contains implements Subset {
      */
     public int selectOption(String option) {
         // wait for the select
-        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput() + " with the option <b>"
-                + option + "</b> available to be selected on the page")) {
+        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput() + " with the option <b>" + option
+                + "</b> available to be selected on the page")) {
             return 1;
         }
         // check for the object to the editable
@@ -195,8 +195,8 @@ public class Contains implements Subset {
      */
     public int selectValue(String selectValue) {
         // wait for the select
-        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput()
-                + " having a select value of <b>" + selectValue + "</b> available to be selected on the page")) {
+        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput() + " having a select value of <b>" + selectValue
+                + "</b> available to be selected on the page")) {
             return 1;
         }
         // check for the object to the present on the page
@@ -221,8 +221,8 @@ public class Contains implements Subset {
      */
     public int selectOptions(int numOfOptions) {
         // wait for the select
-        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput()
-                + " with number of select values equal to <b>" + numOfOptions + "</b>")) {
+        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput() + " with number of select values equal to <b>"
+                + numOfOptions + "</b>")) {
             return 1;
         }
         // check for the object to the present on the page
@@ -248,8 +248,8 @@ public class Contains implements Subset {
      */
     public int columns(int numOfColumns) {
         // wait for the table
-        if (!helper.isPresentTable(EXPECTED + element.prettyOutput()
-                + " with the number of table columns equal to <b>" + numOfColumns + "</b>")) {
+        if (!helper.isPresentTable(EXPECTED + element.prettyOutput() + " with the number of table columns equal to <b>"
+                + numOfColumns + "</b>")) {
             return 1;
         }
         int actualNumOfCols = element.get().numOfTableColumns();
@@ -273,8 +273,8 @@ public class Contains implements Subset {
      */
     public int rows(int numOfRows) {
         // wait for the table
-        if (!helper.isPresentTable(EXPECTED + element.prettyOutput()
-                + " with the number of table rows equal to <b>" + numOfRows + "</b>")) {
+        if (!helper.isPresentTable(EXPECTED + element.prettyOutput() + " with the number of table rows equal to <b>"
+                + numOfRows + "</b>")) {
             return 1;
         }
         int actualNumOfRows = element.get().numOfTableRows();

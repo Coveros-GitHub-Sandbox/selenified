@@ -50,10 +50,9 @@ import com.google.gson.GsonBuilder;
 
 /**
  * A custom output file, recording all details of every step performed, both
- * actions and app. Actions, expected results, and actual results are
- * captured. All asserts have a screenshot taken for traceability, while all
- * failing actions also have a screenshot taken to assist with debugging
- * purposes
+ * actions and app. Actions, expected results, and actual results are captured.
+ * All asserts have a screenshot taken for traceability, while all failing
+ * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
  * @version 2.0.1
@@ -648,7 +647,7 @@ public class OutputFile {
 
         if (app != null) {
             try {
-            	app.getDriver().get(url);
+                app.getDriver().get(url);
                 if (!app.get().location().contains(url)) {
                     recordAction(act, expected,
                             startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
@@ -913,7 +912,7 @@ public class OutputFile {
         }
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
     }
-    
+
     ///////////////////////////////////////////////////////////////////
     // this enum will be for a pass/fail
     ///////////////////////////////////////////////////////////////////

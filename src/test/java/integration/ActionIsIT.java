@@ -31,9 +31,9 @@ public class ActionIsIT extends Selenified {
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "actions", "is", "virtual" },
-            description = "An integration test to check if an element is present")
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is present")
     public void isElementPresentPrintTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -42,9 +42,9 @@ public class ActionIsIT extends Selenified {
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "actions", "is", "virtual" },
-            description = "An integration test to check if an element is present")
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is present")
     public void isElementPresentMatchTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -197,9 +197,9 @@ public class ActionIsIT extends Selenified {
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "actions", "is", "virtual" },
-            description = "An integration test to check if an element is a table")
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is a table")
     public void isElementTableNotPrintMatchTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -231,8 +231,8 @@ public class ActionIsIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "is", "virtual" },
-            description = "An integration test to check if an element is enabled")
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is enabled")
     public void isElementEnabledPrintTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -241,9 +241,9 @@ public class ActionIsIT extends Selenified {
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "actions", "is", "virtual" },
-            description = "An integration test to check if an element is enabled")
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is enabled")
     public void isElementEnabledMatchTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -298,8 +298,8 @@ public class ActionIsIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "is", "virtual" },
-            description = "An integration test to check if an element is checked")
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is checked")
     public void isElementCheckedNotExistMatchPrintTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -308,7 +308,7 @@ public class ActionIsIT extends Selenified {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is displayed")
     public void isElementDisplayedTest() {
@@ -320,8 +320,8 @@ public class ActionIsIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "is", "virtual" },
-            description = "An integration test to check if an element is displayed")
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is displayed")
     public void isElementDisplayedPrintTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -330,9 +330,9 @@ public class ActionIsIT extends Selenified {
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "actions", "is", "virtual" },
-            description = "An integration test to check if an element is displayed")
+
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is displayed")
     public void isElementDisplayedMatchTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

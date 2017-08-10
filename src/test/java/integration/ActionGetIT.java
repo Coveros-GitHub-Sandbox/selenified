@@ -211,9 +211,9 @@ public class ActionGetIT extends Selenified {
         // verify 1 issue
         finish(1);
     }
-    
-    @Test(groups = { "integration", "actions", "get", "virtual" },
-            description = "An integration test to check the getSelectOptions method")
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getSelectOptions method")
     public void getSelectValuesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -224,8 +224,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "virtual" },
-            description = "An integration test to check the getSelectOptions method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getSelectOptions method")
     public void getSelectValuesNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -348,8 +348,8 @@ public class ActionGetIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "get", "virtual" },
-            description = "An integration test to check the getTableRow method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableRow method")
     public void getTableRowsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -357,13 +357,14 @@ public class ActionGetIT extends Selenified {
         List<WebElement> rows = app.newElement(Locator.ID, "table", 1).get().tableRows();
         Assert.assertEquals(rows.size(), 7);
         Assert.assertTrue(rows.get(0).getText().matches("Company\\s*Contact\\s*Country"));
-        Assert.assertTrue(rows.get(1).getText().matches("President\\s*Alfreds\\s*Futterkiste\\s*Maria\\s*Anders\\s*Germany"));
+        Assert.assertTrue(
+                rows.get(1).getText().matches("President\\s*Alfreds\\s*Futterkiste\\s*Maria\\s*Anders\\s*Germany"));
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "actions", "get", "virtual" },
-            description = "An integration test to check the getTableRow method")
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableRow method")
     public void getTableRowsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -417,8 +418,8 @@ public class ActionGetIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "get", "virtual" },
-            description = "An integration test to check the getTableColumn method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableColumn method")
     public void getTableColumnsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -435,9 +436,9 @@ public class ActionGetIT extends Selenified {
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "actions", "get", "virtual" },
-            description = "An integration test to check the getTableColumn method")
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableColumn method")
     public void getTableColumnsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -502,7 +503,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        WebElement cell = app.newElement(Locator.ID, "non-existent-name").get().tableCell( 1, 1);
+        WebElement cell = app.newElement(Locator.ID, "non-existent-name").get().tableCell(1, 1);
         Assert.assertNull(cell);
         // verify 1 issue
         finish(1);

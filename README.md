@@ -20,7 +20,7 @@ Update your pom.xml file to include
     <dependency>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>2.0.2</version>
+    <version>3.0.0</version>
     <scope>test</scope>
     </dependency>
 ```
@@ -30,7 +30,7 @@ Update your ivy.xml file to include
 ```xml
     <ivy-module>
      <dependencies>
-     <dependency org="com.coveros" name="selenified" rev="2.0.2"/>
+     <dependency org="com.coveros" name="selenified" rev="3.0.0"/>
      </dependencies>
     </ivy-module>
 ```
@@ -39,14 +39,14 @@ Update your ivy.xml file to include
 Update your build.gradle file to include
 ```groovy
     dependencies {
-        testCompile 'com.coveros:selenified:2.0.2'
+        testCompile 'com.coveros:selenified:3.0.0'
     }
 ```
 
 Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
 
 ```java
-    public class SampleTests extends TestBase {
+    public class SampleTests extends Selenified {
 
         @DataProvider(name = "google search terms", parallel = true)
         public Object[][] DataSetOptions() {
@@ -56,8 +56,8 @@ Have a look at this example test class to get an idea of what you'll actually be
 
         @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
         public void sampleTest() {
-            // use this object to verify the page looks as expected
-            Assert asserts = this.asserts.get();
+            // use this object to manipulate the app
+            App app = this.apps.get();
             // perform some actions
             asserts.compareTitle("Google");
             // verify no issues

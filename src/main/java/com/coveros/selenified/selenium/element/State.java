@@ -4,12 +4,12 @@ import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.output.OutputFile.Success;
 
 public class State {
-	
+
     // this will be the name of the file we write all commands out to
     private OutputFile file;
-	
-	// what element are we trying to interact with on the page
-	private Element element;
+
+    // what element are we trying to interact with on the page
+    private Element element;
 
     // constants
     private static final String EXPECTED = "Expected to find ";
@@ -69,7 +69,7 @@ public class State {
      *            - what additional attribute is expected from the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    private int checkEditable( String presence) {
+    private int checkEditable(String presence) {
         // check for the object to the editable
         if (!element.is().input()) {
             file.recordActual(element.prettyOutputStart() + IS + presence + " but not an input on the page",
@@ -94,7 +94,7 @@ public class State {
      *            - what additional attribute is expected from the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    private int checkNotEditable( String presence) {
+    private int checkNotEditable(String presence) {
         // check for the object to the editable
         boolean isElementEnabled = false;
         if (element.is().input()) {
@@ -209,7 +209,7 @@ public class State {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " editable on the page");
-        return checkEditable( "present");
+        return checkEditable("present");
     }
 
     /**
@@ -224,7 +224,7 @@ public class State {
         }
         // outputFile.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " not editable on the page");
-        return checkNotEditable( "present");
+        return checkNotEditable("present");
     }
 
     /**
@@ -239,7 +239,7 @@ public class State {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " visible and editable on the page");
-        return checkEditable( "visable");
+        return checkEditable("visable");
     }
 
     /**
@@ -254,6 +254,6 @@ public class State {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " visible and not editable on the page");
-        return checkNotEditable( "visible");
+        return checkNotEditable("visible");
     }
 }

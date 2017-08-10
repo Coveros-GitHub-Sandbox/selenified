@@ -280,24 +280,24 @@ public class Selenified {
         this.capability.set(myCapability);
 
         OutputFile myFile;
-        if( selenium.useBrowser() ) {
-        	myFile = new OutputFile(outputDir, testName, myBrowser);
-        	App app = null;
-			try {
-				app = new App(myBrowser, myCapability, myFile);
-			} catch (InvalidBrowserException | MalformedURLException e) {
+        if (selenium.useBrowser()) {
+            myFile = new OutputFile(outputDir, testName, myBrowser);
+            App app = null;
+            try {
+                app = new App(myBrowser, myCapability, myFile);
+            } catch (InvalidBrowserException | MalformedURLException e) {
                 log.error(e);
-			}
-        	this.apps.set(app);
-        	this.calls.set(null);
-        	myFile.setPage(app);
+            }
+            this.apps.set(app);
+            this.calls.set(null);
+            myFile.setPage(app);
         } else {
-        	myFile = new OutputFile(outputDir, testName, testSite);
-        	HTTP http = new HTTP(testSite, servicesUser, servicesPass);
-        	Call call = new Call(http, myFile);
-        	this.apps.set(null);
-        	this.calls.set(call);
-        	myBrowser = Browser.NONE;
+            myFile = new OutputFile(outputDir, testName, testSite);
+            HTTP http = new HTTP(testSite, servicesUser, servicesPass);
+            Call call = new Call(http, myFile);
+            this.apps.set(null);
+            this.calls.set(call);
+            myBrowser = Browser.NONE;
         }
         this.browser.set(myBrowser);
         result.setAttribute(BROWSER_INPUT, myBrowser);
@@ -314,7 +314,8 @@ public class Selenified {
         myFile.setStartTime();
         myFile.createOutputHeader();
         if (selenium.loadPage()) {
-            this.errors.set(myFile.loadInitialPage());	//should look at moving this to app object
+            this.errors.set(myFile.loadInitialPage()); // should look at moving
+                                                        // this to app object
         } else {
             this.errors.set(0);
         }

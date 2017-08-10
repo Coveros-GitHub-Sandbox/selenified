@@ -9,15 +9,14 @@ import com.coveros.selenified.output.OutputFile.Success;
 
 public class Excludes implements Subset {
 
-	// this will be the name of the file we write all commands out to
+    // this will be the name of the file we write all commands out to
     private OutputFile file;
 
-	// what element are we trying to interact with on the page
-	private Element element;
-	
-	// a class used to determine if elements are selects or tables
-	private Helper helper;
+    // what element are we trying to interact with on the page
+    private Element element;
 
+    // a class used to determine if elements are selects or tables
+    private Helper helper;
 
     // constants
     private static final String EXPECTED = "Expected to find ";
@@ -169,8 +168,8 @@ public class Excludes implements Subset {
      */
     public int selectOption(String option) {
         // wait for the select
-        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput() + " without the option <b>"
-                + option + "</b> available to be selected on the page")) {
+        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput() + " without the option <b>" + option
+                + "</b> available to be selected on the page")) {
             return 1;
         }
         // check for the object to the editable
@@ -195,8 +194,8 @@ public class Excludes implements Subset {
      */
     public int selectValue(String selectValue) {
         // wait for the select
-        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput()
-                + " without a select value of <b>" + selectValue + "</b> available to be selected on the page")) {
+        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput() + " without a select value of <b>" + selectValue
+                + "</b> available to be selected on the page")) {
             return 1;
         }
         // check for the object to the present on the page

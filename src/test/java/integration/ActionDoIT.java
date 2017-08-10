@@ -938,7 +938,7 @@ public class ActionDoIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "offscreen_div").move( -10);
+        app.newElement(Locator.ID, "offscreen_div").move(-10);
         // verify 1 issue
         finish(1);
     }
@@ -983,7 +983,7 @@ public class ActionDoIT extends Selenified {
             "do" }, description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotFirefoxHubTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
-    	App app = new App(Browser.FIREFOX, new DesiredCapabilities(), null);
+        App app = new App(Browser.FIREFOX, new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "HUB");
         // perform some actions
         app.takeScreenshot("somefile");
@@ -996,7 +996,7 @@ public class ActionDoIT extends Selenified {
             "do" }, description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotHtmlUnitTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
-    	App app = new App(Browser.HTMLUNIT, new DesiredCapabilities(), null);
+        App app = new App(Browser.HTMLUNIT, new DesiredCapabilities(), null);
         // perform some actions
         app.takeScreenshot("somefile");
         app.killDriver();

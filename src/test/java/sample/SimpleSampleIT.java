@@ -29,7 +29,7 @@ public class SimpleSampleIT extends Selenified {
 
     @Test(groups = { "sample", "virtual" }, description = "A sample test to check a title")
     public void sampleTest() {
-    	// use this object to manipulate the app
+        // use this object to manipulate the app
         App app = this.apps.get();
         // perform the verification
         app.titleEquals("Selenified Test Page");
