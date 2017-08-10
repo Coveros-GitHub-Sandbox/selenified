@@ -190,7 +190,7 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.textPresent("You're on the next app");
+        app.textPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -203,9 +203,9 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.textPresent("You're on the next app");
+        app.textPresent("You're on the next page");
         app.switchToParentWindow();
-        app.textNotPresent("You're on the next app");
+        app.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -218,9 +218,9 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.textPresent("You're on the next app");
+        app.textPresent("You're on the next page");
         app.closeCurrentWindow();
-        app.textNotPresent("You're on the next app");
+        app.textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -233,7 +233,7 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.textPresent("You're on the next app");
+        app.textPresent("You're on the next page");
         app.closeCurrentWindow();
         app.closeCurrentWindow();
         // verify 1 issue

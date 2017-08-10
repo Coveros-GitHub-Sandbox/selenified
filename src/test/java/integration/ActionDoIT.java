@@ -303,7 +303,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "submit_button").submit();
-        app.textPresent("You're on the next app");
+        app.textPresent("You're on the next page");
         // verify no issues
         finish();
     }

@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.tools.Selenified;
 
 public class SelenifiedTest extends Selenified {

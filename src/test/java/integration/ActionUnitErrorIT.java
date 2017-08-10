@@ -59,8 +59,9 @@ public class ActionUnitErrorIT extends Selenified {
     	// perform some actions
     	if (app.getBrowser().equals(Browser.HTMLUNIT)) {
     		app.newElement(Locator.CSS, "input#alert_button").assertContains().attribute("display");
+    		finish(1);
     	}
-    	finish(1);
+    	finish();
     }
     
     @Test(groups = { "integration", "actions", "unit",
@@ -71,8 +72,9 @@ public class ActionUnitErrorIT extends Selenified {
     	// perform some actions
     	if (app.getBrowser().equals(Browser.HTMLUNIT)) {
     		app.newElement(Locator.CSS, "input#alert_button").assertExcludes().attribute("display");
+    		finish(1);
     	}
-    	finish(1);
+    	finish();
     }
 
     @Test(groups = { "integration", "actions", "unit",

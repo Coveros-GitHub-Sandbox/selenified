@@ -937,7 +937,7 @@ public class ActionGetIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "submit_button", 0).click();
         String source = app.get().htmlSource();
-        Assert.assertTrue(source.contains("You're on the next app"));
+        Assert.assertTrue(source.contains("You're on the next page"));
         // verify no issues
         finish();
     }
