@@ -34,6 +34,12 @@ public class ElementTest {
         element.setMatch(5);
         Assert.assertEquals(element.getMatch(), 5);
     }
+    
+    @Test
+    public void checkElementWebDriverTest() {
+    	Element element = new Element(Locator.ID, "myId");
+    	Assert.assertNull(element.getDriver());
+    }
 
     @Test
     public void checkFullElementTypeTest() {
@@ -61,6 +67,12 @@ public class ElementTest {
         element.setMatch(5);
         Assert.assertEquals(element.getMatch(), 5);
     }
+    
+    @Test
+    public void checkFullElementWebDriverTest() {
+    	Element element = new Element(Locator.ID, "myId", 2);
+    	Assert.assertNull(element.getDriver());
+    }
 
     @Test
     public void checkPrettyOutputTest() {
@@ -84,5 +96,5 @@ public class ElementTest {
     public void checkPrettyOutputLowercaseTest() {
         Element element = new Element(Locator.ID, "myId");
         Assert.assertEquals(element.prettyOutputLowercase(), "element with <i>ID</i> of <i>myId</i>");
-    }
+    }    
 }

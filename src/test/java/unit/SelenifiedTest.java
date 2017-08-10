@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.selenium.Selenium.Browser;
+import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.tools.Selenified;
 
 public class SelenifiedTest extends Selenified {
@@ -150,5 +151,19 @@ public class SelenifiedTest extends Selenified {
     public void authorTest() {
         setAuthor("Max");
         Assert.assertEquals(getAuthor(), "Max");
+    }
+    
+    @Test
+    public void checkPassedInUser() {
+    	System.setProperty("SERVICES_USER", "hello");
+    	initializeSystem();
+    	Assert.assertEquals(getServicesUser(), "");
+    }
+    
+    @Test
+    public void checkPassedInPass() {
+    	System.setProperty("SERVICES_PASS", "world");
+    	initializeSystem();
+    	Assert.assertEquals(getServicesPass(), "");
     }
 }

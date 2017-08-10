@@ -50,6 +50,30 @@ public class ActionUnitErrorIT extends Selenified {
         }
         finish();
     }
+    
+    @Test(groups = { "integration", "actions", "unit",
+    "virtual" }, description = "An integration negative test to check the get all attributes method")
+    public void assessAttributesContainErrorTest() {
+    	// use this object to manipulate the app
+    	App app = this.apps.get();
+    	// perform some actions
+    	if (app.getBrowser().equals(Browser.HTMLUNIT)) {
+    		app.newElement(Locator.CSS, "input#alert_button").assertContains().attribute("display");
+    	}
+    	finish(1);
+    }
+    
+    @Test(groups = { "integration", "actions", "unit",
+    "virtual" }, description = "An integration negative test to check the get all attributes method")
+    public void assessAttributesExcludeErrorTest() {
+    	// use this object to manipulate the app
+    	App app = this.apps.get();
+    	// perform some actions
+    	if (app.getBrowser().equals(Browser.HTMLUNIT)) {
+    		app.newElement(Locator.CSS, "input#alert_button").assertExcludes().attribute("display");
+    	}
+    	finish(1);
+    }
 
     @Test(groups = { "integration", "actions", "unit",
             "virtual" }, description = "An integration negative test to check the get eval method")

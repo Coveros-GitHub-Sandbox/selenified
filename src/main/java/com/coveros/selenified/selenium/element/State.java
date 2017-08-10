@@ -22,10 +22,6 @@ public class State {
         this.file = file;
     }
 
-    public void setOutputFile(OutputFile file) {
-        this.file = file;
-    }
-
     // ///////////////////////////////////////
     // assessing functionality
     // ///////////////////////////////////////

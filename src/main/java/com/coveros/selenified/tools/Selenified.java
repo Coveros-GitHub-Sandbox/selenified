@@ -189,11 +189,6 @@ public class Selenified {
         }
     }
 
-    @DataProvider(name = "no options", parallel = true)
-    public Object[][] noOptions() {
-        return new Object[][] { new Object[] { "" }, };
-    }
-
     /**
      * Runs once before any of the tests run, to parse and setup the static
      * passed information such as browsers, proxy, hub, etc
