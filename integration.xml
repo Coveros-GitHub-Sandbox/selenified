@@ -8,6 +8,9 @@
   <test name="Integration Tests" >
     <packages>
       <package name="integration" />
-   </packages>
- </test>
+    </packages>
+    <packages>
+      <package name="sample" />
+    </packages>
+  </test>
 </suite>
