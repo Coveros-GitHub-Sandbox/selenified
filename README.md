@@ -58,8 +58,8 @@ Have a look at this example test class to get an idea of what you'll actually be
         public void sampleTest() {
             // use this object to manipulate the app
             App app = this.apps.get();
-            // perform some actions
-            asserts.compareTitle("Google");
+            // verify the correct page title
+            app.titleEquals("Google");
             // verify no issues
             finish();
         }
@@ -67,15 +67,14 @@ Have a look at this example test class to get an idea of what you'll actually be
         @Test(dataProvider = "google search terms", groups = { "sample" },
                 description = "A sample selenium test using a data provider to perform searches")
         public void sampleTestWDataProvider(String searchTerm) {
-            // use this object to manipulate the page
-            Action actions = this.actions.get();
-            // use this object to verify the page looks as expected
-            Assert asserts = this.asserts.get();
-            // perform some actions
-            actions.type(Locator.NAME, "q", searchTerm);
-            actions.click(Locator.NAME, "btnG");
-            actions.waitForElementDisplayed(Locator.ID, "resultStats");
-            asserts.compareTitle(searchTerm + " - Google Search");
+            // use this object to manipulate the app
+            App app = this.apps.get();
+            // perform a simple search
+            app.newElement(Locator.NAME, "q").type(searchTerm);
+            app.newElement(Locator.NAME, "btnG").click();
+            app.newElement(Locator.ID, "resultStats").waitFor().present();
+            // verify the correct page title 
+            app.titleEquals(searchTerm + " - Google Search");
             // verify no issues
             finish();
         }
@@ -85,23 +84,23 @@ Have a look at this example test class to get an idea of what you'll actually be
 	    	// the parameters to pass to google
     		Map<String, String> params = new HashMap<>();
 	        params.put("q", "cheese");
-    	    // use this object to verify the page looks as expected
-	        Assert asserts = this.asserts.get();
-    	    // perform some actions
-        	asserts.compareGetResponseCode("", params, 200);
+    	    // use this object to make web service calls
+	        Call call = this.calls.get();
+    	    // make a get call, and confirm we get a 200 response code
+        	call.get().("", new Request(params)).assertEquals(200);
 	        // verify no issues
     	    finish();
     	}
     }
 ```
 
-In the first test, sampleTest, the Assert class is used to check the title of the page. 
-In the next test, sampleTestWDataProvider, the Action and Assert classes are used to type 
-a search term, submit the search term and the wait for the page to load in order to verify the 
-title contains the same search term. The 'google search terms' dataProvider provides a search 
-term to the test. In the third test, a call is made to the main google page, with the 
-parameters of q equaling 'cheese'. For more information on the Assert and Action class plus 
-all the other classes used by Selenified, check out the 
+In the first test, sampleTest, the App class is used to check the title of the page. 
+In the next test, sampleTestWDataProvider, the App class is used to generate elements we want
+to interact with; type a search term, submit the search term and the wait for the page to load. 
+We then use that same element in order to verify the title contains the same search term. The 
+'google search terms' dataProvider provides a search term to the test. In the third test, a call 
+is made to the main google page, with the parameters of q equaling 'cheese'. For more information 
+on the App and Call class plus all the other classes used by Selenified, check out the 
 documentation [here](https://msaperst.github.io).
 
 ## Writing Tests
@@ -111,7 +110,7 @@ or nested set of folders within the src directory. Within each folder, then crea
 more Java classes. Name the class something descriptive following the test suites purposes.
 
 ### Structuring the Test Suite
-Have each class extend the TestBase class which is contained within the 
+Have each class extend the Selenified class which is contained within the 
 selenified.jar. Each suite can optionally contain a method setting up some details to 
 be used in each test. The URL the selenium tests should connect to (which can be overridden), 
 the author of the tests, and the version of tests or software under test. 
@@ -189,6 +188,15 @@ data is available in the custom test reporting.
  * a dependency (optional) - based on either another group or test, or multiples
  * a data provider (optional) - if this test takes multiple inputs, allowing the test to run multiple times
 
+If a class has multiple tests that are similar, but simply require one or two different inputs, a dataProvider 
+should be used. Instead of writing multiple tests, one test can be written instead. This will reduce the amount 
+of code being written, and make updates quicker and cleaner. A full example test can be seen in the included 
+SampleIT.java class in the framework.
+
+If you are defining your dataProvider parameters, be sure to include the variables defined in your declaring method.
+
+#### Simple Test Cases
+_TBD_
 The method body should start with one or two lines, based on the test steps you plan to perform. Tests should always 
 start in a known state, be sure you use your @BeforeMethod annotation to set this up if needed. Next, tests should
 perform some action (this may or may not be necessary, depending on the test). To perform any selenium actions, first
@@ -224,15 +232,8 @@ and handled, to allow the test to run to completion if possible. This last line 
     finish();
 ```
 
-If a class has multiple tests that are similar, but simply require one or two different inputs, a dataProvider 
-should be used. Instead of writing multiple tests, one test can be written instead. This will reduce the amount 
-of code being written, and make updates quicker and cleaner. A full example test can be seen in the included 
-SampleIT.java class in the framework.
-
-If you are defining your dataProvider parameters, be sure to include the variables defined in your declaring method.
-
-
-#### POM
+#### Using Page Object Model
+_TBD_
 Selenified supports allowing tests to be written following the Page Object Model (POM). In addition to ensuring your 
 test workflows are appropriately structured, in order to ensure the POM is followed, when creating classes for each
 of your pages, use the provided `Element` object. After creating an `Element` object for each element you want to 
@@ -274,44 +275,55 @@ The easiest way to identify locators for elements you want to test is to use a w
 ##### Examples
 Xpath:
 ```java
-Element carList = new Element( Locators.XPATH, "//*[@id='align_table']/tbody/tr[1]/td[1]/select[1]");
+Element carList = page.newElement( Locators.XPATH, "//*[@id='align_table']/tbody/tr[1]/td[1]/select[1]");
 ```
 Id:
 ```java
-Element carList = new Element( Locators.ID, "car_list");
+Element carList = page.newElement( Locators.ID, "car_list");
 ```
 Name:
 ```java
-Element carList = new Element( Locators.NAME, "car_list");
+Element carList = page.newElement( Locators.NAME, "car_list");
 ```
 Classname:
 ```java
-Element carList = new Element( Locators.CLASSNAME, "dropdown-default");
+Element carList = page.newElement( Locators.CLASSNAME, "dropdown-default");
 ```
 CSS:
 ```java
-Element carList = new Element( Locators.CSS, "#car_list");
+Element carList = page.newElement( Locators.CSS, "#car_list");
 ```
 Partial link text:
 ```java
-Element nextImageLink = new Element( Locators.PARTIALLINKTEXT, "next");
+Element nextImageLink = page.newElement( Locators.PARTIALLINKTEXT, "next");
 ```
 Link text:
 ```java
-Element nextImageLink = new Element( Locators.LINKTEXT, "next image");
+Element nextImageLink = page.newElement( Locators.LINKTEXT, "next image");
 ```
 Tag name:
 ```java
-Element carList = new Element( Locators.TAGNAME, "select");
+Element carList = page.newElement( Locators.TAGNAME, "select");
 ```
-Duplicate locators:
-First, create the element with the non-unique locator
+##### Duplicate locators
+If you have a non-unique locator, something that would match multiple elements, you can tell Selenified
+which element to match. By default, the first matching element is used if not provided. 
 ```java
-Element carList = new Element( Locators.TAGNAME, "select");
+Element carList = page.newElement(Locators.TAGNAME, "select");
 ```
-Then perform the action, while also providing an index to specify the element out of the matching elements:
+In this example, the first `select` element on the page is chosen to interact with.
 ```java
-actions.click(carList, 3);
+Element carList = page.newElement(Locators.TAGNAME, "select", 4);
+```
+In this example, the fourth `select` element on the page is chosen to interact with. Note that element 
+identification starts at 0. You can also dynamically change the element match during your test, which 
+is useful when looping through tasks.
+```java
+Element element = app.newElement(Locators.TAGNAME, "select");
+for (int match = 0; match < element.get().matchCount(); match++) {
+    element.setMatch(match);
+    element.select(2);
+}
 ```
 
 ### Update testng build file
