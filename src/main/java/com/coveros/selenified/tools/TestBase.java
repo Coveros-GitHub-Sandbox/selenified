@@ -28,10 +28,11 @@ import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert;
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
+import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.HTTP;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -82,8 +83,8 @@ public class TestBase {
     // for individual tests
     protected ThreadLocal<Browser> browser = new ThreadLocal<>();
     protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
-    protected ThreadLocal<Assert> asserts = new ThreadLocal<>();
-    protected ThreadLocal<Action> actions = new ThreadLocal<>();
+    protected ThreadLocal<Page> pages = new ThreadLocal<>();
+    protected ThreadLocal<Call> calls = new ThreadLocal<>();
     protected ThreadLocal<Integer> errors = new ThreadLocal<>();
 
     // constants
@@ -273,21 +274,31 @@ public class TestBase {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Browser myBrowser = browsers.get(invocationCount);
-        Assert myOutput;
-        if (selenium.useBrowser()) {
-            myOutput = new Assert(outputDir, testName, myBrowser);
-        } else {
-            myBrowser = Browser.NONE;
-            myOutput = new Assert(outputDir, testName, testSite);
-        }
-        this.browser.set(myBrowser);
-        result.setAttribute(BROWSER_INPUT, myBrowser);
-
         DesiredCapabilities myCapability = capabilities.get(invocationCount);
         myCapability.setCapability("name", testName);
         this.capability.set(myCapability);
 
-        OutputFile myFile = myOutput.getOutputFile();
+        OutputFile myFile;
+        if( selenium.useBrowser() ) {
+        	myFile = new OutputFile(outputDir, testName, myBrowser);
+        	Page page = null;
+			try {
+				page = new Page(myBrowser, myCapability, myFile);
+			} catch (InvalidBrowserException | MalformedURLException e) {
+                log.error(e);
+			}
+        	this.pages.set(page);
+        	myFile.setPage(page);
+        } else {
+        	myFile = new OutputFile(outputDir, testName, testSite);
+        	HTTP http = new HTTP(testSite, servicesUser, servicesPass);
+        	Call call = new Call(http, myFile);
+        	this.calls.set(call);
+        	myBrowser = Browser.NONE;
+        }
+        this.browser.set(myBrowser);
+        result.setAttribute(BROWSER_INPUT, myBrowser);
+
         myFile.setURL(testSite);
         myFile.setSuite(test.getName());
         myFile.setGroup(group);
@@ -298,25 +309,12 @@ public class TestBase {
         myFile.setAuthor(author);
         myFile.setObjectives(description);
         myFile.setStartTime();
-        Action action = new Action(testSite, servicesUser, servicesPass, myFile);
-        if (selenium.useBrowser()) {
-            try {
-                action = new Action(myBrowser, myCapability, myFile);
-            } catch (InvalidBrowserException | MalformedURLException e) {
-                log.error(e);
-            }
-        }
-        this.actions.set(action);
-        myFile.setAction(action);
-        myOutput.setAction(action);
         myFile.createOutputHeader();
         if (selenium.loadPage()) {
-            this.errors.set(myFile.loadInitialPage());
+            this.errors.set(myFile.loadInitialPage());	//should look at moving this to page object
         } else {
             this.errors.set(0);
         }
-        myOutput.setOutputFile(myFile);
-        this.asserts.set(myOutput);
     }
 
     /**
@@ -339,8 +337,8 @@ public class TestBase {
     @AfterMethod(alwaysRun = true)
     public void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         String testName = General.getTestName(method, dataProvider);
-        if (this.actions.get() != null) {
-            this.actions.get().killDriver();
+        if (this.pages.get() != null) {
+            this.pages.get().killDriver();
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
@@ -353,7 +351,7 @@ public class TestBase {
      * 
      */
     public void finish() {
-        OutputFile myFile = this.asserts.get().getOutputFile();
+        OutputFile myFile = this.pages.get().getOutputFile();
         myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
@@ -368,7 +366,7 @@ public class TestBase {
      *            - number of expected errors from the test
      */
     protected void finish(int errors) {
-        OutputFile myFile = this.asserts.get().getOutputFile();
+        OutputFile myFile = this.pages.get().getOutputFile();
         myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);

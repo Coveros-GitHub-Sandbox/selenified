@@ -16,8 +16,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.selenium.Assert.Result;
-import com.coveros.selenified.selenium.Assert.Success;
+import com.coveros.selenified.output.OutputFile.Result;
+import com.coveros.selenified.output.OutputFile.Success;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;

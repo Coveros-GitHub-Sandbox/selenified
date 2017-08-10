@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 
 import com.coveros.selenified.selenium.Action;
 import com.coveros.selenified.selenium.Assert;
-import com.coveros.selenified.selenium.Element;
 import com.coveros.selenified.selenium.Selenium.Locator;
+import com.coveros.selenified.selenium.element.Element;
 import com.coveros.selenified.tools.TestBase;
 
 public class ConflictAIT extends TestBase {

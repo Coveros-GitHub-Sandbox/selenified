@@ -40,9 +40,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert.Result;
-import com.coveros.selenified.selenium.Assert.Success;
+import com.coveros.selenified.selenium.Page;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
@@ -65,7 +63,7 @@ public class OutputFile {
 
     private static final Logger log = Logger.getLogger(General.class);
 
-    private Action action = null;
+    private Page page = null;
 
     private String url;
     private String suite;
@@ -174,13 +172,13 @@ public class OutputFile {
     }
 
     /**
-     * adds the action class which controls actions within the browser
+     * adds the page class which controls actions within the browser
      * 
      * @param action
      *            - the action class associated with this output
      */
-    public void setAction(Action action) {
-        this.action = action;
+    public void setPage(Page page) {
+        this.page = page;
     }
 
     /**
@@ -333,7 +331,7 @@ public class OutputFile {
         String imageName = generateImageName();
         String imageLink = generateImageLink(imageName);
         try {
-            action.page().takeScreenshot(imageName);
+            page.takeScreenshot(imageName);
             screenshots.add(imageName);
         } catch (Exception e1) {
             log.error(e1);
@@ -576,7 +574,7 @@ public class OutputFile {
             out.write(swapRow);
             out.write("    <th>Date Tested</th>\n");
             out.write(START_CELL + datePart + END_CELL);
-            if (this.action != null && this.action.getBrowser() != null && this.action.getBrowser() != Browser.NONE) {
+            if (this.page != null && this.page.getBrowser() != null && this.page.getBrowser() != Browser.NONE) {
                 out.write("    <th>Browser</th>\n");
                 out.write(START_CELL + browser + END_CELL);
             } else {
@@ -648,12 +646,12 @@ public class OutputFile {
         String act = "Opening new browser and loading up starting page";
         String expected = startingPage + url + "</i> will successfully load";
 
-        if (action != null) {
+        if (page != null) {
             try {
-                action.getDriver().get(url);
-                if (!action.get().location().contains(url)) {
+            	page.getDriver().get(url);
+                if (!page.get().location().contains(url)) {
                     recordAction(act, expected,
-                            startingPage + action.get().location() + "</i> loaded instead of <i>" + url + "</i>",
+                            startingPage + page.get().location() + "</i> loaded instead of <i>" + url + "</i>",
                             Result.FAILURE);
                     addError();
                     return 1;
@@ -915,4 +913,48 @@ public class OutputFile {
         }
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
     }
+    
+    ///////////////////////////////////////////////////////////////////
+    // this enum will be for a pass/fail
+    ///////////////////////////////////////////////////////////////////
+
+    /**
+     * An enumeration used to determine if the tests pass or fail
+     * 
+     * @author Max Saperstone
+     *
+     */
+    public enum Success {
+        PASS, FAIL;
+
+        protected int errors;
+
+        /**
+         * Are errors associated with the enumeration
+         */
+        static {
+            PASS.errors = 0;
+            FAIL.errors = 1;
+        }
+
+        /**
+         * Retrieve the errors associated with the enumeration
+         * 
+         * @return Integer: the errors associated with the enumeration
+         */
+        public int getErrors() {
+            return this.errors;
+        }
+    }
+
+    /**
+     * An enumeration used to give status for each test step
+     * 
+     * @author Max Saperstone
+     *
+     */
+    public enum Result {
+        WARNING, SUCCESS, FAILURE, SKIPPED
+    }
+
 }

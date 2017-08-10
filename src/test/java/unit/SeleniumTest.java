@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.Assert.Success;
+import com.coveros.selenified.output.OutputFile.Success;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
 

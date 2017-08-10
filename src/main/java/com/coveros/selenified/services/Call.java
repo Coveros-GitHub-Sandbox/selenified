@@ -3,7 +3,7 @@ package com.coveros.selenified.services;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.selenium.Assert.Result;
+import com.coveros.selenified.output.OutputFile.Result;
 import com.coveros.selenified.tools.General;
 
 public class Call {
