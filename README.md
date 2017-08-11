@@ -364,35 +364,35 @@ often traverse the DOM specifically, they can be very brittle and possibly break
 webpage layout.  
 
 ##### Examples
-Xpath:
+###### Xpath
 ```java
 Element carList = page.newElement( Locators.XPATH, "//*[@id='align_table']/tbody/tr[1]/td[1]/select[1]");
 ```
-Id:
+###### Id
 ```java
 Element carList = page.newElement( Locators.ID, "car_list");
 ```
-Name:
+###### Name
 ```java
 Element carList = page.newElement( Locators.NAME, "car_list");
 ```
-Classname:
+###### Classname
 ```java
 Element carList = page.newElement( Locators.CLASSNAME, "dropdown-default");
 ```
-CSS:
+###### CSS
 ```java
 Element carList = page.newElement( Locators.CSS, "#car_list");
 ```
-Partial link text:
+###### Partial link text
 ```java
 Element nextImageLink = page.newElement( Locators.PARTIALLINKTEXT, "next");
 ```
-Link text:
+###### Link text
 ```java
 Element nextImageLink = page.newElement( Locators.LINKTEXT, "next image");
 ```
-Tag name:
+###### Tag name
 ```java
 Element carList = page.newElement( Locators.TAGNAME, "select");
 ```
