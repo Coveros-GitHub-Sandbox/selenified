@@ -139,7 +139,7 @@ public class App {
      *            - the locator type e.g. Locator.id, Locator.xpath
      * @param locator
      *            - the locator string e.g. login, //input[@id='login']
-     * @param elementMatch
+     * @param match
      *            - if there are multiple matches of the selector, this is which
      *            match (starting at 0) to interact with
      * @return Element: a page element to interact with
@@ -1211,7 +1211,7 @@ public class App {
     /**
      * checks to see if a confirmation is correct on the page
      *
-     * @param expectedConfirmation
+     * @param expectedConfirmationText
      *            the expected text of the confirmation
      * @return Integer: 1 if a failure and 0 if a pass
      */

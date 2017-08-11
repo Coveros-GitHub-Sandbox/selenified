@@ -36,9 +36,6 @@ public class Call {
      * 
      * @param endpoint
      *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint) {

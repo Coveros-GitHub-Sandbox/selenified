@@ -259,7 +259,6 @@ public class Element {
      * webdriver
      *
      * @return WebElement: the element object, and all associated values with it
-     * @throws InvalidLocatorTypeException
      */
     protected WebElement getWebElement() {
         List<WebElement> elements = getWebElements();
@@ -277,9 +276,8 @@ public class Element {
     /**
      * a method to grab all matching web elements using selenium webdriver
      *
-     * @return List<WebElement>: a list of element objects, and all associated
-     *         values with them
-     * @throws InvalidLocatorTypeException
+     * @return List: a list of WebElement objects, and all associated values
+     *         with them
      */
     protected List<WebElement> getWebElements() {
         try {

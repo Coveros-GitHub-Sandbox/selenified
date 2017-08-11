@@ -40,8 +40,6 @@ public class Get {
     /**
      * a method to determine how many elements match the selector
      * 
-     * @param element
-     *            - the element to be checked
      * @return Integer: how many element match the selector
      */
     public int matchCount() {

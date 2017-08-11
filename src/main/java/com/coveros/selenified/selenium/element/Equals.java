@@ -77,8 +77,6 @@ public class Equals {
      * compares the expected element attribute value with the actual attribute
      * value from an element
      *
-     * @param element
-     *            - the element to be assessed
      * @param attribute
      *            - the attribute to be checked
      * @param expectedValue
@@ -111,8 +109,6 @@ public class Equals {
     /**
      * checks to see if an element has a particular class
      *
-     * @param element
-     *            - the element to be assessed
      * @param expectedClass
      *            - the full expected class value
      * @return Integer: 1 if a failure and 0 if a pass
@@ -139,8 +135,6 @@ public class Equals {
     /**
      * compares the expected element value with the actual value from an element
      *
-     * @param element
-     *            - the element to be assessed
      * @param expectedText
      *            the expected value of the element
      * @return Integer: 1 if a failure and 0 if a pass
@@ -167,8 +161,6 @@ public class Equals {
      * compares the text of expected table cell with the actual table cell text
      * of a table with from a table element
      *
-     * @param element
-     *            - the table element to be assessed
      * @param row
      *            - the number of the row in the table - note, row numbering
      *            starts at 1, NOT 0
@@ -204,8 +196,6 @@ public class Equals {
      * compares the expected element input value with the actual value from an
      * element
      *
-     * @param element
-     *            - the element to be assessed
      * @param expectedValue
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
@@ -238,8 +228,6 @@ public class Equals {
      * compares the expected element select test with the actual value from an
      * element
      *
-     * @param element
-     *            - the element to be assessed
      * @param expectedText
      *            the expected input text of the element
      * @return Integer: 1 if a failure and 0 if a pass
@@ -265,8 +253,6 @@ public class Equals {
      * compares the expected element select value with the actual value from an
      * element
      *
-     * @param element
-     *            - the element to be assessed
      * @param expectedValue
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
@@ -292,8 +278,6 @@ public class Equals {
      * compares the expected attributes from a select value with the actual
      * attributes from the element
      *
-     * @param element
-     *            - the element to be assessed
      * @param expectedOptions
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
@@ -321,8 +305,6 @@ public class Equals {
      * compares the expected attributes from a select value with the actual
      * attributes from the element
      *
-     * @param element
-     *            - the element to be assessed
      * @param expectedValues
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass

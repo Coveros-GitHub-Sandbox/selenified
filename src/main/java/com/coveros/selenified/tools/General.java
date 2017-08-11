@@ -344,10 +344,12 @@ public class General {
      * this method determines the unique test name, based on the parameters
      * passed in
      * 
-     * @param methodName
-     *            - the name of the test method as a string
+     *      @param packageName
+     *            - the package name of the test method as a string
      * @param className
      *            - the class name of the test method as a string
+     * @param methodName
+     *            - the method name of the test as a string
      * @param dataProvider
      *            - an array of objects being passed to the test as data
      *            providers

@@ -283,7 +283,7 @@ public class Selenified {
             }
             this.apps.set(app);
             this.calls.set(null);
-            myFile.setPage(app);
+            myFile.setApp(app);
         } else {
             myFile = new OutputFile(outputDir, testName, getTestSite(test));
             HTTP http = new HTTP(getTestSite(test), servicesUser, servicesPass);

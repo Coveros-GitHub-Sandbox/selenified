@@ -104,6 +104,8 @@ public class OutputFile {
      *            - a string of the directory holding the files
      * @param testName
      *            - a string value of the test name, typically the method name
+     * @param setServiceURL
+     *            - the service URL to execute all services tests on
      */
     public OutputFile(String testDirectory, String testName, String setServiceURL) {
         test = testName;
@@ -173,10 +175,10 @@ public class OutputFile {
     /**
      * adds the app class which controls actions within the browser
      * 
-     * @param action
-     *            - the action class associated with this output
+     * @param app
+     *            - the application to be tested, contains all control elements
      */
-    public void setPage(App app) {
+    public void setApp(App app) {
         this.app = app;
     }
 
@@ -902,8 +904,9 @@ public class OutputFile {
      * This takes a generic string and replaces spaces and new lines with HTML
      * friendly pieces for display purposes
      * 
-     * @param html
-     *            : the html string
+     * @param string
+     *            : the regular string to be formatted into an HTML pretty
+     *            rendering string
      * @return String : the replaced result
      */
     public String formatHTML(String string) {
