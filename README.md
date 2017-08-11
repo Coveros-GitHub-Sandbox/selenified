@@ -111,19 +111,21 @@ more Java classes. Name the class something descriptive following the test suite
 
 ### Structuring the Test Suite
 Have each class extend the Selenified class which is contained within the 
-selenified.jar. Each suite can optionally contain a method setting up some details to 
-be used in each test. The URL the selenium tests should connect to (which can be overridden), 
+selenified.jar. Each should contain a method setting up some details to 
+be used in each test, Only the testSite is required, if the URL is passed in from
+the commandline, even this can be excluded. Additional optional paramters are 
 the author of the tests, and the version of tests or software under test. 
 See below for an example:
 ```java
-    @BeforeClass (alwaysRun = true)
-    public void beforeClass() {
-        //set the base URL for the tests here
-        testSite = "http://www.google.com/";
-        //set the author of the tests here
-        author = "Max Saperstone\n<br />max.saperstone@coveros.com";
-        //set the version of the tests or of the software, possibly with a dynamic check
-        version = "0.0.0";
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass(ITestContext test) {
+        // set the base URL for the tests here
+        setTestSite(test, "http://172.31.2.65/");
+        // set the author of the tests here
+        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        // set the version of the tests or of the software, possibly with a
+        // dynamic check
+        setVersion("0.0.1");
     }
 ```
 

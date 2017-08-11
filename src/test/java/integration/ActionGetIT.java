@@ -14,6 +14,7 @@ import java.util.TimeZone;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -24,9 +25,9 @@ import com.coveros.selenified.tools.Selenified;
 public class ActionGetIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite("http://172.31.2.65/");
+        setTestSite(test, "http://172.31.2.65/");
         // set the author of the tests here
         setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -138,12 +139,12 @@ public class ActionGetIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration test to check the getCookieDomain method")
-    public void getCookieDomainTest() {
+    public void getCookieDomainTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         String cookie = app.get().cookieDomain("cookie");
-        Assert.assertEquals(cookie, getTestSite().split("/")[2].split(":")[0]);
+        Assert.assertEquals(cookie, getTestSite(context).split("/")[2].split(":")[0]);
         // verify no issues
         finish();
     }

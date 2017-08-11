@@ -16,9 +16,9 @@ import com.google.gson.JsonObject;
 public class ServicesErrorIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite("https://bad.url.com/");
+        setTestSite(test, "https://bad.url.com/");
         // set the author of the tests here
         setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a

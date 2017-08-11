@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import org.openqa.selenium.Cookie;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -17,9 +18,9 @@ import com.coveros.selenified.tools.Selenified;
 public class ActionGoIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite("http://172.31.2.65/");
+        setTestSite(test, "http://172.31.2.65/");
         // set the author of the tests here
         setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -151,11 +152,11 @@ public class ActionGoIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the setCookie method")
-    public void setCookieTest() throws IOException, ParseException {
+    public void setCookieTest(ITestContext context) throws IOException, ParseException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite().split("/")[2].split(":")[0], "/",
+        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite(context).split("/")[2].split(":")[0], "/",
                 df.parse(dateval));
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -167,11 +168,11 @@ public class ActionGoIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "go",
             "virtual" }, description = "An integration test to check the setCookie method")
-    public void setCookieErrorTest() throws IOException, ParseException {
+    public void setCookieErrorTest(ITestContext context) throws IOException, ParseException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite().split("/")[2].split(":")[0], "/",
+        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite(context).split("/")[2].split(":")[0], "/",
                 df.parse(dateval));
         // use this object to manipulate the app
         App app = this.apps.get();

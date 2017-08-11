@@ -85,16 +85,16 @@ public class SelenifiedTest extends Selenified {
     }
 
     @Test
-    public void initializeSystemTest() {
+    public void initializeSystemTest(ITestContext context) {
         Selenified.initializeSystem();
         Assert.assertEquals(System.getProperty("browser"), "HTMLUNIT");
-        Assert.assertEquals(getTestSite(), "https://www.google.com/");
+        Assert.assertNull(getTestSite(context));
 
         System.setProperty("browser", "Chrome");
         System.setProperty("appURL", "http://www.yahoo.com");
         Selenified.initializeSystem();
         Assert.assertEquals(System.getProperty("browser"), "Chrome");
-        Assert.assertEquals(getTestSite(), "http://www.yahoo.com");
+        Assert.assertEquals(getTestSite(context), "http://www.yahoo.com");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
@@ -132,12 +132,12 @@ public class SelenifiedTest extends Selenified {
     }
 
     @Test
-    public void siteTest() {
-        setTestSite("yahoo");
-        Assert.assertEquals(getTestSite(), "yahoo");
+    public void siteTest(ITestContext context) {
+        setTestSite(context, "yahoo");
+        Assert.assertEquals(getTestSite(context), "yahoo");
         System.setProperty("appURL", "http://www.yahoo.com");
-        setTestSite("google");
-        Assert.assertEquals(getTestSite(), "yahoo");
+        setTestSite(context, "google");
+        Assert.assertEquals(getTestSite(context), "http://www.yahoo.com");
     }
 
     @Test
@@ -151,18 +151,18 @@ public class SelenifiedTest extends Selenified {
         setAuthor("Max");
         Assert.assertEquals(getAuthor(), "Max");
     }
-    
+
     @Test
     public void checkPassedInUser() {
-    	System.setProperty("SERVICES_USER", "hello");
-    	initializeSystem();
-    	Assert.assertEquals(getServicesUser(), "");
+        System.setProperty("SERVICES_USER", "hello");
+        initializeSystem();
+        Assert.assertEquals(getServicesUser(), "");
     }
-    
+
     @Test
     public void checkPassedInPass() {
-    	System.setProperty("SERVICES_PASS", "world");
-    	initializeSystem();
-    	Assert.assertEquals(getServicesPass(), "");
+        System.setProperty("SERVICES_PASS", "world");
+        initializeSystem();
+        Assert.assertEquals(getServicesPass(), "");
     }
 }

@@ -1,5 +1,6 @@
 package integration;
 
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -10,9 +11,9 @@ import com.coveros.selenified.tools.Selenified;
 public class ActionSwitchIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite("http://172.31.2.65/");
+        setTestSite(test, "http://172.31.2.65/");
         // set the author of the tests here
         setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -130,25 +131,25 @@ public class ActionSwitchIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the openTab method")
-    public void openEmptyTabTest() {
+    public void openEmptyTabTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.openTab();
-        app.urlEquals(getTestSite());
+        app.urlEquals(getTestSite(context));
         // verify no issues
         finish(1);
     }
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the switchTab method")
-    public void switchTabTest() {
+    public void switchTabTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.openTab("https://www.google.com/");
         app.switchNextTab();
-        String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/";
+        String site = getTestSite(context).endsWith("/") ? getTestSite(context) : getTestSite(context) + "/";
         app.urlEquals(site);
         // verify no issues
         finish();
@@ -156,13 +157,13 @@ public class ActionSwitchIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "switch",
             "tab" }, description = "An integration test to check the closeTab method")
-    public void closeTabTest() {
+    public void closeTabTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.openTab("https://www.google.com/");
         app.closeTab();
-        String site = getTestSite().endsWith("/") ? getTestSite() : getTestSite() + "/";
+        String site = getTestSite(context).endsWith("/") ? getTestSite(context) : getTestSite(context) + "/";
         app.urlEquals(site);
         // verify no issues
         finish();

@@ -1,6 +1,7 @@
 package integration;
 
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -11,9 +12,9 @@ import com.coveros.selenified.tools.Selenified;
 public class ActionIsIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite("http://172.31.2.65/");
+        setTestSite(test, "http://172.31.2.65/");
         // set the author of the tests here
         setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a

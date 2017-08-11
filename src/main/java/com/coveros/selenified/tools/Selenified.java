@@ -59,7 +59,7 @@ import java.util.Map;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 2.0.1
+ * @version 3.0.0
  * @lastupdate 7/20/2017
  */
 @Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
@@ -67,7 +67,6 @@ public class Selenified {
 
     private static final Logger log = Logger.getLogger(General.class);
 
-    private static String testSite = "https://www.google.com/";
     private static String version = "";
     private static String author = "";
 
@@ -95,18 +94,20 @@ public class Selenified {
     private static final String ERRORS_CHECK = " errors";
 
     // default getters and setters for test information
-    public String getTestSite() {
-        return testSite;
-    }
-
-    public static void setTestSite(String siteURL) {
+    public String getTestSite(ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
-            testSite = siteURL;
+            String testSuite = context.getCurrentXmlTest().getXmlClasses().get(0).getName();
+            return (String) context.getAttribute(testSuite + APP_INPUT);
+        } else {
+            return System.getProperty(APP_INPUT);
         }
     }
 
-    private static void passedInTestSite(String siteURL) {
-        testSite = siteURL;
+    public static void setTestSite(ITestContext context, String siteURL) {
+        if (System.getProperty(APP_INPUT) == null) {
+            String testSuite = context.getCurrentXmlTest().getXmlClasses().get(0).getName();
+            context.setAttribute(testSuite + APP_INPUT, siteURL);
+        }
     }
 
     public String getVersion() {
@@ -149,9 +150,6 @@ public class Selenified {
         // check the browser
         if (System.getProperty(BROWSER_INPUT) == null) {
             System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
-        }
-        if (System.getProperty(APP_INPUT) != null) {
-            passedInTestSite(System.getProperty(APP_INPUT));
         }
         if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
             servicesUser = System.getenv("SERVICES_USER");
@@ -287,8 +285,8 @@ public class Selenified {
             this.calls.set(null);
             myFile.setPage(app);
         } else {
-            myFile = new OutputFile(outputDir, testName, testSite);
-            HTTP http = new HTTP(testSite, servicesUser, servicesPass);
+            myFile = new OutputFile(outputDir, testName, getTestSite(test));
+            HTTP http = new HTTP(getTestSite(test), servicesUser, servicesPass);
             Call call = new Call(http, myFile);
             this.apps.set(null);
             this.calls.set(call);
@@ -297,7 +295,7 @@ public class Selenified {
         this.browser.set(myBrowser);
         result.setAttribute(BROWSER_INPUT, myBrowser);
 
-        myFile.setURL(testSite);
+        myFile.setURL(getTestSite(test));
         myFile.setSuite(test.getName());
         myFile.setGroup(group);
         if (file.exists()) {

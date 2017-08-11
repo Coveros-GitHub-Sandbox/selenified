@@ -55,7 +55,7 @@ import com.google.gson.GsonBuilder;
  * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
- * @version 2.0.1
+ * @version 3.0.0
  * @lastupdate 7/20/2017
  */
 public class OutputFile {
