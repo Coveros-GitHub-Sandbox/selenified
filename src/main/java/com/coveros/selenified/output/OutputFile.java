@@ -126,7 +126,7 @@ public class OutputFile {
         browser = setBrowser;
         init(testDirectory, testName);
     }
-    
+
     /**
      * Setups up our logging file
      * 
@@ -136,7 +136,7 @@ public class OutputFile {
      *            - a string value of the test name, typically the method name
      */
     private void init(String testDirectory, String testName) {
-    	test = testName;
+        test = testName;
         directory = testDirectory;
         filename = testName + browser + ".html";
         file = new File(directory, filename);

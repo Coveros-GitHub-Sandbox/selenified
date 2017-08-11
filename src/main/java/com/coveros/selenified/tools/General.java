@@ -344,7 +344,7 @@ public class General {
      * this method determines the unique test name, based on the parameters
      * passed in
      * 
-     *      @param packageName
+     * @param packageName
      *            - the package name of the test method as a string
      * @param className
      *            - the class name of the test method as a string

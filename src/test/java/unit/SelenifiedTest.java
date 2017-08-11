@@ -88,13 +88,13 @@ public class SelenifiedTest extends Selenified {
     public void initializeSystemTest(ITestContext context) {
         Selenified.initializeSystem();
         Assert.assertEquals(System.getProperty("browser"), "HTMLUNIT");
-        Assert.assertNull(getTestSite(context));
+        Assert.assertNull(getTestSite(this, context));
 
         System.setProperty("browser", "Chrome");
         System.setProperty("appURL", "http://www.yahoo.com");
         Selenified.initializeSystem();
         Assert.assertEquals(System.getProperty("browser"), "Chrome");
-        Assert.assertEquals(getTestSite(context), "http://www.yahoo.com");
+        Assert.assertEquals(getTestSite(this, context), "http://www.yahoo.com");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
@@ -133,11 +133,11 @@ public class SelenifiedTest extends Selenified {
 
     @Test
     public void siteTest(ITestContext context) {
-        setTestSite(context, "yahoo");
-        Assert.assertEquals(getTestSite(context), "yahoo");
+        setTestSite(this, context, "yahoo");
+        Assert.assertEquals(getTestSite(this, context), "yahoo");
         System.setProperty("appURL", "http://www.yahoo.com");
-        setTestSite(context, "google");
-        Assert.assertEquals(getTestSite(context), "http://www.yahoo.com");
+        setTestSite(this, context, "google");
+        Assert.assertEquals(getTestSite(this, context), "http://www.yahoo.com");
     }
 
     @Test

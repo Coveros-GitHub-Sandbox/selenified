@@ -94,18 +94,26 @@ public class Selenified {
     private static final String ERRORS_CHECK = " errors";
 
     // default getters and setters for test information
-    public String getTestSite(ITestContext context) {
+    public String getTestSite(Selenified classs, ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
-            String testSuite = context.getCurrentXmlTest().getXmlClasses().get(0).getName();
+            String testSuite = classs.getClass().getName();
             return (String) context.getAttribute(testSuite + APP_INPUT);
         } else {
             return System.getProperty(APP_INPUT);
         }
     }
 
-    public static void setTestSite(ITestContext context, String siteURL) {
+    public String getTestSite(String classs, ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
-            String testSuite = context.getCurrentXmlTest().getXmlClasses().get(0).getName();
+            return (String) context.getAttribute(classs + APP_INPUT);
+        } else {
+            return System.getProperty(APP_INPUT);
+        }
+    }
+
+    public static void setTestSite(Selenified classs, ITestContext context, String siteURL) {
+        if (System.getProperty(APP_INPUT) == null) {
+            String testSuite = classs.getClass().getName();
             context.setAttribute(testSuite + APP_INPUT, siteURL);
         }
     }
@@ -246,7 +254,7 @@ public class Selenified {
             DriverSetup selenium) {
         String testName = General.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
-        String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
+        String extClass = method.getDeclaringClass().getName();
         String fileLocation = "src." + extClass;
         File file = new File("./" + fileLocation.replaceAll("\\.", "/") + ".java");
         String description = "";
@@ -285,8 +293,8 @@ public class Selenified {
             this.calls.set(null);
             myFile.setApp(app);
         } else {
-            myFile = new OutputFile(outputDir, testName, getTestSite(test));
-            HTTP http = new HTTP(getTestSite(test), servicesUser, servicesPass);
+            myFile = new OutputFile(outputDir, testName, getTestSite(extClass, test));
+            HTTP http = new HTTP(getTestSite(extClass, test), servicesUser, servicesPass);
             Call call = new Call(http, myFile);
             this.apps.set(null);
             this.calls.set(call);
@@ -295,7 +303,7 @@ public class Selenified {
         this.browser.set(myBrowser);
         result.setAttribute(BROWSER_INPUT, myBrowser);
 
-        myFile.setURL(getTestSite(test));
+        myFile.setURL(getTestSite(extClass, test));
         myFile.setSuite(test.getName());
         myFile.setGroup(group);
         if (file.exists()) {

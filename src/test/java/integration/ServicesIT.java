@@ -23,7 +23,7 @@ public class ServicesIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(test, "https://jsonplaceholder.typicode.com/");
+        setTestSite(this, test, "https://jsonplaceholder.typicode.com/");
         // set the author of the tests here
         setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
