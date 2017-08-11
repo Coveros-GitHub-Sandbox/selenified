@@ -76,8 +76,7 @@ public class OutputFile {
     private String directory;
     private File file;
     private String filename;
-    private Browser browser;
-    private String service;
+    private Browser browser = Browser.NONE;
     private List<String> screenshots = new ArrayList<>();
 
     // timing of the test
@@ -108,12 +107,8 @@ public class OutputFile {
      *            - the service URL to execute all services tests on
      */
     public OutputFile(String testDirectory, String testName, String setServiceURL) {
-        test = testName;
-        service = setServiceURL;
-        directory = testDirectory;
-        filename = testName + "NONE.html";
-        file = new File(directory, filename);
-        setupFile();
+        url = setServiceURL;
+        init(testDirectory, testName);
     }
 
     /**
@@ -128,8 +123,20 @@ public class OutputFile {
      *            - the browser we are performing this test on
      */
     public OutputFile(String testDirectory, String testName, Browser setBrowser) {
-        test = testName;
         browser = setBrowser;
+        init(testDirectory, testName);
+    }
+    
+    /**
+     * Setups up our logging file
+     * 
+     * @param testDirectory
+     *            - a string of the directory holding the files
+     * @param testName
+     *            - a string value of the test name, typically the method name
+     */
+    private void init(String testDirectory, String testName) {
+    	test = testName;
         directory = testDirectory;
         filename = testName + browser + ".html";
         file = new File(directory, filename);
@@ -575,20 +582,17 @@ public class OutputFile {
             out.write(swapRow);
             out.write("    <th>Date Tested</th>\n");
             out.write(START_CELL + datePart + END_CELL);
-            if (this.app != null && this.app.getBrowser() != null && this.app.getBrowser() != Browser.NONE) {
-                out.write("    <th>Browser</th>\n");
-                out.write(START_CELL + browser + END_CELL);
-            } else {
-                out.write("    <th>Service</th>\n");
-                out.write(START_CELL + service + END_CELL);
-            }
-            out.write(swapRow);
             out.write("    <th>Test Run Time</th>\n");
             out.write("    <td colspan=3>\n");
             out.write("     Start:\t" + sTime + " <br/>\n");
             out.write("     End:\tTIMEFINISHED <br/>\n");
             out.write("     Run Time:\tRUNTIME \n");
             out.write("    </td>\n ");
+            out.write(swapRow);
+            out.write("    <th>URL Under Test</th>\n");
+            out.write(START_CELL + "<a href='" + url + "'>" + url + "</a>" + END_CELL);
+            out.write("    <th>Browser</th>\n");
+            out.write(START_CELL + browser + END_CELL);
             out.write(swapRow);
             out.write("    <th>Testing Group</th>\n");
             out.write(START_CELL + group + END_CELL);
