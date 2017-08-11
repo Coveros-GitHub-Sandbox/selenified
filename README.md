@@ -115,7 +115,6 @@ selenified.jar. Each suite can optionally contain a method setting up some detai
 be used in each test. The URL the selenium tests should connect to (which can be overridden), 
 the author of the tests, and the version of tests or software under test. 
 See below for an example:
-
 ```java
     @BeforeClass (alwaysRun = true)
     public void beforeClass() {
@@ -428,7 +427,7 @@ Coming Soon
 ### IntelliJ
 #### Clone from GitHub
 Select `File -> New -> Project From Version Control -> GitHub`, then log in to your github account.
-Enter `https://github.com/msaperst/selenified-testing-framework.git` as the project location.
+Enter `https://github.com/Coveros/selenified-testing-framework.git` as the project location.
 #### With code already cloned locally
 Select ```File -> New -> Project From Existing Sources```.
 Navigate to wherever you cloned the project, and select OK
