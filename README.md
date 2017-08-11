@@ -29,9 +29,9 @@ Update your pom.xml file to include
 Update your ivy.xml file to include
 ```xml
     <ivy-module>
-     <dependencies>
-     <dependency org="com.coveros" name="selenified" rev="3.0.0"/>
-     </dependencies>
+        <dependencies>
+            <dependency org="com.coveros" name="selenified" rev="3.0.0"/>
+        </dependencies>
     </ivy-module>
 ```
 
