@@ -124,7 +124,7 @@ public class ActionSwitchIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.openTab("https://www.google.com/");
-        app.urlEquals("https://www.google.com/");
+        app.azzert().urlEquals("https://www.google.com/");
         // verify no issues
         finish();
     }
@@ -136,7 +136,7 @@ public class ActionSwitchIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.openTab();
-        app.urlEquals(getTestSite(this, context));
+        app.azzert().urlEquals(getTestSite(this, context));
         // verify no issues
         finish(1);
     }
@@ -151,7 +151,7 @@ public class ActionSwitchIT extends Selenified {
         app.switchNextTab();
         String site = getTestSite(this, context).endsWith("/") ? getTestSite(this, context)
                 : getTestSite(this, context) + "/";
-        app.urlEquals(site);
+        app.azzert().urlEquals(site);
         // verify no issues
         finish();
     }
@@ -166,7 +166,7 @@ public class ActionSwitchIT extends Selenified {
         app.closeTab();
         String site = getTestSite(this, context).endsWith("/") ? getTestSite(this, context)
                 : getTestSite(this, context) + "/";
-        app.urlEquals(site);
+        app.azzert().urlEquals(site);
         // verify no issues
         finish();
     }
@@ -180,7 +180,7 @@ public class ActionSwitchIT extends Selenified {
         app.openTab("https://www.google.com/");
         app.switchPreviousTab();
         app.closeTab();
-        app.urlEquals("https://www.google.com/");
+        app.azzert().urlEquals("https://www.google.com/");
         // verify no issues
         finish();
     }
@@ -193,7 +193,7 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.textPresent("You're on the next page");
+        app.azzert().textPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -206,9 +206,9 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.textPresent("You're on the next page");
+        app.azzert().textPresent("You're on the next page");
         app.switchToParentWindow();
-        app.textNotPresent("You're on the next page");
+        app.azzert().textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -221,9 +221,9 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.textPresent("You're on the next page");
+        app.azzert().textPresent("You're on the next page");
         app.closeCurrentWindow();
-        app.textNotPresent("You're on the next page");
+        app.azzert().textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -236,7 +236,7 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.textPresent("You're on the next page");
+        app.azzert().textPresent("You're on the next page");
         app.closeCurrentWindow();
         app.closeCurrentWindow();
         // verify 1 issue

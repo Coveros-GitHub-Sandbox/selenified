@@ -59,7 +59,7 @@ Have a look at this example test class to get an idea of what you'll actually be
             // use this object to manipulate the app
             App app = this.apps.get();
             // verify the correct page title
-            app.titleEquals("Google");
+            app.azzert().titleEquals("Google");
             // verify no issues
             finish();
         }
@@ -74,7 +74,7 @@ Have a look at this example test class to get an idea of what you'll actually be
             app.newElement(Locator.NAME, "btnG").click();
             app.newElement(Locator.ID, "resultStats").waitFor().present();
             // verify the correct page title 
-            app.titleEquals(searchTerm + " - Google Search");
+            app.azzert().titleEquals(searchTerm + " - Google Search");
             // verify no issues
             finish();
         }
@@ -243,8 +243,8 @@ There are also custom assertions associated with both the page and element objec
 to the framework, and in addition to providing easy object oriented capabilities, they take screenshots with
 each verification to provide additional traceability, and assist in troubleshooting and debugging failing tests.
 ```java
-    app.alertPresent();
-    app.urlEquals();
+    app.azzert().alertPresent();
+    app.azzert().urlEquals();
     
     element.assertContains().text("hello");
     element.assertExcludes().value("world");

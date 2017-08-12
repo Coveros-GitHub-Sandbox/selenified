@@ -26,7 +26,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform the verification
-        app.titleEquals("Selenified Test Page");
+        app.azzert().titleEquals("Selenified Test Page");
         // perform the verification
         finish();
     }
@@ -37,7 +37,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.titleEquals("Yahoo");
+        app.azzert().titleEquals("Yahoo");
         // verify 1 issue
         finish(1);
     }
@@ -50,7 +50,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.alertPresent();
+        app.azzert().alertPresent();
         // verify no issues
         finish();
     }
@@ -61,7 +61,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.alertPresent();
+        app.azzert().alertPresent();
         // verify 1 issue
         finish(1);
     }
@@ -74,7 +74,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.confirmationPresent();
+        app.azzert().confirmationPresent();
         // verify no issues
         finish();
     }
@@ -85,7 +85,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.confirmationPresent();
+        app.azzert().confirmationPresent();
         // verify 1 issue
         finish(1);
     }
@@ -96,7 +96,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.alertNotPresent();
+        app.azzert().alertNotPresent();
         // verify no issues
         finish();
     }
@@ -109,7 +109,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.alertNotPresent();
+        app.azzert().alertNotPresent();
         // verify 1 issue
         finish(1);
     }
@@ -121,7 +121,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.alertPresent("Enabled!");
+        app.azzert().alertPresent("Enabled!");
         // verify no issues
         finish();
     }
@@ -133,7 +133,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.alertPresent("([A-Z])\\w+!");
+        app.azzert().alertPresent("([A-Z])\\w+!");
         // verify no issues
         finish();
     }
@@ -144,7 +144,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.alertPresent("Disabled!");
+        app.azzert().alertPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -157,7 +157,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.alertPresent("Disabled!");
+        app.azzert().alertPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -170,7 +170,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.confirmationPresent("Enabled!");
+        app.azzert().confirmationPresent("Enabled!");
         // verify no issues
         finish();
     }
@@ -183,7 +183,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.confirmationPresent("Disabled!");
+        app.azzert().confirmationPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -194,7 +194,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.confirmationPresent("Disabled!");
+        app.azzert().confirmationPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -205,7 +205,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.confirmationNotPresent();
+        app.azzert().confirmationNotPresent();
         // verify no issues
         finish();
     }
@@ -218,7 +218,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.confirmationNotPresent();
+        app.azzert().confirmationNotPresent();
         // verify 1 issue
         finish(1);
     }
@@ -230,7 +230,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.promptPresent("Enabled!");
+        app.azzert().promptPresent("Enabled!");
         // verify no issues
         finish();
     }
@@ -241,7 +241,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.promptPresent("Enabled!");
+        app.azzert().promptPresent("Enabled!");
         // verify 1 issue
         finish(1);
     }
@@ -254,7 +254,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.promptPresent("Disabled!");
+        app.azzert().promptPresent("Disabled!");
         // verify 1 issue
         finish(1);
     }
@@ -267,7 +267,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.promptPresent();
+        app.azzert().promptPresent();
         // verify no issues
         finish();
     }
@@ -278,7 +278,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.promptPresent();
+        app.azzert().promptPresent();
         // verify 1 issue
         finish(1);
     }
@@ -289,7 +289,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.promptNotPresent();
+        app.azzert().promptNotPresent();
         // verify no issues
         finish();
     }
@@ -302,7 +302,7 @@ public class AssertIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.promptNotPresent();
+        app.azzert().promptNotPresent();
         // verify 1 issue
         finish(1);
     }
@@ -313,7 +313,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.textNotPresent("No such text on the app");
+        app.azzert().textNotPresent("No such text on the app");
         // verify no issues
         finish();
     }
@@ -324,7 +324,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.textNotPresent("Click me to Disable/Enable a html button");
+        app.azzert().textNotPresent("Click me to Disable/Enable a html button");
         // verify 1 issue
         finish(1);
     }
@@ -335,7 +335,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.textPresent("Click me to Disable/Enable a html button");
+        app.azzert().textPresent("Click me to Disable/Enable a html button");
         // verify no issues
         finish();
     }
@@ -346,7 +346,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.textPresent("No such text on the app");
+        app.azzert().textPresent("No such text on the app");
         // verify 1 issue
         finish(1);
     }
@@ -357,7 +357,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.cookieExists("cookie", "cookietest");
+        app.azzert().cookieExists("cookie", "cookietest");
         // verify no issues
         finish();
     }
@@ -368,7 +368,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.cookieExists("cookie", "negativecookietest");
+        app.azzert().cookieExists("cookie", "negativecookietest");
         // verify 1 issue
         finish(1);
     }
@@ -379,7 +379,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.cookieExists("wrongcookie", "cookietest");
+        app.azzert().cookieExists("wrongcookie", "cookietest");
         // verify 1 issue
         finish(1);
     }
@@ -390,7 +390,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.cookieNotExists("wrongcookie");
+        app.azzert().cookieNotExists("wrongcookie");
         // verify no issues
         finish();
     }
@@ -401,7 +401,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.cookieNotExists("cookie");
+        app.azzert().cookieNotExists("cookie");
         // verify 1 issue
         finish(1);
     }
@@ -412,7 +412,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.cookieExists("cookie");
+        app.azzert().cookieExists("cookie");
         // verify no issues
         finish();
     }
@@ -423,7 +423,7 @@ public class AssertIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.cookieExists("wrongcookie");
+        app.azzert().cookieExists("wrongcookie");
         // verify 1 issue
         finish(1);
     }

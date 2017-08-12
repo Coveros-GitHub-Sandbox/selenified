@@ -33,7 +33,7 @@ public class SimpleSampleIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform the verification
-        app.titleEquals("Selenified Test Page");
+        app.azzert().titleEquals("Selenified Test Page");
         // perform the verification
         finish();
     }

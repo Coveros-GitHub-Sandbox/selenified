@@ -35,9 +35,9 @@ public class ActionGoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "submit_button").submit();
-        app.textPresent("You're on the next page");
+        app.azzert().textPresent("You're on the next page");
         app.goBack();
-        app.textNotPresent("You're on the next page");
+        app.azzert().textNotPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -72,11 +72,11 @@ public class ActionGoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "submit_button").submit();
-        app.textPresent("You're on the next page");
+        app.azzert().textPresent("You're on the next page");
         app.goBack();
-        app.textNotPresent("You're on the next page");
+        app.azzert().textNotPresent("You're on the next page");
         app.goForward();
-        app.textPresent("You're on the next page");
+        app.azzert().textPresent("You're on the next page");
         // verify no issues
         finish();
     }

@@ -69,7 +69,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.goToURL("https://www.google.com/");
-        app.urlEquals("https://www.google.com/");
+        app.azzert().urlEquals("https://www.google.com/");
         // verify no issues
         finish();
     }
@@ -81,7 +81,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.goToURL("https://www.yahoo.com/");
-        app.urlEquals("https://www.google.com/");
+        app.azzert().urlEquals("https://www.google.com/");
         // verify 1 issue
         finish(1);
     }
@@ -106,7 +106,7 @@ public class ActionDoIT extends Selenified {
         app.newElement(Locator.CLASSNAME, "click").click();
         app.newElement(Locator.CSS, "input#alert_button").click();
         app.acceptAlert();
-        app.alertNotPresent();
+        app.azzert().alertNotPresent();
         // verify no issues
         finish();
     }
@@ -130,7 +130,7 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.newElement(Locator.CSS, "input#confirm_button").click();
         app.acceptConfirmation();
-        app.confirmationNotPresent();
+        app.azzert().confirmationNotPresent();
         // verify no issues
         finish();
     }
@@ -154,7 +154,7 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.newElement(Locator.CSS, "input#confirm_button").click();
         app.dismissConfirmation();
-        app.confirmationNotPresent();
+        app.azzert().confirmationNotPresent();
         // verify no issues
         finish();
     }
@@ -178,7 +178,7 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.newElement(Locator.CSS, "input#prompt_button").click();
         app.acceptPrompt();
-        app.promptNotPresent();
+        app.azzert().promptNotPresent();
         // verify no issues
         finish();
     }
@@ -202,7 +202,7 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.newElement(Locator.CSS, "input#prompt_button").click();
         app.dismissPrompt();
-        app.confirmationNotPresent();
+        app.azzert().confirmationNotPresent();
         // verify no issues
         finish();
     }
@@ -248,7 +248,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.LINKTEXT, "I'M A LINK").click();
-        app.confirmationPresent();
+        app.azzert().confirmationPresent();
         // verify no issues
         finish();
     }
@@ -304,7 +304,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "submit_button").submit();
-        app.textPresent("You're on the next page");
+        app.azzert().textPresent("You're on the next page");
         // verify no issues
         finish();
     }
@@ -407,7 +407,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "input_box").blur();
-        app.alertPresent();
+        app.azzert().alertPresent();
         // verify no issues
         finish();
     }
@@ -566,7 +566,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "input_box", 0).type(Keys.TAB);
-        app.alertPresent();
+        app.azzert().alertPresent();
         // verify no issues
         finish();
     }

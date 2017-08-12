@@ -40,7 +40,7 @@ public class NoLoadIT extends Selenified {
         org.testng.Assert.assertEquals(
                 app.getOutputFile().countInstancesOf("Opening new browser and loading up starting app"), 0);
         // verify the app wasn't attempted to load
-        app.urlEquals(getTestSite(this, context));
+        app.azzert().urlEquals(getTestSite(this, context));
         // verify one issue from the above check
         finish(1);
     }
