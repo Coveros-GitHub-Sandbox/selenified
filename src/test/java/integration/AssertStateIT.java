@@ -66,17 +66,6 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementChecked method")
-    public void negativeCheckElementCheckedDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check", 0).assertState().checked();
-        // verify 1 issue
-        finish(1);
-    }
-
     @Test(groups = { "integration", "asserts", "state",
             "virtual" }, description = "An integration test to check the checkElementDisplayed method")
     public void checkElementDisplayedTest() {
@@ -108,18 +97,6 @@ public class AssertStateIT extends Selenified {
         app.newElement(Locator.ID, "hidden_div").assertState().displayed();
         // verify 1 issue
         finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementDisplayed method")
-    public void checkElementDisplayedDelayed() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "delayed_display_button").click();
-        app.newElement(Locator.ID, "delayed_hide_button").assertState().displayed();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = { "integration", "asserts", "state",
@@ -156,17 +133,6 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementDisplayedAndChecked method")
-    public void negativeCheckElementDisplayedAndCheckedDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertState().displayedAndChecked();
-        // verify 1 issue
-        finish(1);
-    }
-
     @Test(groups = { "integration", "asserts", "state",
             "virtual" }, description = "An integration test to check the checkElementDisplayedAndEditable method")
     public void checkElementDisplayedAndEditableTest() {
@@ -187,17 +153,6 @@ public class AssertStateIT extends Selenified {
         app.newElement(Locator.ID, "non_existent", 0).assertState().displayedAndEditable();
         // verify 1 issue
         finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementDisplayedAndEditable method")
-    public void checkElementDisplayedAndEditableDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertState().displayedAndEditable();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = { "integration", "asserts", "state",
@@ -229,17 +184,6 @@ public class AssertStateIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").assertState().displayedAndNotEditable();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
-    public void negativeCheckElementDisplayedAndNotEditableDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertState().displayedAndNotEditable();
         // verify 1 issue
         finish(1);
     }
@@ -276,17 +220,6 @@ public class AssertStateIT extends Selenified {
         app.newElement(Locator.ID, "non-existent-element").assertState().displayedAndUnchecked();
         // verify 1 issue
         finish(1);
-    }
-
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
-    public void checkElementDisplayedAndUncheckedDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertState().displayedAndUnchecked();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = { "integration", "asserts", "state",
@@ -333,17 +266,6 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementEditable method")
-    public void checkElementEditableDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertState().editable();
-        // verify 0 issue
-        finish();
-    }
-
     @Test(groups = { "integration", "asserts", "state",
             "virtual" }, description = "An integration test to check the checkElementNotChecked method")
     public void checkElementNotCheckedTest() {
@@ -378,17 +300,6 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementNotChecked method")
-    public void checkElementNotCheckedDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertState().notChecked();
-        // verify no issues
-        finish();
-    }
-
     @Test(groups = { "integration", "asserts", "virtual",
             "state" }, description = "An integration test to check the checkElementNotDisplayed method")
     public void checkElementNotDisplayedTest() {
@@ -411,20 +322,6 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
-            "state" }, description = "An integration negative test to check the checkElementNotDisplayed method")
-    public void checkElementNotDisplayedDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "delayed_display_button").click();
-        app.newElement(Locator.ID, "delayed_hide_button").waitFor().displayed();
-        app.newElement(Locator.ID, "delayed_hide_button").click();
-        app.newElement(Locator.ID, "delayed_hide_button").assertState().notDisplayed();
-        // verify no issues
-        finish();
-    }
-
     @Test(groups = { "integration", "asserts", "state",
             "virtual" }, description = "An integration test to check the checkElementNotEditable method")
     public void checkElementNotEditableTest() {
@@ -434,17 +331,6 @@ public class AssertStateIT extends Selenified {
         app.newElement(Locator.ID, "table").assertState().notEditable();
         // verify no issues
         finish();
-    }
-
-    @Test(groups = { "integration", "asserts", "state",
-            "virtual" }, description = "An integration negative test to check the checkElementNotEditable method")
-    public void negativeCheckElementNotEditableTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "that", 0).assertState().notEditable();
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = { "integration", "asserts", "state",
@@ -460,7 +346,7 @@ public class AssertStateIT extends Selenified {
 
     @Test(groups = { "integration", "asserts",
             "state" }, description = "An integration negative test to check the checkElementNotEditable method")
-    public void negativeCheckElementNotEditableDelayedTest() {
+    public void negativeCheckElementNotEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
