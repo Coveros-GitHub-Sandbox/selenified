@@ -30,13 +30,12 @@ public class Equals extends Assert {
      *            - the css attribute to be checked
      * @param expectedValue
      *            the expected css value of the passed attribute of the element
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void cssValue(String attribute, String expectedValue) {
-		// wait for the element
-		if (!isPresent()) {
-			return;
-		}
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having a css attribute of <i>" + attribute
                 + " with a value of <b>" + expectedValue + "</b>");
@@ -55,7 +54,7 @@ public class Equals extends Assert {
         }
         file.recordActual(element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH
                 + elementCssValue + "</b>", Success.PASS);
-            }
+    }
 
     /**
      * compares the expected element attribute value with the actual attribute
@@ -65,13 +64,12 @@ public class Equals extends Assert {
      *            - the attribute to be checked
      * @param expectedValue
      *            the expected value of the passed attribute of the element
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void attribute(String attribute, String expectedValue) {
-		// wait for the element
-		if (!isPresent()) {
-			return;
-		}
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having an attribute of <i>" + attribute
                 + " with a value of <b>" + expectedValue + "</b>");
@@ -87,20 +85,19 @@ public class Equals extends Assert {
         file.recordActual(
                 element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + "</b>",
                 Success.PASS);
-            }
+    }
 
     /**
      * checks to see if an element has a particular class
      *
      * @param expectedClass
      *            - the full expected class value
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void clazz(String expectedClass) {
-		// wait for the element
-		if (!isPresent()) {
-			return;
-		}
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " with class <b>" + expectedClass + "</b>");
         // get the actual class value
@@ -112,20 +109,19 @@ public class Equals extends Assert {
             return;
         }
         file.recordActual(element.prettyOutputStart() + CLASSVALUE + expectedClass + "</b>", Success.PASS);
-            }
+    }
 
     /**
      * compares the expected element value with the actual value from an element
      *
      * @param expectedText
      *            the expected value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void text(String expectedText) {
-		// wait for the element
-		if (!isPresent()) {
-			return;
-		}
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having text of <b>" + expectedText + "</b>");
         // check for the object to the present on the page
@@ -136,7 +132,7 @@ public class Equals extends Assert {
             return;
         }
         file.recordActual(element.prettyOutputStart() + VALUE + elementText + "</b>", Success.PASS);
-            }
+    }
 
     /**
      * compares the text of expected table cell with the actual table cell text
@@ -150,14 +146,13 @@ public class Equals extends Assert {
      *            numbering starts at 1, NOT 0
      * @param text
      *            - what text do we expect to be in the table cell
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void text(int row, int col, String text) {
         String column = " and column ";
         String within = " within element ";
         // wait for the table
-        if (!isPresentTable("Expected to find cell at row " + row + column + col + within
-                + element.prettyOutput() + " to have the text value of <b>" + text + "</b>")) {
+        if (!isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput()
+                + " to have the text value of <b>" + text + "</b>")) {
             return;
         }
         // get the table cell text
@@ -170,7 +165,7 @@ public class Equals extends Assert {
         }
         file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput()
                 + " has the text value of <b>" + actualText + "</b>", Success.PASS);
-            }
+    }
 
     /**
      * compares the expected element input value with the actual value from an
@@ -178,13 +173,12 @@ public class Equals extends Assert {
      *
      * @param expectedValue
      *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void value(String expectedValue) {
-    	// wait for the element
-    	if (!isPresent()) {
-    		return;
-    	}
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having a value of <b>" + expectedValue + "</b>");
         // verify this is an input element
@@ -201,7 +195,7 @@ public class Equals extends Assert {
             return;
         }
         file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
-            }
+    }
 
     /**
      * compares the expected element select test with the actual value from an
@@ -209,7 +203,6 @@ public class Equals extends Assert {
      *
      * @param expectedText
      *            the expected input text of the element
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void selectedOption(String expectedText) {
         // wait for the select
@@ -225,7 +218,7 @@ public class Equals extends Assert {
             return;
         }
         file.recordActual(element.prettyOutputStart() + OPTION + elementText + "</b>", Success.PASS);
-            }
+    }
 
     /**
      * compares the expected element select value with the actual value from an
@@ -233,7 +226,6 @@ public class Equals extends Assert {
      *
      * @param expectedValue
      *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void selectedValue(String expectedValue) {
         // wait for the select
@@ -249,7 +241,7 @@ public class Equals extends Assert {
             return;
         }
         file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
-            }
+    }
 
     /**
      * compares the expected attributes from a select value with the actual
@@ -257,7 +249,6 @@ public class Equals extends Assert {
      *
      * @param expectedOptions
      *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void selectOptions(String... expectedOptions) {
         // wait for the select
@@ -275,7 +266,7 @@ public class Equals extends Assert {
         }
         file.recordActual(element.prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + "</b>",
                 Success.PASS);
-            }
+    }
 
     /**
      * compares the expected attributes from a select value with the actual
@@ -283,7 +274,6 @@ public class Equals extends Assert {
      *
      * @param expectedValues
      *            the expected input value of the element
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void selectValues(String... expectedValues) {
         // wait for the select
@@ -300,5 +290,5 @@ public class Equals extends Assert {
             return;
         }
         file.recordActual(element.prettyOutputStart() + VALUES + Arrays.toString(elementValues) + "</b>", Success.PASS);
-            }
+    }
 }

@@ -647,8 +647,6 @@ public class OutputFile {
     /**
      * loads the initial app specified by the url, and ensures the app loads
      * successfully
-     * 
-     * @return Integer: how many errors encountered
      */
     public void loadInitialPage() {
         String startingPage = "The starting app <i>";

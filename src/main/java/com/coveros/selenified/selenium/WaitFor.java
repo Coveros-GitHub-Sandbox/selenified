@@ -45,8 +45,6 @@ public class WaitFor {
     /**
      * a method for waiting up to 5 seconds for an alert is present
      *
-     * @return Integer: the number of errors encountered while executing these
-     *         steps
      */
     public void alertPresent() {
         alertPresent(defaultWait);
@@ -55,8 +53,6 @@ public class WaitFor {
     /**
      * a method for waiting up to 5 seconds for a confirmation is present
      *
-     * @return Integer: the number of errors encountered while executing these
-     *         steps
      */
     public void confirmationPresent() {
         confirmationPresent(defaultWait);
@@ -65,8 +61,6 @@ public class WaitFor {
     /**
      * a method for waiting up to 5 seconds for a prompt is present
      *
-     * @return Integer: the number of errors encountered while executing these
-     *         steps
      */
     public void promptPresent() {
         promptPresent(defaultWait);
@@ -105,8 +99,6 @@ public class WaitFor {
      *
      * @param seconds
      *            - the number of seconds to wait
-     * @return Integer: the number of errors encountered while executing these
-     *         steps
      */
     public void alertPresent(double seconds) {
         String action = UPTO + seconds + " seconds for an alert to be present";
@@ -126,8 +118,6 @@ public class WaitFor {
      *
      * @param seconds
      *            - the number of seconds to wait
-     * @return Integer: the number of errors encountered while executing these
-     *         steps
      */
     public void confirmationPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a confirmation to be present";
@@ -148,8 +138,6 @@ public class WaitFor {
      *
      * @param seconds
      *            - the number of seconds to wait
-     * @return Integer: the number of errors encountered while executing these
-     *         steps
      */
     public void promptPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a prompt to be present";

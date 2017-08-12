@@ -118,7 +118,6 @@ public class Response {
      * 
      * @param expectedCode
      *            - the expected response code
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void assertEquals(int expectedCode) {
         Success success = (code == expectedCode) ? Success.PASS : Success.FAIL;
@@ -133,7 +132,6 @@ public class Response {
      * 
      * @param expectedJson
      *            - the expected response json object
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void assertEquals(JsonObject expectedJson) {
         Success success = Success.FAIL;
@@ -152,7 +150,6 @@ public class Response {
      * 
      * @param expectedArray
      *            - the expected response json array
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void assertEquals(JsonArray expectedArray) {
         Success success = Success.FAIL;
@@ -172,7 +169,6 @@ public class Response {
      * @param expectedPairs
      *            a hashmap with string key value pairs expected in the json
      *            response
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void assertContains(Map<String, String> expectedPairs) {
         StringBuilder expectedString = new StringBuilder();
@@ -204,7 +200,6 @@ public class Response {
      *            - a String key value expected in the result
      * @param expectedJson
      *            - the expected response json object
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void assertContains(String key, JsonElement expectedJson) {
         Success success = Success.FAIL;
@@ -223,7 +218,6 @@ public class Response {
      * 
      * @param expectedJson
      *            - the expected response json array
-     * @return Integer: 1 if a failure and 0 if a pass
      */
     public void assertContains(JsonElement expectedJson) {
         Success success = Success.FAIL;

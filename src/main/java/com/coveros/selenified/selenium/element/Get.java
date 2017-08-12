@@ -239,7 +239,6 @@ public class Get {
     /**
      * get the number of options from the select drop down
      *
-     * @return Integer: the number of select options
      */
     public int numOfSelectOptions() {
         // wait for element to be present
@@ -319,7 +318,6 @@ public class Get {
     /**
      * get the number of rows of a table
      *
-     * @return Integer: the number of table rows
      */
     public int numOfTableRows() {
         List<WebElement> rows = tableRows();
@@ -356,7 +354,6 @@ public class Get {
     /**
      * get the number of columns of a table
      *
-     * @return Integer: the number of table columns
      */
     public int numOfTableColumns() {
         List<List<WebElement>> columns = tableColumns();

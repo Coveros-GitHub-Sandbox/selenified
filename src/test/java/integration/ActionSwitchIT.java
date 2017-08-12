@@ -27,7 +27,7 @@ public class ActionSwitchIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "message").assertState().notDisplayed();
+        app.newElement(Locator.ID, "message").assertState().notPresent();
         app.selectFrame(0);
         app.newElement(Locator.ID, "message").assertState().displayed();
         // verify no issues
@@ -40,7 +40,7 @@ public class ActionSwitchIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "message").assertState().notDisplayed();
+        app.newElement(Locator.ID, "message").assertState().notPresent();
         app.selectFrame(2);
         // verify 1 issue
         finish(1);
@@ -52,7 +52,7 @@ public class ActionSwitchIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "message").assertState().notDisplayed();
+        app.newElement(Locator.ID, "message").assertState().notPresent();
         app.selectFrame("some_frame");
         app.newElement(Locator.ID, "message").assertState().displayed();
         // verify no issues
@@ -65,7 +65,7 @@ public class ActionSwitchIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "message").assertState().notDisplayed();
+        app.newElement(Locator.ID, "message").assertState().notPresent();
         app.selectFrame("some_non_existent_frame");
         // verify 1 issue
         finish(1);
@@ -77,7 +77,7 @@ public class ActionSwitchIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "message").assertState().notDisplayed();
+        app.newElement(Locator.ID, "message").assertState().notPresent();
         app.newElement(Locator.ID, "some_frame").selectFrame();
         app.newElement(Locator.ID, "message").assertState().displayed();
         // verify no issues

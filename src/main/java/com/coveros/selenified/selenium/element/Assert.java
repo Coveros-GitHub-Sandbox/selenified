@@ -5,39 +5,38 @@ import com.coveros.selenified.output.OutputFile.Success;
 
 public class Assert {
 
-	// this will be the name of the file we write all commands out to
-	protected OutputFile file;
+    // this will be the name of the file we write all commands out to
+    protected OutputFile file;
 
-	// what element are we trying to interact with on the page
-	protected Element element;
+    // what element are we trying to interact with on the page
+    protected Element element;
 
-	// constants
-	protected static final String EXPECTED = "Expected to find ";
-	protected static final String CLASS = "class";
+    // constants
+    protected static final String EXPECTED = "Expected to find ";
+    protected static final String CLASS = "class";
 
-	protected static final String NOTINPUT = " is not an input on the page";
+    protected static final String NOTINPUT = " is not an input on the page";
 
-	protected static final String VALUE = " has the value of <b>";
-	protected static final String TEXT = " has the text of <b>";
-	protected static final String HASVALUE = " contains the value of <b>";
-	protected static final String HASTEXT = " contains the text of <b>";
-	protected static final String ONLYVALUE = ", only the values <b>";
-	protected static final String CLASSVALUE = " has a class value of <b>";
-	
+    protected static final String VALUE = " has the value of <b>";
+    protected static final String TEXT = " has the text of <b>";
+    protected static final String HASVALUE = " contains the value of <b>";
+    protected static final String HASTEXT = " contains the text of <b>";
+    protected static final String ONLYVALUE = ", only the values <b>";
+    protected static final String CLASSVALUE = " has a class value of <b>";
+
     protected static final String NOTSELECT = " is not a select on the page";
     protected static final String NOTTABLE = " is not a table on the page";
 
+    protected boolean isPresent() {
+        if (!element.is().present()) {
+            element.waitFor().present();
+            if (!element.is().present()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	protected boolean isPresent() {
-		if (!element.is().present()) {
-			element.waitFor().present();
-			if (!element.is().present()) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
     /**
      * Determines if the element is a select
      * 
@@ -74,10 +73,10 @@ public class Assert {
      * @return Boolean: whether the element is a select or not
      */
     public boolean isPresentSelect(String expected) {
-		// wait for the element
-		if (!isPresent()) {
-			return false;
-		}
+        // wait for the element
+        if (!isPresent()) {
+            return false;
+        }
         file.recordExpected(expected);
         // verify this is a select element
         return isSelect();
@@ -91,10 +90,10 @@ public class Assert {
      * @return Boolean: whether the element is an table or not
      */
     public boolean isPresentTable(String expected) {
-		// wait for the element
-		if (!isPresent()) {
-			return false;
-		}
+        // wait for the element
+        if (!isPresent()) {
+            return false;
+        }
         file.recordExpected(expected);
         // verify this is a select element
         return isTable();
