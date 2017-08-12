@@ -140,8 +140,6 @@ public class WaitFor {
      *
      * @param seconds
      *            - the number of seconds to wait
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void notPresent(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be present";
@@ -170,8 +168,6 @@ public class WaitFor {
      *
      * @param seconds
      *            - the number of seconds to wait
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void displayed(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + DISPLAYED;
@@ -209,8 +205,6 @@ public class WaitFor {
      *
      * @param seconds
      *            - the number of seconds to wait
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void notDisplayed(double seconds) {
         // this might fail if the element disappears completely
@@ -251,8 +245,6 @@ public class WaitFor {
      *
      * @param seconds
      *            - the number of seconds to wait
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void enabled(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + ENABLED;
@@ -289,8 +281,6 @@ public class WaitFor {
      *
      * @param seconds
      *            - the number of seconds to wait
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void notEnabled(double seconds) {
         // this might fail if the element is no longer present

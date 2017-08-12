@@ -468,9 +468,6 @@ public class Element {
 
     /**
      * the generic selenium click functionality implemented
-     *
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void click() {
         String cantClick = "Unable to click ";
@@ -494,9 +491,6 @@ public class Element {
 
     /**
      * the generic selenium submit functionality implemented
-     *
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void submit() {
         String cantSubmit = "Unable to submit ";
@@ -519,9 +513,6 @@ public class Element {
 
     /**
      * a method to simulate the mouse hovering over an element
-     *
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void hover() {
         String cantHover = "Unable to hover over ";
@@ -550,9 +541,6 @@ public class Element {
 
     /**
      * a custom selenium functionality to apply a blur to an element
-     *
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void blur() {
         String cantFocus = "Unable to focus on ";
@@ -578,8 +566,6 @@ public class Element {
      *
      * @param text
      *            - the text to be typed in
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void type(String text) {
         String action = "Typing text '" + text + IN + prettyOutput();
@@ -613,8 +599,6 @@ public class Element {
      *
      * @param key
      *            - the key to be pressed
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void type(Keys key) {
         String action = "Typing key '" + key + IN + prettyOutput();
@@ -646,8 +630,6 @@ public class Element {
     /**
      * the generic selenium clear functionality implemented
      *
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void clear() {
         String cantClear = "Unable to clear ";
@@ -693,8 +675,6 @@ public class Element {
      *
      * @param value
      *            - the select option to be selected
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void select(String value) {
         String cantSelect = "Unable to select ";
@@ -737,8 +717,6 @@ public class Element {
      *            - what is the action occurring
      * @param expected
      *            - what is the expected outcome of said action
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     private void cantMove(Exception e, String action, String expected) {
         log.error(e);
@@ -754,8 +732,6 @@ public class Element {
      *            - what is the action occurring
      * @param expected
      *            - what is the expected outcome of said action
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     private void isMoved(String action, String expected) {
         if (!is.displayed()) {
@@ -769,9 +745,6 @@ public class Element {
     /**
      * An extension of the basic Selenium action of 'moveToElement' This will
      * scroll or move the page to ensure the element is visible
-     *
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void move() {
         String action = "Moving screen to " + prettyOutput();
@@ -797,8 +770,6 @@ public class Element {
      *
      * @param position
      *            - how many pixels above the element to scroll to
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void move(long position) {
         String action = "Moving screen to " + position + " pixels above " + prettyOutput();
@@ -823,9 +794,6 @@ public class Element {
 
     /**
      * a function to switch to a frame using the element
-     * 
-     * @return Integer - the number of errors encountered while executing these
-     *         steps
      */
     public void selectFrame() {
         String cantSelect = "Unable to focus on frame ";
