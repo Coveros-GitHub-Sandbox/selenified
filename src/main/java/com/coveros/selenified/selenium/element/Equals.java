@@ -7,21 +7,10 @@ import com.coveros.selenified.output.OutputFile.Success;
 
 public class Equals extends Assert {
 
-    // this will be the name of the file we write all commands out to
-    private OutputFile file;
-
-    // what element are we trying to interact with on the page
-    private Element element;
-
     // constants
-    private static final String EXPECTED = "Expected to find ";
-    private static final String CLASS = "class";
-
     private static final String OPTION = " has the option of <b>";
     private static final String OPTIONS = " has options of <b>";
-    private static final String VALUE = " has the value of <b>";
     private static final String VALUES = " has values of <b>";
-    private static final String CLASSVALUE = " has a class value of <b>";
     private static final String WITH = " with the value of <b>";
 
     public Equals(Element element, OutputFile file) {

@@ -5,12 +5,6 @@ import com.coveros.selenified.output.OutputFile.Success;
 
 public class State extends Assert {
 
-	// this will be the name of the file we write all commands out to
-	private OutputFile file;
-
-	// what element are we trying to interact with on the page
-	private Element element;
-
 	// constants
 	private static final String EXPECTED = "Expected to find ";
 	private static final String CHECKED = " is checked on the page";
