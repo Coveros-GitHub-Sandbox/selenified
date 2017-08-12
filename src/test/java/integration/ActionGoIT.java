@@ -156,8 +156,8 @@ public class ActionGoIT extends Selenified {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite(this, context).split("/")[2].split(":")[0], "/",
-                df.parse(dateval));
+        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite(this, context).split("/")[2].split(":")[0],
+                "/", df.parse(dateval));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -172,8 +172,8 @@ public class ActionGoIT extends Selenified {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite(this, context).split("/")[2].split(":")[0], "/",
-                df.parse(dateval));
+        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite(this, context).split("/")[2].split(":")[0],
+                "/", df.parse(dateval));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions

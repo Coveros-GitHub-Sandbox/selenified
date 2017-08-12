@@ -149,7 +149,8 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.openTab("https://www.google.com/");
         app.switchNextTab();
-        String site = getTestSite(this, context).endsWith("/") ? getTestSite(this, context) : getTestSite(this, context) + "/";
+        String site = getTestSite(this, context).endsWith("/") ? getTestSite(this, context)
+                : getTestSite(this, context) + "/";
         app.urlEquals(site);
         // verify no issues
         finish();
@@ -163,7 +164,8 @@ public class ActionSwitchIT extends Selenified {
         // perform some actions
         app.openTab("https://www.google.com/");
         app.closeTab();
-        String site = getTestSite(this, context).endsWith("/") ? getTestSite(this, context) : getTestSite(this, context) + "/";
+        String site = getTestSite(this, context).endsWith("/") ? getTestSite(this, context)
+                : getTestSite(this, context) + "/";
         app.urlEquals(site);
         // verify no issues
         finish();

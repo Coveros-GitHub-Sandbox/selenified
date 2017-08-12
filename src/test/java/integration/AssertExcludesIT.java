@@ -93,7 +93,7 @@ public class AssertExcludesIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div").assertExcludes().classs("wrong_class");
+        app.newElement(Locator.ID, "hidden_div").assertExcludes().clazz("wrong_class");
         // verify no issues
         finish();
     }
@@ -104,7 +104,7 @@ public class AssertExcludesIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).assertExcludes().classs("hidden_div");
+        app.newElement(Locator.ID, "hidden_div", 0).assertExcludes().clazz("hidden_div");
         // verify 1 issue
         finish(1);
     }
@@ -115,7 +115,7 @@ public class AssertExcludesIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").assertExcludes().classs("hidden_div");
+        app.newElement(Locator.ID, "non-existent-element").assertExcludes().clazz("hidden_div");
         // verify 1 issues
         finish(1);
     }
@@ -126,7 +126,7 @@ public class AssertExcludesIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "check").assertExcludes().classs("hidden_div");
+        app.newElement(Locator.ID, "check").assertExcludes().clazz("hidden_div");
         // verify no issues
         finish();
     }

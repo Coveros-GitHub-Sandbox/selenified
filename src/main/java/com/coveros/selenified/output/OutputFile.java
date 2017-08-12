@@ -179,6 +179,10 @@ public class OutputFile {
         return errors;
     }
 
+    private boolean isRealBrowser() {
+        return browser != null && browser != Browser.NONE && browser != Browser.HTMLUNIT;
+    }
+
     /**
      * adds the app class which controls actions within the browser
      * 
@@ -370,7 +374,7 @@ public class OutputFile {
         if (result == Result.FAILURE) {
             success = "Fail";
         }
-        if (!"Pass".equals(success) && browser != null && browser != Browser.NONE && browser != Browser.HTMLUNIT) {
+        if (!"Pass".equals(success) && isRealBrowser()) {
             // get a screen shot of the action
             imageLink = captureEntirePageScreenshot();
         }
@@ -411,7 +415,7 @@ public class OutputFile {
                 FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
             // get a screen shot of the action
             String imageLink = "";
-            if (browser != null && browser != Browser.HTMLUNIT && browser != Browser.NONE) {
+            if (isRealBrowser()) {
                 imageLink = captureEntirePageScreenshot();
             }
             // determine time differences

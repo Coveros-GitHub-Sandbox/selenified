@@ -1,16 +1,28 @@
 package com.coveros.selenified.selenium.element;
 
-public interface Subset {
+import com.coveros.selenified.output.OutputFile;
 
-    public abstract int attribute(String attribute);
+public class Subset {
 
-    public abstract int classs(String classs);
+    // this will be the name of the file we write all commands out to
+    protected OutputFile file;
 
-    public abstract int text(String text);
+    // what element are we trying to interact with on the page
+    protected Element element;
 
-    public abstract int value(String value);
+    // a class used to determine if elements are selects or tables
+    protected Helper helper;
 
-    public abstract int selectOption(String selectOption);
+    // constants
+    protected static final String EXPECTED = "Expected to find ";
+    protected static final String CLASS = "class";
 
-    public abstract int selectValue(String selectValue);
+    protected static final String NOTINPUT = " is not an input on the page";
+
+    protected static final String VALUE = " has the value of <b>";
+    protected static final String TEXT = " has the text of <b>";
+    protected static final String HASVALUE = " contains the value of <b>";
+    protected static final String HASTEXT = " contains the text of <b>";
+    protected static final String ONLYVALUE = ", only the values <b>";
+    protected static final String CLASSVALUE = " has a class value of <b>";
 }

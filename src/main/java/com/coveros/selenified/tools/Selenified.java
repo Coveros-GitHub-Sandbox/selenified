@@ -94,26 +94,26 @@ public class Selenified {
     private static final String ERRORS_CHECK = " errors";
 
     // default getters and setters for test information
-    public String getTestSite(Selenified classs, ITestContext context) {
+    public String getTestSite(Selenified clazz, ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
-            String testSuite = classs.getClass().getName();
+            String testSuite = clazz.getClass().getName();
             return (String) context.getAttribute(testSuite + APP_INPUT);
         } else {
             return System.getProperty(APP_INPUT);
         }
     }
 
-    public String getTestSite(String classs, ITestContext context) {
+    public String getTestSite(String clazz, ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
-            return (String) context.getAttribute(classs + APP_INPUT);
+            return (String) context.getAttribute(clazz + APP_INPUT);
         } else {
             return System.getProperty(APP_INPUT);
         }
     }
 
-    public static void setTestSite(Selenified classs, ITestContext context, String siteURL) {
+    public static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
         if (System.getProperty(APP_INPUT) == null) {
-            String testSuite = classs.getClass().getName();
+            String testSuite = clazz.getClass().getName();
             context.setAttribute(testSuite + APP_INPUT, siteURL);
         }
     }

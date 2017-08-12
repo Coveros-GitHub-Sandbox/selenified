@@ -120,7 +120,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div").assertEquals().classs("hidden_div");
+        app.newElement(Locator.ID, "hidden_div").assertEquals().clazz("hidden_div");
         // verify no issues
         finish();
     }
@@ -131,7 +131,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).assertEquals().classs("wrong_class");
+        app.newElement(Locator.ID, "hidden_div", 0).assertEquals().clazz("wrong_class");
         // verify 1 issue
         finish(1);
     }
@@ -142,7 +142,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").assertEquals().classs("wrong_class");
+        app.newElement(Locator.ID, "non-existent-element").assertEquals().clazz("wrong_class");
         // verify 1 issue
         finish(1);
     }
@@ -153,7 +153,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "check").assertEquals().classs("wrong_class");
+        app.newElement(Locator.ID, "check").assertEquals().clazz("wrong_class");
         // verify 1 issue
         finish(1);
     }

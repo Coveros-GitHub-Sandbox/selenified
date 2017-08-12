@@ -239,7 +239,7 @@ public class AssertContainsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div").assertContains().classs("hidden_div");
+        app.newElement(Locator.ID, "hidden_div").assertContains().clazz("hidden_div");
         // verify no issues
         finish();
     }
@@ -250,7 +250,7 @@ public class AssertContainsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).assertContains().classs("wrong_class");
+        app.newElement(Locator.ID, "hidden_div", 0).assertContains().clazz("wrong_class");
         // verify 1 issue
         finish(1);
     }
@@ -261,7 +261,7 @@ public class AssertContainsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").assertContains().classs("wrong_class");
+        app.newElement(Locator.ID, "non-existent-element").assertContains().clazz("wrong_class");
         // verify 1 issue
         finish(1);
     }
@@ -272,7 +272,7 @@ public class AssertContainsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "check").assertContains().classs("wrong_class");
+        app.newElement(Locator.ID, "check").assertContains().clazz("wrong_class");
         // verify 1 issue
         finish(1);
     }

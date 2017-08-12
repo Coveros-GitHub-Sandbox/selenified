@@ -127,9 +127,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator) {
-        Element element = new Element(type, locator);
-        element.init(driver, file);
-        return element;
+        return new Element(driver, file, type, locator);
     }
 
     /**
@@ -145,9 +143,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, int match) {
-        Element element = new Element(type, locator, match);
-        element.init(driver, file);
-        return element;
+        return new Element(driver, file, type, locator, match);
     }
 
     ///////////////////////////////////////////////////////

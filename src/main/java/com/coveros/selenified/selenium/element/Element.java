@@ -89,18 +89,20 @@ public class Element {
     private static final String SELECTED = " selected";
     private static final String PRESDISEN = " is present, displayed, and enabled to have the value ";
 
-    public Element(Locator type, String locator) {
-        this.setType(type);
-        this.setLocator(locator);
+    public Element(WebDriver driver, OutputFile file, Locator type, String locator) {
+        this.type = type;
+        this.locator = locator;
+        init(driver, file);
     }
 
-    public Element(Locator type, String locator, int match) {
-        this.setType(type);
-        this.setLocator(locator);
+    public Element(WebDriver driver, OutputFile file, Locator type, String locator, int match) {
+        this.type = type;
+        this.locator = locator;
         this.setMatch(match);
+        init(driver, file);
     }
 
-    public void init(WebDriver driver, OutputFile file) {
+    private void init(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.file = file;
 
@@ -111,14 +113,6 @@ public class Element {
         contains = new Contains(this, file);
         excludes = new Excludes(this, file);
         equals = new Equals(this, file);
-    }
-
-    public void setType(Locator type) {
-        this.type = type;
-    }
-
-    public void setLocator(String locator) {
-        this.locator = locator;
     }
 
     public void setMatch(int match) {

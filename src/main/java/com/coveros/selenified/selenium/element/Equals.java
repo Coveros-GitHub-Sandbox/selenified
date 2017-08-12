@@ -113,7 +113,7 @@ public class Equals {
      *            - the full expected class value
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int classs(String expectedClass) {
+    public int clazz(String expectedClass) {
         // wait for the element
         if (!element.is().present() && element.waitFor().present() == 1) {
             return 1;

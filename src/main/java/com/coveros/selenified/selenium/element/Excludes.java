@@ -7,29 +7,7 @@ import java.util.Set;
 import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.output.OutputFile.Success;
 
-public class Excludes implements Subset {
-
-    // this will be the name of the file we write all commands out to
-    private OutputFile file;
-
-    // what element are we trying to interact with on the page
-    private Element element;
-
-    // a class used to determine if elements are selects or tables
-    private Helper helper;
-
-    // constants
-    private static final String EXPECTED = "Expected to find ";
-    private static final String CLASS = "class";
-
-    private static final String NOTINPUT = " is not an input on the page";
-
-    private static final String VALUE = " has the value of <b>";
-    private static final String TEXT = " has the text of <b>";
-    private static final String HASVALUE = " contains the value of <b>";
-    private static final String HASTEXT = " contains the text of <b>";
-    private static final String ONLYVALUE = ", only the values <b>";
-    private static final String CLASSVALUE = " has a class value of <b>";
+public class Excludes extends Subset {
 
     public Excludes(Element element, OutputFile file) {
         this.element = element;
@@ -48,7 +26,7 @@ public class Excludes implements Subset {
      *            - the unexpected class value
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int classs(String unexpectedClass) {
+    public int clazz(String unexpectedClass) {
         // wait for the element
         if (!element.is().present() && element.waitFor().present() == 1) {
             return 1;
