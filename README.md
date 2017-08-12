@@ -179,10 +179,8 @@ quicker and cleaner.
 ### Write the Tests
 Adding a new test, is simply adding a new method to an existing test suite (class). Each method should be 
 named something descriptive following the tests functionality. Each method should have a public modifier and 
-have a void return type. Additionally, each method should be prepared to catch an IOException, resulting from 
-either a failed assert at the end of each test, or from other errors arising during runtime. Each method should 
-have an @Test annotation before it. Putting in the below information in each annotation will ensure that the 
-data is available in the custom test reporting.
+have a void return type. Each method should have an @Test annotation before it. Putting in the below information 
+in each annotation will ensure that the data is available in the custom test reporting.
 
  * a group - based on the test suite and the extended test suite
  * a description - something useful/descriptive to be displayed on the results and test detailed results

@@ -5,16 +5,13 @@ import java.util.Arrays;
 import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.output.OutputFile.Success;
 
-public class Equals {
+public class Equals extends Assert {
 
     // this will be the name of the file we write all commands out to
     private OutputFile file;
 
     // what element are we trying to interact with on the page
     private Element element;
-
-    // a class used to determine if elements are selects or tables
-    private Helper helper;
 
     // constants
     private static final String EXPECTED = "Expected to find ";
@@ -30,7 +27,6 @@ public class Equals {
     public Equals(Element element, OutputFile file) {
         this.element = element;
         this.file = file;
-        this.helper = new Helper(element, file);
     }
 
     // ///////////////////////////////////////
@@ -47,11 +43,11 @@ public class Equals {
      *            the expected css value of the passed attribute of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int cssValue(String attribute, String expectedValue) {
-        // wait for the element
-        if (!element.is().present() && element.waitFor().present() == 1) {
-            return 1;
-        }
+    public void cssValue(String attribute, String expectedValue) {
+		// wait for the element
+		if (!isPresent()) {
+			return;
+		}
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having a css attribute of <i>" + attribute
                 + " with a value of <b>" + expectedValue + "</b>");
@@ -60,18 +56,17 @@ public class Equals {
         if (elementCssValue == null) {
             file.recordActual("Unable to assess the css of " + element.prettyOutput(), Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         if (!elementCssValue.equals(expectedValue)) {
             file.recordActual(element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH
                     + elementCssValue + "</b>", Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH
                 + elementCssValue + "</b>", Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * compares the expected element attribute value with the actual attribute
@@ -83,11 +78,11 @@ public class Equals {
      *            the expected value of the passed attribute of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int attribute(String attribute, String expectedValue) {
-        // wait for the element
-        if (!element.is().present() && element.waitFor().present() == 1) {
-            return 1;
-        }
+    public void attribute(String attribute, String expectedValue) {
+		// wait for the element
+		if (!isPresent()) {
+			return;
+		}
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having an attribute of <i>" + attribute
                 + " with a value of <b>" + expectedValue + "</b>");
@@ -98,13 +93,12 @@ public class Equals {
                     element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + "</b>",
                     Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(
                 element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + "</b>",
                 Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * checks to see if an element has a particular class
@@ -113,11 +107,11 @@ public class Equals {
      *            - the full expected class value
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int clazz(String expectedClass) {
-        // wait for the element
-        if (!element.is().present() && element.waitFor().present() == 1) {
-            return 1;
-        }
+    public void clazz(String expectedClass) {
+		// wait for the element
+		if (!isPresent()) {
+			return;
+		}
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " with class <b>" + expectedClass + "</b>");
         // get the actual class value
@@ -126,11 +120,10 @@ public class Equals {
         if (!actualClass.equals(expectedClass)) {
             file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>", Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(element.prettyOutputStart() + CLASSVALUE + expectedClass + "</b>", Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * compares the expected element value with the actual value from an element
@@ -139,11 +132,11 @@ public class Equals {
      *            the expected value of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int text(String expectedText) {
-        // wait for the element
-        if (!element.is().present() && element.waitFor().present() == 1) {
-            return 1;
-        }
+    public void text(String expectedText) {
+		// wait for the element
+		if (!isPresent()) {
+			return;
+		}
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having text of <b>" + expectedText + "</b>");
         // check for the object to the present on the page
@@ -151,11 +144,10 @@ public class Equals {
         if (!elementText.equals(expectedText)) {
             file.recordActual(element.prettyOutputStart() + VALUE + elementText + "</b>", Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(element.prettyOutputStart() + VALUE + elementText + "</b>", Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * compares the text of expected table cell with the actual table cell text
@@ -171,13 +163,13 @@ public class Equals {
      *            - what text do we expect to be in the table cell
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int text(int row, int col, String text) {
+    public void text(int row, int col, String text) {
         String column = " and column ";
         String within = " within element ";
         // wait for the table
-        if (!helper.isPresentTable("Expected to find cell at row " + row + column + col + within
+        if (!isPresentTable("Expected to find cell at row " + row + column + col + within
                 + element.prettyOutput() + " to have the text value of <b>" + text + "</b>")) {
-            return 1;
+            return;
         }
         // get the table cell text
         String actualText = element.get().tableCell(row, col).getText();
@@ -185,12 +177,11 @@ public class Equals {
             file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput()
                     + " has the text value of <b>" + actualText + "</b>", Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput()
                 + " has the text value of <b>" + actualText + "</b>", Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * compares the expected element input value with the actual value from an
@@ -200,29 +191,28 @@ public class Equals {
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int value(String expectedValue) {
+    public void value(String expectedValue) {
+    	// wait for the element
+    	if (!isPresent()) {
+    		return;
+    	}
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having a value of <b>" + expectedValue + "</b>");
-        // wait for the element
-        if (!element.is().present() && element.waitFor().present() == 1) {
-            return 1;
-        }
         // verify this is an input element
         if (!element.is().input()) {
             file.recordActual(element.prettyOutputStart() + " is not an input on the page", Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         // get the element value
         String elementValue = element.get().value();
         if (!elementValue.equals(expectedValue)) {
             file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * compares the expected element select test with the actual value from an
@@ -232,22 +222,21 @@ public class Equals {
      *            the expected input text of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int selectedOption(String expectedText) {
+    public void selectedOption(String expectedText) {
         // wait for the select
-        if (!helper.isPresentSelect(
+        if (!isPresentSelect(
                 EXPECTED + element.prettyOutput() + " having a selected option of <b>" + expectedText + "</b>")) {
-            return 1;
+            return;
         }
         // get the selected text
         String elementText = element.get().selectedOption();
         if (!elementText.equals(expectedText)) {
             file.recordActual(element.prettyOutputStart() + OPTION + elementText + "</b>", Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(element.prettyOutputStart() + OPTION + elementText + "</b>", Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * compares the expected element select value with the actual value from an
@@ -257,22 +246,21 @@ public class Equals {
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int selectedValue(String expectedValue) {
+    public void selectedValue(String expectedValue) {
         // wait for the select
-        if (!helper.isPresentSelect(
+        if (!isPresentSelect(
                 EXPECTED + element.prettyOutput() + " having a selected value of <b>" + expectedValue + "</b>")) {
-            return 1;
+            return;
         }
         // get the selected value
         String elementValue = element.get().selectedValue();
         if (!elementValue.equals(expectedValue)) {
             file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * compares the expected attributes from a select value with the actual
@@ -282,11 +270,11 @@ public class Equals {
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int selectOptions(String... expectedOptions) {
+    public void selectOptions(String... expectedOptions) {
         // wait for the select
-        if (!helper.isPresentSelect(
+        if (!isPresentSelect(
                 EXPECTED + element.prettyOutput() + " with select options of <b>" + expectedOptions + "</b>")) {
-            return 1;
+            return;
         }
         // get the actual select options
         String[] elementOptions = element.get().selectOptions();
@@ -294,12 +282,11 @@ public class Equals {
             file.recordActual(element.prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + "</b>",
                     Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(element.prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + "</b>",
                 Success.PASS);
-        return 0;
-    }
+            }
 
     /**
      * compares the expected attributes from a select value with the actual
@@ -309,11 +296,11 @@ public class Equals {
      *            the expected input value of the element
      * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int selectValues(String... expectedValues) {
+    public void selectValues(String... expectedValues) {
         // wait for the select
-        if (!helper.isPresentSelect(EXPECTED + element.prettyOutput() + " with select values of <b>"
+        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with select values of <b>"
                 + Arrays.toString(expectedValues) + "</b>")) {
-            return 1;
+            return;
         }
         // get the actual select values
         String[] elementValues = element.get().selectValues();
@@ -321,9 +308,8 @@ public class Equals {
             file.recordActual(element.prettyOutputStart() + VALUES + Arrays.toString(elementValues) + "</b>",
                     Success.FAIL);
             file.addError();
-            return 1;
+            return;
         }
         file.recordActual(element.prettyOutputStart() + VALUES + Arrays.toString(elementValues) + "</b>", Success.PASS);
-        return 0;
-    }
+            }
 }

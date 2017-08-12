@@ -3,23 +3,41 @@ package com.coveros.selenified.selenium.element;
 import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.output.OutputFile.Success;
 
-public class Helper {
+public class Assert {
 
-    // what element are we trying to interact with on the page
-    private Element element;
+	// this will be the name of the file we write all commands out to
+	protected OutputFile file;
 
-    // this will be the name of the file we write all commands out to
-    private OutputFile file;
+	// what element are we trying to interact with on the page
+	protected Element element;
 
-    // constants
-    private static final String NOTSELECT = " is not a select on the page";
-    private static final String NOTTABLE = " is not a table on the page";
+	// constants
+	protected static final String EXPECTED = "Expected to find ";
+	protected static final String CLASS = "class";
 
-    public Helper(Element element, OutputFile file) {
-        this.element = element;
-        this.file = file;
-    }
+	protected static final String NOTINPUT = " is not an input on the page";
 
+	protected static final String VALUE = " has the value of <b>";
+	protected static final String TEXT = " has the text of <b>";
+	protected static final String HASVALUE = " contains the value of <b>";
+	protected static final String HASTEXT = " contains the text of <b>";
+	protected static final String ONLYVALUE = ", only the values <b>";
+	protected static final String CLASSVALUE = " has a class value of <b>";
+	
+    protected static final String NOTSELECT = " is not a select on the page";
+    protected static final String NOTTABLE = " is not a table on the page";
+
+
+	protected boolean isPresent() {
+		if (!element.is().present()) {
+			element.waitFor().present();
+			if (!element.is().present()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
     /**
      * Determines if the element is a select
      * 
@@ -56,10 +74,10 @@ public class Helper {
      * @return Boolean: whether the element is a select or not
      */
     public boolean isPresentSelect(String expected) {
-        // wait for the element
-        if (!element.is().present() && element.waitFor().present() == 1) {
-            return false;
-        }
+		// wait for the element
+		if (!isPresent()) {
+			return false;
+		}
         file.recordExpected(expected);
         // verify this is a select element
         return isSelect();
@@ -73,10 +91,10 @@ public class Helper {
      * @return Boolean: whether the element is an table or not
      */
     public boolean isPresentTable(String expected) {
-        // wait for the element
-        if (!element.is().present() && element.waitFor().present() == 1) {
-            return false;
-        }
+		// wait for the element
+		if (!isPresent()) {
+			return false;
+		}
         file.recordExpected(expected);
         // verify this is a select element
         return isTable();

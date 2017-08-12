@@ -650,7 +650,7 @@ public class OutputFile {
      * 
      * @return Integer: how many errors encountered
      */
-    public int loadInitialPage() {
+    public void loadInitialPage() {
         String startingPage = "The starting app <i>";
         String act = "Opening new browser and loading up starting app";
         String expected = startingPage + url + "</i> will successfully load";
@@ -663,17 +663,15 @@ public class OutputFile {
                             startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
                             Result.FAILURE);
                     addError();
-                    return 1;
+                    return;
                 }
                 recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
             } catch (Exception e) {
                 log.error(e);
                 recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
                 addError();
-                return 1;
             }
         }
-        return 0;
     }
 
     /**

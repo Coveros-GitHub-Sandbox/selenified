@@ -48,8 +48,8 @@ public class WaitFor {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int alertPresent() {
-        return alertPresent(defaultWait);
+    public void alertPresent() {
+        alertPresent(defaultWait);
     }
 
     /**
@@ -58,8 +58,8 @@ public class WaitFor {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int confirmationPresent() {
-        return confirmationPresent(defaultWait);
+    public void confirmationPresent() {
+        confirmationPresent(defaultWait);
     }
 
     /**
@@ -68,8 +68,8 @@ public class WaitFor {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int promptPresent() {
-        return promptPresent(defaultWait);
+    public void promptPresent() {
+        promptPresent(defaultWait);
     }
 
     ///////////////////////////////////////////////////
@@ -108,7 +108,7 @@ public class WaitFor {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int alertPresent(double seconds) {
+    public void alertPresent(double seconds) {
         String action = UPTO + seconds + " seconds for an alert to be present";
         String expected = "An alert is present";
         double timetook = popup(seconds);
@@ -116,10 +116,9 @@ public class WaitFor {
             file.recordAction(action, expected, WAITING + timetook + " seconds, an alert is not present",
                     Result.FAILURE);
             file.addError();
-            return 1;
+            return;
         }
         file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present", Result.SUCCESS);
-        return 0;
     }
 
     /**
@@ -130,7 +129,7 @@ public class WaitFor {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int confirmationPresent(double seconds) {
+    public void confirmationPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a confirmation to be present";
         String expected = "A confirmation is present";
         double timetook = popup(seconds);
@@ -138,11 +137,10 @@ public class WaitFor {
             file.recordAction(action, expected, WAITING + timetook + " seconds, a confirmation is not present",
                     Result.FAILURE);
             file.addError();
-            return 1;
+            return;
         }
         file.recordAction(action, expected, WAITED + timetook + " seconds for a confirmation to be present",
                 Result.SUCCESS);
-        return 0;
     }
 
     /**
@@ -153,7 +151,7 @@ public class WaitFor {
      * @return Integer: the number of errors encountered while executing these
      *         steps
      */
-    public int promptPresent(double seconds) {
+    public void promptPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a prompt to be present";
         String expected = "A prompt is present";
         double timetook = popup(seconds);
@@ -161,9 +159,8 @@ public class WaitFor {
             file.recordAction(action, expected, WAITING + timetook + " seconds, a prompt is not present",
                     Result.FAILURE);
             file.addError();
-            return 1;
+            return;
         }
         file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present", Result.SUCCESS);
-        return 0;
     }
 }
