@@ -354,4 +354,134 @@ public class AssertStateIT extends Selenified {
         // verify 1 issue
         finish(1);
     }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration test to check the present method")
+    public void checkElementPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "car_list").assertState().present();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration test to check the present method")
+    public void checkElementPresentDelayedTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "check").assertState().present();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration negative test to check the present method")
+    public void checkElementPresentNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").assertState().present();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration negative test to check the present method")
+    public void checkElementNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").assertState().notPresent();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration negative test to check the present method")
+    public void checkElementNotPresentDelayedTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "nocheck").assertState().notPresent();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration negative test to check the present method")
+    public void checkElementNotPresentExistsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "car_list").assertState().notPresent();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "state" }, description = "An integration test to editabled method")
+    public void checkElementEditabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "input_box").assertState().editable();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration negative test to editabled method")
+    public void checkElementEditabledNotEditableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "delayed_input").assertState().editable();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration negative test to editabled method")
+    public void checkElementEditabledNotInputTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table_no_header").assertState().editable();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "state" }, description = "An integration test to notEditabled method")
+    public void checkElementNotEditabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "delayed_input").assertState().notEditable();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration negative test to notEditabled method")
+    public void checkElementNotEditabledEditableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "input_box").assertState().notEditable();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts",
+            "state" }, description = "An integration negative test to notEditabled method")
+    public void checkElementNotEditabledNotInputTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table_no_header").assertState().notEditable();
+        // verify no issues
+        finish();
+    }
 }

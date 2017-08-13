@@ -34,12 +34,6 @@ public class State extends Assert {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + PRESENT);
-        // check for the object to the visible
-        if (!element.is().present()) {
-            file.recordActual(element.prettyOutputStart() + NOTPRESENT, Success.FAIL);
-            file.addError();
-            return;
-        }
         file.recordActual(element.prettyOutputStart() + PRESENT, Success.PASS);
     }
 
@@ -51,6 +45,9 @@ public class State extends Assert {
         // wait for the element
         if (element.is().present()) {
             element.waitFor().notPresent();
+            if (element.is().present()) {
+                return;
+            }
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + NOTPRESENT);
@@ -109,7 +106,7 @@ public class State extends Assert {
      * @param presence
      *            - what additional attribute is expected from the element
      */
-    private void checkEditable(String presence) {
+    private void editable(String presence) {
         // check for the object to the editable
         if (!element.is().input()) {
             file.recordActual(element.prettyOutputStart() + IS + presence + " but not an input on the page",
@@ -132,7 +129,7 @@ public class State extends Assert {
      * @param presence
      *            - what additional attribute is expected from the element
      */
-    private void checkNotEditable(String presence) {
+    private void notEditable(String presence) {
         // check for the object to the editable
         if (element.is().input() && element.is().enabled()) {
             file.recordActual(element.prettyOutputStart() + IS + presence + " but editable on the page", Success.FAIL);
@@ -193,15 +190,15 @@ public class State extends Assert {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + CHECKED);
-        // check for the object to the checked
-        if (!element.is().checked()) {
-            file.recordActual(element.prettyOutputStart() + NOTCHECKED, Success.FAIL);
-            file.addError();
-            return;
-        }
         // check for the object to the visible
         if (!element.is().displayed()) {
             file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.FAIL);
+            file.addError();
+            return;
+        }
+        // check for the object to the checked
+        if (!element.is().checked()) {
+            file.recordActual(element.prettyOutputStart() + NOTCHECKED, Success.FAIL);
             file.addError();
             return;
         }
@@ -220,14 +217,14 @@ public class State extends Assert {
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + NOTCHECKED);
         // check for the object to the visible
-        if (element.is().checked()) {
-            file.recordActual(element.prettyOutputStart() + CHECKED, Success.FAIL);
+        if (!element.is().displayed()) {
+            file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.FAIL);
             file.addError();
             return;
         }
         // check for the object to the visible
-        if (!element.is().displayed()) {
-            file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.FAIL);
+        if (element.is().checked()) {
+            file.recordActual(element.prettyOutputStart() + CHECKED, Success.FAIL);
             file.addError();
             return;
         }
@@ -245,7 +242,7 @@ public class State extends Assert {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " editable on the page");
-        checkEditable("present");
+        editable("present");
     }
 
     /**
@@ -259,7 +256,7 @@ public class State extends Assert {
         }
         // outputFile.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " not editable on the page");
-        checkNotEditable("present");
+        notEditable("present");
     }
 
     /**
@@ -278,7 +275,7 @@ public class State extends Assert {
             file.addError();
             return;
         }
-        checkEditable("visable");
+        editable("visable");
     }
 
     /**
@@ -298,6 +295,6 @@ public class State extends Assert {
             file.addError();
             return;
         }
-        checkNotEditable("visible");
+        notEditable("visible");
     }
 }
