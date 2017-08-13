@@ -158,7 +158,7 @@ public class OutputFile {
     }
 
     private boolean isRealBrowser() {
-        return browser != null && browser != Browser.NONE && browser != Browser.HTMLUNIT;
+        return browser != Browser.NONE && browser != Browser.HTMLUNIT;
     }
 
     /**

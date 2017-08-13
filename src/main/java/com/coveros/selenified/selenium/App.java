@@ -83,16 +83,25 @@ public class App {
      */
     public App(Browser browser, DesiredCapabilities capabilities, OutputFile file)
             throws InvalidBrowserException, MalformedURLException {
-        this.browser = browser;
-        this.capabilities = capabilities;
+        if (browser == null) {
+            this.browser = Browser.NONE;
+        } else {
+            this.browser = browser;
+        }
+
+        if (capabilities == null) {
+            this.capabilities = new DesiredCapabilities();
+        } else {
+            this.capabilities = capabilities;
+        }
         this.file = file;
 
         // if we want to test remotely
         if (System.getProperty("hub") != null) {
-            driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), capabilities);
+            driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.capabilities);
         } else {
-            capabilities.setJavascriptEnabled(true);
-            driver = TestSetup.setupDriver(browser, capabilities);
+            this.capabilities.setJavascriptEnabled(true);
+            driver = TestSetup.setupDriver(this.browser, this.capabilities);
         }
 
         is = new Is(driver, file);
@@ -261,7 +270,7 @@ public class App {
      *            TestOutput.generateImageName
      */
     public void takeScreenshot(String imageName) {
-        if (browser == null || browser == Browser.HTMLUNIT || browser == Browser.NONE) {
+        if (browser == Browser.HTMLUNIT || browser == Browser.NONE) {
             return;
         }
         try {
