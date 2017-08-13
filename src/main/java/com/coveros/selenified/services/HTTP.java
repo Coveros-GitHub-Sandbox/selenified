@@ -67,24 +67,12 @@ public class HTTP {
         return serviceBaseUrl;
     }
 
-    public void setServiceBaseUrl(String serviceBaseUrl) {
-        this.serviceBaseUrl = serviceBaseUrl;
-    }
-
     public String getUser() {
         return user;
     }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-
     public String getPass() {
         return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
     }
 
     public boolean useCredentials() {
