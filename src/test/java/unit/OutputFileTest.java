@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -89,66 +88,66 @@ public class OutputFileTest {
         Assert.assertEquals(outputFile.getErrors(), 100001);
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void createOutputHeaderSuiteTest() throws IOException {
         new OutputFile("newdirectory", "file", Browser.ANDROID, null, "My Suite", null, null, null, null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
-        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Suite"));
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("My Suite"));
         file.delete();
         new File("newdirectory").delete();
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void createOutputHeaderGroupTest() throws IOException {
         new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, "My Group", null, null, null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
-        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Group"));
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("My Group"));
         file.delete();
         new File("newdirectory").delete();
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void createOutputHeaderAuthorTest() throws IOException {
         new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, "My Author", null, null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
-        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Author"));
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("My Author"));
         file.delete();
         new File("newdirectory").delete();
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void createOutputHeaderVersionTest() throws IOException {
         new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, null, "My Version", null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
-        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Version"));
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("My Version"));
         file.delete();
         new File("newdirectory").delete();
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void createOutputHeaderObjectivesTest() throws IOException {
         new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, null, null, "My Objectives");
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
-        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Objectives"));
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("My Objectives"));
         file.delete();
         new File("newdirectory").delete();
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void loadInitialPageTest() throws IOException {
         Assert.assertNotEquals(file.length(), 0);
-        org.testng.Assert.assertFalse(FileUtils.readFileToString(file).contains("The starting page"));
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertFalse(content.contains("The starting page"));
     }
 
     @Test

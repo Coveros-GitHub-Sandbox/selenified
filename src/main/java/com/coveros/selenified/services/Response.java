@@ -168,18 +168,16 @@ public class Response {
      */
     public void assertContains(Map<String, String> expectedPairs) {
         StringBuilder expectedString = new StringBuilder();
-        Success success = Success.FAIL;
-        if (object != null) {
-            success = Success.PASS;
-            for (Map.Entry<String, String> entry : expectedPairs.entrySet()) {
-                expectedString.append("<div>");
-                expectedString.append(entry.getKey());
-                expectedString.append(" : ");
-                expectedString.append(entry.getValue());
-                expectedString.append("</div>");
-                if (!object.has(entry.getKey()) || !object.get(entry.getKey()).getAsString().equals(entry.getValue())) {
-                    success = Success.FAIL;
-                }
+        Success success = (object == null) ? Success.FAIL : Success.PASS;
+        for (Map.Entry<String, String> entry : expectedPairs.entrySet()) {
+            expectedString.append("<div>");
+            expectedString.append(entry.getKey());
+            expectedString.append(" : ");
+            expectedString.append(entry.getValue());
+            expectedString.append("</div>");
+            if (object != null && (!object.has(entry.getKey())
+                    || !object.get(entry.getKey()).getAsString().equals(entry.getValue()))) {
+                success = Success.FAIL;
             }
         }
         file.recordExpected(
@@ -202,7 +200,7 @@ public class Response {
         if (object != null && object.has(key)) {
             success = object.get(key).equals(expectedJson) ? Success.PASS : Success.FAIL;
         }
-        file.recordExpected("Expected to find a response containing: "
+        file.recordExpected("Expected to find a response with key <i>" + key + "</i> equal to: "
                 + file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
