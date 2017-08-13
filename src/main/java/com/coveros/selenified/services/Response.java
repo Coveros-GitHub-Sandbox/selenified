@@ -72,10 +72,6 @@ public class Response {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public boolean isData() {
         return object != null || array != null;
     }
