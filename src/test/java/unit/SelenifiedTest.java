@@ -1,9 +1,6 @@
 package unit;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -14,7 +11,6 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.tools.Selenified;
 
 public class SelenifiedTest extends Selenified {
@@ -85,46 +81,6 @@ public class SelenifiedTest extends Selenified {
     }
 
     @Test
-    public void initializeSystemTest(ITestContext context) {
-        Selenified.initializeSystem();
-        Assert.assertEquals(System.getProperty("browser"), "HTMLUNIT");
-        Assert.assertNull(getTestSite(this.getClass().getName(), context));
-
-        System.setProperty("browser", "Chrome");
-        System.setProperty("appURL", "http://www.yahoo.com");
-        Selenified.initializeSystem();
-        Assert.assertEquals(System.getProperty("browser"), "Chrome");
-        Assert.assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
-    }
-
-    @Test(expectedExceptions = InvalidBrowserException.class)
-    public void setupTestParametersBadBrowserTest() throws InvalidBrowserException {
-        System.setProperty("browser", "BadBrowser");
-        Selenified.setupTestParameters();
-    }
-
-    @Test
-    public void setupTestParametersSingleBrowserTest() throws InvalidBrowserException {
-        List<Browser> expectedBrowser = new ArrayList<Browser>();
-        expectedBrowser.add(Browser.CHROME);
-        System.setProperty("browser", "CHROME");
-
-        Selenified.setupTestParameters();
-        Assert.assertEquals(Selenified.browsers, expectedBrowser);
-    }
-
-    @Test
-    public void setupTestParametersMultipleBrowserTest() throws InvalidBrowserException {
-        List<Browser> expectedBrowser = new ArrayList<Browser>();
-        expectedBrowser.add(Browser.CHROME);
-        expectedBrowser.add(Browser.EDGE);
-        System.setProperty("browser", "CHROME,EDGE");
-
-        Selenified.setupTestParameters();
-        Assert.assertEquals(Selenified.browsers, expectedBrowser);
-    }
-
-    @Test
     public void extraCapabilitiesTest() {
         DesiredCapabilities capability = capabilities.get(0);
         Assert.assertTrue((boolean) capability.getCapability("ignoreProtectedModeSettings"));
@@ -150,19 +106,5 @@ public class SelenifiedTest extends Selenified {
     public void authorTest(ITestContext context) {
         setAuthor(this, context, "Max");
         Assert.assertEquals(getAuthor(this.getClass().getName(), context), "Max");
-    }
-
-    @Test
-    public void checkPassedInUser() {
-        System.setProperty("SERVICES_USER", "hello");
-        initializeSystem();
-        Assert.assertEquals(servicesUser, "");
-    }
-
-    @Test
-    public void checkPassedInPass() {
-        System.setProperty("SERVICES_PASS", "world");
-        initializeSystem();
-        Assert.assertEquals(servicesPass, "");
     }
 }

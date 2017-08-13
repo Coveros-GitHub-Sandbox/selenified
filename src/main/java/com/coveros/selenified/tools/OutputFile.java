@@ -486,7 +486,7 @@ public class OutputFile {
             out.write("    <th>Author</th>\n");
             out.write(START_CELL + this.author + END_CELL);
             out.write("    <th rowspan='2'>Test Run Time</th>\n");
-            out.write("    <td>\n");
+            out.write("    <td rowspan='2'>\n");
             out.write("     Start:\t" + sTime + " <br/>\n");
             out.write("     End:\tTIMEFINISHED <br/>\n");
             out.write("     Run Time:\tRUNTIME \n");

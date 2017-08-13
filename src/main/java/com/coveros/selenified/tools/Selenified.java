@@ -63,344 +63,345 @@ import java.util.Map;
 @Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
 public class Selenified {
 
-	private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(General.class);
 
-	// if were services calls are bring used, are there usernames and passwords
-	// used for credentials
-	protected static String servicesUser = "";
-	protected static String servicesPass = "";
+    // if were services calls are bring used, are there usernames and passwords
+    // used for credentials
+    protected static String servicesUser = "";
+    protected static String servicesPass = "";
 
-	// any additional browser capabilities that might be necessary
-	protected static DesiredCapabilities extraCapabilities = null;
+    // any additional browser capabilities that might be necessary
+    protected static DesiredCapabilities extraCapabilities = null;
 
-	// some passed in system params
-	protected static List<Browser> browsers;
-	protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
+    // some passed in system params
+    protected static List<Browser> browsers;
+    protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
 
-	// for individual tests
-	protected ThreadLocal<Browser> browser = new ThreadLocal<>();
-	protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
-	protected ThreadLocal<OutputFile> files = new ThreadLocal<>();
-	protected ThreadLocal<App> apps = new ThreadLocal<>();
-	protected ThreadLocal<Call> calls = new ThreadLocal<>();
+    // for individual tests
+    protected ThreadLocal<Browser> browser = new ThreadLocal<>();
+    protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
+    protected ThreadLocal<OutputFile> files = new ThreadLocal<>();
+    protected ThreadLocal<App> apps = new ThreadLocal<>();
+    protected ThreadLocal<Call> calls = new ThreadLocal<>();
 
-	// constants
-	private static final String APP_INPUT = "appURL";
-	private static final String BROWSER_INPUT = "browser";
-	private static final String INVOCATION_COUNT = "InvocationCount";
-	private static final String ERRORS_CHECK = " errors";
+    // constants
+    private static final String APP_INPUT = "appURL";
+    private static final String BROWSER_INPUT = "browser";
+    private static final String INVOCATION_COUNT = "InvocationCount";
+    private static final String ERRORS_CHECK = " errors";
 
-	// default getters and setters for test information
-	public String getTestSite(String clazz, ITestContext context) {
-		if (System.getProperty(APP_INPUT) == null) {
-			return (String) context.getAttribute(clazz + APP_INPUT);
-		} else {
-			return System.getProperty(APP_INPUT);
-		}
-	}
+    // default getters and setters for test information
+    public String getTestSite(String clazz, ITestContext context) {
+        if (System.getProperty(APP_INPUT) == null) {
+            return (String) context.getAttribute(clazz + APP_INPUT);
+        } else {
+            return System.getProperty(APP_INPUT);
+        }
+    }
 
-	protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
-		if (System.getProperty(APP_INPUT) == null) {
-			String testSuite = clazz.getClass().getName();
-			context.setAttribute(testSuite + APP_INPUT, siteURL);
-		}
-	}
+    protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
+        if (System.getProperty(APP_INPUT) == null) {
+            String testSuite = clazz.getClass().getName();
+            context.setAttribute(testSuite + APP_INPUT, siteURL);
+        }
+    }
 
-	protected String getVersion(String clazz, ITestContext context) {
-		return (String) context.getAttribute(clazz + "Version");
-	}
+    protected String getVersion(String clazz, ITestContext context) {
+        return (String) context.getAttribute(clazz + "Version");
+    }
 
-	protected static void setVersion(Selenified clazz, ITestContext context, String version) {
-		String testSuite = clazz.getClass().getName();
-		context.setAttribute(testSuite + "Version", version);
-	}
+    protected static void setVersion(Selenified clazz, ITestContext context, String version) {
+        String testSuite = clazz.getClass().getName();
+        context.setAttribute(testSuite + "Version", version);
+    }
 
-	protected String getAuthor(String clazz, ITestContext context) {
-		return (String) context.getAttribute(clazz + "Author");
-	}
+    protected String getAuthor(String clazz, ITestContext context) {
+        return (String) context.getAttribute(clazz + "Author");
+    }
 
-	protected static void setAuthor(Selenified clazz, ITestContext context, String author) {
-		String testSuite = clazz.getClass().getName();
-		context.setAttribute(testSuite + "Author", author);
-	}
+    protected static void setAuthor(Selenified clazz, ITestContext context, String author) {
+        String testSuite = clazz.getClass().getName();
+        context.setAttribute(testSuite + "Author", author);
+    }
 
-	/**
-	 * Initializes the test settings by setting default values for the browser,
-	 * URL, and credentials if they are not specifically set
-	 */
-	public static void initializeSystem() {
-		// check the browser
-		if (System.getProperty(BROWSER_INPUT) == null) {
-			System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
-		}
-		if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
-			servicesUser = System.getenv("SERVICES_USER");
-			servicesPass = System.getenv("SERVICES_PASS");
-		}
-	}
+    /**
+     * Runs once before any of the tests run, to parse and setup the static
+     * passed information such as browsers, proxy, hub, etc
+     * 
+     * @throws InvalidBrowserException
+     *             If a browser that is not one specified in the
+     *             Selenium.Browser class is used, this exception will be thrown
+     */
+    @BeforeSuite(alwaysRun = true)
+    protected void beforeSuite() throws InvalidBrowserException {
+        MasterSuiteSetupConfigurator.getInstance().doSetup();
+    }
 
-	/**
-	 * Obtains passed in browser information, and sets up the required
-	 * capabilities
-	 * 
-	 * @throws InvalidBrowserException
-	 *             If a browser that is not one specified in the
-	 *             Selenium.Browser class is used, this exception will be thrown
-	 */
-	public static void setupTestParameters() throws InvalidBrowserException {
-		browsers = TestSetup.setBrowser();
+    /**
+     * Before any tests run, setup the logging and test details. If a selenium
+     * test is being run, it sets up the driver as well
+     * 
+     * @param dataProvider
+     *            - any objects that are being passed to the tests to loop
+     *            through as variables
+     * @param method
+     *            - what is the method that is being run. the test name will be
+     *            extracted from this
+     * @param test
+     *            - was the is context associated with this test suite. suite
+     *            information will be extracted from this
+     * @param result
+     *            - where are the test results stored. browser information will
+     *            be kept here
+     */
+    @BeforeMethod(alwaysRun = true)
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+        startTest(dataProvider, method, test, result, DriverSetup.LOAD);
+    }
 
-		for (Browser browser : browsers) {
-			TestSetup setup = new TestSetup();
-			// are we running remotely on a hub
-			if (System.getProperty("hub") != null) {
-				setup.setupBrowserCapability(browser);
-			}
-			setup.setupProxy();
-			if (TestSetup.areBrowserDetailsSet()) {
-				Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
-				setup.setupBrowserDetails(browserDetails);
-			}
-			DesiredCapabilities caps = setup.getDesiredCapabilities();
-			if (extraCapabilities != null) {
-				caps = caps.merge(extraCapabilities);
-			}
-			capabilities.add(caps);
-		}
-	}
+    /**
+     * gathers all of the testing information, and setup up the logging. If a
+     * selenium test is running, also sets up the webdriver object
+     * 
+     * @param dataProvider
+     *            - any objects that are being passed to the tests to loop
+     *            through as variables
+     * @param method
+     *            - what is the method that is being run. the test name will be
+     *            extracted from this
+     * @param test
+     *            - was the is context associated with this test suite. suite
+     *            information will be extracted from this
+     * @param result
+     *            - where are the test results stored. browser information will
+     *            be kept here
+     * @param selenium
+     *            - is this a selenium test. if so, the webdriver content will
+     *            be setup
+     */
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
+            DriverSetup selenium) {
+        String testName = General.getTestName(method, dataProvider);
+        String outputDir = test.getOutputDirectory();
+        String extClass = method.getDeclaringClass().getName();
+        String description = "";
+        String group = "";
+        Test annotation = method.getAnnotation(Test.class);
+        // set description from annotation
+        if (annotation.description() != null) {
+            description = annotation.description();
+        }
+        // adding in the group if it exists
+        if (annotation.groups() != null) {
+            group = Arrays.toString(annotation.groups());
+            group = group.substring(1, group.length() - 1);
+        }
 
-	/**
-	 * Runs once before any of the tests run, to parse and setup the static
-	 * passed information such as browsers, proxy, hub, etc
-	 * 
-	 * @throws InvalidBrowserException
-	 *             If a browser that is not one specified in the
-	 *             Selenium.Browser class is used, this exception will be thrown
-	 */
-	@BeforeSuite(alwaysRun = true)
-	public void beforeSuite() throws InvalidBrowserException {
-		MasterSuiteSetupConfigurator.getInstance().doSetup();
-	}
+        while (test.getAttribute(testName + INVOCATION_COUNT) == null) {
+            test.setAttribute(testName + INVOCATION_COUNT, 0);
+        }
+        int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
-	/**
-	 * Before any tests run, setup the logging and test details. If a selenium
-	 * test is being run, it sets up the driver as well
-	 * 
-	 * @param dataProvider
-	 *            - any objects that are being passed to the tests to loop
-	 *            through as variables
-	 * @param method
-	 *            - what is the method that is being run. the test name will be
-	 *            extracted from this
-	 * @param test
-	 *            - was the is context associated with this test suite. suite
-	 *            information will be extracted from this
-	 * @param result
-	 *            - where are the test results stored. browser information will
-	 *            be kept here
-	 */
-	@BeforeMethod(alwaysRun = true)
-	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-		startTest(dataProvider, method, test, result, DriverSetup.LOAD);
-	}
+        Browser myBrowser = browsers.get(invocationCount);
+        if (!selenium.useBrowser()) {
+            myBrowser = Browser.NONE;
+        }
+        DesiredCapabilities myCapability = capabilities.get(invocationCount);
+        myCapability.setCapability("name", testName);
+        this.capability.set(myCapability);
 
-	/**
-	 * gathers all of the testing information, and setup up the logging. If a
-	 * selenium test is running, also sets up the webdriver object
-	 * 
-	 * @param dataProvider
-	 *            - any objects that are being passed to the tests to loop
-	 *            through as variables
-	 * @param method
-	 *            - what is the method that is being run. the test name will be
-	 *            extracted from this
-	 * @param test
-	 *            - was the is context associated with this test suite. suite
-	 *            information will be extracted from this
-	 * @param result
-	 *            - where are the test results stored. browser information will
-	 *            be kept here
-	 * @param selenium
-	 *            - is this a selenium test. if so, the webdriver content will
-	 *            be setup
-	 */
-	protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-			DriverSetup selenium) {
-		String testName = General.getTestName(method, dataProvider);
-		String outputDir = test.getOutputDirectory();
-		String extClass = method.getDeclaringClass().getName();
-		String description = "";
-		String group = "";
-		Test annotation = method.getAnnotation(Test.class);
-		// set description from annotation
-		if (annotation.description() != null) {
-			description = annotation.description();
-		}
-		// adding in the group if it exists
-		if (annotation.groups() != null) {
-			group = Arrays.toString(annotation.groups());
-			group = group.substring(1, group.length() - 1);
-		}
+        OutputFile myFile = new OutputFile(outputDir, testName, myBrowser, getTestSite(extClass, test), test.getName(),
+                group, getAuthor(extClass, test), getVersion(extClass, test), description);
+        if (selenium.useBrowser()) {
+            App app = null;
+            try {
+                app = new App(myBrowser, myCapability, myFile);
+            } catch (InvalidBrowserException | MalformedURLException e) {
+                log.error(e);
+            }
+            this.apps.set(app);
+            this.calls.set(null);
+            myFile.setApp(app);
+            if (selenium.loadPage()) {
+                loadInitialPage(app, getTestSite(extClass, test), myFile);
+            }
+        } else {
+            HTTP http = new HTTP(getTestSite(extClass, test), servicesUser, servicesPass);
+            Call call = new Call(http, myFile);
+            this.apps.set(null);
+            this.calls.set(call);
+        }
+        this.browser.set(myBrowser);
+        result.setAttribute(BROWSER_INPUT, myBrowser);
+        this.files.set(myFile);
+    }
 
-		while (test.getAttribute(testName + INVOCATION_COUNT) == null) {
-			test.setAttribute(testName + INVOCATION_COUNT, 0);
-		}
-		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
+    /**
+     * loads the initial app specified by the url, and ensures the app loads
+     * successfully
+     */
+    private void loadInitialPage(App app, String url, OutputFile file) {
+        String startingPage = "The starting app <i>";
+        String act = "Opening new browser and loading up starting app";
+        String expected = startingPage + url + "</i> will successfully load";
 
-		Browser myBrowser = browsers.get(invocationCount);
-		if (!selenium.useBrowser()) {
-			myBrowser = Browser.NONE;
-		}
-		DesiredCapabilities myCapability = capabilities.get(invocationCount);
-		myCapability.setCapability("name", testName);
-		this.capability.set(myCapability);
+        if (app != null) {
+            try {
+                app.getDriver().get(url);
+                if (!app.get().location().contains(url)) {
+                    file.recordAction(act, expected,
+                            startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
+                            Result.FAILURE);
+                    file.addError();
+                    return;
+                }
+                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
+            } catch (Exception e) {
+                log.error(e);
+                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
+                file.addError();
+            }
+        }
+    }
 
-		OutputFile myFile = new OutputFile(outputDir, testName, myBrowser, getTestSite(extClass, test), test.getName(),
-				group, getAuthor(extClass, test), getVersion(extClass, test), description);
-		if (selenium.useBrowser()) {
-			App app = null;
-			try {
-				app = new App(myBrowser, myCapability, myFile);
-			} catch (InvalidBrowserException | MalformedURLException e) {
-				log.error(e);
-			}
-			this.apps.set(app);
-			this.calls.set(null);
-			myFile.setApp(app);
-			if (selenium.loadPage()) {
-				loadInitialPage(app, getTestSite(extClass, test), myFile);
-			}
-		} else {
-			HTTP http = new HTTP(getTestSite(extClass, test), servicesUser, servicesPass);
-			Call call = new Call(http, myFile);
-			this.apps.set(null);
-			this.calls.set(call);
-		}
-		this.browser.set(myBrowser);
-		result.setAttribute(BROWSER_INPUT, myBrowser);
-		this.files.set(myFile);
-	}
+    /**
+     * after each test is completed, the test is closed out, and the test
+     * counter is incremented
+     * 
+     * @param dataProvider
+     *            - any objects that are being passed to the tests to loop
+     *            through as variables
+     * @param method
+     *            - what is the method that is being run. the test name will be
+     *            extracted from this
+     * @param test
+     *            - was the is context associated with this test suite. suite
+     *            information will be extracted from this
+     * @param result
+     *            - where are the test results stored. browser information will
+     *            be kept here
+     */
+    @AfterMethod(alwaysRun = true)
+    protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+        String testName = General.getTestName(method, dataProvider);
+        if (this.apps.get() != null) {
+            this.apps.get().killDriver();
+        }
+        int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
+        test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
+    }
 
-	/**
-	 * loads the initial app specified by the url, and ensures the app loads
-	 * successfully
-	 */
-	private void loadInitialPage(App app, String url, OutputFile file) {
-		String startingPage = "The starting app <i>";
-		String act = "Opening new browser and loading up starting app";
-		String expected = startingPage + url + "</i> will successfully load";
+    /**
+     * to conclude each test, run this finish command. it will close out the
+     * output logging file, and count any errors that were encountered during
+     * the test, and fail the test if any errors were encountered
+     * 
+     */
+    protected void finish() {
+        OutputFile myFile = this.files.get();
+        myFile.finalizeOutputFile();
+        assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
+                Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
+    }
 
-		if (app != null) {
-			try {
-				app.getDriver().get(url);
-				if (!app.get().location().contains(url)) {
-					file.recordAction(act, expected,
-							startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
-							Result.FAILURE);
-					file.addError();
-					return;
-				}
-				file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
-			} catch (Exception e) {
-				log.error(e);
-				file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
-				file.addError();
-			}
-		}
-	}
+    /**
+     * to conclude each test, run this finish command. it will close out the
+     * output logging file, and count any errors that were encountered during
+     * the test, and verify that the number of errors indicated occurred
+     * 
+     * @param errors
+     *            - number of expected errors from the test
+     */
+    protected void finish(int errors) {
+        OutputFile myFile = this.files.get();
+        myFile.finalizeOutputFile();
+        assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
+                Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
+    }
 
-	/**
-	 * after each test is completed, the test is closed out, and the test
-	 * counter is incremented
-	 * 
-	 * @param dataProvider
-	 *            - any objects that are being passed to the tests to loop
-	 *            through as variables
-	 * @param method
-	 *            - what is the method that is being run. the test name will be
-	 *            extracted from this
-	 * @param test
-	 *            - was the is context associated with this test suite. suite
-	 *            information will be extracted from this
-	 * @param result
-	 *            - where are the test results stored. browser information will
-	 *            be kept here
-	 */
-	@AfterMethod(alwaysRun = true)
-	public void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-		String testName = General.getTestName(method, dataProvider);
-		if (this.apps.get() != null) {
-			this.apps.get().killDriver();
-		}
-		int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
-		test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
-	}
+    private static class MasterSuiteSetupConfigurator {
+        private static MasterSuiteSetupConfigurator instance;
+        private boolean wasInvoked = false;
 
-	/**
-	 * to conclude each test, run this finish command. it will close out the
-	 * output logging file, and count any errors that were encountered during
-	 * the test, and fail the test if any errors were encountered
-	 * 
-	 */
-	public void finish() {
-		OutputFile myFile = this.files.get();
-		myFile.finalizeOutputFile();
-		assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
-				Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
-	}
+        private MasterSuiteSetupConfigurator() {
+        }
 
-	/**
-	 * to conclude each test, run this finish command. it will close out the
-	 * output logging file, and count any errors that were encountered during
-	 * the test, and verify that the number of errors indicated occurred
-	 * 
-	 * @param errors
-	 *            - number of expected errors from the test
-	 */
-	protected void finish(int errors) {
-		OutputFile myFile = this.files.get();
-		myFile.finalizeOutputFile();
-		assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
-				Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
-	}
+        /**
+         * Runs once before any of the tests run, to parse and setup the static
+         * passed information such as browsers, proxy, hub, etc
+         * 
+         * @return null
+         */
+        public static MasterSuiteSetupConfigurator getInstance() {
+            if (instance != null) {
+                return instance;
+            }
+            instance = new MasterSuiteSetupConfigurator();
+            return instance;
+        }
 
-	public static class MasterSuiteSetupConfigurator {
-		private static MasterSuiteSetupConfigurator instance;
-		private boolean wasInvoked = false;
+        /**
+         * Runs once before any of the tests run, to parse and setup the static
+         * passed information such as browsers, proxy, hub, etc
+         * 
+         * @throws InvalidBrowserException
+         *             If a browser that is not one specified in the
+         *             Selenium.Browser class is used, this exception will be
+         *             thrown
+         */
+        public void doSetup() throws InvalidBrowserException {
+            if (wasInvoked) {
+                return;
+            }
+            initializeSystem();
+            setupTestParameters();
+            wasInvoked = true;
+        }
 
-		private MasterSuiteSetupConfigurator() {
-		}
+        /**
+         * Initializes the test settings by setting default values for the
+         * browser, URL, and credentials if they are not specifically set
+         */
+        private static void initializeSystem() {
+            // check the browser
+            if (System.getProperty(BROWSER_INPUT) == null) {
+                System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
+            }
+            if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
+                servicesUser = System.getenv("SERVICES_USER");
+                servicesPass = System.getenv("SERVICES_PASS");
+            }
+        }
 
-		/**
-		 * Runs once before any of the tests run, to parse and setup the static
-		 * passed information such as browsers, proxy, hub, etc
-		 * 
-		 * @return null
-		 */
-		public static MasterSuiteSetupConfigurator getInstance() {
-			if (instance != null) {
-				return instance;
-			}
-			instance = new MasterSuiteSetupConfigurator();
-			return instance;
-		}
+        /**
+         * Obtains passed in browser information, and sets up the required
+         * capabilities
+         * 
+         * @throws InvalidBrowserException
+         *             If a browser that is not one specified in the
+         *             Selenium.Browser class is used, this exception will be
+         *             thrown
+         */
+        private static void setupTestParameters() throws InvalidBrowserException {
+            browsers = TestSetup.setBrowser();
 
-		/**
-		 * Runs once before any of the tests run, to parse and setup the static
-		 * passed information such as browsers, proxy, hub, etc
-		 * 
-		 * @throws InvalidBrowserException
-		 *             If a browser that is not one specified in the
-		 *             Selenium.Browser class is used, this exception will be
-		 *             thrown
-		 */
-		public void doSetup() throws InvalidBrowserException {
-			if (wasInvoked) {
-				return;
-			}
-			initializeSystem();
-			setupTestParameters();
-			wasInvoked = true;
-		}
-	}
+            for (Browser browser : browsers) {
+                TestSetup setup = new TestSetup();
+                // are we running remotely on a hub
+                if (System.getProperty("hub") != null) {
+                    setup.setupBrowserCapability(browser);
+                }
+                setup.setupProxy();
+                if (TestSetup.areBrowserDetailsSet()) {
+                    Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
+                    setup.setupBrowserDetails(browserDetails);
+                }
+                DesiredCapabilities caps = setup.getDesiredCapabilities();
+                if (extraCapabilities != null) {
+                    caps = caps.merge(extraCapabilities);
+                }
+                capabilities.add(caps);
+            }
+        }
+    }
 }
