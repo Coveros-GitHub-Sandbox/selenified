@@ -4,9 +4,9 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.output.OutputFile.Result;
 import com.coveros.selenified.tools.General;
+import com.coveros.selenified.tools.OutputFile;
+import com.coveros.selenified.tools.OutputFile.Result;
 
 public class WaitFor {
 

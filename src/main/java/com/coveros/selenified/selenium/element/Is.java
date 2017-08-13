@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.selenium.element.Element;
 import com.coveros.selenified.tools.General;
+import com.coveros.selenified.tools.OutputFile;
 
 public class Is {
 

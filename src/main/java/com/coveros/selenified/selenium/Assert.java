@@ -3,8 +3,8 @@ package com.coveros.selenified.selenium;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.output.OutputFile.Success;
+import com.coveros.selenified.tools.OutputFile;
+import com.coveros.selenified.tools.OutputFile.Success;
 
 public class Assert {
 

@@ -27,7 +27,6 @@ import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;

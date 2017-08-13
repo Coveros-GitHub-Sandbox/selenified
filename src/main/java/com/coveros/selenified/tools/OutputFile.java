@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.output;
+package com.coveros.selenified.tools;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -44,7 +44,6 @@ import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
-import com.coveros.selenified.tools.General;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

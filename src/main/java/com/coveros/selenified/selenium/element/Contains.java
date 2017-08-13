@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
-import com.coveros.selenified.output.OutputFile.Success;
-import com.coveros.selenified.output.OutputFile;
+import com.coveros.selenified.tools.OutputFile;
+import com.coveros.selenified.tools.OutputFile.Success;
 
 public class Contains extends Assert {
 

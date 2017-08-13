@@ -1,7 +1,7 @@
 package com.coveros.selenified.selenium.element;
 
-import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.output.OutputFile.Success;
+import com.coveros.selenified.tools.OutputFile;
+import com.coveros.selenified.tools.OutputFile.Success;
 
 public class Assert {
 
@@ -36,7 +36,7 @@ public class Assert {
         }
         return true;
     }
-    
+
     /**
      * Determines if the element is a select
      * 

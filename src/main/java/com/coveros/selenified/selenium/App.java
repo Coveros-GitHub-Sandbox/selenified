@@ -20,13 +20,13 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.output.OutputFile.Result;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.element.Element;
 import com.coveros.selenified.tools.General;
+import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.TestSetup;
+import com.coveros.selenified.tools.OutputFile.Result;
 
 public class App {
 

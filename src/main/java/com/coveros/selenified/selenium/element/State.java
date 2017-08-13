@@ -1,12 +1,11 @@
 package com.coveros.selenified.selenium.element;
 
-import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.output.OutputFile.Success;
+import com.coveros.selenified.tools.OutputFile;
+import com.coveros.selenified.tools.OutputFile.Success;
 
 public class State extends Assert {
 
     // constants
-    private static final String EXPECTED = "Expected to find ";
     private static final String PRESENT = " is present on the page";
     private static final String NOTPRESENT = " is not present on the page";
     private static final String VISIBLE = " is visible on the page";

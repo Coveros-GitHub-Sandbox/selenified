@@ -2,8 +2,8 @@ package com.coveros.selenified.selenium.element;
 
 import java.util.Arrays;
 
-import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.output.OutputFile.Success;
+import com.coveros.selenified.tools.OutputFile;
+import com.coveros.selenified.tools.OutputFile.Success;
 
 public class Equals extends Assert {
 

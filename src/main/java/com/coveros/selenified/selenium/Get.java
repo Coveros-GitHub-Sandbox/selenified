@@ -7,8 +7,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.tools.General;
+import com.coveros.selenified.tools.OutputFile;
 
 public class Get {
     private static final Logger log = Logger.getLogger(General.class);

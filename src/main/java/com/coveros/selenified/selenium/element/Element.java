@@ -34,13 +34,13 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
-import com.coveros.selenified.output.OutputFile;
 import com.coveros.selenified.selenium.element.Get;
 import com.coveros.selenified.selenium.element.Is;
 import com.coveros.selenified.selenium.element.WaitFor;
-import com.coveros.selenified.output.OutputFile.Result;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.tools.General;
+import com.coveros.selenified.tools.OutputFile;
+import com.coveros.selenified.tools.OutputFile.Result;
 
 public class Element {
 
