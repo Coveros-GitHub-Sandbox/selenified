@@ -1,8 +1,6 @@
 package com.coveros.selenified.selenium.element;
 
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
 
 import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.OutputFile.Success;
@@ -50,21 +48,10 @@ public class Contains extends Assert {
      *            - the attribute to check for
      */
     public void attribute(String attribute) {
-        // wait for the element
-        if (!isPresent()) {
+        String[] allAttributes = getAttributes(attribute, "with");
+        if (allAttributes == null) {
             return;
         }
-        // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " with attribute <b>" + attribute + "</b>");
-        // get all attributes
-        Map<String, String> attributes = element.get().allAttributes();
-        if (attributes == null) {
-            file.recordActual("Unable to assess the attributes of " + element.prettyOutput(), Success.FAIL);
-            file.addError();
-            return;
-        }
-        Set<String> keys = attributes.keySet();
-        String[] allAttributes = keys.toArray(new String[keys.size()]);
         // file.record the element
         if (!Arrays.asList(allAttributes).contains(attribute)) {
             file.recordActual(element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute
@@ -106,20 +93,10 @@ public class Contains extends Assert {
      *            the expected value of the element
      */
     public void value(String expectedValue) {
-        // wait for the element
-        if (!isPresent()) {
+        String elementValue = getValue(expectedValue, HASVALUE);
+        if (elementValue == null) {
             return;
         }
-        // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + HASVALUE + expectedValue + "</b>");
-        // verify this is an input element
-        if (!element.is().input()) {
-            file.recordActual(element.prettyOutputStart() + NOTINPUT, Success.FAIL);
-            file.addError();
-            return;
-        }
-        // check for the object to the present on the page
-        String elementValue = element.get().value();
         if (!elementValue.contains(expectedValue)) {
             file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.FAIL);
             file.addError();
@@ -168,8 +145,8 @@ public class Contains extends Assert {
         // check for the object to the present on the page
         String[] elementValues = element.get().selectValues();
         if (!Arrays.asList(elementValues).contains(selectValue)) {
-            file.recordActual(element.prettyOutputStart() + " does not contain the value of <b>" + selectValue + "</b>"
-                    + ONLYVALUE + Arrays.toString(elementValues) + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + HASNTVALUE + selectValue + "</b>" + ONLYVALUE
+                    + Arrays.toString(elementValues) + "</b>", Success.FAIL);
             file.addError();
             return;
         }
@@ -221,7 +198,7 @@ public class Contains extends Assert {
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + "has " + actualNumOfCols + "</b> columns", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + " has " + actualNumOfCols + "</b> columns", Success.PASS);
     }
 
     /**
@@ -244,6 +221,6 @@ public class Contains extends Assert {
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + "has " + actualNumOfRows + "</b> rows", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + " has " + actualNumOfRows + "</b> rows", Success.PASS);
     }
 }

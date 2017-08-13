@@ -1,5 +1,8 @@
 package com.coveros.selenified.selenium.element;
 
+import java.util.Map;
+import java.util.Set;
+
 import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.OutputFile.Success;
 
@@ -20,7 +23,9 @@ public class Assert {
     protected static final String VALUE = " has the value of <b>";
     protected static final String TEXT = " has the text of <b>";
     protected static final String HASVALUE = " contains the value of <b>";
+    protected static final String HASNTVALUE = " does not contain the value of <b>";
     protected static final String HASTEXT = " contains the text of <b>";
+    protected static final String HASNTTEXT = " does not contain the text of <b>";
     protected static final String ONLYVALUE = ", only the values <b>";
     protected static final String CLASSVALUE = " has a class value of <b>";
 
@@ -42,7 +47,7 @@ public class Assert {
      * 
      * @return Boolean: whether the element is an select or not
      */
-    public boolean isSelect() {
+    protected boolean isSelect() {
         if (!element.is().select()) {
             file.recordActual(element.prettyOutputStart() + NOTSELECT, Success.FAIL);
             file.addError();
@@ -56,7 +61,7 @@ public class Assert {
      * 
      * @return Boolean: whether the element is an table or not
      */
-    public boolean isTable() {
+    protected boolean isTable() {
         if (!element.is().table()) {
             file.recordActual(element.prettyOutputStart() + NOTTABLE, Success.FAIL);
             file.addError();
@@ -72,7 +77,7 @@ public class Assert {
      *            - the expected outcome
      * @return Boolean: whether the element is a select or not
      */
-    public boolean isPresentSelect(String expected) {
+    protected boolean isPresentSelect(String expected) {
         // wait for the element
         if (!isPresent()) {
             return false;
@@ -89,7 +94,7 @@ public class Assert {
      *            - the expected outcome
      * @return Boolean: whether the element is an table or not
      */
-    public boolean isPresentTable(String expected) {
+    protected boolean isPresentTable(String expected) {
         // wait for the element
         if (!isPresent()) {
             return false;
@@ -97,5 +102,39 @@ public class Assert {
         file.recordExpected(expected);
         // verify this is a select element
         return isTable();
+    }
+
+    protected String[] getAttributes(String attribute, String expected) {
+        // wait for the element
+        if (!isPresent()) {
+            return null;
+        }
+        file.recordExpected(EXPECTED + element.prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>");
+        // check our attributes
+        Map<String, String> attributes = element.get().allAttributes();
+        if (attributes == null) {
+            file.recordActual("Unable to assess the attributes of " + element.prettyOutput(), Success.FAIL);
+            file.addError();
+            return null;
+        }
+        Set<String> keys = attributes.keySet();
+        return keys.toArray(new String[keys.size()]);
+    }
+
+    protected String getValue(String value, String expected) {
+        // wait for the element
+        if (!isPresent()) {
+            return null;
+        }
+        // file.record the element
+        file.recordExpected(EXPECTED + element.prettyOutput() + expected + value + "</b>");
+        // verify this is an input element
+        if (!element.is().input()) {
+            file.recordActual(element.prettyOutputStart() + NOTINPUT, Success.FAIL);
+            file.addError();
+            return null;
+        }
+        // check for the object to the present on the page
+        return element.get().value();
     }
 }
