@@ -22,10 +22,10 @@ public class ActionGoIT extends Selenified {
         // set the base URL for the tests here
         setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @Test(groups = { "integration", "actions", "go",
@@ -156,8 +156,8 @@ public class ActionGoIT extends Selenified {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite(this, context).split("/")[2].split(":")[0],
-                "/", df.parse(dateval));
+        Cookie cookie = new Cookie("new_cookie", "this_cookie",
+                getTestSite(this.getClass().getName(), context).split("/")[2].split(":")[0], "/", df.parse(dateval));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -172,8 +172,8 @@ public class ActionGoIT extends Selenified {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Cookie cookie = new Cookie("new_cookie", "this_cookie", getTestSite(this, context).split("/")[2].split(":")[0],
-                "/", df.parse(dateval));
+        Cookie cookie = new Cookie("new_cookie", "this_cookie",
+                getTestSite(this.getClass().getName(), context).split("/")[2].split(":")[0], "/", df.parse(dateval));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions

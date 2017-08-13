@@ -88,13 +88,13 @@ public class SelenifiedTest extends Selenified {
     public void initializeSystemTest(ITestContext context) {
         Selenified.initializeSystem();
         Assert.assertEquals(System.getProperty("browser"), "HTMLUNIT");
-        Assert.assertNull(getTestSite(this, context));
+        Assert.assertNull(getTestSite(this.getClass().getName(), context));
 
         System.setProperty("browser", "Chrome");
         System.setProperty("appURL", "http://www.yahoo.com");
         Selenified.initializeSystem();
         Assert.assertEquals(System.getProperty("browser"), "Chrome");
-        Assert.assertEquals(getTestSite(this, context), "http://www.yahoo.com");
+        Assert.assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
@@ -134,35 +134,35 @@ public class SelenifiedTest extends Selenified {
     @Test
     public void siteTest(ITestContext context) {
         setTestSite(this, context, "yahoo");
-        Assert.assertEquals(getTestSite(this, context), "yahoo");
+        Assert.assertEquals(getTestSite(this.getClass().getName(), context), "yahoo");
         System.setProperty("appURL", "http://www.yahoo.com");
         setTestSite(this, context, "google");
-        Assert.assertEquals(getTestSite(this, context), "http://www.yahoo.com");
+        Assert.assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
     }
 
     @Test
-    public void versionTest() {
-        setVersion("1.0.0");
-        Assert.assertEquals(getVersion(), "1.0.0");
+    public void versionTest(ITestContext context) {
+        setVersion(this, context, "1.0.0");
+        Assert.assertEquals(getVersion(this.getClass().getName(), context), "1.0.0");
     }
 
     @Test
-    public void authorTest() {
-        setAuthor("Max");
-        Assert.assertEquals(getAuthor(), "Max");
+    public void authorTest(ITestContext context) {
+        setAuthor(this, context, "Max");
+        Assert.assertEquals(getAuthor(this.getClass().getName(), context), "Max");
     }
 
     @Test
     public void checkPassedInUser() {
         System.setProperty("SERVICES_USER", "hello");
         initializeSystem();
-        Assert.assertEquals(getServicesUser(), "");
+        Assert.assertEquals(servicesUser, "");
     }
 
     @Test
     public void checkPassedInPass() {
         System.setProperty("SERVICES_PASS", "world");
         initializeSystem();
-        Assert.assertEquals(getServicesPass(), "");
+        Assert.assertEquals(servicesPass, "");
     }
 }

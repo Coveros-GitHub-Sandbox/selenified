@@ -66,12 +66,12 @@ public class Selenified {
 
     private static final Logger log = Logger.getLogger(General.class);
 
-    private static String version = "";
-    private static String author = "";
+    // if were services calls are bring used, are there usernames and passwords
+    // used for credentials
+    protected static String servicesUser = "";
+    protected static String servicesPass = "";
 
-    private static String servicesUser = "";
-    private static String servicesPass = "";
-
+    // any additional browser capabilities that might be necessary
     protected static DesiredCapabilities extraCapabilities = null;
 
     // some passed in system params
@@ -92,15 +92,6 @@ public class Selenified {
     private static final String ERRORS_CHECK = " errors";
 
     // default getters and setters for test information
-    public String getTestSite(Selenified clazz, ITestContext context) {
-        if (System.getProperty(APP_INPUT) == null) {
-            String testSuite = clazz.getClass().getName();
-            return (String) context.getAttribute(testSuite + APP_INPUT);
-        } else {
-            return System.getProperty(APP_INPUT);
-        }
-    }
-
     public String getTestSite(String clazz, ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
             return (String) context.getAttribute(clazz + APP_INPUT);
@@ -109,43 +100,29 @@ public class Selenified {
         }
     }
 
-    public static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
+    protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
         if (System.getProperty(APP_INPUT) == null) {
             String testSuite = clazz.getClass().getName();
             context.setAttribute(testSuite + APP_INPUT, siteURL);
         }
     }
 
-    public String getVersion() {
-        return version;
+    protected String getVersion(String clazz, ITestContext context) {
+        return (String) context.getAttribute(clazz + "Version");
     }
 
-    public static void setVersion(String ver) {
-        version = ver;
+    protected static void setVersion(Selenified clazz, ITestContext context, String version) {
+        String testSuite = clazz.getClass().getName();
+        context.setAttribute(testSuite + "Version", version);
     }
 
-    public String getAuthor() {
-        return author;
+    protected String getAuthor(String clazz, ITestContext context) {
+        return (String) context.getAttribute(clazz + "Author");
     }
 
-    public static void setAuthor(String auth) {
-        author = auth;
-    }
-
-    public String getServicesUser() {
-        return servicesUser;
-    }
-
-    public static void setServicesUser(String servicesUsername) {
-        servicesUser = servicesUsername;
-    }
-
-    public String getServicesPass() {
-        return servicesPass;
-    }
-
-    public static void setServicesPass(String servicesPassword) {
-        servicesPass = servicesPassword;
+    protected static void setAuthor(Selenified clazz, ITestContext context, String author) {
+        String testSuite = clazz.getClass().getName();
+        context.setAttribute(testSuite + "Author", author);
     }
 
     /**
@@ -307,8 +284,8 @@ public class Selenified {
         if (file.exists()) {
             myFile.setLastModified(new Date(file.lastModified()));
         }
-        myFile.setVersion(version);
-        myFile.setAuthor(author);
+        myFile.setVersion(getVersion(extClass, test));
+        myFile.setAuthor(getAuthor(extClass, test));
         myFile.setObjectives(description);
         myFile.setStartTime();
         myFile.createOutputHeader();

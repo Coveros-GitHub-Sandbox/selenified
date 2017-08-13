@@ -19,10 +19,10 @@ public class NoLoadIT extends Selenified {
         // set the base URL for the tests here
         setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -40,7 +40,7 @@ public class NoLoadIT extends Selenified {
         org.testng.Assert.assertEquals(
                 app.getOutputFile().countInstancesOf("Opening new browser and loading up starting app"), 0);
         // verify the app wasn't attempted to load
-        app.azzert().urlEquals(getTestSite(this, context));
+        app.azzert().urlEquals(getTestSite(this.getClass().getName(), context));
         // verify one issue from the above check
         finish(1);
     }

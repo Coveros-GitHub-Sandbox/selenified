@@ -25,10 +25,10 @@ public class ServicesIT extends Selenified {
         // set the base URL for the tests here
         setTestSite(this, test, "https://jsonplaceholder.typicode.com/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @BeforeMethod(alwaysRun = true)

@@ -15,10 +15,10 @@ public class AssertContainsIT extends Selenified {
         // set the base URL for the tests here
         setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @Test(groups = { "integration", "asserts", "contains",

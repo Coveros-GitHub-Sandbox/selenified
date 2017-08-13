@@ -16,10 +16,10 @@ public class ConflictAIT extends Selenified {
         // set the base URL for the tests here
         setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Matt Grasberger\n<br/>matthew.grasberger@coveros.com");
+        setAuthor(this, test, "Matt Grasberger\n<br/>matthew.grasberger@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @Test(groups = { "integration", "conflict",

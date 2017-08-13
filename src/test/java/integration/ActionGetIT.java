@@ -29,10 +29,10 @@ public class ActionGetIT extends Selenified {
         // set the base URL for the tests here
         setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -144,7 +144,7 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String cookie = app.get().cookieDomain("cookie");
-        Assert.assertEquals(cookie, getTestSite(this, context).split("/")[2].split(":")[0]);
+        Assert.assertEquals(cookie, getTestSite(this.getClass().getName(), context).split("/")[2].split(":")[0]);
         // verify no issues
         finish();
     }
