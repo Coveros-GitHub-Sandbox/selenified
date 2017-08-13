@@ -51,12 +51,6 @@ public class State extends Assert {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + NOTPRESENT);
-        // check for the object to the visible
-        if (element.is().present()) {
-            file.recordActual(element.prettyOutputStart() + PRESENT, Success.FAIL);
-            file.addError();
-            return;
-        }
         file.recordActual(element.prettyOutputStart() + NOTPRESENT, Success.PASS);
     }
 
