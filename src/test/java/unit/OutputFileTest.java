@@ -1,15 +1,11 @@
 package unit;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -34,7 +30,7 @@ public class OutputFileTest {
 
     @BeforeMethod
     public void createFile() {
-        outputFile = new OutputFile("directory", "file", Browser.ANDROID);
+        outputFile = new OutputFile("directory", "file", Browser.ANDROID, null, null, null, null, null, null);
         directory = new File("directory");
         file = new File("directory", "fileANDROID.html");
     }
@@ -47,19 +43,19 @@ public class OutputFileTest {
 
     @Test
     public void setupFileFreshTest() {
-        new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        new OutputFile("/somenewdir", "file", Browser.ANDROID, null, null, null, null, null, null);
         Assert.assertFalse(new File("/somenewdir/fileAndroid.html").exists());
     }
 
     @Test
     public void setupFileTest() {
-        Assert.assertEquals(file.length(), 0);
+        Assert.assertNotEquals(file.length(), 0);
         Assert.assertTrue(directory.exists());
         Assert.assertTrue(file.exists());
 
         // do it again, ensure nothing breaks when it already exists
-        new OutputFile("directory", "file", Browser.ANDROID);
-        Assert.assertEquals(file.length(), 0);
+        new OutputFile("directory", "file", Browser.ANDROID, null, null, null, null, null, null);
+        Assert.assertNotEquals(file.length(), 0);
         Assert.assertTrue(directory.exists());
         Assert.assertTrue(file.exists());
     }
@@ -70,107 +66,9 @@ public class OutputFileTest {
     }
 
     @Test
-    public void countInstancesOfTest() {
-        try (
-                // Reopen file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-            // record the action
-            out.write("1 2 3 4 5 1\n");
-        } catch (IOException e) {
-        }
-        Assert.assertEquals(outputFile.countInstancesOf("1"), 1);
-        Assert.assertEquals(outputFile.countInstancesOf("2"), 1);
-        try (
-                // Reopen file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-            // record the action
-            out.write("1\n");
-        } catch (IOException e) {
-        }
-        Assert.assertEquals(outputFile.countInstancesOf("1"), 2);
-        Assert.assertEquals(outputFile.countInstancesOf("2"), 1);
-    }
-
-    @Test
-    public void countInstanceOfBadFileTest() {
-        file.delete();
-        directory.delete();
-        outputFile.countInstancesOf("1");
-        // we are just verifying that no errors were thrown
-    }
-
-    @Test
-    public void replaceInFileTest() {
-        try (
-                // Reopen file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
-            // record the action
-            out.write("1 2 3 4 5 1\n");
-            out.write("Hello World\n");
-        } catch (IOException e) {
-        }
-        outputFile.replaceInFile("1", "2");
-        Assert.assertEquals(outputFile.countInstancesOf("1"), 0);
-        outputFile.replaceInFile("2 2 3 4 5 2", "Hello World");
-        Assert.assertEquals(outputFile.countInstancesOf("Hello World"), 2);
-    }
-
-    @Test
-    public void replaceInBadFileTest() {
-        file.delete();
-        directory.delete();
-        outputFile.replaceInFile("1", "2");
-        // we are just verifying that no errors were thrown
-    }
-
-    @Test
-    public void replaceIntoBadFile() {
-        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
-        file.replaceInFile("1", "2");
-        // we are just verifying that no errors were thrown
-    }
-
-    @Test
-    public void generateImageNameTest() {
-        Assert.assertTrue(outputFile.generateImageName().startsWith(directory.toString()));
-        Assert.assertTrue(outputFile.generateImageName().endsWith(".png"));
-        Assert.assertEquals(outputFile.generateImageName().length(), 38);
-        Assert.assertTrue(
-                outputFile.generateImageName().matches("^" + directory.toString() + "/[0-9]{13}_[A-Za-z0-9]{10}.png$"));
-    }
-
-    @Test
-    public void generateImageSourceTest() {
-        Assert.assertEquals(outputFile.generateImageSource(""),
-                "<br/><div align='center' width='100%'><img id='' class='imgIcon' src=''></div>");
-        Assert.assertEquals(outputFile.generateImageSource(directory.toString()),
-                "<br/><div align='center' width='100%'><img id='' class='imgIcon' src=''></div>");
-        Assert.assertEquals(outputFile.generateImageSource("directory/1234"),
-                "<br/><div align='center' width='100%'><img id='1234' class='imgIcon' src='1234'></div>");
-    }
-
-    @Test
-    public void generateImageLinkTest() {
-        Assert.assertEquals(outputFile.generateImageLink(""), "<br/><b><font class='fail'>No Image Preview</font></b>");
-        Assert.assertEquals(outputFile.generateImageLink(directory.toString()),
-                "<br/><b><font class='fail'>No Image Preview</font></b>");
-        Assert.assertEquals(outputFile.generateImageLink("directory/1234"),
-                "<br/><a href='javascript:void(0)' onclick='toggleImage(\"1234\")'>Toggle Screenshot Thumbnail</a> <a href='javascript:void(0)' onclick='displayImage(\"1234\")'>View Screenshot Fullscreen</a><br/><img id='1234' border='1px' src='1234' width='300px' style='display:none;'>");
-    }
-
-    @Test
     public void captureEntirePageScreenshotTest() {
         Assert.assertEquals(outputFile.captureEntirePageScreenshot(),
                 "<br/><b><font class='fail'>No Screenshot Available</font></b>");
-    }
-
-    @Test
-    public void setStartTimeTest() {
-        outputFile.setStartTime();
-        Assert.assertEquals(outputFile.getStartTime(), outputFile.getLastTime());
-        outputFile.setStartTime(123456);
-        Assert.assertEquals(outputFile.getStartTime(), 123456);
-        Assert.assertEquals(outputFile.getLastTime(), 123456);
     }
 
     @Test
@@ -191,165 +89,148 @@ public class OutputFileTest {
         Assert.assertEquals(outputFile.getErrors(), 100001);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
-    public void createOutputHeaderSuiteTest() {
-        outputFile.setSuite("My Suite");
-        outputFile.createOutputHeader();
+    public void createOutputHeaderSuiteTest() throws IOException {
+        new OutputFile("newdirectory", "file", Browser.ANDROID, null, "My Suite", null, null, null, null);
+        File file = new File("newdirectory", "fileANDROID.html");
+        Assert.assertTrue(file.exists());
+        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Suite"));
+        file.delete();
+        new File("newdirectory").delete();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void createOutputHeaderGroupTest() throws IOException {
+        new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, "My Group", null, null, null);
+        File file = new File("newdirectory", "fileANDROID.html");
+        Assert.assertTrue(file.exists());
+        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Group"));
+        file.delete();
+        new File("newdirectory").delete();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void createOutputHeaderAuthorTest() throws IOException {
+        new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, "My Author", null, null);
+        File file = new File("newdirectory", "fileANDROID.html");
+        Assert.assertTrue(file.exists());
+        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Author"));
+        file.delete();
+        new File("newdirectory").delete();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void createOutputHeaderVersionTest() throws IOException {
+        new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, null, "My Version", null);
+        File file = new File("newdirectory", "fileANDROID.html");
+        Assert.assertTrue(file.exists());
+        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Version"));
+        file.delete();
+        new File("newdirectory").delete();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void createOutputHeaderObjectivesTest() throws IOException {
+        new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, null, null, "My Objectives");
+        File file = new File("newdirectory", "fileANDROID.html");
+        Assert.assertTrue(file.exists());
+        org.testng.Assert.assertTrue(FileUtils.readFileToString(file).contains("My Objectives"));
+        file.delete();
+        new File("newdirectory").delete();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void loadInitialPageTest() throws IOException {
         Assert.assertNotEquals(file.length(), 0);
-        Assert.assertEquals(outputFile.countInstancesOf("My Suite"), 1);
-    }
-
-    @Test
-    public void createOutputHeaderGroupTest() {
-        outputFile.setGroup("My Group");
-        outputFile.createOutputHeader();
-        Assert.assertNotEquals(file.length(), 0);
-        Assert.assertEquals(outputFile.countInstancesOf("My Group"), 1);
-    }
-
-    @Test
-    public void createOutputHeaderLastModifiedTest() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
-        String dateInString = "31-08-1982";
-        Date date = sdf.parse(dateInString);
-        outputFile.setLastModified(date);
-        outputFile.createOutputHeader();
-        Assert.assertNotEquals(file.length(), 0);
-        Assert.assertEquals(outputFile.countInstancesOf("Tuesday, August 31, 1982"), 1);
-    }
-
-    @Test
-    public void createOutputHeaderNoLastModifiedTest() throws ParseException {
-        outputFile.createOutputHeader();
-        Assert.assertNotEquals(file.length(), 0);
-        Assert.assertEquals(outputFile.countInstancesOf("--"), 1);
-    }
-
-    @Test
-    public void createOutputHeaderVersionTest() {
-        outputFile.setVersion("My Version");
-        outputFile.createOutputHeader();
-        Assert.assertNotEquals(file.length(), 0);
-        Assert.assertEquals(outputFile.countInstancesOf("My Version"), 1);
-    }
-
-    @Test
-    public void createOutputHeaderAuthorTest() {
-        outputFile.setAuthor("My Author");
-        outputFile.createOutputHeader();
-        Assert.assertNotEquals(file.length(), 0);
-        Assert.assertEquals(outputFile.countInstancesOf("My Author"), 1);
-    }
-
-    @Test
-    public void createOutputHeaderObjectivesTest() {
-        outputFile.setObjectives("My Objectives");
-        outputFile.createOutputHeader();
-        Assert.assertNotEquals(file.length(), 0);
-        Assert.assertEquals(outputFile.countInstancesOf("My Objectives"), 1);
-    }
-
-    @Test
-    public void createOutputHeaderBadFileTest() {
-        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
-        file.createOutputHeader();
-        // we are just verifying that no errors were thrown
-    }
-
-    @Test
-    public void loadInitialPageTest() {
-        outputFile.loadInitialPage();
-        Assert.assertEquals(file.length(), 0);
-        Assert.assertEquals(outputFile.countInstancesOf("The starting page"), 0);
+        org.testng.Assert.assertFalse(FileUtils.readFileToString(file).contains("The starting page"));
     }
 
     @Test
     public void recordActionSuccess() throws IOException {
-        outputFile.setStartTime(new Date().getTime());
         outputFile.recordAction("my action", "expected", "actual", Result.SUCCESS);
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
-                "   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='success'>actual</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='success'>actual</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
     }
 
     @Test
     public void recordActionFailure() throws IOException {
-        outputFile.setStartTime(new Date().getTime());
         outputFile.recordAction("my action", "expected", "actual", Result.FAILURE);
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
-                "   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='failure'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='failure'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
     }
 
     @Test
     public void recordActionFailureSkipped() throws IOException {
-        outputFile.setStartTime(new Date().getTime());
         outputFile.recordAction("my action", "expected", "actual", Result.SKIPPED);
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
-                "   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='skipped'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>Check</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='skipped'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>Check</td>\n   </tr>\n"));
     }
 
     @Test
     public void recordActionFailureWarning() throws IOException {
-        outputFile.setStartTime(new Date().getTime());
         outputFile.recordAction("my action", "expected", "actual", Result.WARNING);
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
-                "   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='warning'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>Check</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='warning'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>Check</td>\n   </tr>\n"));
     }
 
     @Test
     public void recordActionBadFile() {
-        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID, null, null, null, null, null, null);
         file.recordAction("my action", "expected", "actual", Result.WARNING);
         // we are just verifying that no errors were thrown
     }
 
     @Test
     public void recordExpected() throws IOException {
-        outputFile.setStartTime(new Date().getTime());
         outputFile.recordExpected("expected");
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertEquals(content,
-                "   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>expected</td>\n");
+        Assert.assertTrue(
+                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>expected</td>\n"));
     }
 
     @Test
     public void recordExpectedBadFile() {
-        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID, null, null, null, null, null, null);
         file.recordExpected("expected");
         // we are just verifying that no errors were thrown
     }
 
     @Test
     public void recordActualPass() throws IOException {
-        outputFile.setStartTime(new Date().getTime());
         outputFile.recordActual("actual", Success.PASS);
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
-                "    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
     }
 
     @Test
     public void recordActualFail() throws IOException {
-        outputFile.setStartTime(new Date().getTime());
         outputFile.recordActual("actual", Success.FAIL);
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
-                "    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
     }
 
     @Test
     public void recordActualBadFile() {
-        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID);
+        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID, null, null, null, null, null, null);
         file.recordActual("actual", Success.FAIL);
         // we are just verifying that no errors were thrown
     }
@@ -359,7 +240,7 @@ public class OutputFileTest {
         outputFile.finalizeOutputFile();
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertEquals(content, "  </table>\r\n </body>\r\n</html>\r\n");
+        Assert.assertTrue(content.contains("  </table>\r\n </body>\r\n</html>\r\n"));
     }
 
     @Test
@@ -370,7 +251,7 @@ public class OutputFileTest {
 
     @Test
     public void packageResultsPositiveTest() throws IOException {
-        OutputFile outputFile = new OutputFile("results", "file", Browser.ANDROID);
+        OutputFile outputFile = new OutputFile("results", "file", Browser.ANDROID, null, null, null, null, null, null);
         File directory = new File("results");
         File file = new File("results", "fileANDROID.html");
 

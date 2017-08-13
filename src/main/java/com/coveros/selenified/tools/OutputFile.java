@@ -66,7 +66,6 @@ public class OutputFile {
     private String url;
     private String suite;
     private String group;
-    private Date lastModified;
     private String version;
     private String author;
     private String objectives;
@@ -102,44 +101,25 @@ public class OutputFile {
      *            - a string of the directory holding the files
      * @param testName
      *            - a string value of the test name, typically the method name
-     * @param setServiceURL
-     *            - the service URL to execute all services tests on
-     */
-    public OutputFile(String testDirectory, String testName, String setServiceURL) {
-        url = setServiceURL;
-        init(testDirectory, testName);
-    }
-
-    /**
-     * Creates a new instance of the OutputFile, which will serve as the
-     * detailed log
-     * 
-     * @param testDirectory
-     *            - a string of the directory holding the files
-     * @param testName
-     *            - a string value of the test name, typically the method name
      * @param setBrowser
      *            - the browser we are performing this test on
      */
-    public OutputFile(String testDirectory, String testName, Browser setBrowser) {
-        browser = setBrowser;
-        init(testDirectory, testName);
-    }
-
-    /**
-     * Setups up our logging file
-     * 
-     * @param testDirectory
-     *            - a string of the directory holding the files
-     * @param testName
-     *            - a string value of the test name, typically the method name
-     */
-    private void init(String testDirectory, String testName) {
-        test = testName;
-        directory = testDirectory;
-        filename = testName + browser + ".html";
+    public OutputFile(String directory, String test, Browser browser, String url, String suite, String group,
+            String author, String version, String objectives) {
+        this.directory = directory;
+        this.test = test;
+        this.browser = browser;
+        this.url = url;
+        this.suite = suite;
+        this.group = group;
+        this.author = author;
+        this.version = version;
+        this.objectives = objectives;
+        filename = test + browser + ".html";
         file = new File(directory, filename);
         setupFile();
+        setStartTime();
+        createOutputHeader();
     }
 
     /**
@@ -152,30 +132,29 @@ public class OutputFile {
     }
 
     /**
-     * returns the start time of the test
-     * 
-     * @return Long
-     */
-    public long getStartTime() {
-        return startTime;
-    }
-
-    /**
-     * returns the last time a step was completed
-     * 
-     * @return Long
-     */
-    public long getLastTime() {
-        return lastTime;
-    }
-
-    /**
      * returns the current error count of the test
      * 
      * @return Integer
      */
     public int getErrors() {
         return errors;
+    }
+
+    /**
+     * simply add an encountered error to the error counter
+     */
+    public void addError() {
+        errors++;
+    }
+
+    /**
+     * add a given set of errors to the error counter
+     *
+     * @param errorsToAdd
+     *            - the number of errors to add
+     */
+    public void addErrors(int errorsToAdd) {
+        errors += errorsToAdd;
     }
 
     private boolean isRealBrowser() {
@@ -193,79 +172,9 @@ public class OutputFile {
     }
 
     /**
-     * sets the url of the app under test
-     * 
-     * @param appURL
-     *            - the initial app to open the browser to
-     */
-    public void setURL(String appURL) {
-        url = appURL;
-    }
-
-    /**
-     * sets the name of the suite of the test
-     * 
-     * @param testSuite
-     *            - the name of test suite
-     */
-    public void setSuite(String testSuite) {
-        suite = testSuite;
-    }
-
-    /**
-     * sets the name(s) of the group(s) of the tests
-     * 
-     * @param testGroup
-     *            - the name of the test group
-     */
-    public void setGroup(String testGroup) {
-        group = testGroup;
-    }
-
-    /**
-     * sets the date of the last time the test was modified
-     * 
-     * @param date
-     *            - the date the test was last modified
-     */
-    public void setLastModified(Date date) {
-        lastModified = date;
-    }
-
-    /**
-     * sets the version of the test being run
-     * 
-     * @param testVersion
-     *            - the version associated with the test
-     */
-    public void setVersion(String testVersion) {
-        version = testVersion;
-    }
-
-    /**
-     * sets the author of the test
-     * 
-     * @param testAuthor
-     *            - the author of the test
-     */
-    public void setAuthor(String testAuthor) {
-        author = testAuthor;
-    }
-
-    /**
-     * sets the objectives of the test being run
-     * 
-     * @param testObjectives
-     *            - the testing objectives
-     */
-    public void setObjectives(String testObjectives) {
-        objectives = testObjectives;
-    }
-
-    /**
      * creates the directory and file to hold the test output file
      */
-    public void setupFile() {
+    private void setupFile() {
         if (!new File(directory).exists()) {
             new File(directory).mkdirs();
         }
@@ -288,7 +197,7 @@ public class OutputFile {
      * @return Integer - the number of times the text was found in the file
      *         provided
      */
-    public int countInstancesOf(String textToFind) {
+    private int countInstancesOf(String textToFind) {
         int count = 0;
         try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
             String line = "";
@@ -311,7 +220,7 @@ public class OutputFile {
      * @param newText
      *            - the text to be replaced with
      */
-    public void replaceInFile(String oldText, String newText) {
+    private void replaceInFile(String oldText, String newText) {
         StringBuilder oldContent = new StringBuilder();
 
         try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
@@ -469,7 +378,7 @@ public class OutputFile {
      *
      * - an IOException
      */
-    public void createOutputHeader() {
+    private void createOutputHeader() {
         // setup some constants
         String endBracket3 = "   }\n";
         String endBracket4 = "    }\n";
@@ -576,21 +485,15 @@ public class OutputFile {
             out.write(swapRow);
             out.write("    <th>Author</th>\n");
             out.write(START_CELL + this.author + END_CELL);
-            out.write("    <th>Date Test Last Modified</th>\n");
-            String modified = "--";
-            if (this.lastModified != null) {
-                modified = sdf.format(this.lastModified);
-            }
-            out.write(START_CELL + modified + END_CELL);
-            out.write(swapRow);
-            out.write("    <th>Date Tested</th>\n");
-            out.write(START_CELL + datePart + END_CELL);
-            out.write("    <th>Test Run Time</th>\n");
-            out.write("    <td colspan=3>\n");
+            out.write("    <th rowspan='2'>Test Run Time</th>\n");
+            out.write("    <td>\n");
             out.write("     Start:\t" + sTime + " <br/>\n");
             out.write("     End:\tTIMEFINISHED <br/>\n");
             out.write("     Run Time:\tRUNTIME \n");
             out.write("    </td>\n ");
+            out.write(swapRow);
+            out.write("    <th>Date Tested</th>\n");
+            out.write(START_CELL + datePart + END_CELL);
             out.write(swapRow);
             out.write("    <th>URL Under Test</th>\n");
             out.write(START_CELL + "<a href='" + url + "'>" + url + "</a>" + END_CELL);
@@ -640,34 +543,6 @@ public class OutputFile {
             out.write(END_ROW);
         } catch (IOException e) {
             log.error(e);
-        }
-    }
-
-    /**
-     * loads the initial app specified by the url, and ensures the app loads
-     * successfully
-     */
-    public void loadInitialPage() {
-        String startingPage = "The starting app <i>";
-        String act = "Opening new browser and loading up starting app";
-        String expected = startingPage + url + "</i> will successfully load";
-
-        if (app != null) {
-            try {
-                app.getDriver().get(url);
-                if (!app.get().location().contains(url)) {
-                    recordAction(act, expected,
-                            startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
-                            Result.FAILURE);
-                    addError();
-                    return;
-                }
-                recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
-            } catch (Exception e) {
-                log.error(e);
-                recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
-                addError();
-            }
         }
     }
 
@@ -725,7 +600,7 @@ public class OutputFile {
      * packages the test result file along with screenshots into a zip file
      *
      */
-    public void packageTestResults() {
+    private void packageTestResults() {
         File f = new File(directory, filename + "_RESULTS.zip");
         try (// Create new zip file
                 ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
@@ -761,7 +636,7 @@ public class OutputFile {
      * @return String the link for the image which can be written out to the
      *         html file
      */
-    public String generateImageLink(String imageName) {
+    private String generateImageLink(String imageName) {
         String imageLink = "<br/>";
         if (imageName.length() >= directory.length() + 1) {
             imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\""
@@ -782,63 +657,18 @@ public class OutputFile {
      *
      * @return String the name of the image file as a PNG
      */
-    public String generateImageName() {
+    private String generateImageName() {
         long timeInSeconds = new Date().getTime();
         String randomChars = General.getRandomString(10);
         return directory + "/" + timeInSeconds + "_" + randomChars + ".png";
     }
 
     /**
-     * generates the link for the image
-     *
-     * @param imageName
-     *            the name of the image being embedded
-     * @return String the link for the image which can be written out to the
-     *         html file
-     */
-    public String generateImageSource(String imageName) {
-        String image = "";
-        if (imageName.length() > directory.length()) {
-            image = imageName.substring(directory.length() + 1);
-        }
-        return "<br/><div align='center' width='100%'><img id='" + image + "' class='imgIcon' src='" + image
-                + "'></div>";
-    }
-
-    /**
      * Determines the current time and sets the 'last time' to the current time
      */
-    public void setStartTime() {
+    private void setStartTime() {
         startTime = (new Date()).getTime();
         lastTime = startTime;
-    }
-
-    /**
-     * Determines the time passed in and sets the 'last time' to that time
-     *
-     * @param time
-     *            - the time to set the start time to
-     */
-    public void setStartTime(long time) {
-        startTime = time;
-        lastTime = time;
-    }
-
-    /**
-     * simply add an encountered error to the error counter
-     */
-    public void addError() {
-        errors++;
-    }
-
-    /**
-     * add a given set of errors to the error counter
-     *
-     * @param errorsToAdd
-     *            - the number of errors to add
-     */
-    public void addErrors(int errorsToAdd) {
-        errors += errorsToAdd;
     }
 
     ///////////////////////////////////////////////////////////////////
