@@ -298,7 +298,7 @@ public class ActionDoIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions", "do",
-            "submit" }, description = "An integration test to check the submit method")
+            "submit", "virtual" }, description = "An integration test to check the submit method")
     public void submitTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -310,7 +310,7 @@ public class ActionDoIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions", "submit",
-            "do" }, description = "An integration negative test to check the submit method")
+            "do", "virtual" }, description = "An integration negative test to check the submit method")
     public void submitDisabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -813,7 +813,7 @@ public class ActionDoIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions", "select",
-            "do" }, description = "An integration negative test to check the select method")
+            "do", "virtual" }, description = "An integration negative test to check the select method")
     public void selectDisabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

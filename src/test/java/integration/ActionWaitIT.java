@@ -25,7 +25,7 @@ public class ActionWaitIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions",
-            "wait" }, description = "An integration negative test to check the wait method")
+            "wait", "virtual" }, description = "An integration negative test to check the wait method")
     public void waitTest() throws IOException, InterruptedException {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -74,7 +74,7 @@ public class ActionWaitIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions",
-            "wait" }, description = "An integration negative test to check the wait method")
+            "wait", "virtual" }, description = "An integration negative test to check the wait method")
     public void negativeWaitErrorTest() throws IOException, InterruptedException {
         // use this object to manipulate the app
         App app = this.apps.get();

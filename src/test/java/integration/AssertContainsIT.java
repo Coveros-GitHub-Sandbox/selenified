@@ -154,7 +154,7 @@ public class AssertContainsIT extends Selenified {
     }
 
     @Test(groups = { "integration", "asserts",
-            "contains" }, description = "An integration negative test to check the checkIfOptionInSelect method")
+            "contains", "virtual" }, description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfOptionInSelectNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -165,7 +165,7 @@ public class AssertContainsIT extends Selenified {
     }
 
     @Test(groups = { "integration", "asserts",
-            "contains" }, description = "An integration negative test to check the checkIfOptionInSelect method")
+            "contains", "virtual" }, description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfOptionInSelectDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -199,7 +199,7 @@ public class AssertContainsIT extends Selenified {
     }
 
     @Test(groups = { "integration", "asserts",
-            "contains" }, description = "An integration negative test to check the checkIfOptionInSelect method")
+            "contains", "virtual" }, description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfValueInSelectNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -210,7 +210,7 @@ public class AssertContainsIT extends Selenified {
     }
 
     @Test(groups = { "integration", "asserts",
-            "contains" }, description = "An integration negative test to check the checkIfOptionInSelect method")
+            "contains", "virtual" }, description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfValueInSelectDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -222,7 +222,7 @@ public class AssertContainsIT extends Selenified {
     }
 
     @Test(groups = { "integration", "asserts",
-            "contains" }, description = "An integration negative test to check the checkIfOptionInSelect method")
+            "contains", "virtual" }, description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfValueInSelectCheckDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -267,7 +267,7 @@ public class AssertContainsIT extends Selenified {
     }
 
     @Test(groups = { "integration", "asserts",
-            "contains" }, description = "An integration negative test to check the checkElementContainsClass method")
+            "contains", "virtual" }, description = "An integration negative test to check the checkElementContainsClass method")
     public void negativeCheckElementContainsClassDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -366,7 +366,7 @@ public class AssertContainsIT extends Selenified {
     }
 
     @Test(groups = { "integration", "asserts", "contains",
-            "virtual" }, description = "An integration test to check the compareTextValueContains method")
+            "virtual", "virtual" }, description = "An integration test to check the compareTextValueContains method")
     public void compareValueContainsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
