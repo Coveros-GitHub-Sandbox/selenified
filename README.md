@@ -122,10 +122,10 @@ See below for an example:
         // set the base URL for the tests here
         setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 ```
 
@@ -268,6 +268,23 @@ verified
     call.get("post/").assertEquals(404);
     call.post("posts/", request).assertContains(response);
 ```
+
+###### Authentication
+Any of the above calls would occur without any authentication; they just are direct gets, posts, etc. Some 
+basic authentication capabilities are built into Selenified. If you have simple user/password authentication 
+for your services, Selenified makes it easy to provide those. Simply set the username and password as 
+environment variables, and Selenified will automatically pick them up, and pass them along with your call. 
+Don’t worry, they’re not passed in clear text, but encoded, and passed as header authorization information.
+```shell
+set SERVICES_USER=myusername
+set SERVICES_PASS=mypassword
+```
+
+You may have some more complex authentication scheme. That is not atypical. Unfortunately, in order to set 
+this up, you’ll actually need to modify the source code a bit. Because authentication is performed in so many 
+different ways, we don’t have a standard setup for oauth, csrf tokens, or others. Checkout the 
+[wiki](https://github.com/Coveros/selenified/wiki/Service-Authentication) for more information on authentication 
+schemes.
 
 ##### Finalizing your tests
 Finally, in order to track errors within the tests, the last step of each test is comparing the value within 
