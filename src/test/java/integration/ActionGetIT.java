@@ -748,7 +748,7 @@ public class ActionGetIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getAttribute method")
+            "get", "virtual" }, description = "An integration test to check the getAttribute method")
     public void getAttributeTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -760,7 +760,7 @@ public class ActionGetIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getAttribute method")
+            "get", "virtual" }, description = "An integration test to check the getAttribute method")
     public void getAttributeWonkyTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -931,7 +931,7 @@ public class ActionGetIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getHtmlSource method")
+            "get", "virtual" }, description = "An integration test to check the getHtmlSource method")
     public void getHtmlSourceTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
