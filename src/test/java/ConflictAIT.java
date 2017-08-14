@@ -1,5 +1,3 @@
-package integration;
-
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

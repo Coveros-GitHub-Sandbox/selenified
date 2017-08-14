@@ -213,9 +213,11 @@ public class GeneralTest {
 
     @Test
     public void getTestNameTest(Method method) {
-        Assert.assertEquals(General.getTestName(method.getName(), "Python"), "getTestNameTestWithOptionPython");
-        Assert.assertEquals(General.getTestName(method.getName(),  "public"), "getTestNameTest");
         Assert.assertEquals(General.getTestName(method), "unit_GeneralTest_getTestNameTest");
+        Object[] options = new Object[] { "Python" , "public" };
+        Assert.assertEquals(General.getTestName(method, options), "unit_GeneralTest_getTestNameTestWithOptionPython");
+        options = new Object[] { "Python" , null };
+        Assert.assertEquals(General.getTestName(method, options), "unit_GeneralTest_getTestNameTestWithOptionPython");
         Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
         Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld", "python"),
                 "UnitTests_helloWorldWithOptionPython");
@@ -231,9 +233,7 @@ public class GeneralTest {
                         "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
                         "Gosu", "Powershell", "Squeak", "Gambas"),
                 "UnitTests_helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
-        String testName = General.getTestName("helloWorld", "PythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambasEuphoriaFantomAssembly");
-        Assert.assertTrue(testName.matches("helloWorld@[0-9a-f]+$"));
-        testName = General.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
+        String testName = General.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
                 "Groovy", "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell",
                 "Swift", "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
                 "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");

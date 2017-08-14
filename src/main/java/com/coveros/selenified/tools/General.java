@@ -441,47 +441,6 @@ public class General {
     }
 
     /**
-     * this method determines the unique test name, based on the parameters
-     * passed in
-     * 
-     * @param methodName
-     *            - the name of the test method as a string
-     * @param dataProvider
-     *            - an array of objects being passed to the test as data
-     *            providers
-     * @return String: a unique name
-     */
-    public static String getTestName(String methodName, Object... dataProvider) {
-        StringBuilder testName = new StringBuilder(methodName);
-        String currentName = methodName;
-        if (isRealDataProvider(dataProvider)) {
-            testName.append("WithOption");
-            for (Object data : dataProvider) {
-                if (data == null || data.toString().startsWith(PUBLIC)) {
-                    break;
-                }
-                testName.append(General.capitalizeFirstLetters(General.removeNonWordCharacters(data.toString())));
-            }
-            currentName = testName.toString();
-            if (currentName.length() > MAXFILENAMELENGTH) {
-                currentName = methodName + dataProvider.toString().split(";")[1]; // NOSONAR
-                                                                                    // -
-                                                                                    // purposefully
-                                                                                    // using
-                                                                                    // toString
-                                                                                    // on
-                                                                                    // object
-                                                                                    // to
-                                                                                    // obtain
-                                                                                    // unique
-                                                                                    // random
-                                                                                    // hash
-            }
-        }
-        return currentName;
-    }
-
-    /**
      * a function that breaks up a string, and places it into a map
      * 
      * @param input
