@@ -214,9 +214,9 @@ public class GeneralTest {
     @Test
     public void getTestNameTest(Method method) {
         Assert.assertEquals(General.getTestName(method), "unit_GeneralTest_getTestNameTest");
-        Object[] options = new Object[] { "Python" , "public" };
+        Object[] options = new Object[] { "Python", "public" };
         Assert.assertEquals(General.getTestName(method, options), "unit_GeneralTest_getTestNameTestWithOptionPython");
-        options = new Object[] { "Python" , null };
+        options = new Object[] { "Python", null };
         Assert.assertEquals(General.getTestName(method, options), "unit_GeneralTest_getTestNameTestWithOptionPython");
         Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
         Assert.assertEquals(General.getTestName("", "UnitTests", "helloWorld", "python"),

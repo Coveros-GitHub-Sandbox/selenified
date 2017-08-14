@@ -1,3 +1,23 @@
+/*
+ * Copyright 2017 Coveros, Inc.
+ * 
+ * This file is part of Selenified.
+ * 
+ * Selenified is licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy 
+ * of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on 
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License.
+ */
+
 package com.coveros.selenified.selenium;
 
 import java.io.File;
@@ -28,6 +48,19 @@ import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.TestSetup;
 import com.coveros.selenified.tools.OutputFile.Result;
 
+/**
+ * App is an instance of the browser based application that is under test.
+ * 
+ * Pages should be build out of this object (if using the page object model
+ * (POM)), so that several pages make up an app. Within each page, multiple
+ * elements should be created. In this way, we can act on our app, page, or
+ * element directly. If you choose not to use the POM, then simply build your
+ * elements directly out of your app.
+ *
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 8/13/2017
+ */
 public class App {
 
     private static final Logger log = Logger.getLogger(General.class);
@@ -320,6 +353,7 @@ public class App {
      * a way to open a new tab, and have it selected. Note, no content will be
      * present on this new tab, use the goToURL method to open load some content
      * 
+     * @return Boolean: did the tab open correctly or not
      */
     public boolean openTab() {
         return sendControlAndCommand("Opening new tab", "New tab is opened", "New tab was unable to be opened. ", "t");

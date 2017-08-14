@@ -1,3 +1,23 @@
+/*
+ * Copyright 2017 Coveros, Inc.
+ * 
+ * This file is part of Selenified.
+ * 
+ * Selenified is licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy 
+ * of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on 
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License.
+ */
+
 package com.coveros.selenified.services;
 
 import org.testng.log4testng.Logger;
@@ -6,6 +26,15 @@ import com.coveros.selenified.tools.General;
 import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.OutputFile.Result;
 
+/**
+ * Performs the general method calls, and provides a simple access to the HTTP
+ * class
+ * 
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 8/13/2017
+ *
+ */
 public class Call {
     private static final Logger log = Logger.getLogger(General.class);
 

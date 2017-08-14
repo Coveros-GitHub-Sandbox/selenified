@@ -193,7 +193,8 @@ public class ServicesIT extends Selenified {
         json.addProperty("userId", 1);
         json.addProperty("id", 1);
         json.addProperty("title", "sunt aut facere repellat provident occaecati excepturi optio reprehenderit");
-        json.addProperty("body", "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto");
+        json.addProperty("body",
+                "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions

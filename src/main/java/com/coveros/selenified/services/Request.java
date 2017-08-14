@@ -29,7 +29,7 @@ import com.google.gson.JsonObject;
  *
  * @author Max Saperstone
  * @version 3.0.0
- * @lastupdate 8/1/2017
+ * @lastupdate 8/11/2017
  */
 public class Request {
     private JsonObject data = null;

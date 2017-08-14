@@ -29,6 +29,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Some generic methods to help processing of data
+ * 
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 8/14/2017
+ */
 public class General {
 
     private static final int MAXFILENAMELENGTH = 200;

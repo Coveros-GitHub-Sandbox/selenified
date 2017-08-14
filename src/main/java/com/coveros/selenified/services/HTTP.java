@@ -41,7 +41,7 @@ import com.google.gson.JsonParser;
  *
  * @author Max Saperstone
  * @version 3.0.0
- * @lastupdate 8/1/2017
+ * @lastupdate 8/13/2017
  */
 public class HTTP {
 

@@ -45,6 +45,13 @@ import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import io.github.bonigarcia.wdm.OperaDriverManager;
 
+/**
+ * Assists with Selenified class in setting up proxy, hub, and browser details
+ * 
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 7/20/2017
+ */
 public class TestSetup {
 
     private static final Logger log = Logger.getLogger(General.class);

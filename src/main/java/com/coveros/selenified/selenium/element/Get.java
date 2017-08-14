@@ -1,3 +1,23 @@
+/*
+ * Copyright 2017 Coveros, Inc.
+ * 
+ * This file is part of Selenified.
+ * 
+ * Selenified is licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy 
+ * of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on 
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License.
+ */
+
 package com.coveros.selenified.selenium.element;
 
 import java.util.ArrayList;
@@ -14,6 +34,14 @@ import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.tools.General;
 
+/**
+ * Get retrieves information about a particular element. If an object isn't
+ * present, null will be returned
+ * 
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 8/14/2017
+ */
 public class Get {
     private static final Logger log = Logger.getLogger(General.class);
 
@@ -243,6 +271,9 @@ public class Get {
 
     /**
      * get the number of options from the select drop down
+     * 
+     * @return Integer: how many select options are available in the select
+     *         element
      *
      */
     public int numOfSelectOptions() {
@@ -322,6 +353,8 @@ public class Get {
 
     /**
      * get the number of rows of a table
+     * 
+     * @return Integer: the number of rows the table has
      *
      */
     public int numOfTableRows() {
@@ -359,6 +392,7 @@ public class Get {
     /**
      * get the number of columns of a table
      *
+     * @return Integer: the number of columns the table has
      */
     public int numOfTableColumns() {
         List<List<WebElement>> columns = tableColumns();

@@ -55,7 +55,7 @@ import com.google.gson.GsonBuilder;
  *
  * @author Max Saperstone
  * @version 3.0.0
- * @lastupdate 7/20/2017
+ * @lastupdate 8/13/2017
  */
 public class OutputFile {
 
@@ -94,15 +94,28 @@ public class OutputFile {
     private static final String END_ROW = "   </tr>\n";
 
     /**
-     * Creates a new instance of the OutputFile, which will serve as the
+     * * Creates a new instance of the OutputFile, which will serve as the
      * detailed log
      * 
-     * @param testDirectory
+     * @param directory
      *            - a string of the directory holding the files
-     * @param testName
+     * @param test
      *            - a string value of the test name, typically the method name
-     * @param setBrowser
-     *            - the browser we are performing this test on
+     * @param browser
+     *            - the browser the tests are running on
+     * @param url
+     *            - the url all of the tests are running against
+     * @param suite
+     *            - the test suite associated with the particular test
+     * @param group
+     *            - any testng groups associated with the particular test
+     * @param author
+     *            - the author associated with the particular test
+     * @param version
+     *            - the version of the test suite associated with the particular
+     *            test
+     * @param objectives
+     *            - the test objectives, taken from the testng description
      */
     public OutputFile(String directory, String test, Browser browser, String url, String suite, String group,
             String author, String version, String objectives) {

@@ -58,7 +58,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.0.0
- * @lastupdate 7/20/2017
+ * @lastupdate 8/13/2017
  */
 @Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
 public class Selenified {

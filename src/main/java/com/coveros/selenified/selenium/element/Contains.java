@@ -1,3 +1,23 @@
+/*
+ * Copyright 2017 Coveros, Inc.
+ * 
+ * This file is part of Selenified.
+ * 
+ * Selenified is licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy 
+ * of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on 
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License.
+ */
+
 package com.coveros.selenified.selenium.element;
 
 import java.util.Arrays;
@@ -5,6 +25,19 @@ import java.util.Arrays;
 import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.OutputFile.Success;
 
+/**
+ * Contains extends Asserts to provide some additional verification
+ * capabilities. It will handle all verifications performed on the actual
+ * element. These asserts are custom to the framework, and in addition to
+ * providing easy object oriented capabilities, they take screenshots with each
+ * verification to provide additional traceability, and assist in
+ * troubleshooting and debugging failing tests. Contains checks that elements
+ * have a particular value associated to them.
+ * 
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 8/13/2017
+ */
 public class Contains extends Assert {
 
     public Contains(Element element, OutputFile file) {

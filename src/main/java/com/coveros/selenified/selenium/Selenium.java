@@ -22,6 +22,16 @@ package com.coveros.selenified.selenium;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 
+/**
+ * Selenium has some basic extensions of the Selenium class to assist with
+ * testing, such as supported browsers, locators, and how to initially start the
+ * tests
+ * 
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 7/20/2017
+ *
+ */
 public class Selenium {
 
     /**

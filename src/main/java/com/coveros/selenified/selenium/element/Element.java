@@ -42,6 +42,17 @@ import com.coveros.selenified.tools.General;
 import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.OutputFile.Result;
 
+/**
+ * Element an object representative of a web element on a particular page that
+ * is under test.
+ * 
+ * Elements should be directly interacted with, with actions performed on them,
+ * and assertions make about their current state
+ *
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 8/13/2017
+ */
 public class Element {
 
     private static final Logger log = Logger.getLogger(General.class);

@@ -1,3 +1,23 @@
+/*
+ * Copyright 2017 Coveros, Inc.
+ * 
+ * This file is part of Selenified.
+ * 
+ * Selenified is licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy 
+ * of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on 
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License.
+ */
+
 package com.coveros.selenified.selenium;
 
 import org.openqa.selenium.NoAlertPresentException;
@@ -8,6 +28,17 @@ import com.coveros.selenified.tools.General;
 import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.OutputFile.Result;
 
+/**
+ * WaitFor performs dyanamic waits on the app in general, until a particular
+ * condition of the application is met, not one for a particular page or
+ * element. Nothing is ever returned. The default wait is 5 seconds, but can be
+ * overridden. If the condition is not met in the allotted time, still nothing
+ * is returned, but an error is logged
+ * 
+ * @author Max Saperstone
+ * @version 3.0.0
+ * @lastupdate 8/13/2017
+ */
 public class WaitFor {
 
     private static final Logger log = Logger.getLogger(General.class);
