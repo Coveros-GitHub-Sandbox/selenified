@@ -269,6 +269,23 @@ verified
     call.post("posts/", request).assertContains(response);
 ```
 
+###### Authentication
+Any of the above calls would occur without any authentication; they just are direct gets, posts, etc. Some 
+basic authentication capabilities are built into Selenified. If you have simple user/password authentication 
+for your services, Selenified makes it easy to provide those. Simply set the username and password as 
+environment variables, and Selenified will automatically pick them up, and pass them along with your call. 
+Don’t worry, they’re not passed in clear text, but encoded, and passed as header authorization information.
+```shell
+set SERVICES_USER=myusername
+set SERVICES_PASS=mypassword
+```
+
+You may have some more complex authentication scheme. That is not atypical. Unfortunately, in order to set 
+this up, you’ll actually need to modify the source code a bit. Because authentication is performed in so many 
+different ways, we don’t have a standard setup for oauth, csrf tokens, or others. Checkout the 
+[wiki](https://github.com/Coveros/selenified/wiki/Service-Authentication) for more information on authentication 
+schemes.
+
 ##### Finalizing your tests
 Finally, in order to track errors within the tests, the last step of each test is comparing the value within 
 errors to the number 0. This will then throw an error if any issues occurred during the test. All previous
