@@ -10,5 +10,8 @@
       <package name="integration" />
       <package name="sample" />
     </packages>
+    <classes>
+      <class name="ConflictAIT" />
+    </classes>
   </test>
 </suite>
