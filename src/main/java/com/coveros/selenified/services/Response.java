@@ -22,8 +22,8 @@ package com.coveros.selenified.services;
 
 import java.util.Map;
 
-import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.selenium.Assert.Success;
+import com.coveros.selenified.tools.OutputFile;
+import com.coveros.selenified.tools.OutputFile.Success;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,7 +32,7 @@ import com.google.gson.JsonObject;
  * A class designed to hold data provided from the HTTP calls.
  *
  * @author Max Saperstone
- * @version 2.0.1
+ * @version 3.0.0
  * @lastupdate 8/1/2017
  */
 public class Response {
@@ -70,10 +70,6 @@ public class Response {
 
     public int getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public boolean isData() {
@@ -118,14 +114,12 @@ public class Response {
      * 
      * @param expectedCode
      *            - the expected response code
-     * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int assertEquals(int expectedCode) {
+    public void assertEquals(int expectedCode) {
         Success success = (code == expectedCode) ? Success.PASS : Success.FAIL;
         file.recordExpected("Expected to find a response code of <b>" + expectedCode + "</b>");
         file.recordActual("Found a response code of <b>" + code + "</b>", success);
         file.addErrors(success.getErrors());
-        return success.getErrors();
     }
 
     /**
@@ -134,9 +128,8 @@ public class Response {
      * 
      * @param expectedJson
      *            - the expected response json object
-     * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int assertEquals(JsonObject expectedJson) {
+    public void assertEquals(JsonObject expectedJson) {
         Success success = Success.FAIL;
         if (object != null) {
             success = object.equals(expectedJson) ? Success.PASS : Success.FAIL;
@@ -145,7 +138,6 @@ public class Response {
                 "Expected to find a response of:" + file.formatResponse(new Response(0, expectedJson, null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
-        return success.getErrors();
     }
 
     /**
@@ -154,9 +146,8 @@ public class Response {
      * 
      * @param expectedArray
      *            - the expected response json array
-     * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int assertEquals(JsonArray expectedArray) {
+    public void assertEquals(JsonArray expectedArray) {
         Success success = Success.FAIL;
         if (array != null) {
             success = array.equals(expectedArray) ? Success.PASS : Success.FAIL;
@@ -165,7 +156,6 @@ public class Response {
                 "Expected to find a response of:" + file.formatResponse(new Response(0, expectedArray, null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
-        return success.getErrors();
     }
 
     /**
@@ -175,29 +165,25 @@ public class Response {
      * @param expectedPairs
      *            a hashmap with string key value pairs expected in the json
      *            response
-     * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int assertContains(Map<String, String> expectedPairs) {
+    public void assertContains(Map<String, String> expectedPairs) {
         StringBuilder expectedString = new StringBuilder();
-        Success success = Success.FAIL;
-        if (object != null) {
-            success = Success.PASS;
-            for (Map.Entry<String, String> entry : expectedPairs.entrySet()) {
-                expectedString.append("<div>");
-                expectedString.append(entry.getKey());
-                expectedString.append(" : ");
-                expectedString.append(entry.getValue());
-                expectedString.append("</div>");
-                if (!object.has(entry.getKey()) || !object.get(entry.getKey()).getAsString().equals(entry.getValue())) {
-                    success = Success.FAIL;
-                }
+        Success success = (object == null) ? Success.FAIL : Success.PASS;
+        for (Map.Entry<String, String> entry : expectedPairs.entrySet()) {
+            expectedString.append("<div>");
+            expectedString.append(entry.getKey());
+            expectedString.append(" : ");
+            expectedString.append(entry.getValue());
+            expectedString.append("</div>");
+            if (object != null && (!object.has(entry.getKey())
+                    || !object.get(entry.getKey()).getAsString().equals(entry.getValue()))) {
+                success = Success.FAIL;
             }
         }
         file.recordExpected(
                 "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>");
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
-        return success.getErrors();
     }
 
     /**
@@ -208,18 +194,16 @@ public class Response {
      *            - a String key value expected in the result
      * @param expectedJson
      *            - the expected response json object
-     * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int assertContains(String key, JsonElement expectedJson) {
+    public void assertContains(String key, JsonElement expectedJson) {
         Success success = Success.FAIL;
         if (object != null && object.has(key)) {
             success = object.get(key).equals(expectedJson) ? Success.PASS : Success.FAIL;
         }
-        file.recordExpected("Expected to find a response containing: "
+        file.recordExpected("Expected to find a response with key <i>" + key + "</i> equal to: "
                 + file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
-        return success.getErrors();
     }
 
     /**
@@ -228,9 +212,8 @@ public class Response {
      * 
      * @param expectedJson
      *            - the expected response json array
-     * @return Integer: 1 if a failure and 0 if a pass
      */
-    public int assertContains(JsonElement expectedJson) {
+    public void assertContains(JsonElement expectedJson) {
         Success success = Success.FAIL;
         if (array != null) {
             success = array.contains(expectedJson) ? Success.PASS : Success.FAIL;
@@ -239,6 +222,5 @@ public class Response {
                 + file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
-        return success.getErrors();
     }
 }

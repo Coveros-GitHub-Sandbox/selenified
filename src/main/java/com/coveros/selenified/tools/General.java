@@ -340,14 +340,21 @@ public class General {
         return getTestName(packageName, className, method.getName(), dataProvider);
     }
 
+    private static boolean isRealDataProvider(Object... dataProvider) {
+        return dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
+                && !dataProvider[0].toString().startsWith(PUBLIC);
+    }
+
     /**
      * this method determines the unique test name, based on the parameters
      * passed in
      * 
-     * @param methodName
-     *            - the name of the test method as a string
+     * @param packageName
+     *            - the package name of the test method as a string
      * @param className
      *            - the class name of the test method as a string
+     * @param methodName
+     *            - the method name of the test as a string
      * @param dataProvider
      *            - an array of objects being passed to the test as data
      *            providers
@@ -361,8 +368,7 @@ public class General {
             testName = new StringBuilder(packageName + "_" + className + "_" + methodName);
         }
         String currentName = testName.toString();
-        if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-                && !dataProvider[0].toString().startsWith(PUBLIC)) {
+        if (isRealDataProvider(dataProvider)) {
             testName.append("WithOption");
             for (Object data : dataProvider) {
                 if (data == null || data.toString().startsWith(PUBLIC)) {
@@ -448,8 +454,7 @@ public class General {
     public static String getTestName(String methodName, Object... dataProvider) {
         StringBuilder testName = new StringBuilder(methodName);
         String currentName = methodName;
-        if (dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-                && !dataProvider[0].toString().startsWith(PUBLIC)) {
+        if (isRealDataProvider(dataProvider)) {
             testName.append("WithOption");
             for (Object data : dataProvider) {
                 if (data == null || data.toString().startsWith(PUBLIC)) {

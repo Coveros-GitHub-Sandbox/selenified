@@ -1,29 +1,31 @@
 package integration;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 
+import org.apache.commons.io.FileUtils;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class NoLoadIT extends TestBase {
+public class NoLoadIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite("http://172.31.2.65/");
+        setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -31,19 +33,20 @@ public class NoLoadIT extends TestBase {
         super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
 
+    @SuppressWarnings("deprecation")
     @Test(groups = { "integration",
-            "virtual" }, description = "An integration test to verify we can start a test with a browser, but won't load any page")
-    public void verifyNoLoad() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        Assert asserts = this.asserts.get();
+            "virtual" }, description = "An integration test to verify we can start a test with a browser, but won't load any app")
+    public void verifyNoLoad(ITestContext context) throws IOException {
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // verify a selenium actions class was setup
-        org.testng.Assert.assertNotNull(actions);
-        org.testng.Assert.assertEquals(
-                asserts.getOutputFile().countInstancesOf("Opening new browser and loading up starting page"), 0);
-        // verify the page wasn't attempted to load
-        asserts.compareURL(getTestSite());
+        org.testng.Assert.assertNotNull(app);
+        String directory = context.getOutputDirectory();
+        String file = app.getOutputFile().getFileName();
+        org.testng.Assert.assertFalse(FileUtils.readFileToString(new File(directory, file))
+                .contains("Opening new browser and loading up starting app"));
+        // verify the app wasn't attempted to load
+        app.azzert().urlEquals(getTestSite(this.getClass().getName(), context));
         // verify one issue from the above check
         finish(1);
     }

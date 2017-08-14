@@ -27,25 +27,24 @@ import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.output.OutputFile;
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
+import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.tools.OutputFile.Result;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 /**
- * TestBase contains all of the elements to setup the test suite, and to start
+ * Selenified contains all of the elements to setup the test suite, and to start
  * and finish your tests. The site under test is set here should be set,
  * otherwise a default value of google will be used. Before each suite is run,
  * the system variables are gathered, to set the browser, test site, proxy, hub,
@@ -58,21 +57,20 @@ import java.util.Map;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 2.0.1
+ * @version 3.0.0
  * @lastupdate 7/20/2017
  */
 @Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
-public class TestBase {
+public class Selenified {
 
     private static final Logger log = Logger.getLogger(General.class);
 
-    private static String testSite = "https://www.google.com/";
-    private static String version = "";
-    private static String author = "";
+    // if were services calls are bring used, are there usernames and passwords
+    // used for credentials
+    protected static String servicesUser = "";
+    protected static String servicesPass = "";
 
-    private static String servicesUser = "";
-    private static String servicesPass = "";
-
+    // any additional browser capabilities that might be necessary
     protected static DesiredCapabilities extraCapabilities = null;
 
     // some passed in system params
@@ -82,9 +80,9 @@ public class TestBase {
     // for individual tests
     protected ThreadLocal<Browser> browser = new ThreadLocal<>();
     protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
-    protected ThreadLocal<Assert> asserts = new ThreadLocal<>();
-    protected ThreadLocal<Action> actions = new ThreadLocal<>();
-    protected ThreadLocal<Integer> errors = new ThreadLocal<>();
+    protected ThreadLocal<OutputFile> files = new ThreadLocal<>();
+    protected ThreadLocal<App> apps = new ThreadLocal<>();
+    protected ThreadLocal<Call> calls = new ThreadLocal<>();
 
     // constants
     private static final String APP_INPUT = "appURL";
@@ -93,103 +91,37 @@ public class TestBase {
     private static final String ERRORS_CHECK = " errors";
 
     // default getters and setters for test information
-    public String getTestSite() {
-        return testSite;
-    }
-
-    public static void setTestSite(String siteURL) {
+    public String getTestSite(String clazz, ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
-            testSite = siteURL;
+            return (String) context.getAttribute(clazz + APP_INPUT);
+        } else {
+            return System.getProperty(APP_INPUT);
         }
     }
 
-    private static void passedInTestSite(String siteURL) {
-        testSite = siteURL;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public static void setVersion(String ver) {
-        version = ver;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public static void setAuthor(String auth) {
-        author = auth;
-    }
-
-    public String getServicesUser() {
-        return servicesUser;
-    }
-
-    public static void setServicesUser(String servicesUsername) {
-        servicesUser = servicesUsername;
-    }
-
-    public String getServicesPass() {
-        return servicesPass;
-    }
-
-    public static void setServicesPass(String servicesPassword) {
-        servicesPass = servicesPassword;
-    }
-
-    /**
-     * Initializes the test settings by setting default values for the browser,
-     * URL, and credentials if they are not specifically set
-     */
-    public static void initializeSystem() {
-        // check the browser
-        if (System.getProperty(BROWSER_INPUT) == null) {
-            System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
-        }
-        if (System.getProperty(APP_INPUT) != null) {
-            passedInTestSite(System.getProperty(APP_INPUT));
-        }
-        if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
-            servicesUser = System.getenv("SERVICES_USER");
-            servicesPass = System.getenv("SERVICES_PASS");
+    protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
+        if (System.getProperty(APP_INPUT) == null) {
+            String testSuite = clazz.getClass().getName();
+            context.setAttribute(testSuite + APP_INPUT, siteURL);
         }
     }
 
-    /**
-     * Obtains passed in browser information, and sets up the required
-     * capabilities
-     * 
-     * @throws InvalidBrowserException
-     *             If a browser that is not one specified in the
-     *             Selenium.Browser class is used, this exception will be thrown
-     */
-    public static void setupTestParameters() throws InvalidBrowserException {
-        browsers = TestSetup.setBrowser();
-
-        for (Browser browser : browsers) {
-            TestSetup setup = new TestSetup();
-            // are we running remotely on a hub
-            if (System.getProperty("hub") != null) {
-                setup.setupBrowserCapability(browser);
-            }
-            setup.setupProxy();
-            if (TestSetup.areBrowserDetailsSet()) {
-                Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
-                setup.setupBrowserDetails(browserDetails);
-            }
-            DesiredCapabilities caps = setup.getDesiredCapabilities();
-            if (extraCapabilities != null) {
-                caps = caps.merge(extraCapabilities);
-            }
-            capabilities.add(caps);
-        }
+    protected String getVersion(String clazz, ITestContext context) {
+        return (String) context.getAttribute(clazz + "Version");
     }
 
-    @DataProvider(name = "no options", parallel = true)
-    public Object[][] noOptions() {
-        return new Object[][] { new Object[] { "" }, };
+    protected static void setVersion(Selenified clazz, ITestContext context, String version) {
+        String testSuite = clazz.getClass().getName();
+        context.setAttribute(testSuite + "Version", version);
+    }
+
+    protected String getAuthor(String clazz, ITestContext context) {
+        return (String) context.getAttribute(clazz + "Author");
+    }
+
+    protected static void setAuthor(Selenified clazz, ITestContext context, String author) {
+        String testSuite = clazz.getClass().getName();
+        context.setAttribute(testSuite + "Author", author);
     }
 
     /**
@@ -201,7 +133,7 @@ public class TestBase {
      *             Selenium.Browser class is used, this exception will be thrown
      */
     @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() throws InvalidBrowserException {
+    protected void beforeSuite() throws InvalidBrowserException {
         MasterSuiteSetupConfigurator.getInstance().doSetup();
     }
 
@@ -251,9 +183,7 @@ public class TestBase {
             DriverSetup selenium) {
         String testName = General.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
-        String extClass = test.getCurrentXmlTest().getXmlClasses().get(0).getName();
-        String fileLocation = "src." + extClass;
-        File file = new File("./" + fileLocation.replaceAll("\\.", "/") + ".java");
+        String extClass = method.getDeclaringClass().getName();
         String description = "";
         String group = "";
         Test annotation = method.getAnnotation(Test.class);
@@ -273,50 +203,65 @@ public class TestBase {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Browser myBrowser = browsers.get(invocationCount);
-        Assert myOutput;
-        if (selenium.useBrowser()) {
-            myOutput = new Assert(outputDir, testName, myBrowser);
-        } else {
+        if (!selenium.useBrowser()) {
             myBrowser = Browser.NONE;
-            myOutput = new Assert(outputDir, testName, testSite);
         }
-        this.browser.set(myBrowser);
-        result.setAttribute(BROWSER_INPUT, myBrowser);
-
         DesiredCapabilities myCapability = capabilities.get(invocationCount);
         myCapability.setCapability("name", testName);
         this.capability.set(myCapability);
 
-        OutputFile myFile = myOutput.getOutputFile();
-        myFile.setURL(testSite);
-        myFile.setSuite(test.getName());
-        myFile.setGroup(group);
-        if (file.exists()) {
-            myFile.setLastModified(new Date(file.lastModified()));
-        }
-        myFile.setVersion(version);
-        myFile.setAuthor(author);
-        myFile.setObjectives(description);
-        myFile.setStartTime();
-        Action action = new Action(testSite, servicesUser, servicesPass, myFile);
+        OutputFile myFile = new OutputFile(outputDir, testName, myBrowser, getTestSite(extClass, test), test.getName(),
+                group, getAuthor(extClass, test), getVersion(extClass, test), description);
         if (selenium.useBrowser()) {
+            App app = null;
             try {
-                action = new Action(myBrowser, myCapability, myFile);
+                app = new App(myBrowser, myCapability, myFile);
             } catch (InvalidBrowserException | MalformedURLException e) {
                 log.error(e);
             }
-        }
-        this.actions.set(action);
-        myFile.setAction(action);
-        myOutput.setAction(action);
-        myFile.createOutputHeader();
-        if (selenium.loadPage()) {
-            this.errors.set(myFile.loadInitialPage());
+            this.apps.set(app);
+            this.calls.set(null);
+            myFile.setApp(app);
+            if (selenium.loadPage()) {
+                loadInitialPage(app, getTestSite(extClass, test), myFile);
+            }
         } else {
-            this.errors.set(0);
+            HTTP http = new HTTP(getTestSite(extClass, test), servicesUser, servicesPass);
+            Call call = new Call(http, myFile);
+            this.apps.set(null);
+            this.calls.set(call);
         }
-        myOutput.setOutputFile(myFile);
-        this.asserts.set(myOutput);
+        this.browser.set(myBrowser);
+        result.setAttribute(BROWSER_INPUT, myBrowser);
+        this.files.set(myFile);
+    }
+
+    /**
+     * loads the initial app specified by the url, and ensures the app loads
+     * successfully
+     */
+    private void loadInitialPage(App app, String url, OutputFile file) {
+        String startingPage = "The starting app <i>";
+        String act = "Opening new browser and loading up starting app";
+        String expected = startingPage + url + "</i> will successfully load";
+
+        if (app != null) {
+            try {
+                app.getDriver().get(url);
+                if (!app.get().location().contains(url)) {
+                    file.recordAction(act, expected,
+                            startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
+                            Result.FAILURE);
+                    file.addError();
+                    return;
+                }
+                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
+            } catch (Exception e) {
+                log.error(e);
+                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
+                file.addError();
+            }
+        }
     }
 
     /**
@@ -337,10 +282,10 @@ public class TestBase {
      *            be kept here
      */
     @AfterMethod(alwaysRun = true)
-    public void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+    protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         String testName = General.getTestName(method, dataProvider);
-        if (this.actions.get() != null) {
-            this.actions.get().killDriver();
+        if (this.apps.get() != null) {
+            this.apps.get().killDriver();
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
@@ -352,8 +297,8 @@ public class TestBase {
      * the test, and fail the test if any errors were encountered
      * 
      */
-    public void finish() {
-        OutputFile myFile = this.asserts.get().getOutputFile();
+    protected void finish() {
+        OutputFile myFile = this.files.get();
         myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
@@ -368,13 +313,13 @@ public class TestBase {
      *            - number of expected errors from the test
      */
     protected void finish(int errors) {
-        OutputFile myFile = this.asserts.get().getOutputFile();
+        OutputFile myFile = this.files.get();
         myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
     }
 
-    public static class MasterSuiteSetupConfigurator {
+    private static class MasterSuiteSetupConfigurator {
         private static MasterSuiteSetupConfigurator instance;
         private boolean wasInvoked = false;
 
@@ -411,6 +356,52 @@ public class TestBase {
             initializeSystem();
             setupTestParameters();
             wasInvoked = true;
+        }
+
+        /**
+         * Initializes the test settings by setting default values for the
+         * browser, URL, and credentials if they are not specifically set
+         */
+        private static void initializeSystem() {
+            // check the browser
+            if (System.getProperty(BROWSER_INPUT) == null) {
+                System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
+            }
+            if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
+                servicesUser = System.getenv("SERVICES_USER");
+                servicesPass = System.getenv("SERVICES_PASS");
+            }
+        }
+
+        /**
+         * Obtains passed in browser information, and sets up the required
+         * capabilities
+         * 
+         * @throws InvalidBrowserException
+         *             If a browser that is not one specified in the
+         *             Selenium.Browser class is used, this exception will be
+         *             thrown
+         */
+        private static void setupTestParameters() throws InvalidBrowserException {
+            browsers = TestSetup.setBrowser();
+
+            for (Browser browser : browsers) {
+                TestSetup setup = new TestSetup();
+                // are we running remotely on a hub
+                if (System.getProperty("hub") != null) {
+                    setup.setupBrowserCapability(browser);
+                }
+                setup.setupProxy();
+                if (TestSetup.areBrowserDetailsSet()) {
+                    Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
+                    setup.setupBrowserDetails(browserDetails);
+                }
+                DesiredCapabilities caps = setup.getDesiredCapabilities();
+                if (extraCapabilities != null) {
+                    caps = caps.merge(extraCapabilities);
+                }
+                capabilities.add(caps);
+            }
         }
     }
 }

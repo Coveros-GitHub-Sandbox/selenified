@@ -1,9 +1,6 @@
 package unit;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -14,10 +11,9 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.tools.Selenified;
 
-public class TestBaseTest extends TestBase {
+public class SelenifiedTest extends Selenified {
 
     private String setAppURL = null;
     private String setBrowser = null;
@@ -85,46 +81,6 @@ public class TestBaseTest extends TestBase {
     }
 
     @Test
-    public void initializeSystemTest() {
-        TestBase.initializeSystem();
-        Assert.assertEquals(System.getProperty("browser"), "HTMLUNIT");
-        Assert.assertEquals(getTestSite(), "https://www.google.com/");
-
-        System.setProperty("browser", "Chrome");
-        System.setProperty("appURL", "http://www.yahoo.com");
-        TestBase.initializeSystem();
-        Assert.assertEquals(System.getProperty("browser"), "Chrome");
-        Assert.assertEquals(getTestSite(), "http://www.yahoo.com");
-    }
-
-    @Test(expectedExceptions = InvalidBrowserException.class)
-    public void setupTestParametersBadBrowserTest() throws InvalidBrowserException {
-        System.setProperty("browser", "BadBrowser");
-        TestBase.setupTestParameters();
-    }
-
-    @Test
-    public void setupTestParametersSingleBrowserTest() throws InvalidBrowserException {
-        List<Browser> expectedBrowser = new ArrayList<Browser>();
-        expectedBrowser.add(Browser.CHROME);
-        System.setProperty("browser", "CHROME");
-
-        TestBase.setupTestParameters();
-        Assert.assertEquals(TestBase.browsers, expectedBrowser);
-    }
-
-    @Test
-    public void setupTestParametersMultipleBrowserTest() throws InvalidBrowserException {
-        List<Browser> expectedBrowser = new ArrayList<Browser>();
-        expectedBrowser.add(Browser.CHROME);
-        expectedBrowser.add(Browser.EDGE);
-        System.setProperty("browser", "CHROME,EDGE");
-
-        TestBase.setupTestParameters();
-        Assert.assertEquals(TestBase.browsers, expectedBrowser);
-    }
-
-    @Test
     public void extraCapabilitiesTest() {
         DesiredCapabilities capability = capabilities.get(0);
         Assert.assertTrue((boolean) capability.getCapability("ignoreProtectedModeSettings"));
@@ -132,23 +88,23 @@ public class TestBaseTest extends TestBase {
     }
 
     @Test
-    public void siteTest() {
-        setTestSite("yahoo");
-        Assert.assertEquals(getTestSite(), "yahoo");
+    public void siteTest(ITestContext context) {
+        setTestSite(this, context, "yahoo");
+        Assert.assertEquals(getTestSite(this.getClass().getName(), context), "yahoo");
         System.setProperty("appURL", "http://www.yahoo.com");
-        setTestSite("google");
-        Assert.assertEquals(getTestSite(), "yahoo");
+        setTestSite(this, context, "google");
+        Assert.assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
     }
 
     @Test
-    public void versionTest() {
-        setVersion("1.0.0");
-        Assert.assertEquals(getVersion(), "1.0.0");
+    public void versionTest(ITestContext context) {
+        setVersion(this, context, "1.0.0");
+        Assert.assertEquals(getVersion(this.getClass().getName(), context), "1.0.0");
     }
 
     @Test
-    public void authorTest() {
-        setAuthor("Max");
-        Assert.assertEquals(getAuthor(), "Max");
+    public void authorTest(ITestContext context) {
+        setAuthor(this, context, "Max");
+        Assert.assertEquals(getAuthor(this.getClass().getName(), context), "Max");
     }
 }

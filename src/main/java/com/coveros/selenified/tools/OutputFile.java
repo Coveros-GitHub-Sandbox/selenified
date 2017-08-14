@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.output;
+package com.coveros.selenified.tools;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -40,37 +40,32 @@ import java.util.zip.ZipOutputStream;
 
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Assert.Result;
-import com.coveros.selenified.selenium.Assert.Success;
+import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
-import com.coveros.selenified.tools.General;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
  * A custom output file, recording all details of every step performed, both
- * actions and asserts. Actions, expected results, and actual results are
- * captured. All asserts have a screenshot taken for traceability, while all
- * failing actions also have a screenshot taken to assist with debugging
- * purposes
+ * actions and app. Actions, expected results, and actual results are captured.
+ * All asserts have a screenshot taken for traceability, while all failing
+ * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
- * @version 2.0.1
+ * @version 3.0.0
  * @lastupdate 7/20/2017
  */
 public class OutputFile {
 
     private static final Logger log = Logger.getLogger(General.class);
 
-    private Action action = null;
+    private App app = null;
 
     private String url;
     private String suite;
     private String group;
-    private Date lastModified;
     private String version;
     private String author;
     private String objectives;
@@ -79,8 +74,7 @@ public class OutputFile {
     private String directory;
     private File file;
     private String filename;
-    private Browser browser;
-    private String service;
+    private Browser browser = Browser.NONE;
     private List<String> screenshots = new ArrayList<>();
 
     // timing of the test
@@ -107,34 +101,25 @@ public class OutputFile {
      *            - a string of the directory holding the files
      * @param testName
      *            - a string value of the test name, typically the method name
-     */
-    public OutputFile(String testDirectory, String testName, String setServiceURL) {
-        test = testName;
-        service = setServiceURL;
-        directory = testDirectory;
-        filename = testName + "NONE.html";
-        file = new File(directory, filename);
-        setupFile();
-    }
-
-    /**
-     * Creates a new instance of the OutputFile, which will serve as the
-     * detailed log
-     * 
-     * @param testDirectory
-     *            - a string of the directory holding the files
-     * @param testName
-     *            - a string value of the test name, typically the method name
      * @param setBrowser
      *            - the browser we are performing this test on
      */
-    public OutputFile(String testDirectory, String testName, Browser setBrowser) {
-        test = testName;
-        browser = setBrowser;
-        directory = testDirectory;
-        filename = testName + browser + ".html";
+    public OutputFile(String directory, String test, Browser browser, String url, String suite, String group,
+            String author, String version, String objectives) {
+        this.directory = directory;
+        this.test = test;
+        this.browser = browser;
+        this.url = url;
+        this.suite = suite;
+        this.group = group;
+        this.author = author;
+        this.version = version;
+        this.objectives = objectives;
+        filename = test + browser + ".html";
         file = new File(directory, filename);
         setupFile();
+        setStartTime();
+        createOutputHeader();
     }
 
     /**
@@ -147,24 +132,6 @@ public class OutputFile {
     }
 
     /**
-     * returns the start time of the test
-     * 
-     * @return Long
-     */
-    public long getStartTime() {
-        return startTime;
-    }
-
-    /**
-     * returns the last time a step was completed
-     * 
-     * @return Long
-     */
-    public long getLastTime() {
-        return lastTime;
-    }
-
-    /**
      * returns the current error count of the test
      * 
      * @return Integer
@@ -174,89 +141,40 @@ public class OutputFile {
     }
 
     /**
-     * adds the action class which controls actions within the browser
-     * 
-     * @param action
-     *            - the action class associated with this output
+     * simply add an encountered error to the error counter
      */
-    public void setAction(Action action) {
-        this.action = action;
+    public void addError() {
+        errors++;
     }
 
     /**
-     * sets the url of the page under test
-     * 
-     * @param pageURL
-     *            - the initial page to open the browser to
+     * add a given set of errors to the error counter
+     *
+     * @param errorsToAdd
+     *            - the number of errors to add
      */
-    public void setURL(String pageURL) {
-        url = pageURL;
+    public void addErrors(int errorsToAdd) {
+        errors += errorsToAdd;
+    }
+
+    private boolean isRealBrowser() {
+        return browser != Browser.NONE && browser != Browser.HTMLUNIT;
     }
 
     /**
-     * sets the name of the suite of the test
+     * adds the app class which controls actions within the browser
      * 
-     * @param testSuite
-     *            - the name of test suite
+     * @param app
+     *            - the application to be tested, contains all control elements
      */
-    public void setSuite(String testSuite) {
-        suite = testSuite;
-    }
-
-    /**
-     * sets the name(s) of the group(s) of the tests
-     * 
-     * @param testGroup
-     *            - the name of the test group
-     */
-    public void setGroup(String testGroup) {
-        group = testGroup;
-    }
-
-    /**
-     * sets the date of the last time the test was modified
-     * 
-     * @param date
-     *            - the date the test was last modified
-     */
-    public void setLastModified(Date date) {
-        lastModified = date;
-    }
-
-    /**
-     * sets the version of the test being run
-     * 
-     * @param testVersion
-     *            - the version associated with the test
-     */
-    public void setVersion(String testVersion) {
-        version = testVersion;
-    }
-
-    /**
-     * sets the author of the test
-     * 
-     * @param testAuthor
-     *            - the author of the test
-     */
-    public void setAuthor(String testAuthor) {
-        author = testAuthor;
-    }
-
-    /**
-     * sets the objectives of the test being run
-     * 
-     * @param testObjectives
-     *            - the testing objectives
-     */
-    public void setObjectives(String testObjectives) {
-        objectives = testObjectives;
+    public void setApp(App app) {
+        this.app = app;
     }
 
     /**
      * creates the directory and file to hold the test output file
      */
-    public void setupFile() {
+    private void setupFile() {
         if (!new File(directory).exists()) {
             new File(directory).mkdirs();
         }
@@ -279,7 +197,7 @@ public class OutputFile {
      * @return Integer - the number of times the text was found in the file
      *         provided
      */
-    public int countInstancesOf(String textToFind) {
+    private int countInstancesOf(String textToFind) {
         int count = 0;
         try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
             String line = "";
@@ -302,7 +220,7 @@ public class OutputFile {
      * @param newText
      *            - the text to be replaced with
      */
-    public void replaceInFile(String oldText, String newText) {
+    private void replaceInFile(String oldText, String newText) {
         StringBuilder oldContent = new StringBuilder();
 
         try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
@@ -325,7 +243,7 @@ public class OutputFile {
     }
 
     /**
-     * a helper function to capture the entire page screen shot
+     * a helper function to capture the entire app screen shot
      *
      * @return new image link
      */
@@ -333,7 +251,7 @@ public class OutputFile {
         String imageName = generateImageName();
         String imageLink = generateImageLink(imageName);
         try {
-            action.page().takeScreenshot(imageName);
+            app.takeScreenshot(imageName);
             screenshots.add(imageName);
         } catch (Exception e1) {
             log.error(e1);
@@ -364,7 +282,7 @@ public class OutputFile {
         if (result == Result.FAILURE) {
             success = "Fail";
         }
-        if (!"Pass".equals(success) && browser != null && browser != Browser.NONE && browser != Browser.HTMLUNIT) {
+        if (!"Pass".equals(success) && isRealBrowser()) {
             // get a screen shot of the action
             imageLink = captureEntirePageScreenshot();
         }
@@ -405,7 +323,7 @@ public class OutputFile {
                 FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
             // get a screen shot of the action
             String imageLink = "";
-            if (browser != null && browser != Browser.HTMLUNIT && browser != Browser.NONE) {
+            if (isRealBrowser()) {
                 imageLink = captureEntirePageScreenshot();
             }
             // determine time differences
@@ -460,7 +378,7 @@ public class OutputFile {
      *
      * - an IOException
      */
-    public void createOutputHeader() {
+    private void createOutputHeader() {
         // setup some constants
         String endBracket3 = "   }\n";
         String endBracket4 = "    }\n";
@@ -567,29 +485,20 @@ public class OutputFile {
             out.write(swapRow);
             out.write("    <th>Author</th>\n");
             out.write(START_CELL + this.author + END_CELL);
-            out.write("    <th>Date Test Last Modified</th>\n");
-            String modified = "--";
-            if (this.lastModified != null) {
-                modified = sdf.format(this.lastModified);
-            }
-            out.write(START_CELL + modified + END_CELL);
-            out.write(swapRow);
-            out.write("    <th>Date Tested</th>\n");
-            out.write(START_CELL + datePart + END_CELL);
-            if (this.action != null && this.action.getBrowser() != null && this.action.getBrowser() != Browser.NONE) {
-                out.write("    <th>Browser</th>\n");
-                out.write(START_CELL + browser + END_CELL);
-            } else {
-                out.write("    <th>Service</th>\n");
-                out.write(START_CELL + service + END_CELL);
-            }
-            out.write(swapRow);
-            out.write("    <th>Test Run Time</th>\n");
-            out.write("    <td colspan=3>\n");
+            out.write("    <th rowspan='2'>Test Run Time</th>\n");
+            out.write("    <td rowspan='2'>\n");
             out.write("     Start:\t" + sTime + " <br/>\n");
             out.write("     End:\tTIMEFINISHED <br/>\n");
             out.write("     Run Time:\tRUNTIME \n");
             out.write("    </td>\n ");
+            out.write(swapRow);
+            out.write("    <th>Date Tested</th>\n");
+            out.write(START_CELL + datePart + END_CELL);
+            out.write(swapRow);
+            out.write("    <th>URL Under Test</th>\n");
+            out.write(START_CELL + "<a href='" + url + "'>" + url + "</a>" + END_CELL);
+            out.write("    <th>Browser</th>\n");
+            out.write(START_CELL + browser + END_CELL);
             out.write(swapRow);
             out.write("    <th>Testing Group</th>\n");
             out.write(START_CELL + group + END_CELL);
@@ -635,38 +544,6 @@ public class OutputFile {
         } catch (IOException e) {
             log.error(e);
         }
-    }
-
-    /**
-     * loads the initial page specified by the url, and ensures the page loads
-     * successfully
-     * 
-     * @return Integer: how many errors encountered
-     */
-    public int loadInitialPage() {
-        String startingPage = "The starting page <i>";
-        String act = "Opening new browser and loading up starting page";
-        String expected = startingPage + url + "</i> will successfully load";
-
-        if (action != null) {
-            try {
-                action.getDriver().get(url);
-                if (!action.get().location().contains(url)) {
-                    recordAction(act, expected,
-                            startingPage + action.get().location() + "</i> loaded instead of <i>" + url + "</i>",
-                            Result.FAILURE);
-                    addError();
-                    return 1;
-                }
-                recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
-            } catch (Exception e) {
-                log.error(e);
-                recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
-                addError();
-                return 1;
-            }
-        }
-        return 0;
     }
 
     /**
@@ -723,7 +600,7 @@ public class OutputFile {
      * packages the test result file along with screenshots into a zip file
      *
      */
-    public void packageTestResults() {
+    private void packageTestResults() {
         File f = new File(directory, filename + "_RESULTS.zip");
         try (// Create new zip file
                 ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
@@ -759,7 +636,7 @@ public class OutputFile {
      * @return String the link for the image which can be written out to the
      *         html file
      */
-    public String generateImageLink(String imageName) {
+    private String generateImageLink(String imageName) {
         String imageLink = "<br/>";
         if (imageName.length() >= directory.length() + 1) {
             imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\""
@@ -780,63 +657,18 @@ public class OutputFile {
      *
      * @return String the name of the image file as a PNG
      */
-    public String generateImageName() {
+    private String generateImageName() {
         long timeInSeconds = new Date().getTime();
         String randomChars = General.getRandomString(10);
         return directory + "/" + timeInSeconds + "_" + randomChars + ".png";
     }
 
     /**
-     * generates the link for the image
-     *
-     * @param imageName
-     *            the name of the image being embedded
-     * @return String the link for the image which can be written out to the
-     *         html file
-     */
-    public String generateImageSource(String imageName) {
-        String image = "";
-        if (imageName.length() > directory.length()) {
-            image = imageName.substring(directory.length() + 1);
-        }
-        return "<br/><div align='center' width='100%'><img id='" + image + "' class='imgIcon' src='" + image
-                + "'></div>";
-    }
-
-    /**
      * Determines the current time and sets the 'last time' to the current time
      */
-    public void setStartTime() {
+    private void setStartTime() {
         startTime = (new Date()).getTime();
         lastTime = startTime;
-    }
-
-    /**
-     * Determines the time passed in and sets the 'last time' to that time
-     *
-     * @param time
-     *            - the time to set the start time to
-     */
-    public void setStartTime(long time) {
-        startTime = time;
-        lastTime = time;
-    }
-
-    /**
-     * simply add an encountered error to the error counter
-     */
-    public void addError() {
-        errors++;
-    }
-
-    /**
-     * add a given set of errors to the error counter
-     *
-     * @param errorsToAdd
-     *            - the number of errors to add
-     */
-    public void addErrors(int errorsToAdd) {
-        errors += errorsToAdd;
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -905,8 +737,9 @@ public class OutputFile {
      * This takes a generic string and replaces spaces and new lines with HTML
      * friendly pieces for display purposes
      * 
-     * @param html
-     *            : the html string
+     * @param string
+     *            : the regular string to be formatted into an HTML pretty
+     *            rendering string
      * @return String : the replaced result
      */
     public String formatHTML(String string) {
@@ -915,4 +748,48 @@ public class OutputFile {
         }
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
     }
+
+    ///////////////////////////////////////////////////////////////////
+    // this enum will be for a pass/fail
+    ///////////////////////////////////////////////////////////////////
+
+    /**
+     * An enumeration used to determine if the tests pass or fail
+     * 
+     * @author Max Saperstone
+     *
+     */
+    public enum Success {
+        PASS, FAIL;
+
+        protected int errors;
+
+        /**
+         * Are errors associated with the enumeration
+         */
+        static {
+            PASS.errors = 0;
+            FAIL.errors = 1;
+        }
+
+        /**
+         * Retrieve the errors associated with the enumeration
+         * 
+         * @return Integer: the errors associated with the enumeration
+         */
+        public int getErrors() {
+            return this.errors;
+        }
+    }
+
+    /**
+     * An enumeration used to give status for each test step
+     * 
+     * @author Max Saperstone
+     *
+     */
+    public enum Result {
+        WARNING, SUCCESS, FAILURE, SKIPPED
+    }
+
 }
