@@ -22,8 +22,8 @@ public class AssertEqualsIT extends Selenified {
     }
 
     @Test(groups = { "integration", "asserts", "equals",
-            "virtual" }, description = "An integration test to check the compareSelectOptions method")
-    public void compareSelectOptionsTest() {
+            "virtual" }, description = "An integration test to check the compareSelectValues method")
+    public void compareSelectValuesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -77,6 +77,66 @@ public class AssertEqualsIT extends Selenified {
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals()
                 .selectValues(new String[] { "volvo", "saab", "mercedes" });
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration test to check the compareSelectOptions method")
+    public void compareSelectOptionsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "car_list").assertEquals()
+                .selectOptions(new String[] { "Volvo", "Saab", "Mercedes", "Audi" });
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration test to check the compareSelectOptions method")
+    public void negativeCompareSelectOptionsNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "non-existent-element", 0).assertEquals()
+                .selectOptions(new String[] { "Volvo", "Ford", "Mercedes", "Audi" });
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration test to check the compareSelectOptions method")
+    public void negativeCompareSelectOptionsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "car_list").assertEquals()
+                .selectOptions(new String[] { "Volvo", "Ford", "Mercedes", "Audi" });
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration negative test to check the compareSelectOptions method")
+    public void negativeCompareSelectOptionsExtraTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "car_list").assertEquals()
+                .selectOptions(new String[] { "Volvo", "Saab", "Mercedes", "Audi", "Chevrolet" });
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration test to check the compareSelectOptions method")
+    public void negativeCompareSelectOptionsMissingTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "car_list").assertEquals()
+                .selectOptions(new String[] { "Volvo", "Saab", "Mercedes" });
         // verify no issue
         finish(1);
     }
@@ -147,8 +207,8 @@ public class AssertEqualsIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
-            "equals" }, description = "An integration negative test to check the checkElementHasClass method")
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -169,8 +229,8 @@ public class AssertEqualsIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "asserts",
-            "equals" }, description = "An integration negative test to check the compareCssValue method")
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration negative test to check the compareCssValue method")
     public void negativeCompareCssValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -180,13 +240,57 @@ public class AssertEqualsIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "asserts",
-            "equals" }, description = "An integration negative test to check the compareCssValue method")
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration negative test to check the compareCssValue method")
     public void negativeCompareCssValueNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").assertEquals().cssValue("display", "inline");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration test to check the compareAttributeValue method")
+    public void compareAttributeValueTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div").assertEquals().attribute("id", "hidden_div");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration negative test to check the compareAttributeValue method")
+    public void negativeCompareAttributeValueTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div").assertEquals().attribute("id", "another_id");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration negative test to check the compareAttributeValue method")
+    public void negativeCompareAttributeNoAttributeValueTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div", 0).assertEquals().attribute("display", "inline");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "asserts", "equals",
+            "virtual" }, description = "An integration negative test to check the compareAttributeValue method")
+    public void negativeCompareAttributeValueNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").assertEquals().attribute("display", "inline");
         // verify 1 issue
         finish(1);
     }

@@ -189,8 +189,13 @@ public class Get {
         if (!element.is().present()) {
             return null;
         }
-        WebElement webElement = element.getWebElement();
-        return webElement.getAttribute(attribute);
+        try {
+            WebElement webElement = element.getWebElement();
+            return webElement.getAttribute(attribute);
+        } catch (NoSuchMethodError | Exception e) {
+            log.error(e);
+            return null;
+        }
     }
 
     /**

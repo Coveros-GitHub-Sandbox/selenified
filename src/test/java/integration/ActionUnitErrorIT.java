@@ -40,6 +40,20 @@ public class ActionUnitErrorIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions", "unit",
+            "virtual" }, description = "An integration negative test to check the get css method")
+    public void assessCssEqualsErrorTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        if (app.getBrowser() == Browser.HTMLUNIT) {
+            app.newElement(Locator.CSS, "input#alert_button").assertEquals().cssValue("font", "bold");
+            finish(1);
+        } else {
+            finish();
+        }
+    }
+
+    @Test(groups = { "integration", "actions", "unit",
             "virtual" }, description = "An integration negative test to check the get all attributes method")
     public void getAllAttributesErrorTest() {
         // use this object to manipulate the app

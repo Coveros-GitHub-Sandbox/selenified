@@ -75,6 +75,12 @@ public class Equals extends Assert {
                 + " with a value of <b>" + expectedValue + "</b>");
         // get the actual attribute value
         String elementValue = element.get().attribute(attribute);
+        if (elementValue == null) {
+            file.recordActual(element.prettyOutputStart() + " does not have an attribute of <i>" + attribute + "</i>",
+                    Success.FAIL);
+            file.addError();
+            return;
+        }
         if (!elementValue.equals(expectedValue)) {
             file.recordActual(
                     element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + "</b>",

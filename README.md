@@ -415,6 +415,28 @@ for (int match = 0; match < element.get().matchCount(); match++) {
 }
 ```
 
+#### Custom Actions
+Sometimes, the action you want to perform isn't available via Selenified. Luckily this doesn't mean you need 
+to abandon Selenified.
+
+If you need to perform the custom action, use the `app` object to retrieve the driver.
+```java
+    WebDriver driver = app.getDriver();
+```
+Then perform the action that you need to. You'll want to ensure this action is recorded in the Selenified
+reports. To do this, retrieve the `outputfile` object from the `app` object, and call the recordAction
+method on. If you need to record custom verifications, you can use recordExpected and recordActual.
+```java
+    OutputFile file = app.getOutputFile();
+    file.recordAction(action, expectedResult, actualResult, result);
+    file.recordExpected(expectedOutcome);
+    file.recordActual(actualOutcome, result);
+```
+
+Of course, if this is something that you believe others can benefit from, feel free to 
+[open an issue](https://github.com/Coveros/selenified/issues), or fork the repo, and submit a PR once it's
+implemented.
+
 ### Update testng build file
 When tests are executed from the commandline, the build file dictates which tests to execute. When a new package, 
 class or method is added to the test suite, they need to be included in the XML file if you want them to run. 
