@@ -56,8 +56,10 @@ public class State extends Assert {
     // ///////////////////////////////////////
 
     /**
-     * checks to see if an element is present on the page
-     *
+     * Verifies that the element is present. If the element isn't present, it
+     * waits up to the default time (5 seconds) for the element, before marking
+     * this verification as a failure. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      */
     public void present() {
         // wait for the element
@@ -70,8 +72,11 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an element is not present on the page
-     *
+     * Verifies that the element is not present. If the element is present, it
+     * waits up to the default time (5 seconds) for the element to be removed,
+     * before marking this verification as a failure. This information will be
+     * logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     public void notPresent() {
         // wait for the element
@@ -87,8 +92,10 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an element is visible on the page
-     *
+     * Verifies that the element is displayed. If the element isn't present, it
+     * waits up to the default time (5 seconds) for the element, before marking
+     * this verification as a failure. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      */
     public void displayed() {
         // wait for the element
@@ -107,8 +114,11 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an element is not visible on the page
-     *
+     * Verifies that the element is not displayed. If the element isn't present,
+     * it waits up to the default time (5 seconds) for the element, before
+     * marking this verification as a failure. This information will be logged
+     * and recorded, with a screenshot for traceability and added debugging
+     * support.
      */
     public void notDisplayed() {
         // wait for the element
@@ -127,7 +137,10 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if the actual element is editable
+     * Verifies that the element is editable. If the element isn't an input,
+     * this will constitute a failure, same as it not being editable. This
+     * information will be logged and recorded, with a screenshot for
+     * traceability and added debugging support.
      * 
      * @param presence
      *            - what additional attribute is expected from the element
@@ -150,7 +163,10 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if the actual element is editable
+     * Verifies that the element is not editable. If the element isn't an input,
+     * this will constitute a pass, as non input elements are not editable. This
+     * information will be logged and recorded, with a screenshot for
+     * traceability and added debugging support.
      * 
      * @param presence
      *            - what additional attribute is expected from the element
@@ -166,8 +182,10 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an object is checked on the page
-     *
+     * Verifies that the element is checked. If the element isn't present, it
+     * waits up to the default time (5 seconds) for the element, before marking
+     * this verification as a failure. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      */
     public void checked() {
         // wait for the element
@@ -186,8 +204,11 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an object is not checked on the page
-     *
+     * Verifies that the element is not checked. If the element isn't present,
+     * it waits up to the default time (5 seconds) for the element, before
+     * marking this verification as a failure. This information will be logged
+     * and recorded, with a screenshot for traceability and added debugging
+     * support.
      */
     public void notChecked() {
         // wait for the element
@@ -206,8 +227,11 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an object is visible and checked on the page
-     *
+     * Verifies that the element is displayed and checked. If the element isn't
+     * present, it waits up to the default time (5 seconds) for the element,
+     * before marking this verification as a failure. This information will be
+     * logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     public void displayedAndChecked() {
         // wait for the element
@@ -232,8 +256,11 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an object is visible and not checked on the page
-     *
+     * Verifies that the element is displayed but not checked. If the element
+     * isn't present, it waits up to the default time (5 seconds) for the
+     * element, before marking this verification as a failure. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     public void displayedAndUnchecked() {
         // wait for the element
@@ -258,8 +285,12 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an element is editable on the page
-     *
+     * Verifies that the element is editable. If the element isn't present, it
+     * waits up to the default time (5 seconds) for the element, before marking
+     * this verification as a failure. If the element isn't an input, this will
+     * constitute a failure, same as it not being editable. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     public void editable() {
         // wait for the element
@@ -272,8 +303,12 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an element is not editable on the page
-     *
+     * Verifies that the element is not editable. If the element isn't present,
+     * it waits up to the default time (5 seconds) for the element, before
+     * marking this verification as a failure. If the element isn't an input,
+     * this will constitute a pass, as non input elements are not editable. This
+     * information will be logged and recorded, with a screenshot for
+     * traceability and added debugging support.
      */
     public void notEditable() {
         // wait for the element
@@ -286,8 +321,12 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an element is visible and editable on the page
-     *
+     * Verifies that the element is displayed and editable. If the element isn't
+     * present, it waits up to the default time (5 seconds) for the element,
+     * before marking this verification as a failure. If the element isn't an
+     * input, this will constitute a failure, same as it not being displayed or
+     * editable. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
      */
     public void displayedAndEditable() {
         // wait for the element
@@ -305,8 +344,12 @@ public class State extends Assert {
     }
 
     /**
-     * checks to see if an element is visible and not editable on the page
-     *
+     * Verifies that the element is displayed but not editable. If the element
+     * isn't present, it waits up to the default time (5 seconds) for the
+     * element, before marking this verification as a failure. If the element
+     * isn't an input, but is displayed, this will constitute a pass, as non
+     * input elements are not editable. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      */
     public void displayedAndNotEditable() {
         // wait for the element
