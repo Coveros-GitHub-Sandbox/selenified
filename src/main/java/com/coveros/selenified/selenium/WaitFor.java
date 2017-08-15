@@ -65,6 +65,13 @@ public class WaitFor {
         this.is = new Is(driver, file);
     }
 
+    /**
+     * Changes the default wait time from 5.0 seconds to some custom number.
+     * 
+     * @param seconds
+     *            - how many seconds should WaitFor wait for the condition to be
+     *            met
+     */
     public void changeDefaultWait(double seconds) {
         defaultWait = seconds;
     }
@@ -74,24 +81,21 @@ public class WaitFor {
     // ///////////////////////////////////////
 
     /**
-     * a method for waiting up to 5 seconds for an alert is present
-     *
+     * Wait up to the default time (5 seconds) for an alert to be present
      */
     public void alertPresent() {
         alertPresent(defaultWait);
     }
 
     /**
-     * a method for waiting up to 5 seconds for a confirmation is present
-     *
+     * Wait up to the default time (5 seconds) for a confirmation to be present
      */
     public void confirmationPresent() {
         confirmationPresent(defaultWait);
     }
 
     /**
-     * a method for waiting up to 5 seconds for a prompt is present
-     *
+     * Wait up to the default time (5 seconds) for a prompt to be present
      */
     public void promptPresent() {
         promptPresent(defaultWait);
@@ -102,8 +106,8 @@ public class WaitFor {
     ///////////////////////////////////////////////////
 
     /**
-     * waits for a popup to be present, and then returns the amount of time it
-     * waited
+     * Wait for a popup to be present, up to the default time (5 seconds), and
+     * then returns the amount of time that was waited
      * 
      * @param seconds
      *            - maximum time to wait in seconds
@@ -126,7 +130,7 @@ public class WaitFor {
     }
 
     /**
-     * a method for waiting until an alert is present
+     * Wait up to a specified time for an alert to be present
      *
      * @param seconds
      *            - the number of seconds to wait
@@ -145,7 +149,7 @@ public class WaitFor {
     }
 
     /**
-     * a method for waiting until a confirmation is present
+     * Wait up to a specified time for a confirmation to be present
      *
      * @param seconds
      *            - the number of seconds to wait
@@ -165,7 +169,7 @@ public class WaitFor {
     }
 
     /**
-     * a method for waiting until a prompt is present
+     * Wait up to a specified time for a prompt to be present
      *
      * @param seconds
      *            - the number of seconds to wait

@@ -58,7 +58,8 @@ public class Is {
     // ////////////////////////////////////
 
     /**
-     * a method to check if an alert is present
+     * Determines if an alert is present on the page. This information will not
+     * be logged or recorded.
      *
      * @return boolean - is an alert present
      */
@@ -67,7 +68,8 @@ public class Is {
     }
 
     /**
-     * a method to check if a confirmation is present
+     * Determines if a confirmation is present on the page. This information
+     * will not be logged or recorded.
      *
      * @return boolean - is a confirmation present
      */
@@ -76,7 +78,8 @@ public class Is {
     }
 
     /**
-     * a method to check if a prompt is present
+     * Determines if a prompt is present on the page. This information will not
+     * be logged or recorded.
      *
      * @return boolean - is a prompt present
      */
@@ -89,10 +92,11 @@ public class Is {
     ///////////////////////////////////////////////////
 
     /**
-     * a method to check if an alert is present
+     * Determines if an alert is present on the page. This information will only
+     * be logged and recorded if the print variable is set to true.
      *
      * @param print
-     *            - whether or not to print out this wait statement
+     *            - whether or not to print out this check
      * @return boolean - is an alert present
      */
     public boolean alertPresent(boolean print) {
@@ -110,10 +114,11 @@ public class Is {
     }
 
     /**
-     * a method to check if a confirmation is present
+     * Determines if a confirmation is present on the page. This information
+     * will only be logged and recorded if the print variable is set to true.
      *
      * @param print
-     *            - whether or not to print out this wait statement
+     *            - whether or not to print out this check
      * @return boolean - is a confirmation present
      */
     public boolean confirmationPresent(boolean print) {
@@ -131,10 +136,11 @@ public class Is {
     }
 
     /**
-     * a method to check if a prompt is present
+     * Determines if a prompt is present on the page. This information will only
+     * be logged and recorded if the print variable is set to true.
      *
      * @param print
-     *            - whether or not to print out this wait statement
+     *            - whether or not to print out this check
      * @return boolean - is a prompt present
      */
     public boolean promptPresent(boolean print) {
@@ -152,7 +158,8 @@ public class Is {
     }
 
     /**
-     * a method to determine if a cookie by a particular name is present or not
+     * Determines if a cookie exists in the application with the provided
+     * cookieName.
      *
      * @param expectedCookieName
      *            - the name of the cookie
@@ -167,7 +174,7 @@ public class Is {
     }
 
     /**
-     * the generic selenium is text present functionality implemented
+     * Determines if the provided text(s) are on the current page.
      *
      * @param expectedText
      *            - the text we are expecting to be present on the page
@@ -184,7 +191,7 @@ public class Is {
     }
 
     /**
-     * a specialized selenium is text present in the page source functionality
+     * Determines if the provides text is present in the current page source.
      *
      * @param expectedText
      *            - the text we are expecting to be present on the page

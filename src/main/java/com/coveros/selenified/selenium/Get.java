@@ -61,10 +61,9 @@ public class Get {
     // ////////////////////////////////////
 
     /**
-     * An extension of the selenium functionality to retrieve the current url of
-     * the application
+     * Retrieves the current url of the application.
      *
-     * @return String - current url
+     * @return String - current application url
      */
     public String location() {
         try {
@@ -76,10 +75,9 @@ public class Get {
     }
 
     /**
-     * An extension of the selenium functionality to retrieve the current title
-     * of the application
+     * Retrieves the title of the current page the application is on
      *
-     * @return String - title
+     * @return String - current application title
      */
     public String title() {
         try {
@@ -91,10 +89,9 @@ public class Get {
     }
 
     /**
-     * An extension of the selenium functionality to retrieve the html source of
-     * the application
+     * Retrieves the full html source of the current page the application is on
      *
-     * @return String - page source
+     * @return String - current application page source
      */
     public String htmlSource() {
         try {
@@ -106,8 +103,9 @@ public class Get {
     }
 
     /**
-     * a way to execute custom javascript functions
-     *
+     * Executes a provided script, and returns the output of that script. If
+     * there is an error executing this script, a null value will be returned.
+     * 
      * @param javascriptFunction
      *            - the javascript function that is going to be executed
      * @return Object: any resultant output from the javascript command
@@ -123,7 +121,8 @@ public class Get {
     }
 
     /**
-     * a method to return the content of an alert
+     * Retrieves the content of an alert present on the page. If the alert
+     * doesn't exist, a null value will be returned.
      *
      * @return String - the content of an alert
      */
@@ -144,7 +143,8 @@ public class Get {
     }
 
     /**
-     * a method to return the content of a confirmation
+     * Retrieves the content of a confirmation present on the page. If the
+     * confirmation doesn't exist, a null value will be returned.
      *
      * @return String - the content of the confirmation
      */
@@ -165,7 +165,8 @@ public class Get {
     }
 
     /**
-     * a method to return the content of a prompt
+     * Retrieves the content of a prompt present on the page. If the prompt
+     * doesn't exist, a null value will be returned.
      *
      * @return String - the content of the prompt
      */
@@ -186,7 +187,8 @@ public class Get {
     }
 
     /**
-     * a method to get the full cookie by a particular name
+     * Retrieves the full cookie in the application with the provided
+     * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
      * @param expectedCookieName
      *            - the name of the cookie
@@ -202,7 +204,8 @@ public class Get {
     }
 
     /**
-     * a method to get the value of a particular cookie
+     * Retrieves the cookie value in the application with the provided
+     * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
      * @param expectedCookieName
      *            - the name of the cookie
@@ -217,7 +220,8 @@ public class Get {
     }
 
     /**
-     * a method to get the path of a particular cookie
+     * Retrieves the cookie path in the application with the provided
+     * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
      * @param expectedCookieName
      *            - the name of the cookie
@@ -232,7 +236,8 @@ public class Get {
     }
 
     /**
-     * a method to get the domain of a particular cookie
+     * Retrieves the cookie domain in the application with the provided
+     * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
      * @param expectedCookieName
      *            - the name of the cookie
@@ -247,7 +252,8 @@ public class Get {
     }
 
     /**
-     * a method to get the expriation of a particular cookie
+     * Retrieves the cookie expiration in the application with the provided
+     * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
      * @param expectedCookieName
      *            - the name of the cookie
