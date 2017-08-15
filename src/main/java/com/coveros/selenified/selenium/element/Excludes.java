@@ -50,7 +50,10 @@ public class Excludes extends Assert {
     // ///////////////////////////////////////
 
     /**
-     * checks to see if an element does not contain a particular class
+     * Verifies that the element's class does not contain the provided expected
+     * class. If the element isn't present, this will constitute a failure, same
+     * as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
      * @param unexpectedClass
      *            - the unexpected class value
@@ -76,7 +79,10 @@ public class Excludes extends Assert {
     }
 
     /**
-     * checks to see if an element has an attribute associated with it
+     * Verifies that the element does not contain the provided expected
+     * attribute. If the element isn't present, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
      * @param attribute
      *            - the attribute to check for
@@ -98,7 +104,10 @@ public class Excludes extends Assert {
     }
 
     /**
-     * compares the expected element value with the actual value from an element
+     * Verifies that the element's text does not contain the provided expected
+     * text. If the element isn't present, this will constitute a failure, same
+     * as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
      * @param expectedValue
      *            the expected value of the element
@@ -121,7 +130,10 @@ public class Excludes extends Assert {
     }
 
     /**
-     * compares the expected element value with the actual value from an element
+     * Verifies that the element's value does not contain the provided expected
+     * value. If the element isn't present or an input, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param expectedValue
      *            the expected value of the element
@@ -140,7 +152,10 @@ public class Excludes extends Assert {
     }
 
     /**
-     * checks to see if an option is not available to be selected on the page
+     * Verifies that the element's options do not contain the provided expected
+     * option. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param option
      *            the option not expected in the list
@@ -164,7 +179,10 @@ public class Excludes extends Assert {
     }
 
     /**
-     * checks to see if an element select value does not exist
+     * Verifies that the element's options do not contain the provided expected
+     * value. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param selectValue
      *            the unexpected input value of the element

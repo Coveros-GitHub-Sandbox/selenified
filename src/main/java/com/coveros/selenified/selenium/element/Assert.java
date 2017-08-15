@@ -63,6 +63,16 @@ public class Assert {
     protected static final String NOTSELECT = " is not a select on the page";
     protected static final String NOTTABLE = " is not a table on the page";
 
+    ///////////////////////////////////////////////////////
+    // assertions about the element in general
+    ///////////////////////////////////////////////////////
+
+    /**
+     * Determines if the element is present, and if it is not, waits up to the
+     * default time (5 seconds) for the element
+     * 
+     * @return
+     */
     protected boolean isPresent() {
         if (!element.is().present()) {
             element.waitFor().present();
@@ -74,7 +84,7 @@ public class Assert {
     }
 
     /**
-     * Determines if the element is a select
+     * Determines if the element is a select element
      * 
      * @return Boolean: whether the element is an select or not
      */
@@ -88,7 +98,7 @@ public class Assert {
     }
 
     /**
-     * Determines if the element is a table
+     * Determines if the element is a table element
      * 
      * @return Boolean: whether the element is an table or not
      */
@@ -135,6 +145,18 @@ public class Assert {
         return isTable();
     }
 
+    /**
+     * Retrieves all attributes of an element, and writes out the expected
+     * result of checking for one particular attribute. If the element isn't
+     * present, or the attributes can't be determined an error will be logged
+     * and null will be returned
+     * 
+     * @param attribute
+     *            - the attribute to check for
+     * @param expected
+     *            - is the attribute expected to be present, or not present
+     * @return String[]: the list of all attributes from the element;
+     */
     protected String[] getAttributes(String attribute, String expected) {
         // wait for the element
         if (!isPresent()) {
@@ -154,6 +176,17 @@ public class Assert {
         return keys.toArray(new String[keys.size()]);
     }
 
+    /**
+     * Retrieves the value from the element, and writes out the value that is
+     * being expected. If the element isn't present or an input, an error will
+     * be logged and null will be returned
+     * 
+     * @param value
+     *            the expected value of the element
+     * @param expected
+     *            - is the attribute expected to be present, or not present
+     * @return String: the actual value from the input element
+     */
     protected String getValue(String value, String expected) {
         // wait for the element
         if (!isPresent()) {

@@ -56,8 +56,11 @@ public class Equals extends Assert {
     // ///////////////////////////////////////
 
     /**
-     * compares the expected element css attribute value with the actual css
-     * attribute value from an element
+     * Verifies that the element has a css attribute with a value equal to the
+     * value provided. If the element isn't present, or the css doesn't contain
+     * the desired attribute, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
      *
      * @param attribute
      *            - the css attribute to be checked
@@ -90,8 +93,38 @@ public class Equals extends Assert {
     }
 
     /**
-     * compares the expected element attribute value with the actual attribute
-     * value from an element
+     * Verifies that the element's class equals the provided expected class. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedClass
+     *            - the full expected class value
+     */
+    public void clazz(String expectedClass) {
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
+        // file.record the element
+        file.recordExpected(EXPECTED + element.prettyOutput() + " with class <b>" + expectedClass + "</b>");
+        // get the actual class value
+        String actualClass = element.get().attribute(CLASS);
+        // file.record the element
+        if (!actualClass.equals(expectedClass)) {
+            file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>", Success.FAIL);
+            file.addError();
+            return;
+        }
+        file.recordActual(element.prettyOutputStart() + CLASSVALUE + expectedClass + "</b>", Success.PASS);
+    }
+
+    /**
+     * Verifies that the element has an attribute with a value equals to the
+     * value provided. If the element isn't present, or the element does not
+     * have the attribute, this will constitute a failure, same as a mismatch.
+     * This information will be logged and recorded, with a screenshot for
+     * traceability and added debugging support.
      *
      * @param attribute
      *            - the attribute to be checked
@@ -127,31 +160,10 @@ public class Equals extends Assert {
     }
 
     /**
-     * checks to see if an element has a particular class
-     *
-     * @param expectedClass
-     *            - the full expected class value
-     */
-    public void clazz(String expectedClass) {
-        // wait for the element
-        if (!isPresent()) {
-            return;
-        }
-        // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " with class <b>" + expectedClass + "</b>");
-        // get the actual class value
-        String actualClass = element.get().attribute(CLASS);
-        // file.record the element
-        if (!actualClass.equals(expectedClass)) {
-            file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>", Success.FAIL);
-            file.addError();
-            return;
-        }
-        file.recordActual(element.prettyOutputStart() + CLASSVALUE + expectedClass + "</b>", Success.PASS);
-    }
-
-    /**
-     * compares the expected element value with the actual value from an element
+     * Verifies that the element's text equals the provided expected text. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
      *
      * @param expectedText
      *            the expected value of the element
@@ -174,8 +186,11 @@ public class Equals extends Assert {
     }
 
     /**
-     * compares the text of expected table cell with the actual table cell text
-     * of a table with from a table element
+     * Verifies that the element's text in a particular cell equals the provided
+     * expected text. If the element isn't present, or a table, this will
+     * constitute a failure, same as a mismatch. This information will be logged
+     * and recorded, with a screenshot for traceability and added debugging
+     * support.
      *
      * @param row
      *            - the number of the row in the table - note, row numbering
@@ -207,8 +222,10 @@ public class Equals extends Assert {
     }
 
     /**
-     * compares the expected element input value with the actual value from an
-     * element
+     * Verifies that the element's value equals the provided expected value. If
+     * the element isn't present or an input, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
      * @param expectedValue
      *            the expected input value of the element
@@ -237,8 +254,10 @@ public class Equals extends Assert {
     }
 
     /**
-     * compares the expected element select test with the actual value from an
-     * element
+     * Verifies that the element's selected option equals the provided expected
+     * option. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param expectedText
      *            the expected input text of the element
@@ -260,8 +279,10 @@ public class Equals extends Assert {
     }
 
     /**
-     * compares the expected element select value with the actual value from an
-     * element
+     * Verifies that the element's selected value equals the provided expected
+     * value. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param expectedValue
      *            the expected input value of the element
@@ -283,8 +304,10 @@ public class Equals extends Assert {
     }
 
     /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
+     * Verifies that the element's select options equal the provided expected
+     * options. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param expectedOptions
      *            the expected input value of the element
@@ -308,8 +331,10 @@ public class Equals extends Assert {
     }
 
     /**
-     * compares the expected attributes from a select value with the actual
-     * attributes from the element
+     * Verifies that the element's select values equal the provided expected
+     * values. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param expectedValues
      *            the expected input value of the element

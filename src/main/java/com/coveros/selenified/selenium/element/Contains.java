@@ -50,8 +50,11 @@ public class Contains extends Assert {
     // ///////////////////////////////////////
 
     /**
-     * checks to see if an element contains a particular class
-     *
+     * Verifies that the element's class contains the provided expected class.
+     * If the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     * 
      * @param expectedClass
      *            - the expected class value
      */
@@ -75,7 +78,10 @@ public class Contains extends Assert {
     }
 
     /**
-     * checks to see if an element has an attribute associated with it
+     * Verifies that the element contains the provided expected attribute. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
      *
      * @param attribute
      *            - the attribute to check for
@@ -97,8 +103,11 @@ public class Contains extends Assert {
     }
 
     /**
-     * compares the expected element value with the actual value from an element
-     *
+     * Verifies that the element's text contains the provided expected text. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     * 
      * @param expectedValue
      *            the expected value of the element
      */
@@ -120,7 +129,10 @@ public class Contains extends Assert {
     }
 
     /**
-     * compares the expected element value with the actual value from an element
+     * Verifies that the element's value contains the provided expected value.
+     * If the element isn't present or an input, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
      * @param expectedValue
      *            the expected value of the element
@@ -139,7 +151,10 @@ public class Contains extends Assert {
     }
 
     /**
-     * checks to see if an option is available to be selected on the page
+     * Verifies that the element's options contains the provided expected
+     * option. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param option
      *            the option expected in the list
@@ -164,7 +179,10 @@ public class Contains extends Assert {
     }
 
     /**
-     * checks to see if an element select value exists
+     * Verifies that the element's options contains the provided expected value.
+     * If the element isn't present or a select, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
      * @param selectValue
      *            the expected input value of the element
@@ -187,8 +205,10 @@ public class Contains extends Assert {
     }
 
     /**
-     * compares the number of expected attributes from a select value with the
-     * actual number of attributes from the element
+     * Verifies that the element has the expected number of options. If the
+     * element isn't present or a select, this will constitute a failure, same
+     * as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
      * @param numOfOptions
      *            the expected number of options in the select element
@@ -212,8 +232,10 @@ public class Contains extends Assert {
     }
 
     /**
-     * compares the number of expected columns with the actual number of columns
-     * of a table with from a table element
+     * Verifies that the element has the expected number of columns. If the
+     * element isn't present or a table, this will constitute a failure, same as
+     * a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
      * @param numOfColumns
      *            the expected number of column elements of a table
@@ -235,8 +257,10 @@ public class Contains extends Assert {
     }
 
     /**
-     * compares the number of expected rows with the actual number of rows of a
-     * table with from a table element
+     * Verifies that the element has the expected number of rows. If the element
+     * isn't present or a table, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
      *
      * @param numOfRows
      *            the expected number of row elements of a table
