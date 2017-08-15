@@ -97,8 +97,8 @@ public class App {
     private static final String FRAME = "Frame <b>";
 
     /**
-     * the constructor, determining which browser use and how to run the
-     * browser: either grid or standalone
+     * Sets up the app object. Browser, and Output are defined here, which will
+     * control actions and all logging and records
      *
      * @param browser
      *            - the Browser we are running the test on

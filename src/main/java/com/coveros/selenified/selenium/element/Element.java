@@ -85,7 +85,6 @@ public class Element {
 
     // constants
     private static final String IN = "' in ";
-
     private static final String TYPTED = "Typed text '";
 
     private static final String NOTPRESENT = " as it is not present";
@@ -100,12 +99,51 @@ public class Element {
     private static final String SELECTED = " selected";
     private static final String PRESDISEN = " is present, displayed, and enabled to have the value ";
 
+    /**
+     * Sets up the element object. Driver, and Output are defined here, which
+     * will control actions and all logging and records. Additionally,
+     * information about the element, the locator type, and the actual selector
+     * are defined to indicate which element to interact with on the current
+     * page
+     * 
+     * @param driver
+     *            - the selenium web driver, the underlying way all actions and
+     *            assertions are controlled
+     * @param file
+     *            - the TestOutput file. This is provided by the
+     *            SeleniumTestBase functionality
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     */
     public Element(WebDriver driver, OutputFile file, Locator type, String locator) {
         this.type = type;
         this.locator = locator;
         init(driver, file);
     }
 
+    /**
+     * Sets up the element object. Driver, and Output are defined here, which
+     * will control actions and all logging and records. Additionally,
+     * information about the element, the locator type, the actual selector, and
+     * the element's uniqueness match are defined to indicate which element to
+     * interact with on the current page
+     * 
+     * @param driver
+     *            - the selenium web driver, the underlying way all actions and
+     *            assertions are controlled
+     * @param file
+     *            - the TestOutput file. This is provided by the
+     *            SeleniumTestBase functionality
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param match
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     */
     public Element(WebDriver driver, OutputFile file, Locator type, String locator, int match) {
         this.type = type;
         this.locator = locator;
@@ -113,6 +151,16 @@ public class Element {
         init(driver, file);
     }
 
+    /**
+     * A private method to finish setting up each element
+     * 
+     * @param driver
+     *            - the selenium web driver, the underlying way all actions and
+     *            assertions are controlled
+     * @param file
+     *            - the TestOutput file. This is provided by the
+     *            SeleniumTestBase functionality
+     */
     private void init(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.file = file;
@@ -126,28 +174,59 @@ public class Element {
         equals = new Equals(this, file);
     }
 
+    /**
+     * Indicates the uniqueness match of the element to interact with. By
+     * default this is set to 0, meaning the first element matching the locator
+     * and selector assumed
+     * 
+     * @param match
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     */
     public void setMatch(int match) {
         this.match = match;
     }
 
+    /**
+     * Retrieves the Locator set for this element
+     * 
+     * @return Locator: the locator for the element
+     */
     public Locator getType() {
         return type;
     }
 
+    /**
+     * Retrieves the selector set for this element
+     * 
+     * @return String: the selector for the element
+     */
     public String getLocator() {
         return locator;
     }
 
+    /**
+     * Retrieves the uniqueness set for this element
+     * 
+     * @return Integer: the uniqueness match for the element
+     */
     public int getMatch() {
         return match;
     }
 
+    /**
+     * Retrieves the Selenium driver instance
+     *
+     * @return WebDriver: access to the driver controlling the browser via
+     *         webdriver
+     */
     public WebDriver getDriver() {
         return driver;
     }
 
     /**
-     * A nice output to identify the element by locator and selector
+     * Retrieves a nicely HTML formatted output which identifies the element by
+     * locator and selector, which should be used at the beginning of a sentence
      * 
      * @return String: text identifying how the element was located
      */
@@ -156,7 +235,8 @@ public class Element {
     }
 
     /**
-     * A nice output to identify the element by locator and selector
+     * Retrieves a nicely HTML formatted output which identifies the element by
+     * locator and selector, which can be used anywhere in a sentence
      * 
      * @return String: text identifying how the element was located
      */
@@ -166,7 +246,9 @@ public class Element {
     }
 
     /**
-     * A nice output to identify the element by locator and selector
+     * Retrieves a nicely HTML formatted output which identifies the element by
+     * locator and selector, framed with spaces, which can be used anywhere in a
+     * sentence
      * 
      * @return String: text identifying how the element was located
      */
@@ -175,7 +257,8 @@ public class Element {
     }
 
     /**
-     * A nice output to identify the element by locator and selector
+     * Retrieves a nicely HTML formatted output which identifies the element by
+     * locator and selector, which should be used to end a sentence
      * 
      * @return String: text identifying how the element was located
      */
@@ -187,30 +270,72 @@ public class Element {
     // instantiating our additional action classes for further use
     ///////////////////////////////////////////////////////
 
+    /**
+     * Retrieves information about a particular element. A boolean is always
+     * returning, indicating if an object is present or not
+     */
     public Is is() {
         return is;
     }
 
+    /**
+     * Performs dyanamic waits on a particular element, until a particular
+     * condition is met. Nothing is ever returned. The default wait is 5
+     * seconds, but can be overridden. If the condition is not met in the
+     * allotted time, still nothing is returned, but an error is logged
+     */
     public WaitFor waitFor() {
         return waitFor;
     }
 
+    /**
+     * Retrieves information about a particular element. If an object isn't
+     * present, null will be returned
+     */
     public Get get() {
         return get;
     }
 
+    /**
+     * Verifies that the element has a particular state associated to it. These
+     * asserts are custom to the framework, and in addition to providing easy
+     * object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public State assertState() {
         return state;
     }
 
+    /**
+     * Verifies that the element has a particular value contained within it.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public Contains assertContains() {
         return contains;
     }
 
+    /**
+     * Verifies that the element doesn't have a particular value contained
+     * within it. These asserts are custom to the framework, and in addition to
+     * providing easy object oriented capabilities, they take screenshots with
+     * each verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public Excludes assertExcludes() {
         return excludes;
     }
 
+    /**
+     * Verifies that the element has a particular value associated with it.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public Equals assertEquals() {
         return equals;
     }
@@ -220,9 +345,9 @@ public class Element {
     //////////////////////////////////////////////////////
 
     /**
-     * a method to determine selenium's By object using selenium webdriver
+     * Determines Selenium's 'By' object using Webdriver
      *
-     * @return By: the selenium object
+     * @return By: the Selenium object
      * @throws InvalidLocatorTypeException
      */
     private By defineByElement() throws InvalidLocatorTypeException {
@@ -260,8 +385,7 @@ public class Element {
     }
 
     /**
-     * a method to grab the identified matching web element using selenium
-     * webdriver
+     * Retrieves the identified matching web element using Webdriver
      *
      * @return WebElement: the element object, and all associated values with it
      */
@@ -279,7 +403,7 @@ public class Element {
     }
 
     /**
-     * a method to grab all matching web elements using selenium webdriver
+     * Retrieves all matching web elements using Webdriver
      *
      * @return List: a list of WebElement objects, and all associated values
      *         with them
@@ -298,8 +422,8 @@ public class Element {
     //////////////////////////////////
 
     /**
-     * checks to see if the element is present. If it isn't, it'll wait for 5
-     * seconds for the element to be present
+     * Determines if the element is present. If it isn't, it'll wait up to the
+     * default time (5 seconds) for the element to be present
      * 
      * @param action
      *            - what action is occurring
@@ -323,8 +447,8 @@ public class Element {
     }
 
     /**
-     * checks to see if the element is displayed. If it isn't, it'll wait for 5
-     * seconds for the element to be displayed
+     * Determines if the element is displayed. If it isn't, it'll wait up to the
+     * default time (5 seconds) for the element to be displayed
      * 
      * @param action
      *            - what action is occurring
@@ -348,8 +472,8 @@ public class Element {
     }
 
     /**
-     * checks to see if the element is enabled. If it isn't, it'll wait for 5
-     * seconds for the element to be enabled
+     * Determines if the element is displayed. If it isn't, it'll wait up to the
+     * default time (5 seconds) for the element to be displayed
      * 
      * @param action
      *            - what action is occurring
@@ -373,7 +497,7 @@ public class Element {
     }
 
     /**
-     * checks to see if the element is an input.
+     * Determines if the element is an input.
      * 
      * @param action
      *            - what action is occurring
@@ -395,8 +519,8 @@ public class Element {
     }
 
     /**
-     * does a check to see if something is present, displayed, and enabled. This
-     * returns true if all three are true, otherwise, it returns false
+     * Determines if something is present, displayed, and enabled. This returns
+     * true if all three are true, otherwise, it returns false
      * 
      * @param action
      *            - what action is occurring
@@ -420,8 +544,8 @@ public class Element {
     }
 
     /**
-     * does a check to see if something is present, enabled, and an input. This
-     * returns true if all three are true, otherwise, it returns false
+     * Determines if something is present, enabled, and an input. This returns
+     * true if all three are true, otherwise, it returns false
      * 
      * @param action
      *            - what action is occurring
@@ -444,9 +568,8 @@ public class Element {
     }
 
     /**
-     * does a check to see if something is present, displayed, enabled, and an
-     * input. This returns true if all four are true, otherwise, it returns
-     * false
+     * Determines if something is present, displayed, enabled, and an input.
+     * This returns true if all four are true, otherwise, it returns false
      * 
      * @param action
      *            - what action is occurring
@@ -478,7 +601,9 @@ public class Element {
     // ///////////////////////////////////
 
     /**
-     * the generic selenium click functionality implemented
+     * Clicks on the element, but only if the element is present, displayed and
+     * enabled. If those conditions are not met, the click action will be
+     * logged, but skipped and the test will continue.
      */
     public void click() {
         String cantClick = "Unable to click ";
@@ -501,7 +626,9 @@ public class Element {
     }
 
     /**
-     * the generic selenium submit functionality implemented
+     * Submits the element, but only if the element is present, displayed and
+     * enabled. If those conditions are not met, the submit action will be
+     * logged, but skipped and the test will continue.
      */
     public void submit() {
         String cantSubmit = "Unable to submit ";
@@ -523,7 +650,9 @@ public class Element {
     }
 
     /**
-     * a method to simulate the mouse hovering over an element
+     * Hovers over the element, but only if the element is present and
+     * displayed. If those conditions are not met, the hover action will be
+     * logged, but skipped and the test will continue.
      */
     public void hover() {
         String cantHover = "Unable to hover over ";
@@ -551,7 +680,10 @@ public class Element {
     }
 
     /**
-     * a custom selenium functionality to apply a blur to an element
+     * Blurs (focuses and then unfocuses) the element, but only if the element
+     * is present, displayed, enabled, and an input. If those conditions are not
+     * met, the blur action will be logged, but skipped and the test will
+     * continue.
      */
     public void blur() {
         String cantFocus = "Unable to focus on ";
@@ -573,7 +705,11 @@ public class Element {
     }
 
     /**
-     * type functionality implemented
+     * Type the supplied text into the element, but only if the element is
+     * present, enabled, and an input. If those conditions are not met, the type
+     * action will be logged, but skipped and the test will continue. If the
+     * element is not displayed, a warning will be written in the log, to
+     * indicate this is not a normal action as could be performed by the user.
      *
      * @param text
      *            - the text to be typed in
@@ -606,7 +742,11 @@ public class Element {
     }
 
     /**
-     * the generic selenium type functionality implemented for specific keys
+     * Type the supplied key into the element, but only if the element is
+     * present, enabled, and an input. If those conditions are not met, the type
+     * action will be logged, but skipped and the test will continue. If the
+     * element is not displayed, a warning will be written in the log, to
+     * indicate this is not a normal action as could be performed by the user.
      *
      * @param key
      *            - the key to be pressed
@@ -639,8 +779,9 @@ public class Element {
     }
 
     /**
-     * the generic selenium clear functionality implemented
-     *
+     * Clears text from the element, but only if the element is present,
+     * displayed, enabled, and an input. If those conditions are not met, the
+     * clear action will be logged, but skipped and the test will continue.
      */
     public void clear() {
         String cantClear = "Unable to clear ";
@@ -662,7 +803,10 @@ public class Element {
     }
 
     /**
-     * the generic select selenium functionality
+     * Selects the Nth option from the element, starting from 0, but only if the
+     * element is present, displayed, enabled, and an input. If those conditions
+     * are not met, the select action will be logged, but skipped and the test
+     * will continue.
      *
      * @param value
      *            - the select option to be selected - note, row numbering
@@ -682,7 +826,10 @@ public class Element {
     }
 
     /**
-     * the generic select selenium functionality
+     * Selects the option from the dropdown matching the provided value, but
+     * only if the element is present, displayed, enabled, and an input. If
+     * those conditions are not met, the select action will be logged, but
+     * skipped and the test will continue.
      *
      * @param value
      *            - the select option to be selected
@@ -719,8 +866,8 @@ public class Element {
     }
 
     /**
-     * A private method to throw an error if moving to an element was
-     * unsuccessful
+     * Generates and logs an error (with a screenshot), stating that the element
+     * was unable to me moved to
      * 
      * @param e
      *            - the exception that was thrown
@@ -736,8 +883,8 @@ public class Element {
     }
 
     /**
-     * A private method to determine if the element moved towards is now
-     * currently visible on the screen
+     * Determines if the element moved towards is now currently visible on the
+     * screen
      * 
      * @param action
      *            - what is the action occurring
@@ -754,8 +901,10 @@ public class Element {
     }
 
     /**
-     * An extension of the basic Selenium action of 'moveToElement' This will
-     * scroll or move the page to ensure the element is visible
+     * Scrolls the page to the element, making it visible on the current
+     * viewport, but only if the element is present. If that condition is not
+     * met, the move action will be logged, but skipped and the test will
+     * continue.
      */
     public void move() {
         String action = "Moving screen to " + prettyOutput();
@@ -776,8 +925,10 @@ public class Element {
     }
 
     /**
-     * An extension of the basic Selenium action of 'moveToElement' This will
-     * scroll or move the page to ensure the element is visible
+     * Scrolls the page to the element, leaving X pixels at the top of the
+     * viewport above it, making it visible on the current viewport, but only if
+     * the element is present. If that condition is not met, the move action
+     * will be logged, but skipped and the test will continue.
      *
      * @param position
      *            - how many pixels above the element to scroll to
@@ -804,7 +955,9 @@ public class Element {
     }
 
     /**
-     * a function to switch to a frame using the element
+     * Selects the frame represented by the element, but only if the element is
+     * present and displayed. If these conditions are not met, the move action
+     * will be logged, but skipped and the test will continue.
      */
     public void selectFrame() {
         String cantSelect = "Unable to focus on frame ";
