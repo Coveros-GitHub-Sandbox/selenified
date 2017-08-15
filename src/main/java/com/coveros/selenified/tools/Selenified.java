@@ -295,8 +295,8 @@ public class Selenified {
      * to conclude each test, run this finish command. it will close out the
      * output logging file, and count any errors that were encountered during
      * the test, and fail the test if any errors were encountered
-     * 
      */
+
     protected void finish() {
         OutputFile myFile = this.files.get();
         myFile.finalizeOutputFile();

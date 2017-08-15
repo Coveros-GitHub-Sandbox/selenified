@@ -265,8 +265,8 @@ public class ActionIsIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "is", "virtual" }, description = "An integration test to check if an element is checked")
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is checked")
     public void isElementCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -277,8 +277,8 @@ public class ActionIsIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "is", "virtual" }, description = "An integration test to check if an element is checked")
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if an element is checked")
     public void isElementCheckedNotTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -365,8 +365,8 @@ public class ActionIsIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "is", "virtual" }, description = "An integration test to check if something is selected from a dropdown")
+    @Test(groups = { "integration", "actions", "is",
+            "virtual" }, description = "An integration test to check if something is selected from a dropdown")
     public void isSomethingSelectedMultipleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

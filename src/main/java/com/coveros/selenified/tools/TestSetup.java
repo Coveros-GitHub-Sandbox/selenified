@@ -86,8 +86,8 @@ public class TestSetup {
     /**
      * Obtains the set system values for the proxy, and adds them to the desired
      * capabilities
-     * 
      */
+
     public void setupProxy() {
         // are we running through a proxy
         if (System.getProperty(PROXY_INPUT) != null) {

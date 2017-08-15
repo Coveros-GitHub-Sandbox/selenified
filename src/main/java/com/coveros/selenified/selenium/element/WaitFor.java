@@ -78,8 +78,8 @@ public class WaitFor {
     /**
      * a method for waiting until an element is present for a maximum of 5
      * seconds
-     * 
      */
+
     public void present() {
         present(defaultWait);
     }

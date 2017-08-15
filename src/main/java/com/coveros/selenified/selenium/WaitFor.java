@@ -29,7 +29,7 @@ import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.OutputFile.Result;
 
 /**
- * WaitFor performs dyanamic waits on the app in general, until a particular
+ * WaitFor performs dynamic waits on the app in general, until a particular
  * condition of the application is met, not one for a particular page or
  * element. Nothing is ever returned. The default wait is 5 seconds, but can be
  * overridden. If the condition is not met in the allotted time, still nothing

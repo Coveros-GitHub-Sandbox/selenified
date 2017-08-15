@@ -176,18 +176,42 @@ public class App {
     // instantiating our additional action classes for further use
     ///////////////////////////////////////////////////////
 
+    /**
+     * Checks information about the app in general, not specific to any
+     * particular page or element. A boolean is always returning, indicating if
+     * an object is present or not
+     */
     public Is is() {
         return is;
     }
 
+    /**
+     * Performs dynamic waits on the app in general, until a particular
+     * condition of the application is met, not one for a particular page or
+     * element. Nothing is ever returned. The default wait is 5 seconds, but can
+     * be overridden. If the condition is not met in the allotted time, still
+     * nothing is returned, but an error is logged
+     */
     public WaitFor waitFor() {
         return waitFor;
     }
 
+    /**
+     * Retrieves information about the app in general, not specific to any
+     * particular page or element. If an object isn't present, null will be
+     * returned
+     */
     public Get get() {
         return get;
     }
 
+    /**
+     * Will handle all verifications performed on the actual application itself.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public Assert azzert() {
         return azzert;
     }
@@ -197,7 +221,7 @@ public class App {
     ////////////////////////////////////////////
 
     /**
-     * a method to allow retrieving the driver instance
+     * Retrieves the Selenium driver instance
      *
      * @return WebDriver: access to the driver controlling the browser via
      *         webdriver
@@ -207,7 +231,7 @@ public class App {
     }
 
     /**
-     * a method to allow retrieving the set browser
+     * Retrieves the browser being used for this particular test
      *
      * @return Browser: the enum of the browser
      */
@@ -216,7 +240,8 @@ public class App {
     }
 
     /**
-     * a method to allow retrieving the set output file
+     * Retrieves the output file responsible for logging all actions and
+     * assertions associated with this particular test
      *
      * @return OutputFile: the file recording all actions
      */
@@ -225,7 +250,8 @@ public class App {
     }
 
     /**
-     * a method to allow retreiving the set capabilities
+     * Retrieves the browser (and potentially device) capabilities setup for
+     * this particular test
      *
      * @return capabilities: the listing of set capabilities
      */
@@ -234,7 +260,9 @@ public class App {
     }
 
     /**
-     * a method to end the driver instance
+     * Ends the current Selenium driver instance, which will end the test. No
+     * additional actions or asserts can be performed after this, as the browser
+     * will be terminated as well
      */
     public void killDriver() {
         if (driver != null) {
@@ -251,7 +279,7 @@ public class App {
     ////////////////////////////////////////////
 
     /**
-     * a method for allowing Selenium to pause for a set amount of time
+     * Pauses the test for a set amount of time
      *
      * @param seconds
      *            - the number of seconds to wait
@@ -273,7 +301,7 @@ public class App {
     }
 
     /**
-     * a method for navigating to a new url
+     * Navigates to a new url
      *
      * @param url
      *            - the URL to navigate to
@@ -296,7 +324,7 @@ public class App {
     }
 
     /**
-     * a method to obtain screenshots
+     * Takes a full screenshot of the entire page
      *
      * @param imageName
      *            - the name of the image typically generated via functions from
@@ -323,8 +351,8 @@ public class App {
     }
 
     /**
-     * A private method to send a key combination both as control and command
-     * (PC and Mac compatibile)
+     * Sends a key combination both as control and command (PC and Mac
+     * compatibile)
      * 
      * @param action
      *            - the action occurring
@@ -334,6 +362,8 @@ public class App {
      *            - the failed result
      * @param key
      *            - what key to send along with control and/or command
+     * @return Boolean: returns a true if the keys were successfully sent, a
+     *         false if they were not
      */
     private boolean sendControlAndCommand(String action, String expected, String fail, String key) {
         try {
@@ -350,18 +380,18 @@ public class App {
     }
 
     /**
-     * a way to open a new tab, and have it selected. Note, no content will be
-     * present on this new tab, use the goToURL method to open load some content
+     * Opens a new tab, and have it selected. Note, no content will be present
+     * on this new tab, use the goToURL method to open load some content
      * 
-     * @return Boolean: did the tab open correctly or not
+     * @return Boolean: returns a true if a tab was successfully opened, a false
+     *         if it was not.
      */
     public boolean openTab() {
         return sendControlAndCommand("Opening new tab", "New tab is opened", "New tab was unable to be opened. ", "t");
     }
 
     /**
-     * a way to open a new tab, and have it selected. The page provided will be
-     * loaded
+     * Opens a new tab, and have it selected. The page provided will be loaded
      * 
      * @param url
      *            - the url to load once the new tab is opened and selected
@@ -374,10 +404,10 @@ public class App {
     }
 
     /**
-     * a function to switch tabs. this method will switch to the next available
-     * tab. if the last tab is already selected, it will loop back to the first
-     * tab
-     * 
+     * Switches to the next available tab. If the last tab is already selected,
+     * it will loop back to the first tab. This is an alternative to
+     * switchToNewWindow, as this works better for some systems and environments
+     * that others.
      */
     public void switchNextTab() {
         String action = "Switching to next tab ";
@@ -395,10 +425,10 @@ public class App {
     }
 
     /**
-     * a function to switch tabs. this method will switch to the previous
-     * available tab. if the first tab is already selected, it will loop back to
-     * the last tab
-     * 
+     * Switch to the previous available tab. If the first tab is already
+     * selected, it will loop back to the last tab. This is an alternative to
+     * switchToNewWindow, as this works better for some systems and environments
+     * that others.
      */
     public void switchPreviousTab() {
         String action = "Switching to previous tab ";
@@ -417,17 +447,16 @@ public class App {
     }
 
     /**
-     * a function to close tabs. note that if this is the only tab open, you
-     * will end the session
-     * 
+     * Closes the current tab. Note that if this is the only tab open, this will
+     * end the test. No additional actions or asserts can be performed after
+     * this, as the browser will be terminated as well
      */
     public void closeTab() {
         sendControlAndCommand("Closing currently open tab", "Tab is closed", "Tab was unable to be closed. ", "w");
     }
 
     /**
-     * some functionality to go back one page in browser history
-     * 
+     * Go back one page in the current test's browser history
      */
     public void goBack() {
         String action = "Going back one page";
@@ -445,8 +474,7 @@ public class App {
     }
 
     /**
-     * some functionality to go forward one page in browser history
-     * 
+     * Go forward one page in the current test's browser history
      */
     public void goForward() {
         String action = "Going forward one page";
@@ -464,8 +492,7 @@ public class App {
     }
 
     /**
-     * some functionality to reload the current page
-     * 
+     * Reloads the current page
      */
     public void refresh() {
         String action = "Reloading current page";
@@ -483,10 +510,11 @@ public class App {
     }
 
     /**
-     * some functionality to reload the current page while clearing the cache.
-     * This only works for certain browsers, as the command/control and F5 key
-     * combination is used to perform the action
-     * 
+     * Reloads the current page while clearing the cache. This only works for
+     * certain browsers, as the command/control and F5 key combination is used
+     * to perform the action. Note that each time a test is run, nothing is
+     * currently in the cache, as each test is run in a completely
+     * new/fresh/clean session
      */
     public void refreshHard() {
         String action = "Reloading current page while clearing the cache";
@@ -505,11 +533,10 @@ public class App {
     }
 
     /**
-     * some functionality to add a specific cookie to the page
+     * Adds a cookie to the application for this particular test
      * 
      * @param cookie
      *            - the details of the cookie to set
-     * 
      */
     public void setCookie(Cookie cookie) {
         String domain = cookie.getDomain();
@@ -535,11 +562,12 @@ public class App {
     }
 
     /**
-     * some functionality to delete a specifically stored cookie
+     * Deletes a stored cookie, indicated by the cookieName for this particular
+     * test. If the cookie by the provided name isn't present, than an error
+     * will be logged and recorded
      * 
      * @param cookieName
      *            - the name of the cookie to delete
-     * 
      */
     public void deleteCookie(String cookieName) {
         String action = "Deleting cookie <i>" + cookieName + "</i>";
@@ -564,9 +592,9 @@ public class App {
     }
 
     /**
-     * some functionality to delete all currently stored cookies
-     * 
+     * Delete all stored cookies for this particular test
      */
+
     public void deleteAllCookies() {
         String action = "Deleting all cookies";
         String expected = "All cookies are removed";
@@ -582,9 +610,9 @@ public class App {
     }
 
     /**
-     * some functionality to maximize the current window
-     * 
+     * Maximizes the current window
      */
+
     public void maximize() {
         String action = "Maximizing browser";
         String expected = "Browser is maximized";
@@ -601,7 +629,10 @@ public class App {
     }
 
     /**
-     * An custom script to scroll to a given position on the page
+     * An custom script to scroll to a given position on the page, using
+     * javascript. If the browser being used doesn't support javascript, or the
+     * page isn't long enough to support scrolling to the desired position, than
+     * an error will be logged and recorded
      *
      * @param desiredPosition
      *            - the position on the page to scroll to
@@ -626,9 +657,11 @@ public class App {
     }
 
     /**
-     * a function to switch windows.
-     * 
+     * Switches to the next window. This is an alternative to switchNextTab or
+     * switchPreviousTab, as this works better for some systems and environments
+     * that others.
      */
+
     public void switchToNewWindow() {
         String action = "Switching to the new window";
         String expected = "New window is available and selected";
@@ -648,9 +681,11 @@ public class App {
     }
 
     /**
-     * a function to switch back to the parent window.
-     * 
+     * Switches to the originally opened window. This is an alternative to
+     * switchNextTab or switchPreviousTab, as this works better for some systems
+     * and environments that others.
      */
+
     public void switchToParentWindow() {
         String action = "Switching back to parent window";
         String expected = "Parent window is available and selected";
@@ -667,11 +702,12 @@ public class App {
     }
 
     /**
-     * a function to close the currently selected window. After this window is
-     * closed, ensure that focus is shifted to the next window using
-     * switchToXxxWindow methods
-     * 
+     * Close the currently selected window. After this window is closed, ensure
+     * that focus is shifted to the next window using switchToNewWindow or
+     * switchToParentWindow methods. This is an alternative to closeTab, as this
+     * works better for some systems and environments that others.
      */
+
     public void closeCurrentWindow() {
         String action = "Closing currently selected window";
         String expected = "Current window is closed";
@@ -688,11 +724,10 @@ public class App {
     }
 
     /**
-     * a way to select a frame within a page. Select a frame by its (zero-based)
-     * index. That is, if a page has three frames, the first frame would be at
-     * index 0, the second at index 1 and the third at index 2. Once the frame
-     * has been selected, all subsequent calls on the WebDriver interface are
-     * made to that frame.
+     * Select a frame by its (zero-based) index. That is, if a page has three
+     * frames, the first frame would be at index 0, the second at index 1 and
+     * the third at index 2. Once the frame has been selected, all subsequent
+     * calls on the WebDriver interface are made to that frame.
      * 
      * @param frameNumber
      *            - the frame number, starts at 0
@@ -713,9 +748,8 @@ public class App {
     }
 
     /**
-     * a way to select a frame within a page. Select a frame by its name or ID.
-     * Frames located by matching name attributes are always given precedence
-     * over those matched by ID.
+     * Select a frame by its name or ID. Frames located by matching name
+     * attributes are always given precedence over those matched by ID.
      * 
      * @param frameIdentifier
      *            - the frame name or ID
@@ -740,8 +774,7 @@ public class App {
     /////////////////////////
 
     /**
-     * A private method to accept (click 'OK' on) whatever popup is present on
-     * the page
+     * Accept (click 'OK' on) whatever popup is present on the page
      * 
      * @param action
      *            - the action occurring
@@ -765,8 +798,7 @@ public class App {
     }
 
     /**
-     * A private method to dismiss (click 'Cancel' on) whatever popup is present
-     * on the page
+     * Dismiss (click 'Cancel' on) whatever popup is present on the page
      * 
      * @param action
      *            - the action occurring
@@ -790,13 +822,16 @@ public class App {
     }
 
     /**
-     * A private method to determine if a confirmation is present or not, and
-     * can be interacted with
+     * Determines if a confirmation is present or not, and can be interacted
+     * with. If it's not present, an indication that the confirmation can't be
+     * clicked on is written to the log file
      * 
      * @param action
      *            - the action occurring
      * @param expected
      *            - the expected result
+     * 
+     * @return Boolean: is a confirmation actually present or not.
      */
     private boolean isConfirmation(String action, String expected) {
         // wait for element to be present
@@ -811,8 +846,9 @@ public class App {
     }
 
     /**
-     * A private method to determine if a prompt is present or not, and can be
-     * interacted with
+     * Determines if a prompt is present or not, and can be interacted with. If
+     * it's not present, an indication that the confirmation can't be clicked on
+     * is written to the log file
      * 
      * @param action
      *            - the action occurring
@@ -820,6 +856,7 @@ public class App {
      *            - the expected result
      * @param perform
      *            - the action occurring to the prompt
+     * @return Boolean: is a prompt actually present or not.
      */
     private boolean isPrompt(String action, String expected, String perform) {
         // wait for element to be present
@@ -835,8 +872,7 @@ public class App {
     }
 
     /**
-     * Some basic functionality for clicking 'OK' on an alert box
-     *
+     * Accept (click 'OK' on) an alert box
      */
     public void acceptAlert() {
         String action = "Clicking 'OK' on an alert";
@@ -853,8 +889,7 @@ public class App {
     }
 
     /**
-     * Some basic functionality for clicking 'OK' on a confirmation box
-     *
+     * Accept (click 'OK' on) a confirmation box
      */
     public void acceptConfirmation() {
         String action = "Clicking 'OK' on a confirmation";
@@ -866,8 +901,7 @@ public class App {
     }
 
     /**
-     * Some basic functionality for clicking 'Cancel' on a confirmation box
-     *
+     * Dismiss (click 'Cancel' on) a confirmation box
      */
     public void dismissConfirmation() {
         String action = "Clicking 'Cancel' on a confirmation";
@@ -879,8 +913,7 @@ public class App {
     }
 
     /**
-     * Some basic functionality for clicking 'OK' on a prompt box
-     *
+     * Accept (click 'OK' on) a prompt box
      */
     public void acceptPrompt() {
         String action = "Clicking 'OK' on a prompt";
@@ -892,8 +925,7 @@ public class App {
     }
 
     /**
-     * Some basic functionality for clicking 'Cancel' on a prompt box
-     *
+     * Dismiss (click 'Cancel' on) a prompt box
      */
     public void dismissPrompt() {
         String action = "Clicking 'Cancel' on a prompt";
@@ -905,11 +937,10 @@ public class App {
     }
 
     /**
-     * Some basic functionality for typing text into a prompt box
+     * Type text into a prompt box
      * 
      * @param text
      *            - the text to type into the prompt
-     *
      */
     public void typeIntoPrompt(String text) {
         String action = "Typing text '" + text + "' into prompt";
