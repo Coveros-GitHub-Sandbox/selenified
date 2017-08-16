@@ -208,9 +208,9 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String[] options = app.newElement(Locator.NAME, "non-existent-name", 0).get().selectOptions();
-        Assert.assertEquals(options, new String[] {});
-        // verify 1 issue
-        finish(1);
+        Assert.assertNull(options);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -232,9 +232,9 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String[] options = app.newElement(Locator.NAME, "non-existent-name", 0).get().selectValues();
-        Assert.assertEquals(options, new String[] {});
-        // verify 1 issue
-        finish(1);
+        Assert.assertNull(options);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -257,8 +257,8 @@ public class ActionGetIT extends Selenified {
         // perform some actions
         int options = app.newElement(Locator.NAME, "non-existent-name", 0).get().numOfSelectOptions();
         Assert.assertEquals(options, 0);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -281,8 +281,8 @@ public class ActionGetIT extends Selenified {
         // perform some actions
         int rows = app.newElement(Locator.ID, "non-existent-name", 0).get().numOfTableRows();
         Assert.assertEquals(rows, 0);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -305,8 +305,8 @@ public class ActionGetIT extends Selenified {
         // perform some actions
         int columns = app.newElement(Locator.ID, "non-existent-name", 0).get().numOfTableColumns();
         Assert.assertEquals(columns, 0);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -344,9 +344,9 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         List<WebElement> row = app.newElement(Locator.ID, "non-existent-name").get().tableRow(1);
-        Assert.assertEquals(row, new ArrayList<>());
-        // verify 1 issue
-        finish(1);
+        Assert.assertNull(row);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -371,9 +371,9 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         List<WebElement> rows = app.newElement(Locator.ID, "non-existent-name", 1).get().tableRows();
-        Assert.assertEquals(rows, new ArrayList<>());
-        // verify 1 issue
-        finish(1);
+        Assert.assertNull(rows);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -414,9 +414,9 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         List<WebElement> column = app.newElement(Locator.ID, "non-existent-name").get().tableColumn(1);
-        Assert.assertEquals(column, new ArrayList<>());
-        // verify 1 issue
-        finish(1);
+        Assert.assertNull(column);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -445,9 +445,9 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         List<List<WebElement>> columns = app.newElement(Locator.ID, "non-existent-name", 1).get().tableColumns();
-        Assert.assertEquals(columns, new ArrayList<>());
-        // verify 1 issue
-        finish(1);
+        Assert.assertNull(columns);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -506,8 +506,8 @@ public class ActionGetIT extends Selenified {
         // perform some actions
         WebElement cell = app.newElement(Locator.ID, "non-existent-name").get().tableCell(1, 1);
         Assert.assertNull(cell);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -530,8 +530,8 @@ public class ActionGetIT extends Selenified {
         // perform some actions
         String text = app.newElement(Locator.ID, "non-existent-name", 0).get().selectedOption();
         Assert.assertNull(text);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -565,9 +565,9 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String[] text = app.newElement(Locator.ID, "non-existent-name", 0).get().selectedOptions();
-        Assert.assertEquals(text, new String[0]);
-        // verify 1 issue
-        finish(1);
+        Assert.assertNull(text);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -577,7 +577,7 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String[] text = app.newElement(Locator.ID, "table").get().selectedOptions();
-        Assert.assertEquals(text, new String[0]);
+        Assert.assertNull(text);
         // verify no issues
         finish();
     }
@@ -602,8 +602,8 @@ public class ActionGetIT extends Selenified {
         // perform some actions
         String value = app.newElement(Locator.ID, "non-existent-name", 0).get().selectedValue();
         Assert.assertNull(value);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -637,9 +637,9 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String[] value = app.newElement(Locator.ID, "non-existent-name", 0).get().selectedValues();
-        Assert.assertEquals(value, new String[0]);
-        // verify 1 issue
-        finish(1);
+        Assert.assertNull(value);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
@@ -649,7 +649,7 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String[] value = app.newElement(Locator.ID, "table").get().selectedValues();
-        Assert.assertEquals(value, new String[0]);
+        Assert.assertNull(value);
         // verify no issues
         finish();
     }
@@ -877,8 +877,8 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.get().prompt();
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions",
@@ -901,8 +901,8 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.get().confirmation();
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions",
@@ -926,8 +926,8 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.get().alert();
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",

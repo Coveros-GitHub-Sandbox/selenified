@@ -47,13 +47,10 @@ public class Get {
 
     // the is class to determine if something exists
     private Is is;
-    // the wait class to determine if we need to wait for something
-    private WaitFor waitFor;
 
     public Get(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.is = new Is(driver, file);
-        this.waitFor = new WaitFor(driver, file);
     }
 
     // ////////////////////////////////////
@@ -121,16 +118,12 @@ public class Get {
     }
 
     /**
-     * Retrieves the content of an alert present on the page. If the alert isn't
-     * present, it waits up to the default time (5 seconds) for the alert. If
-     * the alert doesn't exist, a null value will be returned.
+     * Retrieves the content of an alert present on the page. If the alert
+     * doesn't exist, a null value will be returned.
      *
      * @return String - the content of an alert
      */
     public String alert() {
-        if (!is.alertPresent()) {
-            waitFor.alertPresent();
-        }
         if (!is.alertPresent()) {
             return null;
         }
@@ -145,16 +138,11 @@ public class Get {
 
     /**
      * Retrieves the content of a confirmation present on the page. If the
-     * confirmation isn't present, it waits up to the default time (5 seconds)
-     * for the confirmation. If the confirmation doesn't exist, a null value
-     * will be returned.
+     * confirmation doesn't exist, a null value will be returned.
      *
      * @return String - the content of the confirmation
      */
     public String confirmation() {
-        if (!is.confirmationPresent()) {
-            waitFor.confirmationPresent();
-        }
         if (!is.confirmationPresent()) {
             return null;
         }
@@ -169,15 +157,11 @@ public class Get {
 
     /**
      * Retrieves the content of a prompt present on the page. If the prompt
-     * isn't present, it waits up to the default time (5 seconds) for the
-     * prompt. If the prompt doesn't exist, a null value will be returned.
+     * doesn't exist, a null value will be returned.
      *
      * @return String - the content of the prompt
      */
     public String prompt() {
-        if (!is.promptPresent()) {
-            waitFor.promptPresent();
-        }
         if (!is.promptPresent()) {
             return null;
         }

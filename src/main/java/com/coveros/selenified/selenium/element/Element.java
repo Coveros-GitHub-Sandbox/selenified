@@ -91,6 +91,7 @@ public class Element {
     private static final String NOTDISPLAYED = " as it is not displayed";
     private static final String NOTENABLED = " as it is not enabled";
     private static final String NOTINPUT = " as it is not an input";
+    private static final String NOTSELECT = " as it is not a select";
 
     private static final String CANTTYPE = "Unable to type in ";
     private static final String CANTMOVE = "Unable to move to ";
@@ -519,6 +520,28 @@ public class Element {
     }
 
     /**
+     * Determines if the element is a select.
+     * 
+     * @param action
+     *            - what action is occurring
+     * @param expected
+     *            - what is the expected result
+     * @param extra
+     *            - what actually is occurring
+     * @return Boolean: is the element enabled?
+     */
+    private boolean isSelect(String action, String expected, String extra) {
+        // wait for element to be displayed
+        if (!is.select()) {
+            file.recordAction(action, expected, extra + prettyOutput() + NOTSELECT, Result.FAILURE);
+            file.addError();
+            // indicates element not an input
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Determines if something is present, displayed, and enabled. This returns
      * true if all three are true, otherwise, it returns false
      * 
@@ -594,6 +617,35 @@ public class Element {
             return false;
         }
         return isInput(action, expected, extra);
+    }
+
+    /**
+     * Determines if something is present, displayed, enabled, and a select.
+     * This returns true if all four are true, otherwise, it returns false
+     * 
+     * @param action
+     *            - what action is occurring
+     * @param expected
+     *            - what is the expected result
+     * @param extra
+     *            - what actually is occurring
+     * @return Boolean: is the element present, displayed, enabled, and an
+     *         input?
+     */
+    private boolean isPresentDisplayedEnabledSelect(String action, String expected, String extra) {
+        // wait for element to be present
+        if (!isPresent(action, expected, extra)) {
+            return false;
+        }
+        // wait for element to be displayed
+        if (!isDisplayed(action, expected, extra)) {
+            return false;
+        }
+        // wait for element to be enabled
+        if (!isEnabled(action, expected, extra)) {
+            return false;
+        }
+        return isSelect(action, expected, extra);
     }
 
     // ///////////////////////////////////
@@ -813,10 +865,14 @@ public class Element {
      *            starts at 0
      */
     public void select(int value) {
+        String cantSelect = "Unable to select ";
+        String action = SELECTING + value + " in " + prettyOutput();
+        String expected = prettyOutput() + PRESDISEN + value + SELECTED;
+        if (!isPresentDisplayedEnabledSelect(action, expected, cantSelect)) {
+            return;
+        }
         String[] options = get.selectOptions();
         if (value > options.length) {
-            String action = SELECTING + value + " in " + prettyOutput();
-            String expected = prettyOutput() + PRESDISEN + value + SELECTED;
             file.recordAction(action, expected, "Unable to select the <i>" + value
                     + "</i> option, as there are only <i>" + options.length + "</i> available.", Result.FAILURE);
             file.addError();
@@ -838,7 +894,7 @@ public class Element {
         String cantSelect = "Unable to select ";
         String action = SELECTING + value + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + value + SELECTED;
-        if (!isPresentDisplayedEnabledInput(action, expected, cantSelect)) {
+        if (!isPresentDisplayedEnabledSelect(action, expected, cantSelect)) {
             return;
         }
         // ensure the option exists
