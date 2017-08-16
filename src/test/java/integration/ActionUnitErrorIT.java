@@ -11,7 +11,7 @@ import org.testng.Assert;
 import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.tools.Selenified;
+import com.coveros.selenified.Selenified;
 
 public class ActionUnitErrorIT extends Selenified {
 

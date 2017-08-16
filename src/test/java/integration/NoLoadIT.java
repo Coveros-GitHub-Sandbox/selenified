@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
-import com.coveros.selenified.tools.Selenified;
+import com.coveros.selenified.Selenified;
 
 public class NoLoadIT extends Selenified {
 

@@ -24,9 +24,9 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.tools.General;
-import com.coveros.selenified.tools.OutputFile;
-import com.coveros.selenified.tools.OutputFile.Result;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.utilities.General;
 
 /**
  * WaitFor performs dynamic waits on the app in general, until a particular

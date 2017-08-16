@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.tools;
+package com.coveros.selenified;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -44,6 +44,7 @@ import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
+import com.coveros.selenified.utilities.General;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -94,7 +95,7 @@ public class OutputFile {
     private static final String END_ROW = "   </tr>\n";
 
     /**
-     * * Creates a new instance of the OutputFile, which will serve as the
+     * Creates a new instance of the OutputFile, which will serve as the
      * detailed log
      * 
      * @param directory
@@ -136,7 +137,7 @@ public class OutputFile {
     }
 
     /**
-     * returns the filename in string form of the output file
+     * Retrieves the filename in string form of the output file
      * 
      * @return String: filename
      */
@@ -145,23 +146,24 @@ public class OutputFile {
     }
 
     /**
-     * returns the current error count of the test
+     * Retrieves the current error count of the test
      * 
-     * @return Integer
+     * @return Integer: the number of errors current encountered on the current
+     *         test
      */
     public int getErrors() {
         return errors;
     }
 
     /**
-     * simply add an encountered error to the error counter
+     * Increments the current error count of the test by one
      */
     public void addError() {
         errors++;
     }
 
     /**
-     * add a given set of errors to the error counter
+     * Increments the current error count of the test by the provided amount
      *
      * @param errorsToAdd
      *            - the number of errors to add
@@ -170,12 +172,18 @@ public class OutputFile {
         errors += errorsToAdd;
     }
 
+    /**
+     * Determines if a 'real' browser is being used. If the browser is NONE or
+     * HTMLUNIT it is not considered a real browser
+     * 
+     * @return Boolean: is the browser a 'real' browser
+     */
     private boolean isRealBrowser() {
         return browser != Browser.NONE && browser != Browser.HTMLUNIT;
     }
 
     /**
-     * adds the app class which controls actions within the browser
+     * Sets the App class which controls all actions within the browser
      * 
      * @param app
      *            - the application to be tested, contains all control elements
@@ -185,7 +193,7 @@ public class OutputFile {
     }
 
     /**
-     * creates the directory and file to hold the test output file
+     * Creates the directory and file to hold the test output file
      */
     private void setupFile() {
         if (!new File(directory).exists()) {
@@ -203,11 +211,11 @@ public class OutputFile {
     }
 
     /**
-     * A method to count the number of occurrence of a string within a file
+     * Counts the number of occurrence of a string within a file
      *
      * @param textToFind
      *            - the text to count
-     * @return Integer - the number of times the text was found in the file
+     * @return Integer: the number of times the text was found in the file
      *         provided
      */
     private int countInstancesOf(String textToFind) {
@@ -226,7 +234,7 @@ public class OutputFile {
     }
 
     /**
-     * A method to replace an occurrence of a string within a file
+     * Replaces an occurrence of a string within a file
      *
      * @param oldText
      *            - the text to be replaced
@@ -256,9 +264,10 @@ public class OutputFile {
     }
 
     /**
-     * a helper function to capture the entire app screen shot
+     * Captures the entire page screen shot, and created an HTML file friendly
+     * link to place in the output file
      *
-     * @return new image link
+     * @return String: the image link string
      */
     public String captureEntirePageScreenshot() {
         String imageName = generateImageName();
@@ -274,16 +283,18 @@ public class OutputFile {
     }
 
     /**
-     * write an action that was performed out to the output file
+     * Writes an action that was performed out to the output file. If the action
+     * is considered a failure, and a 'real' browser is being used (not NONE or
+     * HTMLUNIT), then a screenshot will automatically be taken
      *
      * @param action
-     *            the step that was performed
+     *            - the step that was performed
      * @param expectedResult
-     *            the result that was expected to occur
+     *            - the result that was expected to occur
      * @param actualResult
-     *            the result that actually occurred
+     *            - the result that actually occurred
      * @param result
-     *            the result of the action
+     *            - the result of the action
      */
     public void recordAction(String action, String expectedResult, String actualResult, Result result) {
         stepNum++;
@@ -322,13 +333,15 @@ public class OutputFile {
     }
 
     /**
-     * Will write to the output file the actual outcome, and also indicate
-     * whether a pass or fail has occurred
+     * Writes to the output file the actual outcome of an event. A screenshot is
+     * automatically taken to provide tracability for and proof of success or
+     * failure. This method should only be used after first writing the expected
+     * result, using the recordExpected method.
      *
      * @param actualOutcome
-     *            what the actual outcome was
+     *            - what the actual outcome was
      * @param result
-     *            whether this result is a pass or a failure
+     *            - whether this result is a pass or a failure
      */
     public void recordActual(String actualOutcome, Success result) {
         try (
@@ -361,11 +374,12 @@ public class OutputFile {
     }
 
     /**
-     * Will write to the output file the step number, skip the action taken, and
-     * then write out the expected outcome
+     * Writes to the output file the expected outcome of an event. This method
+     * should always be followed the recordActual method to record what actually
+     * happened.
      *
      * @param expectedOutcome
-     *            what the expected outcome is
+     *            - what the expected outcome is
      */
     public void recordExpected(String expectedOutcome) {
         stepNum++;
@@ -387,9 +401,8 @@ public class OutputFile {
     }
 
     /**
-     * Creates the specially formatted output header
-     *
-     * - an IOException
+     * Creates the specially formatted output header for the particular test
+     * case
      */
     private void createOutputHeader() {
         // setup some constants
@@ -560,8 +573,9 @@ public class OutputFile {
     }
 
     /**
-     * ends and closes the test template
-     *
+     * Ends and closes the output test file. The HTML is properly ended, and the
+     * file is analyzed to determine if the test passed or failed, and that
+     * information is updated, along with the overall timing of the test
      */
     public void finalizeOutputFile() {
         // reopen the file
@@ -610,8 +624,7 @@ public class OutputFile {
     }
 
     /**
-     * packages the test result file along with screenshots into a zip file
-     *
+     * Packages the test result file along with screenshots into a zip file
      */
     private void packageTestResults() {
         File f = new File(directory, filename + "_RESULTS.zip");
@@ -642,11 +655,11 @@ public class OutputFile {
     }
 
     /**
-     * generates the link for the image
+     * Generates the HTML friendly link for the image
      *
      * @param imageName
      *            the name of the image being embedded
-     * @return String the link for the image which can be written out to the
+     * @return String: the link for the image which can be written out to the
      *         html file
      */
     private String generateImageLink(String imageName) {
@@ -666,9 +679,9 @@ public class OutputFile {
     }
 
     /**
-     * generates a unique image name
+     * Generates a unique image name
      *
-     * @return String the name of the image file as a PNG
+     * @return String: the name of the image file as a PNG
      */
     private String generateImageName() {
         long timeInSeconds = new Date().getTime();
@@ -747,7 +760,7 @@ public class OutputFile {
     }
 
     /**
-     * This takes a generic string and replaces spaces and new lines with HTML
+     * Takes a generic string and replaces spaces and new lines with HTML
      * friendly pieces for display purposes
      * 
      * @param string
@@ -767,7 +780,7 @@ public class OutputFile {
     ///////////////////////////////////////////////////////////////////
 
     /**
-     * An enumeration used to determine if the tests pass or fail
+     * Determines if the tests pass or fail
      * 
      * @author Max Saperstone
      *
@@ -786,7 +799,7 @@ public class OutputFile {
         }
 
         /**
-         * Retrieve the errors associated with the enumeration
+         * Retrieves the errors associated with the enumeration
          * 
          * @return Integer: the errors associated with the enumeration
          */
@@ -796,7 +809,7 @@ public class OutputFile {
     }
 
     /**
-     * An enumeration used to give status for each test step
+     * Gives status for each test step
      * 
      * @author Max Saperstone
      *
@@ -804,5 +817,4 @@ public class OutputFile {
     public enum Result {
         WARNING, SUCCESS, FAILURE, SKIPPED
     }
-
 }

@@ -27,7 +27,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.General;
+import com.coveros.selenified.utilities.General;
 
 /**
  * Is retrieves information about a particular element. A boolean is always

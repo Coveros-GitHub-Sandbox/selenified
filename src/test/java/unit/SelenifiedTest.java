@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.tools.Selenified;
+import com.coveros.selenified.Selenified;
 
 public class SelenifiedTest extends Selenified {
 

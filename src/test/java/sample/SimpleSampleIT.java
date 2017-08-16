@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.Selenified;
+import com.coveros.selenified.Selenified;
 
 public class SimpleSampleIT extends Selenified {
 

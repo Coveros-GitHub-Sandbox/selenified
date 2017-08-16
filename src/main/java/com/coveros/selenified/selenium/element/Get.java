@@ -32,7 +32,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.tools.General;
+import com.coveros.selenified.utilities.General;
 
 /**
  * Get retrieves information about a particular element. If an object isn't

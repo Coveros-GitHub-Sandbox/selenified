@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.tools;
+package com.coveros.selenified.utilities;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -26,12 +26,12 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 /**
- * A class to override the default HtmlUnitDriver. This class 
- * specifically overrides the modifyWebClient method to ignore 
- * Javascript errors found by the HtmlUnit driver.
+ * A class to override the default HtmlUnitDriver. This class specifically
+ * overrides the modifyWebClient method to ignore Javascript errors found by the
+ * HtmlUnit driver.
  *
  * @author Matthew Grasberger
- * @version 2.0.1
+ * @version 3.0.0
  * @lastupdate 8/16/2017
  */
 public class CustomHtmlUnitDriver extends HtmlUnitDriver {
@@ -53,8 +53,8 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     }
 
     /**
-     * Overridden to customize the WebClient that the HtmlUnit
-     * driver uses, in order to ignore Javascript errors.
+     * Overridden to customize the WebClient that the HtmlUnit driver uses, in
+     * order to ignore Javascript errors.
      * 
      * @param client
      *            - the client to modify

@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.tools;
+package com.coveros.selenified;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
@@ -26,13 +26,15 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
+import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
-import com.coveros.selenified.tools.OutputFile.Result;
+import com.coveros.selenified.utilities.General;
+import com.coveros.selenified.utilities.TestSetup;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -45,9 +47,10 @@ import java.util.Map;
 
 /**
  * Selenified contains all of the elements to setup the test suite, and to start
- * and finish your tests. The site under test is set here should be set,
- * otherwise a default value of google will be used. Before each suite is run,
- * the system variables are gathered, to set the browser, test site, proxy, hub,
+ * and finish your tests. The site under test should either be set in
+ * the @BeforeClass, as there is no default site set for testing. If not, this
+ * site can be passed in as a system parameter. Before each suite is run, the
+ * system variables are gathered, to set the browser, test site, proxy, hub,
  * etc. This class should be extended by each test class to allow for simple
  * execution of tests.
  * 
@@ -60,7 +63,7 @@ import java.util.Map;
  * @version 3.0.0
  * @lastupdate 8/13/2017
  */
-@Listeners({ com.coveros.selenified.tools.Listener.class, com.coveros.selenified.tools.Transformer.class })
+@Listeners({ com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class })
 public class Selenified {
 
     private static final Logger log = Logger.getLogger(General.class);
@@ -90,7 +93,21 @@ public class Selenified {
     private static final String INVOCATION_COUNT = "InvocationCount";
     private static final String ERRORS_CHECK = " errors";
 
-    // default getters and setters for test information
+    /**
+     * Obtains the application under test, as a URL. If the site was provided as
+     * a system property, that value will override whatever was set in the
+     * particular test suite. If no site was set, null will be returned, which
+     * will causes the tests to error out
+     * 
+     * @param clazz
+     *            - the test suite class, used for making threadsafe storage of
+     *            application, allowing suites to have independent applications
+     *            under test, run at the same time
+     * @param context
+     *            - the TestNG context associated with the test suite, used for
+     *            storing app url information
+     * @return String: the URL of the application under test
+     */
     public String getTestSite(String clazz, ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
             return (String) context.getAttribute(clazz + APP_INPUT);
@@ -99,6 +116,21 @@ public class Selenified {
         }
     }
 
+    /**
+     * Sets the URL of the application under test. If the site was provided as a
+     * system property, this method ignores the passed in value, and uses the
+     * system property.
+     * 
+     * @param clazz
+     *            - the test suite class, used for making threadsafe storage of
+     *            application, allowing suites to have independent applications
+     *            under test, run at the same time
+     * @param context
+     *            - the TestNG context associated with the test suite, used for
+     *            storing app url information
+     * @param siteURL
+     *            - the URL of the application under test
+     */
     protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
         if (System.getProperty(APP_INPUT) == null) {
             String testSuite = clazz.getClass().getName();
@@ -106,19 +138,71 @@ public class Selenified {
         }
     }
 
+    /**
+     * Obtains the version of the current test suite being executed. If no
+     * version was set, null will be returned
+     * 
+     * @param clazz
+     *            - the test suite class, used for making threadsafe storage of
+     *            application, allowing suites to have independent applications
+     *            under test, run at the same time
+     * @param context
+     *            - the TestNG context associated with the test suite, used for
+     *            storing app url information
+     * @return String: the version of the current test being executed
+     */
     protected String getVersion(String clazz, ITestContext context) {
         return (String) context.getAttribute(clazz + "Version");
     }
 
+    /**
+     * Sets the version of the current test suite being executed.
+     * 
+     * @param clazz
+     *            - the test suite class, used for making threadsafe storage of
+     *            application, allowing suites to have independent applications
+     *            under test, run at the same time
+     * @param context
+     *            - the TestNG context associated with the test suite, used for
+     *            storing app url information
+     * @param version
+     *            - the version of the test suite
+     */
     protected static void setVersion(Selenified clazz, ITestContext context, String version) {
         String testSuite = clazz.getClass().getName();
         context.setAttribute(testSuite + "Version", version);
     }
 
+    /**
+     * Obtains the author of the current test suite being executed. If no author
+     * was set, null will be returned
+     * 
+     * @param clazz
+     *            - the test suite class, used for making threadsafe storage of
+     *            application, allowing suites to have independent applications
+     *            under test, run at the same time
+     * @param context
+     *            - the TestNG context associated with the test suite, used for
+     *            storing app url information
+     * @return String: the author of the current test being executed
+     */
     protected String getAuthor(String clazz, ITestContext context) {
         return (String) context.getAttribute(clazz + "Author");
     }
 
+    /**
+     * Sets the author of the current test suite being executed.
+     * 
+     * @param clazz
+     *            - the test suite class, used for making threadsafe storage of
+     *            application, allowing suites to have independent applications
+     *            under test, run at the same time
+     * @param context
+     *            - the TestNG context associated with the test suite, used for
+     *            storing app url information
+     * @param author
+     *            - the author of the test suite
+     */
     protected static void setAuthor(Selenified clazz, ITestContext context, String author) {
         String testSuite = clazz.getClass().getName();
         context.setAttribute(testSuite + "Author", author);
@@ -160,7 +244,7 @@ public class Selenified {
     }
 
     /**
-     * gathers all of the testing information, and setup up the logging. If a
+     * Gathers all of the testing information, and setup up the logging. If a
      * selenium test is running, also sets up the webdriver object
      * 
      * @param dataProvider
@@ -237,7 +321,7 @@ public class Selenified {
     }
 
     /**
-     * loads the initial app specified by the url, and ensures the app loads
+     * Loads the initial app specified by the url, and ensures the app loads
      * successfully
      */
     private void loadInitialPage(App app, String url, OutputFile file) {
@@ -265,7 +349,7 @@ public class Selenified {
     }
 
     /**
-     * after each test is completed, the test is closed out, and the test
+     * After each test is completed, the test is closed out, and the test
      * counter is incremented
      * 
      * @param dataProvider
@@ -292,11 +376,11 @@ public class Selenified {
     }
 
     /**
-     * to conclude each test, run this finish command. it will close out the
-     * output logging file, and count any errors that were encountered during
-     * the test, and fail the test if any errors were encountered
+     * Concludes each test case. This should be run as the last time of
+     * each @Test. It will close out the output logging file, and count any
+     * errors that were encountered during the test, and fail the test if any
+     * errors were encountered
      */
-
     protected void finish() {
         OutputFile myFile = this.files.get();
         myFile.finalizeOutputFile();
@@ -305,9 +389,10 @@ public class Selenified {
     }
 
     /**
-     * to conclude each test, run this finish command. it will close out the
-     * output logging file, and count any errors that were encountered during
-     * the test, and verify that the number of errors indicated occurred
+     * Concludes each test case. This should be run as the last time of
+     * each @Test. It will close out the output logging file, and count any
+     * errors that were encountered during the test, and assert that the number
+     * of errors that occurred equals the provided number of errors.
      * 
      * @param errors
      *            - number of expected errors from the test
@@ -319,6 +404,13 @@ public class Selenified {
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
     }
 
+    /**
+     * Setups up the initial system for test. As a singleton, this is only done
+     * once per test suite.
+     * 
+     * @author max
+     *
+     */
     private static class MasterSuiteSetupConfigurator {
         private static MasterSuiteSetupConfigurator instance;
         private boolean wasInvoked = false;

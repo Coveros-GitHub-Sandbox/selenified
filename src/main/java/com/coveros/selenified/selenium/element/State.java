@@ -20,8 +20,8 @@
 
 package com.coveros.selenified.selenium.element;
 
-import com.coveros.selenified.tools.OutputFile;
-import com.coveros.selenified.tools.OutputFile.Success;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Success;
 
 /**
  * State extends Asserts to provide some additional verification capabilities.

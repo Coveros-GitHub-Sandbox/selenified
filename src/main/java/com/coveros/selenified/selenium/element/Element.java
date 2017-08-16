@@ -33,14 +33,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
 import com.coveros.selenified.selenium.element.Get;
 import com.coveros.selenified.selenium.element.Is;
 import com.coveros.selenified.selenium.element.WaitFor;
+import com.coveros.selenified.utilities.General;
 import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.tools.General;
-import com.coveros.selenified.tools.OutputFile;
-import com.coveros.selenified.tools.OutputFile.Result;
 
 /**
  * Element an object representative of a web element on a particular page that

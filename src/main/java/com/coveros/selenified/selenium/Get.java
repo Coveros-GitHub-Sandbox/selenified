@@ -27,7 +27,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.tools.General;
+import com.coveros.selenified.utilities.General;
 
 /**
  * Get retrieves information about the app in general, not specific to any

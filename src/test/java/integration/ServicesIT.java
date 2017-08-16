@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
-import com.coveros.selenified.tools.Selenified;
+import com.coveros.selenified.Selenified;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

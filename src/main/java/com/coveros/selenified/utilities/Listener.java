@@ -18,14 +18,14 @@
  * under the License.
  */
 
-package com.coveros.selenified.tools;
+package com.coveros.selenified.utilities;
 
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 
+import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.tools.OutputFile.Result;
 
 import java.io.File;
 

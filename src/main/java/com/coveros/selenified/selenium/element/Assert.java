@@ -23,8 +23,8 @@ package com.coveros.selenified.selenium.element;
 import java.util.Map;
 import java.util.Set;
 
-import com.coveros.selenified.tools.OutputFile;
-import com.coveros.selenified.tools.OutputFile.Success;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Success;
 
 /**
  * Assert will handle all verifications performed on the actual element. These

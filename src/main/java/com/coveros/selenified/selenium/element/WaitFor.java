@@ -25,10 +25,10 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.testng.log4testng.Logger;
 
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.tools.General;
-import com.coveros.selenified.tools.OutputFile;
-import com.coveros.selenified.tools.OutputFile.Result;
+import com.coveros.selenified.utilities.General;
 
 /**
  * WaitFor performs dynamic waits on a particular element, until a particular

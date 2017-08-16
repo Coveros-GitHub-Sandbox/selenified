@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.tools;
+package com.coveros.selenified.utilities;
 
 import java.util.ArrayList;
 import java.util.List;

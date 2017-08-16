@@ -22,9 +22,9 @@ package com.coveros.selenified.services;
 
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.tools.General;
-import com.coveros.selenified.tools.OutputFile;
-import com.coveros.selenified.tools.OutputFile.Result;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.utilities.General;
 
 /**
  * Performs the general method calls, and provides a simple access to the HTTP

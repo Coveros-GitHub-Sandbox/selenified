@@ -22,8 +22,8 @@ package com.coveros.selenified.selenium.element;
 
 import java.util.Arrays;
 
-import com.coveros.selenified.tools.OutputFile;
-import com.coveros.selenified.tools.OutputFile.Success;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Success;
 
 /**
  * Excludes extends Asserts to provide some additional verification

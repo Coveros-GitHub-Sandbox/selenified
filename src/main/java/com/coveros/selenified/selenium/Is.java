@@ -25,7 +25,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.tools.General;
+import com.coveros.selenified.utilities.General;
 
 /**
  * Is checks information about the app in general, not specific to any
