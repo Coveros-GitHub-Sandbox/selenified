@@ -27,8 +27,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.utilities.General;
-
 /**
  * Get retrieves information about the app in general, not specific to any
  * particular page or element. If an object isn't present, null will be returned
@@ -38,7 +36,7 @@ import com.coveros.selenified.utilities.General;
  * @lastupdate 8/13/2017
  */
 public class Get {
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(Get.class);
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions

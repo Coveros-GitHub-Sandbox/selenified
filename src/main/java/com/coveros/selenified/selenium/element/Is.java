@@ -27,7 +27,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.utilities.General;
 
 /**
  * Is retrieves information about a particular element. A boolean is always
@@ -39,7 +38,7 @@ import com.coveros.selenified.utilities.General;
  */
 public class Is {
 
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(Is.class);
 
     // what element are we trying to interact with on the page
     private Element element;

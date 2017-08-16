@@ -45,7 +45,6 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.selenium.element.Element;
-import com.coveros.selenified.utilities.General;
 import com.coveros.selenified.utilities.TestSetup;
 
 /**
@@ -63,7 +62,7 @@ import com.coveros.selenified.utilities.TestSetup;
  */
 public class App {
 
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(TestSetup.class);
 
     // this will be the name of the file we write all commands out to
     private OutputFile file;

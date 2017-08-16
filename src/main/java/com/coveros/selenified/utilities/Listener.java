@@ -58,7 +58,7 @@ public class Listener extends TestListenerAdapter {
      * @return String: a string version of the test name
      */
     private static String getTestName(ITestResult result) {
-        String className = "";
+        String className;
         String packageName = "";
         if (result.getTestClass().toString().contains(".")) {
             packageName = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1)
@@ -68,7 +68,7 @@ public class Listener extends TestListenerAdapter {
         } else {
             className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1);
         }
-        return General.getTestName(packageName, className, result.getName(), result.getParameters());
+        return TestSetup.getTestName(packageName, className, result.getName(), result.getParameters());
     }
 
     /**

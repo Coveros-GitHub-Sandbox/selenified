@@ -24,7 +24,6 @@ import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.utilities.General;
 
 /**
  * Performs the general method calls, and provides a simple access to the HTTP
@@ -36,7 +35,7 @@ import com.coveros.selenified.utilities.General;
  *
  */
 public class Call {
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(Call.class);
 
     // this will be the name of the file we write all commands out to
     private OutputFile file;

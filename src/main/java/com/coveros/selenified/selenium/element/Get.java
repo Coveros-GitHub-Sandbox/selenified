@@ -32,8 +32,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.utilities.General;
-
 /**
  * Get retrieves information about a particular element. If an object isn't
  * present, null will be returned
@@ -43,7 +41,7 @@ import com.coveros.selenified.utilities.General;
  * @lastupdate 8/14/2017
  */
 public class Get {
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(Get.class);
 
     // what element are we trying to interact with on the page
     private Element element;

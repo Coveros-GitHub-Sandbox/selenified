@@ -25,8 +25,6 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.utilities.General;
-
 /**
  * Is checks information about the app in general, not specific to any
  * particular page or element. A boolean is always returning, indicating if an
@@ -38,7 +36,7 @@ import com.coveros.selenified.utilities.General;
  */
 public class Is {
 
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(Is.class);
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions

@@ -1,5 +1,6 @@
 package unit;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -506,5 +507,84 @@ public class TestSetupTest {
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverIllegalBrowserTest() throws InvalidBrowserException {
         TestSetup.setupDriver(Browser.NONE, capabilities);
+    }
+
+    @Test
+    public void getRandomStringLengthTest() {
+        Assert.assertEquals(TestSetup.getRandomString(0).length(), 0);
+        Assert.assertEquals(TestSetup.getRandomString(0), "");
+        Assert.assertEquals(TestSetup.getRandomString(999).length(), 999);
+        Assert.assertTrue(TestSetup.getRandomString(999).matches("^[A-Za-z0-9]{999}$"));
+        Assert.assertEquals(TestSetup.getRandomString(-1).length(), 0);
+        Assert.assertEquals(TestSetup.getRandomString(-1), "");
+    }
+
+    @Test
+    public void removeNonWordCharactersTest() {
+        Assert.assertEquals(TestSetup.removeNonWordCharacters(null), null);
+        Assert.assertEquals(TestSetup.removeNonWordCharacters(""), "");
+        Assert.assertEquals(TestSetup.removeNonWordCharacters("hello world"), "helloworld");
+        Assert.assertEquals(TestSetup.removeNonWordCharacters("hello-world"), "helloworld");
+        Assert.assertEquals(TestSetup.removeNonWordCharacters("hello_world"), "helloworld");
+        Assert.assertEquals(TestSetup.removeNonWordCharacters("hello`~!@#$%^&*()world"), "helloworld");
+        Assert.assertEquals(TestSetup.removeNonWordCharacters("hello[]\\{}|;':\",./<>?world"), "helloworld");
+    }
+
+    @Test
+    public void capitalizeFirstLettersTest() {
+        Assert.assertEquals(TestSetup.capitalizeFirstLetters(null), null);
+        Assert.assertEquals(TestSetup.capitalizeFirstLetters("hello world"), "Hello World");
+        Assert.assertEquals(TestSetup.capitalizeFirstLetters("helloWorld"), "HelloWorld");
+        Assert.assertEquals(TestSetup.capitalizeFirstLetters("hello_world"), "Hello_World");
+        Assert.assertEquals(TestSetup.capitalizeFirstLetters("123helloWorld"), "123HelloWorld");
+        Assert.assertEquals(TestSetup.capitalizeFirstLetters("hello123world"), "Hello123World");
+        Assert.assertEquals(TestSetup.capitalizeFirstLetters("helloWorld123"), "HelloWorld123");
+    }
+
+    @Test
+    public void getTestNameTest(Method method) {
+        Assert.assertEquals(TestSetup.getTestName(method), "unit_GeneralTest_getTestNameTest");
+        Object[] options = new Object[] { "Python", "public" };
+        Assert.assertEquals(TestSetup.getTestName(method, options), "unit_GeneralTest_getTestNameTestWithOptionPython");
+        options = new Object[] { "Python", null };
+        Assert.assertEquals(TestSetup.getTestName(method, options), "unit_GeneralTest_getTestNameTestWithOptionPython");
+        Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
+        Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld", "python"),
+                "UnitTests_helloWorldWithOptionPython");
+        Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld", "visual basic"),
+                "UnitTests_helloWorldWithOptionVisualbasic");
+        Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld", "Python"),
+                "UnitTests_helloWorldWithOptionPython");
+        Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl"),
+                "UnitTests_helloWorldWithOptionPythonPerl");
+        Assert.assertEquals(
+                TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+                        "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
+                        "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
+                        "Gosu", "Powershell", "Squeak", "Gambas"),
+                "UnitTests_helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
+        String testName = TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
+                "Groovy", "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell",
+                "Swift", "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
+                "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
+        Assert.assertTrue(testName.matches("^UnitTests_helloWorld@[0-9a-f]+$"));
+        testName = TestSetup.getTestName("unit", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
+                "Groovy", "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell",
+                "Swift", "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
+                "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
+        Assert.assertTrue(testName.matches("^unit_UnitTests_helloWorld@[0-9a-f]+$"));
+    }
+
+    @Test
+    public void parseMapTest() {
+        Map<String, String> map = TestSetup.parseMap("A=B&C=D&E=F");
+        Assert.assertTrue(map.containsKey("A"));
+        Assert.assertEquals("B", map.get("A"));
+
+        Assert.assertTrue(map.containsKey("C"));
+        Assert.assertEquals("D", map.get("C"));
+
+        Assert.assertTrue(map.containsKey("E"));
+        Assert.assertEquals("F", map.get("E"));
     }
 }

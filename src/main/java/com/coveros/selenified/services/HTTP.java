@@ -29,7 +29,6 @@ import java.net.URL;
 import org.apache.commons.codec.binary.Base64;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.utilities.General;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -45,7 +44,7 @@ import com.google.gson.JsonParser;
  */
 public class HTTP {
 
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(HTTP.class);
 
     private static final String PATCH = "PATCH";
 

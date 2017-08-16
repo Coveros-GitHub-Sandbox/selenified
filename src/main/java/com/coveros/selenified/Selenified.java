@@ -33,7 +33,6 @@ import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
-import com.coveros.selenified.utilities.General;
 import com.coveros.selenified.utilities.TestSetup;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -66,7 +65,7 @@ import java.util.Map;
 @Listeners({ com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class })
 public class Selenified {
 
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(Selenified.class);
 
     // if were services calls are bring used, are there usernames and passwords
     // used for credentials
@@ -265,7 +264,7 @@ public class Selenified {
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
             DriverSetup selenium) {
-        String testName = General.getTestName(method, dataProvider);
+        String testName = TestSetup.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
         String description = "";
@@ -367,7 +366,7 @@ public class Selenified {
      */
     @AfterMethod(alwaysRun = true)
     protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-        String testName = General.getTestName(method, dataProvider);
+        String testName = TestSetup.getTestName(method, dataProvider);
         if (this.apps.get() != null) {
             this.apps.get().killDriver();
         }
@@ -485,7 +484,7 @@ public class Selenified {
                 }
                 setup.setupProxy();
                 if (TestSetup.areBrowserDetailsSet()) {
-                    Map<String, String> browserDetails = General.parseMap(System.getProperty(BROWSER_INPUT));
+                    Map<String, String> browserDetails = TestSetup.parseMap(System.getProperty(BROWSER_INPUT));
                     setup.setupBrowserDetails(browserDetails);
                 }
                 DesiredCapabilities caps = setup.getDesiredCapabilities();

@@ -44,7 +44,7 @@ import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
-import com.coveros.selenified.utilities.General;
+import com.coveros.selenified.utilities.TestSetup;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -60,7 +60,7 @@ import com.google.gson.GsonBuilder;
  */
 public class OutputFile {
 
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(OutputFile.class);
 
     private App app = null;
 
@@ -685,7 +685,7 @@ public class OutputFile {
      */
     private String generateImageName() {
         long timeInSeconds = new Date().getTime();
-        String randomChars = General.getRandomString(10);
+        String randomChars = TestSetup.getRandomString(10);
         return directory + "/" + timeInSeconds + "_" + randomChars + ".png";
     }
 

@@ -39,7 +39,6 @@ import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
 import com.coveros.selenified.selenium.element.Get;
 import com.coveros.selenified.selenium.element.Is;
 import com.coveros.selenified.selenium.element.WaitFor;
-import com.coveros.selenified.utilities.General;
 import com.coveros.selenified.selenium.Selenium.Locator;
 
 /**
@@ -55,7 +54,7 @@ import com.coveros.selenified.selenium.Selenium.Locator;
  */
 public class Element {
 
-    private static final Logger log = Logger.getLogger(General.class);
+    private static final Logger log = Logger.getLogger(Element.class);
 
     private Locator type;
     private String locator;
