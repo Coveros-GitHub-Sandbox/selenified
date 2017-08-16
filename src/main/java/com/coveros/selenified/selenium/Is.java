@@ -26,7 +26,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.tools.General;
-import com.coveros.selenified.tools.OutputFile;
 
 /**
  * Is checks information about the app in general, not specific to any
@@ -41,16 +40,12 @@ public class Is {
 
     private static final Logger log = Logger.getLogger(General.class);
 
-    // this will be the name of the file we write all commands out to
-    private OutputFile file;
-
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
     private WebDriver driver;
 
-    public Is(WebDriver driver, OutputFile file) {
+    public Is(WebDriver driver) {
         this.driver = driver;
-        this.file = file;
     }
 
     // ////////////////////////////////////
@@ -58,103 +53,47 @@ public class Is {
     // ////////////////////////////////////
 
     /**
-     * Determines if an alert is present on the page. This information will not
-     * be logged or recorded.
-     *
-     * @return boolean - is an alert present
+     * Determines if any popup is present on the page
+     * 
+     * @return Boolean: is a popup present on the page
      */
-    public boolean alertPresent() {
-        return alertPresent(false);
+    private boolean isPopupPresent() {
+        boolean isPresent = false;
+        try {
+            driver.switchTo().alert();
+            isPresent = true;
+        } catch (NoAlertPresentException e) {
+            log.error(e);
+        }
+        return isPresent;
     }
 
     /**
-     * Determines if a confirmation is present on the page. This information
-     * will not be logged or recorded.
+     * Determines if an alert is present on the page.
      *
-     * @return boolean - is a confirmation present
+     * @return Boolean: is an alert present
+     */
+    public boolean alertPresent() {
+        return isPopupPresent();
+    }
+
+    /**
+     * Determines if a confirmation is present on the page.
+     *
+     * @return Boolean: is a confirmation present
      */
     public boolean confirmationPresent() {
-        return confirmationPresent(false);
+        return isPopupPresent();
     }
 
     /**
      * Determines if a prompt is present on the page. This information will not
      * be logged or recorded.
      *
-     * @return boolean - is a prompt present
+     * @return Boolean: is a prompt present
      */
     public boolean promptPresent() {
-        return promptPresent(false);
-    }
-
-    ///////////////////////////////////////////////////
-    // Our actual full implementation of the above overloaded methods
-    ///////////////////////////////////////////////////
-
-    /**
-     * Determines if an alert is present on the page. This information will only
-     * be logged and recorded if the print variable is set to true.
-     *
-     * @param print
-     *            - whether or not to print out this check
-     * @return boolean - is an alert present
-     */
-    public boolean alertPresent(boolean print) {
-        boolean isPresent = false;
-        try {
-            driver.switchTo().alert();
-            isPresent = true;
-        } catch (NoAlertPresentException e) {
-            log.error(e);
-        }
-        if (print) {
-            file.recordExpected("Checking for alert to be present");
-        }
-        return isPresent;
-    }
-
-    /**
-     * Determines if a confirmation is present on the page. This information
-     * will only be logged and recorded if the print variable is set to true.
-     *
-     * @param print
-     *            - whether or not to print out this check
-     * @return boolean - is a confirmation present
-     */
-    public boolean confirmationPresent(boolean print) {
-        boolean isPresent = false;
-        try {
-            driver.switchTo().alert();
-            isPresent = true;
-        } catch (NoAlertPresentException e) {
-            log.error(e);
-        }
-        if (print) {
-            file.recordExpected("Checking for confirmation to be present");
-        }
-        return isPresent;
-    }
-
-    /**
-     * Determines if a prompt is present on the page. This information will only
-     * be logged and recorded if the print variable is set to true.
-     *
-     * @param print
-     *            - whether or not to print out this check
-     * @return boolean - is a prompt present
-     */
-    public boolean promptPresent(boolean print) {
-        boolean isPresent = false;
-        try {
-            driver.switchTo().alert();
-            isPresent = true;
-        } catch (NoAlertPresentException e) {
-            log.error(e);
-        }
-        if (print) {
-            file.recordExpected("Checking for prompt to be present");
-        }
-        return isPresent;
+        return isPopupPresent();
     }
 
     /**
@@ -163,7 +102,7 @@ public class Is {
      *
      * @param expectedCookieName
      *            - the name of the cookie
-     * @return boolean - if the cookie is present
+     * @return Boolean: if the cookie is present
      */
     public boolean cookiePresent(String expectedCookieName) {
         boolean isCookiePresent = false;
@@ -178,7 +117,7 @@ public class Is {
      *
      * @param expectedText
      *            - the text we are expecting to be present on the page
-     * @return boolean - whether or not the text is present
+     * @return Boolean: whether or not the text is present
      */
     public boolean textPresent(String expectedText) {
         try {
@@ -195,7 +134,7 @@ public class Is {
      *
      * @param expectedText
      *            - the text we are expecting to be present on the page
-     * @return boolean - whether or not the text is present
+     * @return Boolean: whether or not the text is present
      */
     public boolean textPresentInSource(String expectedText) {
         try {

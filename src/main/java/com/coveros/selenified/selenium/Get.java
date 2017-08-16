@@ -28,7 +28,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.tools.General;
-import com.coveros.selenified.tools.OutputFile;
 
 /**
  * Get retrieves information about the app in general, not specific to any
@@ -48,9 +47,9 @@ public class Get {
     // the is class to determine if something exists
     private Is is;
 
-    public Get(WebDriver driver, OutputFile file) {
+    public Get(WebDriver driver) {
         this.driver = driver;
-        this.is = new Is(driver, file);
+        this.is = new Is(driver);
     }
 
     // ////////////////////////////////////

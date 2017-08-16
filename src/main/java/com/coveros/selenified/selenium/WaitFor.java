@@ -62,7 +62,7 @@ public class WaitFor {
     public WaitFor(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.file = file;
-        this.is = new Is(driver, file);
+        this.is = new Is(driver);
     }
 
     /**

@@ -137,9 +137,9 @@ public class App {
             driver = TestSetup.setupDriver(this.browser, this.capabilities);
         }
 
-        is = new Is(driver, file);
+        is = new Is(driver);
         waitFor = new WaitFor(driver, file);
-        get = new Get(driver, file);
+        get = new Get(driver);
         azzert = new Assert(this, file);
     }
 

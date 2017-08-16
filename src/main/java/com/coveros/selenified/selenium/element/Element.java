@@ -166,7 +166,7 @@ public class Element {
         this.driver = driver;
         this.file = file;
 
-        is = new Is(this, file);
+        is = new Is(this);
         waitFor = new WaitFor(this, file);
         get = new Get(driver, this);
         state = new State(this, file);

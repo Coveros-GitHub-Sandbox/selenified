@@ -31,7 +31,7 @@ import com.coveros.selenified.tools.OutputFile;
 import com.coveros.selenified.tools.OutputFile.Result;
 
 /**
- * WaitFor performs dyanamic waits on a particular element, until a particular
+ * WaitFor performs dynamic waits on a particular element, until a particular
  * condition is met. Nothing is ever returned. The default wait is 5 seconds,
  * but can be overridden. If the condition is not met in the allotted time,
  * still nothing is returned, but an error is logged
@@ -67,6 +67,13 @@ public class WaitFor {
         this.file = file;
     }
 
+    /**
+     * Changes the default wait time from 5.0 seconds to some custom number.
+     * 
+     * @param seconds
+     *            - how many seconds should WaitFor wait for the condition to be
+     *            met
+     */
     public void changeDefaultWait(double seconds) {
         defaultWait = seconds;
     }
@@ -76,54 +83,43 @@ public class WaitFor {
     // ///////////////////////////////////////
 
     /**
-     * a method for waiting until an element is present for a maximum of 5
-     * seconds
+     * Wait up to the default time (5 seconds) for the element to be present
      */
-
     public void present() {
         present(defaultWait);
     }
 
     /**
-     * a method for waiting until an element is no longer present for a maximum
-     * of 5 seconds
-     *
+     * Wait up to the default time (5 seconds) for the element to not be present
      */
     public void notPresent() {
         notPresent(defaultWait);
     }
 
     /**
-     * a method for waiting until an element is displayed for a maximum of 5
-     * seconds
-     *
+     * Wait up to the default time (5 seconds) for the element to be displayed
      */
     public void displayed() {
         displayed(defaultWait);
     }
 
     /**
-     * a method for waiting until an element is not displayed for a maximum of 5
-     * seconds
-     *
+     * Wait up to the default time (5 seconds) for the element to not be
+     * displayed
      */
     public void notDisplayed() {
         notDisplayed(defaultWait);
     }
 
     /**
-     * a method for waiting until an element is enabled for a maximum of 5
-     * seconds
-     *
+     * Wait up to the default time (5 seconds) for the element to be enabled
      */
     public void enabled() {
         enabled(defaultWait);
     }
 
     /**
-     * a method for waiting until an element is not enabled for a maximum of 5
-     * seconds
-     *
+     * Wait up to the default time (5 seconds) for the element to not be enabled
      */
     public void notEnabled() {
         notEnabled(defaultWait);
@@ -134,7 +130,7 @@ public class WaitFor {
     ///////////////////////////////////////////////////
 
     /**
-     * a method for waiting until an element is present
+     * Wait up to a specified time for the element to be present
      * 
      * @param seconds
      *            - the number of seconds to wait
@@ -166,7 +162,7 @@ public class WaitFor {
     }
 
     /**
-     * a method for waiting until an element is no longer present
+     * Wait up to a specified time for the element to no longer be present
      *
      * @param seconds
      *            - the number of seconds to wait
@@ -194,7 +190,7 @@ public class WaitFor {
     }
 
     /**
-     * a method for waiting until an element is displayed
+     * Wait up to a specified time for the element to be displayed
      *
      * @param seconds
      *            - the number of seconds to wait
@@ -231,7 +227,7 @@ public class WaitFor {
     }
 
     /**
-     * a method for waiting until an element is not displayed
+     * Wait up to a specified time for the element to no longer be displayed
      *
      * @param seconds
      *            - the number of seconds to wait
@@ -271,7 +267,7 @@ public class WaitFor {
     }
 
     /**
-     * a method for waiting until an element is enabled
+     * Wait up to a specified time for the element to be enabled
      *
      * @param seconds
      *            - the number of seconds to wait
@@ -307,7 +303,7 @@ public class WaitFor {
     }
 
     /**
-     * a method for waiting until an element is not enabled
+     * Wait up to a specified time for the element to no longer be enabled
      *
      * @param seconds
      *            - the number of seconds to wait

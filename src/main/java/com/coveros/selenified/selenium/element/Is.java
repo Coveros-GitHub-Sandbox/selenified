@@ -28,7 +28,6 @@ import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.selenium.element.Element;
 import com.coveros.selenified.tools.General;
-import com.coveros.selenified.tools.OutputFile;
 
 /**
  * Is retrieves information about a particular element. A boolean is always
@@ -45,20 +44,11 @@ public class Is {
     // what element are we trying to interact with on the page
     private Element element;
 
-    // this will be the name of the file we write all commands out to
-    private OutputFile file;
-
     // constants
     private static final String SELECT = "select";
-    private static final String CHECKING = "Checking for ";
-    private static final String PRESENT = " to be present";
-    private static final String DISPLAYED = " to be displayed";
-    private static final String ENABLED = " to be enabled";
-    private static final String SELECTED = " to have something selected";
 
-    public Is(Element element, OutputFile file) {
+    public Is(Element element) {
         this.element = element;
-        this.file = file;
     }
 
     // ////////////////////////////////////
@@ -66,90 +56,11 @@ public class Is {
     // ////////////////////////////////////
 
     /**
-     * a method for checking if an element is present
+     * Determines whether the element is present or not.
      *
-     * @return boolean: whether the element is present or not
+     * @return Boolean: whether the element is present or not
      */
     public boolean present() {
-        return present(false);
-    }
-
-    /**
-     * a method for checking if an element is an input; it needs to be an input,
-     * select, or textarea
-     *
-     * @return boolean: whether the element is an input or not
-     */
-    public boolean input() {
-        return input(false);
-    }
-
-    /**
-     * a method for checking if an element is a select element
-     *
-     * @return boolean: whether the element is an input or not
-     */
-    public boolean select() {
-        return select(false);
-    }
-
-    /**
-     * a method for checking if an element is a table element
-     *
-     * @return boolean: whether the element is an input or not
-     */
-    public boolean table() {
-        return table(false);
-    }
-
-    /**
-     * a method for checking if an element is enabled
-     *
-     * @return boolean: whether the element is present or not
-     */
-    public boolean enabled() {
-        return enabled(false);
-    }
-
-    /**
-     * a method for checking if an element is checked
-     *
-     * @return boolean: whether the element is checked or not
-     */
-    public boolean checked() {
-        return checked(false);
-    }
-
-    /**
-     * a method for checking if an element is displayed
-     *
-     * @return boolean: whether the element is displayed or not
-     */
-    public boolean displayed() {
-        return displayed(false);
-    }
-
-    /**
-     * determine if something is selected in a drop down
-     * 
-     * @return boolean: is something selected or not
-     */
-    public boolean somethingSelected() {
-        return somethingSelected(false);
-    }
-
-    ///////////////////////////////////////////////////
-    // Our actual full implementation of the above overloaded methods
-    ///////////////////////////////////////////////////
-
-    /**
-     * a method for checking if an element is present
-     *
-     * @param print
-     *            - whether or not to printout the action
-     * @return boolean: whether the element is present or not
-     */
-    public boolean present(boolean print) {
         boolean isPresent = false;
         try {
             element.getWebElement().getText();
@@ -157,21 +68,16 @@ public class Is {
         } catch (NoSuchElementException | StaleElementReferenceException e) {
             log.error(e);
         }
-        if (print) {
-            file.recordExpected(CHECKING + element.prettyOutput() + PRESENT);
-        }
         return isPresent;
     }
 
     /**
-     * a method for checking if an element is an input; it needs to be an input,
-     * select, or textarea
+     * Determines whether the element is an input or not. An input could be an
+     * input element, a textarea, or a select
      *
-     * @param print
-     *            - whether or not to printout the action
-     * @return boolean: whether the element is present or not
+     * @return Boolean: whether the element is an input or not
      */
-    public boolean input(boolean print) {
+    public boolean input() {
         boolean isInput = false;
         try {
             WebElement webElement = element.getWebElement();
@@ -183,128 +89,100 @@ public class Is {
         } catch (NoSuchElementException e) {
             log.error(e);
         }
-        if (print) {
-            file.recordExpected(CHECKING + element.prettyOutput() + " to be an input element");
-        }
         return isInput;
     }
 
     /**
-     * a method for checking if an element is a select element
+     * Determines whether the element is a select or not.
      *
-     * @param print
-     *            - whether or not to printout the action
-     * @return boolean: whether the element is present or not
+     * @return Boolean: whether the element is an input or not
      */
-    public boolean select(boolean print) {
-        boolean isInput = false;
+    public boolean select() {
+        boolean isSelect = false;
         try {
             WebElement webElement = element.getWebElement();
             if (SELECT.equalsIgnoreCase(webElement.getTagName())) {
-                isInput = true;
+                isSelect = true;
             }
         } catch (NoSuchElementException e) {
             log.error(e);
         }
-        if (print) {
-            file.recordExpected(CHECKING + element.prettyOutput() + " to be a select element");
-        }
-        return isInput;
+        return isSelect;
     }
 
     /**
-     * a method for checking if an element is a table element
+     * Determines whether the element is a table or not.
      *
-     * @param print
-     *            - whether or not to printout the action
-     * @return boolean: whether the element is present or not
+     * @return Boolean: whether the element is an input or not
      */
-    public boolean table(boolean print) {
-        boolean isInput = false;
+    public boolean table() {
+        boolean isTable = false;
         try {
             WebElement webElement = element.getWebElement();
             if ("table".equalsIgnoreCase(webElement.getTagName())) {
-                isInput = true;
+                isTable = true;
             }
         } catch (NoSuchElementException e) {
             log.error(e);
         }
-        if (print) {
-            file.recordExpected(CHECKING + element.prettyOutput() + " to be a table element");
-        }
-        return isInput;
+        return isTable;
     }
 
     /**
-     * a method for checking if an element is enabled
+     * Determines whether the element is enabled or not.
      *
-     * @param print
-     *            - whether or not to printout the action
-     * @return boolean: whether the element is present or not
+     * @return Boolean: whether the element is present or not
      */
-    public boolean enabled(boolean print) {
+    public boolean enabled() {
         boolean isEnabled = false;
         try {
             isEnabled = element.getWebElement().isEnabled();
         } catch (NoSuchElementException e) {
             log.error(e);
         }
-        if (print) {
-            file.recordExpected(CHECKING + element.prettyOutput() + ENABLED);
-        }
         return isEnabled;
     }
 
     /**
-     * a method for checking if an element is checked
+     * Determines whether the element is checked or not.
      *
-     * @param print
-     *            - whether or not to printout the action
-     * @return boolean: whether the element is checked or not
+     * @return Boolean: whether the element is checked or not
      */
-    public boolean checked(boolean print) {
+    public boolean checked() {
         boolean isChecked = false;
         try {
             isChecked = element.getWebElement().isSelected();
         } catch (NoSuchElementException e) {
             log.error(e);
         }
-        if (print) {
-            file.recordExpected(CHECKING + element.prettyOutput() + " to be checked");
-        }
         return isChecked;
     }
 
     /**
-     * a method for checking if an element is displayed
+     * Determines whether the element is displayed or not.
      *
-     * @param print
-     *            - whether or not to printout the action
-     * @return boolean: whether the element is displayed or not
+     * @return Boolean: whether the element is displayed or not
      */
-    public boolean displayed(boolean print) {
+    public boolean displayed() {
         boolean isDisplayed = false;
         try {
             isDisplayed = element.getWebElement().isDisplayed();
         } catch (NoSuchElementException e) {
             log.error(e);
         }
-        if (print) {
-            file.recordExpected(CHECKING + element.prettyOutput() + DISPLAYED);
-        }
         return isDisplayed;
     }
 
     /**
-     * determine if something is selected from a drop down menu
+     * Determines whether the element has something selected or not. Checkboxes,
+     * radio buttons, and selects could all have something selected. Other
+     * elements will default to false.
      * 
-     * @param print
-     *            - whether or not to printout the action
-     * @return Boolean: was something selected in the drop down
+     * @return Boolean: is something selected or not
      */
-    public boolean somethingSelected(boolean print) {
+    public boolean somethingSelected() {
         boolean isSelected = false;
-        if (input(false)) {
+        if (input()) {
             WebElement webElement = element.getWebElement();
             if ("input".equalsIgnoreCase(webElement.getTagName())) {
                 isSelected = webElement.isSelected();
@@ -312,9 +190,6 @@ public class Is {
                 Select dropdown = new Select(webElement);
                 isSelected = dropdown.getAllSelectedOptions().size() > 0;
             }
-        }
-        if (print) {
-            file.recordExpected(CHECKING + element.prettyOutput() + SELECTED);
         }
         return isSelected;
     }
