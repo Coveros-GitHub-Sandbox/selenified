@@ -25,6 +25,15 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+/**
+ * A class to override the default HtmlUnitDriver. This class 
+ * specifically overrides the modifyWebClient method to ignore 
+ * Javascript errors found by the HtmlUnit driver.
+ *
+ * @author Matthew Grasberger
+ * @version 2.0.1
+ * @lastupdate 8/16/2017
+ */
 public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     public CustomHtmlUnitDriver(BrowserVersion version) {
         super(version);
@@ -43,6 +52,14 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
                                 // Settings | File Templates.
     }
 
+    /**
+     * Overridden to customize the WebClient that the HtmlUnit
+     * driver uses, in order to ignore Javascript errors.
+     * 
+     * @param client
+     *            - the client to modify
+     * @return WebClient: the modified client
+     */
     @Override
     protected WebClient modifyWebClient(WebClient client) {
         // currently does nothing, but may be changed in future versions
