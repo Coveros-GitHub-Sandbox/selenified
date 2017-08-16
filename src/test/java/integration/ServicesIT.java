@@ -101,7 +101,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/", new Request(params), false).assertEquals(201);
+        call.get("posts/", new Request(params)).assertEquals(201);
         // verify one issue
         finish(1);
     }
@@ -499,7 +499,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("posts/", new Request(request), false).assertEquals(200);
+        call.post("posts/", new Request(request)).assertEquals(200);
         // verify one issue
         finish(1);
     }
@@ -668,7 +668,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("posts/3", new Request(request), false).assertEquals(201);
+        call.put("posts/3", new Request(request)).assertEquals(201);
         // verify one issue
         finish(1);
     }
@@ -840,7 +840,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.patch("posts/4", new Request(request), false).assertEquals(201);
+        call.patch("posts/4", new Request(request)).assertEquals(201);
         // verify one issue
         finish(1);
     }
@@ -1012,7 +1012,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("posts/5", new Request(request), false).assertEquals(201);
+        call.delete("posts/5", new Request(request)).assertEquals(201);
         // verify one issue
         finish(1);
     }
