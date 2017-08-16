@@ -29,6 +29,14 @@ import com.coveros.selenified.selenium.Selenium.Browser;
 
 import java.io.File;
 
+/**
+ * Appends additional test links and information into the TestNG report file,
+ * for easier tracking and viewing of detailed custom test reports. This class
+ * should be specified as a listener for the main Selenified class, and/or in
+ * the TestNG xml file.
+ * 
+ * @author Max Saperstone
+ */
 public class Listener extends TestListenerAdapter {
 
     private static final String BROWSER_INPUT = "browser";

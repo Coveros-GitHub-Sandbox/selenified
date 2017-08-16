@@ -26,13 +26,11 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 /**
- * A class to override the default HtmlUnitDriver. This class specifically
- * overrides the modifyWebClient method to ignore Javascript errors found by the
- * HtmlUnit driver.
+ * Overrides the default HtmlUnitDriver. This class specifically overrides the
+ * modifyWebClient method to ignore Javascript errors found by the HtmlUnit
+ * driver.
  *
  * @author Matthew Grasberger
- * @version 3.0.0
- * @lastupdate 8/16/2017
  */
 public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     public CustomHtmlUnitDriver(BrowserVersion version) {

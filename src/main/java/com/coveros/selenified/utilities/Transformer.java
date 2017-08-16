@@ -27,6 +27,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.ITestAnnotation;
 import org.testng.internal.annotations.IAnnotationTransformer;
 
+/**
+ * Programmatically sets an invocation count for each test, based on the number
+ * of browsers desired to test on. This allows for simple looping of the same
+ * test multiple times each run on a different browser, which is handled by the
+ * Selenified class. This class should be specified as a listener for the main
+ * Selenified class, and/or in the TestNG xml file.
+ * 
+ * @author Max Saperstone
+ */
 public class Transformer implements IAnnotationTransformer {
 
     /**
