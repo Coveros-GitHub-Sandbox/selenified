@@ -124,7 +124,7 @@ public class Assert {
         // file.record the action
         for (String expectedText : expectedTexts) {
             file.recordExpected("Expected to find text <b>" + expectedText + "</b> present on the page");
-            // check for the object to the visible
+            // check for the object to be present
             boolean isPresent = app.is().textPresent(expectedText);
             if (!isPresent) {
                 file.recordActual(TEXT + expectedText + "</b> is not present on the page", Success.FAIL);
@@ -147,7 +147,7 @@ public class Assert {
         // file.record the action
         for (String expectedText : expectedTexts) {
             file.recordExpected("Expected not to find text <b>" + expectedText + "</b> present on the page");
-            // check for the object to the visible
+            // check for the object to be present
             boolean isPresent = app.is().textPresent(expectedText);
             if (isPresent) {
                 file.recordActual(TEXT + expectedText + PRESENT, Success.FAIL);
@@ -170,7 +170,7 @@ public class Assert {
     public void alertPresent() {
         // file.record the action
         file.recordExpected("Expected to find an alert on the page");
-        // check for the object to the visible
+        // check for the object to be present
         String alert = "";
         boolean isAlertPresent = app.is().alertPresent();
         if (isAlertPresent) {
@@ -192,7 +192,7 @@ public class Assert {
     public void alertNotPresent() {
         // file.record the action
         file.recordExpected("Expected not to find an alert on the page");
-        // check for the object to the visible
+        // check for the object to be present
         boolean isAlertPresent = app.is().alertPresent();
         if (isAlertPresent) {
             file.recordActual("An alert is present on the page", Success.FAIL);
@@ -213,7 +213,7 @@ public class Assert {
     public void alertPresent(String expectedAlertText) {
         // file.record the action
         file.recordExpected("Expected to find alert with the text <b>" + expectedAlertText + ONPAGE);
-        // check for the object to the visible
+        // check for the object to be present
         String alert = "";
         boolean isAlertPresent = app.is().alertPresent();
         if (isAlertPresent) {
@@ -248,7 +248,7 @@ public class Assert {
     public void confirmationPresent() {
         // file.record the action
         file.recordExpected("Expected to find a confirmation on the page");
-        // check for the object to the visible
+        // check for the object to be present
         String confirmation = "";
         boolean isConfirmationPresent = app.is().confirmationPresent();
         if (isConfirmationPresent) {
@@ -270,7 +270,7 @@ public class Assert {
     public void confirmationNotPresent() {
         // file.record the action
         file.recordExpected("Expected to find a confirmation on the page");
-        // check for the object to the visible
+        // check for the object to be present
         boolean isConfirmationPresent = app.is().confirmationPresent();
         if (isConfirmationPresent) {
             file.recordActual("A confirmation is present on the page", Success.FAIL);
@@ -291,7 +291,7 @@ public class Assert {
     public void confirmationPresent(String expectedConfirmationText) {
         // file.record the action
         file.recordExpected("Expected to find confirmation with the text <b>" + expectedConfirmationText + ONPAGE);
-        // check for the object to the visible
+        // check for the object to be present
         String confirmation = "";
         boolean isConfirmationPresent = app.is().confirmationPresent();
         if (isConfirmationPresent) {
@@ -318,7 +318,7 @@ public class Assert {
     public void promptPresent() {
         // file.record the action
         file.recordExpected("Expected to find prompt on the page");
-        // check for the object to the visible
+        // check for the object to be present
         String prompt = "";
         boolean isPromptPresent = app.is().promptPresent();
         if (isPromptPresent) {
@@ -340,7 +340,7 @@ public class Assert {
     public void promptNotPresent() {
         // file.record the action
         file.recordExpected("Expected not to find prompt on the page");
-        // check for the object to the visible
+        // check for the object to be present
         boolean isPromptPresent = app.is().promptPresent();
         if (isPromptPresent) {
             file.recordActual("A prompt is present on the page", Success.FAIL);
@@ -361,7 +361,7 @@ public class Assert {
     public void promptPresent(String expectedPromptText) {
         // file.record the action
         file.recordExpected("Expected to find prompt with the text <b>" + expectedPromptText + ONPAGE);
-        // check for the object to the visible
+        // check for the object to be present
         String prompt = "";
         boolean isPromptPresent = app.is().promptPresent();
         if (isPromptPresent) {
@@ -395,7 +395,7 @@ public class Assert {
     public void cookieExists(String expectedCookieName) {
         // file.record the action
         file.recordExpected("Expected to find cookie with the name <b>" + expectedCookieName + STORED);
-        // check for the object to the visible
+        // check for the object to be present
         String cookieValue = "";
         boolean isCookiePresent = app.is().cookiePresent(expectedCookieName);
         if (isCookiePresent) {
@@ -420,7 +420,7 @@ public class Assert {
     public void cookieNotExists(String unexpectedCookieName) {
         // file.record the action
         file.recordExpected("Expected to find no cookie with the name <b>" + unexpectedCookieName + STORED);
-        // check for the object to the visible
+        // check for the object to be present
         boolean isCookiePresent = app.is().cookiePresent(unexpectedCookieName);
         if (isCookiePresent) {
             file.recordActual(COOKIE + unexpectedCookieName + STORED, Success.FAIL);
@@ -444,7 +444,7 @@ public class Assert {
         // file.record the action
         file.recordExpected(
                 "Expected to find cookie with the name <b>" + cookieName + VALUE + expectedCookieValue + STORED);
-        // check for the object to the visible
+        // check for the object to be present
         String cookieValue = "";
         boolean isCookiePresent = app.is().cookiePresent(cookieName);
         if (isCookiePresent) {

@@ -939,7 +939,7 @@ public class Element {
     }
 
     /**
-     * Determines if the element moved towards is now currently visible on the
+     * Determines if the element moved towards is now currently displayed on the
      * screen
      * 
      * @param action
@@ -949,22 +949,24 @@ public class Element {
      */
     private void isMoved(String action, String expected) {
         if (!is.displayed()) {
-            file.recordAction(action, expected, prettyOutput() + " is not present on visible page", Result.FAILURE);
+            file.recordAction(action, expected, prettyOutput() + " is not displayed within the current viewport",
+                    Result.FAILURE);
             file.addError();
-            return; // indicates element not visible
+            return; // indicates element not on displayed screen
         }
-        file.recordAction(action, expected, prettyOutput() + " is present on visible page", Result.SUCCESS);
+        file.recordAction(action, expected, prettyOutput() + " is displayed within the current viewport",
+                Result.SUCCESS);
     }
 
     /**
-     * Scrolls the page to the element, making it visible on the current
+     * Scrolls the page to the element, making it displayed on the current
      * viewport, but only if the element is present. If that condition is not
      * met, the move action will be logged, but skipped and the test will
      * continue.
      */
     public void move() {
         String action = "Moving screen to " + prettyOutput();
-        String expected = prettyOutput() + " is now present on the visible page";
+        String expected = prettyOutput() + " is now displayed within the current viewport";
         // wait for element to be present
         if (!isPresent(action, expected, CANTMOVE)) {
             return;
@@ -982,8 +984,8 @@ public class Element {
 
     /**
      * Scrolls the page to the element, leaving X pixels at the top of the
-     * viewport above it, making it visible on the current viewport, but only if
-     * the element is present. If that condition is not met, the move action
+     * viewport above it, making it displayed on the current viewport, but only
+     * if the element is present. If that condition is not met, the move action
      * will be logged, but skipped and the test will continue.
      *
      * @param position
@@ -991,7 +993,7 @@ public class Element {
      */
     public void move(long position) {
         String action = "Moving screen to " + position + " pixels above " + prettyOutput();
-        String expected = prettyOutput() + " is now present on the visible page";
+        String expected = prettyOutput() + " is now displayed within the current viewport";
         // wait for element to be present
         if (!isPresent(action, expected, CANTMOVE)) {
             return;

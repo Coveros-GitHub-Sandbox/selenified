@@ -40,8 +40,8 @@ public class State extends Assert {
     // constants
     private static final String PRESENT = " is present on the page";
     private static final String NOTPRESENT = " is not present on the page";
-    private static final String VISIBLE = " is visible on the page";
-    private static final String NOTVISIBLE = " is not visible on the page";
+    private static final String DISPLAYED = " is displayed on the page";
+    private static final String NOTDISPLAYED = " is not displayed on the page";
     private static final String CHECKED = " is checked on the page";
     private static final String NOTCHECKED = " is not checked on the page";
     private static final String IS = " is ";
@@ -103,14 +103,14 @@ public class State extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + VISIBLE);
-        // check for the object to the visible
+        file.recordExpected(EXPECTED + element.prettyOutput() + DISPLAYED);
+        // check for the object to be present
         if (!element.is().displayed()) {
-            file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + NOTDISPLAYED, Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + VISIBLE, Success.PASS);
+        file.recordActual(element.prettyOutputStart() + DISPLAYED, Success.PASS);
     }
 
     /**
@@ -126,14 +126,14 @@ public class State extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + NOTVISIBLE);
-        // check for the object to the visible
+        file.recordExpected(EXPECTED + element.prettyOutput() + NOTDISPLAYED);
+        // check for the object to be present
         if (element.is().displayed()) {
-            file.recordActual(element.prettyOutputStart() + VISIBLE, Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + DISPLAYED, Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.PASS);
+        file.recordActual(element.prettyOutputStart() + NOTDISPLAYED, Success.PASS);
     }
 
     /**
@@ -194,7 +194,7 @@ public class State extends Assert {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + CHECKED);
-        // check for the object to the visible
+        // check for the object to be present
         if (!element.is().checked()) {
             file.recordActual(element.prettyOutputStart() + NOTCHECKED, Success.FAIL);
             file.addError();
@@ -217,7 +217,7 @@ public class State extends Assert {
         }
         // outputFile.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + NOTCHECKED);
-        // check for the object to the visible
+        // check for the object to be present
         if (element.is().checked()) {
             file.recordActual(element.prettyOutputStart() + " checked on the page", Success.FAIL);
             file.addError();
@@ -240,9 +240,9 @@ public class State extends Assert {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + CHECKED);
-        // check for the object to the visible
+        // check for the object to be present
         if (!element.is().displayed()) {
-            file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + NOTDISPLAYED, Success.FAIL);
             file.addError();
             return;
         }
@@ -252,7 +252,7 @@ public class State extends Assert {
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + " is checked and visible on the page", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + " is checked and displayed on the page", Success.PASS);
     }
 
     /**
@@ -269,19 +269,19 @@ public class State extends Assert {
         }
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + NOTCHECKED);
-        // check for the object to the visible
+        // check for the object to be present
         if (!element.is().displayed()) {
-            file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + NOTDISPLAYED, Success.FAIL);
             file.addError();
             return;
         }
-        // check for the object to the visible
+        // check for the object to be present
         if (element.is().checked()) {
             file.recordActual(element.prettyOutputStart() + CHECKED, Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + " is not checked and visible on the page", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + " is not checked and displayed on the page", Success.PASS);
     }
 
     /**
@@ -333,14 +333,14 @@ public class State extends Assert {
         if (!isPresent()) {
             return;
         }
-        file.recordExpected(EXPECTED + element.prettyOutput() + " visible and editable on the page");
-        // check for the object to the visible
+        file.recordExpected(EXPECTED + element.prettyOutput() + " displayed and editable on the page");
+        // check for the object to be present
         if (!element.is().displayed()) {
-            file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + NOTDISPLAYED, Success.FAIL);
             file.addError();
             return;
         }
-        editable("visable");
+        editable("displayed");
     }
 
     /**
@@ -357,13 +357,13 @@ public class State extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " visible and not editable on the page");
-        // check for the object to the visible
+        file.recordExpected(EXPECTED + element.prettyOutput() + " displayed and not editable on the page");
+        // check for the object to be present
         if (!element.is().displayed()) {
-            file.recordActual(element.prettyOutputStart() + NOTVISIBLE, Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + NOTDISPLAYED, Success.FAIL);
             file.addError();
             return;
         }
-        notEditable("visible");
+        notEditable("displayed");
     }
 }
