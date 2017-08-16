@@ -54,7 +54,6 @@ public class Get {
 
     // constants
     private static final String VALUE = "value";
-    private static final String OPTION = "option";
 
     public Get(WebDriver driver, Element element) {
         this.driver = driver;
@@ -66,7 +65,8 @@ public class Get {
     // ////////////////////////////////////
 
     /**
-     * a method to determine how many elements match the selector
+     * Retrieves the number of elements on the page, that match this element's
+     * description
      * 
      * @return Integer: how many element match the selector
      */
@@ -75,30 +75,27 @@ public class Get {
     }
 
     /**
-     * is the passed in element present, and if it is, is it an input
+     * Determines if the element is both present and a select.
      * 
      * @param element
      *            - the element to be checked
      * @return Boolean: is the element present AND an input
      */
-    private boolean isPresentInput() {
-        // wait for element to be present
-        if (!element.is().present(false)) {
-            element.waitFor().present(5);
-        }
-        if (!element.is().present(false)) {
+    private boolean isPresentSelect() {
+        if (!element.is().present()) {
             return false;
         }
-        return element.is().input(false);
+        return element.is().select();
     }
 
     /**
-     * get the option from the select drop down
+     * Retrieves the selected option for the element. If the element isn't
+     * present or a select, a null value will be returned.
      *
      * @return String: the option from the select element
      */
     public String selectedOption() {
-        if (!isPresentInput()) {
+        if (!isPresentSelect()) {
             return null;
         }
         WebElement webElement = element.getWebElement();
@@ -108,13 +105,15 @@ public class Get {
     }
 
     /**
-     * get the options from the select drop down
+     * Retrieves the selected options for the element. If the element isn't
+     * present or a select, a null value will be returned.
      *
      * @return String[]: the options from the select element
      */
     public String[] selectedOptions() {
-        if (!isPresentInput()) {
-            return new String[0];
+        if (!isPresentSelect()) {
+            return null; // NOSONAR - returning an empty array could be confused
+            // with no options selected
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -127,12 +126,13 @@ public class Get {
     }
 
     /**
-     * get the option value from the select drop down
+     * Retrieves the selected value for the element. If the element isn't
+     * present or a select, a null value will be returned.
      *
      * @return String: the options from the select element
      */
     public String selectedValue() {
-        if (!isPresentInput()) {
+        if (!isPresentSelect()) {
             return null;
         }
         WebElement webElement = element.getWebElement();
@@ -142,13 +142,15 @@ public class Get {
     }
 
     /**
-     * get the option values from the select drop down
+     * Retrieves the selected values for the element. If the element isn't
+     * present or a select, a null value will be returned.
      *
      * @return String[]: the options from the select element
      */
     public String[] selectedValues() {
-        if (!isPresentInput()) {
-            return new String[0];
+        if (!isPresentSelect()) {
+            return null;// NOSONAR - returning an empty array could be confused
+            // with no values selected
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -161,9 +163,10 @@ public class Get {
     }
 
     /**
-     * the generic selenium get text from an element functionality implemented
+     * Retrieves the text of the element. If the element isn't present, a null
+     * value will be returned.
      *
-     * @return String - the text of the element
+     * @return String: the text of the element
      */
     public String text() {
         if (!element.is().present()) {
@@ -174,12 +177,13 @@ public class Get {
     }
 
     /**
-     * the generic selenium get value from an element functionality implemented
+     * Retrieves the value of the element. If the element isn't present, or
+     * isn't an input, a null value will be returned.
      *
-     * @return String - the text of the element
+     * @return String: the text of the element
      */
     public String value() {
-        if (!element.is().input()) {
+        if (!element.is().present() || !element.is().input()) {
             return null;
         }
         WebElement webElement = element.getWebElement();
@@ -187,11 +191,13 @@ public class Get {
     }
 
     /**
-     * a function to return one css attribute of the provided element
+     * Retrieves the provided css attribute of the element. If the element isn't
+     * present, the css attribute doesn't exist, or the attributes can't be
+     * accessed, a null value will be returned.
      *
      * @param attribute
      *            - the css attribute to be returned
-     * @return String - the value of the css attribute
+     * @return String: the value of the css attribute
      */
     public String css(String attribute) {
         if (!element.is().present()) {
@@ -207,11 +213,13 @@ public class Get {
     }
 
     /**
-     * a function to return one attribute of the provided element
+     * Retrieves the provided attribute of the element. If the element isn't
+     * present, the attribute doesn't exist, or the attributes can't be
+     * accessed, a null value will be returned.
      *
      * @param attribute
      *            - the css attribute to be returned
-     * @return String - the value of the css attribute
+     * @return String: the value of the css attribute
      */
     public String attribute(String attribute) {
         if (!element.is().present()) {
@@ -227,9 +235,10 @@ public class Get {
     }
 
     /**
-     * a function to return all attributes of the provided element
+     * Retrieves all attributes of the element. If the element isn't present, or
+     * the attributes can't be accessed, a null value will be returned.
      *
-     * @return String - the value of the css attribute
+     * @return String: the value of the css attribute
      */
     @SuppressWarnings("unchecked")
     public Map<String, String> allAttributes() {
@@ -249,7 +258,9 @@ public class Get {
     }
 
     /**
-     * a way to execute custom javascript functions
+     * Executes a provided script on the element, and returns the output of that
+     * script. If the element doesn't exist, or there is an error executing this
+     * script, a null value will be returned.
      * 
      * @param javascriptFunction
      *            - the javascript function that is going to be executed
@@ -270,81 +281,92 @@ public class Get {
     }
 
     /**
-     * get the number of options from the select drop down
+     * Retrieves the number of select options in the element. If the element
+     * isn't present or a select, the returned response will be zero.
      * 
      * @return Integer: how many select options are available in the select
      *         element
-     *
      */
     public int numOfSelectOptions() {
-        // wait for element to be present
-        if (!element.is().present()) {
-            element.waitFor().present();
-        }
-        if (!element.is().present()) {
+        if (!isPresentSelect()) {
             return 0;
         }
         WebElement webElement = element.getWebElement();
-        List<WebElement> allOptions = webElement.findElements(By.tagName(OPTION));
-        return allOptions.size();
+        Select dropdown = new Select(webElement);
+        List<WebElement> options = dropdown.getOptions();
+        return options.size();
     }
 
     /**
-     * get the options from the select drop down
+     * Retrieves the select options in the element. If the element isn't present
+     * or a select, a null value will be returned.
      *
      * @return String[]: the options from the select element
      */
     public String[] selectOptions() {
-        // wait for element to be present
-        if (!element.is().present()) {
-            element.waitFor().present();
-        }
-        if (!element.is().present()) {
-            return new String[0];
+        if (!isPresentSelect()) {
+            return null; // NOSONAR - returning an empty array could be confused
+            // with no options available
         }
         WebElement webElement = element.getWebElement();
-        List<WebElement> allOptions = webElement.findElements(By.tagName(OPTION));
-        String[] options = new String[allOptions.size()];
-        for (int i = 0; i < allOptions.size(); i++) {
-            options[i] = allOptions.get(i).getText();
+        Select dropdown = new Select(webElement);
+        List<WebElement> options = dropdown.getOptions();
+        String[] stringOptions = new String[options.size()];
+        for (int i = 0; i < options.size(); i++) {
+            stringOptions[i] = options.get(i).getText();
         }
-        return options;
+        return stringOptions;
     }
 
     /**
-     * get the values from the select drop down
+     * Retrieves the select options in the element. If the element isn't present
+     * or a select, a null value will be returned.
      *
      * @return String[]: the options from the select element
      */
     public String[] selectValues() {
-        // wait for element to be present
-        if (!element.is().present()) {
-            element.waitFor().present();
-        }
-        if (!element.is().present()) {
-            return new String[0];
+        if (!isPresentSelect()) {
+            return null; // NOSONAR - returning an empty array could be confused
+            // with no options available
         }
         WebElement webElement = element.getWebElement();
-        List<WebElement> allOptions = webElement.findElements(By.tagName(OPTION));
-        String[] options = new String[allOptions.size()];
-        for (int i = 0; i < allOptions.size(); i++) {
-            options[i] = allOptions.get(i).getAttribute(VALUE);
+        Select dropdown = new Select(webElement);
+        List<WebElement> options = dropdown.getOptions();
+        String[] stringOptions = new String[options.size()];
+        for (int i = 0; i < options.size(); i++) {
+            stringOptions[i] = options.get(i).getAttribute(VALUE);
         }
-        return options;
+        return stringOptions;
     }
 
     /**
-     * get the rows of a table
+     * Retrieves the number of rows in the element. If the element isn't present
+     * or a table, the returned response will be zero
+     * 
+     * @return Integer: the number of rows the table has
+     */
+    public int numOfTableRows() {
+        List<WebElement> rows = tableRows();
+        if (rows == null) {
+            return 0;
+        }
+        return rows.size();
+    }
+
+    /**
+     * Retrieves the rows in the element. If the element isn't present or a
+     * table, a null value will be returned.
      *
      * @return List: a list of the table rows as WebElements
      */
     public List<WebElement> tableRows() {
-        // wait for element to be present
         if (!element.is().present()) {
-            element.waitFor().present();
+            return null; // NOSONAR - returning an empty array could be confused
+            // with no rows
         }
-        if (!element.is().present()) {
-            return new ArrayList<>();
+        if (!element.is().table()) {
+            return null; // NOSONAR - returning an empty array could be confused
+            // with no rows
         }
         WebElement webElement = element.getWebElement();
         // this locator may need to be updated
@@ -352,28 +374,33 @@ public class Get {
     }
 
     /**
-     * get the number of rows of a table
-     * 
-     * @return Integer: the number of rows the table has
+     * Retrieves the number of columns in the element. If the element isn't
+     * present or a table, the returned response will be zero
      *
+     * @return Integer: the number of columns the table has
      */
-    public int numOfTableRows() {
-        List<WebElement> rows = tableRows();
-        return rows.size();
+    public int numOfTableColumns() {
+        List<List<WebElement>> columns = tableColumns();
+        if (columns == null) {
+            return 0;
+        }
+        return columns.size();
     }
 
     /**
-     * get the columns of a table
+     * Retrieves the columns in the element. If the element isn't present or a
+     * table, a null value will be returned.
      *
      * @return List: a list of the table columns as WebElements
      */
     public List<List<WebElement>> tableColumns() {
-        // wait for element to be present
         if (!element.is().present()) {
-            element.waitFor().present();
+            return null; // NOSONAR - returning an empty array could be confused
+            // with no rows
         }
-        if (!element.is().present()) {
-            return new ArrayList<>();
+        if (!element.is().table()) {
+            return null; // NOSONAR - returning an empty array could be confused
+            // with no columns
         }
         List<WebElement> rows = tableRows();
         List<WebElement> row = tableRow(1);
@@ -390,17 +417,9 @@ public class Get {
     }
 
     /**
-     * get the number of columns of a table
-     *
-     * @return Integer: the number of columns the table has
-     */
-    public int numOfTableColumns() {
-        List<List<WebElement>> columns = tableColumns();
-        return columns.size();
-    }
-
-    /**
-     * get a specific row from a table
+     * Retrieves a specific row from the element. If the element isn't present
+     * or a table, a null value will be returned. If the specified row is out of
+     * range, an empty list is returned
      *
      * @param rowNum
      *            - the row number of the table to obtain - note, row numbering
@@ -409,11 +428,14 @@ public class Get {
      */
     public List<WebElement> tableRow(int rowNum) {
         List<WebElement> rows = tableRows();
+        if (rows == null) {
+            return null; // NOSONAR - returning an empty array could be confused
+            // with a row out of range
+        }
         if (rows.size() < rowNum) {
             return new ArrayList<>();
         }
         WebElement thisRow = rows.get(rowNum);
-
         List<WebElement> cells = thisRow.findElements(By.xpath(".//th|.//td"));
         List<WebElement> row = new ArrayList<>();
         for (WebElement cell : cells) {
@@ -423,7 +445,9 @@ public class Get {
     }
 
     /**
-     * get a specific column from a table
+     * Retrieves a specific column from the element. If the element isn't
+     * present or a table, a null value will be returned. If the specified row
+     * is out of range, an empty list is returned
      *
      * @param colNum
      *            - the column number of the table to obtain - note, column
@@ -432,6 +456,10 @@ public class Get {
      */
     public List<WebElement> tableColumn(int colNum) {
         List<List<WebElement>> columns = tableColumns();
+        if (columns == null) {
+            return null; // NOSONAR - returning an empty array could be confused
+            // with a column out of range
+        }
         if (columns.size() < colNum) {
             return new ArrayList<>();
         }
@@ -439,7 +467,9 @@ public class Get {
     }
 
     /**
-     * get the contents of a specific cell
+     * Retrieves a specific cell from the element. If the element isn't present
+     * or a table, or the row and cell combination doesn't exist, a null value
+     * will be returned.
      *
      * @param rowNum
      *            - the number of the row in the table - note, row numbering
@@ -452,7 +482,7 @@ public class Get {
      */
     public WebElement tableCell(int rowNum, int colNum) {
         List<WebElement> row = tableRow(rowNum);
-        if (row.size() < colNum) {
+        if (row == null || row.size() < colNum) {
             return null;
         }
         return row.get(colNum);

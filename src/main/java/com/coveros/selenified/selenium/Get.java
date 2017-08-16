@@ -121,8 +121,9 @@ public class Get {
     }
 
     /**
-     * Retrieves the content of an alert present on the page. If the alert
-     * doesn't exist, a null value will be returned.
+     * Retrieves the content of an alert present on the page. If the alert isn't
+     * present, it waits up to the default time (5 seconds) for the alert. If
+     * the alert doesn't exist, a null value will be returned.
      *
      * @return String - the content of an alert
      */
@@ -144,7 +145,9 @@ public class Get {
 
     /**
      * Retrieves the content of a confirmation present on the page. If the
-     * confirmation doesn't exist, a null value will be returned.
+     * confirmation isn't present, it waits up to the default time (5 seconds)
+     * for the confirmation. If the confirmation doesn't exist, a null value
+     * will be returned.
      *
      * @return String - the content of the confirmation
      */
@@ -166,7 +169,8 @@ public class Get {
 
     /**
      * Retrieves the content of a prompt present on the page. If the prompt
-     * doesn't exist, a null value will be returned.
+     * isn't present, it waits up to the default time (5 seconds) for the
+     * prompt. If the prompt doesn't exist, a null value will be returned.
      *
      * @return String - the content of the prompt
      */
