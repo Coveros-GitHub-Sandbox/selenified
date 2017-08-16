@@ -35,17 +35,6 @@ public class ActionIsIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "is",
             "virtual" }, description = "An integration test to check if an element is present")
-    public void isElementPresentPrintTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "submit_button").is().present(true));
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "actions", "is",
-            "virtual" }, description = "An integration test to check if an element is present")
     public void isElementPresentMatchTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -61,7 +50,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().present(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().present());
         // verify no issues
         finish();
     }
@@ -72,7 +61,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "input_box").is().input(true));
+        Assert.assertTrue(app.newElement(Locator.ID, "input_box").is().input());
         // verify no issues
         finish();
     }
@@ -105,7 +94,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "disable_click", 0).is().input(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "disable_click", 0).is().input());
         // verify no issues
         finish();
     }
@@ -149,7 +138,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "textarea_input").is().select(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "textarea_input").is().select());
         // verify no issues
         finish();
     }
@@ -160,7 +149,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "disable_click", 0).is().select(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "disable_click", 0).is().select());
         // verify no issues
         finish();
     }
@@ -205,7 +194,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "that", 0).is().table(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "that", 0).is().table());
         // verify no issues
         finish();
     }
@@ -216,7 +205,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().table(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().table());
         // verify no issues
         finish();
     }
@@ -228,17 +217,6 @@ public class ActionIsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         Assert.assertTrue(app.newElement(Locator.ID, "scroll_button").is().enabled());
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "actions", "is",
-            "virtual" }, description = "An integration test to check if an element is enabled")
-    public void isElementEnabledPrintTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "scroll_button").is().enabled(true));
         // verify no issues
         finish();
     }
@@ -260,7 +238,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().enabled(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().enabled());
         // verify no issues
         finish();
     }
@@ -294,18 +272,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().checked(true));
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "actions", "is",
-            "virtual" }, description = "An integration test to check if an element is checked")
-    public void isElementCheckedNotExistMatchPrintTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().checked(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().checked());
         // verify no issues
         finish();
     }
@@ -317,17 +284,6 @@ public class ActionIsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         Assert.assertTrue(app.newElement(Locator.ID, "that").is().displayed());
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = { "integration", "actions", "is",
-            "virtual" }, description = "An integration test to check if an element is displayed")
-    public void isElementDisplayedPrintTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "that").is().displayed(true));
         // verify no issues
         finish();
     }
@@ -349,7 +305,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().displayed(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().displayed());
         // verify no issues
         finish();
     }
@@ -383,7 +339,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "car_list_multiple").is().somethingSelected(true));
+        Assert.assertFalse(app.newElement(Locator.ID, "car_list_multiple").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -395,7 +351,7 @@ public class ActionIsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "that").click();
-        Assert.assertTrue(app.newElement(Locator.ID, "that", 0).is().somethingSelected(true));
+        Assert.assertTrue(app.newElement(Locator.ID, "that", 0).is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -463,7 +419,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.is().alertPresent(true));
+        Assert.assertFalse(app.is().alertPresent());
         // verify no issues
         finish();
     }
@@ -486,7 +442,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.is().confirmationPresent(true));
+        Assert.assertFalse(app.is().confirmationPresent());
         // verify no issues
         finish();
     }
@@ -509,7 +465,7 @@ public class ActionIsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.is().promptPresent(true));
+        Assert.assertFalse(app.is().promptPresent());
         // verify no issues
         finish();
     }
