@@ -26,8 +26,8 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 
 /**
- * Performs the general method calls, and provides a simple access to the HTTP
- * class
+ * Performs the general web service method calls, and provides a simple access
+ * to the HTTP class
  * 
  * @author Max Saperstone
  * @version 3.0.0
@@ -60,18 +60,20 @@ public class Call {
     ///////////////////////////////////////////////////////////////////
 
     /**
-     * performs a get http call and writes that out to the output file
+     * Performs a get http call and writes the call and response information to
+     * the output file
      * 
      * @param endpoint
      *            - the endpoint of the service under test
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint) {
-        return call(GET, endpoint, null, true);
+        return call(GET, endpoint, null);
     }
 
     /**
-     * performs a get http call and writes that out to the output file
+     * Performs a get http call and writes the call and response information to
+     * the output file
      * 
      * @param endpoint
      *            - the endpoint of the service under test
@@ -81,27 +83,12 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint, Request params) {
-        return call(GET, endpoint, params, true);
+        return call(GET, endpoint, params);
     }
 
     /**
-     * performs a get http call
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
-     * @param print
-     *            - do we want to print this statement out to the output file
-     * @return Response: the response provided from the http call
-     */
-    public Response get(String endpoint, Request params, boolean print) {
-        return call(GET, endpoint, params, print);
-    }
-
-    /**
-     * performs a post http call and writes that out to the output file
+     * Performs a post http call and writes the call and response information to
+     * the output file
      * 
      * @param endpoint
      *            - the endpoint of the service under test
@@ -111,27 +98,12 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params) {
-        return call(POST, endpoint, params, true);
+        return call(POST, endpoint, params);
     }
 
     /**
-     * performs a post http call
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
-     * @param print
-     *            - do we want to print this statement out to the output file
-     * @return Response: the response provided from the http call
-     */
-    public Response post(String endpoint, Request params, boolean print) {
-        return call(POST, endpoint, params, print);
-    }
-
-    /**
-     * performs a put http call and writes that out to the output file
+     * Performs a put http call and writes the call and response information to
+     * the output file
      * 
      * @param endpoint
      *            - the endpoint of the service under test
@@ -141,27 +113,12 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params) {
-        return call(PUT, endpoint, params, true);
+        return call(PUT, endpoint, params);
     }
 
     /**
-     * performs a put http call
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
-     * @param print
-     *            - do we want to print this statement out to the output file
-     * @return Response: the response provided from the http call
-     */
-    public Response put(String endpoint, Request params, boolean print) {
-        return call(PUT, endpoint, params, print);
-    }
-
-    /**
-     * performs a patch http call and writes that out to the output file
+     * Performs a patch http call and writes the call and response information
+     * to the output file
      * 
      * @param endpoint
      *            - the endpoint of the service under test
@@ -171,27 +128,12 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response patch(String endpoint, Request params) {
-        return call(PATCH, endpoint, params, true);
+        return call(PATCH, endpoint, params);
     }
 
     /**
-     * performs a patch http call
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
-     * @param print
-     *            - do we want to print this statement out to the output file
-     * @return Response: the response provided from the http call
-     */
-    public Response patch(String endpoint, Request params, boolean print) {
-        return call(PATCH, endpoint, params, print);
-    }
-
-    /**
-     * performs a delete http call and writes that out to the output file
+     * Performs a delete http call and writes the call and response information
+     * to the output file
      * 
      * @param endpoint
      *            - the endpoint of the service under test
@@ -201,27 +143,12 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint, Request params) {
-        return call(DELETE, endpoint, params, true);
+        return call(DELETE, endpoint, params);
     }
 
     /**
-     * performs a delete http call
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
-     * @param print
-     *            - do we want to print this statement out to the output file
-     * @return Response: the response provided from the http call
-     */
-    public Response delete(String endpoint, Request params, boolean print) {
-        return call(DELETE, endpoint, params, print);
-    }
-
-    /**
-     * performs an http call
+     * Performs an http call and writes the call and response information to the
+     * output file
      * 
      * @param call
      *            - what http method call is being made. should be in all caps
@@ -230,11 +157,9 @@ public class Call {
      * @param params
      *            - the parameters to be passed to the endpoint for the service
      *            call
-     * @param print
-     *            - do we want to print this statement out to the output file
      * @return Response: the response provided from the http call
      */
-    private Response call(String call, String endpoint, Request params, boolean print) {
+    private Response call(String call, String endpoint, Request params) {
         StringBuilder action = new StringBuilder();
         action.append("Making <i>" + call + "</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
         action.append(appendCredentials());
@@ -262,9 +187,7 @@ public class Call {
                 log.error("Unknown method call named");
             }
             response.setOutputFile(file);
-            if (print) {
-                file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
-            }
+            file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
         } catch (Exception e) {
             log.error(e);
             file.recordAction(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage(),
@@ -277,6 +200,14 @@ public class Call {
         return response;
     }
 
+    /**
+     * Looks for the simple login credentials, username and password, and if
+     * they are both set, turns that into a string which will be formatted for
+     * HTML to be printed into the output file
+     * 
+     * @return String: an HTML formated string with the username and password -
+     *         if they are both set
+     */
     private String appendCredentials() {
         StringBuilder credentials = new StringBuilder();
         if (http.useCredentials()) {

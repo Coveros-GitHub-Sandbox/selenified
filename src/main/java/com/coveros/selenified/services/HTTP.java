@@ -52,28 +52,69 @@ public class HTTP {
     private String user = "";
     private String pass = "";
 
+    /**
+     * Instantiates a HTTP session for making web service calls without any
+     * authentication
+     * 
+     * @param serviceBaseUrl
+     *            - the base url of the services location
+     */
     public HTTP(String serviceBaseUrl) {
         this.serviceBaseUrl = serviceBaseUrl;
     }
 
+    /**
+     * Instantiates a HTTP session for making web service calls with basic
+     * username/password authentication
+     * 
+     * @param serviceBaseUrl
+     *            - the base url of the services location
+     * @param user
+     *            - the username required for authentication
+     * @param pass
+     *            - the password required for authentication
+     */
     public HTTP(String serviceBaseUrl, String user, String pass) {
         this.serviceBaseUrl = serviceBaseUrl;
         this.user = user;
         this.pass = pass;
     }
 
+    /**
+     * Retrieves the base url of the services location
+     * 
+     * @return String: the base url of the services location
+     */
     public String getServiceBaseUrl() {
         return serviceBaseUrl;
     }
 
+    /**
+     * Retrieves the username used for authentication with the application. If
+     * none was set, an empty string will be returned
+     * 
+     * @return user: the username required for authentication
+     */
     public String getUser() {
         return user;
     }
 
+    /**
+     * Retrieves the password used for authentication with the application. If
+     * none was set, an empty string will be returned
+     * 
+     * @return pass: the password required for authentication
+     */
     public String getPass() {
         return pass;
     }
 
+    /**
+     * Determines whether or not authentication should be used, by checking to
+     * see if both username and password are set
+     * 
+     * @return Boolean: are both the username and password set
+     */
     public boolean useCredentials() {
         return !this.user.isEmpty() && !this.pass.isEmpty();
     }
@@ -86,7 +127,7 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response get(String service) {
-        return get(service, null);
+        return call("GET", service, null);
     }
 
     /**
@@ -153,7 +194,7 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response delete(String service) {
-        return delete(service, null);
+        return call("DELETE", service, null);
     }
 
     /**
@@ -235,7 +276,7 @@ public class HTTP {
     }
 
     /**
-     * pushes request data to the open http connection
+     * Pushes request data to the open http connection
      * 
      * @param connection
      *            - the open connection of the http call
@@ -253,7 +294,7 @@ public class HTTP {
     }
 
     /**
-     * extracts the response data from the open http connection
+     * Extracts the response data from the open http connection
      * 
      * @param connection
      *            - the open connection of the http call

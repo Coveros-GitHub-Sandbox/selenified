@@ -109,8 +109,8 @@ public class Response {
     ///////////////////////////////////////////////////////////////////
 
     /**
-     * compares actual response code to the expected response code, and write
-     * that out to the output file
+     * Verifies the actual response code is equals to the expected response
+     * code, and writes that out to the output file
      * 
      * @param expectedCode
      *            - the expected response code
@@ -123,8 +123,8 @@ public class Response {
     }
 
     /**
-     * compares actual response json payload to the expected response json
-     * payload, and write that out to the output file
+     * Verifies the actual response json payload is equal to the expected
+     * response json payload, and writes that out to the output file
      * 
      * @param expectedJson
      *            - the expected response json object
@@ -141,8 +141,8 @@ public class Response {
     }
 
     /**
-     * compares actual response json payload to the expected response json
-     * payload, and write that out to the output file
+     * Verifies the actual response json payload is equal to the expected
+     * response json payload, and writes that out to the output file
      * 
      * @param expectedArray
      *            - the expected response json array
@@ -159,8 +159,8 @@ public class Response {
     }
 
     /**
-     * checks to see if actual response json payload to the expected json
-     * element, and write that out to the output file
+     * Verifies the actual response json payload contains each of the pair
+     * values provided, and writes that to the output file
      * 
      * @param expectedPairs
      *            a hashmap with string key value pairs expected in the json
@@ -187,8 +187,9 @@ public class Response {
     }
 
     /**
-     * checks to see if actual response json payload to the expected json
-     * element, and write that out to the output file
+     * Verifies the actual response json payload contains a key with a value
+     * equals to the expected json element, and writes that out to the output
+     * file
      * 
      * @param key
      *            - a String key value expected in the result
@@ -207,8 +208,8 @@ public class Response {
     }
 
     /**
-     * checks to see if actual response json payload to the expected json
-     * element, and write that out to the output file
+     * Verifies the actual response json payload contains to the expected json
+     * element, and writes that out to the output file
      * 
      * @param expectedJson
      *            - the expected response json array
