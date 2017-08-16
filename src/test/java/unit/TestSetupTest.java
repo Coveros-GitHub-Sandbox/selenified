@@ -543,11 +543,11 @@ public class TestSetupTest {
 
     @Test
     public void getTestNameTest(Method method) {
-        Assert.assertEquals(TestSetup.getTestName(method), "unit_GeneralTest_getTestNameTest");
+        Assert.assertEquals(TestSetup.getTestName(method), "unit_TestSetupTest_getTestNameTest");
         Object[] options = new Object[] { "Python", "public" };
-        Assert.assertEquals(TestSetup.getTestName(method, options), "unit_GeneralTest_getTestNameTestWithOptionPython");
+        Assert.assertEquals(TestSetup.getTestName(method, options), "unit_TestSetupTest_getTestNameTestWithOptionPython");
         options = new Object[] { "Python", null };
-        Assert.assertEquals(TestSetup.getTestName(method, options), "unit_GeneralTest_getTestNameTestWithOptionPython");
+        Assert.assertEquals(TestSetup.getTestName(method, options), "unit_TestSetupTest_getTestNameTestWithOptionPython");
         Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
         Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld", "python"),
                 "UnitTests_helloWorldWithOptionPython");

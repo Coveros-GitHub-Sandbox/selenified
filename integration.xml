@@ -2,7 +2,7 @@
 
 <suite name="Integration Test Suite" parallel="methods" thread-count="20" verbose="3" >
   <listeners>
-    <listener class-name="com.coveros.selenified.tools.Transformer" />
+    <listener class-name="com.coveros.selenified.utilities.Transformer" />
   </listeners>
 
   <test name="Integration Tests" >
