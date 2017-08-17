@@ -44,7 +44,7 @@ public class SimpleSampleIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "car_list").select(listItem);
+        app.newElement(Locator.ID, "car_list").selectOption(listItem);
         // close out the test
         finish();
     }

@@ -780,11 +780,11 @@ public class ActionDoIT extends Selenified {
 
     @Test(dataProvider = "car list items", groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration test using a data provider to perform searches")
-    public void selectTest(String listItem) {
+    public void selectOptionTest(String listItem) {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "car_list").select(listItem);
+        app.newElement(Locator.ID, "car_list").selectOption(listItem);
         app.newElement(Locator.ID, "car_list").assertEquals().selectedOption(listItem);
         // close out the test
         finish();
@@ -792,66 +792,155 @@ public class ActionDoIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration negative test to check the select method")
-    public void selectBadOptionTest() {
+    public void selectOptionBadOptionTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "car_list").select("option");
+        app.newElement(Locator.ID, "car_list").selectOption("option");
         // verify 2 issues
         finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration negative test to check the select method")
-    public void selectNotExistTest() {
+    public void selectOptionNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.PARTIALLINKTEXT, "non-existent-element").select("option");
+        app.newElement(Locator.PARTIALLINKTEXT, "non-existent-element").selectOption("option");
         // verify 1 issue
         finish(1);
     }
 
     @Test(groups = { "integration", "actions", "select", "do",
             "virtual" }, description = "An integration negative test to check the select method")
-    public void selectDisabledTest() {
+    public void selectOptionDisabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.CSS, "input#alert_button").select("option");
+        app.newElement(Locator.CSS, "input#alert_button").selectOption("option");
         // verify 1 issue
         finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration negative test to check the select method")
-    public void selectNotVisibleTest() {
+    public void selectOptionNotVisibleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div").select("option");
+        app.newElement(Locator.ID, "hidden_div").selectOption("option");
         // verify 1 issue
         finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration negative test to check the select method")
-    public void selectNotInputTest() {
+    public void selectOptionNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.CLASSNAME, "click").select("option");
+        app.newElement(Locator.CLASSNAME, "click").selectOption("option");
         // verify 1 issue
         finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration negative test to check the select method")
-    public void selectNotSelectTest() {
+    public void selectOptionNotSelectTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "scroll_button").select("option");
+        app.newElement(Locator.ID, "scroll_button").selectOption("option");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(dataProvider = "car list items", groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration test using a data provider to perform searches")
+    public void selectValueTest(String listItem) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "car_list").selectValue(listItem.toLowerCase());
+        app.newElement(Locator.ID, "car_list").assertEquals().selectedValue(listItem.toLowerCase());
+        // close out the test
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration negative test to check the select method")
+    public void selectValueBadOptionTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "car_list").selectValue("option");
+        // verify 2 issues
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration negative test to check the select method")
+    public void selectValueNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.PARTIALLINKTEXT, "non-existent-element").selectValue("option");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "select", "do",
+            "virtual" }, description = "An integration negative test to check the select method")
+    public void selectValueDisabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.CSS, "input#alert_button").selectValue("option");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration negative test to check the select method")
+    public void selectValueNotVisibleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div").selectValue("option");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration negative test to check the select method")
+    public void selectValueNotInputTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.CLASSNAME, "click").selectValue("option");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration negative test to check the select method")
+    public void selectValueNotSelectTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "scroll_button").selectValue("option");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do", "select",
+            "virtual" }, description = "An integration negative test to check the select method")
+    public void selectNotInputValueTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.CLASSNAME, "click").select(1);
         // verify 1 issue
         finish(1);
     }

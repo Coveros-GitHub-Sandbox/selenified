@@ -94,6 +94,7 @@ public class Element {
 
     private static final String CANTTYPE = "Unable to type in ";
     private static final String CANTMOVE = "Unable to move to ";
+    private static final String CANTSELECT = "Unable to select ";
 
     private static final String SELECTING = "Selecting ";
     private static final String SELECTED = " selected";
@@ -859,25 +860,36 @@ public class Element {
      * are not met, the select action will be logged, but skipped and the test
      * will continue.
      *
-     * @param value
+     * @param index
      *            - the select option to be selected - note, row numbering
      *            starts at 0
      */
-    public void select(int value) {
-        String cantSelect = "Unable to select ";
-        String action = SELECTING + value + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESDISEN + value + SELECTED;
-        if (!isPresentDisplayedEnabledSelect(action, expected, cantSelect)) {
+    public void select(int index) {
+        String action = SELECTING + index + " in " + prettyOutput();
+        String expected = prettyOutput() + PRESDISEN + index + SELECTED;
+        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
             return;
         }
         String[] options = get.selectOptions();
-        if (value > options.length) {
-            file.recordAction(action, expected, "Unable to select the <i>" + value
+        if (index > options.length) {
+            file.recordAction(action, expected, "Unable to select the <i>" + index
                     + "</i> option, as there are only <i>" + options.length + "</i> available.", Result.FAILURE);
             file.addError();
             return;
         }
-        select(options[value]);
+        // do the select
+        try {
+            WebElement webElement = getWebElement();
+            Select dropdown = new Select(webElement);
+            dropdown.selectByIndex(index);
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            return;
+        }
+        file.recordAction(action, expected, "Selected option <b>" + index + "</b> in " + prettyOutput(),
+                Result.SUCCESS);
     }
 
     /**
@@ -886,20 +898,19 @@ public class Element {
      * those conditions are not met, the select action will be logged, but
      * skipped and the test will continue.
      *
-     * @param value
+     * @param option
      *            - the select option to be selected
      */
-    public void select(String value) {
-        String cantSelect = "Unable to select ";
-        String action = SELECTING + value + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESDISEN + value + SELECTED;
-        if (!isPresentDisplayedEnabledSelect(action, expected, cantSelect)) {
+    public void selectOption(String option) {
+        String action = SELECTING + option + " in " + prettyOutput();
+        String expected = prettyOutput() + PRESDISEN + option + SELECTED;
+        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
             return;
         }
         // ensure the option exists
-        if (!Arrays.asList(get.selectOptions()).contains(value)) {
+        if (!Arrays.asList(get.selectOptions()).contains(option)) {
             file.recordAction(action, expected,
-                    cantSelect + value + " in " + prettyOutput()
+                    CANTSELECT + option + " in " + prettyOutput()
                             + " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
                             + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>",
                     Result.FAILURE);
@@ -910,14 +921,53 @@ public class Element {
         try {
             WebElement webElement = getWebElement();
             Select dropdown = new Select(webElement);
-            dropdown.selectByVisibleText(value);
+            dropdown.selectByVisibleText(option);
         } catch (Exception e) {
             log.error(e);
-            file.recordAction(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected " + value + " in " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected <b>" + option + "</b> in " + prettyOutput(), Result.SUCCESS);
+    }
+
+    /**
+     * Selects the value from the dropdown matching the provided value, but only
+     * if the element is present, displayed, enabled, and an input. If those
+     * conditions are not met, the select action will be logged, but skipped and
+     * the test will continue.
+     *
+     * @param value
+     *            - the select value to be selected
+     */
+    public void selectValue(String value) {
+        String action = SELECTING + value + " in " + prettyOutput();
+        String expected = prettyOutput() + PRESDISEN + value + SELECTED;
+        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
+            return;
+        }
+        // ensure the value exists
+        if (!Arrays.asList(get.selectValues()).contains(value)) {
+            file.recordAction(action, expected,
+                    CANTSELECT + value + " in " + prettyOutput()
+                            + " as that value isn't present. Available values are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
+                            + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>",
+                    Result.FAILURE);
+            file.addError();
+            return;
+        }
+        // do the select
+        try {
+            WebElement webElement = getWebElement();
+            Select dropdown = new Select(webElement);
+            dropdown.selectByValue(value);
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            return;
+        }
+        file.recordAction(action, expected, "Selected <b>" + value + "</b> in " + prettyOutput(), Result.SUCCESS);
     }
 
     /**

@@ -20,7 +20,7 @@ public final class MainPage {
     }
 
     public void selectCar(String car) {
-        carList.select(car);
+        carList.selectOption(car);
     }
 
     public void assertCar(String car) {
