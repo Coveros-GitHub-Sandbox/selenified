@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.selenium;
+package com.coveros.selenified.application;
 
 import java.util.Date;
 import org.openqa.selenium.Alert;

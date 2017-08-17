@@ -1,8 +1,8 @@
 package sample;
 
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.selenium.element.Element;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
 
 public final class MainPage {
 

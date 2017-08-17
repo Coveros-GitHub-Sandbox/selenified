@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.selenium.element;
+package com.coveros.selenified.element;
 
 import java.util.ArrayList;
 import java.util.HashMap;

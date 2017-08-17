@@ -9,9 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.Browser;
 
 public class AppTest {
 

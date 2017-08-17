@@ -25,7 +25,7 @@ import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 
 import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.selenium.Selenium.Browser;
+import com.coveros.selenified.Browser;
 
 import java.io.File;
 

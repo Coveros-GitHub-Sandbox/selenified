@@ -27,10 +27,10 @@ import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.utilities.TestSetup;

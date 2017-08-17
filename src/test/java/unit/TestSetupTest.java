@@ -16,8 +16,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.coveros.selenified.Browser;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.Selenium.Browser;
 import com.coveros.selenified.utilities.TestSetup;
 
 public class TestSetupTest {
@@ -545,9 +545,11 @@ public class TestSetupTest {
     public void getTestNameTest(Method method) {
         Assert.assertEquals(TestSetup.getTestName(method), "unit_TestSetupTest_getTestNameTest");
         Object[] options = new Object[] { "Python", "public" };
-        Assert.assertEquals(TestSetup.getTestName(method, options), "unit_TestSetupTest_getTestNameTestWithOptionPython");
+        Assert.assertEquals(TestSetup.getTestName(method, options),
+                "unit_TestSetupTest_getTestNameTestWithOptionPython");
         options = new Object[] { "Python", null };
-        Assert.assertEquals(TestSetup.getTestName(method, options), "unit_TestSetupTest_getTestNameTestWithOptionPython");
+        Assert.assertEquals(TestSetup.getTestName(method, options),
+                "unit_TestSetupTest_getTestNameTestWithOptionPython");
         Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
         Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld", "python"),
                 "UnitTests_helloWorldWithOptionPython");

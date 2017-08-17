@@ -7,10 +7,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.DriverSetup;
 import com.google.gson.JsonObject;
 
 public class ServicesErrorIT extends Selenified {

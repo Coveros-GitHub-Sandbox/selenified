@@ -4,9 +4,9 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.application.App;
 
 public class AssertExcludesIT extends Selenified {
 

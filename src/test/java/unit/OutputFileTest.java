@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.OutputFile.Success;
-import com.coveros.selenified.selenium.Selenium.Browser;
+import com.coveros.selenified.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.google.common.base.Charsets;

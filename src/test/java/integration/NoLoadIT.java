@@ -11,9 +11,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.DriverSetup;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.application.App;
 
 public class NoLoadIT extends Selenified {
 

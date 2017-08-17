@@ -40,8 +40,8 @@ import java.util.zip.ZipOutputStream;
 
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.Browser;
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.application.App;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.TestSetup;

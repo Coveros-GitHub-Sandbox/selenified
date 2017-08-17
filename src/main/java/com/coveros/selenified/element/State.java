@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.selenium.element;
+package com.coveros.selenified.element;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;

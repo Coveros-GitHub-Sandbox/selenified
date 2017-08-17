@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.selenium;
+package com.coveros.selenified.application;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

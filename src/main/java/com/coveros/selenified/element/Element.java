@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.selenium.element;
+package com.coveros.selenified.element;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,11 +35,11 @@ import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.element.Get;
+import com.coveros.selenified.element.Is;
+import com.coveros.selenified.element.WaitFor;
 import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
-import com.coveros.selenified.selenium.element.Get;
-import com.coveros.selenified.selenium.element.Is;
-import com.coveros.selenified.selenium.element.WaitFor;
-import com.coveros.selenified.selenium.Selenium.Locator;
 
 /**
  * Element an object representative of a web element on a particular page that

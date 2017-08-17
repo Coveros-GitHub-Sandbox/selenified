@@ -6,8 +6,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.App;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
 
 public class POMSampleIT extends Selenified {
 

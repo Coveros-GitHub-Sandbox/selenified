@@ -10,10 +10,10 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.application.App;
 
 public class ActionDoIT extends Selenified {
 

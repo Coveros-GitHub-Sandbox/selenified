@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.selenium.element;
+package com.coveros.selenified.element;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -26,7 +26,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.selenium.element.Element;
+import com.coveros.selenified.element.Element;
 
 /**
  * Is retrieves information about a particular element. A boolean is always

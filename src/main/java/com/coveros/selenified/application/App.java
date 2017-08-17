@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.selenium;
+package com.coveros.selenified.application;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -41,10 +41,10 @@ import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.selenium.element.Element;
 import com.coveros.selenified.utilities.TestSetup;
 
 /**

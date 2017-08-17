@@ -18,9 +18,9 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.application.App;
 
 public class ActionGetIT extends Selenified {
 
@@ -333,6 +333,18 @@ public class ActionGetIT extends Selenified {
         // perform some actions
         List<WebElement> row = app.newElement(Locator.ID, "table", 0).get().tableRow(99);
         Assert.assertEquals(row, new ArrayList<>());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableRow method")
+    public void getTableRowNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<WebElement> row = app.newElement(Locator.ID, "check", 0).get().tableRow(1);
+        Assert.assertNull(row);
         // verify no issues
         finish();
     }

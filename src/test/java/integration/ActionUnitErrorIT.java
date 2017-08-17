@@ -8,10 +8,10 @@ import java.util.Map;
 
 import org.testng.Assert;
 
-import com.coveros.selenified.selenium.App;
-import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.selenium.Selenium.Locator;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.application.App;
 
 public class ActionUnitErrorIT extends Selenified {
 

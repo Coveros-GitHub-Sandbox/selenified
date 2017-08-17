@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.selenium;
+package com.coveros.selenified.application;
 
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
