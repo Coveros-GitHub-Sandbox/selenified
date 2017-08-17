@@ -889,8 +889,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected option <b>" + index + INN + prettyOutput(),
-                Result.SUCCESS);
+        file.recordAction(action, expected, "Selected option <b>" + index + INN + prettyOutput(), Result.SUCCESS);
     }
 
     /**

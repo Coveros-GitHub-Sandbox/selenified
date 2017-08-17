@@ -264,12 +264,10 @@ public class App {
      * will be terminated as well
      */
     public void killDriver() {
-        if (driver != null) {
-            try {
-                driver.quit();
-            } catch (Exception e) {
-                log.error(e);
-            }
+        try {
+            driver.quit();
+        } catch (Exception e) {
+            log.error(e);
         }
     }
 
@@ -330,7 +328,7 @@ public class App {
      *            TestOutput.generateImageName
      */
     public void takeScreenshot(String imageName) {
-        if (browser == Browser.HTMLUNIT || browser == Browser.NONE) {
+        if (browser == Browser.HTMLUNIT) {
             return;
         }
         try {
