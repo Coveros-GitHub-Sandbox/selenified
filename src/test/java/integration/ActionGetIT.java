@@ -343,7 +343,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = app.newElement(Locator.ID, "check", 0).get().tableRow(1);
+        List<WebElement> row = app.newElement(Locator.ID, "input_box", 0).get().tableRow(1);
         Assert.assertNull(row);
         // verify no issues
         finish();

@@ -117,6 +117,14 @@ public class TestSetupTest {
         Assert.assertEquals(browsers.size(), 1);
         Assert.assertTrue(browsers.contains(Browser.CHROME));
     }
+    
+    @Test
+    public void setBrowserBadBrowserTest() throws InvalidBrowserException {
+        System.setProperty("browser", "browserNaMe=CHROME");
+        List<Browser> browsers = TestSetup.setBrowser();
+        Assert.assertEquals(browsers.size(), 1);
+        Assert.assertNull(browsers.get(0));
+    }
 
     @Test
     public void setBrowserMultipleBrowserTest() throws InvalidBrowserException {

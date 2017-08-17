@@ -84,6 +84,7 @@ public class Element {
 
     // constants
     private static final String IN = "' in ";
+    private static final String INN = "</b> in ";
     private static final String TYPTED = "Typed text '";
 
     private static final String NOTPRESENT = " as it is not present";
@@ -888,7 +889,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected option <b>" + index + "</b> in " + prettyOutput(),
+        file.recordAction(action, expected, "Selected option <b>" + index + INN + prettyOutput(),
                 Result.SUCCESS);
     }
 
@@ -928,7 +929,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected <b>" + option + "</b> in " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected <b>" + option + INN + prettyOutput(), Result.SUCCESS);
     }
 
     /**
@@ -967,7 +968,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected <b>" + value + "</b> in " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected <b>" + value + INN + prettyOutput(), Result.SUCCESS);
     }
 
     /**
