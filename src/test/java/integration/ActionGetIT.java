@@ -14,37 +14,35 @@ import java.util.TimeZone;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Element;
-import com.coveros.selenified.selenium.Selenium.Locator;
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.application.App;
 
-public class ActionGetIT extends TestBase {
+public class ActionGetIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite("http://172.31.2.65/");
+        setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getBrowser method")
     public void getBrowserTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        com.coveros.selenified.output.Assert asserts = this.asserts.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        if (actions.getBrowser().equals("NONE")) {
-            asserts.getOutputFile().addError();
+        if (app.getBrowser().equals("NONE")) {
+            app.getOutputFile().addError();
         }
         // verify no issues
         finish();
@@ -53,13 +51,11 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getCapabilities method")
     public void getCapabilitiesTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
-        // use this object to verify the page looks as expected
-        com.coveros.selenified.output.Assert asserts = this.asserts.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        if (actions.getCapabilities().equals(null)) {
-            asserts.getOutputFile().addError();
+        if (app.getCapabilities().equals(null)) {
+            app.getOutputFile().addError();
         }
         // verify no issues
         finish();
@@ -72,10 +68,10 @@ public class ActionGetIT extends TestBase {
         String dateval = "2019-12-18T12:00:00";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        Cookie cookie = actions.getCookie("cookie");
+        Cookie cookie = app.get().cookie("cookie");
         Assert.assertEquals(cookie, new Cookie("cookie", "cookietest", "/", df.parse(dateval)));
         // verify no issues
         finish();
@@ -84,10 +80,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration negative test to check the getCookie method")
     public void negativeGetCookieTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        Cookie cookie = actions.getCookie("badcookie");
+        Cookie cookie = app.get().cookie("badcookie");
         Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -96,10 +92,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration test to check the getCookieValue method")
     public void getCookieValueTest() throws IOException, ParseException {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String cookie = actions.getCookieValue("cookie");
+        String cookie = app.get().cookieValue("cookie");
         Assert.assertEquals(cookie, "cookietest");
         // verify no issues
         finish();
@@ -108,10 +104,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration negative test to check the getCookieValue method")
     public void negativeGetCookieValueTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String cookie = actions.getCookieValue("badcookie");
+        String cookie = app.get().cookieValue("badcookie");
         Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -120,10 +116,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration test to check the getCookiePath method")
     public void getCookiePathTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String cookie = actions.getCookiePath("cookie");
+        String cookie = app.get().cookiePath("cookie");
         Assert.assertEquals(cookie, "/");
         // verify no issues
         finish();
@@ -132,10 +128,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration negative test to check the getCookiePath method")
     public void negativeGetCookiePathTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String cookie = actions.getCookiePath("badcookie");
+        String cookie = app.get().cookiePath("badcookie");
         Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -143,12 +139,12 @@ public class ActionGetIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration test to check the getCookieDomain method")
-    public void getCookieDomainTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+    public void getCookieDomainTest(ITestContext context) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String cookie = actions.getCookieDomain("cookie");
-        Assert.assertEquals(cookie, getTestSite().split("/")[2].split(":")[0]);
+        String cookie = app.get().cookieDomain("cookie");
+        Assert.assertEquals(cookie, getTestSite(this.getClass().getName(), context).split("/")[2].split(":")[0]);
         // verify no issues
         finish();
     }
@@ -156,10 +152,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration negative test to check the getCookieDomain method")
     public void negativeGetCookieDomainTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String cookie = actions.getCookieDomain("badcookie");
+        String cookie = app.get().cookieDomain("badcookie");
         Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -172,10 +168,10 @@ public class ActionGetIT extends TestBase {
         String dateval = "2019-12-18T12:00:00";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        Date cookie = actions.getCookieExpiration("cookie");
+        Date cookie = app.get().cookieExpiration("cookie");
         Assert.assertEquals(cookie, df.parse(dateval));
         // verify no issues
         finish();
@@ -184,10 +180,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get", "cookie",
             "virtual" }, description = "An integration negative test to check the getCookieExpiration method")
     public void negativeGetCookieExpirationTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        Date cookie = actions.getCookieExpiration("badcookie");
+        Date cookie = app.get().cookieExpiration("badcookie");
         Assert.assertNull(cookie);
         // verify no issues
         finish();
@@ -196,11 +192,11 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectOptions method")
     public void getSelectOptionsTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String[] options = actions.getSelectOptions(Locator.NAME, "car_list");
-        Assert.assertEquals(options, new String[] { "volvo", "saab", "mercedes", "audi" });
+        String[] options = app.newElement(Locator.NAME, "car_list").get().selectOptions();
+        Assert.assertEquals(options, new String[] { "Volvo", "Saab", "Mercedes", "Audi" });
         // verify no issues
         finish();
     }
@@ -208,22 +204,46 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectOptions method")
     public void getSelectOptionsNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String[] options = actions.getSelectOptions(new Element(Locator.NAME, "non-existent-name"));
-        Assert.assertEquals(options, new String[] {});
-        // verify 1 issue
-        finish(1);
+        String[] options = app.newElement(Locator.NAME, "non-existent-name", 0).get().selectOptions();
+        Assert.assertNull(options);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getSelectOptions method")
+    public void getSelectValuesTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        String[] options = app.newElement(Locator.NAME, "car_list").get().selectValues();
+        Assert.assertEquals(options, new String[] { "volvo", "saab", "mercedes", "audi" });
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getSelectOptions method")
+    public void getSelectValuesNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        String[] options = app.newElement(Locator.NAME, "non-existent-name", 0).get().selectValues();
+        Assert.assertNull(options);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getNumOfSelectOptions method")
     public void getNumOfSelectOptionsTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int options = actions.getNumOfSelectOptions(Locator.NAME, "car_list");
+        int options = app.newElement(Locator.NAME, "car_list").get().numOfSelectOptions();
         Assert.assertEquals(options, 4);
         // verify no issues
         finish();
@@ -232,22 +252,22 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getNumOfSelectOptions method")
     public void getNumOfSelectOptionsNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int options = actions.getNumOfSelectOptions(new Element(Locator.NAME, "non-existent-name"));
+        int options = app.newElement(Locator.NAME, "non-existent-name", 0).get().numOfSelectOptions();
         Assert.assertEquals(options, 0);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getNumOfTableRows method")
     public void getNumOfTableRowsTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int rows = actions.getNumOfTableRows(Locator.ID, "table");
+        int rows = app.newElement(Locator.ID, "table").get().numOfTableRows();
         Assert.assertEquals(rows, 7);
         // verify no issues
         finish();
@@ -256,22 +276,22 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getNumOfTableRows method")
     public void getNumOfTableRowsNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int rows = actions.getNumOfTableRows(new Element(Locator.ID, "non-existent-name"));
+        int rows = app.newElement(Locator.ID, "non-existent-name", 0).get().numOfTableRows();
         Assert.assertEquals(rows, 0);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getNumOfTableColumns method")
     public void getNumOfTableColumnsTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int columns = actions.getNumOfTableColumns(Locator.ID, "table");
+        int columns = app.newElement(Locator.ID, "table").get().numOfTableColumns();
         Assert.assertEquals(columns, 4);
         // verify no issues
         finish();
@@ -280,22 +300,22 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getNumOfTableColumns method")
     public void getNumOfTableColumnsNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int columns = actions.getNumOfTableColumns(new Element(Locator.ID, "non-existent-name"));
+        int columns = app.newElement(Locator.ID, "non-existent-name", 0).get().numOfTableColumns();
         Assert.assertEquals(columns, 0);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableRow method")
     public void getTableRowTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = actions.getTableRow(Locator.ID, "table", 1);
+        List<WebElement> row = app.newElement(Locator.ID, "table").get().tableRow(1);
         Assert.assertEquals(row.size(), 4);
         Assert.assertEquals(row.get(0).getText(), "President");
         Assert.assertEquals(row.get(1).getText(), "Alfreds Futterkiste");
@@ -308,10 +328,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableRow method")
     public void getTableRowNoRowTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = actions.getTableRow(Locator.ID, "table", 99);
+        List<WebElement> row = app.newElement(Locator.ID, "table", 0).get().tableRow(99);
         Assert.assertEquals(row, new ArrayList<>());
         // verify no issues
         finish();
@@ -319,23 +339,62 @@ public class ActionGetIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableRow method")
-    public void getTableRowNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+    public void getTableRowNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = actions.getTableRow(new Element(Locator.ID, "non-existent-name"), 1);
-        Assert.assertEquals(row, new ArrayList<>());
-        // verify 1 issue
-        finish(1);
+        List<WebElement> row = app.newElement(Locator.ID, "input_box", 0).get().tableRow(1);
+        Assert.assertNull(row);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableRow method")
+    public void getTableRowNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<WebElement> row = app.newElement(Locator.ID, "non-existent-name").get().tableRow(1);
+        Assert.assertNull(row);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableRow method")
+    public void getTableRowsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<WebElement> rows = app.newElement(Locator.ID, "table", 1).get().tableRows();
+        Assert.assertEquals(rows.size(), 7);
+        Assert.assertTrue(rows.get(0).getText().matches("Company\\s*Contact\\s*Country"));
+        Assert.assertTrue(
+                rows.get(1).getText().matches("President\\s*Alfreds\\s*Futterkiste\\s*Maria\\s*Anders\\s*Germany"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableRow method")
+    public void getTableRowsNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<WebElement> rows = app.newElement(Locator.ID, "non-existent-name", 1).get().tableRows();
+        Assert.assertNull(rows);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableColumn method")
     public void getTableColumnTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        List<WebElement> column = actions.getTableColumn(Locator.ID, "table", 1);
+        List<WebElement> column = app.newElement(Locator.ID, "table").get().tableColumn(1);
         Assert.assertEquals(column.size(), 7);
         Assert.assertEquals(column.get(0).getText(), "Company");
         Assert.assertEquals(column.get(1).getText(), "Alfreds Futterkiste");
@@ -351,10 +410,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableColumn method")
     public void getTableColumnNoColumnTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        List<WebElement> column = actions.getTableColumn(new Element(Locator.ID, "table"), 99);
+        List<WebElement> column = app.newElement(Locator.ID, "table", 0).get().tableColumn(99);
         Assert.assertEquals(column, new ArrayList<>());
         // verify no issues
         finish();
@@ -363,22 +422,53 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableColumn method")
     public void getTableColumnNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        List<WebElement> column = actions.getTableColumn(Locator.ID, "non-existent-name", 1);
-        Assert.assertEquals(column, new ArrayList<>());
-        // verify 1 issue
-        finish(1);
+        List<WebElement> column = app.newElement(Locator.ID, "non-existent-name").get().tableColumn(1);
+        Assert.assertNull(column);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableColumn method")
+    public void getTableColumnsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<List<WebElement>> columns = app.newElement(Locator.ID, "table", 1).get().tableColumns();
+        Assert.assertEquals(columns.size(), 4);
+        Assert.assertEquals(columns.get(1).get(0).getText(), "Company");
+        Assert.assertEquals(columns.get(1).get(1).getText(), "Alfreds Futterkiste");
+        Assert.assertEquals(columns.get(1).get(2).getText(), "Centro comercial Moctezuma");
+        Assert.assertEquals(columns.get(1).get(3).getText(), "Ernst Handel");
+        Assert.assertEquals(columns.get(1).get(4).getText(), "Island Trading");
+        Assert.assertEquals(columns.get(1).get(5).getText(), "Laughing Bacchus Winecellars");
+        Assert.assertEquals(columns.get(1).get(6).getText(), "Magazzini Alimentari Riuniti");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableColumn method")
+    public void getTableColumnsNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<List<WebElement>> columns = app.newElement(Locator.ID, "non-existent-name", 1).get().tableColumns();
+        Assert.assertNull(columns);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableCell method")
     public void getTableCellTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        WebElement cell = actions.getTableCell(Locator.ID, "table", 1, 1);
+        WebElement cell = app.newElement(Locator.ID, "table").get().tableCell(1, 1);
         Assert.assertEquals(cell.getText(), "Alfreds Futterkiste");
         // verify no issues
         finish();
@@ -387,10 +477,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellWideTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        WebElement cell = actions.getTableCell(Locator.ID, "table", 1, 99);
+        WebElement cell = app.newElement(Locator.ID, "table", 0).get().tableCell(1, 99);
         Assert.assertNull(cell);
         // verify no issues
         finish();
@@ -399,10 +489,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellLongTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        WebElement cell = actions.getTableCell(Locator.ID, "table", 99, 1);
+        WebElement cell = app.newElement(Locator.ID, "table").get().tableCell(99, 1);
         Assert.assertNull(cell);
         // verify no issues
         finish();
@@ -411,10 +501,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        WebElement cell = actions.getTableCell(Locator.ID, "table", 99, 99);
+        WebElement cell = app.newElement(Locator.ID, "table").get().tableCell(99, 99);
         Assert.assertNull(cell);
         // verify no issues
         finish();
@@ -423,22 +513,22 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableCell method")
     public void getTableCellNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        WebElement cell = actions.getTableCell(new Element(Locator.ID, "non-existent-name"), 1, 1);
+        WebElement cell = app.newElement(Locator.ID, "non-existent-name").get().tableCell(1, 1);
         Assert.assertNull(cell);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedText method")
     public void getSelectedTextTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String text = actions.getSelectedText(Locator.ID, "car_list");
+        String text = app.newElement(Locator.ID, "car_list").get().selectedOption();
         Assert.assertEquals(text, "Volvo");
         // verify no issues
         finish();
@@ -447,22 +537,22 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedText method")
     public void getSelectedTextNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String text = actions.getSelectedText(new Element(Locator.ID, "non-existent-name"));
+        String text = app.newElement(Locator.ID, "non-existent-name", 0).get().selectedOption();
         Assert.assertNull(text);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedText method")
     public void getSelectedTextNotSelectTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String text = actions.getSelectedText(Locator.ID, "table");
+        String text = app.newElement(Locator.ID, "table").get().selectedOption();
         Assert.assertNull(text);
         // verify no issues
         finish();
@@ -471,10 +561,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String[] text = actions.getSelectedTexts(Locator.ID, "car_list");
+        String[] text = app.newElement(Locator.ID, "car_list").get().selectedOptions();
         Assert.assertEquals(text, new String[] { "Volvo" });
         // verify no issues
         finish();
@@ -483,23 +573,23 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String[] text = actions.getSelectedTexts(new Element(Locator.ID, "non-existent-name"));
-        Assert.assertEquals(text, new String[0]);
-        // verify 1 issue
-        finish(1);
+        String[] text = app.newElement(Locator.ID, "non-existent-name", 0).get().selectedOptions();
+        Assert.assertNull(text);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsNotSelectTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String[] text = actions.getSelectedTexts(Locator.ID, "table");
-        Assert.assertEquals(text, new String[0]);
+        String[] text = app.newElement(Locator.ID, "table").get().selectedOptions();
+        Assert.assertNull(text);
         // verify no issues
         finish();
     }
@@ -507,10 +597,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String value = actions.getSelectedValue(Locator.ID, "car_list");
+        String value = app.newElement(Locator.ID, "car_list").get().selectedValue();
         Assert.assertEquals(value, "volvo");
         // verify no issues
         finish();
@@ -519,22 +609,22 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String value = actions.getSelectedValue(new Element(Locator.ID, "non-existent-name"));
+        String value = app.newElement(Locator.ID, "non-existent-name", 0).get().selectedValue();
         Assert.assertNull(value);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueNotSelectTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String value = actions.getSelectedValue(Locator.ID, "table");
+        String value = app.newElement(Locator.ID, "table").get().selectedValue();
         Assert.assertNull(value);
         // verify no issues
         finish();
@@ -543,10 +633,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String[] value = actions.getSelectedValues(Locator.ID, "car_list");
+        String[] value = app.newElement(Locator.ID, "car_list").get().selectedValues();
         Assert.assertEquals(value, new String[] { "volvo" });
         // verify no issues
         finish();
@@ -555,23 +645,23 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String[] value = actions.getSelectedValues(new Element(Locator.ID, "non-existent-name"));
-        Assert.assertEquals(value, new String[0]);
-        // verify 1 issue
-        finish(1);
+        String[] value = app.newElement(Locator.ID, "non-existent-name", 0).get().selectedValues();
+        Assert.assertNull(value);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesNotSelectTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String[] value = actions.getSelectedValues(Locator.ID, "table");
-        Assert.assertEquals(value, new String[0]);
+        String[] value = app.newElement(Locator.ID, "table").get().selectedValues();
+        Assert.assertNull(value);
         // verify no issues
         finish();
     }
@@ -579,10 +669,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getText method")
     public void getTextTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String text = actions.getText(Locator.ID, "disable_click");
+        String text = app.newElement(Locator.ID, "disable_click").get().text();
         Assert.assertEquals(text, "Click me to Disable/Enable a html button");
         // verify no issues
         finish();
@@ -591,10 +681,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getText method")
     public void getTextNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String text = actions.getText(new Element(Locator.ID, "non-existent-name"));
+        String text = app.newElement(Locator.ID, "non-existent-name", 0).get().text();
         Assert.assertNull(text);
         // verify no issues
         finish();
@@ -603,10 +693,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getValue method")
     public void getValueTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String text = actions.getValue(Locator.ID, "input_box");
+        String text = app.newElement(Locator.ID, "input_box").get().value();
         Assert.assertEquals(text, "");
         // verify no issues
         finish();
@@ -615,10 +705,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getValue method")
     public void getValueNotInputTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String text = actions.getValue(Locator.ID, "disable_click");
+        String text = app.newElement(Locator.ID, "disable_click", 0).get().value();
         Assert.assertNull(text);
         // verify no issues
         finish();
@@ -627,10 +717,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getValue method")
     public void getValueNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String text = actions.getValue(new Element(Locator.ID, "non-existent-name"));
+        String text = app.newElement(Locator.ID, "non-existent-name").get().value();
         Assert.assertNull(text);
         // verify no issues
         finish();
@@ -638,10 +728,10 @@ public class ActionGetIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getCss method")
     public void getCssTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String css = actions.getCss(Locator.ID, "disable_click", "display");
+        String css = app.newElement(Locator.ID, "disable_click").get().css("display");
         Assert.assertEquals(css, "block");
         // verify no issues
         finish();
@@ -649,10 +739,10 @@ public class ActionGetIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getCss method")
     public void getCssWonkyTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String css = actions.getCss(Locator.ID, "disable_click", "some-bad-css-attribute");
+        String css = app.newElement(Locator.ID, "disable_click", 0).get().css("some-bad-css-attribute");
         Assert.assertEquals(css, "");
         // verify no issues
         finish();
@@ -660,34 +750,34 @@ public class ActionGetIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getCss method")
     public void getCssNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String css = actions.getCss(new Element(Locator.ID, "non-existent-name"), "display");
+        String css = app.newElement(Locator.ID, "non-existent-name").get().css("display");
         Assert.assertNull(css);
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getAttribute method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getAttribute method")
     public void getAttributeTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String attribute = actions.getAttribute(Locator.ID, "disable_click", "class");
+        String attribute = app.newElement(Locator.ID, "disable_click").get().attribute("class");
         Assert.assertEquals(attribute, "click");
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getAttribute method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getAttribute method")
     public void getAttributeWonkyTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String attribute = actions.getAttribute(Locator.ID, "disable_click", "some-bad-attribute");
+        String attribute = app.newElement(Locator.ID, "disable_click", 0).get().attribute("some-bad-attribute");
         Assert.assertNull(attribute);
         // verify no issues
         finish();
@@ -696,10 +786,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getAttribute method")
     public void getAttributeNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String attribute = actions.getAttribute(new Element(Locator.ID, "non-existent-name"), "display");
+        String attribute = app.newElement(Locator.ID, "non-existent-name").get().attribute("display");
         Assert.assertNull(attribute);
         // verify no issues
         finish();
@@ -708,10 +798,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions",
             "get" }, description = "An integration test to check the getAllAttribute method")
     public void getAllAttributeTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        Map<String, String> attributes = actions.getAllAttributes(Locator.ID, "disable_click");
+        Map<String, String> attributes = app.newElement(Locator.ID, "disable_click").get().allAttributes();
         Map<String, String> expected = new HashMap<>();
         expected.put("id", "disable_click");
         expected.put("class", "click");
@@ -720,13 +810,26 @@ public class ActionGetIT extends TestBase {
         finish();
     }
 
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration test to check the getAllAttribute method")
+    public void getAllAttributeNoneTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Map<String, String> attributes = app.newElement(Locator.TAGNAME, "thead", 0).get().allAttributes();
+        Map<String, String> expected = new HashMap<>();
+        Assert.assertEquals(attributes, expected);
+        // verify no issues
+        finish();
+    }
+
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "A negative integration test to check the getAllAttribute method")
     public void getAllAttributeNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        Map<String, String> attributes = actions.getAllAttributes(new Element(Locator.ID, "non-existent-name"));
+        Map<String, String> attributes = app.newElement(Locator.ID, "non-existent-name").get().allAttributes();
         Assert.assertEquals(attributes, new HashMap<>());
         // verify 0 issue
         finish();
@@ -734,10 +837,10 @@ public class ActionGetIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getEval method")
     public void getEvalTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String location = (String) actions.getEval("document.location");
+        String location = (String) app.get().eval("document.location");
         Assert.assertNull(location);
         // verify no issues
         finish();
@@ -745,10 +848,10 @@ public class ActionGetIT extends TestBase {
 
     @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getEval method")
     public void getElementEvalTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String location = (String) actions.getEval(new Element(Locator.ID, "disable_click"), "document.location");
+        String location = (String) app.newElement(Locator.ID, "disable_click", 0).get().eval("document.location");
         Assert.assertNull(location);
         // verify no issues
         finish();
@@ -757,10 +860,10 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions",
             "get" }, description = "A negative integration test to check the getEval method")
     public void getElementEvalNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        String location = (String) actions.getEval(Locator.ID, "non-existent-name", "document.location");
+        String location = (String) app.newElement(Locator.ID, "non-existent-name").get().eval("document.location");
         Assert.assertNull(location);
         // verify no issues
         finish();
@@ -769,11 +872,11 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions",
             "get" }, description = "An integration test to check the getPrompt method")
     public void getPromptTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        actions.click(Locator.ID, "prompt_button");
-        String prompt = actions.getPrompt();
+        app.newElement(Locator.ID, "prompt_button").click();
+        String prompt = app.get().prompt();
         Assert.assertEquals(prompt, "What do you think?");
         // verify no issues
         finish();
@@ -782,22 +885,22 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions",
             "get" }, description = "A integration negative test to check the getPrompt method")
     public void negativeGetPromptTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        actions.getPrompt();
-        // verify 1 issue
-        finish(1);
+        app.get().prompt();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions",
             "get" }, description = "An integration test to check the getConfirmation method")
     public void getConfirmationTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        actions.click(Locator.ID, "confirm_button");
-        String confirm = actions.getConfirmation();
+        app.newElement(Locator.ID, "confirm_button").click();
+        String confirm = app.get().confirmation();
         Assert.assertEquals(confirm, "Is this not great?");
         // verify no issues
         finish();
@@ -806,23 +909,23 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions",
             "get" }, description = "An integration negative test to check the getConfirmation method")
     public void negativeGetConfirmationTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        actions.getConfirmation();
-        // verify 1 issue
-        finish(1);
+        app.get().confirmation();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = { "integration", "actions",
             "get" }, description = "An integration test to check the getAlert method")
     public void getAlertTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        actions.click(Locator.ID, "disable_click");
-        actions.click(Locator.ID, "alert_button");
-        String alert = actions.getAlert();
+        app.newElement(Locator.ID, "disable_click").click();
+        app.newElement(Locator.ID, "alert_button").click();
+        String alert = app.get().alert();
         Assert.assertEquals(alert, "Enabled!");
         // verify no issues
         finish();
@@ -831,59 +934,56 @@ public class ActionGetIT extends TestBase {
     @Test(groups = { "integration", "actions",
             "get" }, description = "An integration negative test to check the getAlert method")
     public void negativeGetAlertTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        actions.getAlert();
-        // verify 1 issue
-        finish(1);
+        app.get().alert();
+        // verify no issues
+        finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getHtmlSource method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getHtmlSource method")
     public void getHtmlSourceTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        actions.click(new Element(Locator.ID, "submit_button"), 0);
-        String source = actions.getHtmlSource();
+        app.newElement(Locator.ID, "submit_button", 0).click();
+        String source = app.get().htmlSource();
         Assert.assertTrue(source.contains("You're on the next page"));
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getElementMatchCount method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int matches = actions.getElementMatchCount(Locator.ID, "submit_button");
-        Assert.assertEquals(matches, 1);
+        Assert.assertEquals(app.newElement(Locator.ID, "submit_button").get().matchCount(), 1);
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getElementMatchCount method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountMultipleTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int matches = actions.getElementMatchCount(new Element(Locator.CLASSNAME, "overlay"));
-        Assert.assertEquals(matches, 3);
+        Assert.assertEquals(app.newElement(Locator.CLASSNAME, "overlay").get().matchCount(), 3);
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration negative test to check the getElementMatchCount method")
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration negative test to check the getElementMatchCount method")
     public void getElementMatchCountNotExistTest() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // perform some actions
-        int matches = actions.getElementMatchCount(new Element(Locator.ID, "non-existent-name"));
-        Assert.assertEquals(matches, 0);
+        Assert.assertEquals(app.newElement(Locator.ID, "non-existent-name").get().matchCount(), 0);
         // verify no issues
         finish();
     }
