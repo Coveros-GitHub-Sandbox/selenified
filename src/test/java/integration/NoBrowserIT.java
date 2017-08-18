@@ -9,21 +9,22 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.selenium.Action;
-import com.coveros.selenified.selenium.Selenium.DriverSetup;
-import com.coveros.selenified.tools.TestBase;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.application.App;
 
-public class NoBrowserIT extends TestBase {
+public class NoBrowserIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
+    public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite("http://172.31.2.65/");
+        setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
-        setAuthor("Max Saperstone\n<br/>max.saperstone@coveros.com");
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion("0.0.1");
+        setVersion(this, test, "0.0.1");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -34,10 +35,10 @@ public class NoBrowserIT extends TestBase {
     @Test(groups = { "integration",
             "virtual" }, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowser() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        App app = this.apps.get();
         // verify no selenium actions class was setup
-        Assert.assertNotNull(actions);
+        Assert.assertNull(app);
         // verify no issues
         finish();
     }
@@ -45,10 +46,10 @@ public class NoBrowserIT extends TestBase {
     @Test(groups = { "integration",
             "virtual" }, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowserActions() {
-        // use this object to manipulate the page
-        Action actions = this.actions.get();
+        // use this object to manipulate the app
+        Browser browser = this.browser.get();
         // verify no selenium actions class was setup
-        Assert.assertEquals(actions.getBrowser(), null);
+        Assert.assertEquals(browser, Browser.NONE);
         // verify no issues
         finish();
     }

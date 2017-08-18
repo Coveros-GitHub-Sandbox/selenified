@@ -20,7 +20,7 @@ Update your pom.xml file to include
     <dependency>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>2.0.2</version>
+    <version>3.0.0</version>
     <scope>test</scope>
     </dependency>
 ```
@@ -29,9 +29,9 @@ Update your pom.xml file to include
 Update your ivy.xml file to include
 ```xml
     <ivy-module>
-     <dependencies>
-     <dependency org="com.coveros" name="selenified" rev="2.0.2"/>
-     </dependencies>
+        <dependencies>
+            <dependency org="com.coveros" name="selenified" rev="3.0.0"/>
+        </dependencies>
     </ivy-module>
 ```
 
@@ -39,14 +39,14 @@ Update your ivy.xml file to include
 Update your build.gradle file to include
 ```groovy
     dependencies {
-        testCompile 'com.coveros:selenified:2.0.2'
+        testCompile 'com.coveros:selenified:3.0.0'
     }
 ```
 
 Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
 
 ```java
-    public class SampleTests extends TestBase {
+    public class SampleTests extends Selenified {
 
         @DataProvider(name = "google search terms", parallel = true)
         public Object[][] DataSetOptions() {
@@ -56,10 +56,10 @@ Have a look at this example test class to get an idea of what you'll actually be
 
         @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
         public void sampleTest() {
-            // use this object to verify the page looks as expected
-            Assert asserts = this.asserts.get();
-            // perform some actions
-            asserts.compareTitle("Google");
+            // use this object to manipulate the app
+            App app = this.apps.get();
+            // verify the correct page title
+            app.azzert().titleEquals("Google");
             // verify no issues
             finish();
         }
@@ -67,15 +67,14 @@ Have a look at this example test class to get an idea of what you'll actually be
         @Test(dataProvider = "google search terms", groups = { "sample" },
                 description = "A sample selenium test using a data provider to perform searches")
         public void sampleTestWDataProvider(String searchTerm) {
-            // use this object to manipulate the page
-            Action actions = this.actions.get();
-            // use this object to verify the page looks as expected
-            Assert asserts = this.asserts.get();
-            // perform some actions
-            actions.type(Locator.NAME, "q", searchTerm);
-            actions.click(Locator.NAME, "btnG");
-            actions.waitForElementDisplayed(Locator.ID, "resultStats");
-            asserts.compareTitle(searchTerm + " - Google Search");
+            // use this object to manipulate the app
+            App app = this.apps.get();
+            // perform a simple search
+            app.newElement(Locator.NAME, "q").type(searchTerm);
+            app.newElement(Locator.NAME, "btnG").click();
+            app.newElement(Locator.ID, "resultStats").waitFor().present();
+            // verify the correct page title 
+            app.azzert().titleEquals(searchTerm + " - Google Search");
             // verify no issues
             finish();
         }
@@ -85,23 +84,23 @@ Have a look at this example test class to get an idea of what you'll actually be
 	    	// the parameters to pass to google
     		Map<String, String> params = new HashMap<>();
 	        params.put("q", "cheese");
-    	    // use this object to verify the page looks as expected
-	        Assert asserts = this.asserts.get();
-    	    // perform some actions
-        	asserts.compareGetResponseCode("", params, 200);
+    	    // use this object to make web service calls
+	        Call call = this.calls.get();
+    	    // make a get call, and confirm we get a 200 response code
+        	call.get().("", new Request(params)).assertEquals(200);
 	        // verify no issues
     	    finish();
     	}
     }
 ```
 
-In the first test, sampleTest, the Assert class is used to check the title of the page. 
-In the next test, sampleTestWDataProvider, the Action and Assert classes are used to type 
-a search term, submit the search term and the wait for the page to load in order to verify the 
-title contains the same search term. The 'google search terms' dataProvider provides a search 
-term to the test. In the third test, a call is made to the main google page, with the 
-parameters of q equaling 'cheese'. For more information on the Assert and Action class plus 
-all the other classes used by Selenified, check out the 
+In the first test, sampleTest, the App class is used to check the title of the page. 
+In the next test, sampleTestWDataProvider, the App class is used to generate elements we want
+to interact with; type a search term, submit the search term and the wait for the page to load. 
+We then use that same element in order to verify the title contains the same search term. The 
+'google search terms' dataProvider provides a search term to the test. In the third test, a call 
+is made to the main google page, with the parameters of q equaling 'cheese'. For more information 
+on the App and Call class plus all the other classes used by Selenified, check out the 
 documentation [here](https://msaperst.github.io).
 
 ## Writing Tests
@@ -111,21 +110,22 @@ or nested set of folders within the src directory. Within each folder, then crea
 more Java classes. Name the class something descriptive following the test suites purposes.
 
 ### Structuring the Test Suite
-Have each class extend the TestBase class which is contained within the 
-selenified.jar. Each suite can optionally contain a method setting up some details to 
-be used in each test. The URL the selenium tests should connect to (which can be overridden), 
+Have each class extend the Selenified class which is contained within the 
+selenified.jar. Each should contain a method setting up some details to 
+be used in each test, Only the testSite is required, if the URL is passed in from
+the commandline, even this can be excluded. Additional optional parameters are 
 the author of the tests, and the version of tests or software under test. 
 See below for an example:
-
 ```java
-    @BeforeClass (alwaysRun = true)
-    public void beforeClass() {
-        //set the base URL for the tests here
-        testSite = "http://www.google.com/";
-        //set the author of the tests here
-        author = "Max Saperstone\n<br />max.saperstone@coveros.com";
-        //set the version of the tests or of the software, possibly with a dynamic check
-        version = "0.0.0";
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass(ITestContext test) {
+        // set the base URL for the tests here
+        setTestSite(this, test, "http://172.31.2.65/");
+        // set the author of the tests here
+        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
+        // set the version of the tests or of the software, possibly with a
+        // dynamic check
+        setVersion(this, test, "0.0.1");
     }
 ```
 
@@ -179,50 +179,13 @@ quicker and cleaner.
 ### Write the Tests
 Adding a new test, is simply adding a new method to an existing test suite (class). Each method should be 
 named something descriptive following the tests functionality. Each method should have a public modifier and 
-have a void return type. Additionally, each method should be prepared to catch an IOException, resulting from 
-either a failed assert at the end of each test, or from other errors arising during runtime. Each method should 
-have an @Test annotation before it. Putting in the below information in each annotation will ensure that the 
-data is available in the custom test reporting.
+have a void return type. Each method should have an @Test annotation before it. Putting in the below information 
+in each annotation will ensure that the data is available in the custom test reporting.
 
  * a group - based on the test suite and the extended test suite
  * a description - something useful/descriptive to be displayed on the results and test detailed results
  * a dependency (optional) - based on either another group or test, or multiples
  * a data provider (optional) - if this test takes multiple inputs, allowing the test to run multiple times
-
-The method body should start with one or two lines, based on the test steps you plan to perform. Tests should always 
-start in a known state, be sure you use your @BeforeMethod annotation to set this up if needed. Next, tests should
-perform some action (this may or may not be necessary, depending on the test). To perform any selenium actions, first
-obtain the selenium `action` object automatically created for this test.
-
-```java
-    Action actions = this.actions.get();
-```
-
-Then perform any actions you desire, using this object. All Selenium commands to be executed can be found within 
-the Action class. Functionality from clicking and typing, to hovering and changing orientation are all contained 
-within this class. Using and IDE such as Eclipse will help you auto-complete desired commands, and the JavaDocs 
-provided will outline each piece of functionality. Tests can be built directly from combining these method calls 
-into a test, or alternatively to create an overall stronger set of tests, a separate class or classes can be created 
-to form workflows using these actions. Test steps can then reference calls to workflows, instead of direct actions.
-
-You should end each test case performing a verification of your actions. The `Assert` object is automatically created
-for any and all selenium verifications.
-
-```java
-    Assert asserts = this.asserts.get();
-```
-
-Similar to the first class, functionality from confirming an alert and element are present, to checking the css and 
-page source are all contained within this class. Using methods from the Assert class will also provide screenshots when
-the assert test step is executed, which can be vital when debugging and adds additional traceability.
-
-Finally, in order to track errors within the tests, the last step of each test is comparing the value within errors
-to the number 0. This will then throw an error if any issues occurred during the test. All previous errors are caught
-and handled, to allow the test to run to completion if possible. This last line should read as follow:
-
-```java
-    finish();
-```
 
 If a class has multiple tests that are similar, but simply require one or two different inputs, a dataProvider 
 should be used. Instead of writing multiple tests, one test can be written instead. This will reduce the amount 
@@ -231,88 +194,265 @@ SampleIT.java class in the framework.
 
 If you are defining your dataProvider parameters, be sure to include the variables defined in your declaring method.
 
+Tests should always start in a known state, be sure you use your @BeforeMethod annotation to set this up if needed. 
 
-#### POM
-Selenified supports allowing tests to be written following the Page Object Model (POM). In addition to ensuring your 
-test workflows are appropriately structured, in order to ensure the POM is followed, when creating classes for each
-of your pages, use the provided `Element` object. After creating an `Element` object for each element you want to 
-interact with, these objects can be passed directly to the Action and Assert methods interacting with the page.
-This means instead of having an action looking like
+#### Simple Test Cases
+The method body should start with one line, dependent on the type of test you plan to perform.
+
+##### Browser
+If you plan on running a browser based test, the first thing you should do is retrieve your app class.
 ```java
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
-    public void sampleTestWaitForElementPresent() {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
-        // perform some actions
-        actions.waitForElementPresent(Locators.name, "car_list");
-        // verify no issues
-        finish();
+    App app = this.apps.get();
+```
+This object will give you access to perform any required actions on the application, such as accepting an
+alert, asserting an alert is present, or reloading the page.
+```java
+    app.acceptAlert();
+    app.is().alertPresent();
+    app.reloadPage();
+```
+
+If you want to interact with particular elements on a page, you can create them from this app object.
+```java
+    Element element = app.newElement(Locator.XPATH, "//form/input");
+```
+Similar to the `app` object, any actions you want to perform on the element, can be done on this object, such
+as clicking on it, entering text, or selecting a value that it is available.
+```java
+    element.click();
+    element.type("hello world");
+    element.select(1);
+    element.select("value");
+```
+
+Sub functionality exists for both pages and elements, to make writing tests simpler. Objects exist for getting,
+checking, and waiting for things on the page. Additionally, objects exist for getting, checking, and waiting.
+```java
+    app.is().alertPresent();
+    app.get().alert();
+    app.waitFor().alert();
+    
+    element.is().table();
+    element.get().numOfSelectOptions();
+    element.waitFor().displayed();
+```
+
+There are also custom assertions associated with both the page and element objects. These asserts are custom
+to the framework, and in addition to providing easy object oriented capabilities, they take screenshots with
+each verification to provide additional traceability, and assist in troubleshooting and debugging failing tests.
+```java
+    app.azzert().alertPresent();
+    app.azzert().urlEquals();
+    
+    element.assertContains().text("hello");
+    element.assertExcludes().value("world");
+    element.assertEquals().rows(7);
+    element.assertState().enabled();
+```
+
+##### Web Services
+If you plan on running a web services based test, the first thing you should do is retrieve your call class.
+```java
+    Call call = this.calls.get();
+```
+This object will give you access to make any required method calls on your web service, such as a get or post.
+```java
+    call.get("post/");
+    call.post("post/", request);
+```
+
+These calls return a response, which contain their own custom assertions. Similar to the browser based testing
+these asserts provide additional traceability and debugging assistance. both the response, and code can be
+verified
+```java
+    call.get("post/").assertEquals(404);
+    call.post("posts/", request).assertContains(response);
+```
+
+###### Authentication
+Any of the above calls would occur without any authentication; they just are direct gets, posts, etc. Some 
+basic authentication capabilities are built into Selenified. If you have simple user/password authentication 
+for your services, Selenified makes it easy to provide those. Simply set the username and password as 
+environment variables, and Selenified will automatically pick them up, and pass them along with your call. 
+Don’t worry, they’re not passed in clear text, but encoded, and passed as header authorization information.
+```shell
+set SERVICES_USER=myusername
+set SERVICES_PASS=mypassword
+```
+
+You may have some more complex authentication scheme. That is not atypical. Unfortunately, in order to set 
+this up, you’ll actually need to modify the source code a bit. Because authentication is performed in so many 
+different ways, we don’t have a standard setup for oauth, csrf tokens, or others. Checkout the 
+[wiki](https://github.com/Coveros/selenified/wiki/Service-Authentication) for more information on authentication 
+schemes.
+
+##### Finalizing your tests
+Finally, in order to track errors within the tests, the last step of each test is comparing the value within 
+errors to the number 0. This will then throw an error if any issues occurred during the test. All previous
+errors are caught and handled, to allow the test to run to completion if possible. This last line should 
+read as follow:
+```java
+    finish();
+```
+
+Using and IDE such as Eclipse will help you auto-complete desired commands, and the 
+[JavaDocs](https://msaperst.github.io/) provided will outline each piece of functionality.
+
+#### Using Page Object Model
+Selenified supports allowing tests to be written following the Page Object Model (POM). Each page or module
+you want to use in this model, simply needs a constructor taking in the `app` object, where the desired page
+elements are defined. Then any workflows on the page can be easily written utilizing those elements.
+```java
+public final class MainPage {
+
+    // our page elements
+    private Element click;
+    private Element alert;
+    private Element carList;
+    public Element checkbox;
+
+    public MainPage(App app) {
+        click = app.newElement(Locator.CLASSNAME, "click");
+        alert = app.newElement(Locator.CSS, "input#alert_button");
+        carList = app.newElement(Locator.ID, "car_list");
+        checkbox = app.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
     }
+
+    public void selectCar(String car) {
+        carList.select(car);
+    }
+
+    public void assertCar(String car) {
+        carList.assertEquals().selectedOption(car);
+    }
+
+    public void generateAlert() {
+        click.click();
+        alert.click();
+    }
+}
 ```
-It could instead look like this
+
+In order to use these models, your tests only need to instantiate these pages before running. This is done
+most simply in a @BeforeMethod call.
 ```java
-    Element carList = new Element( Locators.name, "car_list");
-```
-```java
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check the waitForElementPresent method")
-    public void sampleTestWaitForElementPresent() {
-        // use this object to manipulate our page
-        Action actions = this.actions.get();
-        // perform some actions
-        actions.waitForElementPresent(carList);
-        // verify no issues
+    ThreadLocal<MainPage> main = new ThreadLocal<>();;
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupApp() {
+        main.set(new MainPage(this.apps.get()));
+    }
+
+    @Test(groups = { "sample", "pom" }, description = "A sample test to perform searches")
+    public void sampleTestWDataProvider() {
+        // our test actions - use our threadsafe main object
+        main.get().selectCar("volvo");
+        main.get().assertCar("volvo");
+        // close out the test
         finish();
     }
 ```
 
 #### Locators
-Selenified uses locators to find different elements on a webpage during testing. There are 8 different types of locators supported: xpath, id, name, classname, css, partial link text, link text, and tagname. Locators are used to navigate the HTML Document Object Model, returning a single web element or a list of web elements with common locator attributes. For example, you may create an element with the locator type 'tagname' and the locator 'h3' to then call the getWebElements method with the locator. This returns a list of all HTML elements on the webpage with the 'h3' tag. To be more specific, locators like id are often used to return a single web element, being that the id attribute of a web element is supposed to be unique. An elementMatch can also be provided when using locators that match more than one element. For example, calling the method click() on an element with the locator type 'classname', the locator 'filter-button', and the elementMatch 3 will return the third element with the class attribute equal to 'filter-button'.
+Selenified uses locators to find different elements on a webpage during testing. There are 8 different 
+types of locators supported: xpath, id, name, classname, css, partial link text, link text, and tagname. 
+Locators are used to navigate the HTML Document Object Model, returning a single web element or a list of 
+web elements with common locator attributes. For example, you may create an element with the locator 
+type 'tagname' and the locator 'h3' to then call the getWebElements method with the locator. This returns 
+a list of all HTML elements on the webpage with the 'h3' tag. To be more specific, locators like id are 
+often used to return a single web element, being that the id attribute of a web element is supposed to be unique. An elementMatch can also be provided when using locators that match more than one element. For example, calling the method click() on an element with the locator type 'classname', the locator 'filter-button', and the elementMatch 3 will return the third element with the class attribute equal to 'filter-button'.
 
 ##### Identifying Locators
-The easiest way to identify locators for elements you want to test is to use a web browser. There are many tools to assist in finding locators, but you may not always need a tool. Start by right-clicking on an element and then click 'Inspect' (Chrome)  or 'Inspect Element' (Firefox). From here you are then presented with the HTML source of the page with the selected element highlighted. Look at the element's attributes for a unique locator such as an id or class name. If your element has an id or class name, search through the rest of the webpage source to ensure that your element's id or class name attribute is unique. Command or Ctrl + F is the quickest way to do this. Other attributes can be used if unique as well, such as name, link text (if the element is a link), or tagname. If an element does not have a unique locator, you can use an xpath locator or provide an index to specify a single element out of all the elements that match the locator. To copy an element's xpath in Chrome, right click on the element after inspecting it and mouseover 'Copy', then click on 'Copy Xpath'. In Firefox, you'll have to use an Add-on like 'Xpath Checker'. Xpaths are powerful and can always provide a unique selector, but because of the way they often traverse the DOM specifically, they can be very brittle and possibly break with any change to your webpage layout.  
+The easiest way to identify locators for elements you want to test is to use a web browser. There are 
+many tools to assist in finding locators, but you may not always need a tool. Start by right-clicking 
+on an element and then click 'Inspect' (Chrome)  or 'Inspect Element' (Firefox). From here you are then 
+presented with the HTML source of the page with the selected element highlighted. Look at the element's 
+attributes for a unique locator such as an id or class name. If your element has an id or class name, 
+search through the rest of the webpage source to ensure that your element's id or class name attribute 
+is unique. Command or Ctrl + F is the quickest way to do this. Other attributes can be used if unique as 
+well, such as name, link text (if the element is a link), or tagname. If an element does not have a unique 
+locator, you can use an xpath locator or provide an index to specify a single element out of all the elements 
+that match the locator. To copy an element's xpath in Chrome, right click on the element after inspecting 
+it and mouseover 'Copy', then click on 'Copy Xpath'. In Firefox, you'll have to use an Add-on like 
+'Xpath Checker'. Xpaths are powerful and can always provide a unique selector, but because of the way they 
+often traverse the DOM specifically, they can be very brittle and possibly break with any change to your 
+webpage layout.  
 
 ##### Examples
-Xpath:
+###### Xpath
 ```java
-Element carList = new Element( Locators.XPATH, "//*[@id='align_table']/tbody/tr[1]/td[1]/select[1]");
+Element carList = page.newElement( Locators.XPATH, "//*[@id='align_table']/tbody/tr[1]/td[1]/select[1]");
 ```
-Id:
+###### Id
 ```java
-Element carList = new Element( Locators.ID, "car_list");
+Element carList = page.newElement( Locators.ID, "car_list");
 ```
-Name:
+###### Name
 ```java
-Element carList = new Element( Locators.NAME, "car_list");
+Element carList = page.newElement( Locators.NAME, "car_list");
 ```
-Classname:
+###### Classname
 ```java
-Element carList = new Element( Locators.CLASSNAME, "dropdown-default");
+Element carList = page.newElement( Locators.CLASSNAME, "dropdown-default");
 ```
-CSS:
+###### CSS
 ```java
-Element carList = new Element( Locators.CSS, "#car_list");
+Element carList = page.newElement( Locators.CSS, "#car_list");
 ```
-Partial link text:
+###### Partial link text
 ```java
-Element nextImageLink = new Element( Locators.PARTIALLINKTEXT, "next");
+Element nextImageLink = page.newElement( Locators.PARTIALLINKTEXT, "next");
 ```
-Link text:
+###### Link text
 ```java
-Element nextImageLink = new Element( Locators.LINKTEXT, "next image");
+Element nextImageLink = page.newElement( Locators.LINKTEXT, "next image");
 ```
-Tag name:
+###### Tag name
 ```java
-Element carList = new Element( Locators.TAGNAME, "select");
+Element carList = page.newElement( Locators.TAGNAME, "select");
 ```
-Duplicate locators:
-First, create the element with the non-unique locator
+##### Duplicate locators
+If you have a non-unique locator, something that would match multiple elements, you can tell Selenified
+which element to match. By default, the first matching element is used if not provided. 
 ```java
-Element carList = new Element( Locators.TAGNAME, "select");
+Element carList = page.newElement(Locators.TAGNAME, "select");
 ```
-Then perform the action, while also providing an index to specify the element out of the matching elements:
+In this example, the first `select` element on the page is chosen to interact with.
 ```java
-actions.click(carList, 3);
+Element carList = page.newElement(Locators.TAGNAME, "select", 4);
 ```
+In this example, the fourth `select` element on the page is chosen to interact with. Note that element 
+identification starts at 0. You can also dynamically change the element match during your test, which 
+is useful when looping through tasks.
+```java
+Element element = app.newElement(Locators.TAGNAME, "select");
+for (int match = 0; match < element.get().matchCount(); match++) {
+    element.setMatch(match);
+    element.select(2);
+}
+```
+
+#### Custom Actions
+Sometimes, the action you want to perform isn't available via Selenified. Luckily this doesn't mean you need 
+to abandon Selenified.
+
+If you need to perform the custom action, use the `app` object to retrieve the driver.
+```java
+    WebDriver driver = app.getDriver();
+```
+Then perform the action that you need to. You'll want to ensure this action is recorded in the Selenified
+reports. To do this, retrieve the `outputfile` object from the `app` object, and call the recordAction
+method on. If you need to record custom verifications, you can use recordExpected and recordActual.
+```java
+    OutputFile file = app.getOutputFile();
+    file.recordAction(action, expectedResult, actualResult, result);
+    file.recordExpected(expectedOutcome);
+    file.recordActual(actualOutcome, result);
+```
+
+Of course, if this is something that you believe others can benefit from, feel free to 
+[open an issue](https://github.com/Coveros/selenified/issues), or fork the repo, and submit a PR once it's
+implemented.
 
 ### Update testng build file
 When tests are executed from the commandline, the build file dictates which tests to execute. When a new package, 
@@ -326,7 +466,7 @@ Coming Soon
 ### IntelliJ
 #### Clone from GitHub
 Select `File -> New -> Project From Version Control -> GitHub`, then log in to your github account.
-Enter `https://github.com/msaperst/selenified-testing-framework.git` as the project location.
+Enter `https://github.com/Coveros/selenified-testing-framework.git` as the project location.
 #### With code already cloned locally
 Select ```File -> New -> Project From Existing Sources```.
 Navigate to wherever you cloned the project, and select OK

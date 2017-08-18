@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>2.0.2</version>
+    <version>3.0.0</version>
     <properties>
         <suiteXmlFile>integration.xml</suiteXmlFile>
         <failsafe.groups>virtual</failsafe.groups>
@@ -10,7 +11,7 @@
 
     <name>Selenified Testing Framework</name>
     <description>Selenified provides traceable reporting for both web and API testing, wraps and extends Selenium calls to more appropriately handle testing errors, and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in parallel.</description>
-    <url>https://github.com/msaperst/selenified</url>
+    <url>https://github.com/Coveros/selenified</url>
 
     <licenses>
         <license>
@@ -35,9 +36,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/msaperst/selenified.git</connection>
-        <developerConnection>scm:git:ssh://github.com:msaperst/selenified.git</developerConnection>
-        <url>https://github.com/msaperst/selenified/tree/master</url>
+        <connection>scm:git:git://github.com/Coveros/selenified.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Coveros/selenified.git</developerConnection>
+        <url>https://github.com/Coveros/selenified/tree/master</url>
     </scm>
 
     <dependencies>
@@ -287,7 +288,8 @@
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <!-- Set this to true and the release will automatically proceed and sync to Central Repository will follow  -->
+                    <!-- Set this to true and the release will automatically proceed and 
+                        sync to Central Repository will follow -->
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>

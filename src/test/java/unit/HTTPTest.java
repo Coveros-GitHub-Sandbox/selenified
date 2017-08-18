@@ -12,33 +12,28 @@ public class HTTPTest {
         HTTP http = new HTTP("Service");
         Assert.assertFalse(http.useCredentials());
     }
-    
-    @Test
-    public void useCredentialsUserTest() {
-        HTTP http = new HTTP("Service");
-        http.setUser("User");
-        Assert.assertFalse(http.useCredentials());
-    }
-    
-    @Test
-    public void useCredentialsPassTest() {
-        HTTP http = new HTTP("Service");
-        http.setPass("Pass");
-        Assert.assertFalse(http.useCredentials());
-    }
-    
+
     @Test
     public void useCredentialsBothTest() {
-        HTTP http = new HTTP("Service");
-        http.setUser("User");
-        http.setPass("Pass");
-        Assert.assertTrue(http.useCredentials());
-    }
-    
-    @Test
-    public void useCredentialsBothCTest() {
         HTTP http = new HTTP("Service", "User", "Pass");
         Assert.assertTrue(http.useCredentials());
     }
 
+    @Test
+    public void useCredentialsNeitherTest() {
+        HTTP http = new HTTP("Service", "", "");
+        Assert.assertFalse(http.useCredentials());
+    }
+
+    @Test
+    public void useCredentialsUserTest() {
+        HTTP http = new HTTP("Service", "User", "");
+        Assert.assertFalse(http.useCredentials());
+    }
+
+    @Test
+    public void useCredentialsPassTest() {
+        HTTP http = new HTTP("Service", "", "Pass");
+        Assert.assertFalse(http.useCredentials());
+    }
 }

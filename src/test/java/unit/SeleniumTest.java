@@ -3,10 +3,10 @@ package unit;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.coveros.selenified.OutputFile.Success;
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.output.Assert.Success;
-import com.coveros.selenified.selenium.Selenium.Browser;
-import com.coveros.selenified.selenium.Selenium.DriverSetup;
 
 public class SeleniumTest {
 
@@ -49,12 +49,12 @@ public class SeleniumTest {
     public void browsersInvalidTest() throws InvalidBrowserException {
         Browser.lookup("HELLOWORLD");
     }
-    
+
     @Test
     public void errorsForPassTest() {
         Assert.assertEquals(Success.PASS.getErrors(), 0);
     }
-    
+
     @Test
     public void errorsForFailTest() {
         Assert.assertEquals(Success.FAIL.getErrors(), 1);
