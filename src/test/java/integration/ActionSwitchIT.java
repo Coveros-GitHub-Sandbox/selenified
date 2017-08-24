@@ -84,6 +84,18 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
+    @Test(groups = { "integration", "actions", "switch",
+            "frame" }, description = "An integration test to check the frame method")
+    public void selectFrameAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "some_frame").selectFrame();
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = { "integration", "actions", "switch", "frame",
             "virtual" }, description = "An integration negative test to check the frame method")
     public void selectFrameNotExistTest() {
