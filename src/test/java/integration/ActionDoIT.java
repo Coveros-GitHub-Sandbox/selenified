@@ -1075,8 +1075,9 @@ public class ActionDoIT extends Selenified {
         // verify no issues
         finish();
     }
-    
-    @Test(groups = { "integration", "actions", "do", "move" }, description = "An integration test to check the move method")
+
+    @Test(groups = { "integration", "actions", "do",
+            "move" }, description = "An integration test to check the move method")
     public void moveAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -1130,9 +1131,9 @@ public class ActionDoIT extends Selenified {
         // verify no issues
         finish();
     }
-    
+
     @Test(groups = { "integration", "actions", "do",
-    "move" }, description = "An integration negative test to check the move method")
+            "move" }, description = "An integration negative test to check the move method")
     public void moveAtAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

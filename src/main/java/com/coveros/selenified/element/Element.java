@@ -391,7 +391,7 @@ public class Element {
      *
      * @return WebElement: the element object, and all associated values with it
      */
-    protected WebElement getWebElement() {
+    public WebElement getWebElement() {
         List<WebElement> elements = getWebElements();
         if (elements.size() > match) {
             return elements.get(match);
@@ -410,7 +410,7 @@ public class Element {
      * @return List: a list of WebElement objects, and all associated values
      *         with them
      */
-    protected List<WebElement> getWebElements() {
+    public List<WebElement> getWebElements() {
         try {
             return driver.findElements(defineByElement());
         } catch (InvalidLocatorTypeException e) {
