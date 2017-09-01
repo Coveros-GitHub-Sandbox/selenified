@@ -999,4 +999,37 @@ public class ActionGetIT extends Selenified {
         // verify no issues
         finish();
     }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration test to check the getXPath method")
+    public void getElementXPathTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.newElement(Locator.CLASSNAME, "overlay").get().xPath(), "id(\"overlay_span\")");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration test to check the getXPath method")
+    public void getElementXPathDivTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.newElement(Locator.TAGNAME, "tr").get().xPath(), "id(\"align_table\")/tbody[1]/tr[1]");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration negative test to check the getXPath method")
+    public void getElementXPathNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertNull(app.newElement(Locator.ID, "non-existent-name").get().xPath());
+        // verify no issues
+        finish();
+    }
 }
