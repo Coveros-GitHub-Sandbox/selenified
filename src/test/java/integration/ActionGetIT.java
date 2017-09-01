@@ -433,6 +433,18 @@ public class ActionGetIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableColumn method")
+    public void getTableColumnNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<WebElement> column = app.newElement(Locator.ID, "transparent_input").get().tableColumn(1);
+        Assert.assertNull(column);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableColumn method")
     public void getTableColumnsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
