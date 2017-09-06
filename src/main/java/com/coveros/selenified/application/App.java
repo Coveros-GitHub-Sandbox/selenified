@@ -18,6 +18,9 @@
  * under the License.
  */
 
+//TODO - fix/add tests to cover failure modes
+//TODO - update is/wait/get (element and app) to handle alert present and respond properly
+
 package com.coveros.selenified.application;
 
 import java.io.File;
@@ -569,14 +572,14 @@ public class App {
     public void deleteCookie(String cookieName) {
         String action = "Deleting cookie <i>" + cookieName + "</i>";
         String expected = "Cookie <i>" + cookieName + "</i> is removed";
-        Cookie cookie = driver.manage().getCookieNamed(cookieName);
-        if (cookie == null) {
-            file.recordAction(action, expected,
-                    "Unable to remove cookie <i>" + cookieName + "</i> as it doesn't exist.", Result.FAILURE);
-            file.addError();
-            return;
-        }
         try {
+            Cookie cookie = driver.manage().getCookieNamed(cookieName);
+            if (cookie == null) {
+                file.recordAction(action, expected,
+                        "Unable to remove cookie <i>" + cookieName + "</i> as it doesn't exist.", Result.FAILURE);
+                file.addError();
+                return;
+            }
             driver.manage().deleteCookieNamed(cookieName);
         } catch (Exception e) {
             file.recordAction(action, expected, "Unable to remove cookie <i>" + cookieName + "</i>. " + e.getMessage(),
@@ -635,16 +638,25 @@ public class App {
      *            - the position on the page to scroll to
      */
     public void scroll(int desiredPosition) {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        Long initialPosition = (Long) jse.executeScript("return window.scrollY;");
+        String action = "Scrolling page by " + desiredPosition + " pixels";
+        String expected = "Page is scrolled down " + desiredPosition + " pixels";
+        Long newPosition;
+        try {
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            Long initialPosition = (Long) jse.executeScript("return window.scrollY;");
 
-        String action = "Scrolling page from " + initialPosition + " to " + desiredPosition;
-        String expected = "Page is now set at position " + desiredPosition;
+            action = "Scrolling page from " + initialPosition + " to " + desiredPosition;
+            expected = "Page is now set at position " + desiredPosition;
 
-        jse.executeScript("window.scrollBy(0, " + desiredPosition + ")");
+            jse.executeScript("window.scrollBy(0, " + desiredPosition + ")");
 
-        Long newPosition = (Long) jse.executeScript("return window.scrollY;");
-
+            newPosition = (Long) jse.executeScript("return window.scrollY;");
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Unable to scroll on the page. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.error(e);
+            return;
+        }
         if (newPosition != desiredPosition) {
             file.recordAction(action, expected, "Page is set at position " + newPosition, Result.FAILURE);
             file.addError();
@@ -713,6 +725,44 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Current window was unable to be closed. " + e.getMessage(),
                     Result.FAILURE);
+            file.addError();
+            log.error(e);
+            return;
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
+     * Select the main window. Used for returning to the main content after
+     * selecting a frame. If there are nested frames, the main content will be
+     * selected, not the next frame in the parent child relationship
+     */
+    public void selectMainWindow() {
+        String action = "Switching to main window";
+        String expected = "Main window is selected";
+        try {
+            driver.switchTo().defaultContent();
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Main window was not selected. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.error(e);
+            return;
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
+     * Select the parent frame. Used for returning to the next frame up after
+     * selecting a frame. If there are nested frames, the main content won't be
+     * selected, however the next frame in the parent child relationship will be
+     */
+    public void selectParentFrame() {
+        String action = "Switching to parent frame";
+        String expected = "Parent frame is selected";
+        try {
+            driver.switchTo().parentFrame();
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Parent frame was not selected. " + e.getMessage(), Result.FAILURE);
             file.addError();
             log.error(e);
             return;

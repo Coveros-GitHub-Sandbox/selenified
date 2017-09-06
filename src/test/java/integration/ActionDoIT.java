@@ -253,6 +253,18 @@ public class ActionDoIT extends Selenified {
         finish();
     }
 
+    @Test(groups = { "integration", "actions", "do",
+            "click" }, description = "An integration negative test to check the click method")
+    public void clickAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.LINKTEXT, "I'M A LINK").click();
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = { "integration", "actions", "click",
             "do" }, description = "An integration negative test to check the click method")
     public void clickDisabledTest() {
@@ -307,6 +319,18 @@ public class ActionDoIT extends Selenified {
         app.azzert().textPresent("You're on the next page");
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "do",
+            "submit" }, description = "An integration negative test to check the submit method")
+    public void submitAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "submit_button").submit();
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "submit", "do",
@@ -401,6 +425,18 @@ public class ActionDoIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions", "do",
+            "hover" }, description = "An integration negative test to check the hover method")
+    public void hoverAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "hover_over_me").hover();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do",
             "blur" }, description = "An integration test to check the blur method")
     public void blurTest() {
         // use this object to manipulate the app
@@ -410,6 +446,18 @@ public class ActionDoIT extends Selenified {
         app.azzert().alertPresent();
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "do",
+            "blur" }, description = "An integration negative test to check the blur method")
+    public void blurAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "input_box").blur();
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "blur",
@@ -560,6 +608,18 @@ public class ActionDoIT extends Selenified {
     }
 
     @Test(groups = { "integration", "actions", "do",
+            "type" }, description = "An integration negative test to check the type method")
+    public void typeAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "input_box").type("This is a test");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do",
             "type" }, description = "An integration test to check the type method")
     public void typeKeysInputTest() {
         // use this object to manipulate the app
@@ -662,6 +722,18 @@ public class ActionDoIT extends Selenified {
         finish(1);
     }
 
+    @Test(groups = { "integration", "actions", "do",
+            "type" }, description = "An integration negative test to check the type method")
+    public void typeKeysAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "input_box").type(Keys.BACK_SPACE);
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = { "integration", "actions", "do", "clear",
             "virtual" }, description = "An integration test to check the clear method")
     public void clearInputTest() {
@@ -755,6 +827,18 @@ public class ActionDoIT extends Selenified {
         finish(1);
     }
 
+    @Test(groups = { "integration", "actions", "do",
+            "clear" }, description = "An integration test to check the clear method")
+    public void clearAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "input_box").clear();
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(dataProvider = "car list options", groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration test using a data provider to perform searches")
     public void selectValueTest(int listItem, String listValue) {
@@ -774,7 +858,19 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "car_list").select(9);
-        // verify 2 issues
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = { "integration", "actions", "do",
+            "select" }, description = "An integration negative test to check the select method")
+    public void selectValueAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "car_list").select(1);
+        // verify 1 issue
         finish(1);
     }
 
@@ -856,6 +952,18 @@ public class ActionDoIT extends Selenified {
         finish(1);
     }
 
+    @Test(dataProvider = "car list items", groups = { "integration", "actions", "do",
+            "select" }, description = "An integration negative test using a data provider to perform searches")
+    public void selectOptionAlertTest(String listItem) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "car_list").selectOption(listItem);
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(dataProvider = "car list items", groups = { "integration", "actions", "do", "select",
             "virtual" }, description = "An integration test using a data provider to perform searches")
     public void selectValueTest(String listItem) {
@@ -866,6 +974,18 @@ public class ActionDoIT extends Selenified {
         app.newElement(Locator.ID, "car_list").assertEquals().selectedValue(listItem.toLowerCase());
         // close out the test
         finish();
+    }
+
+    @Test(dataProvider = "car list items", groups = { "integration", "actions", "do",
+            "select" }, description = "An integration test using a data provider to perform searches")
+    public void selectValueAlertTest(String listItem) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "car_list").selectValue(listItem.toLowerCase());
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do", "select",
@@ -956,6 +1076,18 @@ public class ActionDoIT extends Selenified {
         finish();
     }
 
+    @Test(groups = { "integration", "actions", "do",
+            "move" }, description = "An integration test to check the move method")
+    public void moveAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "table_no_header").move();
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = { "integration", "actions", "do", "move",
             "virtual" }, description = "An integration negative test to check the move method")
     public void moveNotExistTest() {
@@ -998,6 +1130,18 @@ public class ActionDoIT extends Selenified {
         app.newElement(Locator.ID, "table_no_header").move(10);
         // verify no issues
         finish();
+    }
+
+    @Test(groups = { "integration", "actions", "do",
+            "move" }, description = "An integration negative test to check the move method")
+    public void moveAtAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "table_no_header").move(10);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = { "integration", "actions", "do",

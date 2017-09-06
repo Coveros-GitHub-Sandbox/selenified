@@ -391,7 +391,7 @@ public class Element {
      *
      * @return WebElement: the element object, and all associated values with it
      */
-    protected WebElement getWebElement() {
+    public WebElement getWebElement() {
         List<WebElement> elements = getWebElements();
         if (elements.size() > match) {
             return elements.get(match);
@@ -410,7 +410,7 @@ public class Element {
      * @return List: a list of WebElement objects, and all associated values
      *         with them
      */
-    protected List<WebElement> getWebElements() {
+    public List<WebElement> getWebElements() {
         try {
             return driver.findElements(defineByElement());
         } catch (InvalidLocatorTypeException e) {
@@ -662,10 +662,10 @@ public class Element {
         String cantClick = "Unable to click ";
         String action = "Clicking " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be clicked";
-        if (!isPresentDisplayedEnabled(action, expected, cantClick)) {
-            return;
-        }
         try {
+            if (!isPresentDisplayedEnabled(action, expected, cantClick)) {
+                return;
+            }
             WebElement webElement = getWebElement();
             Actions selAction = new Actions(driver);
             selAction.click(webElement).perform();
@@ -687,11 +687,11 @@ public class Element {
         String cantSubmit = "Unable to submit ";
         String action = "Submitting " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be submitted    ";
-        if (!isPresentDisplayedEnabled(action, expected, cantSubmit)) {
-            return;
-        }
-        WebElement webElement = getWebElement();
         try {
+            if (!isPresentDisplayedEnabled(action, expected, cantSubmit)) {
+                return;
+            }
+            WebElement webElement = getWebElement();
             webElement.submit();
         } catch (Exception e) {
             log.error(e);
@@ -711,15 +711,15 @@ public class Element {
         String cantHover = "Unable to hover over ";
         String action = "Hovering over " + prettyOutput();
         String expected = prettyOutput() + " is present, and displayed to be hovered over";
-        // wait for element to be present
-        if (!isPresent(action, expected, cantHover)) {
-            return;
-        }
-        // wait for element to be displayed
-        if (!isDisplayed(action, expected, cantHover)) {
-            return;
-        }
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, cantHover)) {
+                return;
+            }
+            // wait for element to be displayed
+            if (!isDisplayed(action, expected, cantHover)) {
+                return;
+            }
             Actions selAction = new Actions(driver);
             WebElement webElement = getWebElement();
             selAction.moveToElement(webElement).perform();
@@ -742,10 +742,10 @@ public class Element {
         String cantFocus = "Unable to focus on ";
         String action = "Focusing, then unfocusing (blurring) on " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be blurred";
-        if (!isPresentDisplayedEnabledInput(action, expected, cantFocus)) {
-            return;
-        }
         try {
+            if (!isPresentDisplayedEnabledInput(action, expected, cantFocus)) {
+                return;
+            }
             WebElement webElement = getWebElement();
             webElement.sendKeys("\t");
         } catch (Exception e) {
@@ -770,14 +770,14 @@ public class Element {
     public void type(String text) {
         String action = "Typing text '" + text + IN + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + text + " typed in";
-        if (!isPresentEnabledInput(action, expected, CANTTYPE)) {
-            return;
-        }
         Boolean warning = false;
-        if (!is.displayed()) {
-            warning = true;
-        }
         try {
+            if (!isPresentEnabledInput(action, expected, CANTTYPE)) {
+                return;
+            }
+            if (!is.displayed()) {
+                warning = true;
+            }
             WebElement webElement = getWebElement();
             webElement.sendKeys(text);
         } catch (Exception e) {
@@ -807,14 +807,14 @@ public class Element {
     public void type(Keys key) {
         String action = "Typing key '" + key + IN + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + key + " entered";
-        if (!isPresentEnabledInput(action, expected, CANTTYPE)) {
-            return;
-        }
         Boolean warning = false;
-        if (!is.displayed()) {
-            warning = true;
-        }
         try {
+            if (!isPresentEnabledInput(action, expected, CANTTYPE)) {
+                return;
+            }
+            if (!is.displayed()) {
+                warning = true;
+            }
             WebElement webElement = getWebElement();
             webElement.sendKeys(key);
         } catch (Exception e) {
@@ -840,11 +840,11 @@ public class Element {
         String cantClear = "Unable to clear ";
         String action = "Clearing text in " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text cleared";
-        if (!isPresentDisplayedEnabledInput(action, expected, cantClear)) {
-            return;
-        }
-        WebElement webElement = getWebElement();
         try {
+            if (!isPresentDisplayedEnabledInput(action, expected, cantClear)) {
+                return;
+            }
+            WebElement webElement = getWebElement();
             webElement.clear();
         } catch (Exception e) {
             log.error(e);
@@ -868,18 +868,18 @@ public class Element {
     public void select(int index) {
         String action = SELECTING + index + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + index + SELECTED;
-        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
-            return;
-        }
-        String[] options = get.selectOptions();
-        if (index > options.length) {
-            file.recordAction(action, expected, "Unable to select the <i>" + index
-                    + "</i> option, as there are only <i>" + options.length + "</i> available.", Result.FAILURE);
-            file.addError();
-            return;
-        }
-        // do the select
         try {
+            if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
+                return;
+            }
+            String[] options = get.selectOptions();
+            if (index > options.length) {
+                file.recordAction(action, expected, "Unable to select the <i>" + index
+                        + "</i> option, as there are only <i>" + options.length + "</i> available.", Result.FAILURE);
+                file.addError();
+                return;
+            }
+            // do the select
             WebElement webElement = getWebElement();
             Select dropdown = new Select(webElement);
             dropdown.selectByIndex(index);
@@ -904,21 +904,21 @@ public class Element {
     public void selectOption(String option) {
         String action = SELECTING + option + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + option + SELECTED;
-        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
-            return;
-        }
-        // ensure the option exists
-        if (!Arrays.asList(get.selectOptions()).contains(option)) {
-            file.recordAction(action, expected,
-                    CANTSELECT + option + " in " + prettyOutput()
-                            + " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
-                            + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>",
-                    Result.FAILURE);
-            file.addError();
-            return;
-        }
-        // do the select
         try {
+            if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
+                return;
+            }
+            // ensure the option exists
+            if (!Arrays.asList(get.selectOptions()).contains(option)) {
+                file.recordAction(action, expected,
+                        CANTSELECT + option + " in " + prettyOutput()
+                                + " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
+                                + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>",
+                        Result.FAILURE);
+                file.addError();
+                return;
+            }
+            // do the select
             WebElement webElement = getWebElement();
             Select dropdown = new Select(webElement);
             dropdown.selectByVisibleText(option);
@@ -943,21 +943,21 @@ public class Element {
     public void selectValue(String value) {
         String action = SELECTING + value + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + value + SELECTED;
-        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
-            return;
-        }
-        // ensure the value exists
-        if (!Arrays.asList(get.selectValues()).contains(value)) {
-            file.recordAction(action, expected,
-                    CANTSELECT + value + " in " + prettyOutput()
-                            + " as that value isn't present. Available values are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
-                            + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>",
-                    Result.FAILURE);
-            file.addError();
-            return;
-        }
-        // do the select
         try {
+            if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
+                return;
+            }
+            // ensure the value exists
+            if (!Arrays.asList(get.selectValues()).contains(value)) {
+                file.recordAction(action, expected,
+                        CANTSELECT + value + " in " + prettyOutput()
+                                + " as that value isn't present. Available values are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
+                                + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>",
+                        Result.FAILURE);
+                file.addError();
+                return;
+            }
+            // do the select
             WebElement webElement = getWebElement();
             Select dropdown = new Select(webElement);
             dropdown.selectByValue(value);
@@ -1016,11 +1016,12 @@ public class Element {
     public void move() {
         String action = "Moving screen to " + prettyOutput();
         String expected = prettyOutput() + " is now displayed within the current viewport";
-        // wait for element to be present
-        if (!isPresent(action, expected, CANTMOVE)) {
-            return;
-        }
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, CANTMOVE)) {
+                return;
+            }
+            // perform the move action
             WebElement webElement = getWebElement();
             Actions builder = new Actions(driver);
             builder.moveToElement(webElement);
@@ -1043,12 +1044,12 @@ public class Element {
     public void move(long position) {
         String action = "Moving screen to " + position + " pixels above " + prettyOutput();
         String expected = prettyOutput() + " is now displayed within the current viewport";
-        // wait for element to be present
-        if (!isPresent(action, expected, CANTMOVE)) {
-            return;
-        }
-
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, CANTMOVE)) {
+                return;
+            }
+            // perform the move action
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             WebElement webElement = getWebElement();
             long elementPosition = webElement.getLocation().getY();
@@ -1070,16 +1071,17 @@ public class Element {
         String cantSelect = "Unable to focus on frame ";
         String action = "Focusing on frame " + prettyOutput();
         String expected = "Frame " + prettyOutput() + " is present, displayed, and focused";
-        // wait for element to be present
-        if (!isPresent(action, expected, cantSelect)) {
-            return;
-        }
-        // wait for element to be displayed
-        if (!isDisplayed(action, expected, cantSelect)) {
-            return;
-        }
-        WebElement webElement = getWebElement();
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, cantSelect)) {
+                return;
+            }
+            // wait for element to be displayed
+            if (!isDisplayed(action, expected, cantSelect)) {
+                return;
+            }
+            // select the actual frame
+            WebElement webElement = getWebElement();
             driver.switchTo().frame(webElement);
         } catch (Exception e) {
             log.error(e);
