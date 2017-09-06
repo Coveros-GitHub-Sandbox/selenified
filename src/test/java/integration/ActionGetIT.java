@@ -433,6 +433,18 @@ public class ActionGetIT extends Selenified {
 
     @Test(groups = { "integration", "actions", "get",
             "virtual" }, description = "An integration test to check the getTableColumn method")
+    public void getTableColumnNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<WebElement> column = app.newElement(Locator.ID, "transparent_input").get().tableColumn(1);
+        Assert.assertNull(column);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions", "get",
+            "virtual" }, description = "An integration test to check the getTableColumn method")
     public void getTableColumnsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -984,6 +996,39 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         Assert.assertEquals(app.newElement(Locator.ID, "non-existent-name").get().matchCount(), 0);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration test to check the getXPath method")
+    public void getElementXPathTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.newElement(Locator.CLASSNAME, "overlay").get().xPath(), "id(\"overlay_span\")");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration test to check the getXPath method")
+    public void getElementXPathDivTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.newElement(Locator.TAGNAME, "tr").get().xPath(), "id(\"align_table\")/tbody[1]/tr[1]");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = { "integration", "actions",
+            "get" }, description = "An integration negative test to check the getXPath method")
+    public void getElementXPathNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertNull(app.newElement(Locator.ID, "non-existent-name").get().xPath());
         // verify no issues
         finish();
     }
