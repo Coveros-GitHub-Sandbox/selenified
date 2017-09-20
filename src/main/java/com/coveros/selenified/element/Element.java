@@ -20,15 +20,20 @@
 
 package com.coveros.selenified.element;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
@@ -40,6 +45,7 @@ import com.coveros.selenified.element.Get;
 import com.coveros.selenified.element.Is;
 import com.coveros.selenified.element.WaitFor;
 import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
+import com.coveros.selenified.utilities.Point;
 
 /**
  * Element an object representative of a web element on a particular page that
@@ -59,6 +65,9 @@ public class Element {
     private Locator type;
     private String locator;
     private int match = 0;
+
+    // is there a parent element
+    private Element parent = null;
 
     // this will be the name of the file we write all commands out to
     private OutputFile file;
@@ -128,6 +137,33 @@ public class Element {
     /**
      * Sets up the element object. Driver, and Output are defined here, which
      * will control actions and all logging and records. Additionally,
+     * information about the element, the locator type, and the actual selector
+     * are defined to indicate which element to interact with on the current
+     * page
+     * 
+     * @param driver
+     *            - the selenium web driver, the underlying way all actions and
+     *            assertions are controlled
+     * @param file
+     *            - the TestOutput file. This is provided by the
+     *            SeleniumTestBase functionality
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param parent
+     *            - the parent element to the searched for element
+     */
+    public Element(WebDriver driver, OutputFile file, Locator type, String locator, Element parent) {
+        this.type = type;
+        this.locator = locator;
+        this.parent = parent;
+        init(driver, file);
+    }
+
+    /**
+     * Sets up the element object. Driver, and Output are defined here, which
+     * will control actions and all logging and records. Additionally,
      * information about the element, the locator type, the actual selector, and
      * the element's uniqueness match are defined to indicate which element to
      * interact with on the current page
@@ -150,6 +186,37 @@ public class Element {
         this.type = type;
         this.locator = locator;
         this.setMatch(match);
+        init(driver, file);
+    }
+
+    /**
+     * Sets up the element object. Driver, and Output are defined here, which
+     * will control actions and all logging and records. Additionally,
+     * information about the element, the locator type, the actual selector, and
+     * the element's uniqueness match are defined to indicate which element to
+     * interact with on the current page
+     * 
+     * @param driver
+     *            - the selenium web driver, the underlying way all actions and
+     *            assertions are controlled
+     * @param file
+     *            - the TestOutput file. This is provided by the
+     *            SeleniumTestBase functionality
+     * @param type
+     *            - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator
+     *            - the locator string e.g. login, //input[@id='login']
+     * @param match
+     *            - if there are multiple matches of the selector, this is which
+     *            match (starting at 0) to interact with
+     * @param parent
+     *            - the parent element to the searched for element
+     */
+    public Element(WebDriver driver, OutputFile file, Locator type, String locator, int match, Element parent) {
+        this.type = type;
+        this.locator = locator;
+        this.setMatch(match);
+        this.parent = parent;
         init(driver, file);
     }
 
@@ -400,6 +467,9 @@ public class Element {
             return elements.get(match);
         }
         try {
+            if (parent != null) {
+                return parent.getWebElement().findElement(defineByElement());
+            }
             return driver.findElement(defineByElement());
         } catch (InvalidLocatorTypeException e) {
             log.error(e);
@@ -417,6 +487,9 @@ public class Element {
      */
     public List<WebElement> getWebElements() {
         try {
+            if (parent != null) {
+                return parent.getWebElement().findElements(defineByElement());
+            }
             return driver.findElements(defineByElement());
         } catch (InvalidLocatorTypeException e) {
             log.error(e);
@@ -433,18 +506,7 @@ public class Element {
      * @return Element: the full reference to the child element element
      */
     public Element findChild(Element child) {
-        try {
-            WebElement webElement = getWebElement();
-            WebElement childElement = webElement.findElement(child.defineByElement());
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            String xPath = (String) js.executeScript(
-                    "gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();",
-                    childElement);
-            return new Element(driver, file, Locator.XPATH, xPath);
-        } catch (InvalidLocatorTypeException e) {
-            log.error(e);
-            return null;
-        }
+        return new Element(child.getDriver(), file, child.getType(), child.getLocator(), child.getMatch(), this);
     }
 
     //////////////////////////////////
@@ -1088,6 +1150,69 @@ public class Element {
             return;
         }
         isMoved(action, expected);
+    }
+
+    /**
+     * Simulates moving the mouse around while the cursor is pressed. Can be
+     * used for drawing on canvases, or swipping on certain elements
+     * 
+     * @param points
+     *            - a list of points to connect. At least one point must be
+     *            provided in the list
+     */
+    public void draw(List<Point<Integer, Integer>> points) {
+        if (points.isEmpty()) {
+            file.recordAction("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
+                    "Unable to draw in " + prettyOutput() + " as no points were supplied", Result.FAILURE);
+            file.addError();
+            return;
+        }
+        String imageLink;
+        StringBuilder pointString = new StringBuilder();
+        String prefix = "";
+        for (Point<Integer, Integer> point : points) {
+            pointString.append(prefix);
+            prefix = " to ";
+            pointString.append("<i>" + point.getX() + "x" + point.getY() + "</i>");
+        }
+        String action = "Drawing object from " + pointString.toString() + " in " + prettyOutput();
+        String expected = prettyOutput() + " now has object drawn on it from " + pointString.toString();
+        // wait for element to be present
+        if (!isPresent(action, expected, "Unable to drawn in ")) {
+            return;
+        }
+        WebElement webElement = getWebElement();
+        try {
+            // do our actions
+            Actions builder = new Actions(driver);
+            Point<Integer, Integer> firstPoint = points.get(0);
+            points.remove(0);
+            builder.moveToElement(webElement, firstPoint.getX(), firstPoint.getY()).clickAndHold();
+            for (Point<Integer, Integer> point : points) {
+                builder.moveByOffset(point.getX(), point.getY());
+            }
+            Action drawAction = builder.release().build();
+            drawAction.perform();
+            // capture an image of it
+            imageLink = file.captureEntirePageScreenshot();
+            File image = new File(file.getDirectory(), imageLink.split("\"")[1]);
+            BufferedImage fullImg = ImageIO.read(image);
+            // Get the location of element on the page
+            org.openqa.selenium.Point point = webElement.getLocation();
+            // Get width and height of the element
+            int eleWidth = webElement.getSize().getWidth();
+            int eleHeight = webElement.getSize().getHeight();
+            // Crop the entire page screenshot to get only element screenshot
+            BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
+            ImageIO.write(eleScreenshot, "png", image);
+        } catch (Exception e) {
+            log.error(e);
+            file.recordAction(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage(),
+                    Result.FAILURE);
+            file.addError();
+            return;
+        }
+        file.recordAction(action, expected, "Drew object in " + prettyOutput() + imageLink, Result.SUCCESS);
     }
 
     /**

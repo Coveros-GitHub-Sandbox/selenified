@@ -19,6 +19,7 @@
  */
 
 //TODO - fix/add tests to cover failure modes
+//TODO - add in enabled - see Vibrent work
 //TODO - update is/wait/get (element and app) to handle alert present and respond properly
 
 package com.coveros.selenified.application;
