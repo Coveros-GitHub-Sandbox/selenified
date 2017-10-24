@@ -22,6 +22,7 @@ package com.coveros.selenified.element;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -1167,7 +1168,6 @@ public class Element {
             file.addError();
             return;
         }
-        String imageLink;
         StringBuilder pointString = new StringBuilder();
         String prefix = "";
         for (Point<Integer, Integer> point : points) {
@@ -1193,18 +1193,6 @@ public class Element {
             }
             Action drawAction = builder.release().build();
             drawAction.perform();
-            // capture an image of it
-            imageLink = file.captureEntirePageScreenshot();
-            File image = new File(file.getDirectory(), imageLink.split("\"")[1]);
-            BufferedImage fullImg = ImageIO.read(image);
-            // Get the location of element on the page
-            org.openqa.selenium.Point point = webElement.getLocation();
-            // Get width and height of the element
-            int eleWidth = webElement.getSize().getWidth();
-            int eleHeight = webElement.getSize().getHeight();
-            // Crop the entire page screenshot to get only element screenshot
-            BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
-            ImageIO.write(eleScreenshot, "png", image);
         } catch (Exception e) {
             log.error(e);
             file.recordAction(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage(),
@@ -1212,7 +1200,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Drew object in " + prettyOutput() + imageLink, Result.SUCCESS);
+        file.recordAction(action, expected, "Drew object in " + prettyOutput() + getScreenshot(), Result.SUCCESS);
     }
 
     /**
@@ -1243,5 +1231,34 @@ public class Element {
             return;
         }
         file.recordAction(action, expected, "Focused on frame " + prettyOutput(), Result.SUCCESS);
+    }
+
+    /**
+     * Captures an image of the element, and returns the html friendly link of
+     * it for use in the logging file. If there is a problem capturing the
+     * image, an error message is returned instead.
+     * 
+     * @return
+     */
+    private String getScreenshot() {
+        WebElement webElement = getWebElement();
+        String imageLink = "<b><font class='fail'>No Image Preview</font></b>";
+        // capture an image of it
+        try {
+            imageLink = file.captureEntirePageScreenshot();
+            File image = new File(file.getDirectory(), imageLink.split("\"")[1]);
+            BufferedImage fullImg = ImageIO.read(image);
+            // Get the location of element on the page
+            org.openqa.selenium.Point point = webElement.getLocation();
+            // Get width and height of the element
+            int eleWidth = webElement.getSize().getWidth();
+            int eleHeight = webElement.getSize().getHeight();
+            // Crop the entire page screenshot to get only element screenshot
+            BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
+            ImageIO.write(eleScreenshot, "png", image);
+        } catch (IOException e) {
+            log.error(e);
+        }
+        return imageLink;
     }
 }
