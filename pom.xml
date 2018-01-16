@@ -24,6 +24,7 @@
         <slf4j.version>1.7.23</slf4j.version>
         <testng.version>6.9.9</testng.version>
         <webdrivermanager.version>1.6.2</webdrivermanager.version>
+        <phantomjsdriver.version>2.0.0</phantomjsdriver.version>
 
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
         <maven.failsafe.plugin.version>2.8.1</maven.failsafe.plugin.version>
@@ -119,6 +120,13 @@
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.jesg/phantomjsdriver -->
+        <dependency>
+        	<groupId>com.github.jesg</groupId>
+        	<artifactId>phantomjsdriver</artifactId>
+        	<version>${phantomjsdriver.version}</version>
+        </dependency>
+        
     </dependencies>
 
     <distributionManagement>
