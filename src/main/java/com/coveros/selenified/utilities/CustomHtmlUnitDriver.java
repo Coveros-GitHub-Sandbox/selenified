@@ -25,6 +25,8 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import java.util.logging.Level;
+
 /**
  * Overrides the default HtmlUnitDriver. This class specifically overrides the
  * modifyWebClient method to ignore Javascript errors found by the HtmlUnit
@@ -48,6 +50,10 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     public CustomHtmlUnitDriver(Capabilities capabilities) {
         super(capabilities); // To change body of overridden methods use File |
                                 // Settings | File Templates.
+        System.getProperties().put("org.apache.commons.logging.simplelog.defaultlog", "fatal");
+        java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+        java.util.logging.Logger.getLogger("org.apache.http").setLevel(Level.OFF);
+
     }
 
     /**

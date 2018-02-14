@@ -189,10 +189,10 @@ public class Call {
             response.setOutputFile(file);
             file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
+            log.warn(e);
             response = new Response(0);
             response.setOutputFile(file);
             return response;

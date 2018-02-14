@@ -121,7 +121,7 @@ public class WaitFor {
                 driver.switchTo().alert();
                 break;
             } catch (NoAlertPresentException e) {
-                log.error(e);
+                log.info(e);
             }
         }
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);

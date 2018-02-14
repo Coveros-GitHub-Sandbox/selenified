@@ -61,7 +61,7 @@ public class Is {
             driver.switchTo().alert();
             isPresent = true;
         } catch (NoAlertPresentException e) {
-            log.error(e);
+            log.info(e);
         }
         return isPresent;
     }
@@ -122,7 +122,7 @@ public class Is {
             String bodyText = driver.findElement(By.tagName("body")).getText();
             return bodyText.contains(expectedText);
         } catch (Exception e) {
-            log.error(e);
+            log.info(e);
             return false;
         }
     }
@@ -138,7 +138,7 @@ public class Is {
         try {
             return driver.getPageSource().contains(expectedText);
         } catch (Exception e) {
-            log.error(e);
+            log.info(e);
             return false;
         }
     }

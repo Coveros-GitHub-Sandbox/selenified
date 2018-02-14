@@ -53,7 +53,7 @@ import com.coveros.selenified.utilities.TestSetup;
 
 /**
  * App is an instance of the browser based application that is under test.
- * 
+ *
  * Pages should be build out of this object (if using the page object model
  * (POM)), so that several pages make up an app. Within each page, multiple
  * elements should be created. In this way, we can act on our app, page, or
@@ -148,7 +148,7 @@ public class App {
 
     /**
      * setups a new element which is located on the page
-     * 
+     *
      * @param type
      *            - the locator type e.g. Locator.id, Locator.xpath
      * @param locator
@@ -161,7 +161,7 @@ public class App {
 
     /**
      * setups a new element which is located on the page
-     * 
+     *
      * @param type
      *            - the locator type e.g. Locator.id, Locator.xpath
      * @param locator
@@ -271,7 +271,7 @@ public class App {
         try {
             driver.quit();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
         }
     }
 
@@ -291,7 +291,7 @@ public class App {
         try {
             Thread.sleep((long) (seconds * 1000));
         } catch (InterruptedException e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
@@ -314,7 +314,7 @@ public class App {
         try {
             driver.get(url);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, "Fail to Load " + url + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -338,7 +338,7 @@ public class App {
         try {
             // take a screenshot
             File srcFile;
-            if (System.getProperty("hubAddress") != "LOCAL") {
+            if (System.getProperty("hub") != null) {
                 WebDriver augemented = new Augmenter().augment(driver);
                 srcFile = ((TakesScreenshot) augemented).getScreenshotAs(OutputType.FILE);
             } else {
@@ -353,8 +353,8 @@ public class App {
 
     /**
      * Sends a key combination both as control and command (PC and Mac
-     * compatibile)
-     * 
+     * compatible)
+     *
      * @param action
      *            - the action occurring
      * @param expected
@@ -373,7 +373,7 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, fail + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return false;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -383,7 +383,7 @@ public class App {
     /**
      * Opens a new tab, and have it selected. Note, no content will be present
      * on this new tab, use the goToURL method to open load some content
-     * 
+     *
      * @return Boolean: returns a true if a tab was successfully opened, a false
      *         if it was not.
      */
@@ -393,7 +393,7 @@ public class App {
 
     /**
      * Opens a new tab, and have it selected. The page provided will be loaded
-     * 
+     *
      * @param url
      *            - the url to load once the new tab is opened and selected
      */
@@ -419,7 +419,7 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Next tab <b>" + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -441,7 +441,7 @@ public class App {
             file.recordAction(action, expected, "Previous tab <b>" + NOTSELECTED + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -468,7 +468,7 @@ public class App {
             file.recordAction(action, expected, "Browser was unable to go back one page. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -486,7 +486,7 @@ public class App {
             file.recordAction(action, expected, "Browser was unable to go forward one page. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -504,7 +504,7 @@ public class App {
             file.recordAction(action, expected, "Browser was unable to be refreshed. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -527,7 +527,7 @@ public class App {
             file.recordAction(action, expected,
                     "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -535,7 +535,7 @@ public class App {
 
     /**
      * Adds a cookie to the application for this particular test
-     * 
+     *
      * @param cookie
      *            - the details of the cookie to set
      */
@@ -556,7 +556,7 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Unable to add cookie. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -566,7 +566,7 @@ public class App {
      * Deletes a stored cookie, indicated by the cookieName for this particular
      * test. If the cookie by the provided name isn't present, than an error
      * will be logged and recorded
-     * 
+     *
      * @param cookieName
      *            - the name of the cookie to delete
      */
@@ -586,7 +586,7 @@ public class App {
             file.recordAction(action, expected, "Unable to remove cookie <i>" + cookieName + "</i>. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -604,7 +604,7 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Unable to remove all cookies. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -623,7 +623,7 @@ public class App {
             file.recordAction(action, expected, "Browser was unable to be maximized. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -655,7 +655,7 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Unable to scroll on the page. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         if (newPosition != desiredPosition) {
@@ -684,7 +684,7 @@ public class App {
             file.recordAction(action, expected, "New window was unable to be selected. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -705,7 +705,7 @@ public class App {
             file.recordAction(action, expected, "Parent window was unable to be selected. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -727,7 +727,7 @@ public class App {
             file.recordAction(action, expected, "Current window was unable to be closed. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -746,7 +746,7 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Main window was not selected. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -765,7 +765,7 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Parent frame was not selected. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -776,7 +776,7 @@ public class App {
      * frames, the first frame would be at index 0, the second at index 1 and
      * the third at index 2. Once the frame has been selected, all subsequent
      * calls on the WebDriver interface are made to that frame.
-     * 
+     *
      * @param frameNumber
      *            - the frame number, starts at 0
      */
@@ -789,7 +789,7 @@ public class App {
             file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -798,7 +798,7 @@ public class App {
     /**
      * Select a frame by its name or ID. Frames located by matching name
      * attributes are always given precedence over those matched by ID.
-     * 
+     *
      * @param frameIdentifier
      *            - the frame name or ID
      */
@@ -811,7 +811,7 @@ public class App {
             file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -823,7 +823,7 @@ public class App {
 
     /**
      * Accept (click 'OK' on) whatever popup is present on the page
-     * 
+     *
      * @param action
      *            - the action occurring
      * @param expected
@@ -836,10 +836,10 @@ public class App {
             Alert alert = driver.switchTo().alert();
             alert.accept();
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action, expected, "Unable to click 'OK' on the " + popup + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, "Clicked 'OK' on the " + popup, Result.SUCCESS);
@@ -847,7 +847,7 @@ public class App {
 
     /**
      * Dismiss (click 'Cancel' on) whatever popup is present on the page
-     * 
+     *
      * @param action
      *            - the action occurring
      * @param expected
@@ -860,7 +860,7 @@ public class App {
             Alert alert = driver.switchTo().alert();
             alert.dismiss();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, "Unable to click 'Cancel' on the " + popup + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
@@ -873,12 +873,12 @@ public class App {
      * Determines if a confirmation is present or not, and can be interacted
      * with. If it's not present, an indication that the confirmation can't be
      * clicked on is written to the log file
-     * 
+     *
      * @param action
      *            - the action occurring
      * @param expected
      *            - the expected result
-     * 
+     *
      * @return Boolean: is a confirmation actually present or not.
      */
     private boolean isConfirmation(String action, String expected) {
@@ -897,7 +897,7 @@ public class App {
      * Determines if a prompt is present or not, and can be interacted with. If
      * it's not present, an indication that the confirmation can't be clicked on
      * is written to the log file
-     * 
+     *
      * @param action
      *            - the action occurring
      * @param expected
@@ -986,7 +986,7 @@ public class App {
 
     /**
      * Type text into a prompt box
-     * 
+     *
      * @param text
      *            - the text to type into the prompt
      */
@@ -1000,9 +1000,9 @@ public class App {
             Alert alert = driver.switchTo().alert();
             alert.sendKeys(text);
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action, expected, "Unable to type into prompt. " + e.getMessage(), Result.FAILURE);
             file.addError();
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, "Typed text '" + text + "' into prompt", Result.SUCCESS);

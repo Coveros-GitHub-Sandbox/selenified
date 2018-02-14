@@ -340,7 +340,7 @@ public class Selenified {
                 }
                 file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
             } catch (Exception e) {
-                log.error(e);
+                log.warn(e);
                 file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
                 file.addError();
             }
