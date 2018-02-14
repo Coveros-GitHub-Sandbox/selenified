@@ -402,7 +402,7 @@ public class Element {
         try {
             return driver.findElement(defineByElement());
         } catch (InvalidLocatorTypeException e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -419,7 +419,7 @@ public class Element {
         try {
             return driver.findElements(defineByElement());
         } catch (InvalidLocatorTypeException e) {
-            log.error(e);
+            log.warn(e);
             return new ArrayList<>();
         }
     }
@@ -442,7 +442,7 @@ public class Element {
                     childElement);
             return new Element(driver, file, Locator.XPATH, xPath);
         } catch (InvalidLocatorTypeException e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -698,9 +698,9 @@ public class Element {
             Actions selAction = new Actions(driver);
             selAction.click(webElement).perform();
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action, expected, cantClick + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, "Clicked " + prettyOutput(), Result.SUCCESS);
@@ -722,9 +722,9 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.submit();
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, "Submitted " + prettyOutput(), Result.SUCCESS);
@@ -752,7 +752,7 @@ public class Element {
             WebElement webElement = getWebElement();
             selAction.moveToElement(webElement).perform();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, cantHover + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -777,7 +777,7 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.sendKeys("\t");
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -809,7 +809,7 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.sendKeys(text);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -846,7 +846,7 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.sendKeys(key);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -875,7 +875,7 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.clear();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, cantClear + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -912,7 +912,7 @@ public class Element {
             Select dropdown = new Select(webElement);
             dropdown.selectByIndex(index);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -951,7 +951,7 @@ public class Element {
             Select dropdown = new Select(webElement);
             dropdown.selectByVisibleText(option);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -990,7 +990,7 @@ public class Element {
             Select dropdown = new Select(webElement);
             dropdown.selectByValue(value);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -1010,7 +1010,7 @@ public class Element {
      *            - what is the expected outcome of said action
      */
     private void cantMove(Exception e, String action, String expected) {
-        log.error(e);
+        log.warn(e);
         file.recordAction(action, expected, CANTMOVE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
         file.addError();
     }
@@ -1112,7 +1112,7 @@ public class Element {
             WebElement webElement = getWebElement();
             driver.switchTo().frame(webElement);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;

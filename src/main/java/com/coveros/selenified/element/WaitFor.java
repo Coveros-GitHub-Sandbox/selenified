@@ -145,7 +145,7 @@ public class WaitFor {
                 element.getWebElement().getText();
                 break;
             } catch (NoSuchElementException | StaleElementReferenceException e) {
-                log.error(e);
+                log.info(e);
             }
         }
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
@@ -248,7 +248,7 @@ public class WaitFor {
             while (webElement.isDisplayed() && System.currentTimeMillis() < end)
                 ;
         } catch (StaleElementReferenceException e) {
-            log.error(e);
+            log.info(e);
             file.recordAction(action, expected,
                     element.prettyOutput() + " has been removed from the page, and therefore not displayed",
                     Result.SUCCESS);
@@ -324,7 +324,7 @@ public class WaitFor {
             while (webElement.isEnabled() && System.currentTimeMillis() < end)
                 ;
         } catch (StaleElementReferenceException e) {
-            log.error(e);
+            log.info(e);
             file.recordAction(action, expected,
                     element.prettyOutput() + " has been removed from the page, and therefore not displayed",
                     Result.SUCCESS);

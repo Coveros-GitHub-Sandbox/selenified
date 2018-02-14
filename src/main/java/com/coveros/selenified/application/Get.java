@@ -63,7 +63,7 @@ public class Get {
         try {
             return driver.getCurrentUrl();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class Get {
         try {
             return driver.getTitle();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -91,7 +91,7 @@ public class Get {
         try {
             return driver.getPageSource();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -109,7 +109,7 @@ public class Get {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             return js.executeScript(javascriptFunction);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -128,7 +128,7 @@ public class Get {
             Alert alert = driver.switchTo().alert();
             return alert.getText();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -147,7 +147,7 @@ public class Get {
             Alert alert = driver.switchTo().alert();
             return alert.getText();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -166,7 +166,7 @@ public class Get {
             Alert alert = driver.switchTo().alert();
             return alert.getText();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -183,7 +183,7 @@ public class Get {
         try {
             return driver.manage().getCookieNamed(expectedCookieName);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }

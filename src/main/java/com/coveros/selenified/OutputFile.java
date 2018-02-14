@@ -249,8 +249,8 @@ public class OutputFile {
             while ((line = reader.readLine()) != null) {
                 oldContent.append(line + "\r\n");
             }
-        } catch (IOException ioe) {
-            log.error(ioe);
+        } catch (IOException e) {
+            log.error(e);
         }
 
         // replace a word in a file
@@ -275,8 +275,8 @@ public class OutputFile {
         try {
             app.takeScreenshot(imageName);
             screenshots.add(imageName);
-        } catch (Exception e1) {
-            log.error(e1);
+        } catch (Exception e) {
+            log.error(e);
             imageLink = "<br/><b><font class='fail'>No Screenshot Available</font></b>";
         }
         return imageLink;

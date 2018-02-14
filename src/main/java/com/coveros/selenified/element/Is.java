@@ -65,7 +65,7 @@ public class Is {
             element.getWebElement().getText();
             isPresent = true;
         } catch (NoSuchElementException | StaleElementReferenceException e) {
-            log.error(e);
+            log.info(e);
         }
         return isPresent;
     }
@@ -86,7 +86,7 @@ public class Is {
                 isInput = true;
             }
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isInput;
     }
@@ -104,7 +104,7 @@ public class Is {
                 isSelect = true;
             }
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isSelect;
     }
@@ -122,7 +122,7 @@ public class Is {
                 isTable = true;
             }
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isTable;
     }
@@ -137,7 +137,7 @@ public class Is {
         try {
             isEnabled = element.getWebElement().isEnabled();
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isEnabled;
     }
@@ -152,7 +152,7 @@ public class Is {
         try {
             isChecked = element.getWebElement().isSelected();
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isChecked;
     }
@@ -167,7 +167,7 @@ public class Is {
         try {
             isDisplayed = element.getWebElement().isDisplayed();
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isDisplayed;
     }
