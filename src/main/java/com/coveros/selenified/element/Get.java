@@ -205,7 +205,7 @@ public class Get {
             WebElement webElement = element.getWebElement();
             return webElement.getCssValue(attribute);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -227,7 +227,7 @@ public class Get {
             WebElement webElement = element.getWebElement();
             return webElement.getAttribute(attribute);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -250,7 +250,7 @@ public class Get {
                     "var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;",
                     webElement);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -273,7 +273,7 @@ public class Get {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             return js.executeScript(javascriptFunction, webElement);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
