@@ -30,6 +30,7 @@ import java.util.Random;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.MarionetteDriver;
@@ -277,6 +278,13 @@ public class TestSetup {
             break;
         case CHROME:
             ChromeDriverManager.getInstance().forceCache().setup();
+            if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--headless");
+                chromeOptions.addArguments("--window-size=1920,1080");
+                chromeOptions.addArguments("--mute-audio");
+                capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+            }
             driver = new ChromeDriver(capabilities);
             break;
         case INTERNETEXPLORER:
