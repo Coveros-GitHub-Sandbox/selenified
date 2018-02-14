@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+<script type="text/javascript">
+    window.onload = function() {
+        document.cookie = "cookie=cookietest; expires=Thu, 18 Dec 2019 12:00:00 UTC; path=/";
+        var alert_button = document.getElementById("alert_button");
+        var confirm_button = document.getElementById("confirm_button");
+        var prompt_button = document.getElementById("prompt_button");
+        var five_second_button = document.getElementById("five_second_button");
+        var scroll_button = document.getElementById("scroll_button");
+        var clickBtn = document.getElementsByClassName('click')[0];
+        var delayed_checkbox_div = document.getElementById('delayed_checkbox_div');
+        var delayed_div = document.getElementById("delayed_div");
+        var delayed_display_button = document.getElementById("delayed_display_button");
+        var delayed_hide_button = document.getElementById("delayed_hide_button");
+        var delayed_enable_button = document.getElementById("delayed_enable_button");
+        var delayed_input = document.getElementById("delayed_input");
+        var hover_over_me = document.getElementById("hover_over_me");
+        var displayed_when_hovered = document.getElementById("displayed_when_hovered");
+        var new_window = document.getElementById("new_window");
+
+        // Disable the button on initial page load
+        alert_button.disabled = true;
+        five_second_button.disabled = true;
+        delayed_input.disabled = true;
+
+        //add event listener
+        clickBtn.addEventListener('click', function(event) {
+            alert_button.disabled = !alert_button.disabled;
+        });
+
+        alert_button.addEventListener('click', function(event) {
+            alert('Enabled!');
+        });
+
+        confirm_button.addEventListener('click', function(event) {
+            confirm('Is this not great?');
+        });
+
+        prompt_button.addEventListener('click', function(event) {
+            prompt('What do you think?');
+        });
+
+        scroll_button.addEventListener('click', function(event) {
+            document.documentElement.style["height"] = "5000px";
+        });
+
+        new_window.addEventListener('click', function(event) {
+            window.open("next_page.html");
+        });
+
+        delayed_display_button.addEventListener('click', function(event) {
+            setTimeout(function() {
+                delayed_div.innerHTML += "<div id='added_div' name='added_div'>Something</div>";
+                delayed_hide_button.className = "";
+            }, 3000);
+            delayed_display_button.className = "hidden_div";
+        });
+
+        delayed_hide_button.addEventListener('click', function(event) {
+            setTimeout(function() {
+                delayed_div.innerHTML = "";
+                delayed_display_button.className = "";
+                delayed_hide_button.className = "hidden_div";
+            }, 3000);
+            delayed_hide_button.disabled = true;
+        });
+
+        delayed_enable_button.addEventListener('click', function(event) {
+            setTimeout(function() {
+                if (delayed_input.disabled) {
+                    delayed_input.disabled = false;
+                    delayed_enable_button.value = "Disable Input";
+                } else {
+                    delayed_input.disabled = true;
+                    delayed_enable_button.value = "Enable Input";
+                }
+                delayed_enable_button.disabled = false;
+            }, 3000);
+            delayed_enable_button.disabled = true;
+        });
+
+        hover_over_me.addEventListener('mouseover', function(event) {
+            displayed_when_hovered.className = "";
+        });
+        hover_over_me.addEventListener('mouseout', function(event) {
+            displayed_when_hovered.className = "hidden_div";
+        });
+
+        input_box.addEventListener('blur', function(event) {
+            alert("I've been blurred");
+        });
+
+        setTimeout(function() {
+            delayed_checkbox_div.innerHTML = "<input id='check' type='checkbox'/>";
+        }, 3000);
+
+        setTimeout(function() {
+            five_second_button.disabled = false;
+        }, 6000);
+
+        setTimeout(function() {
+            five_second_button.disabled = true;
+        }, 6100);
+    };
+</script>
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<title>Selenified Test Page</title>
+</head>
+<style>
+h2 {
+    text-align: center;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    vertical-align: top;
+}
+
+#align_table>tbody>tr>td {
+    border: none;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.showup {
+    width: 100px;
+    height: 100px;
+}
+
+.click {
+    cursor: pointer;
+    padding-bottom: 10px;
+}
+
+.hidden_div {
+    display: none;
+}
+
+.overlay {
+    position: absolute;
+    width: 100px;
+    height: 25px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+    <table id="align_table" name="align_table" class="full_width">
+        <tbody>
+            <tr>
+                <td>
+                    <div id="disable_click" class="click">Click me to
+                        Disable/Enable a html button</div>
+                    <div id="hidden_div" name="hidden_div" class="hidden_div"></div>
+                    <div id="enable_div" class="showup">
+                        <input name="alert_button" id="alert_button" type="button"
+                            value="Alert" /> <input name="confirm_button"
+                            id="confirm_button" type="button" value="Confirm" /> <input
+                            name="prompt_button" id="prompt_button" type="button"
+                            value="Prompt" />
+                    </div> <input name="five_second_button" id="five_second_button"
+                    type="button" value="5 Second Button" /> <br /> <input
+                    type="text" name="input_box" id="input_box" value="" /> <br>
+                    <input id="scroll_button" name="scroll_button" type="button"
+                    value="Increase Page Height" /> <br /> <select id="car_list"
+                    name="car_list">
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="audi">Audi</option>
+                </select> <br /> <select multiple id="car_list_multiple"
+                    name="car_list_multiple">
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                        <option value="audi">Audi</option>
+                </select> <br />
+                    <form action="/next_page.html">
+                        <input type="checkbox" name="that" id="that" value="That" /> That<br />
+                        <input type="checkbox" name="this" id="this" value="This" /> This<br />
+                        <input id="submit_button" name="submit_button" type="submit"
+                            value="Submit" />
+                    </form> <input id="delayed_display_button" name="delayed_display_button"
+                    type="submit" value="Show Something" /> <input
+                    id="delayed_hide_button" name="delayed_hide_button" type="submit"
+                    value="Hide Something" class="hidden_div" />
+                    <div id='delayed_div' name='delayed_div'></div> <input
+                    id="delayed_enable_button" name="delayed_enable_button"
+                    type="submit" value="Enable Input" /> <input id="delayed_input"
+                    name="delayed_input" type="text" /> <br /> <textarea
+                        id="textarea_input" name="textarea_input">A Pretty Text Area</textarea>
+                    <br />
+                    <div id="delayed_checkbox_div" name="delayed_checkbox_div">
+                    <input id='nocheck' type='radio'/>
+                    </div> <br />
+                    <div id="hover_over_me" name="hover_over_me" class="showup">
+                        <div id="displayed_when_hovered" name="displayed_when_hovered"
+                            class="hidden_div">You Hovered!</div>
+                    </div>
+                </td>
+                <td>
+                    <h2>
+                        <a href="#" onclick="javascript:confirm('Confirmation')">I'M A
+                            LINK</a>
+                    </h2>
+                    <table id="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Company</th>
+                                <th>Contact</th>
+                                <th>Country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>President</th>
+                                <td>Alfreds Futterkiste</td>
+                                <td>Maria Anders</td>
+                                <td>Germany</td>
+                            </tr>
+                            <tr>
+                                <th>CEO</th>
+                                <td>Centro comercial Moctezuma</td>
+                                <td>Francisco Chang</td>
+                                <td>Mexico</td>
+                            </tr>
+                            <tr>
+                                <th>Chairman</th>
+                                <td>Ernst Handel</td>
+                                <td>Roland Mendel</td>
+                                <td>Austria</td>
+                            </tr>
+                            <tr>
+                                <th>CFO</th>
+                                <td>Island Trading</td>
+                                <td>Helen Bennett</td>
+                                <td>UK</td>
+                            </tr>
+                            <tr>
+                                <th>Board Member</th>
+                                <td>Laughing Bacchus Winecellars</td>
+                                <td>Yoshi Tannamuri</td>
+                                <td>Canada</td>
+                            </tr>
+                            <tr>
+                                <th>Founder</th>
+                                <td>Magazzini Alimentari Riuniti</td>
+                                <td>Giovanni Rovelli</td>
+                                <td>Italy</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table id="table_no_header">
+                        <tbody>
+                            <tr>
+                                <th>CTO</th>
+                                <td>IT Holdings</td>
+                                <td>Rufus Garcia</td>
+                                <td>Australia</td>
+                            </tr>
+                            <tr>
+                                <th>Lead Scientist</th>
+                                <td>Rockets Rockets Rockets</td>
+                                <td>Kurt Wilkins</td>
+                                <td>Argentina</td>
+                            </tr>
+                        </tbody>
+                    </table> <input name="new_window" id="new_window" type="button"
+                    value="New Window" /> <br /> <span
+                    class="btn btn-default btn-file"> <span>Browse</span> <input
+                        type="file" id="transparent_input" name="transparent_input"
+                        style="opacity: 0;" />
+                </span> <input type="file" id="hidden_input" name="hidden_input"
+                    style="display: none;" />
+                    <div>
+                        <div id="overlay_span" name="overlay_span" class="overlay"
+                            style="z-index: 10;">Overlay</div>
+                        <div id="underlay_span" name="underlay_span" class="overlay"
+                            style="z-index: 5;">Underlay</div>
+                    </div>
+                    <div id="offscreen_div" name="offscreen_div" class="overlay"
+                        style="left: -1000px; right: -1000px;">I'm Offscreen</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><iframe id="some_frame" name="some_frame"
+                        src="next_page.html"></iframe></td>
+            </tr>
+            <tr>
+                <td colspan="2"><iframe id="some_other_frame"
+                        name="some_other_frame" class="hidden_div" src="next_page.html"></iframe></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
