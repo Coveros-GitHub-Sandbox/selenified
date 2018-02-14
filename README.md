@@ -532,6 +532,11 @@ address and port in the parameter
 ```
 -Dproxy=localhost:5013
 ```
+#### Headless
+Currently, only Chrome supports running in headless mode. To achieve this, simply pass in the parameter `headless`
+```
+-Dheadless
+```
 
 ### Eclipse
 Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
