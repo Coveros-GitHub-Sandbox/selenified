@@ -38,7 +38,6 @@ import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.testng.log4testng.Logger;
 
 import com.coveros.selenified.Browser;
@@ -49,8 +48,6 @@ import io.github.bonigarcia.wdm.EdgeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import io.github.bonigarcia.wdm.OperaDriverManager;
-import io.github.bonigarcia.wdm.PhantomJsDriverManager;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
  * Assists with Selenified class in setting up proxy, hub, and browser details
@@ -297,10 +294,6 @@ public class TestSetup {
             OperaDriverManager.getInstance().forceCache().setup();
             driver = new OperaDriver(capabilities);
             break;
-        case PHANTOMJS:
-        	PhantomJsDriverManager.getInstance().forceCache().setup();
-        	driver = new PhantomJSDriver(capabilities);
-        	break;
         // if the browser is not listed, throw an error
         default:
             throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
