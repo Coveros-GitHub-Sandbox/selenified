@@ -248,46 +248,46 @@ public class TestSetup {
         WebDriver driver;
         // check the browser
         switch (browser) {
-        case HTMLUNIT:
-            driver = new CustomHtmlUnitDriver(capabilities);
-            break;
-        case FIREFOX:
-            FirefoxDriverManager.getInstance().forceCache().setup();
-            driver = new FirefoxDriver(capabilities);
-            break;
-        case MARIONETTE:
-            FirefoxDriverManager.getInstance().forceCache().setup();
-            driver = new MarionetteDriver(capabilities);
-            break;
-        case CHROME:
-            ChromeDriverManager.getInstance().forceCache().setup();
-            if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--headless");
-                chromeOptions.addArguments("--window-size=1920,1080");
-                chromeOptions.addArguments("--mute-audio");
-                capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-            }
-            driver = new ChromeDriver(capabilities);
-            break;
-        case INTERNETEXPLORER:
-            InternetExplorerDriverManager.getInstance().forceCache().setup();
-            driver = new InternetExplorerDriver(capabilities);
-            break;
-        case EDGE:
-            EdgeDriverManager.getInstance().forceCache().setup();
-            driver = new EdgeDriver(capabilities);
-            break;
-        case SAFARI:
-            driver = new SafariDriver(capabilities);
-            break;
-        case OPERA:
-            OperaDriverManager.getInstance().forceCache().setup();
-            driver = new OperaDriver(capabilities);
-            break;
-        // if the browser is not listed, throw an error
-        default:
-            throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
+            case HTMLUNIT:
+                driver = new CustomHtmlUnitDriver(capabilities);
+                break;
+            case FIREFOX:
+                FirefoxDriverManager.getInstance().forceCache().setup();
+                driver = new FirefoxDriver(capabilities);
+                break;
+            case MARIONETTE:
+                FirefoxDriverManager.getInstance().forceCache().setup();
+                driver = new MarionetteDriver(capabilities);
+                break;
+            case CHROME:
+                ChromeDriverManager.getInstance().forceCache().setup();
+                if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.addArguments("--headless");
+                    chromeOptions.addArguments("--window-size=1920,1080");
+                    chromeOptions.addArguments("--mute-audio");
+                    capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+                }
+                driver = new ChromeDriver(capabilities);
+                break;
+            case INTERNETEXPLORER:
+                InternetExplorerDriverManager.getInstance().forceCache().setup();
+                driver = new InternetExplorerDriver(capabilities);
+                break;
+            case EDGE:
+                EdgeDriverManager.getInstance().forceCache().setup();
+                driver = new EdgeDriver(capabilities);
+                break;
+            case SAFARI:
+                driver = new SafariDriver(capabilities);
+                break;
+            case OPERA:
+                OperaDriverManager.getInstance().forceCache().setup();
+                driver = new OperaDriver(capabilities);
+                break;
+            // if the browser is not listed, throw an error
+            default:
+                throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
         }
         return driver;
     }
