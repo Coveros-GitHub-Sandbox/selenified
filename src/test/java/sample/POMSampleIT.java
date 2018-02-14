@@ -1,13 +1,12 @@
 package sample;
 
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.application.App;
 
 public class POMSampleIT extends Selenified {
 
@@ -24,18 +23,19 @@ public class POMSampleIT extends Selenified {
 
     @DataProvider(name = "car list items", parallel = true)
     public Object[][] DataSetOptions() {
-        return new Object[][] { new Object[] { "Volvo" }, new Object[] { "Saab" }, new Object[] { "Mercedes" } };
+        return new Object[][]{new Object[]{"Volvo"}, new Object[]{"Saab"}, new Object[]{"Mercedes"}};
     }
 
-    ThreadLocal<MainPage> main = new ThreadLocal<>();;
+    ThreadLocal<MainPage> main = new ThreadLocal<>();
+    ;
 
     @BeforeMethod(alwaysRun = true)
     public void setupApp() {
         main.set(new MainPage(this.apps.get()));
     }
 
-    @Test(dataProvider = "car list items", groups = { "sample", "pom",
-            "virtual" }, description = "A sample test using a data provider to perform searches")
+    @Test(dataProvider = "car list items", groups = {"sample", "pom",
+            "virtual"}, description = "A sample test using a data provider to perform searches")
     public void sampleTestWDataProvider(String listItem) {
         // our test actions - use our threadsafe main object
         main.get().selectCar(listItem);
@@ -44,7 +44,7 @@ public class POMSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "sample", "pom" }, description = "A sample test using a data provider to perform searches")
+    @Test(groups = {"sample", "pom"}, description = "A sample test using a data provider to perform searches")
     public void sampleTest() {
         // grab our main app object
         App app = this.apps.get();
@@ -58,8 +58,8 @@ public class POMSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "sample", "pom",
-            "virtual" }, description = "A sample test using a data provider to perform searches")
+    @Test(groups = {"sample", "pom",
+            "virtual"}, description = "A sample test using a data provider to perform searches")
     public void sampleTestWMatches() {
         // define a new main object
         MainPage main = new MainPage(this.apps.get());

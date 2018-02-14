@@ -1,22 +1,21 @@
 package integration;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.Request;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.services.Call;
-import com.coveros.selenified.services.Request;
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.DriverSetup;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServicesIT extends Selenified {
 
@@ -36,8 +35,8 @@ public class ServicesIT extends Selenified {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the response code from a get call")
     public void compareGetResponseCode200Test() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -47,8 +46,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the response code from a get call")
     public void compareGetResponseBadCode201Test() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -58,8 +57,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the response code from a get call")
     public void compareGetResponseCode404Test() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -69,8 +68,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the response code from a get call")
     public void compareGetResponseBadCode400Test() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -80,8 +79,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the response code from a get call")
     public void compareGetParamsResponseCode200Test() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -93,8 +92,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the response code from a get call")
     public void compareGetParamsResponseBadCode201Test() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -106,8 +105,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the response code from a get call")
     public void compareGetParamsResponseCode404Test() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -119,8 +118,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the response code from a get call")
     public void compareGetParamsResponseBadCode400Test() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -132,8 +131,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetResponseContainsSingleObjectDataTest() {
         Map<String, String> responsePairs = new HashMap<String, String>();
         responsePairs.put("userId", "1");
@@ -145,8 +144,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetResponseContainsSingleBadObjectDataTest() {
         Map<String, String> responsePairs = new HashMap<String, String>();
         responsePairs.put("userId", "2");
@@ -158,8 +157,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetResponseContainsMultipleObjectDataTest() {
         Map<String, String> responsePairs = new HashMap<String, String>();
         responsePairs.put("userId", "1");
@@ -172,8 +171,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetResponseContainsMultipleBadObjectDataTest() {
         Map<String, String> responsePairs = new HashMap<String, String>();
         responsePairs.put("userId", "1");
@@ -186,8 +185,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetResponseContainsArrayDataTest() {
         JsonObject json = new JsonObject();
         json.addProperty("userId", 1);
@@ -203,8 +202,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetResponseContainsBadArrayDataTest() {
         JsonObject json = new JsonObject();
         json.addProperty("userId", 3);
@@ -220,8 +219,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void compareGetResponseObjectDataTest() {
         JsonObject response = new JsonObject();
         response.addProperty("userId", 1);
@@ -237,8 +236,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void compareGetResponseArrayDataTest() {
         JsonParser parser = new JsonParser();
         JsonArray response = new JsonArray();
@@ -252,8 +251,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the data from a get call")
     public void compareGetResponseBadObjectDataTest() {
         JsonObject response = new JsonObject();
         response.addProperty("userId", 6);
@@ -267,8 +266,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the data from a get call")
     public void compareGetResponseBadArrayDataTest() {
         JsonArray response = new JsonArray();
         // use this object to verify the app looks as expected
@@ -279,8 +278,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetParamsResponseContainsSingleObjectDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -294,8 +293,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetParamsResponseContainsSingleBadObjectDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -309,8 +308,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetParamsResponseContainsMultipleObjectDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -325,8 +324,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetParamsResponseContainsBadMultipleObjectDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -341,8 +340,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetParamsResponseContainsArrayDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -360,8 +359,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void checkGetParamsResponseContainsBadArrayDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -379,8 +378,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void compareGetParamsResponseObjectDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -398,8 +397,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the data from a get call")
     public void compareGetParamsResponseArrayDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -415,8 +414,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the data from a get call")
     public void compareGetParamsResponseBadObjectDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -432,8 +431,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the data from a get call")
     public void compareGetParamsResponseBadArrayDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -446,8 +445,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the data from a get call")
     public void compareGetParamsResponseNullObjectDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -460,8 +459,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "A negative integration test to verify the data from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "A negative integration test to verify the data from a get call")
     public void compareGetParamsResponseNullArrayDataTest() {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
@@ -474,8 +473,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "An integration test to verify the response code from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "An integration test to verify the response code from a post call")
     public void comparePostResponseCode201Test() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -489,8 +488,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "A negative integration test to verify the response code from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "A negative integration test to verify the response code from a post call")
     public void comparePostResponseBadCode200Test() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -504,8 +503,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "An integration test to verify the response code from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "An integration test to verify the response code from a post call")
     public void comparePostResponseCode404Test() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -519,8 +518,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "A negative integration test to verify the response code from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "A negative integration test to verify the response code from a post call")
     public void comparePostResponseBadCode400Test() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -534,8 +533,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "An integration test to verify the data from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "An integration test to verify the data from a post call")
     public void checkPostResponseContainsSingleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -551,8 +550,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "An integration test to verify the data from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "An integration test to verify the data from a post call")
     public void checkPostResponseContainsBadSingleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -568,8 +567,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "An integration test to verify the data from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "An integration test to verify the data from a post call")
     public void checkPostResponseContainsMultipleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -586,8 +585,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "An integration test to verify the data from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "An integration test to verify the data from a post call")
     public void checkPostResponseContainsBadMultipleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -604,8 +603,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "An integration test to verify the data from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "An integration test to verify the data from a post call")
     public void comparePostResponseDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -624,8 +623,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "A negative integration test to verify the data from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "A negative integration test to verify the data from a post call")
     public void comparePostResponseBadDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -641,8 +640,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "An integration test to verify the response code from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "An integration test to verify the response code from a put call")
     public void comparePutResponseCode200Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -657,8 +656,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "A negative integration test to verify the response code from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "A negative integration test to verify the response code from a put call")
     public void comparePutResponseBadCode201Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -673,8 +672,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "An integration test to verify the response code from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "An integration test to verify the response code from a put call")
     public void comparePutResponseCode404Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -689,8 +688,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "A negative integration test to verify the response code from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "A negative integration test to verify the response code from a put call")
     public void comparePutResponseBadCode400Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -705,8 +704,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "An integration test to verify the data from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "An integration test to verify the data from a put call")
     public void checkPutResponseContainsSingleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 3);
@@ -723,8 +722,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "An integration test to verify the data from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "An integration test to verify the data from a put call")
     public void checkPutResponseContainsBadSingleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 3);
@@ -741,8 +740,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "An integration test to verify the data from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "An integration test to verify the data from a put call")
     public void checkPutResponseContainsMultipleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 3);
@@ -760,8 +759,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "An integration test to verify the data from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "An integration test to verify the data from a put call")
     public void checkPutResponseContainsBadMultipleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 3);
@@ -779,8 +778,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "An integration test to verify the data from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "An integration test to verify the data from a put call")
     public void comparePutResponseDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 3);
@@ -795,8 +794,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "A negative integration test to verify the data from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "A negative integration test to verify the data from a put call")
     public void comparePutResponseBadDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -813,8 +812,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "An integration test to verify the response code from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "An integration test to verify the response code from a patch call")
     public void comparePatchResponseCode200Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -829,8 +828,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "A negative integration test to verify the response code from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "A negative integration test to verify the response code from a patch call")
     public void comparePatchResponseBadCode201Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -845,8 +844,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "An integration test to verify the response code from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "An integration test to verify the response code from a patch call")
     public void comparePatchResponseCode404Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -861,8 +860,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "A negative integration test to verify the response code from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "A negative integration test to verify the response code from a patch call")
     public void comparePatchResponseBadCode400Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -877,8 +876,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "An integration test to verify the data from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "An integration test to verify the data from a patch call")
     public void checkPatchResponseContainsSingleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 4);
@@ -895,8 +894,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "An integration test to verify the data from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "An integration test to verify the data from a patch call")
     public void checkPatchResponseContainsBadSingleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 4);
@@ -913,8 +912,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "An integration test to verify the data from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "An integration test to verify the data from a patch call")
     public void checkPatchResponseContainsMultipleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 4);
@@ -932,8 +931,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "An integration test to verify the data from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "An integration test to verify the data from a patch call")
     public void checkPatchResponseContainsBadMultipleDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 4);
@@ -951,8 +950,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "An integration test to verify the data from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "An integration test to verify the data from a patch call")
     public void comparePatchResponseDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 4);
@@ -967,8 +966,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "A negative integration test to verify the data from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "A negative integration test to verify the data from a patch call")
     public void comparePatchResponseBadDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -985,8 +984,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpdelete",
-            "virtual" }, description = "An integration test to verify the response code from a delete call")
+    @Test(groups = {"integration", "services", "httpdelete",
+            "virtual"}, description = "An integration test to verify the response code from a delete call")
     public void compareDeleteResponseCode200Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -1001,8 +1000,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpdelete",
-            "virtual" }, description = "A negative integration test to verify the response code from a delete call")
+    @Test(groups = {"integration", "services", "httpdelete",
+            "virtual"}, description = "A negative integration test to verify the response code from a delete call")
     public void compareDeleteResponseBadCode201Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -1017,8 +1016,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "httpdelete",
-            "virtual" }, description = "An integration test to verify the response code from a delete call")
+    @Test(groups = {"integration", "services", "httpdelete",
+            "virtual"}, description = "An integration test to verify the response code from a delete call")
     public void compareDeleteResponseCode404Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -1033,8 +1032,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpdelete",
-            "virtual" }, description = "A negative integration test to verify the response code from a delete call")
+    @Test(groups = {"integration", "services", "httpdelete",
+            "virtual"}, description = "A negative integration test to verify the response code from a delete call")
     public void compareDeleteResponseBadCode400Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -1049,8 +1048,8 @@ public class ServicesIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "services", "delete",
-            "virtual" }, description = "An integration test to verify the data from a delete call")
+    @Test(groups = {"integration", "services", "delete",
+            "virtual"}, description = "An integration test to verify the data from a delete call")
     public void compareDeleteResponseDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -1065,8 +1064,8 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "services", "httpdelete",
-            "virtual" }, description = "A negative integration test to verify the data from a delete call")
+    @Test(groups = {"integration", "services", "httpdelete",
+            "virtual"}, description = "A negative integration test to verify the data from a delete call")
     public void compareDeleteResponseBadDataTest() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);

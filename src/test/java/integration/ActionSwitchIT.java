@@ -1,12 +1,11 @@
 package integration;
 
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.application.App;
 
 public class ActionSwitchIT extends Selenified {
 
@@ -21,8 +20,8 @@ public class ActionSwitchIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = { "integration", "actions", "switch", "frame",
-            "virtual" }, description = "An integration test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch", "frame",
+            "virtual"}, description = "An integration test to check the frame method")
     public void selectFrameIntTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -34,8 +33,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch", "frame",
-            "virtual" }, description = "An integration test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch", "frame",
+            "virtual"}, description = "An integration test to check the frame method")
     public void selectFrameIntNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -46,8 +45,8 @@ public class ActionSwitchIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "switch", "frame",
-            "virtual" }, description = "An integration test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch", "frame",
+            "virtual"}, description = "An integration test to check the frame method")
     public void selectFrameNameTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -59,8 +58,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch", "frame",
-            "virtual" }, description = "An integration test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch", "frame",
+            "virtual"}, description = "An integration test to check the frame method")
     public void selectFrameNameNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -71,8 +70,8 @@ public class ActionSwitchIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "switch", "frame",
-            "virtual" }, description = "An integration test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch", "frame",
+            "virtual"}, description = "An integration test to check the frame method")
     public void selectFrameTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -84,8 +83,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "frame" }, description = "An integration test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch",
+            "frame"}, description = "An integration test to check the frame method")
     public void selectFrameAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -96,8 +95,8 @@ public class ActionSwitchIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "switch", "frame",
-            "virtual" }, description = "An integration negative test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch", "frame",
+            "virtual"}, description = "An integration negative test to check the frame method")
     public void selectFrameNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -107,8 +106,8 @@ public class ActionSwitchIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "switch", "frame",
-            "virtual" }, description = "An integration negative test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch", "frame",
+            "virtual"}, description = "An integration negative test to check the frame method")
     public void selectFrameNotVisibleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -118,8 +117,8 @@ public class ActionSwitchIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "switch", "frame",
-            "virtual" }, description = "An integration negative test to check the frame method")
+    @Test(groups = {"integration", "actions", "switch", "frame",
+            "virtual"}, description = "An integration negative test to check the frame method")
     public void selectFrameNotFrameTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -129,8 +128,8 @@ public class ActionSwitchIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "tab" }, description = "An integration test to check the openTab method")
+    @Test(groups = {"integration", "actions", "switch",
+            "tab"}, description = "An integration test to check the openTab method")
     public void openTabTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -141,8 +140,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "tab" }, description = "An integration test to check the openTab method")
+    @Test(groups = {"integration", "actions", "switch",
+            "tab"}, description = "An integration test to check the openTab method")
     public void openEmptyTabTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -153,8 +152,8 @@ public class ActionSwitchIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "tab" }, description = "An integration test to check the switchTab method")
+    @Test(groups = {"integration", "actions", "switch",
+            "tab"}, description = "An integration test to check the switchTab method")
     public void switchTabTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -168,8 +167,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "tab" }, description = "An integration test to check the closeTab method")
+    @Test(groups = {"integration", "actions", "switch",
+            "tab"}, description = "An integration test to check the closeTab method")
     public void closeTabTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -183,8 +182,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "tab" }, description = "An integration test to check the closeTab method")
+    @Test(groups = {"integration", "actions", "switch",
+            "tab"}, description = "An integration test to check the closeTab method")
     public void closeFirstTabTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -197,8 +196,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "window" }, description = "An integration test to check the switch method")
+    @Test(groups = {"integration", "actions", "switch",
+            "window"}, description = "An integration test to check the switch method")
     public void switchToNewWindowTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -210,8 +209,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "window" }, description = "An integration test to check the switch method")
+    @Test(groups = {"integration", "actions", "switch",
+            "window"}, description = "An integration test to check the switch method")
     public void switchToParentWindowTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -225,8 +224,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "window" }, description = "An integration test to check the switch method")
+    @Test(groups = {"integration", "actions", "switch",
+            "window"}, description = "An integration test to check the switch method")
     public void closeCurrentWindowTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -240,8 +239,8 @@ public class ActionSwitchIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "switch",
-            "window" }, description = "An integration test to check the switch method")
+    @Test(groups = {"integration", "actions", "switch",
+            "window"}, description = "An integration test to check the switch method")
     public void closeCurrentWindowNoWindowTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

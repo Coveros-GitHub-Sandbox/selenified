@@ -1,17 +1,15 @@
 package integration;
 
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Map;
-
-import org.testng.Assert;
-
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.application.App;
 
 public class ActionUnitErrorIT extends Selenified {
 
@@ -26,8 +24,8 @@ public class ActionUnitErrorIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = { "integration", "actions", "unit",
-            "virtual" }, description = "An integration negative test to check the get css method")
+    @Test(groups = {"integration", "actions", "unit",
+            "virtual"}, description = "An integration negative test to check the get css method")
     public void getCssErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -39,8 +37,8 @@ public class ActionUnitErrorIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "unit",
-            "virtual" }, description = "An integration negative test to check the get css method")
+    @Test(groups = {"integration", "actions", "unit",
+            "virtual"}, description = "An integration negative test to check the get css method")
     public void assessCssEqualsErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -53,8 +51,8 @@ public class ActionUnitErrorIT extends Selenified {
         }
     }
 
-    @Test(groups = { "integration", "actions", "unit",
-            "virtual" }, description = "An integration negative test to check the get all attributes method")
+    @Test(groups = {"integration", "actions", "unit",
+            "virtual"}, description = "An integration negative test to check the get all attributes method")
     public void getAllAttributesErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -66,8 +64,8 @@ public class ActionUnitErrorIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "unit",
-            "virtual" }, description = "An integration negative test to check the get all attributes method")
+    @Test(groups = {"integration", "actions", "unit",
+            "virtual"}, description = "An integration negative test to check the get all attributes method")
     public void assessAttributesContainErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -80,8 +78,8 @@ public class ActionUnitErrorIT extends Selenified {
         }
     }
 
-    @Test(groups = { "integration", "actions", "unit",
-            "virtual" }, description = "An integration negative test to check the get all attributes method")
+    @Test(groups = {"integration", "actions", "unit",
+            "virtual"}, description = "An integration negative test to check the get all attributes method")
     public void assessAttributesExcludeErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -94,8 +92,8 @@ public class ActionUnitErrorIT extends Selenified {
         }
     }
 
-    @Test(groups = { "integration", "actions", "unit",
-            "virtual" }, description = "An integration negative test to check the get eval method")
+    @Test(groups = {"integration", "actions", "unit",
+            "virtual"}, description = "An integration negative test to check the get eval method")
     public void getEvalErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -107,8 +105,8 @@ public class ActionUnitErrorIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "unit",
-            "virtual" }, description = "An integration negative test to check the get eval method")
+    @Test(groups = {"integration", "actions", "unit",
+            "virtual"}, description = "An integration negative test to check the get eval method")
     public void getEvalElementErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

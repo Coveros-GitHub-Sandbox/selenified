@@ -20,19 +20,17 @@
 
 package com.coveros.selenified.services;
 
-import org.testng.log4testng.Logger;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
+import org.testng.log4testng.Logger;
 
 /**
  * Performs the general web service method calls, and provides a simple access
  * to the HTTP class
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
- *
  */
 public class Call {
     private static final Logger log = Logger.getLogger(Call.class);
@@ -62,9 +60,8 @@ public class Call {
     /**
      * Performs a get http call and writes the call and response information to
      * the output file
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
+     *
+     * @param endpoint - the endpoint of the service under test
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint) {
@@ -74,12 +71,10 @@ public class Call {
     /**
      * Performs a get http call and writes the call and response information to
      * the output file
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint, Request params) {
@@ -89,12 +84,10 @@ public class Call {
     /**
      * Performs a post http call and writes the call and response information to
      * the output file
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params) {
@@ -104,12 +97,10 @@ public class Call {
     /**
      * Performs a put http call and writes the call and response information to
      * the output file
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params) {
@@ -119,12 +110,10 @@ public class Call {
     /**
      * Performs a patch http call and writes the call and response information
      * to the output file
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
      * @return Response: the response provided from the http call
      */
     public Response patch(String endpoint, Request params) {
@@ -134,12 +123,10 @@ public class Call {
     /**
      * Performs a delete http call and writes the call and response information
      * to the output file
-     * 
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint, Request params) {
@@ -149,14 +136,11 @@ public class Call {
     /**
      * Performs an http call and writes the call and response information to the
      * output file
-     * 
-     * @param call
-     *            - what http method call is being made. should be in all caps
-     * @param endpoint
-     *            - the endpoint of the service under test
-     * @param params
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param call     - what http method call is being made. should be in all caps
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
      * @return Response: the response provided from the http call
      */
     private Response call(String call, String endpoint, Request params) {
@@ -168,23 +152,23 @@ public class Call {
         Response response = new Response(file);
         try {
             switch (call) {
-            case GET:
-                response = http.get(endpoint, params);
-                break;
-            case POST:
-                response = http.post(endpoint, params);
-                break;
-            case PUT:
-                response = http.put(endpoint, params);
-                break;
-            case PATCH:
-                response = http.patch(endpoint, params);
-                break;
-            case DELETE:
-                response = http.delete(endpoint, params);
-                break;
-            default:
-                log.error("Unknown method call named");
+                case GET:
+                    response = http.get(endpoint, params);
+                    break;
+                case POST:
+                    response = http.post(endpoint, params);
+                    break;
+                case PUT:
+                    response = http.put(endpoint, params);
+                    break;
+                case PATCH:
+                    response = http.patch(endpoint, params);
+                    break;
+                case DELETE:
+                    response = http.delete(endpoint, params);
+                    break;
+                default:
+                    log.error("Unknown method call named");
             }
             response.setOutputFile(file);
             file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
@@ -204,9 +188,9 @@ public class Call {
      * Looks for the simple login credentials, username and password, and if
      * they are both set, turns that into a string which will be formatted for
      * HTML to be printed into the output file
-     * 
+     *
      * @return String: an HTML formated string with the username and password -
-     *         if they are both set
+     * if they are both set
      */
     private String appendCredentials() {
         StringBuilder credentials = new StringBuilder();

@@ -1,12 +1,11 @@
 package unit;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class SeleniumTest {
 

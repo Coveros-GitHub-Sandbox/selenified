@@ -1,13 +1,12 @@
 package integration;
 
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.application.App;
-import com.coveros.selenified.element.Element;
 
 public class ConflictBIT extends Selenified {
 
@@ -22,8 +21,8 @@ public class ConflictBIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = { "integration", "conflict",
-            "virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
+    @Test(groups = {"integration", "conflict",
+            "virtual"}, description = "A sample test to show how to loop through elements with multiple matches")
     public void conflictingTestName() {
         // use this object to manipulate the app
         App app = this.apps.get();

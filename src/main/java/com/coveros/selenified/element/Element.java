@@ -20,31 +20,23 @@
 
 package com.coveros.selenified.element;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.element.Get;
-import com.coveros.selenified.element.Is;
-import com.coveros.selenified.element.WaitFor;
-import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Element an object representative of a web element on a particular page that
  * is under test.
- * 
+ * <p>
  * Elements should be directly interacted with, with actions performed on them,
  * and assertions make about their current state
  *
@@ -107,17 +99,13 @@ public class Element {
      * information about the element, the locator type, and the actual selector
      * are defined to indicate which element to interact with on the current
      * page
-     * 
-     * @param driver
-     *            - the selenium web driver, the underlying way all actions and
-     *            assertions are controlled
-     * @param file
-     *            - the TestOutput file. This is provided by the
-     *            SeleniumTestBase functionality
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
+     *
+     * @param driver  - the selenium web driver, the underlying way all actions and
+     *                assertions are controlled
+     * @param file    - the TestOutput file. This is provided by the
+     *                SeleniumTestBase functionality
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
      */
     public Element(WebDriver driver, OutputFile file, Locator type, String locator) {
         this.type = type;
@@ -131,20 +119,15 @@ public class Element {
      * information about the element, the locator type, the actual selector, and
      * the element's uniqueness match are defined to indicate which element to
      * interact with on the current page
-     * 
-     * @param driver
-     *            - the selenium web driver, the underlying way all actions and
-     *            assertions are controlled
-     * @param file
-     *            - the TestOutput file. This is provided by the
-     *            SeleniumTestBase functionality
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param match
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
+     *
+     * @param driver  - the selenium web driver, the underlying way all actions and
+     *                assertions are controlled
+     * @param file    - the TestOutput file. This is provided by the
+     *                SeleniumTestBase functionality
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param match   - if there are multiple matches of the selector, this is which
+     *                match (starting at 0) to interact with
      */
     public Element(WebDriver driver, OutputFile file, Locator type, String locator, int match) {
         this.type = type;
@@ -155,13 +138,11 @@ public class Element {
 
     /**
      * A private method to finish setting up each element
-     * 
-     * @param driver
-     *            - the selenium web driver, the underlying way all actions and
-     *            assertions are controlled
-     * @param file
-     *            - the TestOutput file. This is provided by the
-     *            SeleniumTestBase functionality
+     *
+     * @param driver - the selenium web driver, the underlying way all actions and
+     *               assertions are controlled
+     * @param file   - the TestOutput file. This is provided by the
+     *               SeleniumTestBase functionality
      */
     private void init(WebDriver driver, OutputFile file) {
         this.driver = driver;
@@ -180,10 +161,9 @@ public class Element {
      * Indicates the uniqueness match of the element to interact with. By
      * default this is set to 0, meaning the first element matching the locator
      * and selector assumed
-     * 
-     * @param match
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
+     *
+     * @param match - if there are multiple matches of the selector, this is which
+     *              match (starting at 0) to interact with
      */
     public void setMatch(int match) {
         this.match = match;
@@ -191,7 +171,7 @@ public class Element {
 
     /**
      * Retrieves the Locator set for this element
-     * 
+     *
      * @return Locator: the locator for the element
      */
     public Locator getType() {
@@ -200,7 +180,7 @@ public class Element {
 
     /**
      * Retrieves the selector set for this element
-     * 
+     *
      * @return String: the selector for the element
      */
     public String getLocator() {
@@ -209,7 +189,7 @@ public class Element {
 
     /**
      * Retrieves the uniqueness set for this element
-     * 
+     *
      * @return Integer: the uniqueness match for the element
      */
     public int getMatch() {
@@ -220,7 +200,7 @@ public class Element {
      * Retrieves the Selenium driver instance
      *
      * @return WebDriver: access to the driver controlling the browser via
-     *         webdriver
+     * webdriver
      */
     public WebDriver getDriver() {
         return driver;
@@ -229,7 +209,7 @@ public class Element {
     /**
      * Retrieves a nicely HTML formatted output which identifies the element by
      * locator and selector, which should be used at the beginning of a sentence
-     * 
+     *
      * @return String: text identifying how the element was located
      */
     public String prettyOutputStart() {
@@ -239,7 +219,7 @@ public class Element {
     /**
      * Retrieves a nicely HTML formatted output which identifies the element by
      * locator and selector, which can be used anywhere in a sentence
-     * 
+     *
      * @return String: text identifying how the element was located
      */
     public String prettyOutputLowercase() {
@@ -251,7 +231,7 @@ public class Element {
      * Retrieves a nicely HTML formatted output which identifies the element by
      * locator and selector, framed with spaces, which can be used anywhere in a
      * sentence
-     * 
+     *
      * @return String: text identifying how the element was located
      */
     public String prettyOutput() {
@@ -261,7 +241,7 @@ public class Element {
     /**
      * Retrieves a nicely HTML formatted output which identifies the element by
      * locator and selector, which should be used to end a sentence
-     * 
+     *
      * @return String: text identifying how the element was located
      */
     public String prettyOutputEnd() {
@@ -356,32 +336,32 @@ public class Element {
         // consider adding strengthening
         By byElement;
         switch (type) { // determine which locator type we are interested in
-        case XPATH:
-            byElement = By.xpath(locator);
-            break;
-        case ID:
-            byElement = By.id(locator);
-            break;
-        case NAME:
-            byElement = By.name(locator);
-            break;
-        case CLASSNAME:
-            byElement = By.className(locator);
-            break;
-        case CSS:
-            byElement = By.cssSelector(locator);
-            break;
-        case LINKTEXT:
-            byElement = By.linkText(locator);
-            break;
-        case PARTIALLINKTEXT:
-            byElement = By.partialLinkText(locator);
-            break;
-        case TAGNAME:
-            byElement = By.tagName(locator);
-            break;
-        default:
-            throw new InvalidLocatorTypeException();
+            case XPATH:
+                byElement = By.xpath(locator);
+                break;
+            case ID:
+                byElement = By.id(locator);
+                break;
+            case NAME:
+                byElement = By.name(locator);
+                break;
+            case CLASSNAME:
+                byElement = By.className(locator);
+                break;
+            case CSS:
+                byElement = By.cssSelector(locator);
+                break;
+            case LINKTEXT:
+                byElement = By.linkText(locator);
+                break;
+            case PARTIALLINKTEXT:
+                byElement = By.partialLinkText(locator);
+                break;
+            case TAGNAME:
+                byElement = By.tagName(locator);
+                break;
+            default:
+                throw new InvalidLocatorTypeException();
         }
         return byElement;
     }
@@ -413,7 +393,7 @@ public class Element {
      * as commands from it won't be checked, logged, caught, or screenshotted.
      *
      * @return List: a list of WebElement objects, and all associated values
-     *         with them
+     * with them
      */
     public List<WebElement> getWebElements() {
         try {
@@ -427,9 +407,8 @@ public class Element {
     /**
      * Searches for a child element within the element, and creates and returns
      * this new child element
-     * 
-     * @param child
-     *            - the child element to search for within the element
+     *
+     * @param child - the child element to search for within the element
      * @return Element: the full reference to the child element element
      */
     public Element findChild(Element child) {
@@ -454,13 +433,10 @@ public class Element {
     /**
      * Determines if the element is present. If it isn't, it'll wait up to the
      * default time (5 seconds) for the element to be present
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element present?
      */
     private boolean isPresent(String action, String expected, String extra) {
@@ -479,13 +455,10 @@ public class Element {
     /**
      * Determines if the element is displayed. If it isn't, it'll wait up to the
      * default time (5 seconds) for the element to be displayed
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element displayed?
      */
     private boolean isDisplayed(String action, String expected, String extra) {
@@ -504,13 +477,10 @@ public class Element {
     /**
      * Determines if the element is displayed. If it isn't, it'll wait up to the
      * default time (5 seconds) for the element to be displayed
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element enabled?
      */
     private boolean isEnabled(String action, String expected, String extra) {
@@ -528,13 +498,10 @@ public class Element {
 
     /**
      * Determines if the element is an input.
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element enabled?
      */
     private boolean isInput(String action, String expected, String extra) {
@@ -550,13 +517,10 @@ public class Element {
 
     /**
      * Determines if the element is a select.
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element enabled?
      */
     private boolean isSelect(String action, String expected, String extra) {
@@ -573,13 +537,10 @@ public class Element {
     /**
      * Determines if something is present, displayed, and enabled. This returns
      * true if all three are true, otherwise, it returns false
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element present, displayed, and enabled?
      */
     private boolean isPresentDisplayedEnabled(String action, String expected, String extra) {
@@ -598,13 +559,10 @@ public class Element {
     /**
      * Determines if something is present, enabled, and an input. This returns
      * true if all three are true, otherwise, it returns false
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element present, enabled, and an input?
      */
     private boolean isPresentEnabledInput(String action, String expected, String extra) {
@@ -622,15 +580,12 @@ public class Element {
     /**
      * Determines if something is present, displayed, enabled, and an input.
      * This returns true if all four are true, otherwise, it returns false
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element present, displayed, enabled, and an
-     *         input?
+     * input?
      */
     private boolean isPresentDisplayedEnabledInput(String action, String expected, String extra) {
         // wait for element to be present
@@ -651,15 +606,12 @@ public class Element {
     /**
      * Determines if something is present, displayed, enabled, and a select.
      * This returns true if all four are true, otherwise, it returns false
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element present, displayed, enabled, and an
-     *         input?
+     * input?
      */
     private boolean isPresentDisplayedEnabledSelect(String action, String expected, String extra) {
         // wait for element to be present
@@ -792,8 +744,7 @@ public class Element {
      * element is not displayed, a warning will be written in the log, to
      * indicate this is not a normal action as could be performed by the user.
      *
-     * @param text
-     *            - the text to be typed in
+     * @param text - the text to be typed in
      */
     public void type(String text) {
         String action = "Typing text '" + text + IN + prettyOutput();
@@ -829,8 +780,7 @@ public class Element {
      * element is not displayed, a warning will be written in the log, to
      * indicate this is not a normal action as could be performed by the user.
      *
-     * @param key
-     *            - the key to be pressed
+     * @param key - the key to be pressed
      */
     public void type(Keys key) {
         String action = "Typing key '" + key + IN + prettyOutput();
@@ -889,9 +839,8 @@ public class Element {
      * are not met, the select action will be logged, but skipped and the test
      * will continue.
      *
-     * @param index
-     *            - the select option to be selected - note, row numbering
-     *            starts at 0
+     * @param index - the select option to be selected - note, row numbering
+     *              starts at 0
      */
     public void select(int index) {
         String action = SELECTING + index + " in " + prettyOutput();
@@ -926,8 +875,7 @@ public class Element {
      * those conditions are not met, the select action will be logged, but
      * skipped and the test will continue.
      *
-     * @param option
-     *            - the select option to be selected
+     * @param option - the select option to be selected
      */
     public void selectOption(String option) {
         String action = SELECTING + option + " in " + prettyOutput();
@@ -965,8 +913,7 @@ public class Element {
      * conditions are not met, the select action will be logged, but skipped and
      * the test will continue.
      *
-     * @param value
-     *            - the select value to be selected
+     * @param value - the select value to be selected
      */
     public void selectValue(String value) {
         String action = SELECTING + value + " in " + prettyOutput();
@@ -1001,13 +948,10 @@ public class Element {
     /**
      * Generates and logs an error (with a screenshot), stating that the element
      * was unable to me moved to
-     * 
-     * @param e
-     *            - the exception that was thrown
-     * @param action
-     *            - what is the action occurring
-     * @param expected
-     *            - what is the expected outcome of said action
+     *
+     * @param e        - the exception that was thrown
+     * @param action   - what is the action occurring
+     * @param expected - what is the expected outcome of said action
      */
     private void cantMove(Exception e, String action, String expected) {
         log.warn(e);
@@ -1018,11 +962,9 @@ public class Element {
     /**
      * Determines if the element moved towards is now currently displayed on the
      * screen
-     * 
-     * @param action
-     *            - what is the action occurring
-     * @param expected
-     *            - what is the expected outcome of said action
+     *
+     * @param action   - what is the action occurring
+     * @param expected - what is the expected outcome of said action
      */
     private void isMoved(String action, String expected) {
         if (!is.displayed()) {
@@ -1066,8 +1008,7 @@ public class Element {
      * if the element is present. If that condition is not met, the move action
      * will be logged, but skipped and the test will continue.
      *
-     * @param position
-     *            - how many pixels above the element to scroll to
+     * @param position - how many pixels above the element to scroll to
      */
     public void move(long position) {
         String action = "Moving screen to " + position + " pixels above " + prettyOutput();

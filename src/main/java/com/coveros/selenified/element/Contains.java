@@ -20,10 +20,10 @@
 
 package com.coveros.selenified.element;
 
-import java.util.Arrays;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
+
+import java.util.Arrays;
 
 /**
  * Contains extends Asserts to provide some additional verification
@@ -33,7 +33,7 @@ import com.coveros.selenified.OutputFile.Success;
  * verification to provide additional traceability, and assist in
  * troubleshooting and debugging failing tests. Contains checks that elements
  * have a particular value associated to them.
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -54,9 +54,8 @@ public class Contains extends Assert {
      * If the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
-     * 
-     * @param expectedClass
-     *            - the expected class value
+     *
+     * @param expectedClass - the expected class value
      */
     public void clazz(String expectedClass) {
         // wait for the element
@@ -83,8 +82,7 @@ public class Contains extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param attribute
-     *            - the attribute to check for
+     * @param attribute - the attribute to check for
      */
     public void attribute(String attribute) {
         String[] allAttributes = getAttributes(attribute, "with");
@@ -107,9 +105,8 @@ public class Contains extends Assert {
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
-     * 
-     * @param expectedValue
-     *            the expected value of the element
+     *
+     * @param expectedValue the expected value of the element
      */
     public void text(String expectedValue) {
         // wait for the element
@@ -134,8 +131,7 @@ public class Contains extends Assert {
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedValue
-     *            the expected value of the element
+     * @param expectedValue the expected value of the element
      */
     public void value(String expectedValue) {
         String elementValue = getValue(expectedValue, HASVALUE);
@@ -156,8 +152,7 @@ public class Contains extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param option
-     *            the option expected in the list
+     * @param option the option expected in the list
      */
     public void selectOption(String option) {
         // wait for the select
@@ -184,8 +179,7 @@ public class Contains extends Assert {
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param selectValue
-     *            the expected input value of the element
+     * @param selectValue the expected input value of the element
      */
     public void selectValue(String selectValue) {
         // wait for the select
@@ -210,8 +204,7 @@ public class Contains extends Assert {
      * as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param numOfOptions
-     *            the expected number of options in the select element
+     * @param numOfOptions the expected number of options in the select element
      */
     public void selectOptions(int numOfOptions) {
         // wait for the select
@@ -237,8 +230,7 @@ public class Contains extends Assert {
      * a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param numOfColumns
-     *            the expected number of column elements of a table
+     * @param numOfColumns the expected number of column elements of a table
      */
     public void columns(int numOfColumns) {
         // wait for the table
@@ -262,8 +254,7 @@ public class Contains extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param numOfRows
-     *            the expected number of row elements of a table
+     * @param numOfRows the expected number of row elements of a table
      */
     public void rows(int numOfRows) {
         // wait for the table

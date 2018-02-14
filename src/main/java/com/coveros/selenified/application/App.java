@@ -23,36 +23,28 @@
 
 package com.coveros.selenified.application;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Date;
-
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.element.Element;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.TestSetup;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.element.Element;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.utilities.TestSetup;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Date;
 
 /**
  * App is an instance of the browser based application that is under test.
- *
+ * <p>
  * Pages should be build out of this object (if using the page object model
  * (POM)), so that several pages make up an app. Within each page, multiple
  * elements should be created. In this way, we can act on our app, page, or
@@ -102,19 +94,14 @@ public class App {
      * Sets up the app object. Browser, and Output are defined here, which will
      * control actions and all logging and records
      *
-     * @param browser
-     *            - the Browser we are running the test on
-     * @param capabilities
-     *            - what browser capabilities are desired
-     * @param file
-     *            - the TestOutput file. This is provided by the
-     *            SeleniumTestBase functionality
-     * @throws InvalidBrowserException
-     *             If a browser that is not one specified in the
-     *             Selenium.Browser class is used, this exception will be thrown
-     * @throws MalformedURLException
-     *             If the provided hub address isn't a URL, this exception will
-     *             be thrown
+     * @param browser      - the Browser we are running the test on
+     * @param capabilities - what browser capabilities are desired
+     * @param file         - the TestOutput file. This is provided by the
+     *                     SeleniumTestBase functionality
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be thrown
+     * @throws MalformedURLException   If the provided hub address isn't a URL, this exception will
+     *                                 be thrown
      */
     public App(Browser browser, DesiredCapabilities capabilities, OutputFile file)
             throws InvalidBrowserException, MalformedURLException {
@@ -148,10 +135,8 @@ public class App {
     /**
      * setups a new element which is located on the page
      *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator) {
@@ -161,13 +146,10 @@ public class App {
     /**
      * setups a new element which is located on the page
      *
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param match
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param match   - if there are multiple matches of the selector, this is which
+     *                match (starting at 0) to interact with
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, int match) {
@@ -226,7 +208,7 @@ public class App {
      * Retrieves the Selenium driver instance
      *
      * @return WebDriver: access to the driver controlling the browser via
-     *         webdriver
+     * webdriver
      */
     public WebDriver getDriver() {
         return driver;
@@ -281,8 +263,7 @@ public class App {
     /**
      * Pauses the test for a set amount of time
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void wait(double seconds) {
         String action = "Wait " + seconds + SECONDS;
@@ -303,8 +284,7 @@ public class App {
     /**
      * Navigates to a new url
      *
-     * @param url
-     *            - the URL to navigate to
+     * @param url - the URL to navigate to
      */
     public void goToURL(String url) {
         String action = "Loading " + url;
@@ -326,9 +306,8 @@ public class App {
     /**
      * Takes a full screenshot of the entire page
      *
-     * @param imageName
-     *            - the name of the image typically generated via functions from
-     *            TestOutput.generateImageName
+     * @param imageName - the name of the image typically generated via functions from
+     *                  TestOutput.generateImageName
      */
     public void takeScreenshot(String imageName) {
         if (browser == Browser.HTMLUNIT) {
@@ -354,16 +333,12 @@ public class App {
      * Sends a key combination both as control and command (PC and Mac
      * compatible)
      *
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * @param fail
-     *            - the failed result
-     * @param key
-     *            - what key to send along with control and/or command
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param fail     - the failed result
+     * @param key      - what key to send along with control and/or command
      * @return Boolean: returns a true if the keys were successfully sent, a
-     *         false if they were not
+     * false if they were not
      */
     private boolean sendControlAndCommand(String action, String expected, String fail, String key) {
         try {
@@ -384,7 +359,7 @@ public class App {
      * on this new tab, use the goToURL method to open load some content
      *
      * @return Boolean: returns a true if a tab was successfully opened, a false
-     *         if it was not.
+     * if it was not.
      */
     public boolean openTab() {
         return sendControlAndCommand("Opening new tab", "New tab is opened", "New tab was unable to be opened. ", "t");
@@ -393,8 +368,7 @@ public class App {
     /**
      * Opens a new tab, and have it selected. The page provided will be loaded
      *
-     * @param url
-     *            - the url to load once the new tab is opened and selected
+     * @param url - the url to load once the new tab is opened and selected
      */
     public void openTab(String url) {
         if (!openTab()) {
@@ -535,8 +509,7 @@ public class App {
     /**
      * Adds a cookie to the application for this particular test
      *
-     * @param cookie
-     *            - the details of the cookie to set
+     * @param cookie - the details of the cookie to set
      */
     public void setCookie(Cookie cookie) {
         String domain = cookie.getDomain();
@@ -566,8 +539,7 @@ public class App {
      * test. If the cookie by the provided name isn't present, than an error
      * will be logged and recorded
      *
-     * @param cookieName
-     *            - the name of the cookie to delete
+     * @param cookieName - the name of the cookie to delete
      */
     public void deleteCookie(String cookieName) {
         String action = "Deleting cookie <i>" + cookieName + "</i>";
@@ -634,8 +606,7 @@ public class App {
      * page isn't long enough to support scrolling to the desired position, than
      * an error will be logged and recorded
      *
-     * @param desiredPosition
-     *            - the position on the page to scroll to
+     * @param desiredPosition - the position on the page to scroll to
      */
     public void scroll(int desiredPosition) {
         String action = "Scrolling page by " + desiredPosition + " pixels";
@@ -776,8 +747,7 @@ public class App {
      * the third at index 2. Once the frame has been selected, all subsequent
      * calls on the WebDriver interface are made to that frame.
      *
-     * @param frameNumber
-     *            - the frame number, starts at 0
+     * @param frameNumber - the frame number, starts at 0
      */
     public void selectFrame(int frameNumber) {
         String action = "Switching to frame <b>" + frameNumber + "</b>";
@@ -798,8 +768,7 @@ public class App {
      * Select a frame by its name or ID. Frames located by matching name
      * attributes are always given precedence over those matched by ID.
      *
-     * @param frameIdentifier
-     *            - the frame name or ID
+     * @param frameIdentifier - the frame name or ID
      */
     public void selectFrame(String frameIdentifier) {
         String action = "Switching to frame <b>" + frameIdentifier + "</b>";
@@ -823,12 +792,9 @@ public class App {
     /**
      * Accept (click 'OK' on) whatever popup is present on the page
      *
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * @param popup
-     *            - the element we are interacting with
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param popup    - the element we are interacting with
      */
     private void accept(String action, String expected, String popup) {
         try {
@@ -847,12 +813,9 @@ public class App {
     /**
      * Dismiss (click 'Cancel' on) whatever popup is present on the page
      *
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * @param popup
-     *            - the element we are interacting with
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param popup    - the element we are interacting with
      */
     private void dismiss(String action, String expected, String popup) {
         try {
@@ -873,11 +836,8 @@ public class App {
      * with. If it's not present, an indication that the confirmation can't be
      * clicked on is written to the log file
      *
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     *
+     * @param action   - the action occurring
+     * @param expected - the expected result
      * @return Boolean: is a confirmation actually present or not.
      */
     private boolean isConfirmation(String action, String expected) {
@@ -897,12 +857,9 @@ public class App {
      * it's not present, an indication that the confirmation can't be clicked on
      * is written to the log file
      *
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * @param perform
-     *            - the action occurring to the prompt
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param perform  - the action occurring to the prompt
      * @return Boolean: is a prompt actually present or not.
      */
     private boolean isPrompt(String action, String expected, String perform) {
@@ -986,8 +943,7 @@ public class App {
     /**
      * Type text into a prompt box
      *
-     * @param text
-     *            - the text to type into the prompt
+     * @param text - the text to type into the prompt
      */
     public void typeIntoPrompt(String text) {
         String action = "Typing text '" + text + "' into prompt";

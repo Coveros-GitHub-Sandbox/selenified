@@ -1,13 +1,12 @@
 package integration;
 
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.application.App;
-import com.coveros.selenified.element.Element;
 
 public class ElementIT extends Selenified {
 
@@ -22,8 +21,8 @@ public class ElementIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = { "integration",
-            "element" }, description = "An integration test to check that a child element is properly located")
+    @Test(groups = {"integration",
+            "element"}, description = "An integration test to check that a child element is properly located")
     public void checkChildTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -35,8 +34,8 @@ public class ElementIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration",
-            "element" }, description = "An integration test to check that a child element is properly located")
+    @Test(groups = {"integration",
+            "element"}, description = "An integration test to check that a child element is properly located")
     public void checkMultipleChildTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

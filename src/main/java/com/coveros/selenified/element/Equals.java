@@ -20,10 +20,10 @@
 
 package com.coveros.selenified.element;
 
-import java.util.Arrays;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
+
+import java.util.Arrays;
 
 /**
  * Equals extends Asserts to provide some additional verification capabilities.
@@ -33,7 +33,7 @@ import com.coveros.selenified.OutputFile.Success;
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests. Equals checks that elements have a particular value associated
  * to them.
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/14/2017
@@ -62,10 +62,8 @@ public class Equals extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param attribute
-     *            - the css attribute to be checked
-     * @param expectedValue
-     *            the expected css value of the passed attribute of the element
+     * @param attribute     - the css attribute to be checked
+     * @param expectedValue the expected css value of the passed attribute of the element
      */
     public void cssValue(String attribute, String expectedValue) {
         // wait for the element
@@ -98,8 +96,7 @@ public class Equals extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param expectedClass
-     *            - the full expected class value
+     * @param expectedClass - the full expected class value
      */
     public void clazz(String expectedClass) {
         // wait for the element
@@ -126,10 +123,8 @@ public class Equals extends Assert {
      * This information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
-     * @param attribute
-     *            - the attribute to be checked
-     * @param expectedValue
-     *            the expected value of the passed attribute of the element
+     * @param attribute     - the attribute to be checked
+     * @param expectedValue the expected value of the passed attribute of the element
      */
     public void attribute(String attribute, String expectedValue) {
         // wait for the element
@@ -165,8 +160,7 @@ public class Equals extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param expectedText
-     *            the expected value of the element
+     * @param expectedText the expected value of the element
      */
     public void text(String expectedText) {
         // wait for the element
@@ -192,14 +186,11 @@ public class Equals extends Assert {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      *
-     * @param row
-     *            - the number of the row in the table - note, row numbering
-     *            starts at 1, NOT 0
-     * @param col
-     *            - the number of the column in the table - note, column
-     *            numbering starts at 1, NOT 0
-     * @param text
-     *            - what text do we expect to be in the table cell
+     * @param row  - the number of the row in the table - note, row numbering
+     *             starts at 1, NOT 0
+     * @param col  - the number of the column in the table - note, column
+     *             numbering starts at 1, NOT 0
+     * @param text - what text do we expect to be in the table cell
      */
     public void text(int row, int col, String text) {
         String column = " and column ";
@@ -227,8 +218,7 @@ public class Equals extends Assert {
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedValue
-     *            the expected input value of the element
+     * @param expectedValue the expected input value of the element
      */
     public void value(String expectedValue) {
         // wait for the element
@@ -259,8 +249,7 @@ public class Equals extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedText
-     *            the expected input text of the element
+     * @param expectedText the expected input text of the element
      */
     public void selectedOption(String expectedText) {
         // wait for the select
@@ -284,8 +273,7 @@ public class Equals extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedValue
-     *            the expected input value of the element
+     * @param expectedValue the expected input value of the element
      */
     public void selectedValue(String expectedValue) {
         // wait for the select
@@ -309,8 +297,7 @@ public class Equals extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedOptions
-     *            the expected input value of the element
+     * @param expectedOptions the expected input value of the element
      */
     public void selectOptions(String... expectedOptions) {
         // wait for the select
@@ -336,8 +323,7 @@ public class Equals extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedValues
-     *            the expected input value of the element
+     * @param expectedValues the expected input value of the element
      */
     public void selectValues(String... expectedValues) {
         // wait for the select

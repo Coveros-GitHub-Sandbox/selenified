@@ -49,7 +49,7 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
 
     public CustomHtmlUnitDriver(Capabilities capabilities) {
         super(capabilities); // To change body of overridden methods use File |
-                                // Settings | File Templates.
+        // Settings | File Templates.
         System.getProperties().put("org.apache.commons.logging.simplelog.defaultlog", "fatal");
         java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
         java.util.logging.Logger.getLogger("org.apache.http").setLevel(Level.OFF);
@@ -59,9 +59,8 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     /**
      * Overridden to customize the WebClient that the HtmlUnit driver uses, in
      * order to ignore Javascript errors.
-     * 
-     * @param client
-     *            - the client to modify
+     *
+     * @param client - the client to modify
      * @return WebClient: the modified client
      */
     @Override

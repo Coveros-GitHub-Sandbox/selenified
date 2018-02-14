@@ -1,11 +1,8 @@
 package unit;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.TestSetup;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -16,9 +13,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.utilities.TestSetup;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TestSetupTest {
 
@@ -552,10 +551,10 @@ public class TestSetupTest {
     @Test
     public void getTestNameTest(Method method) {
         Assert.assertEquals(TestSetup.getTestName(method), "unit_TestSetupTest_getTestNameTest");
-        Object[] options = new Object[] { "Python", "public" };
+        Object[] options = new Object[]{"Python", "public"};
         Assert.assertEquals(TestSetup.getTestName(method, options),
                 "unit_TestSetupTest_getTestNameTestWithOptionPython");
-        options = new Object[] { "Python", null };
+        options = new Object[]{"Python", null};
         Assert.assertEquals(TestSetup.getTestName(method, options),
                 "unit_TestSetupTest_getTestNameTestWithOptionPython");
         Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");

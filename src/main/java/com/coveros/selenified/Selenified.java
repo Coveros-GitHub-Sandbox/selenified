@@ -20,22 +20,17 @@
 
 package com.coveros.selenified;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.annotations.*;
-import org.testng.log4testng.Logger;
-
 import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.utilities.TestSetup;
-
-import static org.testng.AssertJUnit.assertEquals;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+import org.testng.log4testng.Logger;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -43,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static org.testng.AssertJUnit.assertEquals;
 
 /**
  * Selenified contains all of the elements to setup the test suite, and to start
@@ -52,7 +49,7 @@ import java.util.Map;
  * system variables are gathered, to set the browser, test site, proxy, hub,
  * etc. This class should be extended by each test class to allow for simple
  * execution of tests.
- * 
+ * <p>
  * By default each test run will launch a selenium browser, and open the defined
  * test site. If no browser is needed for the test, override the startTest
  * method. Similarly, if you don't want a URL to initially load, override the
@@ -62,7 +59,7 @@ import java.util.Map;
  * @version 3.0.0
  * @lastupdate 8/13/2017
  */
-@Listeners({ com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class })
+@Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
 
     private static final Logger log = Logger.getLogger(Selenified.class);
@@ -97,14 +94,12 @@ public class Selenified {
      * a system property, that value will override whatever was set in the
      * particular test suite. If no site was set, null will be returned, which
      * will causes the tests to error out
-     * 
-     * @param clazz
-     *            - the test suite class, used for making threadsafe storage of
-     *            application, allowing suites to have independent applications
-     *            under test, run at the same time
-     * @param context
-     *            - the TestNG context associated with the test suite, used for
-     *            storing app url information
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
      * @return String: the URL of the application under test
      */
     public String getTestSite(String clazz, ITestContext context) {
@@ -119,16 +114,13 @@ public class Selenified {
      * Sets the URL of the application under test. If the site was provided as a
      * system property, this method ignores the passed in value, and uses the
      * system property.
-     * 
-     * @param clazz
-     *            - the test suite class, used for making threadsafe storage of
-     *            application, allowing suites to have independent applications
-     *            under test, run at the same time
-     * @param context
-     *            - the TestNG context associated with the test suite, used for
-     *            storing app url information
-     * @param siteURL
-     *            - the URL of the application under test
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @param siteURL - the URL of the application under test
      */
     protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
         if (System.getProperty(APP_INPUT) == null) {
@@ -140,14 +132,12 @@ public class Selenified {
     /**
      * Obtains the version of the current test suite being executed. If no
      * version was set, null will be returned
-     * 
-     * @param clazz
-     *            - the test suite class, used for making threadsafe storage of
-     *            application, allowing suites to have independent applications
-     *            under test, run at the same time
-     * @param context
-     *            - the TestNG context associated with the test suite, used for
-     *            storing app url information
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
      * @return String: the version of the current test being executed
      */
     protected String getVersion(String clazz, ITestContext context) {
@@ -156,16 +146,13 @@ public class Selenified {
 
     /**
      * Sets the version of the current test suite being executed.
-     * 
-     * @param clazz
-     *            - the test suite class, used for making threadsafe storage of
-     *            application, allowing suites to have independent applications
-     *            under test, run at the same time
-     * @param context
-     *            - the TestNG context associated with the test suite, used for
-     *            storing app url information
-     * @param version
-     *            - the version of the test suite
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @param version - the version of the test suite
      */
     protected static void setVersion(Selenified clazz, ITestContext context, String version) {
         String testSuite = clazz.getClass().getName();
@@ -175,14 +162,12 @@ public class Selenified {
     /**
      * Obtains the author of the current test suite being executed. If no author
      * was set, null will be returned
-     * 
-     * @param clazz
-     *            - the test suite class, used for making threadsafe storage of
-     *            application, allowing suites to have independent applications
-     *            under test, run at the same time
-     * @param context
-     *            - the TestNG context associated with the test suite, used for
-     *            storing app url information
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
      * @return String: the author of the current test being executed
      */
     protected String getAuthor(String clazz, ITestContext context) {
@@ -191,16 +176,13 @@ public class Selenified {
 
     /**
      * Sets the author of the current test suite being executed.
-     * 
-     * @param clazz
-     *            - the test suite class, used for making threadsafe storage of
-     *            application, allowing suites to have independent applications
-     *            under test, run at the same time
-     * @param context
-     *            - the TestNG context associated with the test suite, used for
-     *            storing app url information
-     * @param author
-     *            - the author of the test suite
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @param author  - the author of the test suite
      */
     protected static void setAuthor(Selenified clazz, ITestContext context, String author) {
         String testSuite = clazz.getClass().getName();
@@ -210,10 +192,9 @@ public class Selenified {
     /**
      * Runs once before any of the tests run, to parse and setup the static
      * passed information such as browsers, proxy, hub, etc
-     * 
-     * @throws InvalidBrowserException
-     *             If a browser that is not one specified in the
-     *             Selenium.Browser class is used, this exception will be thrown
+     *
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be thrown
      */
     @BeforeSuite(alwaysRun = true)
     protected void beforeSuite() throws InvalidBrowserException {
@@ -223,19 +204,15 @@ public class Selenified {
     /**
      * Before any tests run, setup the logging and test details. If a selenium
      * test is being run, it sets up the driver as well
-     * 
-     * @param dataProvider
-     *            - any objects that are being passed to the tests to loop
-     *            through as variables
-     * @param method
-     *            - what is the method that is being run. the test name will be
-     *            extracted from this
-     * @param test
-     *            - was the is context associated with this test suite. suite
-     *            information will be extracted from this
-     * @param result
-     *            - where are the test results stored. browser information will
-     *            be kept here
+     *
+     * @param dataProvider - any objects that are being passed to the tests to loop
+     *                     through as variables
+     * @param method       - what is the method that is being run. the test name will be
+     *                     extracted from this
+     * @param test         - was the is context associated with this test suite. suite
+     *                     information will be extracted from this
+     * @param result       - where are the test results stored. browser information will
+     *                     be kept here
      */
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
@@ -245,25 +222,20 @@ public class Selenified {
     /**
      * Gathers all of the testing information, and setup up the logging. If a
      * selenium test is running, also sets up the webdriver object
-     * 
-     * @param dataProvider
-     *            - any objects that are being passed to the tests to loop
-     *            through as variables
-     * @param method
-     *            - what is the method that is being run. the test name will be
-     *            extracted from this
-     * @param test
-     *            - was the is context associated with this test suite. suite
-     *            information will be extracted from this
-     * @param result
-     *            - where are the test results stored. browser information will
-     *            be kept here
-     * @param selenium
-     *            - is this a selenium test. if so, the webdriver content will
-     *            be setup
+     *
+     * @param dataProvider - any objects that are being passed to the tests to loop
+     *                     through as variables
+     * @param method       - what is the method that is being run. the test name will be
+     *                     extracted from this
+     * @param test         - was the is context associated with this test suite. suite
+     *                     information will be extracted from this
+     * @param result       - where are the test results stored. browser information will
+     *                     be kept here
+     * @param selenium     - is this a selenium test. if so, the webdriver content will
+     *                     be setup
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-            DriverSetup selenium) {
+                             DriverSetup selenium) {
         String testName = TestSetup.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
@@ -350,19 +322,15 @@ public class Selenified {
     /**
      * After each test is completed, the test is closed out, and the test
      * counter is incremented
-     * 
-     * @param dataProvider
-     *            - any objects that are being passed to the tests to loop
-     *            through as variables
-     * @param method
-     *            - what is the method that is being run. the test name will be
-     *            extracted from this
-     * @param test
-     *            - was the is context associated with this test suite. suite
-     *            information will be extracted from this
-     * @param result
-     *            - where are the test results stored. browser information will
-     *            be kept here
+     *
+     * @param dataProvider - any objects that are being passed to the tests to loop
+     *                     through as variables
+     * @param method       - what is the method that is being run. the test name will be
+     *                     extracted from this
+     * @param test         - was the is context associated with this test suite. suite
+     *                     information will be extracted from this
+     * @param result       - where are the test results stored. browser information will
+     *                     be kept here
      */
     @AfterMethod(alwaysRun = true)
     protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
@@ -392,9 +360,8 @@ public class Selenified {
      * each @Test. It will close out the output logging file, and count any
      * errors that were encountered during the test, and assert that the number
      * of errors that occurred equals the provided number of errors.
-     * 
-     * @param errors
-     *            - number of expected errors from the test
+     *
+     * @param errors - number of expected errors from the test
      */
     protected void finish(int errors) {
         OutputFile myFile = this.files.get();
@@ -406,9 +373,8 @@ public class Selenified {
     /**
      * Setups up the initial system for test. As a singleton, this is only done
      * once per test suite.
-     * 
-     * @author max
      *
+     * @author max
      */
     private static class MasterSuiteSetupConfigurator {
         private static MasterSuiteSetupConfigurator instance;
@@ -420,7 +386,7 @@ public class Selenified {
         /**
          * Runs once before any of the tests run, to parse and setup the static
          * passed information such as browsers, proxy, hub, etc
-         * 
+         *
          * @return null
          */
         public static MasterSuiteSetupConfigurator getInstance() {
@@ -434,11 +400,10 @@ public class Selenified {
         /**
          * Runs once before any of the tests run, to parse and setup the static
          * passed information such as browsers, proxy, hub, etc
-         * 
-         * @throws InvalidBrowserException
-         *             If a browser that is not one specified in the
-         *             Selenium.Browser class is used, this exception will be
-         *             thrown
+         *
+         * @throws InvalidBrowserException If a browser that is not one specified in the
+         *                                 Selenium.Browser class is used, this exception will be
+         *                                 thrown
          */
         public void doSetup() throws InvalidBrowserException {
             if (wasInvoked) {
@@ -467,11 +432,10 @@ public class Selenified {
         /**
          * Obtains passed in browser information, and sets up the required
          * capabilities
-         * 
-         * @throws InvalidBrowserException
-         *             If a browser that is not one specified in the
-         *             Selenium.Browser class is used, this exception will be
-         *             thrown
+         *
+         * @throws InvalidBrowserException If a browser that is not one specified in the
+         *                                 Selenium.Browser class is used, this exception will be
+         *                                 thrown
          */
         private static void setupTestParameters() throws InvalidBrowserException {
             browsers = TestSetup.setBrowser();
