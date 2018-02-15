@@ -26,12 +26,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.element.Element;
-
 /**
  * Is retrieves information about a particular element. A boolean is always
  * returning, indicating if an object is present or not
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -176,7 +174,7 @@ public class Is {
      * Determines whether the element has something selected or not. Checkboxes,
      * radio buttons, and selects could all have something selected. Other
      * elements will default to false.
-     * 
+     *
      * @return Boolean: is something selected or not
      */
     public boolean somethingSelected() {

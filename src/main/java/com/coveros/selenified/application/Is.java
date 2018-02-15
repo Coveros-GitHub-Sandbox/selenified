@@ -29,7 +29,7 @@ import org.testng.log4testng.Logger;
  * Is checks information about the app in general, not specific to any
  * particular page or element. A boolean is always returning, indicating if an
  * object is present or not
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -52,7 +52,7 @@ public class Is {
 
     /**
      * Determines if any popup is present on the page
-     * 
+     *
      * @return Boolean: is a popup present on the page
      */
     private boolean isPopupPresent() {
@@ -98,8 +98,7 @@ public class Is {
      * Determines if a cookie exists in the application with the provided
      * cookieName.
      *
-     * @param expectedCookieName
-     *            - the name of the cookie
+     * @param expectedCookieName - the name of the cookie
      * @return Boolean: if the cookie is present
      */
     public boolean cookiePresent(String expectedCookieName) {
@@ -113,8 +112,7 @@ public class Is {
     /**
      * Determines if the provided text(s) are on the current page.
      *
-     * @param expectedText
-     *            - the text we are expecting to be present on the page
+     * @param expectedText - the text we are expecting to be present on the page
      * @return Boolean: whether or not the text is present
      */
     public boolean textPresent(String expectedText) {
@@ -130,8 +128,7 @@ public class Is {
     /**
      * Determines if the provides text is present in the current page source.
      *
-     * @param expectedText
-     *            - the text we are expecting to be present on the page
+     * @param expectedText - the text we are expecting to be present on the page
      * @return Boolean: whether or not the text is present
      */
     public boolean textPresentInSource(String expectedText) {

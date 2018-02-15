@@ -1,6 +1,7 @@
 package unit;
 
-import java.lang.reflect.Method;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -10,8 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.Selenified;
+import java.lang.reflect.Method;
 
 public class SelenifiedTest extends Selenified {
 

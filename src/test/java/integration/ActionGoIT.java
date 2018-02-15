@@ -1,19 +1,18 @@
 package integration;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
 import org.openqa.selenium.Cookie;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.application.App;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 public class ActionGoIT extends Selenified {
 
@@ -28,8 +27,8 @@ public class ActionGoIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the goBackOnePage method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -42,8 +41,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the goBackOnePage method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageNoBackTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -53,8 +52,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the goBackOnePage method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -65,8 +64,8 @@ public class ActionGoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the goForwardOnePage method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -81,8 +80,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the goForwardOnePage method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageNoForwardTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -92,8 +91,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the goForwardOnePage method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -104,8 +103,8 @@ public class ActionGoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the refreshPage method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the refreshPage method")
     public void refreshPageTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -115,8 +114,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the refreshPage method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the refreshPage method")
     public void refreshPageErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -127,8 +126,8 @@ public class ActionGoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the refreshPageHard method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -138,8 +137,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the refreshPageHard method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -150,8 +149,8 @@ public class ActionGoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the setCookie method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the setCookie method")
     public void setCookieTest(ITestContext context) throws IOException, ParseException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -166,8 +165,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the setCookie method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the setCookie method")
     public void setCookieErrorTest(ITestContext context) throws IOException, ParseException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -183,8 +182,8 @@ public class ActionGoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the deleteCookie method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the deleteCookie method")
     public void deleteCookieTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -196,8 +195,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the deleteCookie method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the deleteCookie method")
     public void deleteNonExistentCookieTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -207,8 +206,8 @@ public class ActionGoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the deleteAllCookies method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -220,8 +219,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the deleteAllCookies method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesTwiceTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -234,8 +233,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the deleteAllCookies method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -246,8 +245,8 @@ public class ActionGoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the maximizeScreen method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -257,8 +256,8 @@ public class ActionGoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "go",
-            "virtual" }, description = "An integration test to check the maximizeScreen method")
+    @Test(groups = {"integration", "actions", "go",
+            "virtual"}, description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

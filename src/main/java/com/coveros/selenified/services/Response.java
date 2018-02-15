@@ -20,13 +20,13 @@
 
 package com.coveros.selenified.services;
 
-import java.util.Map;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import java.util.Map;
 
 /**
  * A class designed to hold data provided from the HTTP calls.
@@ -111,9 +111,8 @@ public class Response {
     /**
      * Verifies the actual response code is equals to the expected response
      * code, and writes that out to the output file
-     * 
-     * @param expectedCode
-     *            - the expected response code
+     *
+     * @param expectedCode - the expected response code
      */
     public void assertEquals(int expectedCode) {
         Success success = (code == expectedCode) ? Success.PASS : Success.FAIL;
@@ -125,9 +124,8 @@ public class Response {
     /**
      * Verifies the actual response json payload is equal to the expected
      * response json payload, and writes that out to the output file
-     * 
-     * @param expectedJson
-     *            - the expected response json object
+     *
+     * @param expectedJson - the expected response json object
      */
     public void assertEquals(JsonObject expectedJson) {
         Success success = Success.FAIL;
@@ -143,9 +141,8 @@ public class Response {
     /**
      * Verifies the actual response json payload is equal to the expected
      * response json payload, and writes that out to the output file
-     * 
-     * @param expectedArray
-     *            - the expected response json array
+     *
+     * @param expectedArray - the expected response json array
      */
     public void assertEquals(JsonArray expectedArray) {
         Success success = Success.FAIL;
@@ -161,10 +158,9 @@ public class Response {
     /**
      * Verifies the actual response json payload contains each of the pair
      * values provided, and writes that to the output file
-     * 
-     * @param expectedPairs
-     *            a hashmap with string key value pairs expected in the json
-     *            response
+     *
+     * @param expectedPairs a hashmap with string key value pairs expected in the json
+     *                      response
      */
     public void assertContains(Map<String, String> expectedPairs) {
         StringBuilder expectedString = new StringBuilder();
@@ -190,11 +186,9 @@ public class Response {
      * Verifies the actual response json payload contains a key with a value
      * equals to the expected json element, and writes that out to the output
      * file
-     * 
-     * @param key
-     *            - a String key value expected in the result
-     * @param expectedJson
-     *            - the expected response json object
+     *
+     * @param key          - a String key value expected in the result
+     * @param expectedJson - the expected response json object
      */
     public void assertContains(String key, JsonElement expectedJson) {
         Success success = Success.FAIL;
@@ -210,9 +204,8 @@ public class Response {
     /**
      * Verifies the actual response json payload contains to the expected json
      * element, and writes that out to the output file
-     * 
-     * @param expectedJson
-     *            - the expected response json array
+     *
+     * @param expectedJson - the expected response json array
      */
     public void assertContains(JsonElement expectedJson) {
         Success success = Success.FAIL;

@@ -1,14 +1,13 @@
 package sample;
 
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.application.App;
-import com.coveros.selenified.element.Element;
 
 public class SimpleSampleIT extends Selenified {
 
@@ -25,10 +24,10 @@ public class SimpleSampleIT extends Selenified {
 
     @DataProvider(name = "car list items", parallel = true)
     public Object[][] DataSetOptions() {
-        return new Object[][] { new Object[] { "Volvo" }, new Object[] { "Saab" }, new Object[] { "Mercedes" } };
+        return new Object[][]{new Object[]{"Volvo"}, new Object[]{"Saab"}, new Object[]{"Mercedes"}};
     }
 
-    @Test(groups = { "sample", "virtual" }, description = "A sample test to check a title")
+    @Test(groups = {"sample", "virtual"}, description = "A sample test to check a title")
     public void sampleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -38,8 +37,8 @@ public class SimpleSampleIT extends Selenified {
         finish();
     }
 
-    @Test(dataProvider = "car list items", groups = { "sample",
-            "virtual" }, description = "A sample test using a data provider to perform searches")
+    @Test(dataProvider = "car list items", groups = {"sample",
+            "virtual"}, description = "A sample test using a data provider to perform searches")
     public void sampleTestWDataProvider(String listItem) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -49,8 +48,8 @@ public class SimpleSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "sample",
-            "virtual" }, description = "A sample test to show how to loop through elements with multiple matches")
+    @Test(groups = {"sample",
+            "virtual"}, description = "A sample test to show how to loop through elements with multiple matches")
     public void sampleTestLoopThroughElements() {
         // use this object to manipulate the app
         App app = this.apps.get();

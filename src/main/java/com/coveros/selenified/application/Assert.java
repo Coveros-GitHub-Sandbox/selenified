@@ -20,11 +20,11 @@
 
 package com.coveros.selenified.application;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Assert will handle all verifications performed on the actual application
@@ -32,7 +32,7 @@ import com.coveros.selenified.OutputFile.Success;
  * providing easy object oriented capabilities, they take screenshots with each
  * verification to provide additional traceability, and assist in
  * troubleshooting and debugging failing tests.
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -77,8 +77,7 @@ public class Assert {
      * currently on. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedURL
-     *            the URL of the page
+     * @param expectedURL the URL of the page
      */
     public void urlEquals(String expectedURL) {
         // file.record the action
@@ -97,8 +96,7 @@ public class Assert {
      * the application is on. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      *
-     * @param expectedTitle
-     *            the friendly name of the page
+     * @param expectedTitle the friendly name of the page
      */
     public void titleEquals(String expectedTitle) {
         // file.record the action
@@ -117,8 +115,7 @@ public class Assert {
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
-     * @param expectedTexts
-     *            the expected text to be present
+     * @param expectedTexts the expected text to be present
      */
     public void textPresent(String... expectedTexts) {
         // file.record the action
@@ -140,8 +137,7 @@ public class Assert {
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
-     * @param expectedTexts
-     *            the expected text to be not present
+     * @param expectedTexts the expected text to be not present
      */
     public void textNotPresent(String... expectedTexts) {
         // file.record the action
@@ -206,9 +202,8 @@ public class Assert {
      * Verifies that an alert present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
-     * 
-     * @param expectedAlertText
-     *            the expected text of the alert
+     *
+     * @param expectedAlertText the expected text of the alert
      */
     public void alertPresent(String expectedAlertText) {
         // file.record the action
@@ -284,9 +279,8 @@ public class Assert {
      * Verifies that a confirmation present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
-     * 
-     * @param expectedConfirmationText
-     *            the expected text of the confirmation
+     *
+     * @param expectedConfirmationText the expected text of the confirmation
      */
     public void confirmationPresent(String expectedConfirmationText) {
         // file.record the action
@@ -354,9 +348,8 @@ public class Assert {
      * Verifies that a prompt present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
-     * 
-     * @param expectedPromptText
-     *            the expected text of the prompt
+     *
+     * @param expectedPromptText the expected text of the prompt
      */
     public void promptPresent(String expectedPromptText) {
         // file.record the action
@@ -389,8 +382,7 @@ public class Assert {
      * cookieName. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedCookieName
-     *            the name of the cookie
+     * @param expectedCookieName the name of the cookie
      */
     public void cookieExists(String expectedCookieName) {
         // file.record the action
@@ -414,8 +406,7 @@ public class Assert {
      * cookieName. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param unexpectedCookieName
-     *            the name of the cookie
+     * @param unexpectedCookieName the name of the cookie
      */
     public void cookieNotExists(String unexpectedCookieName) {
         // file.record the action
@@ -435,10 +426,8 @@ public class Assert {
      * expected value. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param cookieName
-     *            the name of the cookie
-     * @param expectedCookieValue
-     *            the expected value of the cookie
+     * @param cookieName          the name of the cookie
+     * @param expectedCookieValue the expected value of the cookie
      */
     public void cookieExists(String cookieName, String expectedCookieValue) {
         // file.record the action

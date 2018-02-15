@@ -20,18 +20,18 @@
 
 package com.coveros.selenified.services;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.commons.codec.binary.Base64;
+import org.testng.log4testng.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.apache.commons.codec.binary.Base64;
-import org.testng.log4testng.Logger;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 /**
  * A class designed to make HTTP calls. This is wrapped by the Action and Assert
@@ -55,9 +55,8 @@ public class HTTP {
     /**
      * Instantiates a HTTP session for making web service calls without any
      * authentication
-     * 
-     * @param serviceBaseUrl
-     *            - the base url of the services location
+     *
+     * @param serviceBaseUrl - the base url of the services location
      */
     public HTTP(String serviceBaseUrl) {
         this.serviceBaseUrl = serviceBaseUrl;
@@ -66,13 +65,10 @@ public class HTTP {
     /**
      * Instantiates a HTTP session for making web service calls with basic
      * username/password authentication
-     * 
-     * @param serviceBaseUrl
-     *            - the base url of the services location
-     * @param user
-     *            - the username required for authentication
-     * @param pass
-     *            - the password required for authentication
+     *
+     * @param serviceBaseUrl - the base url of the services location
+     * @param user           - the username required for authentication
+     * @param pass           - the password required for authentication
      */
     public HTTP(String serviceBaseUrl, String user, String pass) {
         this.serviceBaseUrl = serviceBaseUrl;
@@ -82,7 +78,7 @@ public class HTTP {
 
     /**
      * Retrieves the base url of the services location
-     * 
+     *
      * @return String: the base url of the services location
      */
     public String getServiceBaseUrl() {
@@ -92,7 +88,7 @@ public class HTTP {
     /**
      * Retrieves the username used for authentication with the application. If
      * none was set, an empty string will be returned
-     * 
+     *
      * @return user: the username required for authentication
      */
     public String getUser() {
@@ -102,7 +98,7 @@ public class HTTP {
     /**
      * Retrieves the password used for authentication with the application. If
      * none was set, an empty string will be returned
-     * 
+     *
      * @return pass: the password required for authentication
      */
     public String getPass() {
@@ -112,7 +108,7 @@ public class HTTP {
     /**
      * Determines whether or not authentication should be used, by checking to
      * see if both username and password are set
-     * 
+     *
      * @return Boolean: are both the username and password set
      */
     public boolean useCredentials() {
@@ -121,9 +117,8 @@ public class HTTP {
 
     /**
      * A basic http get call
-     * 
-     * @param service
-     *            - the endpoint of the service under test
+     *
+     * @param service - the endpoint of the service under test
      * @return Response: the response provided from the http call
      */
     public Response get(String service) {
@@ -132,12 +127,10 @@ public class HTTP {
 
     /**
      * A basic http get call
-     * 
-     * @param service
-     *            - the endpoint of the service under test
-     * @param request
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param service - the endpoint of the service under test
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
      * @return Response: the response provided from the http call
      */
     public Response get(String service, Request request) {
@@ -146,12 +139,10 @@ public class HTTP {
 
     /**
      * A basic http post call
-     * 
-     * @param service
-     *            - the endpoint of the service under test
-     * @param request
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param service - the endpoint of the service under test
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
      * @return Response: the response provided from the http call
      */
     public Response post(String service, Request request) {
@@ -160,12 +151,10 @@ public class HTTP {
 
     /**
      * A basic http put call
-     * 
-     * @param service
-     *            - the endpoint of the service under test
-     * @param request
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param service - the endpoint of the service under test
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
      * @return Response: the response provided from the http call
      */
     public Response put(String service, Request request) {
@@ -174,12 +163,10 @@ public class HTTP {
 
     /**
      * A basic http patch call
-     * 
-     * @param service
-     *            - the endpoint of the service under test
-     * @param request
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param service - the endpoint of the service under test
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
      * @return Response: the response provided from the http call
      */
     public Response patch(String service, Request request) {
@@ -188,9 +175,8 @@ public class HTTP {
 
     /**
      * A basic http delete call
-     * 
-     * @param service
-     *            - the endpoint of the service under test
+     *
+     * @param service - the endpoint of the service under test
      * @return Response: the response provided from the http call
      */
     public Response delete(String service) {
@@ -199,12 +185,10 @@ public class HTTP {
 
     /**
      * A basic http delete call
-     * 
-     * @param service
-     *            - the endpoint of the service under test
-     * @param request
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param service - the endpoint of the service under test
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
      * @return Response: the response provided from the http call
      */
     public Response delete(String service, Request request) {
@@ -213,14 +197,11 @@ public class HTTP {
 
     /**
      * A basic generic http call
-     * 
-     * @param call
-     *            - what method are we calling
-     * @param service
-     *            - the endpoint of the service under test
-     * @param request
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param call    - what method are we calling
+     * @param service - the endpoint of the service under test
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
      * @return Response: the response provided from the http call
      */
     private Response call(String call, String service, Request request) {
@@ -277,12 +258,10 @@ public class HTTP {
 
     /**
      * Pushes request data to the open http connection
-     * 
-     * @param connection
-     *            - the open connection of the http call
-     * @param request
-     *            - the parameters to be passed to the endpoint for the service
-     *            call
+     *
+     * @param connection - the open connection of the http call
+     * @param request    - the parameters to be passed to the endpoint for the service
+     *                   call
      */
     private void writeDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());) {
@@ -295,9 +274,8 @@ public class HTTP {
 
     /**
      * Extracts the response data from the open http connection
-     * 
-     * @param connection
-     *            - the open connection of the http call
+     *
+     * @param connection - the open connection of the http call
      * @return Response: the response provided from the http call
      */
     private Response getResponse(HttpURLConnection connection) {
@@ -314,7 +292,7 @@ public class HTTP {
         String data = "";
         BufferedReader rd = null;
         try { // NOSONAR - unable to use the try-with-resources block, as the rd
-                // needs to be read in the finally, and can't be closed
+            // needs to be read in the finally, and can't be closed
             rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         } catch (IOException e) {
             log.warn(e);

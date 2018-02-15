@@ -1,17 +1,17 @@
 package integration;
 
-import java.lang.reflect.Method;
+import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.Request;
+import com.google.gson.JsonObject;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.services.Call;
-import com.coveros.selenified.services.Request;
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.DriverSetup;
-import com.google.gson.JsonObject;
+import java.lang.reflect.Method;
 
 public class ServicesErrorIT extends Selenified {
 
@@ -34,8 +34,8 @@ public class ServicesErrorIT extends Selenified {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
-    @Test(groups = { "integration", "services", "httpget",
-            "virtual" }, description = "An integration test to verify the response code from a get call")
+    @Test(groups = {"integration", "services", "httpget",
+            "virtual"}, description = "An integration test to verify the response code from a get call")
     public void compareGetResponseCode200Test() {
         // use this object to make calls
         Call call = this.calls.get();
@@ -45,8 +45,8 @@ public class ServicesErrorIT extends Selenified {
         finish(2);
     }
 
-    @Test(groups = { "integration", "services", "httppost",
-            "virtual" }, description = "An integration test to verify the response code from a post call")
+    @Test(groups = {"integration", "services", "httppost",
+            "virtual"}, description = "An integration test to verify the response code from a post call")
     public void comparePostResponseCode201Test() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
@@ -60,8 +60,8 @@ public class ServicesErrorIT extends Selenified {
         finish(2);
     }
 
-    @Test(groups = { "integration", "services", "httpput",
-            "virtual" }, description = "An integration test to verify the response code from a put call")
+    @Test(groups = {"integration", "services", "httpput",
+            "virtual"}, description = "An integration test to verify the response code from a put call")
     public void comparePutResponseCode200Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -76,8 +76,8 @@ public class ServicesErrorIT extends Selenified {
         finish(2);
     }
 
-    @Test(groups = { "integration", "services", "httppatch",
-            "virtual" }, description = "An integration test to verify the response code from a patch call")
+    @Test(groups = {"integration", "services", "httppatch",
+            "virtual"}, description = "An integration test to verify the response code from a patch call")
     public void comparePatchResponseCode200Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);
@@ -92,8 +92,8 @@ public class ServicesErrorIT extends Selenified {
         finish(2);
     }
 
-    @Test(groups = { "integration", "services", "httpdelete",
-            "virtual" }, description = "An integration test to verify the response code from a delete call")
+    @Test(groups = {"integration", "services", "httpdelete",
+            "virtual"}, description = "An integration test to verify the response code from a delete call")
     public void compareDeleteResponseCode200Test() {
         JsonObject request = new JsonObject();
         request.addProperty("id", 1);

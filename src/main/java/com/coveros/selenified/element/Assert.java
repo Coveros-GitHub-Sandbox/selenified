@@ -20,11 +20,11 @@
 
 package com.coveros.selenified.element;
 
-import java.util.Map;
-import java.util.Set;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Assert will handle all verifications performed on the actual element. These
@@ -32,7 +32,7 @@ import com.coveros.selenified.OutputFile.Success;
  * oriented capabilities, they take screenshots with each verification to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests.
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -70,7 +70,7 @@ public class Assert {
     /**
      * Determines if the element is present, and if it is not, waits up to the
      * default time (5 seconds) for the element
-     * 
+     *
      * @return
      */
     protected boolean isPresent() {
@@ -85,7 +85,7 @@ public class Assert {
 
     /**
      * Determines if the element is a select element
-     * 
+     *
      * @return Boolean: whether the element is an select or not
      */
     protected boolean isSelect() {
@@ -99,7 +99,7 @@ public class Assert {
 
     /**
      * Determines if the element is a table element
-     * 
+     *
      * @return Boolean: whether the element is an table or not
      */
     protected boolean isTable() {
@@ -113,9 +113,8 @@ public class Assert {
 
     /**
      * Determines if the element is a present, and if it is, it is a select
-     * 
-     * @param expected
-     *            - the expected outcome
+     *
+     * @param expected - the expected outcome
      * @return Boolean: whether the element is a select or not
      */
     protected boolean isPresentSelect(String expected) {
@@ -130,9 +129,8 @@ public class Assert {
 
     /**
      * Determines if the element is a present, and if it is, it is a table
-     * 
-     * @param expected
-     *            - the expected outcome
+     *
+     * @param expected - the expected outcome
      * @return Boolean: whether the element is an table or not
      */
     protected boolean isPresentTable(String expected) {
@@ -150,18 +148,16 @@ public class Assert {
      * result of checking for one particular attribute. If the element isn't
      * present, or the attributes can't be determined an error will be logged
      * and null will be returned
-     * 
-     * @param attribute
-     *            - the attribute to check for
-     * @param expected
-     *            - is the attribute expected to be present, or not present
+     *
+     * @param attribute - the attribute to check for
+     * @param expected  - is the attribute expected to be present, or not present
      * @return String[]: the list of all attributes from the element;
      */
     protected String[] getAttributes(String attribute, String expected) {
         // wait for the element
         if (!isPresent()) {
             return null; // NOSONAR - returning an empty array could be confused
-                            // with no attributes
+            // with no attributes
         }
         file.recordExpected(EXPECTED + element.prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>");
         // check our attributes
@@ -170,7 +166,7 @@ public class Assert {
             file.recordActual("Unable to assess the attributes of " + element.prettyOutput(), Success.FAIL);
             file.addError();
             return null; // NOSONAR - returning an empty array could be confused
-                            // with no attributes
+            // with no attributes
         }
         Set<String> keys = attributes.keySet();
         return keys.toArray(new String[keys.size()]);
@@ -180,11 +176,9 @@ public class Assert {
      * Retrieves the value from the element, and writes out the value that is
      * being expected. If the element isn't present or an input, an error will
      * be logged and null will be returned
-     * 
-     * @param value
-     *            the expected value of the element
-     * @param expected
-     *            - is the attribute expected to be present, or not present
+     *
+     * @param value    the expected value of the element
+     * @param expected - is the attribute expected to be present, or not present
      * @return String: the actual value from the input element
      */
     protected String getValue(String value, String expected) {

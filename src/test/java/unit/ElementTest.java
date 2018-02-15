@@ -1,10 +1,9 @@
 package unit;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.element.Element;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class ElementTest {
 

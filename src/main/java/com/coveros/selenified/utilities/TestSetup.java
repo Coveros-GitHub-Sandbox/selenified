@@ -20,13 +20,9 @@
 
 package com.coveros.selenified.utilities;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import io.github.bonigarcia.wdm.*;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -41,18 +37,12 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
-
-import io.github.bonigarcia.wdm.ChromeDriverManager;
-import io.github.bonigarcia.wdm.EdgeDriverManager;
-import io.github.bonigarcia.wdm.FirefoxDriverManager;
-import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
-import io.github.bonigarcia.wdm.OperaDriverManager;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * Assists with Selenified class in setting up proxy, hub, and browser details
- * 
+ *
  * @author Max Saperstone
  */
 public class TestSetup {
@@ -82,7 +72,7 @@ public class TestSetup {
 
     /**
      * returns the classes defined desired capabilities
-     * 
+     *
      * @return DesiredCapabilities
      */
     public DesiredCapabilities getDesiredCapabilities() {
@@ -107,9 +97,9 @@ public class TestSetup {
     /**
      * determines if the browser information provided has details, or just the
      * browser name
-     * 
+     *
      * @return Boolean: are there details associated with the browser, such as
-     *         version, os, etc
+     * version, os, etc
      */
     public static boolean areBrowserDetailsSet() {
         return System.getProperty(BROWSER_INPUT) != null && !System.getProperty(BROWSER_INPUT).matches("^[a-zA-Z,]+$");
@@ -118,11 +108,10 @@ public class TestSetup {
     /**
      * looks at the browser information passed in, and loads that data into a
      * list
-     * 
+     *
      * @return List: a list of all browsers
-     * @throws InvalidBrowserException
-     *             If a browser that is not one specified in the
-     *             Selenium.Browser class is used, this exception will be thrown
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public static List<Browser> setBrowser() throws InvalidBrowserException {
         List<Browser> browsers = new ArrayList<>();
@@ -159,9 +148,8 @@ public class TestSetup {
     /**
      * sets the browser details (name, version, device, orientation, os) into
      * the device capabilities
-     * 
-     * @param browserDetails
-     *            - a map containing all of the browser details
+     *
+     * @param browserDetails - a map containing all of the browser details
      */
     public void setupBrowserDetails(Map<String, String> browserDetails) {
         if (browserDetails != null) {
@@ -187,54 +175,52 @@ public class TestSetup {
 
     /**
      * Sets the device capabilities based on the browser selection
-     * 
-     * @param browser
-     *            - which browser are we running with
-     * @throws InvalidBrowserException
-     *             If a browser that is not one specified in the
-     *             Selenium.Browser class is used, this exception will be thrown
+     *
+     * @param browser - which browser are we running with
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public void setupBrowserCapability(Browser browser) throws InvalidBrowserException {
         switch (browser) { // check the browser
-        case HTMLUNIT:
-            capabilities = DesiredCapabilities.htmlUnitWithJs();
-            break;
-        case FIREFOX:
-            capabilities = DesiredCapabilities.firefox();
-            break;
-        case MARIONETTE:
-            setMarionetteCapability();
-            break;
-        case CHROME:
-            capabilities = DesiredCapabilities.chrome();
-            break;
-        case INTERNETEXPLORER:
-            capabilities = DesiredCapabilities.internetExplorer();
-            break;
-        case EDGE:
-            capabilities = DesiredCapabilities.edge();
-            break;
-        case ANDROID:
-            capabilities = DesiredCapabilities.android();
-            break;
-        case IPHONE:
-            capabilities = DesiredCapabilities.iphone();
-            break;
-        case IPAD:
-            capabilities = DesiredCapabilities.ipad();
-            break;
-        case SAFARI:
-            capabilities = DesiredCapabilities.safari();
-            break;
-        case OPERA:
-            capabilities = DesiredCapabilities.operaBlink();
-            break;
-        case PHANTOMJS:
-            capabilities = DesiredCapabilities.phantomjs();
-            break;
-        // if the browser is not listed, throw an error
-        default:
-            throw new InvalidBrowserException("The selected browser " + browser);
+            case HTMLUNIT:
+                capabilities = DesiredCapabilities.htmlUnitWithJs();
+                break;
+            case FIREFOX:
+                capabilities = DesiredCapabilities.firefox();
+                break;
+            case MARIONETTE:
+                setMarionetteCapability();
+                break;
+            case CHROME:
+                capabilities = DesiredCapabilities.chrome();
+                break;
+            case INTERNETEXPLORER:
+                capabilities = DesiredCapabilities.internetExplorer();
+                break;
+            case EDGE:
+                capabilities = DesiredCapabilities.edge();
+                break;
+            case ANDROID:
+                capabilities = DesiredCapabilities.android();
+                break;
+            case IPHONE:
+                capabilities = DesiredCapabilities.iphone();
+                break;
+            case IPAD:
+                capabilities = DesiredCapabilities.ipad();
+                break;
+            case SAFARI:
+                capabilities = DesiredCapabilities.safari();
+                break;
+            case OPERA:
+                capabilities = DesiredCapabilities.operaBlink();
+                break;
+            case PHANTOMJS:
+                capabilities = DesiredCapabilities.phantomjs();
+                break;
+            // if the browser is not listed, throw an error
+            default:
+                throw new InvalidBrowserException("The selected browser " + browser);
         }
     }
 
@@ -250,70 +236,66 @@ public class TestSetup {
     /**
      * this creates the webdriver object, which will be used to interact with
      * for all browser web tests
-     * 
-     * @param browser
-     *            - what browser is being tested on
-     * @param capabilities
-     *            - what capabilities are being tested with
+     *
+     * @param browser      - what browser is being tested on
+     * @param capabilities - what capabilities are being tested with
      * @return WebDriver: the driver to interact with for the test
-     * @throws InvalidBrowserException
-     *             If a browser that is not one specified in the
-     *             Selenium.Browser class is used, this exception will be thrown
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public static WebDriver setupDriver(Browser browser, DesiredCapabilities capabilities)
             throws InvalidBrowserException {
         WebDriver driver;
         // check the browser
         switch (browser) {
-        case HTMLUNIT:
-            driver = new CustomHtmlUnitDriver(capabilities);
-            break;
-        case FIREFOX:
-            FirefoxDriverManager.getInstance().forceCache().setup();
-            driver = new FirefoxDriver(capabilities);
-            break;
-        case MARIONETTE:
-            FirefoxDriverManager.getInstance().forceCache().setup();
-            driver = new MarionetteDriver(capabilities);
-            break;
-        case CHROME:
-            ChromeDriverManager.getInstance().forceCache().setup();
-            if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--headless");
-                chromeOptions.addArguments("--window-size=1920,1080");
-                chromeOptions.addArguments("--mute-audio");
-                capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-            }
-            driver = new ChromeDriver(capabilities);
-            break;
-        case INTERNETEXPLORER:
-            InternetExplorerDriverManager.getInstance().forceCache().setup();
-            driver = new InternetExplorerDriver(capabilities);
-            break;
-        case EDGE:
-            EdgeDriverManager.getInstance().forceCache().setup();
-            driver = new EdgeDriver(capabilities);
-            break;
-        case SAFARI:
-            driver = new SafariDriver(capabilities);
-            break;
-        case OPERA:
-            OperaDriverManager.getInstance().forceCache().setup();
-            driver = new OperaDriver(capabilities);
-            break;
-        // if the browser is not listed, throw an error
-        default:
-            throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
+            case HTMLUNIT:
+                driver = new CustomHtmlUnitDriver(capabilities);
+                break;
+            case FIREFOX:
+                FirefoxDriverManager.getInstance().forceCache().setup();
+                driver = new FirefoxDriver(capabilities);
+                break;
+            case MARIONETTE:
+                FirefoxDriverManager.getInstance().forceCache().setup();
+                driver = new MarionetteDriver(capabilities);
+                break;
+            case CHROME:
+                ChromeDriverManager.getInstance().forceCache().setup();
+                if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.addArguments("--headless");
+                    chromeOptions.addArguments("--window-size=1920,1080");
+                    chromeOptions.addArguments("--mute-audio");
+                    capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+                }
+                driver = new ChromeDriver(capabilities);
+                break;
+            case INTERNETEXPLORER:
+                InternetExplorerDriverManager.getInstance().forceCache().setup();
+                driver = new InternetExplorerDriver(capabilities);
+                break;
+            case EDGE:
+                EdgeDriverManager.getInstance().forceCache().setup();
+                driver = new EdgeDriver(capabilities);
+                break;
+            case SAFARI:
+                driver = new SafariDriver(capabilities);
+                break;
+            case OPERA:
+                OperaDriverManager.getInstance().forceCache().setup();
+                driver = new OperaDriver(capabilities);
+                break;
+            // if the browser is not listed, throw an error
+            default:
+                throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
         }
         return driver;
     }
 
     /**
      * Generates a random string of alpha-numeric characters
-     * 
-     * @param length
-     *            the length of the random string
+     *
+     * @param length the length of the random string
      * @return String: random string of characters
      */
     public static String getRandomString(int length) {
@@ -331,11 +313,10 @@ public class TestSetup {
 
     /**
      * Removes all non alphanumeric characters from a provided string
-     * 
-     * @param value
-     *            - the string to cleanup
+     *
+     * @param value - the string to cleanup
      * @return String: the provided string with all alphanumeric characters
-     *         removed
+     * removed
      */
     public static String removeNonWordCharacters(String value) {
         if (value == null) {
@@ -346,12 +327,10 @@ public class TestSetup {
 
     /**
      * Determines the unique test name, based on the parameters passed in
-     * 
-     * @param method
-     *            - the method under test to extract the name from
-     * @param dataProvider
-     *            - an array of objects being passed to the test as data
-     *            providers
+     *
+     * @param method       - the method under test to extract the name from
+     * @param dataProvider - an array of objects being passed to the test as data
+     *                     providers
      * @return String: a unique name
      */
     public static String getTestName(Method method, Object... dataProvider) {
@@ -369,9 +348,8 @@ public class TestSetup {
     /**
      * Determines if a dataProvider was actually provided, or just ITestContext
      * or method data is present
-     * 
-     * @param dataProvider
-     *            - the object array to check - is it truly a data provider?
+     *
+     * @param dataProvider - the object array to check - is it truly a data provider?
      * @return Boolean: is the provided object array a data provider?
      */
     private static boolean isRealDataProvider(Object... dataProvider) {
@@ -381,16 +359,12 @@ public class TestSetup {
 
     /**
      * Determines the unique test name, based on the parameters passed in
-     * 
-     * @param packageName
-     *            - the package name of the test method as a string
-     * @param className
-     *            - the class name of the test method as a string
-     * @param methodName
-     *            - the method name of the test as a string
-     * @param dataProvider
-     *            - an array of objects being passed to the test as data
-     *            providers
+     *
+     * @param packageName  - the package name of the test method as a string
+     * @param className    - the class name of the test method as a string
+     * @param methodName   - the method name of the test as a string
+     * @param dataProvider - an array of objects being passed to the test as data
+     *                     providers
      * @return String: a unique name
      */
     public static String getTestName(String packageName, String className, String methodName, Object... dataProvider) {
@@ -413,31 +387,31 @@ public class TestSetup {
             if (currentName.length() > MAXFILENAMELENGTH) {
                 if ("".equals(packageName)) {
                     currentName = className + "_" + methodName + dataProvider.toString().split(";")[1]; // NOSONAR
-                                                                                                        // -
-                                                                                                        // purposefully
-                                                                                                        // using
-                                                                                                        // toString
-                                                                                                        // on
-                                                                                                        // object
-                                                                                                        // to
-                                                                                                        // obtain
-                                                                                                        // unique
-                                                                                                        // random
-                                                                                                        // hash
+                    // -
+                    // purposefully
+                    // using
+                    // toString
+                    // on
+                    // object
+                    // to
+                    // obtain
+                    // unique
+                    // random
+                    // hash
                 } else {
                     currentName = packageName + "_" + className + "_" + methodName
                             + dataProvider.toString().split(";")[1]; // NOSONAR
-                                                                        // -
-                                                                        // purposefully
-                                                                        // using
-                                                                        // toString
-                                                                        // on
-                                                                        // object
-                                                                        // to
-                                                                        // obtain
-                                                                        // unique
-                                                                        // random
-                                                                        // hash
+                    // -
+                    // purposefully
+                    // using
+                    // toString
+                    // on
+                    // object
+                    // to
+                    // obtain
+                    // unique
+                    // random
+                    // hash
                 }
             }
         }
@@ -446,9 +420,8 @@ public class TestSetup {
 
     /**
      * Capitalizes the first letter of each word in the provided string
-     * 
-     * @param word
-     *            - the string to be capitalized on
+     *
+     * @param word - the string to be capitalized on
      * @return String: the new string
      */
     public static String capitalizeFirstLetters(String word) {
@@ -476,10 +449,9 @@ public class TestSetup {
      * Breaks up a string, and places it into a map. ampersands (&) are used to
      * split into key value pairs, while equals (=) are used to assign key vs
      * values
-     * 
-     * @param input
-     *            - a string, with key and values separated by an equals (=) and
-     *            pairs separated by an ampersand (&)
+     *
+     * @param input - a string, with key and values separated by an equals (=) and
+     *              pairs separated by an ampersand (&)
      * @return Map: a map with values
      */
     public static Map<String, String> parseMap(final String input) {

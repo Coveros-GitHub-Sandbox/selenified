@@ -20,12 +20,11 @@
 
 package com.coveros.selenified.application;
 
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
-
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
 
 /**
  * WaitFor performs dynamic waits on the app in general, until a particular
@@ -33,7 +32,7 @@ import com.coveros.selenified.OutputFile.Result;
  * element. Nothing is ever returned. The default wait is 5 seconds, but can be
  * overridden. If the condition is not met in the allotted time, still nothing
  * is returned, but an error is logged
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -66,10 +65,9 @@ public class WaitFor {
 
     /**
      * Changes the default wait time from 5.0 seconds to some custom number.
-     * 
-     * @param seconds
-     *            - how many seconds should WaitFor wait for the condition to be
-     *            met
+     *
+     * @param seconds - how many seconds should WaitFor wait for the condition to be
+     *                met
      */
     public void changeDefaultWait(double seconds) {
         defaultWait = seconds;
@@ -107,9 +105,8 @@ public class WaitFor {
     /**
      * Wait for a popup to be present, up to the default time (5 seconds), and
      * then returns the amount of time that was waited
-     * 
-     * @param seconds
-     *            - maximum time to wait in seconds
+     *
+     * @param seconds - maximum time to wait in seconds
      * @return double - the total time waited
      */
     private double popup(double seconds) {
@@ -117,7 +114,7 @@ public class WaitFor {
         double end = System.currentTimeMillis() + (seconds * 1000);
         while (System.currentTimeMillis() < end) {
             try { // If results have been returned, the results are displayed in
-                    // a drop down.
+                // a drop down.
                 driver.switchTo().alert();
                 break;
             } catch (NoAlertPresentException e) {
@@ -131,8 +128,7 @@ public class WaitFor {
     /**
      * Wait up to a specified time for an alert to be present
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void alertPresent(double seconds) {
         String action = UPTO + seconds + " seconds for an alert to be present";
@@ -150,8 +146,7 @@ public class WaitFor {
     /**
      * Wait up to a specified time for a confirmation to be present
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void confirmationPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a confirmation to be present";
@@ -170,8 +165,7 @@ public class WaitFor {
     /**
      * Wait up to a specified time for a prompt to be present
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void promptPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a prompt to be present";

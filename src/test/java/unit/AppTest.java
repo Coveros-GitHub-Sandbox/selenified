@@ -1,7 +1,8 @@
 package unit;
 
-import java.net.MalformedURLException;
-
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.testng.annotations.AfterClass;
@@ -9,9 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.application.App;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
+import java.net.MalformedURLException;
 
 public class AppTest {
 
