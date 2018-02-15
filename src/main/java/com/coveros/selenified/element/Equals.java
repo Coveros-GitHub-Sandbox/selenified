@@ -108,7 +108,7 @@ public class Equals extends Assert {
         // get the actual class value
         String actualClass = element.get().attribute(CLASS);
         // file.record the element
-        if (!actualClass.equals(expectedClass)) {
+        if (expectedClass == null ? actualClass != null : !expectedClass.equals(actualClass)) {
             file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>", Success.FAIL);
             file.addError();
             return;

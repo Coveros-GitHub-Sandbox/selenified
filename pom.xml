@@ -17,8 +17,6 @@
         <suiteXmlFile>integration.xml</suiteXmlFile>
         <failsafe.groups>virtual</failsafe.groups>
 
-        <jackson.version>1.9.13</jackson.version>
-        <jsse.version>2.1.0</jsse.version>
         <selenium.version>3.9.0</selenium.version>
         <webdrivermanager.version>2.1.0</webdrivermanager.version>
         <slf4j.version>1.7.23</slf4j.version>
@@ -81,18 +79,6 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jglobus/jsse -->
-        <dependency>
-            <groupId>org.jglobus</groupId>
-            <artifactId>jsse</artifactId>
-            <version>${jsse.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server -->
         <dependency>

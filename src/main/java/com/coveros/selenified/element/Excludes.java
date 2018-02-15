@@ -66,7 +66,7 @@ public class Excludes extends Assert {
         // check our classes
         String actualClass = element.get().attribute(CLASS);
         // file.record the element
-        if (actualClass.contains(unexpectedClass)) {
+        if (actualClass != null && actualClass.contains(unexpectedClass)) {
             file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>"
                     + unexpectedClass + "</b>", Success.FAIL);
             file.addError();

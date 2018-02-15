@@ -9,8 +9,6 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Map;
-
 public class ActionUnitErrorIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
@@ -22,19 +20,6 @@ public class ActionUnitErrorIT extends Selenified {
         // set the version of the tests or of the software, possibly with a
         // dynamic check
         setVersion(this, test, "0.0.1");
-    }
-
-    @Test(groups = {"integration", "actions", "unit",
-            "virtual"}, description = "An integration negative test to check the get css method")
-    public void getCssErrorTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        if (app.getBrowser() == Browser.HTMLUNIT) {
-            String css = app.newElement(Locator.CSS, "input#alert_button").get().css("style");
-            Assert.assertNull(css);
-        }
-        finish();
     }
 
     @Test(groups = {"integration", "actions", "unit",
@@ -53,39 +38,12 @@ public class ActionUnitErrorIT extends Selenified {
 
     @Test(groups = {"integration", "actions", "unit",
             "virtual"}, description = "An integration negative test to check the get all attributes method")
-    public void getAllAttributesErrorTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        if (app.getBrowser() == Browser.HTMLUNIT) {
-            Map<String, String> attributes = app.newElement(Locator.CSS, "input#alert_button").get().allAttributes();
-            Assert.assertNull(attributes);
-        }
-        finish();
-    }
-
-    @Test(groups = {"integration", "actions", "unit",
-            "virtual"}, description = "An integration negative test to check the get all attributes method")
     public void assessAttributesContainErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         if (app.getBrowser() == Browser.HTMLUNIT) {
             app.newElement(Locator.CSS, "input#alert_button").assertContains().attribute("display");
-            finish(1);
-        } else {
-            finish();
-        }
-    }
-
-    @Test(groups = {"integration", "actions", "unit",
-            "virtual"}, description = "An integration negative test to check the get all attributes method")
-    public void assessAttributesExcludeErrorTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        if (app.getBrowser() == Browser.HTMLUNIT) {
-            app.newElement(Locator.CSS, "input#alert_button").assertExcludes().attribute("display");
             finish(1);
         } else {
             finish();

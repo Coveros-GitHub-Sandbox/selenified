@@ -27,8 +27,7 @@ public class ActionGoIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = {"integration", "actions", "go",
-            "virtual"}, description = "An integration test to check the goBackOnePage method")
+    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -64,8 +63,7 @@ public class ActionGoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go",
-            "virtual"}, description = "An integration test to check the goForwardOnePage method")
+    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

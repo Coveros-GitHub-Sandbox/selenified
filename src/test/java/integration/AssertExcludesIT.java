@@ -131,7 +131,7 @@ public class AssertExcludesIT extends Selenified {
     }
 
     @Test(groups = {"integration", "asserts",
-            "excludes"}, description = "An integration test to check the checkElementDoesntHaveAttribute method")
+            "excludes", "virtual"}, description = "An integration test to check the checkElementDoesntHaveAttribute method")
     public void checkElementDoesntHaveAttributeTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -142,7 +142,7 @@ public class AssertExcludesIT extends Selenified {
     }
 
     @Test(groups = {"integration", "asserts",
-            "excludes"}, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+            "excludes", "virtual"}, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
     public void negativeCheckElementDoesntHaveAttributeTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -153,7 +153,7 @@ public class AssertExcludesIT extends Selenified {
     }
 
     @Test(groups = {"integration", "asserts",
-            "excludes"}, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+            "excludes", "virtual"}, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
     public void negativeCheckElementDoesntHaveAttributeNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -164,7 +164,7 @@ public class AssertExcludesIT extends Selenified {
     }
 
     @Test(groups = {"integration", "asserts",
-            "excludes"}, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+            "excludes", "virtual"}, description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
     public void checkElementDoesntHaveAttributeDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

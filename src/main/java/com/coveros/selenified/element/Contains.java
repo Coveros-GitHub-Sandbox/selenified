@@ -67,7 +67,7 @@ public class Contains extends Assert {
         // get the class
         String actualClass = element.get().attribute(CLASS);
         // file.record the element
-        if (!actualClass.contains(expectedClass)) {
+        if (actualClass == null || !actualClass.contains(expectedClass)) {
             file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>", Success.FAIL);
             file.addError();
             return;

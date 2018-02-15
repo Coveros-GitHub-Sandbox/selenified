@@ -252,6 +252,7 @@ public class TestSetup {
                 ChromeDriverManager.getInstance().forceCache().setup();
                 if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
                     ChromeOptions chromeOptions = new ChromeOptions();
+//                    chromeOptions.setHeadless(true);
                     chromeOptions.addArguments("--headless");
                     chromeOptions.addArguments("--window-size=1920,1080");
                     chromeOptions.addArguments("--mute-audio");

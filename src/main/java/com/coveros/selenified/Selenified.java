@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -412,6 +413,8 @@ public class Selenified {
             initializeSystem();
             setupTestParameters();
             wasInvoked = true;
+            //downgrade our logging
+            java.util.logging.Logger.getLogger("io.github").setLevel(Level.SEVERE);
         }
 
         /**
