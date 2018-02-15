@@ -32,7 +32,6 @@ public class SeleniumTest {
         Assert.assertEquals(Browser.lookup("NONE"), Browser.NONE);
         Assert.assertEquals(Browser.lookup("HTMLUNIT"), Browser.HTMLUNIT);
         Assert.assertEquals(Browser.lookup("FIREFOX"), Browser.FIREFOX);
-        Assert.assertEquals(Browser.lookup("MARIONETTE"), Browser.MARIONETTE);
         Assert.assertEquals(Browser.lookup("CHROME"), Browser.CHROME);
         Assert.assertEquals(Browser.lookup("INTERNETEXPLORER"), Browser.INTERNETEXPLORER);
         Assert.assertEquals(Browser.lookup("EDGE"), Browser.EDGE);

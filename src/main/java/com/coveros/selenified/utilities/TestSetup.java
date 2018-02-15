@@ -29,7 +29,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.MarionetteDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -39,6 +39,7 @@ import org.testng.log4testng.Logger;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Assists with Selenified class in setting up proxy, hub, and browser details
@@ -183,13 +184,10 @@ public class TestSetup {
     public void setupBrowserCapability(Browser browser) throws InvalidBrowserException {
         switch (browser) { // check the browser
             case HTMLUNIT:
-                capabilities = DesiredCapabilities.htmlUnitWithJs();
+                capabilities = DesiredCapabilities.htmlUnit();
                 break;
             case FIREFOX:
                 capabilities = DesiredCapabilities.firefox();
-                break;
-            case MARIONETTE:
-                setMarionetteCapability();
                 break;
             case CHROME:
                 capabilities = DesiredCapabilities.chrome();
@@ -225,15 +223,6 @@ public class TestSetup {
     }
 
     /**
-     * if trying to run marionette, be sure to set it up that way in device
-     * capabilities
-     */
-    private void setMarionetteCapability() {
-        capabilities = DesiredCapabilities.firefox();
-        capabilities.setCapability("marionette", true);
-    }
-
-    /**
      * this creates the webdriver object, which will be used to interact with
      * for all browser web tests
      *
@@ -249,15 +238,15 @@ public class TestSetup {
         // check the browser
         switch (browser) {
             case HTMLUNIT:
-                driver = new CustomHtmlUnitDriver(capabilities);
+                capabilities.setBrowserName("htmlunit");
+                System.getProperties().put("org.apache.commons.logging.simplelog.defaultlog", "fatal");
+                java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+                java.util.logging.Logger.getLogger("org.apache.http").setLevel(Level.OFF);
+                driver = new HtmlUnitDriver(capabilities);
                 break;
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
                 driver = new FirefoxDriver(capabilities);
-                break;
-            case MARIONETTE:
-                FirefoxDriverManager.getInstance().forceCache().setup();
-                driver = new MarionetteDriver(capabilities);
                 break;
             case CHROME:
                 ChromeDriverManager.getInstance().forceCache().setup();

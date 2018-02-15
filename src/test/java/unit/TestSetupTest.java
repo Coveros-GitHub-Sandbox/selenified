@@ -299,8 +299,8 @@ public class TestSetupTest {
         Assert.assertEquals(capability.getCapability(CapabilityType.PLATFORM).toString(), "LINUX");
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void setupBrowserDetailsIllegalDevicePlatformTest() {
+    @Test
+    public void setupBrowserDetailsNonStandardDevicePlatformTest() {
         Map<String, String> browserDetails = new HashMap<>();
         browserDetails.put("devicePlatform", "Sun");
         TestSetup setup = new TestSetup();
@@ -381,16 +381,6 @@ public class TestSetupTest {
     }
 
     @Test
-    public void setupBrowserCapabilityMaronetteTest() throws InvalidBrowserException {
-        TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.MARIONETTE);
-        DesiredCapabilities capability = setup.getDesiredCapabilities();
-        Assert.assertEquals(capability.getBrowserName(), "firefox");
-        Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "firefox");
-        Assert.assertTrue((Boolean) capability.getCapability("marionette"));
-    }
-
-    @Test
     public void setupBrowserCapabilityOperaTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
         setup.setupBrowserCapability(Browser.OPERA);
@@ -456,7 +446,7 @@ public class TestSetupTest {
     @Test
     public void setupDriverHtmlUnitTest() throws InvalidBrowserException {
         WebDriver driver = TestSetup.setupDriver(Browser.HTMLUNIT, capabilities);
-        Assert.assertEquals(driver.getClass().getSimpleName(), "CustomHtmlUnitDriver");
+        Assert.assertEquals(driver.getClass().getSimpleName(), "HtmlUnitDriver");
         driver.quit();
     }
 

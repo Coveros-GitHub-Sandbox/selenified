@@ -19,11 +19,10 @@
 
         <jackson.version>1.9.13</jackson.version>
         <jsse.version>2.1.0</jsse.version>
-        <selenium.htmlunit.driver.version>2.52.0</selenium.htmlunit.driver.version>
-        <selenium.version>2.53.1</selenium.version>
+        <selenium.version>3.9.0</selenium.version>
+        <webdrivermanager.version>2.1.0</webdrivermanager.version>
         <slf4j.version>1.7.23</slf4j.version>
         <testng.version>6.9.9</testng.version>
-        <webdrivermanager.version>1.6.2</webdrivermanager.version>
 
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
         <maven.failsafe.plugin.version>2.8.1</maven.failsafe.plugin.version>
@@ -36,6 +35,9 @@
         <jacoco.maven.plugin.version>0.7.9</jacoco.maven.plugin.version>
         <lint.maven.plugin.version>0.0.11</lint.maven.plugin.version>
         <nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
+
+        <skip.unit.tests>false</skip.unit.tests>
+        <skip.integration.tests>false</skip.integration.tests>
     </properties>
 
     <name>Selenified Testing Framework</name>
@@ -109,12 +111,6 @@
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-htmlunit-driver -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-htmlunit-driver</artifactId>
-            <version>${selenium.htmlunit.driver.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
         <dependency>
