@@ -10,19 +10,26 @@
     </prerequisites>
 
     <properties>
+        <!-- General Java properties -->
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <!-- Test run information -->
         <suiteXmlFile>integration.xml</suiteXmlFile>
         <failsafe.include.groups>integration</failsafe.include.groups>
         <failsafe.exclude.groups>browser</failsafe.exclude.groups>
 
+        <skip.unit.tests>false</skip.unit.tests>
+        <skip.integration.tests>false</skip.integration.tests>
+
+        <!-- General Selenium run versions -->
         <selenium.version>3.9.0</selenium.version>
         <webdrivermanager.version>2.1.0</webdrivermanager.version>
         <slf4j.version>1.7.23</slf4j.version>
         <testng.version>6.9.9</testng.version>
 
+        <!-- Additional plugin versions -->
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
         <maven.failsafe.plugin.version>2.8.1</maven.failsafe.plugin.version>
         <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
@@ -35,8 +42,14 @@
         <lint.maven.plugin.version>0.0.11</lint.maven.plugin.version>
         <nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
 
-        <skip.unit.tests>false</skip.unit.tests>
-        <skip.integration.tests>false</skip.integration.tests>
+        <!-- SonarQube properties -->
+        <sonar.host.url>https://172.31.2.202/sonar</sonar.host.url>
+        <sonar.sources>src/main/java</sonar.sources>
+        <sonar.test>src/test/java</sonar.test>
+        <sonar.test>src/test/java</sonar.test>
+        <sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
+        <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>target/coverage-reports/jacoco-it.exec</sonar.jacoco.itReportPath>
     </properties>
 
     <name>Selenified Testing Framework</name>
