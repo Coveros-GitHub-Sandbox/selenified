@@ -1,6 +1,6 @@
 node {
     ansiColor('xterm') {
-        stage('Checkout Test Framework') { // for display purposes
+        stage('Checkout Selenified') { // for display purposes
             // Get the test code from GitHub repository
             git(
                 url: 'https://github.com/Coveros/selenified.git',
@@ -8,6 +8,9 @@ node {
             )
             sh "rm -rf target*"
             sh "rm -rf jacoco*"
+        }
+        stage('Update Test Site') {
+            sh 'scp public/* ec2-user@172.31.2.65:/var/www/noindex/'
         }
         stage('Run Unit Tests') {
             sh "mvn clean test"
@@ -17,7 +20,7 @@ node {
             try {
                 sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit'
             } catch (e) {
-                echo "ERROR: ${e}"
+                sh 'echo "ERROR: ${e}"'
             } finally {
                 sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                 sh "mv target target-htmlunit";
@@ -27,7 +30,7 @@ node {
             try {
                 sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome'
             } catch (e) {
-                echo "ERROR: ${e}"
+                sh 'echo "ERROR: ${e}"'
             } finally {
                 sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                 sh "mv target target-chrome";
@@ -37,7 +40,7 @@ node {
             try {
                 sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=firefox'
             } catch (e) {
-                echo "ERROR: ${e}"
+                sh 'echo "ERROR: ${e}"'
             } finally {
                 sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                 sh "mv target target-firefox";
