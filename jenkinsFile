@@ -14,42 +14,33 @@ node {
             sh "mv target target-unit"
         }
         stage('Execute HTMLUnit Tests') {
-            timeout(time:240, unit:'MINUTES') {
-                try {
-                    sh "rm -rf ~/.m2/repository/webdriver/"
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit'
-                } catch (e) {
-                    echo "ERROR: ${e}"
-                } finally {
-                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mv target target-htmlunit";
-                }
+            try {
+                sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit'
+            } catch (e) {
+                echo "ERROR: ${e}"
+            } finally {
+                sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                sh "mv target target-htmlunit";
             }
         }
         stage('Execute Chrome Tests') {
-            timeout(time:240, unit:'MINUTES') {
-                try {
-                    sh "rm -rf ~/.m2/repository/webdriver/"
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome'
-                } catch (e) {
-                    echo "ERROR: ${e}"
-                } finally {
-                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mv target target-chrome";
-                }
+            try {
+                sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome'
+            } catch (e) {
+                echo "ERROR: ${e}"
+            } finally {
+                sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                sh "mv target target-chrome";
             }
         }
         stage('Execute Firefox Tests') {
-            timeout(time:240, unit:'MINUTES') {
-                try {
-                    sh "rm -rf ~/.m2/repository/webdriver/"
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=firefox'
-                } catch (e) {
-                    echo "ERROR: ${e}"
-                } finally {
-                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mv target target-firefox";
-                }
+            try {
+                sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=firefox'
+            } catch (e) {
+                echo "ERROR: ${e}"
+            } finally {
+                sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                sh "mv target target-firefox";
             }
         }
         stage('Perform SonarQube Analysis') {
