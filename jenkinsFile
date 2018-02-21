@@ -21,7 +21,7 @@ node {
                 try {
                     sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit'
                 } catch (e) {
-                    sh 'echo "ERROR: ${e}"'
+                    echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                     sh "mv target target-htmlunit";
@@ -31,7 +31,7 @@ node {
                 try {
                     sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome'
                 } catch (e) {
-                    sh 'echo "ERROR: ${e}"'
+                    echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                     sh "mv target target-chrome";
@@ -41,7 +41,7 @@ node {
                 try {
                     sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=firefox'
                 } catch (e) {
-                    sh 'echo "ERROR: ${e}"'
+                    echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                     sh "mv target target-firefox";
