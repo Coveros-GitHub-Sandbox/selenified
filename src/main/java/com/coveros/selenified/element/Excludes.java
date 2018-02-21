@@ -67,8 +67,8 @@ public class Excludes extends Assert {
         String actualClass = element.get().attribute(CLASS);
         // file.record the element
         if (actualClass != null && actualClass.contains(unexpectedClass)) {
-            file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>"
-                    + unexpectedClass + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>" +
+                    unexpectedClass + "</b>", Success.FAIL);
             file.addError();
             return;
         }
@@ -97,8 +97,8 @@ public class Excludes extends Assert {
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>"
-                + ONLYVALUE + Arrays.toString(allAttributes) + "</b>", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
+                ONLYVALUE + Arrays.toString(allAttributes) + "</b>", Success.PASS);
     }
 
     /**
@@ -157,20 +157,22 @@ public class Excludes extends Assert {
      */
     public void selectOption(String option) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " without the option <b>" + option
-                + "</b> available to be selected on the page")) {
+        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " without the option <b>" + option +
+                "</b> available to be selected on the page")) {
             return;
         }
         // check for the object to the editable
         String[] allOptions = element.get().selectOptions();
         if (Arrays.asList(allOptions).contains(option)) {
-            file.recordActual(element.prettyOutputStart() + " is editable and present and contains the option " + "<b>"
-                    + option + "</b>", Success.FAIL);
+            file.recordActual(
+                    element.prettyOutputStart() + " is editable and present and contains the option " + "<b>" + option +
+                            "</b>", Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + " is editable and present but does not contain the option "
-                + "<b>" + option + "</b>", Success.PASS);
+        file.recordActual(
+                element.prettyOutputStart() + " is editable and present but does not contain the option " + "<b>" +
+                        option + "</b>", Success.PASS);
     }
 
     /**
@@ -183,8 +185,8 @@ public class Excludes extends Assert {
      */
     public void selectValue(String selectValue) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " without a select value of <b>" + selectValue
-                + "</b> available to be selected on the page")) {
+        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " without a select value of <b>" + selectValue +
+                "</b> available to be selected on the page")) {
             return;
         }
         // check for the object to the present on the page
@@ -194,7 +196,7 @@ public class Excludes extends Assert {
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + HASNTVALUE + selectValue + "</b>, only the values <b>"
-                + Arrays.toString(elementValues) + "</b>", Success.PASS);
+        file.recordActual(element.prettyOutputStart() + HASNTVALUE + selectValue + "</b>, only the values <b>" +
+                Arrays.toString(elementValues) + "</b>", Success.PASS);
     }
 }

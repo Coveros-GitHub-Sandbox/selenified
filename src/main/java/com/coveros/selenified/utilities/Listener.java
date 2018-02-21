@@ -86,9 +86,9 @@ public class Listener extends TestListenerAdapter {
 
         String testName = getTestName(test);
         Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
-        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
-                + getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
-                + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
+        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START +
+                getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK +
+                (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
     }
 
     /**
@@ -100,9 +100,9 @@ public class Listener extends TestListenerAdapter {
         super.onTestSkipped(test);
         String testName = getTestName(test);
         Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
-        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
-                + getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
-                + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
+        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START +
+                getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK +
+                (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
     }
 
     /**
@@ -114,8 +114,8 @@ public class Listener extends TestListenerAdapter {
         super.onTestSuccess(test);
         String testName = getTestName(test);
         Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
-        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
-                + getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
-                + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
+        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START +
+                getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK +
+                (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
     }
 }

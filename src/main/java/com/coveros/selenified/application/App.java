@@ -103,8 +103,8 @@ public class App {
      * @throws MalformedURLException   If the provided hub address isn't a URL, this exception will
      *                                 be thrown
      */
-    public App(Browser browser, DesiredCapabilities capabilities, OutputFile file)
-            throws InvalidBrowserException, MalformedURLException {
+    public App(Browser browser, DesiredCapabilities capabilities,
+               OutputFile file) throws InvalidBrowserException, MalformedURLException {
         if (browser == null) {
             this.browser = Browser.NONE;
         } else {
@@ -355,26 +355,28 @@ public class App {
     }
 
     /**
-     * Opens a new tab, and have it selected. Note, no content will be present
-     * on this new tab, use the goToURL method to open load some content
+     * Sends a key combination both as control and command (PC and Mac
+     * compatible)
      *
-     * @return Boolean: returns a true if a tab was successfully opened, a false
-     * if it was not.
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param fail     - the failed result
+     * @param key      - what key to send along with control and/or command
+     * @return Boolean: returns a true if the keys were successfully sent, a
+     * false if they were not
      */
-    public boolean openTab() {
-        return sendControlAndCommand("Opening new tab", "New tab is opened", "New tab was unable to be opened. ", "t");
-    }
-
-    /**
-     * Opens a new tab, and have it selected. The page provided will be loaded
-     *
-     * @param url - the url to load once the new tab is opened and selected
-     */
-    public void openTab(String url) {
-        if (!openTab()) {
-            return;
+    private boolean sendControlAndCommand(String action, String expected, String fail, Keys key) {
+        try {
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, key));
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, key));
+        } catch (Exception e) {
+            file.recordAction(action, expected, fail + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+            return false;
         }
-        goToURL(url);
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+        return true;
     }
 
     /**
@@ -384,18 +386,8 @@ public class App {
      * that others.
      */
     public void switchNextTab() {
-        String action = "Switching to next tab ";
-        String expected = "Next tab <b>" + AVAILABLE;
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_DOWN));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_DOWN));
-        } catch (Exception e) {
-            file.recordAction(action, expected, "Next tab <b>" + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
-            file.addError();
-            log.warn(e);
-            return;
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
+        sendControlAndCommand("Switching to next tab", "Next tab <b>" + AVAILABLE, "Next tab <b>" + NOTSELECTED + ". ",
+                Keys.PAGE_DOWN);
     }
 
     /**
@@ -405,19 +397,8 @@ public class App {
      * that others.
      */
     public void switchPreviousTab() {
-        String action = "Switching to previous tab ";
-        String expected = "Previous tab <b>" + AVAILABLE;
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_UP));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_UP));
-        } catch (Exception e) {
-            file.recordAction(action, expected, "Previous tab <b>" + NOTSELECTED + ". " + e.getMessage(),
-                    Result.FAILURE);
-            file.addError();
-            log.warn(e);
-            return;
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
+        sendControlAndCommand("Switching to previous tab", "Previous tab <b>" + AVAILABLE,
+                "Previous tab <b>" + NOTSELECTED + ". ", Keys.PAGE_UP);
     }
 
     /**
@@ -491,19 +472,9 @@ public class App {
      * new/fresh/clean session
      */
     public void refreshHard() {
-        String action = "Reloading current page while clearing the cache";
-        String expected = "Cache is cleared, and the page is refreshed";
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
-        } catch (Exception e) {
-            file.recordAction(action, expected,
-                    "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Result.FAILURE);
-            file.addError();
-            log.warn(e);
-            return;
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
+        sendControlAndCommand("Reloading current page while clearing the cache",
+                "Cache is cleared, and the page is refreshed",
+                "There was a problem clearing the cache and reloading the page. ", Keys.F5);
     }
 
     /**
@@ -518,10 +489,10 @@ public class App {
         String path = cookie.getPath();
         String value = cookie.getValue();
 
-        String action = "Setting up cookie with attributes:<div><table><tbody><tr><td>Domain</td><td>" + domain
-                + "</tr><tr><td>Expiration</td><td>" + expiry.toString() + "</tr><tr><td>Name</td><td>" + name
-                + "</tr><tr><td>Path</td><td>" + path + "</tr><tr><td>Value</td><td>" + value
-                + "</tr></tbody></table></div><br/>";
+        String action = "Setting up cookie with attributes:<div><table><tbody><tr><td>Domain</td><td>" + domain +
+                "</tr><tr><td>Expiration</td><td>" + expiry.toString() + "</tr><tr><td>Name</td><td>" + name +
+                "</tr><tr><td>Path</td><td>" + path + "</tr><tr><td>Value</td><td>" + value +
+                "</tr></tbody></table></div><br/>";
         String expected = "Cookie is added";
         try {
             driver.manage().addCookie(cookie);
@@ -637,12 +608,41 @@ public class App {
     }
 
     /**
+     * Opens a new tab, and have it selected. The page provided will be loaded
+     *
+     * @param url - the url to load once the new tab is opened and selected
+     */
+    public void openNewWindow(String url) {
+        String action = "Opening new window to url " + url;
+        String expected = "New window is opened to url " + url;
+        try {
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("window.open('" + url + "','_blank');");
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Unable to open window tab. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+            return;
+        }
+        switchToNewWindow();
+        if (!get().location().equals(url)) {
+            file.recordAction(action, expected, "Unable to open new window to " + url, Result.FAILURE);
+            file.addError();
+            return;
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
      * Switches to the next window. This is an alternative to switchNextTab or
      * switchPreviousTab, as this works better for some systems and environments
      * that others.
      */
-
     public void switchToNewWindow() {
+        switchToNewWindow(true);
+    }
+
+    private void switchToNewWindow(boolean print) {
         String action = "Switching to the new window";
         String expected = "New window is available and selected";
         try {
@@ -651,13 +651,17 @@ public class App {
                 driver.switchTo().window(winHandle);
             }
         } catch (Exception e) {
-            file.recordAction(action, expected, "New window was unable to be selected. " + e.getMessage(),
-                    Result.FAILURE);
-            file.addError();
+            if (print) {
+                file.recordAction(action, expected, "New window was unable to be selected. " + e.getMessage(),
+                        Result.FAILURE);
+                file.addError();
+            }
             log.warn(e);
             return;
         }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
+        if (print) {
+            file.recordAction(action, expected, expected, Result.SUCCESS);
+        }
     }
 
     /**
@@ -665,7 +669,6 @@ public class App {
      * switchNextTab or switchPreviousTab, as this works better for some systems
      * and environments that others.
      */
-
     public void switchToParentWindow() {
         String action = "Switching back to parent window";
         String expected = "Parent window is available and selected";
@@ -687,7 +690,6 @@ public class App {
      * switchToParentWindow methods. This is an alternative to closeTab, as this
      * works better for some systems and environments that others.
      */
-
     public void closeCurrentWindow() {
         String action = "Closing currently selected window";
         String expected = "Current window is closed";

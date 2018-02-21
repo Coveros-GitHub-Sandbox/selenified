@@ -266,8 +266,9 @@ public class Selenified {
         myCapability.setCapability("name", testName);
         this.capability.set(myCapability);
 
-        OutputFile myFile = new OutputFile(outputDir, testName, myBrowser, getTestSite(extClass, test), test.getName(),
-                group, getAuthor(extClass, test), getVersion(extClass, test), description);
+        OutputFile myFile =
+                new OutputFile(outputDir, testName, myBrowser, getTestSite(extClass, test), test.getName(), group,
+                        getAuthor(extClass, test), getVersion(extClass, test), description);
         if (selenium.useBrowser()) {
             App app = null;
             try {

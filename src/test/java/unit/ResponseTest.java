@@ -56,8 +56,8 @@ public class ResponseTest {
 
     @Test
     public void checkNewResponseFileMessageTest() {
-        Response response = new Response(
-                new OutputFile("directory", "file", Browser.ANDROID, null, null, null, null, null, null));
+        Response response =
+                new Response(new OutputFile("directory", "file", Browser.ANDROID, null, null, null, null, null, null));
         Assert.assertNull(response.getMessage());
     }
 

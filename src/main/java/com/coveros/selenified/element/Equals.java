@@ -71,8 +71,8 @@ public class Equals extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " having a css attribute of <i>" + attribute
-                + " with a value of <b>" + expectedValue + "</b>");
+        file.recordExpected(EXPECTED + element.prettyOutput() + " having a css attribute of <i>" + attribute +
+                " with a value of <b>" + expectedValue + "</b>");
         // get the actual css element value
         String elementCssValue = element.get().css(attribute);
         if (elementCssValue == null) {
@@ -81,13 +81,15 @@ public class Equals extends Assert {
             return;
         }
         if (!elementCssValue.equals(expectedValue)) {
-            file.recordActual(element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH
-                    + elementCssValue + "</b>", Success.FAIL);
+            file.recordActual(
+                    element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + elementCssValue +
+                            "</b>", Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH
-                + elementCssValue + "</b>", Success.PASS);
+        file.recordActual(
+                element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + elementCssValue +
+                        "</b>", Success.PASS);
     }
 
     /**
@@ -132,8 +134,9 @@ public class Equals extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " having an attribute of <i>" + attribute
-                + " with a value of <b>" + expectedValue + "</b>");
+        file.recordExpected(
+                EXPECTED + element.prettyOutput() + " having an attribute of <i>" + attribute + " with a value of <b>" +
+                        expectedValue + "</b>");
         // get the actual attribute value
         String elementValue = element.get().attribute(attribute);
         if (elementValue == null) {
@@ -196,20 +199,21 @@ public class Equals extends Assert {
         String column = " and column ";
         String within = " within element ";
         // wait for the table
-        if (!isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput()
-                + " to have the text value of <b>" + text + "</b>")) {
+        if (!isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput() +
+                " to have the text value of <b>" + text + "</b>")) {
             return;
         }
         // get the table cell text
         String actualText = element.get().tableCell(row, col).getText();
         if (!actualText.equals(text)) {
-            file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput()
-                    + " has the text value of <b>" + actualText + "</b>", Success.FAIL);
+            file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput() +
+                    " has the text value of <b>" + actualText + "</b>", Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput()
-                + " has the text value of <b>" + actualText + "</b>", Success.PASS);
+        file.recordActual(
+                "Cell at row " + row + column + col + within + element.prettyOutput() + " has the text value of <b>" +
+                        actualText + "</b>", Success.PASS);
     }
 
     /**
@@ -327,8 +331,9 @@ public class Equals extends Assert {
      */
     public void selectValues(String... expectedValues) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with select values of <b>"
-                + Arrays.toString(expectedValues) + "</b>")) {
+        if (!isPresentSelect(
+                EXPECTED + element.prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) +
+                        "</b>")) {
             return;
         }
         // get the actual select values

@@ -78,9 +78,9 @@ public class Is {
         boolean isInput = false;
         try {
             WebElement webElement = element.getWebElement();
-            if ("input".equalsIgnoreCase(webElement.getTagName())
-                    || "textarea".equalsIgnoreCase(webElement.getTagName())
-                    || SELECT.equalsIgnoreCase(webElement.getTagName())) {
+            if ("input".equalsIgnoreCase(webElement.getTagName()) ||
+                    "textarea".equalsIgnoreCase(webElement.getTagName()) ||
+                    SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 isInput = true;
             }
         } catch (NoSuchElementException e) {

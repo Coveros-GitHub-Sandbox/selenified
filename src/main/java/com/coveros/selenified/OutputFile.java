@@ -509,8 +509,8 @@ public class OutputFile {
             out.write("    <td colspan=3 style='padding: 0px;'>\n");
             out.write("     <table style='width: 100%;'><tr>\n");
             out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
-            out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>"
-                    + "<td><b>Steps Failed</b></td>\n");
+            out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" +
+                    "<td><b>Steps Failed</b></td>\n");
             out.write("     </tr><tr>\n");
             out.write("      <td>STEPSPERFORMED</td><td>STEPSPASSED</td><td>STEPSFAILED</td>\n");
             out.write("     </tr></table>\n");
@@ -532,11 +532,10 @@ public class OutputFile {
             out.write("  </table>\n");
             out.write("  <table id='all_results'>\n");
             out.write(START_ROW);
-            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>"
-                    + "<th style='text-align:center'>Expected Result</th>"
-                    + "<th style='text-align:center'>Actual Result</th>"
-                    + "<th style='text-align:center'>Step Times</th>"
-                    + "<th style='text-align:center'>Pass/Fail</th>\n");
+            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>" +
+                    "<th style='text-align:center'>Expected Result</th>" +
+                    "<th style='text-align:center'>Actual Result</th>" +
+                    "<th style='text-align:center'>Step Times</th>" + "<th style='text-align:center'>Pass/Fail</th>\n");
             out.write(END_ROW);
         } catch (IOException e) {
             log.error(e);
@@ -635,13 +634,13 @@ public class OutputFile {
     private String generateImageLink(String imageName) {
         String imageLink = "<br/>";
         if (imageName.length() >= directory.length() + 1) {
-            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\""
-                    + imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
-            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\""
-                    + imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
-            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='"
-                    + imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth
-                    + "px' style='display:none;'>";
+            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\"" +
+                    imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
+            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\"" +
+                    imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
+            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
+                    imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth +
+                    "px' style='display:none;'>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
         }

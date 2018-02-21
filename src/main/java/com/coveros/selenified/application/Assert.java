@@ -445,8 +445,9 @@ public class Assert {
             return;
         }
         if (!cookieValue.equals(expectedCookieValue)) {
-            file.recordActual(COOKIE + cookieName + "</b> is stored for the page, but the value " + "of the cookie is "
-                    + cookieValue, Success.FAIL);
+            file.recordActual(
+                    COOKIE + cookieName + "</b> is stored for the page, but the value " + "of the cookie is " +
+                            cookieValue, Success.FAIL);
             file.addError();
             return;
         }

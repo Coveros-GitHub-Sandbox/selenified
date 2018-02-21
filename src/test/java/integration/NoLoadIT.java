@@ -33,8 +33,8 @@ public class NoLoadIT extends Selenified {
     }
 
     @SuppressWarnings("deprecation")
-    @Test(groups = {"integration",
-            "virtual"}, description = "An integration test to verify we can start a test with a browser, but won't load any app")
+    @Test(groups = {"integration"},
+            description = "An integration test to verify we can start a test with a browser, but won't load any app")
     public void verifyNoLoad(ITestContext context) throws IOException {
         // use this object to manipulate the app
         App app = this.apps.get();

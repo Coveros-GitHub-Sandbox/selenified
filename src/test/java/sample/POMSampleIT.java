@@ -34,8 +34,8 @@ public class POMSampleIT extends Selenified {
         main.set(new MainPage(this.apps.get()));
     }
 
-    @Test(dataProvider = "car list items", groups = {"sample", "pom",
-            "virtual"}, description = "A sample test using a data provider to perform searches")
+    @Test(dataProvider = "car list items", groups = {"sample", "pom"},
+            description = "A sample test using a data provider to perform searches")
     public void sampleTestWDataProvider(String listItem) {
         // our test actions - use our threadsafe main object
         main.get().selectCar(listItem);
@@ -58,8 +58,7 @@ public class POMSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"sample", "pom",
-            "virtual"}, description = "A sample test using a data provider to perform searches")
+    @Test(groups = {"sample", "pom"}, description = "A sample test using a data provider to perform searches")
     public void sampleTestWMatches() {
         // define a new main object
         MainPage main = new MainPage(this.apps.get());

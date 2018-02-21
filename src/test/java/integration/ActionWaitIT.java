@@ -23,8 +23,8 @@ public class ActionWaitIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration negative test to check the wait method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the wait method")
     public void waitTest() throws IOException, InterruptedException {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -35,8 +35,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check changing the default wait method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check changing the default wait method")
     public void setDefaultWaitAppTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -47,8 +47,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check changing the default wait method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check changing the default wait method")
     public void setDefaultWaitElementTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -60,8 +60,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration negative test to check the wait method")
+    @Test(groups = {"integration", "actions", "wait", "browser"},
+            description = "An integration negative test to check the wait method")
     public void negativeWaitTest() throws IOException, InterruptedException {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -72,8 +72,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration negative test to check the wait method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the wait method")
     public void negativeWaitErrorTest() throws IOException, InterruptedException {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -84,8 +84,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the waitForElementPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -95,8 +95,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the waitForElementPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresent2Test() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -106,8 +106,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the waitForElementPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresent3Test() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -117,8 +117,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration negative test to check the waitForElementPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the waitForElementPresent method")
     public void negativeWaitForElementPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -128,8 +128,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the waitForElementNotPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -139,8 +139,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the waitForElementNotPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent2Test() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -150,8 +150,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the waitForElementNotPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent3Test() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -161,8 +161,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the waitForElementNotPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent4Test() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -172,8 +172,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration negative test to check the waitForElementNotPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the waitForElementNotPresent method")
     public void negativeWaitForElementNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -183,8 +183,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the waitForElementDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -194,8 +194,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the waitForElementDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedDelayedPresenceTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -206,8 +206,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the waitForElementDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedDelayedDisplayTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -218,8 +218,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration negative test to check the waitForElementDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the waitForElementDisplayed method")
     public void negativeWaitForElementDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -229,8 +229,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration negative test to check the waitForElementDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the waitForElementDisplayed method")
     public void negativeWaitForElementDisplayedHiddenTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -240,8 +240,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the WaitForElementNotDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -251,8 +251,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the WaitForElementNotDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -262,8 +262,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the WaitForElementNotDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -276,8 +276,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the WaitForElementNotDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedDeletedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -290,8 +290,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration negative test to check the WaitForElementNotDisplayed method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the WaitForElementNotDisplayed method")
     public void negativeWaitForElementNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -301,8 +301,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the WaitForElementEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -312,8 +312,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the WaitForElementEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledDelayedPresenceTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -324,8 +324,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration test to check the WaitForElementEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledDelayedEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -336,8 +336,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration negative test to check the WaitForElementEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the WaitForElementEnabled method")
     public void negativeWaitForElementEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -347,8 +347,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the WaitForElementNotEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -358,8 +358,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the WaitForElementNotEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabled2Test() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -369,8 +369,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the WaitForElementNotEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -380,8 +380,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the WaitForElementNotEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -394,8 +394,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the WaitForElementNotEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledDeletedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -408,8 +408,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait",
-            "virtual"}, description = "An integration negative test to check the WaitForElementNotEnabled method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the WaitForElementNotEnabled method")
     public void negativeWaitForNotElementEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -419,8 +419,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the waitForPromptPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForPromptPresent method")
     public void waitForPromptPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -431,8 +431,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "A integration negative test to check the waitForPromptPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "A integration negative test to check the waitForPromptPresent method")
     public void negativeWaitForPromptPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -442,8 +442,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the waitForConfirmationPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForConfirmationPresent method")
     public void waitForConfirmationPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -454,8 +454,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration negative test to check the waitForConfirmationPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the waitForConfirmationPresent method")
     public void negativeWaitForConfirmationPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -465,8 +465,8 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration test to check the waitForAlertPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration test to check the waitForAlertPresent method")
     public void waitForAlertPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -478,8 +478,8 @@ public class ActionWaitIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions",
-            "wait"}, description = "An integration negative test to check the waitForAlertPresent method")
+    @Test(groups = {"integration", "actions", "wait"},
+            description = "An integration negative test to check the waitForAlertPresent method")
     public void negativeWaitForAlertPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

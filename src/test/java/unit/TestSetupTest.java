@@ -556,21 +556,23 @@ public class TestSetupTest {
                 "UnitTests_helloWorldWithOptionPython");
         Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl"),
                 "UnitTests_helloWorldWithOptionPythonPerl");
-        Assert.assertEquals(
-                TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+        Assert.assertEquals(TestSetup
+                        .getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+                                "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
+                                "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
+                                "Gosu", "Powershell", "Squeak", "Gambas"),
+                "UnitTests_helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
+        String testName = TestSetup
+                .getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
                         "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
                         "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
-                        "Gosu", "Powershell", "Squeak", "Gambas"),
-                "UnitTests_helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
-        String testName = TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
-                "Groovy", "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell",
-                "Swift", "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
-                "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
+                        "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
         Assert.assertTrue(testName.matches("^UnitTests_helloWorld@[0-9a-f]+$"));
-        testName = TestSetup.getTestName("unit", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
-                "Groovy", "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell",
-                "Swift", "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
-                "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
+        testName = TestSetup
+                .getTestName("unit", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+                        "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
+                        "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
+                        "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
         Assert.assertTrue(testName.matches("^unit_UnitTests_helloWorld@[0-9a-f]+$"));
     }
 

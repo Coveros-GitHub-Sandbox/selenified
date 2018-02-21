@@ -27,7 +27,7 @@ public class SimpleSampleIT extends Selenified {
         return new Object[][]{new Object[]{"Volvo"}, new Object[]{"Saab"}, new Object[]{"Mercedes"}};
     }
 
-    @Test(groups = {"sample", "virtual"}, description = "A sample test to check a title")
+    @Test(groups = {"sample"}, description = "A sample test to check a title")
     public void sampleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -37,8 +37,8 @@ public class SimpleSampleIT extends Selenified {
         finish();
     }
 
-    @Test(dataProvider = "car list items", groups = {"sample",
-            "virtual"}, description = "A sample test using a data provider to perform searches")
+    @Test(dataProvider = "car list items", groups = {"sample"},
+            description = "A sample test using a data provider to perform searches")
     public void sampleTestWDataProvider(String listItem) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -48,8 +48,7 @@ public class SimpleSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"sample",
-            "virtual"}, description = "A sample test to show how to loop through elements with multiple matches")
+    @Test(groups = {"sample"}, description = "A sample test to show how to loop through elements with multiple matches")
     public void sampleTestLoopThroughElements() {
         // use this object to manipulate the app
         App app = this.apps.get();

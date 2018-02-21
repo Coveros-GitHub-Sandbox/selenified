@@ -15,7 +15,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <suiteXmlFile>integration.xml</suiteXmlFile>
-        <failsafe.groups>virtual</failsafe.groups>
+        <failsafe.include.groups>integration</failsafe.include.groups>
+        <failsafe.exclude.groups>browser</failsafe.exclude.groups>
 
         <selenium.version>3.9.0</selenium.version>
         <webdrivermanager.version>2.1.0</webdrivermanager.version>
@@ -171,7 +172,8 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <groups>${failsafe.groups}</groups>
+                    <groups>${failsafe.include.groups}</groups>
+                    <excludedGroups>${failsafe.exclude.groups}</excludedGroups>
                 </configuration>
                 <executions>
                     <execution>

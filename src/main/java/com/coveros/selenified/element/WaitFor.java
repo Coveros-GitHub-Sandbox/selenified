@@ -238,8 +238,7 @@ public class WaitFor {
         // wait for up to XX seconds
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            while (webElement.isDisplayed() && System.currentTimeMillis() < end)
-                ;
+            while (webElement.isDisplayed() && System.currentTimeMillis() < end) ;
         } catch (StaleElementReferenceException e) {
             log.info(e);
             file.recordAction(action, expected,
@@ -312,8 +311,7 @@ public class WaitFor {
         // wait for up to XX seconds
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            while (webElement.isEnabled() && System.currentTimeMillis() < end)
-                ;
+            while (webElement.isEnabled() && System.currentTimeMillis() < end) ;
         } catch (StaleElementReferenceException e) {
             log.info(e);
             file.recordAction(action, expected,

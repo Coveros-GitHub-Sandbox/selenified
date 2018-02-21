@@ -232,8 +232,8 @@ public class TestSetup {
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
-    public static WebDriver setupDriver(Browser browser, DesiredCapabilities capabilities)
-            throws InvalidBrowserException {
+    public static WebDriver setupDriver(Browser browser,
+                                        DesiredCapabilities capabilities) throws InvalidBrowserException {
         WebDriver driver;
         // check the browser
         switch (browser) {
@@ -343,8 +343,8 @@ public class TestSetup {
      * @return Boolean: is the provided object array a data provider?
      */
     private static boolean isRealDataProvider(Object... dataProvider) {
-        return dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-                && !dataProvider[0].toString().startsWith(PUBLIC);
+        return dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null &&
+                !dataProvider[0].toString().startsWith(PUBLIC);
     }
 
     /**
@@ -389,8 +389,8 @@ public class TestSetup {
                     // random
                     // hash
                 } else {
-                    currentName = packageName + "_" + className + "_" + methodName
-                            + dataProvider.toString().split(";")[1]; // NOSONAR
+                    currentName = packageName + "_" + className + "_" + methodName +
+                            dataProvider.toString().split(";")[1]; // NOSONAR
                     // -
                     // purposefully
                     // using

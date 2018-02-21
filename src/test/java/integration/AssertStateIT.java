@@ -20,8 +20,7 @@ public class AssertStateIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check a title")
+    @Test(groups = {"integration", "asserts", "state"}, description = "An integration test to check a title")
     public void compareTitleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -31,8 +30,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementChecked method")
     public void checkElementCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -43,8 +42,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementChecked method")
     public void negativeCheckElementCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -54,8 +53,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementChecked method")
     public void negativeCheckElementCheckedNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -65,8 +64,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementDisplayed method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementDisplayed method")
     public void checkElementDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -76,8 +75,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayed method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayed method")
     public void negativeCheckElementDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -87,8 +86,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayed method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayed method")
     public void negativeCheckElementDisplayedHiddenTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -98,8 +97,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementDisplayedAndChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementDisplayedAndChecked method")
     public void checkElementDisplayedAndCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -110,8 +109,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndChecked method")
     public void negativeCheckElementDisplayedAndCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -121,8 +120,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndChecked method")
     public void negativeCheckElementDisplayedAndCheckedNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -132,8 +131,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndChecked method")
     public void negativeCheckElementDisplayedAndCheckedNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -143,8 +142,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementDisplayedAndEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementDisplayedAndEditable method")
     public void checkElementDisplayedAndEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -154,8 +153,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndEditable method")
     public void negativeCheckElementDisplayedAndEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -165,8 +164,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndEditable method")
     public void negativeCheckElementDisplayedAndEditableNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -176,8 +175,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementDisplayedAndNotEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementDisplayedAndNotEditable method")
     public void checkElementDisplayedAndNotEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -187,8 +186,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
     public void negativeCheckElementDisplayedAndNotEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -198,8 +197,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
     public void negativeCheckElementDisplayedAndNotEditableNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -209,8 +208,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
     public void negativeCheckElementDisplayedAndNotEditableNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -220,8 +219,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementDisplayedAndUnchecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementDisplayedAndUnchecked method")
     public void checkElementDisplayedAndUncheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -231,8 +230,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
     public void negativeCheckElementDisplayedAndUncheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -243,8 +242,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
     public void negativeCheckElementDisplayedAndUncheckedNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -254,8 +253,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
     public void negativeCheckElementDisplayedAndUncheckedNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -265,8 +264,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementEditable method")
     public void checkElementEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -276,8 +275,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementEditable method")
     public void negativeCheckElementEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -287,8 +286,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementEditable method")
     public void negativeCheckElementEditableNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -298,8 +297,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to check the checkElementEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementEditable method")
     public void negativeCheckElementEditableNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -309,8 +308,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementNotChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementNotChecked method")
     public void checkElementNotCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -320,8 +319,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementNotChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementNotChecked method")
     public void negativeCheckElementNotCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -332,8 +331,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementNotChecked method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementNotChecked method")
     public void negativeCheckElementNotCheckedNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -343,8 +342,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "virtual",
-            "state"}, description = "An integration test to check the checkElementNotDisplayed method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementNotDisplayed method")
     public void checkElementNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -354,8 +353,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "virtual",
-            "state"}, description = "An integration negative test to check the checkElementNotDisplayed method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementNotDisplayed method")
     public void negativeCheckElementNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -365,8 +364,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration test to check the checkElementNotEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the checkElementNotEditable method")
     public void checkElementNotEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -376,8 +375,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "state",
-            "virtual"}, description = "An integration negative test to check the checkElementNotEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementNotEditable method")
     public void negativeCheckElementNotEditableNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -387,8 +386,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to check the checkElementNotEditable method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the checkElementNotEditable method")
     public void negativeCheckElementNotEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -398,8 +397,7 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration test to check the present method")
+    @Test(groups = {"integration", "asserts", "state"}, description = "An integration test to check the present method")
     public void checkElementPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -409,8 +407,7 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration test to check the present method")
+    @Test(groups = {"integration", "asserts", "state"}, description = "An integration test to check the present method")
     public void checkElementPresentDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -420,8 +417,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to check the present method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the present method")
     public void checkElementPresentNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -431,8 +428,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to check the present method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the present method")
     public void checkElementNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -442,8 +439,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to check the present method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the present method")
     public void checkElementNotPresentDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -453,8 +450,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to check the present method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the present method")
     public void checkElementNotPresentExistsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -464,8 +461,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to check the present method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the present method")
     public void checkElementNotDisplayedNotExistsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -485,8 +482,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to editabled method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to editabled method")
     public void checkElementEditabledNotEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -496,8 +493,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to editabled method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to editabled method")
     public void checkElementEditabledNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -517,8 +514,8 @@ public class AssertStateIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to notEditabled method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to notEditabled method")
     public void checkElementNotEditabledEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -528,8 +525,8 @@ public class AssertStateIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts",
-            "state"}, description = "An integration negative test to notEditabled method")
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to notEditabled method")
     public void checkElementNotEditabledNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

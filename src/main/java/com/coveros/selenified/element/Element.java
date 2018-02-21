@@ -647,8 +647,9 @@ public class Element {
                 return;
             }
             WebElement webElement = getWebElement();
-            Actions selAction = new Actions(driver);
-            selAction.click(webElement).perform();
+            webElement.click();
+//            Actions selAction = new Actions(driver);
+//            selAction.click(webElement).perform();
         } catch (Exception e) {
             file.recordAction(action, expected, cantClick + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
@@ -766,8 +767,8 @@ public class Element {
             return;
         }
         if (warning) {
-            file.recordAction(action, expected, TYPTED + text + IN + prettyOutput()
-                    + ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
+            file.recordAction(action, expected, TYPTED + text + IN + prettyOutput() +
+                    ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
         } else {
             file.recordAction(action, expected, TYPTED + text + IN + prettyOutput(), Result.SUCCESS);
         }
@@ -802,8 +803,8 @@ public class Element {
             return;
         }
         if (warning) {
-            file.recordAction(action, expected, TYPTED + key + IN + prettyOutput()
-                    + ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
+            file.recordAction(action, expected, TYPTED + key + IN + prettyOutput() +
+                    ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
         } else {
             file.recordAction(action, expected, TYPTED + key + IN + prettyOutput(), Result.SUCCESS);
         }
@@ -851,8 +852,9 @@ public class Element {
             }
             String[] options = get.selectOptions();
             if (index > options.length) {
-                file.recordAction(action, expected, "Unable to select the <i>" + index
-                        + "</i> option, as there are only <i>" + options.length + "</i> available.", Result.FAILURE);
+                file.recordAction(action, expected,
+                        "Unable to select the <i>" + index + "</i> option, as there are only <i>" + options.length +
+                                "</i> available.", Result.FAILURE);
                 file.addError();
                 return;
             }
@@ -886,11 +888,9 @@ public class Element {
             }
             // ensure the option exists
             if (!Arrays.asList(get.selectOptions()).contains(option)) {
-                file.recordAction(action, expected,
-                        CANTSELECT + option + " in " + prettyOutput()
-                                + " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
-                                + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>",
-                        Result.FAILURE);
+                file.recordAction(action, expected, CANTSELECT + option + " in " + prettyOutput() +
+                        " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;" +
+                        String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>", Result.FAILURE);
                 file.addError();
                 return;
             }
@@ -924,11 +924,9 @@ public class Element {
             }
             // ensure the value exists
             if (!Arrays.asList(get.selectValues()).contains(value)) {
-                file.recordAction(action, expected,
-                        CANTSELECT + value + " in " + prettyOutput()
-                                + " as that value isn't present. Available values are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
-                                + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>",
-                        Result.FAILURE);
+                file.recordAction(action, expected, CANTSELECT + value + " in " + prettyOutput() +
+                        " as that value isn't present. Available values are:<i><br/>" + "&nbsp;&nbsp;&nbsp;" +
+                        String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>", Result.FAILURE);
                 file.addError();
                 return;
             }
@@ -968,12 +966,12 @@ public class Element {
      */
     private void isMoved(String action, String expected) {
         if (!is.displayed()) {
-            file.recordAction(action, expected, prettyOutput() + " is not displayed within the current viewport",
+            file.recordAction(action, expected, prettyOutputStart() + " is not displayed within the current viewport",
                     Result.FAILURE);
             file.addError();
             return; // indicates element not on displayed screen
         }
-        file.recordAction(action, expected, prettyOutput() + " is displayed within the current viewport",
+        file.recordAction(action, expected, prettyOutputStart() + " is displayed within the current viewport",
                 Result.SUCCESS);
     }
 

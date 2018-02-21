@@ -31,8 +31,7 @@ public class NoBrowserIT extends Selenified {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
-    @Test(groups = {"integration",
-            "virtual"}, description = "An integration test to verify we can start a test without a browser")
+    @Test(groups = {"integration"}, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowser() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -42,8 +41,7 @@ public class NoBrowserIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration",
-            "virtual"}, description = "An integration test to verify we can start a test without a browser")
+    @Test(groups = {"integration"}, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowserActions() {
         // use this object to manipulate the app
         Browser browser = this.browser.get();
