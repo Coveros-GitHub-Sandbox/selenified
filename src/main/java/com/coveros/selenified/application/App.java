@@ -625,6 +625,7 @@ public class App {
             return;
         }
         switchToNewWindow();
+        waitFor().location(url);
         if (!get().location().equals(url)) {
             file.recordAction(action, expected, "Unable to open new window to " + url, Result.FAILURE);
             file.addError();

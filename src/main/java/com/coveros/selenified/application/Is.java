@@ -95,6 +95,16 @@ public class Is {
     }
 
     /**
+     * Determines if the URL loaded is one expected. This information will not
+     * be logged or recorded
+     *
+     * @return Boolean: is the url the expected one
+     */
+    public boolean location(String location) {
+        return (location.equals(driver.getCurrentUrl()));
+    }
+
+    /**
      * Determines if a cookie exists in the application with the provided
      * cookieName.
      *
