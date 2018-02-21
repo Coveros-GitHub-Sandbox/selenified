@@ -3,7 +3,7 @@ node {
         stage('Checkout Test Framework') { // for display purposes
             // Get the test code from GitHub repository
             git(
-                url: 'git@github.com:Coveros/selenified.git',
+                url: 'https://github.com/Coveros/selenified.git',
                 branch: 'selenium3'
             )
             sh "rm -rf target*"
