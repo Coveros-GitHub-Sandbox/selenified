@@ -12,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.net.MalformedURLException;
 
 public class ActionDoIT extends Selenified {
@@ -578,7 +579,8 @@ public class ActionDoIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "transparent_input").type("This is a test");
+        File file = new File( "public/index.html");
+        app.newElement(Locator.ID, "transparent_input").type(file.getAbsolutePath());
         // verify no issues
         finish();
     }
