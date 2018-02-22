@@ -18,9 +18,6 @@
  * under the License.
  */
 
-//TODO - fix/add tests to cover failure modes
-//TODO - update is/wait/get (element and app) to handle alert present and respond properly
-
 package com.coveros.selenified.application;
 
 import com.coveros.selenified.Browser;

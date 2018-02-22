@@ -101,7 +101,7 @@ public class Is {
      * @return Boolean: is the url the expected one
      */
     public boolean location(String location) {
-        return (location.equals(driver.getCurrentUrl()));
+        return location.equals(driver.getCurrentUrl());
     }
 
     /**

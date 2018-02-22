@@ -185,7 +185,7 @@ public class Is {
                 isSelected = webElement.isSelected();
             } else if (SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 Select dropdown = new Select(webElement);
-                isSelected = dropdown.getAllSelectedOptions().size() > 0;
+                isSelected = !dropdown.getAllSelectedOptions().isEmpty();
             }
         }
         return isSelected;

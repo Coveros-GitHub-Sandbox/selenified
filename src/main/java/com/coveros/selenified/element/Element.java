@@ -648,8 +648,6 @@ public class Element {
             }
             WebElement webElement = getWebElement();
             webElement.click();
-//            Actions selAction = new Actions(driver);
-//            selAction.click(webElement).perform();
         } catch (Exception e) {
             file.recordAction(action, expected, cantClick + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
