@@ -51,6 +51,7 @@ node {
             junit '**/target*/failsafe-reports/TEST-*.xml'
             junit '**/target*/surefire-reports/TEST-*.xml'
             jacoco()
+            archiveArtifacts artifacts: '**/target*/*-reports/**'
         }
         stage('Send Notifications') {
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'max.saperstone@coveros.com', sendToIndividuals: true])
