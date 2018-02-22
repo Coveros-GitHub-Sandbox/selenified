@@ -29,7 +29,7 @@ node {
             }
             stage('Execute Browser Tests') {
                 try {
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome,firefox -Dfailsafe.exclude.groups=""'
+                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome,firefox -Dfailsafe.exclude.groups="" -Dheadless'
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {
