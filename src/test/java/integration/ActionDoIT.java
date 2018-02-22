@@ -697,7 +697,7 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "transparent_input").type(Keys.SPACE);
         // verify no issues
-        finish();
+        finish(1);
     }
 
     @Test(groups = {"integration", "actions", "do", "type"},

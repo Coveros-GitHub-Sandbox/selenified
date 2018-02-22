@@ -28,13 +28,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.testng.log4testng.Logger;
 
 import java.lang.reflect.Method;
@@ -246,30 +251,35 @@ public class TestSetup {
                 break;
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
-                driver = new FirefoxDriver(capabilities);
+                FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
+                if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
+                    firefoxOptions.setHeadless(true);
+                }
+                driver = new FirefoxDriver(firefoxOptions);
                 break;
             case CHROME:
                 ChromeDriverManager.getInstance().forceCache().setup();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions = chromeOptions.merge(capabilities);
                 if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
-                    ChromeOptions chromeOptions = new ChromeOptions();
-//                    chromeOptions.setHeadless(true);
-                    chromeOptions.addArguments("--headless");
-                    chromeOptions.addArguments("--window-size=1920,1080");
-                    chromeOptions.addArguments("--mute-audio");
-                    capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+                    chromeOptions.setHeadless(true);
                 }
-                driver = new ChromeDriver(capabilities);
+                driver = new ChromeDriver(chromeOptions);
                 break;
             case INTERNETEXPLORER:
                 InternetExplorerDriverManager.getInstance().forceCache().setup();
-                driver = new InternetExplorerDriver(capabilities);
+                InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions(capabilities);
+                driver = new InternetExplorerDriver(internetExplorerOptions);
                 break;
             case EDGE:
                 EdgeDriverManager.getInstance().forceCache().setup();
-                driver = new EdgeDriver(capabilities);
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions = edgeOptions.merge(capabilities);
+                driver = new EdgeDriver(edgeOptions);
                 break;
             case SAFARI:
-                driver = new SafariDriver(capabilities);
+                SafariOptions safariOptions = new SafariOptions(capabilities);
+                driver = new SafariDriver(safariOptions);
                 break;
             case OPERA:
                 OperaDriverManager.getInstance().forceCache().setup();
