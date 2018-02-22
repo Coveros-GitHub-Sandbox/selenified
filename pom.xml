@@ -24,7 +24,7 @@
         <skip.integration.tests>false</skip.integration.tests>
 
         <!-- General Selenium run versions -->
-        <selenium.version>3.9.0</selenium.version>
+        <selenium.version>3.8.0</selenium.version>
         <webdrivermanager.version>2.1.0</webdrivermanager.version>
         <slf4j.version>1.7.23</slf4j.version>
         <testng.version>6.9.9</testng.version>
