@@ -692,14 +692,14 @@ public class ActionDoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "do", "type"},
+    @Test(groups = {"integration", "actions", "do", "type", "browser"},
             description = "An integration negative test to check the type method")
     public void typeKeysNotVisibleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "transparent_input").type(Keys.SPACE);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 

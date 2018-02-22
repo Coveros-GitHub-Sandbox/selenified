@@ -128,7 +128,7 @@ public class ActionSwitchIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "tab"},
+    @Test(groups = {"integration", "actions", "switch", "tab", "browser"},
             description = "An integration test to check the openWindow method")
     public void openWindowTest() {
         // use this object to manipulate the app
