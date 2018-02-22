@@ -137,7 +137,7 @@ public class WaitFor {
      *
      * @param seconds - the number of seconds to wait
      */
-    private void alertPresent(double seconds) {
+    public void alertPresent(double seconds) {
         String action = UPTO + seconds + " seconds for an alert to be present";
         String expected = "An alert is present";
         double timetook = popup(seconds);
@@ -155,7 +155,7 @@ public class WaitFor {
      *
      * @param seconds - the number of seconds to wait
      */
-    private void confirmationPresent(double seconds) {
+    public void confirmationPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a confirmation to be present";
         String expected = "A confirmation is present";
         double timetook = popup(seconds);
@@ -174,7 +174,7 @@ public class WaitFor {
      *
      * @param seconds - the number of seconds to wait
      */
-    private void promptPresent(double seconds) {
+    public void promptPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a prompt to be present";
         String expected = "A prompt is present";
         double timetook = popup(seconds);
@@ -193,7 +193,7 @@ public class WaitFor {
      * @param seconds - the number of seconds to wait
      * @param location - the location to wait for
      */
-    private void location(double seconds, String location) {
+    public void location(double seconds, String location) {
         String action = UPTO + seconds + " seconds for url to show location";
         String expected = "Location shows as '" + location + "'";
         double end = System.currentTimeMillis() + (seconds * 1000);
