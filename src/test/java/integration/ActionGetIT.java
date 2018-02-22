@@ -751,6 +751,17 @@ public class ActionGetIT extends Selenified {
     }
 
     @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
+    public void getCssNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        String css = app.newElement(Locator.ID, "disable_click", 0).get().css(null);
+        Assert.assertNull(css);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
     public void getCssNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -780,6 +791,18 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String attribute = app.newElement(Locator.ID, "disable_click", 0).get().attribute("some-bad-attribute");
+        Assert.assertNull(attribute);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getAttribute method")
+    public void getAttributeNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        String attribute = app.newElement(Locator.ID, "disable_click", 0).get().attribute(null);
         Assert.assertNull(attribute);
         // verify no issues
         finish();
@@ -854,6 +877,17 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         String location = (String) app.newElement(Locator.ID, "disable_click", 0).get().eval("document.location");
+        Assert.assertNull(location);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    public void getElementEvalNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        String location = (String) app.newElement(Locator.ID, "disable_click", 0).get().eval(null);
         Assert.assertNull(location);
         // verify no issues
         finish();

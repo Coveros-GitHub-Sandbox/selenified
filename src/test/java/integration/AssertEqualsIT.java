@@ -196,6 +196,17 @@ public class AssertEqualsIT extends Selenified {
 
     @Test(groups = {"integration", "asserts", "equals"},
             description = "An integration negative test to check the checkElementHasClass method")
+    public void negativeCheckElementHasClassNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div", 0).assertEquals().clazz(null);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "equals"},
+            description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -212,6 +223,17 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "check").assertEquals().clazz("wrong_class");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "equals"},
+            description = "An integration negative test to check the checkElementHasClass method")
+    public void negativeCheckElementHasClassDelayedNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "check").assertEquals().clazz(null);
         // verify 1 issue
         finish(1);
     }
@@ -234,6 +256,17 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div", 0).assertEquals().cssValue("display", "inline");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "equals"},
+            description = "An integration negative test to check the compareCssValue method")
+    public void negativeCompareCssNullValueTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div", 0).assertEquals().cssValue(null, "inline");
         // verify 1 issue
         finish(1);
     }
