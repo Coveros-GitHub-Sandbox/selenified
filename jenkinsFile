@@ -27,24 +27,14 @@ node {
                     sh "mv target target-htmlunit";
                 }
             }
-            stage('Execute Chrome Tests') {
+            stage('Execute Browser Tests') {
                 try {
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome'
+                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome,firefox -Dfailsafe.exclude.groups=""'
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mv target target-chrome";
-                }
-            }
-            stage('Execute Firefox Tests') {
-                try {
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=firefox'
-                } catch (e) {
-                    echo "ERROR: ${e}"
-                } finally {
-                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mv target target-firefox";
+                    sh "mv target target-browser";
                 }
             }
         }
@@ -52,7 +42,7 @@ node {
             sh """
                 mvn clean compile sonar:sonar \
                         -Dsonar.host.url=http://localhost:9000/sonar \
-                        -Dsonar.junit.reportPaths="target-unit/surefire-reports,target-htmlunit/failsafe-reports,target-chrome/failsafe-reports,target-firefox/failsafe-reports" \
+                        -Dsonar.junit.reportPaths="target-unit/surefire-reports,target-htmlunit/failsafe-reports,target-browser/failsafe-reports" \
                         -Dsonar.jacoco.reportPath=target-unit/coverage-reports/jacoco-ut.exec \
                         -Dsonar.jacoco.itReportPath=jacoco-it.exec
             """
