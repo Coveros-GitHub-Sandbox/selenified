@@ -76,7 +76,7 @@ public class Equals extends Assert {
         // get the actual css element value
         String elementCssValue = element.get().css(attribute);
         if (elementCssValue == null) {
-            file.recordActual("Unable to assess the css of " + element.prettyOutput(), Success.FAIL);
+            file.recordActual("Unable to assess the css of " + element.prettyOutputEnd(), Success.FAIL);
             file.addError();
             return;
         }

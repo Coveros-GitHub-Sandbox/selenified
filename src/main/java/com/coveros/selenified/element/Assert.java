@@ -163,7 +163,7 @@ public class Assert {
         // check our attributes
         Map<String, String> attributes = element.get().allAttributes();
         if (attributes == null) {
-            file.recordActual("Unable to assess the attributes of " + element.prettyOutput(), Success.FAIL);
+            file.recordActual("Unable to assess the attributes of " + element.prettyOutputEnd(), Success.FAIL);
             file.addError();
             return null; // NOSONAR - returning an empty array could be confused
             // with no attributes

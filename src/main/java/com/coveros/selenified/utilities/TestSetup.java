@@ -35,7 +35,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
@@ -244,6 +243,7 @@ public class TestSetup {
         switch (browser) {
             case HTMLUNIT:
                 capabilities.setBrowserName("htmlunit");
+                capabilities.setJavascriptEnabled(true);
                 System.getProperties().put("org.apache.commons.logging.simplelog.defaultlog", "fatal");
                 java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
                 java.util.logging.Logger.getLogger("org.apache.http").setLevel(Level.OFF);

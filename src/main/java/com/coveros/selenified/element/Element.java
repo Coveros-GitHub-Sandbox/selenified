@@ -654,7 +654,7 @@ public class Element {
             log.warn(e);
             return;
         }
-        file.recordAction(action, expected, "Clicked " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Clicked " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -678,7 +678,7 @@ public class Element {
             log.warn(e);
             return;
         }
-        file.recordAction(action, expected, "Submitted " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Submitted " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -708,7 +708,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Hovered over " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Hovered over " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -733,7 +733,8 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd(),
+                Result.SUCCESS);
     }
 
     /**
@@ -768,7 +769,7 @@ public class Element {
             file.recordAction(action, expected, TYPTED + text + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
         } else {
-            file.recordAction(action, expected, TYPTED + text + IN + prettyOutput(), Result.SUCCESS);
+            file.recordAction(action, expected, TYPTED + text + IN + prettyOutputEnd(), Result.SUCCESS);
         }
     }
 
@@ -804,7 +805,7 @@ public class Element {
             file.recordAction(action, expected, TYPTED + key + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
         } else {
-            file.recordAction(action, expected, TYPTED + key + IN + prettyOutput(), Result.SUCCESS);
+            file.recordAction(action, expected, TYPTED + key + IN + prettyOutputEnd(), Result.SUCCESS);
         }
     }
 
@@ -829,7 +830,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Cleared text in " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Cleared text in " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -866,7 +867,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected option <b>" + index + INN + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -902,7 +903,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected <b>" + option + INN + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected <b>" + option + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -938,7 +939,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected <b>" + value + INN + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected <b>" + value + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -1054,6 +1055,6 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Focused on frame " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Focused on frame " + prettyOutputEnd(), Result.SUCCESS);
     }
 }
