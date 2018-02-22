@@ -50,6 +50,10 @@ node {
         stage('Store Test Results') {
             junit '**/target*/failsafe-reports/TEST-*.xml'
             junit '**/target*/surefire-reports/TEST-*.xml'
+            jacoco()
+        }
+        stage('Send Notifications') {
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'max.saperstone@coveros.com', sendToIndividuals: true])
         }
     }
 }
