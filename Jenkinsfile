@@ -4,7 +4,7 @@ node {
             // Get the test code from GitHub repository
             git(
                 url: 'https://github.com/Coveros/selenified.git',
-                branch: 'feature/selenium3'
+                branch: 'develop'
             )
             sh "rm -rf target*"
             sh "rm -rf jacoco*"
