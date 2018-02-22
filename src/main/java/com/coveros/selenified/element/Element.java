@@ -726,7 +726,7 @@ public class Element {
                 return;
             }
             WebElement webElement = getWebElement();
-            webElement.sendKeys("\t");
+            webElement.sendKeys(Keys.TAB);
         } catch (Exception e) {
             log.warn(e);
             file.recordAction(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);

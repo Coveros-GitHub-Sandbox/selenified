@@ -442,6 +442,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "input_box").blur();
+        app.waitFor().alertPresent();
         app.azzert().alertPresent();
         // verify no issues
         finish();
@@ -534,7 +535,9 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "this").type(" ");
-        app.newElement(Locator.ID, "this").assertState().checked();
+        if (app.getBrowser() == Browser.CHROME) {  //test only applicable for Chrome
+            app.newElement(Locator.ID, "this").assertState().checked();
+        }
         // verify no issues
         finish();
     }
@@ -579,7 +582,7 @@ public class ActionDoIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        File file = new File( "public/index.html");
+        File file = new File("public/index.html");
         app.newElement(Locator.ID, "transparent_input").type(file.getAbsolutePath());
         // verify no issues
         finish();
