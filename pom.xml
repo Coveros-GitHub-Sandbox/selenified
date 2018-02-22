@@ -26,6 +26,7 @@
         <!-- General Selenium run versions -->
         <selenium.version>3.8.0</selenium.version>
         <webdrivermanager.version>2.1.0</webdrivermanager.version>
+        <phantomjsdriver.version>2.0.0</phantomjsdriver.version>
         <slf4j.version>1.7.23</slf4j.version>
         <testng.version>6.9.9</testng.version>
 
@@ -111,6 +112,12 @@
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.jesg/phantomjsdriver -->
+        <dependency>
+            <groupId>com.github.jesg</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>${phantomjsdriver.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
         <dependency>

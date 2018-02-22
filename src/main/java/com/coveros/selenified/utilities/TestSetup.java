@@ -35,6 +35,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
@@ -285,6 +286,10 @@ public class TestSetup {
             case OPERA:
                 OperaDriverManager.getInstance().forceCache().setup();
                 driver = new OperaDriver(capabilities);
+                break;
+            case PHANTOMJS:
+                PhantomJsDriverManager.getInstance().forceCache().setup();
+                driver = new PhantomJSDriver(capabilities);
                 break;
             // if the browser is not listed, throw an error
             default:

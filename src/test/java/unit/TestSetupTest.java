@@ -25,6 +25,7 @@ public class TestSetupTest {
     private String setBrowser = null;
     private String setHub = null;
     private String setProxy = null;
+    private String setHeadless = null;
 
     @BeforeClass
     public void saveBrowser() {
@@ -36,6 +37,9 @@ public class TestSetupTest {
         }
         if (System.getProperty("proxy") != null) {
             setProxy = System.getProperty("proxy");
+        }
+        if (System.getProperty("headless") != null) {
+            setHeadless = System.getProperty("headless");
         }
     }
 
@@ -50,6 +54,9 @@ public class TestSetupTest {
         if (setProxy != null) {
             System.setProperty("proxy", setProxy);
         }
+        if (setHeadless != null) {
+            System.setProperty("headless", setHeadless);
+        }
     }
 
     @BeforeMethod
@@ -57,6 +64,7 @@ public class TestSetupTest {
         System.clearProperty("browser");
         System.clearProperty("hub");
         System.clearProperty("proxy");
+        System.clearProperty("headless");
     }
 
     @Test
@@ -418,31 +426,6 @@ public class TestSetupTest {
         TestSetup.setupDriver(Browser.ANDROID, capabilities);
     }
 
-    // @Test
-    // public void setupDriverCHROMETest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.CHROME,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "ChromeDriver");
-    // driver.quit();
-    // }
-
-    // @Test
-    // public void setupDriverEdgeTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.Edge,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(),
-    // "MicrosoftEdgeDriver");
-    // driver.quit();
-    // }
-
-    // @Test
-    // public void setupDriverFIREFOXTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.FIREFOX,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "FirefoxDriver");
-    // driver.quit();
-    // }
-
     @Test
     public void setupDriverHtmlUnitTest() throws InvalidBrowserException {
         WebDriver driver = TestSetup.setupDriver(Browser.HTMLUNIT, capabilities);
@@ -450,15 +433,35 @@ public class TestSetupTest {
         driver.quit();
     }
 
-    // @Test
-    // public void setupDriverInternetExplorerTest() throws
-    // InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.InternetExplorer,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(),
-    // "InternetExplorerDriver");
-    // driver.quit();
-    // }
+    @Test
+    public void setupDriverFirefoxTest() throws InvalidBrowserException {
+        System.setProperty("headless", "true");
+        WebDriver driver = TestSetup.setupDriver(Browser.FIREFOX, capabilities);
+        Assert.assertEquals(driver.getClass().getSimpleName(), "FirefoxDriver");
+        driver.quit();
+    }
+
+    @Test
+    public void setupDriverChromeTest() throws InvalidBrowserException {
+        System.setProperty("headless", "true");
+        WebDriver driver = TestSetup.setupDriver(Browser.CHROME, capabilities);
+        Assert.assertEquals(driver.getClass().getSimpleName(), "ChromeDriver");
+        driver.quit();
+    }
+
+//     @Test(expectedExceptions = NoSuchMethodError.class)
+//     public void setupDriverEdgeTest() throws InvalidBrowserException {
+//         WebDriver driver = TestSetup.setupDriver(Browser.EDGE, capabilities);
+//         Assert.assertEquals(driver.getClass().getSimpleName(), "MicrosoftEdgeDriver");
+//         driver.quit();
+//     }
+
+//     @Test(expectedExceptions = NoSuchMethodError.class)
+//     public void setupDriverInternetExplorerTest() throws InvalidBrowserException {
+//         WebDriver driver = TestSetup.setupDriver(Browser.INTERNETEXPLORER, capabilities);
+//         Assert.assertEquals(driver.getClass().getSimpleName(), "InternetExplorerDriver");
+//         driver.quit();
+//     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverIpadTest() throws InvalidBrowserException {
@@ -470,36 +473,26 @@ public class TestSetupTest {
         TestSetup.setupDriver(Browser.IPAD, capabilities);
     }
 
-    // @Test
-    // public void setupDriverMarionetteTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.Marionette,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "FirefoxDriver");
-    // driver.quit();
-    // }
+//    @Test(expectedExceptions = NoSuchMethodError.class)
+//    public void setupDriverOperaTest() throws InvalidBrowserException {
+//        WebDriver driver = TestSetup.setupDriver(Browser.OPERA, capabilities);
+//        Assert.assertEquals(driver.getClass().getSimpleName(), "OperaDriver");
+//        driver.quit();
+//    }
 
-    // @Test
-    // public void setupDriverOperaTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.Opera,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "OperaDriver");
-    // driver.quit();
-    // }
+//     @Test(expectedExceptions = NoSuchMethodError.class)
+//     public void setupDriverSafariTest() throws InvalidBrowserException {
+//         WebDriver driver = TestSetup.setupDriver(Browser.SAFARI, capabilities);
+//         Assert.assertEquals(driver.getClass().getSimpleName(), "SafariDriver");
+//         driver.quit();
+//     }
 
-    @Test(expectedExceptions = InvalidBrowserException.class)
-    public void setupDriverPhantomJSTest() throws InvalidBrowserException {
-        WebDriver driver = TestSetup.setupDriver(Browser.PHANTOMJS, capabilities);
-        Assert.assertEquals(driver.getClass().getSimpleName(), "PhantomDriver");
-        driver.quit();
-    }
-
-    // @Test
-    // public void setupDriverSafariTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.Safari,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "SafariDriver");
-    // driver.quit();
-    // }
+//    @Test(expectedExceptions = NoSuchMethodError.class)
+//    public void setupDriverPhantomJSTest() throws InvalidBrowserException {
+//        WebDriver driver = TestSetup.setupDriver(Browser.PHANTOMJS, capabilities);
+//        Assert.assertEquals(driver.getClass().getSimpleName(), "PhantomDriver");
+//        driver.quit();
+//    }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverIllegalBrowserTest() throws InvalidBrowserException {
