@@ -59,7 +59,6 @@ public class Listener extends TestListenerAdapter {
     /**
      * determines the test name associated with the given tests
      *
-     * @param test - the testng itestresult object
      * @return String: a string version of the test name
      */
     private static String getTestName(ITestResult result) {

@@ -27,7 +27,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectValues(new String[]{"volvo", "saab", "mercedes", "audi"});
+                .selectValues("volvo", "saab", "mercedes", "audi");
         // verify no issues
         finish();
     }
@@ -39,7 +39,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "non-existent-element", 0).assertEquals()
-                .selectValues(new String[]{"volvo", "ford", "mercedes", "audi"});
+                .selectValues("volvo", "ford", "mercedes", "audi");
         // verify 1 issue
         finish(1);
     }
@@ -51,7 +51,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectValues(new String[]{"volvo", "ford", "mercedes", "audi"});
+                .selectValues("volvo", "ford", "mercedes", "audi");
         // verify 1 issue
         finish(1);
     }
@@ -63,7 +63,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectValues(new String[]{"volvo", "saab", "mercedes", "audi", "chevrolet"});
+                .selectValues("volvo", "saab", "mercedes", "audi", "chevrolet");
         // verify 1 issue
         finish(1);
     }
@@ -74,7 +74,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals().selectValues(new String[]{"volvo", "saab", "mercedes"});
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectValues("volvo", "saab", "mercedes");
         // verify no issue
         finish(1);
     }
@@ -86,7 +86,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions(new String[]{"Volvo", "Saab", "Mercedes", "Audi"});
+                .selectOptions("Volvo", "Saab", "Mercedes", "Audi");
         // verify no issues
         finish();
     }
@@ -98,7 +98,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "non-existent-element", 0).assertEquals()
-                .selectOptions(new String[]{"Volvo", "Ford", "Mercedes", "Audi"});
+                .selectOptions("Volvo", "Ford", "Mercedes", "Audi");
         // verify 1 issue
         finish(1);
     }
@@ -110,7 +110,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions(new String[]{"Volvo", "Ford", "Mercedes", "Audi"});
+                .selectOptions("Volvo", "Ford", "Mercedes", "Audi");
         // verify 1 issue
         finish(1);
     }
@@ -122,7 +122,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions(new String[]{"Volvo", "Saab", "Mercedes", "Audi", "Chevrolet"});
+                .selectOptions("Volvo", "Saab", "Mercedes", "Audi", "Chevrolet");
         // verify 1 issue
         finish(1);
     }
@@ -134,7 +134,7 @@ public class AssertEqualsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions(new String[]{"Volvo", "Saab", "Mercedes"});
+                .selectOptions("Volvo", "Saab", "Mercedes");
         // verify no issue
         finish(1);
     }

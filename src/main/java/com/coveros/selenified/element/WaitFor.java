@@ -42,10 +42,10 @@ public class WaitFor {
     private static final Logger log = Logger.getLogger(WaitFor.class);
 
     // what element are we trying to interact with on the page
-    private Element element;
+    private final Element element;
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private final OutputFile file;
 
     // constants
     private static final String WAITED = "Waited ";

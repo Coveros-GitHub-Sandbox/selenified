@@ -56,19 +56,19 @@ public class OutputFile {
 
     private App app = null;
 
-    private String url;
-    private String suite;
-    private String group;
-    private String version;
-    private String author;
-    private String objectives;
+    private final String url;
+    private final String suite;
+    private final String group;
+    private final String version;
+    private final String author;
+    private final String objectives;
 
-    private String test;
-    private String directory;
-    private File file;
-    private String filename;
+    private final String test;
+    private final String directory;
+    private final File file;
+    private final String filename;
     private Browser browser = Browser.NONE;
-    private List<String> screenshots = new ArrayList<>();
+    private final List<String> screenshots = new ArrayList<>();
 
     // timing of the test
     private long startTime;
@@ -78,7 +78,7 @@ public class OutputFile {
     // this will keep track of the errors
     private int errors = 0;
     // the image width for reporting
-    private int embeddedImageWidth = 300;
+    private final int embeddedImageWidth = 300;
 
     // constants
     private static final String START_ROW = "   <tr>\n";
@@ -200,8 +200,8 @@ public class OutputFile {
      */
     private int countInstancesOf(String textToFind) {
         int count = 0;
-        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
-            String line = "";
+        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
+            String line;
             while ((line = reader.readLine()) != null) {
                 if (line.contains(textToFind)) {
                     count++;
@@ -222,10 +222,11 @@ public class OutputFile {
     private void replaceInFile(String oldText, String newText) {
         StringBuilder oldContent = new StringBuilder();
 
-        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
-            String line = "";
+        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
+            String line;
             while ((line = reader.readLine()) != null) {
-                oldContent.append(line + "\r\n");
+                oldContent.append(line);
+                oldContent.append("\r\n");
             }
         } catch (IOException e) {
             log.error(e);
@@ -234,7 +235,7 @@ public class OutputFile {
         // replace a word in a file
         String newContent = oldContent.toString().replaceAll(oldText, newText);
 
-        try (FileWriter writer = new FileWriter(file);) {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(newContent);
         } catch (IOException ioe) {
             log.error(ioe);
@@ -291,7 +292,7 @@ public class OutputFile {
         lastTime = currentTime.getTime();
         try (
                 // Reopen file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // record the action
             out.write(START_ROW);
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
@@ -318,7 +319,7 @@ public class OutputFile {
     public void recordActual(String actualOutcome, Success result) {
         try (
                 // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // get a screen shot of the action
             String imageLink = "";
             if (isRealBrowser()) {
@@ -357,7 +358,7 @@ public class OutputFile {
 
         try (
                 // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // start the row
             out.write(START_ROW);
             // log the step number
@@ -387,7 +388,7 @@ public class OutputFile {
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
         String datePart = sdf.format(new Date());
         String sTime = stf.format(startTime);
-        try (FileWriter fw = new FileWriter(file); BufferedWriter out = new BufferedWriter(fw);) {
+        try (FileWriter fw = new FileWriter(file); BufferedWriter out = new BufferedWriter(fw)) {
             out.write("<html>\n");
             out.write(" <head>\n");
             out.write("  <title>" + test + "</title>\n");
@@ -549,7 +550,7 @@ public class OutputFile {
      */
     public void finalizeOutputFile() {
         // reopen the file
-        try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+        try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             out.write("  </table>\n");
             out.write(" </body>\n");
             out.write("</html>\n");
@@ -753,11 +754,8 @@ public class OutputFile {
     public enum Success {
         PASS, FAIL;
 
-        protected int errors;
+        int errors;
 
-        /**
-         * Are errors associated with the enumeration
-         */
         static {
             PASS.errors = 0;
             FAIL.errors = 1;

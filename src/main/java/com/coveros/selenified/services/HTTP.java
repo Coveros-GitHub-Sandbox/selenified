@@ -48,7 +48,7 @@ public class HTTP {
 
     private static final String PATCH = "PATCH";
 
-    private String serviceBaseUrl;
+    private final String serviceBaseUrl;
     private String user = "";
     private String pass = "";
 
@@ -264,7 +264,7 @@ public class HTTP {
      *                   call
      */
     private void writeDataRequest(HttpURLConnection connection, Request request) {
-        try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());) {
+        try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream())) {
             wr.write(request.getData().toString());
             wr.flush();
         } catch (IOException e) {
@@ -287,9 +287,9 @@ public class HTTP {
             return null;
         }
         Response response = new Response(status);
-        JsonObject object = new JsonObject();
-        JsonArray array = new JsonArray();
-        String data = "";
+        JsonObject object;
+        JsonArray array;
+        String data;
         BufferedReader rd = null;
         try { // NOSONAR - unable to use the try-with-resources block, as the rd
             // needs to be read in the finally, and can't be closed

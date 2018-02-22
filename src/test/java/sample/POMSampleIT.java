@@ -26,8 +26,7 @@ public class POMSampleIT extends Selenified {
         return new Object[][]{new Object[]{"Volvo"}, new Object[]{"Saab"}, new Object[]{"Mercedes"}};
     }
 
-    ThreadLocal<MainPage> main = new ThreadLocal<>();
-    ;
+    private final ThreadLocal<MainPage> main = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupApp() {

@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class TestSetupTest {
 
-    private DesiredCapabilities capabilities = new DesiredCapabilities();
+    private final DesiredCapabilities capabilities = new DesiredCapabilities();
     private String setBrowser = null;
     private String setHub = null;
     private String setProxy = null;

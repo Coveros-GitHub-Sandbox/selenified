@@ -57,6 +57,7 @@ public class TestSetup {
     // constants
     private static final String PROXY_INPUT = "proxy";
     private static final String BROWSER_INPUT = "browser";
+    private static final String HEADLESS_INPUT = "headless";
     private static final String BROWSER_NAME_INPUT = "browserName";
     private static final String BROWSER_VERSION_INPUT = "browserVersion";
     private static final String DEVICE_NAME_INPUT = "deviceName";
@@ -252,7 +253,7 @@ public class TestSetup {
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
-                if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
+                if (System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT))) {
                     firefoxOptions.setHeadless(true);
                 }
                 driver = new FirefoxDriver(firefoxOptions);
@@ -261,7 +262,7 @@ public class TestSetup {
                 ChromeDriverManager.getInstance().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(capabilities);
-                if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
+                if (System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT))) {
                     chromeOptions.setHeadless(true);
                 }
                 driver = new ChromeDriver(chromeOptions);
@@ -387,31 +388,11 @@ public class TestSetup {
             if (currentName.length() > MAXFILENAMELENGTH) {
                 if ("".equals(packageName)) {
                     currentName = className + "_" + methodName + dataProvider.toString().split(";")[1]; // NOSONAR
-                    // -
-                    // purposefully
-                    // using
-                    // toString
-                    // on
-                    // object
-                    // to
-                    // obtain
-                    // unique
-                    // random
-                    // hash
+                    // purposefully using toString on object to obtain unique random hash
                 } else {
                     currentName = packageName + "_" + className + "_" + methodName +
                             dataProvider.toString().split(";")[1]; // NOSONAR
-                    // -
-                    // purposefully
-                    // using
-                    // toString
-                    // on
-                    // object
-                    // to
-                    // obtain
-                    // unique
-                    // random
-                    // hash
+                    // purposefully using toString on object to obtain unique random hash
                 }
             }
         }

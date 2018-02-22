@@ -74,15 +74,15 @@ public class Selenified {
     protected static DesiredCapabilities extraCapabilities = null;
 
     // some passed in system params
-    protected static List<Browser> browsers;
-    protected static List<DesiredCapabilities> capabilities = new ArrayList<>();
+    private static List<Browser> browsers;
+    protected static final List<DesiredCapabilities> capabilities = new ArrayList<>();
 
     // for individual tests
-    protected ThreadLocal<Browser> browser = new ThreadLocal<>();
-    protected ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
-    protected ThreadLocal<OutputFile> files = new ThreadLocal<>();
-    protected ThreadLocal<App> apps = new ThreadLocal<>();
-    protected ThreadLocal<Call> calls = new ThreadLocal<>();
+    protected final ThreadLocal<Browser> browser = new ThreadLocal<>();
+    private final ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
+    private final ThreadLocal<OutputFile> files = new ThreadLocal<>();
+    protected final ThreadLocal<App> apps = new ThreadLocal<>();
+    protected final ThreadLocal<Call> calls = new ThreadLocal<>();
 
     // constants
     private static final String APP_INPUT = "appURL";
@@ -103,7 +103,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the URL of the application under test
      */
-    public String getTestSite(String clazz, ITestContext context) {
+    protected String getTestSite(String clazz, ITestContext context) {
         if (System.getProperty(APP_INPUT) == null) {
             return (String) context.getAttribute(clazz + APP_INPUT);
         } else {
@@ -391,7 +391,7 @@ public class Selenified {
          *
          * @return null
          */
-        public static MasterSuiteSetupConfigurator getInstance() {
+        static MasterSuiteSetupConfigurator getInstance() {
             if (instance != null) {
                 return instance;
             }
@@ -407,7 +407,7 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        public void doSetup() throws InvalidBrowserException {
+        void doSetup() throws InvalidBrowserException {
             if (wasInvoked) {
                 return;
             }

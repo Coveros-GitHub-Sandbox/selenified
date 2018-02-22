@@ -48,8 +48,8 @@ public class Element {
 
     private static final Logger log = Logger.getLogger(Element.class);
 
-    private Locator type;
-    private String locator;
+    private final Locator type;
+    private final String locator;
     private int match = 0;
 
     // this will be the name of the file we write all commands out to
@@ -330,7 +330,8 @@ public class Element {
      * Determines Selenium's 'By' object using Webdriver
      *
      * @return By: the Selenium object
-     * @throws InvalidLocatorTypeException
+     * @throws InvalidLocatorTypeException: if a bad locator type is passed, an invalid locator type exception will
+     *                                      be thrown
      */
     private By defineByElement() throws InvalidLocatorTypeException {
         // consider adding strengthening
@@ -520,13 +521,12 @@ public class Element {
      *
      * @param action   - what action is occurring
      * @param expected - what is the expected result
-     * @param extra    - what actually is occurring
      * @return Boolean: is the element enabled?
      */
-    private boolean isSelect(String action, String expected, String extra) {
+    private boolean isSelect(String action, String expected) {
         // wait for element to be displayed
         if (!is.select()) {
-            file.recordAction(action, expected, extra + prettyOutput() + NOTSELECT, Result.FAILURE);
+            file.recordAction(action, expected, Element.CANTSELECT + prettyOutput() + NOTSELECT, Result.FAILURE);
             file.addError();
             // indicates element not an input
             return false;
@@ -562,19 +562,15 @@ public class Element {
      *
      * @param action   - what action is occurring
      * @param expected - what is the expected result
-     * @param extra    - what actually is occurring
      * @return Boolean: is the element present, enabled, and an input?
      */
-    private boolean isPresentEnabledInput(String action, String expected, String extra) {
+    private boolean isPresentEnabledInput(String action, String expected) {
         // wait for element to be present
-        if (!isPresent(action, expected, extra)) {
+        if (!isPresent(action, expected, Element.CANTTYPE)) {
             return false;
         }
         // wait for element to be enabled
-        if (!isEnabled(action, expected, extra)) {
-            return false;
-        }
-        return isInput(action, expected, extra);
+        return isEnabled(action, expected, Element.CANTTYPE) && isInput(action, expected, Element.CANTTYPE);
     }
 
     /**
@@ -597,10 +593,7 @@ public class Element {
             return false;
         }
         // wait for element to be enabled
-        if (!isEnabled(action, expected, extra)) {
-            return false;
-        }
-        return isInput(action, expected, extra);
+        return isEnabled(action, expected, extra) && isInput(action, expected, extra);
     }
 
     /**
@@ -609,24 +602,20 @@ public class Element {
      *
      * @param action   - what action is occurring
      * @param expected - what is the expected result
-     * @param extra    - what actually is occurring
      * @return Boolean: is the element present, displayed, enabled, and an
      * input?
      */
-    private boolean isPresentDisplayedEnabledSelect(String action, String expected, String extra) {
+    private boolean isPresentDisplayedEnabledSelect(String action, String expected) {
         // wait for element to be present
-        if (!isPresent(action, expected, extra)) {
+        if (!isPresent(action, expected, Element.CANTSELECT)) {
             return false;
         }
         // wait for element to be displayed
-        if (!isDisplayed(action, expected, extra)) {
+        if (!isDisplayed(action, expected, Element.CANTSELECT)) {
             return false;
         }
         // wait for element to be enabled
-        if (!isEnabled(action, expected, extra)) {
-            return false;
-        }
-        return isSelect(action, expected, extra);
+        return isEnabled(action, expected, Element.CANTSELECT) && isSelect(action, expected);
     }
 
     // ///////////////////////////////////
@@ -751,7 +740,7 @@ public class Element {
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + text + " typed in";
         Boolean warning = false;
         try {
-            if (!isPresentEnabledInput(action, expected, CANTTYPE)) {
+            if (!isPresentEnabledInput(action, expected)) {
                 return;
             }
             if (!is.displayed()) {
@@ -787,7 +776,7 @@ public class Element {
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + key + " entered";
         Boolean warning = false;
         try {
-            if (!isPresentEnabledInput(action, expected, CANTTYPE)) {
+            if (!isPresentEnabledInput(action, expected)) {
                 return;
             }
             if (!is.displayed()) {
@@ -846,7 +835,7 @@ public class Element {
         String action = SELECTING + index + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + index + SELECTED;
         try {
-            if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
+            if (!isPresentDisplayedEnabledSelect(action, expected)) {
                 return;
             }
             String[] options = get.selectOptions();
@@ -882,7 +871,7 @@ public class Element {
         String action = SELECTING + option + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + option + SELECTED;
         try {
-            if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
+            if (!isPresentDisplayedEnabledSelect(action, expected)) {
                 return;
             }
             // ensure the option exists
@@ -918,7 +907,7 @@ public class Element {
         String action = SELECTING + value + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + value + SELECTED;
         try {
-            if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
+            if (!isPresentDisplayedEnabledSelect(action, expected)) {
                 return;
             }
             // ensure the value exists

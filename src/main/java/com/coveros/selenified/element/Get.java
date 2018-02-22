@@ -44,11 +44,11 @@ public class Get {
     private static final Logger log = Logger.getLogger(Get.class);
 
     // what element are we trying to interact with on the page
-    private Element element;
+    private final Element element;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // constants
     private static final String VALUE = "value";
@@ -75,14 +75,10 @@ public class Get {
     /**
      * Determines if the element is both present and a select.
      *
-     * @param element - the element to be checked
      * @return Boolean: is the element present AND an input
      */
     private boolean isPresentSelect() {
-        if (!element.is().present()) {
-            return false;
-        }
-        return element.is().select();
+        return element.is().present() && element.is().select();
     }
 
     /**
@@ -431,9 +427,7 @@ public class Get {
         WebElement thisRow = rows.get(rowNum);
         List<WebElement> cells = thisRow.findElements(By.xpath(".//th|.//td"));
         List<WebElement> row = new ArrayList<>();
-        for (WebElement cell : cells) {
-            row.add(cell);
-        }
+        row.addAll(cells);
         return row;
     }
 

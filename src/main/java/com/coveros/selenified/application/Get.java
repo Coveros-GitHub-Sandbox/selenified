@@ -41,10 +41,10 @@ public class Get {
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // the is class to determine if something exists
-    private Is is;
+    private final Is is;
 
     public Get(WebDriver driver) {
         this.driver = driver;

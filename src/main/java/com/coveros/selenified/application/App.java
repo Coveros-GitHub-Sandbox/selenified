@@ -57,7 +57,7 @@ public class App {
     private static final Logger log = Logger.getLogger(TestSetup.class);
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private final OutputFile file;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
@@ -65,8 +65,8 @@ public class App {
 
     // what browsers are we interested in implementing
     // this is the browser that we are using
-    private Browser browser;
-    private DesiredCapabilities capabilities;
+    private final Browser browser;
+    private final DesiredCapabilities capabilities;
 
     // keeps track of the initial window open
     private String parentWindow;
@@ -334,35 +334,8 @@ public class App {
      * @param expected - the expected result
      * @param fail     - the failed result
      * @param key      - what key to send along with control and/or command
-     * @return Boolean: returns a true if the keys were successfully sent, a
-     * false if they were not
      */
-    private boolean sendControlAndCommand(String action, String expected, String fail, String key) {
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + key);
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + key);
-        } catch (Exception e) {
-            file.recordAction(action, expected, fail + e.getMessage(), Result.FAILURE);
-            file.addError();
-            log.warn(e);
-            return false;
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
-        return true;
-    }
-
-    /**
-     * Sends a key combination both as control and command (PC and Mac
-     * compatible)
-     *
-     * @param action   - the action occurring
-     * @param expected - the expected result
-     * @param fail     - the failed result
-     * @param key      - what key to send along with control and/or command
-     * @return Boolean: returns a true if the keys were successfully sent, a
-     * false if they were not
-     */
-    private boolean sendControlAndCommand(String action, String expected, String fail, Keys key) {
+    private void sendControlAndCommand(String action, String expected, String fail, Keys key) {
         try {
             driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, key));
             driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, key));
@@ -370,10 +343,8 @@ public class App {
             file.recordAction(action, expected, fail + e.getMessage(), Result.FAILURE);
             file.addError();
             log.warn(e);
-            return false;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
-        return true;
     }
 
     /**
@@ -404,7 +375,17 @@ public class App {
      * this, as the browser will be terminated as well
      */
     public void closeTab() {
-        sendControlAndCommand("Closing currently open tab", "Tab is closed", "Tab was unable to be closed. ", "w");
+        String action = "Closing currently open tab";
+        String expected = "Tab is closed";
+        try {
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "w");
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Tab was unable to be closed. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
     }
 
     /**
@@ -637,10 +618,6 @@ public class App {
      * that others.
      */
     public void switchToNewWindow() {
-        switchToNewWindow(true);
-    }
-
-    private void switchToNewWindow(boolean print) {
         String action = "Switching to the new window";
         String expected = "New window is available and selected";
         try {
@@ -649,17 +626,13 @@ public class App {
                 driver.switchTo().window(winHandle);
             }
         } catch (Exception e) {
-            if (print) {
-                file.recordAction(action, expected, "New window was unable to be selected. " + e.getMessage(),
-                        Result.FAILURE);
-                file.addError();
-            }
+            file.recordAction(action, expected, "New window was unable to be selected. " + e.getMessage(),
+                    Result.FAILURE);
+            file.addError();
             log.warn(e);
             return;
         }
-        if (print) {
-            file.recordAction(action, expected, expected, Result.SUCCESS);
-        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
     }
 
     /**

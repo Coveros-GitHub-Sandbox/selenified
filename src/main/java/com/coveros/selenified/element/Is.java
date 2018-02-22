@@ -39,7 +39,7 @@ public class Is {
     private static final Logger log = Logger.getLogger(Is.class);
 
     // what element are we trying to interact with on the page
-    private Element element;
+    private final Element element;
 
     // constants
     private static final String SELECT = "select";

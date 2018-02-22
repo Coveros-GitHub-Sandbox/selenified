@@ -42,14 +42,14 @@ public class WaitFor {
     private static final Logger log = Logger.getLogger(WaitFor.class);
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private final OutputFile file;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // the is class to determine if something exists, so the wait can end
-    private Is is;
+    private final Is is;
 
     // constants
     private static final String WAITED = "Waited ";
@@ -137,7 +137,7 @@ public class WaitFor {
      *
      * @param seconds - the number of seconds to wait
      */
-    public void alertPresent(double seconds) {
+    private void alertPresent(double seconds) {
         String action = UPTO + seconds + " seconds for an alert to be present";
         String expected = "An alert is present";
         double timetook = popup(seconds);
@@ -155,7 +155,7 @@ public class WaitFor {
      *
      * @param seconds - the number of seconds to wait
      */
-    public void confirmationPresent(double seconds) {
+    private void confirmationPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a confirmation to be present";
         String expected = "A confirmation is present";
         double timetook = popup(seconds);
@@ -174,7 +174,7 @@ public class WaitFor {
      *
      * @param seconds - the number of seconds to wait
      */
-    public void promptPresent(double seconds) {
+    private void promptPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a prompt to be present";
         String expected = "A prompt is present";
         double timetook = popup(seconds);
@@ -193,7 +193,7 @@ public class WaitFor {
      * @param seconds - the number of seconds to wait
      * @param location - the location to wait for
      */
-    public void location(double seconds, String location) {
+    private void location(double seconds, String location) {
         String action = UPTO + seconds + " seconds for url to show location";
         String expected = "Location shows as '" + location + "'";
         double end = System.currentTimeMillis() + (seconds * 1000);

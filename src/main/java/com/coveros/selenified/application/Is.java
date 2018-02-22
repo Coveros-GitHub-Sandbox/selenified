@@ -40,7 +40,7 @@ public class Is {
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public Is(WebDriver driver) {
         this.driver = driver;

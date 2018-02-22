@@ -1,5 +1,6 @@
 package integration;
 
+import com.coveros.selenified.Browser;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
@@ -35,7 +36,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        if (app.getBrowser().equals("NONE")) {
+        if (app.getBrowser() == Browser.NONE) {
             app.getOutputFile().addError();
         }
         // verify no issues
@@ -48,7 +49,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        if (app.getCapabilities().equals(null)) {
+        if (app.getCapabilities() == null) {
             app.getOutputFile().addError();
         }
         // verify no issues
