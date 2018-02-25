@@ -303,14 +303,14 @@ public class OutputFileTest {
 
     @Test
     public void outputRequestPropertiesEmptyParamsTest() {
-        Request request = new Request(new HashMap<String, String>());
+        Request request = new Request(new HashMap<>());
         Assert.assertEquals(outputFile.outputRequestProperties(request),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>");
     }
 
     @Test
     public void outputRequestPropertiesParamsTest() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request(map);
         Assert.assertEquals(outputFile.outputRequestProperties(request),
@@ -319,7 +319,7 @@ public class OutputFileTest {
 
     @Test
     public void outputRequestPropertiesBothTest() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request(map);
         JsonObject json = new JsonObject();

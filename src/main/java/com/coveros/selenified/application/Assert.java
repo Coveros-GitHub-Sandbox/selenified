@@ -40,11 +40,11 @@ import java.util.regex.Pattern;
 public class Assert {
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private final OutputFile file;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private App app;
+    private final App app;
 
     // constants
     private static final String ONPAGE = "</b> on the page";
@@ -445,8 +445,9 @@ public class Assert {
             return;
         }
         if (!cookieValue.equals(expectedCookieValue)) {
-            file.recordActual(COOKIE + cookieName + "</b> is stored for the page, but the value " + "of the cookie is "
-                    + cookieValue, Success.FAIL);
+            file.recordActual(
+                    COOKIE + cookieName + "</b> is stored for the page, but the value " + "of the cookie is " +
+                            cookieValue, Success.FAIL);
             file.addError();
             return;
         }

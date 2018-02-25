@@ -39,7 +39,7 @@ public class Is {
     private static final Logger log = Logger.getLogger(Is.class);
 
     // what element are we trying to interact with on the page
-    private Element element;
+    private final Element element;
 
     // constants
     private static final String SELECT = "select";
@@ -78,9 +78,9 @@ public class Is {
         boolean isInput = false;
         try {
             WebElement webElement = element.getWebElement();
-            if ("input".equalsIgnoreCase(webElement.getTagName())
-                    || "textarea".equalsIgnoreCase(webElement.getTagName())
-                    || SELECT.equalsIgnoreCase(webElement.getTagName())) {
+            if ("input".equalsIgnoreCase(webElement.getTagName()) ||
+                    "textarea".equalsIgnoreCase(webElement.getTagName()) ||
+                    SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 isInput = true;
             }
         } catch (NoSuchElementException e) {
@@ -185,7 +185,7 @@ public class Is {
                 isSelected = webElement.isSelected();
             } else if (SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 Select dropdown = new Select(webElement);
-                isSelected = dropdown.getAllSelectedOptions().size() > 0;
+                isSelected = !dropdown.getAllSelectedOptions().isEmpty();
             }
         }
         return isSelected;

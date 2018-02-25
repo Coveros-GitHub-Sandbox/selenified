@@ -40,7 +40,7 @@ public class Is {
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public Is(WebDriver driver) {
         this.driver = driver;
@@ -92,6 +92,16 @@ public class Is {
      */
     public boolean promptPresent() {
         return isPopupPresent();
+    }
+
+    /**
+     * Determines if the URL loaded is one expected. This information will not
+     * be logged or recorded
+     *
+     * @return Boolean: is the url the expected one
+     */
+    public boolean location(String location) {
+        return location.equals(driver.getCurrentUrl());
     }
 
     /**

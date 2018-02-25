@@ -21,8 +21,8 @@ public class ElementIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = {"integration",
-            "element"}, description = "An integration test to check that a child element is properly located")
+    @Test(groups = {"integration", "element"},
+            description = "An integration test to check that a child element is properly located")
     public void checkChildTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -34,8 +34,8 @@ public class ElementIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration",
-            "element"}, description = "An integration test to check that a child element is properly located")
+    @Test(groups = {"integration", "element"},
+            description = "An integration test to check that a child element is properly located")
     public void checkMultipleChildTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

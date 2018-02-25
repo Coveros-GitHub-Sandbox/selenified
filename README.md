@@ -533,7 +533,7 @@ address and port in the parameter
 -Dproxy=localhost:5013
 ```
 #### Headless
-Currently, only Chrome supports running in headless mode. To achieve this, simply pass in the parameter `headless`
+Currently, only Chrome and Firefox supports running in headless mode. To achieve this, simply pass in the parameter `headless`
 ```
 -Dheadless
 ```
@@ -689,7 +689,3 @@ and set it to true
 mvn clean verify -Dbrowser=Firefox -DpackageResults=true
 ```
 The zipped results will be placed in the same directory as the test results
-
-## Open Issues
-Note that there are a few open issues with the framework
-* Running blur and type keys on a Mac can fail when threaded. Be cautious when running these tests

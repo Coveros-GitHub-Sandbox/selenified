@@ -67,13 +67,14 @@ public class Contains extends Assert {
         // get the class
         String actualClass = element.get().attribute(CLASS);
         // file.record the element
-        if (!actualClass.contains(expectedClass)) {
+        if (actualClass == null || !actualClass.contains(expectedClass)) {
             file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>", Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>"
-                + expectedClass + "</b>", Success.PASS);
+        file.recordActual(
+                element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>" + expectedClass +
+                        "</b>", Success.PASS);
     }
 
     /**
@@ -91,8 +92,9 @@ public class Contains extends Assert {
         }
         // file.record the element
         if (!Arrays.asList(allAttributes).contains(attribute)) {
-            file.recordActual(element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute
-                    + "</b>" + ONLYVALUE + Arrays.toString(allAttributes) + "</b>", Success.FAIL);
+            file.recordActual(
+                    element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
+                            ONLYVALUE + Arrays.toString(allAttributes) + "</b>", Success.FAIL);
             file.addError();
             return;
         }
@@ -156,15 +158,16 @@ public class Contains extends Assert {
      */
     public void selectOption(String option) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with the option <b>" + option
-                + "</b> available to be selected on the page")) {
+        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with the option <b>" + option +
+                "</b> available to be selected on the page")) {
             return;
         }
         // check for the object to the editable
         String[] allOptions = element.get().selectOptions();
         if (!Arrays.asList(allOptions).contains(option)) {
-            file.recordActual(element.prettyOutputStart() + " is present but does not contain the option " + "<b>"
-                    + option + "</b>", Success.FAIL);
+            file.recordActual(
+                    element.prettyOutputStart() + " is present but does not contain the option " + "<b>" + option +
+                            "</b>", Success.FAIL);
             file.addError();
             return;
         }
@@ -183,15 +186,15 @@ public class Contains extends Assert {
      */
     public void selectValue(String selectValue) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " having a select value of <b>" + selectValue
-                + "</b> available to be selected on the page")) {
+        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " having a select value of <b>" + selectValue +
+                "</b> available to be selected on the page")) {
             return;
         }
         // check for the object to the present on the page
         String[] elementValues = element.get().selectValues();
         if (!Arrays.asList(elementValues).contains(selectValue)) {
-            file.recordActual(element.prettyOutputStart() + HASNTVALUE + selectValue + "</b>" + ONLYVALUE
-                    + Arrays.toString(elementValues) + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + HASNTVALUE + selectValue + "</b>" + ONLYVALUE +
+                    Arrays.toString(elementValues) + "</b>", Success.FAIL);
             file.addError();
             return;
         }
@@ -208,8 +211,9 @@ public class Contains extends Assert {
      */
     public void selectOptions(int numOfOptions) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with number of select values equal to <b>"
-                + numOfOptions + "</b>")) {
+        if (!isPresentSelect(
+                EXPECTED + element.prettyOutput() + " with number of select values equal to <b>" + numOfOptions +
+                        "</b>")) {
             return;
         }
         // check for the object to the present on the page
@@ -234,14 +238,15 @@ public class Contains extends Assert {
      */
     public void columns(int numOfColumns) {
         // wait for the table
-        if (!isPresentTable(EXPECTED + element.prettyOutput() + " with the number of table columns equal to <b>"
-                + numOfColumns + "</b>")) {
+        if (!isPresentTable(
+                EXPECTED + element.prettyOutput() + " with the number of table columns equal to <b>" + numOfColumns +
+                        "</b>")) {
             return;
         }
         int actualNumOfCols = element.get().numOfTableColumns();
         if (actualNumOfCols != numOfColumns) {
-            file.recordActual(element.prettyOutputStart() + " does not have the number of columns <b>" + numOfColumns
-                    + "</b>. Instead, " + actualNumOfCols + " columns were found", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + " does not have the number of columns <b>" + numOfColumns +
+                    "</b>. Instead, " + actualNumOfCols + " columns were found", Success.FAIL);
             file.addError();
             return;
         }
@@ -258,14 +263,15 @@ public class Contains extends Assert {
      */
     public void rows(int numOfRows) {
         // wait for the table
-        if (!isPresentTable(EXPECTED + element.prettyOutput() + " with the number of table rows equal to <b>"
-                + numOfRows + "</b>")) {
+        if (!isPresentTable(
+                EXPECTED + element.prettyOutput() + " with the number of table rows equal to <b>" + numOfRows +
+                        "</b>")) {
             return;
         }
         int actualNumOfRows = element.get().numOfTableRows();
         if (actualNumOfRows != numOfRows) {
-            file.recordActual(element.prettyOutputStart() + " does not have the number of rows <b>" + numOfRows
-                    + "</b>. Instead, " + actualNumOfRows + " rows were found", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + " does not have the number of rows <b>" + numOfRows +
+                    "</b>. Instead, " + actualNumOfRows + " rows were found", Success.FAIL);
             file.addError();
             return;
         }

@@ -171,8 +171,8 @@ public class Response {
             expectedString.append(" : ");
             expectedString.append(entry.getValue());
             expectedString.append("</div>");
-            if (object != null && (!object.has(entry.getKey())
-                    || !object.get(entry.getKey()).getAsString().equals(entry.getValue()))) {
+            if (object != null && (!object.has(entry.getKey()) ||
+                    !object.get(entry.getKey()).getAsString().equals(entry.getValue()))) {
                 success = Success.FAIL;
             }
         }
@@ -195,8 +195,8 @@ public class Response {
         if (object != null && object.has(key)) {
             success = object.get(key).equals(expectedJson) ? Success.PASS : Success.FAIL;
         }
-        file.recordExpected("Expected to find a response with key <i>" + key + "</i> equal to: "
-                + file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
+        file.recordExpected("Expected to find a response with key <i>" + key + "</i> equal to: " +
+                file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
     }
@@ -212,8 +212,8 @@ public class Response {
         if (array != null) {
             success = array.contains(expectedJson) ? Success.PASS : Success.FAIL;
         }
-        file.recordExpected("Expected to find a response containing:"
-                + file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
+        file.recordExpected("Expected to find a response containing:" +
+                file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
     }

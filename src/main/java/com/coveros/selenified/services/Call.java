@@ -36,10 +36,10 @@ public class Call {
     private static final Logger log = Logger.getLogger(Call.class);
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private final OutputFile file;
 
     // what services will we be interacting with
-    private HTTP http;
+    private final HTTP http;
 
     // constants
     private static final String GET = "GET";
@@ -145,7 +145,11 @@ public class Call {
      */
     private Response call(String call, String endpoint, Request params) {
         StringBuilder action = new StringBuilder();
-        action.append("Making <i>" + call + "</i> call to <i>" + http.getServiceBaseUrl() + endpoint + "</i>");
+        action.append("Making <i>");
+        action.append(call);
+        action.append("</i> call to <i>");
+        action.append(http.getServiceBaseUrl());
+        action.append(endpoint).append("</i>");
         action.append(appendCredentials());
         action.append(file.outputRequestProperties(params));
         String expected = "<i>" + call + "</i> call was made successfully";
@@ -197,9 +201,11 @@ public class Call {
         if (http.useCredentials()) {
             credentials.append("<br/> with credentials: ");
             credentials.append("<div><i>");
-            credentials.append("Username: " + http.getUser());
+            credentials.append("Username: ");
+            credentials.append(http.getUser());
             credentials.append("</div><div>");
-            credentials.append("Password: " + http.getPass());
+            credentials.append("Password: ");
+            credentials.append(http.getPass());
             credentials.append("</i></div>");
         }
         return credentials.toString();

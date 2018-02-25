@@ -42,14 +42,14 @@ public class WaitFor {
     private static final Logger log = Logger.getLogger(WaitFor.class);
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private final OutputFile file;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // the is class to determine if something exists, so the wait can end
-    private Is is;
+    private final Is is;
 
     // constants
     private static final String WAITED = "Waited ";
@@ -96,6 +96,13 @@ public class WaitFor {
      */
     public void promptPresent() {
         promptPresent(defaultWait);
+    }
+
+    /**
+     * Wait up to the default time (5 seconds) for a location to show in url
+     */
+    public void location(String location) {
+        location(defaultWait, location);
     }
 
     ///////////////////////////////////////////////////
@@ -178,5 +185,31 @@ public class WaitFor {
             return;
         }
         file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present", Result.SUCCESS);
+    }
+
+    /**
+     * Wait up to a specified time for the url to show a particular location
+     *
+     * @param seconds - the number of seconds to wait
+     * @param location - the location to wait for
+     */
+    public void location(double seconds, String location) {
+        String action = UPTO + seconds + " seconds for url to show location";
+        String expected = "Location shows as '" + location + "'";
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (System.currentTimeMillis() < end) {
+            if (location.equals(driver.getCurrentUrl())) {
+                break;
+            }
+        }
+        double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        if (!is.location(location)) {
+            file.recordAction(action, expected,
+                    WAITING + timetook + " seconds, a the location still shows as '" + location + "'", Result.FAILURE);
+            file.addError();
+            return;
+        }
+        file.recordAction(action, expected,
+                WAITED + timetook + " seconds for the location to show as '" + location + "'", Result.SUCCESS);
     }
 }

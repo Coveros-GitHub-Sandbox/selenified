@@ -56,19 +56,19 @@ public class OutputFile {
 
     private App app = null;
 
-    private String url;
-    private String suite;
-    private String group;
-    private String version;
-    private String author;
-    private String objectives;
+    private final String url;
+    private final String suite;
+    private final String group;
+    private final String version;
+    private final String author;
+    private final String objectives;
 
-    private String test;
-    private String directory;
-    private File file;
-    private String filename;
+    private final String test;
+    private final String directory;
+    private final File file;
+    private final String filename;
     private Browser browser = Browser.NONE;
-    private List<String> screenshots = new ArrayList<>();
+    private final List<String> screenshots = new ArrayList<>();
 
     // timing of the test
     private long startTime;
@@ -78,7 +78,7 @@ public class OutputFile {
     // this will keep track of the errors
     private int errors = 0;
     // the image width for reporting
-    private int embeddedImageWidth = 300;
+    private final int embeddedImageWidth = 300;
 
     // constants
     private static final String START_ROW = "   <tr>\n";
@@ -200,8 +200,8 @@ public class OutputFile {
      */
     private int countInstancesOf(String textToFind) {
         int count = 0;
-        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
-            String line = "";
+        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
+            String line;
             while ((line = reader.readLine()) != null) {
                 if (line.contains(textToFind)) {
                     count++;
@@ -222,10 +222,11 @@ public class OutputFile {
     private void replaceInFile(String oldText, String newText) {
         StringBuilder oldContent = new StringBuilder();
 
-        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
-            String line = "";
+        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
+            String line;
             while ((line = reader.readLine()) != null) {
-                oldContent.append(line + "\r\n");
+                oldContent.append(line);
+                oldContent.append("\r\n");
             }
         } catch (IOException e) {
             log.error(e);
@@ -234,7 +235,7 @@ public class OutputFile {
         // replace a word in a file
         String newContent = oldContent.toString().replaceAll(oldText, newText);
 
-        try (FileWriter writer = new FileWriter(file);) {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(newContent);
         } catch (IOException ioe) {
             log.error(ioe);
@@ -291,7 +292,7 @@ public class OutputFile {
         lastTime = currentTime.getTime();
         try (
                 // Reopen file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // record the action
             out.write(START_ROW);
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
@@ -318,7 +319,7 @@ public class OutputFile {
     public void recordActual(String actualOutcome, Success result) {
         try (
                 // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // get a screen shot of the action
             String imageLink = "";
             if (isRealBrowser()) {
@@ -357,7 +358,7 @@ public class OutputFile {
 
         try (
                 // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // start the row
             out.write(START_ROW);
             // log the step number
@@ -387,7 +388,7 @@ public class OutputFile {
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
         String datePart = sdf.format(new Date());
         String sTime = stf.format(startTime);
-        try (FileWriter fw = new FileWriter(file); BufferedWriter out = new BufferedWriter(fw);) {
+        try (FileWriter fw = new FileWriter(file); BufferedWriter out = new BufferedWriter(fw)) {
             out.write("<html>\n");
             out.write(" <head>\n");
             out.write("  <title>" + test + "</title>\n");
@@ -509,8 +510,8 @@ public class OutputFile {
             out.write("    <td colspan=3 style='padding: 0px;'>\n");
             out.write("     <table style='width: 100%;'><tr>\n");
             out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
-            out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>"
-                    + "<td><b>Steps Failed</b></td>\n");
+            out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" +
+                    "<td><b>Steps Failed</b></td>\n");
             out.write("     </tr><tr>\n");
             out.write("      <td>STEPSPERFORMED</td><td>STEPSPASSED</td><td>STEPSFAILED</td>\n");
             out.write("     </tr></table>\n");
@@ -532,11 +533,10 @@ public class OutputFile {
             out.write("  </table>\n");
             out.write("  <table id='all_results'>\n");
             out.write(START_ROW);
-            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>"
-                    + "<th style='text-align:center'>Expected Result</th>"
-                    + "<th style='text-align:center'>Actual Result</th>"
-                    + "<th style='text-align:center'>Step Times</th>"
-                    + "<th style='text-align:center'>Pass/Fail</th>\n");
+            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>" +
+                    "<th style='text-align:center'>Expected Result</th>" +
+                    "<th style='text-align:center'>Actual Result</th>" +
+                    "<th style='text-align:center'>Step Times</th>" + "<th style='text-align:center'>Pass/Fail</th>\n");
             out.write(END_ROW);
         } catch (IOException e) {
             log.error(e);
@@ -550,7 +550,7 @@ public class OutputFile {
      */
     public void finalizeOutputFile() {
         // reopen the file
-        try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+        try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             out.write("  </table>\n");
             out.write(" </body>\n");
             out.write("</html>\n");
@@ -635,13 +635,13 @@ public class OutputFile {
     private String generateImageLink(String imageName) {
         String imageLink = "<br/>";
         if (imageName.length() >= directory.length() + 1) {
-            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\""
-                    + imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
-            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\""
-                    + imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
-            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='"
-                    + imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth
-                    + "px' style='display:none;'>";
+            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\"" +
+                    imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
+            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\"" +
+                    imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
+            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
+                    imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth +
+                    "px' style='display:none;'>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
         }
@@ -754,11 +754,8 @@ public class OutputFile {
     public enum Success {
         PASS, FAIL;
 
-        protected int errors;
+        int errors;
 
-        /**
-         * Are errors associated with the enumeration
-         */
         static {
             PASS.errors = 0;
             FAIL.errors = 1;

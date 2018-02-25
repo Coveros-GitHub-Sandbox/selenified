@@ -10,21 +10,27 @@
     </prerequisites>
 
     <properties>
+        <!-- General Java properties -->
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <!-- Test run information -->
         <suiteXmlFile>integration.xml</suiteXmlFile>
-        <failsafe.groups>virtual</failsafe.groups>
+        <failsafe.include.groups>integration</failsafe.include.groups>
+        <failsafe.exclude.groups>browser</failsafe.exclude.groups>
 
-        <jackson.version>1.9.13</jackson.version>
-        <jsse.version>2.1.0</jsse.version>
-        <selenium.htmlunit.driver.version>2.52.0</selenium.htmlunit.driver.version>
-        <selenium.version>2.53.1</selenium.version>
+        <skip.unit.tests>false</skip.unit.tests>
+        <skip.integration.tests>false</skip.integration.tests>
+
+        <!-- General Selenium run versions -->
+        <selenium.version>3.8.0</selenium.version>
+        <webdrivermanager.version>2.1.0</webdrivermanager.version>
+        <phantomjsdriver.version>2.0.0</phantomjsdriver.version>
         <slf4j.version>1.7.23</slf4j.version>
         <testng.version>6.9.9</testng.version>
-        <webdrivermanager.version>1.6.2</webdrivermanager.version>
 
+        <!-- Additional plugin versions -->
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
         <maven.failsafe.plugin.version>2.8.1</maven.failsafe.plugin.version>
         <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
@@ -36,6 +42,15 @@
         <jacoco.maven.plugin.version>0.7.9</jacoco.maven.plugin.version>
         <lint.maven.plugin.version>0.0.11</lint.maven.plugin.version>
         <nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
+
+        <!-- SonarQube properties -->
+        <sonar.host.url>https://172.31.2.202/sonar</sonar.host.url>
+        <sonar.sources>src/main/java</sonar.sources>
+        <sonar.test>src/test/java</sonar.test>
+        <sonar.test>src/test/java</sonar.test>
+        <sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
+        <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>target/coverage-reports/jacoco-it.exec</sonar.jacoco.itReportPath>
     </properties>
 
     <name>Selenified Testing Framework</name>
@@ -80,18 +95,6 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jglobus/jsse -->
-        <dependency>
-            <groupId>org.jglobus</groupId>
-            <artifactId>jsse</artifactId>
-            <version>${jsse.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -110,11 +113,11 @@
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-htmlunit-driver -->
+        <!-- https://mvnrepository.com/artifact/com.github.jesg/phantomjsdriver -->
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-htmlunit-driver</artifactId>
-            <version>${selenium.htmlunit.driver.version}</version>
+            <groupId>com.github.jesg</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>${phantomjsdriver.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
         <dependency>
@@ -189,7 +192,8 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <groups>${failsafe.groups}</groups>
+                    <groups>${failsafe.include.groups}</groups>
+                    <excludedGroups>${failsafe.exclude.groups}</excludedGroups>
                 </configuration>
                 <executions>
                     <execution>

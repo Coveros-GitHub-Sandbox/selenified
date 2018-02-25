@@ -28,17 +28,23 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.MarionetteDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.testng.log4testng.Logger;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Assists with Selenified class in setting up proxy, hub, and browser details
@@ -52,6 +58,7 @@ public class TestSetup {
     // constants
     private static final String PROXY_INPUT = "proxy";
     private static final String BROWSER_INPUT = "browser";
+    private static final String HEADLESS_INPUT = "headless";
     private static final String BROWSER_NAME_INPUT = "browserName";
     private static final String BROWSER_VERSION_INPUT = "browserVersion";
     private static final String DEVICE_NAME_INPUT = "deviceName";
@@ -183,13 +190,10 @@ public class TestSetup {
     public void setupBrowserCapability(Browser browser) throws InvalidBrowserException {
         switch (browser) { // check the browser
             case HTMLUNIT:
-                capabilities = DesiredCapabilities.htmlUnitWithJs();
+                capabilities = DesiredCapabilities.htmlUnit();
                 break;
             case FIREFOX:
                 capabilities = DesiredCapabilities.firefox();
-                break;
-            case MARIONETTE:
-                setMarionetteCapability();
                 break;
             case CHROME:
                 capabilities = DesiredCapabilities.chrome();
@@ -225,15 +229,6 @@ public class TestSetup {
     }
 
     /**
-     * if trying to run marionette, be sure to set it up that way in device
-     * capabilities
-     */
-    private void setMarionetteCapability() {
-        capabilities = DesiredCapabilities.firefox();
-        capabilities.setCapability("marionette", true);
-    }
-
-    /**
      * this creates the webdriver object, which will be used to interact with
      * for all browser web tests
      *
@@ -243,47 +238,58 @@ public class TestSetup {
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
-    public static WebDriver setupDriver(Browser browser, DesiredCapabilities capabilities)
-            throws InvalidBrowserException {
+    public static WebDriver setupDriver(Browser browser,
+                                        DesiredCapabilities capabilities) throws InvalidBrowserException {
         WebDriver driver;
         // check the browser
         switch (browser) {
             case HTMLUNIT:
-                driver = new CustomHtmlUnitDriver(capabilities);
+                capabilities.setBrowserName("htmlunit");
+                capabilities.setJavascriptEnabled(true);
+                System.getProperties().put("org.apache.commons.logging.simplelog.defaultlog", "fatal");
+                java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+                java.util.logging.Logger.getLogger("org.apache.http").setLevel(Level.OFF);
+                driver = new HtmlUnitDriver(capabilities);
                 break;
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
-                driver = new FirefoxDriver(capabilities);
-                break;
-            case MARIONETTE:
-                FirefoxDriverManager.getInstance().forceCache().setup();
-                driver = new MarionetteDriver(capabilities);
+                FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
+                if (System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT))) {
+                    firefoxOptions.setHeadless(true);
+                }
+                driver = new FirefoxDriver(firefoxOptions);
                 break;
             case CHROME:
                 ChromeDriverManager.getInstance().forceCache().setup();
-                if (System.getProperty("headless") != null && "true".equals(System.getProperty("headless"))) {
-                    ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.addArguments("--headless");
-                    chromeOptions.addArguments("--window-size=1920,1080");
-                    chromeOptions.addArguments("--mute-audio");
-                    capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions = chromeOptions.merge(capabilities);
+                if (System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT))) {
+                    chromeOptions.setHeadless(true);
                 }
-                driver = new ChromeDriver(capabilities);
+                driver = new ChromeDriver(chromeOptions);
                 break;
             case INTERNETEXPLORER:
                 InternetExplorerDriverManager.getInstance().forceCache().setup();
-                driver = new InternetExplorerDriver(capabilities);
+                InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions(capabilities);
+                driver = new InternetExplorerDriver(internetExplorerOptions);
                 break;
             case EDGE:
                 EdgeDriverManager.getInstance().forceCache().setup();
-                driver = new EdgeDriver(capabilities);
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions = edgeOptions.merge(capabilities);
+                driver = new EdgeDriver(edgeOptions);
                 break;
             case SAFARI:
-                driver = new SafariDriver(capabilities);
+                SafariOptions safariOptions = new SafariOptions(capabilities);
+                driver = new SafariDriver(safariOptions);
                 break;
             case OPERA:
                 OperaDriverManager.getInstance().forceCache().setup();
                 driver = new OperaDriver(capabilities);
+                break;
+            case PHANTOMJS:
+                PhantomJsDriverManager.getInstance().forceCache().setup();
+                driver = new PhantomJSDriver(capabilities);
                 break;
             // if the browser is not listed, throw an error
             default:
@@ -353,8 +359,8 @@ public class TestSetup {
      * @return Boolean: is the provided object array a data provider?
      */
     private static boolean isRealDataProvider(Object... dataProvider) {
-        return dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null
-                && !dataProvider[0].toString().startsWith(PUBLIC);
+        return dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null &&
+                !dataProvider[0].toString().startsWith(PUBLIC);
     }
 
     /**
@@ -387,31 +393,11 @@ public class TestSetup {
             if (currentName.length() > MAXFILENAMELENGTH) {
                 if ("".equals(packageName)) {
                     currentName = className + "_" + methodName + dataProvider.toString().split(";")[1]; // NOSONAR
-                    // -
-                    // purposefully
-                    // using
-                    // toString
-                    // on
-                    // object
-                    // to
-                    // obtain
-                    // unique
-                    // random
-                    // hash
+                    // purposefully using toString on object to obtain unique random hash
                 } else {
-                    currentName = packageName + "_" + className + "_" + methodName
-                            + dataProvider.toString().split(";")[1]; // NOSONAR
-                    // -
-                    // purposefully
-                    // using
-                    // toString
-                    // on
-                    // object
-                    // to
-                    // obtain
-                    // unique
-                    // random
-                    // hash
+                    currentName = packageName + "_" + className + "_" + methodName +
+                            dataProvider.toString().split(";")[1]; // NOSONAR
+                    // purposefully using toString on object to obtain unique random hash
                 }
             }
         }

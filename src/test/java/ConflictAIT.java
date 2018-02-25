@@ -19,8 +19,8 @@ public class ConflictAIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = {"integration", "conflict",
-            "virtual"}, description = "A sample test to show how to loop through elements with multiple matches")
+    @Test(groups = {"integration", "conflict"},
+            description = "A sample test to show how to loop through elements with multiple matches")
     public void conflictingTestName() {
         System.setProperty("packageResults", "true");
         // use this object to manipulate the app
