@@ -84,6 +84,28 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
+    @Test(groups = {"integration", "actions", "wait", "location"},
+            description = "An integration test to check the wait for location method")
+    public void waitLocationTest(ITestContext context) throws IOException, InterruptedException {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().location(getTestSite(this.getClass().getName(), context));
+        // verify no issues
+        finish(0);
+    }
+
+    @Test(groups = {"integration", "actions", "wait", "location"},
+            description = "An integration negative test to check the wait for location method")
+    public void negativeWaitLocationTest(ITestContext context) throws IOException, InterruptedException {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().location("http://hellourl.io");
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = {"integration", "actions", "wait"},
             description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresentTest() {
