@@ -1,6 +1,10 @@
 node {
     ansiColor('xterm') {
-        stage('Cleanup old log files') { // for display purposes
+        stage('Checkout Selenified') { // for display purposes
+            // Get the test code from GitHub repository
+            git(
+                url: 'https://github.com/Coveros/selenified.git',
+            )
             sh "rm -rf target*"
             sh "rm -rf jacoco*"
         }
