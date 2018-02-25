@@ -227,7 +227,7 @@ public class AssertEqualsIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "equals"},
+    @Test(groups = {"integration", "asserts", "equals", "browser"},
             description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedNullTest() {
         // use this object to manipulate the app

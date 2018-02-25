@@ -1,11 +1,41 @@
+def urlBranch
+def workspace
+def branch
+def branchType
+def baseVersion
+def version
+def pullRequest
+def refspecs
+
 node {
     ansiColor('xterm') {
-        stage('Checkout Selenified') { // for display purposes
+        workspace = pwd()
+        branch = env.BRANCH_NAME.replaceAll(/\//, "-")
+        branchType = env.BRANCH_NAME.split(/\//)[0]
+        urlBranch = env.BRANCH_NAME.replaceAll(/\//, "%252F")
+        baseVersion = "${env.BUILD_NUMBER}"
+        version = "$branch-$baseVersion"
+        env.PROJECT = "Selenified"
+        def branchCheckout
+        pullRequest = env.CHANGE_ID
+        if (pullRequest) {
+            branchCheckout = "pr/${pullRequest}"
+            refspecs = '+refs/pull/*/head:refs/remotes/origin/pr/*'
+        }
+        else {
+            branchCheckout = env.BRANCH_NAME
+            refspecs = '+refs/heads/*:refs/remotes/origin/*'
+        }
+        stage('Checkout Selenified') {
             // Get the test code from GitHub repository
-            git(
-                url: 'https://github.com/Coveros/selenified.git',
-                branch: 'feature/selenium3'
-            )
+            checkout([
+                $class           : 'GitSCM',
+                branches: [[ name: "*/${branchCheckout}"]],
+                userRemoteConfigs: [[
+                    url          : 'https://github.com/Coveros/selenified.git',
+                    refspec      : "${refspecs}"
+                ]]
+            ])
             sh "rm -rf target*"
             sh "rm -rf jacoco*"
         }
