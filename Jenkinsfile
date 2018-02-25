@@ -72,7 +72,7 @@ node {
             sh """
                 mvn clean compile sonar:sonar \
                         -Dsonar.projectKey=selenified:${branch} \
-                        -Dsonar.projectName=Selenified - ${env.BRANCH_NAME} \
+                        -Dsonar.projectName="Selenified - ${env.BRANCH_NAME}" \
                         -Dsonar.host.url=http://localhost:9000/sonar \
                         -Dsonar.junit.reportPaths="target-unit/surefire-reports,target-htmlunit/failsafe-reports,target-browser/failsafe-reports" \
                         -Dsonar.jacoco.reportPath=target-unit/coverage-reports/jacoco-ut.exec \
