@@ -16,11 +16,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Test run information -->
-        <suiteXmlFile>integration.xml</suiteXmlFile>
+        <!--<suiteXmlFile>integration.xml</suiteXmlFile>-->
         <failsafe.include.groups>integration</failsafe.include.groups>
         <failsafe.exclude.groups>browser</failsafe.exclude.groups>
+        <failsafe.groups></failsafe.groups>
+        <failsafe.class></failsafe.class>
+        <failsafe.package></failsafe.package>
+        <failsafe.method></failsafe.method>
 
-        <skip.unit.tests>false</skip.unit.tests>
+        <skip.unit.tests>true</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
 
         <!-- General Selenium run versions -->
@@ -32,7 +36,7 @@
 
         <!-- Additional plugin versions -->
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
-        <maven.failsafe.plugin.version>2.8.1</maven.failsafe.plugin.version>
+        <maven.failsafe.plugin.version>2.21.0</maven.failsafe.plugin.version>
         <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
         <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
         <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
@@ -189,10 +193,14 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven.failsafe.plugin.version}</version>
                 <configuration>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-                    </suiteXmlFiles>
+                    <!--<suiteXmlFiles>-->
+                        <!--<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>-->
+                    <!--</suiteXmlFiles>-->
                     <groups>${failsafe.include.groups}</groups>
+                    <groups>${failsafe.groups}</groups>
+                    <!--<test>**//${failsafe.package}</test>-->
+                    <test>${failsafe.method}</test>
+                    <includes>${failsafe.class}</includes>
                     <excludedGroups>${failsafe.exclude.groups}</excludedGroups>
                 </configuration>
                 <executions>
