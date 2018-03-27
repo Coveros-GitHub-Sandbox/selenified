@@ -21,6 +21,7 @@
 package com.coveros.selenified.application;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
@@ -342,7 +343,7 @@ public class App {
             }
             // now we need to save the file
             FileUtils.copyFile(srcFile, new File(imageName));
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.error("Error taking screenshot: " + e);
         }
     }
