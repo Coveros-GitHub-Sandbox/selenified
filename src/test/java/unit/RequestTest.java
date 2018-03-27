@@ -1,13 +1,12 @@
 package unit;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.coveros.selenified.services.Request;
+import com.google.gson.JsonObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.services.Request;
-import com.google.gson.JsonObject;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RequestTest {
 

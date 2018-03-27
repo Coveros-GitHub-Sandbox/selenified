@@ -1,17 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Integration Test Suite" parallel="methods" thread-count="20" verbose="3" >
-  <listeners>
-    <listener class-name="com.coveros.selenified.utilities.Transformer" />
-  </listeners>
+<suite name="Integration Test Suite" parallel="methods" thread-count="5" verbose="3">
+    <listeners>
+        <listener class-name="com.coveros.selenified.utilities.Transformer"/>
+    </listeners>
 
-  <test name="Integration Tests" >
-    <packages>
-      <package name="integration" />
-      <package name="sample" />
-    </packages>
-    <classes>
-      <class name="ConflictAIT" />
-    </classes>
-  </test>
+    <test name="Integration Tests">
+        <packages>
+            <package name="integration"/>
+            <package name="sample"/>
+        </packages>
+        <classes>
+            <class name="ConflictAIT"/>
+        </classes>
+    </test>
 </suite>

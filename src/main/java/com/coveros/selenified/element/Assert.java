@@ -20,11 +20,11 @@
 
 package com.coveros.selenified.element;
 
-import java.util.Map;
-import java.util.Set;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Assert will handle all verifications performed on the actual element. These
@@ -32,36 +32,36 @@ import com.coveros.selenified.OutputFile.Success;
  * oriented capabilities, they take screenshots with each verification to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests.
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
  */
-public class Assert {
+class Assert {
 
     // this will be the name of the file we write all commands out to
-    protected OutputFile file;
+    OutputFile file;
 
     // what element are we trying to interact with on the page
-    protected Element element;
+    Element element;
 
     // constants
-    protected static final String EXPECTED = "Expected to find ";
-    protected static final String CLASS = "class";
+    static final String EXPECTED = "Expected to find ";
+    static final String CLASS = "class";
 
-    protected static final String NOTINPUT = " is not an input on the page";
+    private static final String NOTINPUT = " is not an input on the page";
 
-    protected static final String VALUE = " has the value of <b>";
-    protected static final String TEXT = " has the text of <b>";
-    protected static final String HASVALUE = " contains the value of <b>";
-    protected static final String HASNTVALUE = " does not contain the value of <b>";
-    protected static final String HASTEXT = " contains the text of <b>";
-    protected static final String HASNTTEXT = " does not contain the text of <b>";
-    protected static final String ONLYVALUE = ", only the values <b>";
-    protected static final String CLASSVALUE = " has a class value of <b>";
+    static final String VALUE = " has the value of <b>";
+    static final String TEXT = " has the text of <b>";
+    static final String HASVALUE = " contains the value of <b>";
+    static final String HASNTVALUE = " does not contain the value of <b>";
+    static final String HASTEXT = " contains the text of <b>";
+    static final String HASNTTEXT = " does not contain the text of <b>";
+    static final String ONLYVALUE = ", only the values <b>";
+    static final String CLASSVALUE = " has a class value of <b>";
 
-    protected static final String NOTSELECT = " is not a select on the page";
-    protected static final String NOTTABLE = " is not a table on the page";
+    private static final String NOTSELECT = " is not a select on the page";
+    private static final String NOTTABLE = " is not a table on the page";
 
     ///////////////////////////////////////////////////////
     // assertions about the element in general
@@ -70,10 +70,10 @@ public class Assert {
     /**
      * Determines if the element is present, and if it is not, waits up to the
      * default time (5 seconds) for the element
-     * 
-     * @return
+     *
+     * @return Boolean: whether the element is present or not
      */
-    protected boolean isPresent() {
+    boolean isPresent() {
         if (!element.is().present()) {
             element.waitFor().present();
             if (!element.is().present()) {
@@ -85,10 +85,10 @@ public class Assert {
 
     /**
      * Determines if the element is a select element
-     * 
+     *
      * @return Boolean: whether the element is an select or not
      */
-    protected boolean isSelect() {
+    private boolean isSelect() {
         if (!element.is().select()) {
             file.recordActual(element.prettyOutputStart() + NOTSELECT, Success.FAIL);
             file.addError();
@@ -99,10 +99,10 @@ public class Assert {
 
     /**
      * Determines if the element is a table element
-     * 
+     *
      * @return Boolean: whether the element is an table or not
      */
-    protected boolean isTable() {
+    private boolean isTable() {
         if (!element.is().table()) {
             file.recordActual(element.prettyOutputStart() + NOTTABLE, Success.FAIL);
             file.addError();
@@ -113,12 +113,11 @@ public class Assert {
 
     /**
      * Determines if the element is a present, and if it is, it is a select
-     * 
-     * @param expected
-     *            - the expected outcome
+     *
+     * @param expected - the expected outcome
      * @return Boolean: whether the element is a select or not
      */
-    protected boolean isPresentSelect(String expected) {
+    boolean isPresentSelect(String expected) {
         // wait for the element
         if (!isPresent()) {
             return false;
@@ -130,12 +129,11 @@ public class Assert {
 
     /**
      * Determines if the element is a present, and if it is, it is a table
-     * 
-     * @param expected
-     *            - the expected outcome
+     *
+     * @param expected - the expected outcome
      * @return Boolean: whether the element is an table or not
      */
-    protected boolean isPresentTable(String expected) {
+    boolean isPresentTable(String expected) {
         // wait for the element
         if (!isPresent()) {
             return false;
@@ -150,27 +148,25 @@ public class Assert {
      * result of checking for one particular attribute. If the element isn't
      * present, or the attributes can't be determined an error will be logged
      * and null will be returned
-     * 
-     * @param attribute
-     *            - the attribute to check for
-     * @param expected
-     *            - is the attribute expected to be present, or not present
+     *
+     * @param attribute - the attribute to check for
+     * @param expected  - is the attribute expected to be present, or not present
      * @return String[]: the list of all attributes from the element;
      */
-    protected String[] getAttributes(String attribute, String expected) {
+    String[] getAttributes(String attribute, String expected) {
         // wait for the element
         if (!isPresent()) {
             return null; // NOSONAR - returning an empty array could be confused
-                            // with no attributes
+            // with no attributes
         }
         file.recordExpected(EXPECTED + element.prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>");
         // check our attributes
         Map<String, String> attributes = element.get().allAttributes();
         if (attributes == null) {
-            file.recordActual("Unable to assess the attributes of " + element.prettyOutput(), Success.FAIL);
+            file.recordActual("Unable to assess the attributes of " + element.prettyOutputEnd(), Success.FAIL);
             file.addError();
             return null; // NOSONAR - returning an empty array could be confused
-                            // with no attributes
+            // with no attributes
         }
         Set<String> keys = attributes.keySet();
         return keys.toArray(new String[keys.size()]);
@@ -180,14 +176,12 @@ public class Assert {
      * Retrieves the value from the element, and writes out the value that is
      * being expected. If the element isn't present or an input, an error will
      * be logged and null will be returned
-     * 
-     * @param value
-     *            the expected value of the element
-     * @param expected
-     *            - is the attribute expected to be present, or not present
+     *
+     * @param value    the expected value of the element
+     * @param expected - is the attribute expected to be present, or not present
      * @return String: the actual value from the input element
      */
-    protected String getValue(String value, String expected) {
+    String getValue(String value, String expected) {
         // wait for the element
         if (!isPresent()) {
             return null;

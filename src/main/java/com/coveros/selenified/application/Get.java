@@ -20,17 +20,18 @@
 
 package com.coveros.selenified.application;
 
-import java.util.Date;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.log4testng.Logger;
 
+import java.util.Date;
+
 /**
  * Get retrieves information about the app in general, not specific to any
  * particular page or element. If an object isn't present, null will be returned
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -40,10 +41,10 @@ public class Get {
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // the is class to determine if something exists
-    private Is is;
+    private final Is is;
 
     public Get(WebDriver driver) {
         this.driver = driver;
@@ -63,7 +64,7 @@ public class Get {
         try {
             return driver.getCurrentUrl();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -77,7 +78,7 @@ public class Get {
         try {
             return driver.getTitle();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -91,7 +92,7 @@ public class Get {
         try {
             return driver.getPageSource();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -99,9 +100,8 @@ public class Get {
     /**
      * Executes a provided script, and returns the output of that script. If
      * there is an error executing this script, a null value will be returned.
-     * 
-     * @param javascriptFunction
-     *            - the javascript function that is going to be executed
+     *
+     * @param javascriptFunction - the javascript function that is going to be executed
      * @return Object: any resultant output from the javascript command
      */
     public Object eval(String javascriptFunction) {
@@ -109,7 +109,7 @@ public class Get {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             return js.executeScript(javascriptFunction);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -128,7 +128,7 @@ public class Get {
             Alert alert = driver.switchTo().alert();
             return alert.getText();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -147,7 +147,7 @@ public class Get {
             Alert alert = driver.switchTo().alert();
             return alert.getText();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -166,7 +166,7 @@ public class Get {
             Alert alert = driver.switchTo().alert();
             return alert.getText();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -175,15 +175,14 @@ public class Get {
      * Retrieves the full cookie in the application with the provided
      * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
-     * @param expectedCookieName
-     *            - the name of the cookie
+     * @param expectedCookieName - the name of the cookie
      * @return Cookie - the cookie
      */
     public Cookie cookie(String expectedCookieName) {
         try {
             return driver.manage().getCookieNamed(expectedCookieName);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -192,8 +191,7 @@ public class Get {
      * Retrieves the cookie value in the application with the provided
      * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
-     * @param expectedCookieName
-     *            - the name of the cookie
+     * @param expectedCookieName - the name of the cookie
      * @return String - the value of the cookie
      */
     public String cookieValue(String expectedCookieName) {
@@ -208,8 +206,7 @@ public class Get {
      * Retrieves the cookie path in the application with the provided
      * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
-     * @param expectedCookieName
-     *            - the name of the cookie
+     * @param expectedCookieName - the name of the cookie
      * @return String - the path of the cookie
      */
     public String cookiePath(String expectedCookieName) {
@@ -224,8 +221,7 @@ public class Get {
      * Retrieves the cookie domain in the application with the provided
      * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
-     * @param expectedCookieName
-     *            - the name of the cookie
+     * @param expectedCookieName - the name of the cookie
      * @return String - the domain of the cookie
      */
     public String cookieDomain(String expectedCookieName) {
@@ -240,8 +236,7 @@ public class Get {
      * Retrieves the cookie expiration in the application with the provided
      * cookieName. If the cookie doesn't exist, a null value will be returned.
      *
-     * @param expectedCookieName
-     *            - the name of the cookie
+     * @param expectedCookieName - the name of the cookie
      * @return String - the expiration of the cookie
      */
     public Date cookieExpiration(String expectedCookieName) {

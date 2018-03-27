@@ -64,33 +64,36 @@ Have a look at this example test class to get an idea of what you'll actually be
             finish();
         }
 
-        @Test(dataProvider = "google search terms", groups = { "sample" },
-                description = "A sample selenium test using a data provider to perform searches")
-        public void sampleTestWDataProvider(String searchTerm) {
-            // use this object to manipulate the app
-            App app = this.apps.get();
-            // perform a simple search
-            app.newElement(Locator.NAME, "q").type(searchTerm);
-            app.newElement(Locator.NAME, "btnG").click();
-            app.newElement(Locator.ID, "resultStats").waitFor().present();
-            // verify the correct page title 
-            app.azzert().titleEquals(searchTerm + " - Google Search");
-            // verify no issues
-            finish();
-        }
-        
-        @Test(groups = { "sample" }, description = "An sample services test to verify the response code")
-    	public void sampleServicesTest() {
-	    	// the parameters to pass to google
-    		Map<String, String> params = new HashMap<>();
-	        params.put("q", "cheese");
-    	    // use this object to make web service calls
-	        Call call = this.calls.get();
-    	    // make a get call, and confirm we get a 200 response code
-        	call.get().("", new Request(params)).assertEquals(200);
-	        // verify no issues
-    	    finish();
-    	}
+         @Test(dataProvider = "google search terms", groups = { "sample"},
+                         description = "A sample selenium test using a data provider to perform a google search")
+         public void sampleTestWDataProvider(String searchTerm) {
+             // use this object to manipulate the app
+             App app = this.apps.get();
+             // find the search box element and create the object
+             Element searchBox = app.newElement(Locator.NAME, "q");
+             //perform the search and submit
+             searchBox.type(searchTerm);
+             searchBox.submit();
+             //wait for the page to return the results
+             app.newElement(Locator.ID, "resultStats").waitFor().present();
+             // verify the correct page title
+             app.azzert().titleEquals(searchTerm + " - Google Search");
+             // verify no issues
+             finish();
+         }
+
+         @Test(groups = { "sampleServices" }, description = "A sample web services test to verify the response code")
+             public void sampleServicesCityTest() {
+             Map<String, String> params = new HashMap<>();
+             params.put("address", "chicago");
+             // use this object to verify the app looks as expected
+             Call call = this.calls.get();
+             // retrieve the zip code and verify the return code
+             call.get("", new Request(params)).assertEquals(200);
+             // verify no issues
+             finish();
+         }
+
     }
 ```
 
@@ -99,8 +102,9 @@ In the next test, sampleTestWDataProvider, the App class is used to generate ele
 to interact with; type a search term, submit the search term and the wait for the page to load. 
 We then use that same element in order to verify the title contains the same search term. The 
 'google search terms' dataProvider provides a search term to the test. In the third test, a call 
-is made to the main google page, with the parameters of q equaling 'cheese'. For more information 
-on the App and Call class plus all the other classes used by Selenified, check out the 
+is made to the google maps api to retrieve the GPS coordinates of the city of Chicago, then verify
+the response code.
+For more information on the App and Call class plus all the other classes used by Selenified, check out the
 documentation [here](https://msaperst.github.io).
 
 ## Writing Tests
@@ -528,6 +532,11 @@ address and port in the parameter
 ```
 -Dproxy=localhost:5013
 ```
+#### Headless
+Currently, only Chrome and Firefox supports running in headless mode. To achieve this, simply pass in the parameter `headless`
+```
+-Dheadless
+```
 
 ### Eclipse
 Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
@@ -680,7 +689,3 @@ and set it to true
 mvn clean verify -Dbrowser=Firefox -DpackageResults=true
 ```
 The zipped results will be placed in the same directory as the test results
-
-## Open Issues
-Note that there are a few open issues with the framework
-* Running blur and type keys on a Mac can fail when threaded. Be cautious when running these tests

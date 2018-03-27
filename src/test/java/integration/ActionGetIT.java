@@ -1,16 +1,9 @@
 package integration;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -18,9 +11,11 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.application.App;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ActionGetIT extends Selenified {
 
@@ -35,34 +30,34 @@ public class ActionGetIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getBrowser method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getBrowser method")
     public void getBrowserTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        if (app.getBrowser().equals("NONE")) {
+        if (app.getBrowser() == Browser.NONE) {
             app.getOutputFile().addError();
         }
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getCapabilities method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getCapabilities method")
     public void getCapabilitiesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        if (app.getCapabilities().equals(null)) {
+        if (app.getCapabilities() == null) {
             app.getOutputFile().addError();
         }
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration test to check the getCookie method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration test to check the getCookie method")
     public void getCookieTest() throws IOException, ParseException {
         // the cookie date
         String dateval = "2019-12-18T12:00:00";
@@ -77,8 +72,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration negative test to check the getCookie method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration negative test to check the getCookie method")
     public void negativeGetCookieTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -89,8 +84,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration test to check the getCookieValue method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration test to check the getCookieValue method")
     public void getCookieValueTest() throws IOException, ParseException {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -101,8 +96,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration negative test to check the getCookieValue method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration negative test to check the getCookieValue method")
     public void negativeGetCookieValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -113,8 +108,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration test to check the getCookiePath method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration test to check the getCookiePath method")
     public void getCookiePathTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -125,8 +120,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration negative test to check the getCookiePath method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration negative test to check the getCookiePath method")
     public void negativeGetCookiePathTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -137,8 +132,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration test to check the getCookieDomain method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration test to check the getCookieDomain method")
     public void getCookieDomainTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -149,8 +144,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration negative test to check the getCookieDomain method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration negative test to check the getCookieDomain method")
     public void negativeGetCookieDomainTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -161,8 +156,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration test to check the getCookieExpiration method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration test to check the getCookieExpiration method")
     public void getCookieExpirationTest() throws IOException, ParseException {
         // the cookie date
         String dateval = "2019-12-18T12:00:00";
@@ -177,8 +172,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get", "cookie",
-            "virtual" }, description = "An integration negative test to check the getCookieExpiration method")
+    @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration negative test to check the getCookieExpiration method")
     public void negativeGetCookieExpirationTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -189,20 +184,20 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectOptions method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectOptions method")
     public void getSelectOptionsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         String[] options = app.newElement(Locator.NAME, "car_list").get().selectOptions();
-        Assert.assertEquals(options, new String[] { "Volvo", "Saab", "Mercedes", "Audi" });
+        Assert.assertEquals(options, new String[]{"Volvo", "Saab", "Mercedes", "Audi"});
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectOptions method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectOptions method")
     public void getSelectOptionsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -213,20 +208,20 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectOptions method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectOptions method")
     public void getSelectValuesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         String[] options = app.newElement(Locator.NAME, "car_list").get().selectValues();
-        Assert.assertEquals(options, new String[] { "volvo", "saab", "mercedes", "audi" });
+        Assert.assertEquals(options, new String[]{"volvo", "saab", "mercedes", "audi"});
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectOptions method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectOptions method")
     public void getSelectValuesNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -237,8 +232,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getNumOfSelectOptions method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getNumOfSelectOptions method")
     public void getNumOfSelectOptionsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -249,8 +244,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getNumOfSelectOptions method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getNumOfSelectOptions method")
     public void getNumOfSelectOptionsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -261,8 +256,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getNumOfTableRows method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getNumOfTableRows method")
     public void getNumOfTableRowsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -273,8 +268,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getNumOfTableRows method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getNumOfTableRows method")
     public void getNumOfTableRowsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -285,8 +280,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getNumOfTableColumns method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getNumOfTableColumns method")
     public void getNumOfTableColumnsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -297,8 +292,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getNumOfTableColumns method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getNumOfTableColumns method")
     public void getNumOfTableColumnsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -309,8 +304,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableRow method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableRow method")
     public void getTableRowTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -325,8 +320,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableRow method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableRow method")
     public void getTableRowNoRowTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -337,8 +332,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableRow method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableRow method")
     public void getTableRowNotTableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -349,8 +344,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableRow method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableRow method")
     public void getTableRowNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -361,23 +356,23 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableRow method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableRow method")
     public void getTableRowsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         List<WebElement> rows = app.newElement(Locator.ID, "table", 1).get().tableRows();
         Assert.assertEquals(rows.size(), 7);
-        Assert.assertTrue(rows.get(0).getText().matches("Company\\s*Contact\\s*Country"));
+        Assert.assertTrue(rows.get(0).getText().matches("\\s*Company\\s*Contact\\s*Country"));
         Assert.assertTrue(
                 rows.get(1).getText().matches("President\\s*Alfreds\\s*Futterkiste\\s*Maria\\s*Anders\\s*Germany"));
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableRow method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableRow method")
     public void getTableRowsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -388,8 +383,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableColumn method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableColumn method")
     public void getTableColumnTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -407,8 +402,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableColumn method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableColumn method")
     public void getTableColumnNoColumnTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -419,8 +414,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableColumn method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableColumn method")
     public void getTableColumnNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -431,8 +426,20 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableColumn method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableColumn method")
+    public void getTableColumnNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        List<WebElement> column = app.newElement(Locator.ID, "transparent_input").get().tableColumn(1);
+        Assert.assertNull(column);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableColumn method")
     public void getTableColumnsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -450,8 +457,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableColumn method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableColumn method")
     public void getTableColumnsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -462,8 +469,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableCell method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableCell method")
     public void getTableCellTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -474,8 +481,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableCell method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellWideTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -486,8 +493,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableCell method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellLongTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -498,8 +505,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableCell method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -510,8 +517,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getTableCell method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getTableCell method")
     public void getTableCellNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -522,8 +529,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedText method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedText method")
     public void getSelectedTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -534,8 +541,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedText method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedText method")
     public void getSelectedTextNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -546,8 +553,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedText method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedText method")
     public void getSelectedTextNotSelectTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -558,20 +565,20 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedTexts method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         String[] text = app.newElement(Locator.ID, "car_list").get().selectedOptions();
-        Assert.assertEquals(text, new String[] { "Volvo" });
+        Assert.assertEquals(text, new String[]{"Volvo"});
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedTexts method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -582,8 +589,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedTexts method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsNotSelectTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -594,8 +601,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedValue method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -606,8 +613,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedValue method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -618,8 +625,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedValue method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueNotSelectTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -630,20 +637,20 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedValues method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         String[] value = app.newElement(Locator.ID, "car_list").get().selectedValues();
-        Assert.assertEquals(value, new String[] { "volvo" });
+        Assert.assertEquals(value, new String[]{"volvo"});
         // verify no issues
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedValues method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -654,8 +661,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getSelectedValues method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesNotSelectTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -666,8 +673,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getText method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getText method")
     public void getTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -678,8 +684,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getText method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getText method")
     public void getTextNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -690,8 +695,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getValue method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getValue method")
     public void getValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -702,8 +706,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getValue method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getValue method")
     public void getValueNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -714,8 +717,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getValue method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getValue method")
     public void getValueNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -726,7 +728,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getCss method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
     public void getCssTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -737,7 +739,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getCss method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
     public void getCssWonkyTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -748,7 +750,18 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getCss method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
+    public void getCssNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        String css = app.newElement(Locator.ID, "disable_click", 0).get().css(null);
+        Assert.assertNull(css);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
     public void getCssNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -759,8 +772,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getAttribute method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getAttribute method")
     public void getAttributeTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -771,8 +784,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getAttribute method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getAttribute method")
     public void getAttributeWonkyTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -783,8 +796,20 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getAttribute method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getAttribute method")
+    public void getAttributeNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        String attribute = app.newElement(Locator.ID, "disable_click", 0).get().attribute(null);
+        Assert.assertNull(attribute);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getAttribute method")
     public void getAttributeNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -795,8 +820,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getAllAttribute method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getAllAttribute method")
     public void getAllAttributeTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -810,8 +835,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getAllAttribute method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getAllAttribute method")
     public void getAllAttributeNoneTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -823,8 +848,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "A negative integration test to check the getAllAttribute method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "A negative integration test to check the getAllAttribute method")
     public void getAllAttributeNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -835,7 +860,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
     public void getEvalTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -846,7 +871,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get" }, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
     public void getElementEvalTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -857,8 +882,19 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "A negative integration test to check the getEval method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    public void getElementEvalNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        String location = (String) app.newElement(Locator.ID, "disable_click", 0).get().eval(null);
+        Assert.assertNull(location);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "A negative integration test to check the getEval method")
     public void getElementEvalNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -869,8 +905,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getPrompt method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getPrompt method")
     public void getPromptTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -882,8 +917,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "A integration negative test to check the getPrompt method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "A integration negative test to check the getPrompt method")
     public void negativeGetPromptTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -893,8 +928,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getConfirmation method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getConfirmation method")
     public void getConfirmationTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -906,8 +941,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration negative test to check the getConfirmation method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration negative test to check the getConfirmation method")
     public void negativeGetConfirmationTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -917,8 +952,7 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration test to check the getAlert method")
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getAlert method")
     public void getAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -931,8 +965,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions",
-            "get" }, description = "An integration negative test to check the getAlert method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration negative test to check the getAlert method")
     public void negativeGetAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -942,8 +976,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getHtmlSource method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getHtmlSource method")
     public void getHtmlSourceTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -955,8 +989,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getElementMatchCount method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -966,8 +1000,8 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration test to check the getElementMatchCount method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountMultipleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -977,13 +1011,44 @@ public class ActionGetIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration", "actions", "get",
-            "virtual" }, description = "An integration negative test to check the getElementMatchCount method")
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration negative test to check the getElementMatchCount method")
     public void getElementMatchCountNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         Assert.assertEquals(app.newElement(Locator.ID, "non-existent-name").get().matchCount(), 0);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getXPath method")
+    public void getElementXPathTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.newElement(Locator.CLASSNAME, "overlay").get().xPath(), "id(\"overlay_span\")");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getXPath method")
+    public void getElementXPathDivTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.newElement(Locator.TAGNAME, "tr").get().xPath(), "id(\"align_table\")/tbody[1]/tr[1]");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration negative test to check the getXPath method")
+    public void getElementXPathNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertNull(app.newElement(Locator.ID, "non-existent-name").get().xPath());
         // verify no issues
         finish();
     }

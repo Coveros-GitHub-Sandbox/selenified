@@ -26,12 +26,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.element.Element;
-
 /**
  * Is retrieves information about a particular element. A boolean is always
  * returning, indicating if an object is present or not
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -41,7 +39,7 @@ public class Is {
     private static final Logger log = Logger.getLogger(Is.class);
 
     // what element are we trying to interact with on the page
-    private Element element;
+    private final Element element;
 
     // constants
     private static final String SELECT = "select";
@@ -65,7 +63,7 @@ public class Is {
             element.getWebElement().getText();
             isPresent = true;
         } catch (NoSuchElementException | StaleElementReferenceException e) {
-            log.error(e);
+            log.info(e);
         }
         return isPresent;
     }
@@ -80,13 +78,13 @@ public class Is {
         boolean isInput = false;
         try {
             WebElement webElement = element.getWebElement();
-            if ("input".equalsIgnoreCase(webElement.getTagName())
-                    || "textarea".equalsIgnoreCase(webElement.getTagName())
-                    || SELECT.equalsIgnoreCase(webElement.getTagName())) {
+            if ("input".equalsIgnoreCase(webElement.getTagName()) ||
+                    "textarea".equalsIgnoreCase(webElement.getTagName()) ||
+                    SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 isInput = true;
             }
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isInput;
     }
@@ -104,7 +102,7 @@ public class Is {
                 isSelect = true;
             }
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isSelect;
     }
@@ -122,7 +120,7 @@ public class Is {
                 isTable = true;
             }
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isTable;
     }
@@ -137,7 +135,7 @@ public class Is {
         try {
             isEnabled = element.getWebElement().isEnabled();
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isEnabled;
     }
@@ -152,7 +150,7 @@ public class Is {
         try {
             isChecked = element.getWebElement().isSelected();
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isChecked;
     }
@@ -167,7 +165,7 @@ public class Is {
         try {
             isDisplayed = element.getWebElement().isDisplayed();
         } catch (NoSuchElementException e) {
-            log.error(e);
+            log.info(e);
         }
         return isDisplayed;
     }
@@ -176,7 +174,7 @@ public class Is {
      * Determines whether the element has something selected or not. Checkboxes,
      * radio buttons, and selects could all have something selected. Other
      * elements will default to false.
-     * 
+     *
      * @return Boolean: is something selected or not
      */
     public boolean somethingSelected() {
@@ -187,7 +185,7 @@ public class Is {
                 isSelected = webElement.isSelected();
             } else if (SELECT.equalsIgnoreCase(webElement.getTagName())) {
                 Select dropdown = new Select(webElement);
-                isSelected = dropdown.getAllSelectedOptions().size() > 0;
+                isSelected = !dropdown.getAllSelectedOptions().isEmpty();
             }
         }
         return isSelected;

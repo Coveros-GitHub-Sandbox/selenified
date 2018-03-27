@@ -20,37 +20,29 @@
 
 package com.coveros.selenified.application;
 
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.element.Element;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.TestSetup;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.log4testng.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.Augmenter;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.log4testng.Logger;
-
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.element.Element;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.utilities.TestSetup;
-
 /**
  * App is an instance of the browser based application that is under test.
- * 
+ * <p>
  * Pages should be build out of this object (if using the page object model
  * (POM)), so that several pages make up an app. Within each page, multiple
  * elements should be created. In this way, we can act on our app, page, or
@@ -66,7 +58,7 @@ public class App {
     private static final Logger log = Logger.getLogger(TestSetup.class);
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private final OutputFile file;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
@@ -74,8 +66,8 @@ public class App {
 
     // what browsers are we interested in implementing
     // this is the browser that we are using
-    private Browser browser;
-    private DesiredCapabilities capabilities;
+    private final Browser browser;
+    private final DesiredCapabilities capabilities;
 
     // keeps track of the initial window open
     private String parentWindow;
@@ -100,22 +92,17 @@ public class App {
      * Sets up the app object. Browser, and Output are defined here, which will
      * control actions and all logging and records
      *
-     * @param browser
-     *            - the Browser we are running the test on
-     * @param capabilities
-     *            - what browser capabilities are desired
-     * @param file
-     *            - the TestOutput file. This is provided by the
-     *            SeleniumTestBase functionality
-     * @throws InvalidBrowserException
-     *             If a browser that is not one specified in the
-     *             Selenium.Browser class is used, this exception will be thrown
-     * @throws MalformedURLException
-     *             If the provided hub address isn't a URL, this exception will
-     *             be thrown
+     * @param browser      - the Browser we are running the test on
+     * @param capabilities - what browser capabilities are desired
+     * @param file         - the TestOutput file. This is provided by the
+     *                     SeleniumTestBase functionality
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be thrown
+     * @throws MalformedURLException   If the provided hub address isn't a URL, this exception will
+     *                                 be thrown
      */
-    public App(Browser browser, DesiredCapabilities capabilities, OutputFile file)
-            throws InvalidBrowserException, MalformedURLException {
+    public App(Browser browser, DesiredCapabilities capabilities,
+               OutputFile file) throws InvalidBrowserException, MalformedURLException {
         if (browser == null) {
             this.browser = Browser.NONE;
         } else {
@@ -145,11 +132,9 @@ public class App {
 
     /**
      * setups a new element which is located on the page
-     * 
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
+     *
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator) {
@@ -158,14 +143,11 @@ public class App {
 
     /**
      * setups a new element which is located on the page
-     * 
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param match
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
+     *
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param match   - if there are multiple matches of the selector, this is which
+     *                match (starting at 0) to interact with
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, int match) {
@@ -224,7 +206,7 @@ public class App {
      * Retrieves the Selenium driver instance
      *
      * @return WebDriver: access to the driver controlling the browser via
-     *         webdriver
+     * webdriver
      */
     public WebDriver getDriver() {
         return driver;
@@ -268,7 +250,7 @@ public class App {
         try {
             driver.quit();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
         }
     }
 
@@ -279,8 +261,7 @@ public class App {
     /**
      * Pauses the test for a set amount of time
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void wait(double seconds) {
         String action = "Wait " + seconds + SECONDS;
@@ -288,7 +269,7 @@ public class App {
         try {
             Thread.sleep((long) (seconds * 1000));
         } catch (InterruptedException e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
@@ -301,8 +282,7 @@ public class App {
     /**
      * Navigates to a new url
      *
-     * @param url
-     *            - the URL to navigate to
+     * @param url - the URL to navigate to
      */
     public void goToURL(String url) {
         String action = "Loading " + url;
@@ -311,7 +291,7 @@ public class App {
         try {
             driver.get(url);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, "Fail to Load " + url + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
@@ -324,9 +304,8 @@ public class App {
     /**
      * Takes a full screenshot of the entire page
      *
-     * @param imageName
-     *            - the name of the image typically generated via functions from
-     *            TestOutput.generateImageName
+     * @param imageName - the name of the image typically generated via functions from
+     *                  TestOutput.generateImageName
      */
     public void takeScreenshot(String imageName) {
         if (browser == Browser.HTMLUNIT) {
@@ -335,7 +314,7 @@ public class App {
         try {
             // take a screenshot
             File srcFile;
-            if (System.getProperty("hubAddress") != "LOCAL") {
+            if (System.getProperty("hub") != null) {
                 WebDriver augemented = new Augmenter().augment(driver);
                 srcFile = ((TakesScreenshot) augemented).getScreenshotAs(OutputType.FILE);
             } else {
@@ -344,61 +323,29 @@ public class App {
             // now we need to save the file
             FileUtils.copyFile(srcFile, new File(imageName));
         } catch (IOException e) {
-            log.error("Error taking screenshot: " + e);
+            log.error("IO Error taking screenshot: " + e);
         }
     }
 
     /**
      * Sends a key combination both as control and command (PC and Mac
-     * compatibile)
-     * 
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * @param fail
-     *            - the failed result
-     * @param key
-     *            - what key to send along with control and/or command
-     * @return Boolean: returns a true if the keys were successfully sent, a
-     *         false if they were not
+     * compatible)
+     *
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param fail     - the failed result
+     * @param key      - what key to send along with control and/or command
      */
-    private boolean sendControlAndCommand(String action, String expected, String fail, String key) {
+    private void sendControlAndCommand(String action, String expected, String fail, Keys key) {
         try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + key);
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + key);
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, key));
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, key));
         } catch (Exception e) {
             file.recordAction(action, expected, fail + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
-            return false;
+            log.warn(e);
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
-        return true;
-    }
-
-    /**
-     * Opens a new tab, and have it selected. Note, no content will be present
-     * on this new tab, use the goToURL method to open load some content
-     * 
-     * @return Boolean: returns a true if a tab was successfully opened, a false
-     *         if it was not.
-     */
-    public boolean openTab() {
-        return sendControlAndCommand("Opening new tab", "New tab is opened", "New tab was unable to be opened. ", "t");
-    }
-
-    /**
-     * Opens a new tab, and have it selected. The page provided will be loaded
-     * 
-     * @param url
-     *            - the url to load once the new tab is opened and selected
-     */
-    public void openTab(String url) {
-        if (!openTab()) {
-            return;
-        }
-        goToURL(url);
     }
 
     /**
@@ -408,18 +355,8 @@ public class App {
      * that others.
      */
     public void switchNextTab() {
-        String action = "Switching to next tab ";
-        String expected = "Next tab <b>" + AVAILABLE;
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_DOWN));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_DOWN));
-        } catch (Exception e) {
-            file.recordAction(action, expected, "Next tab <b>" + NOTSELECTED + ". " + e.getMessage(), Result.FAILURE);
-            file.addError();
-            log.error(e);
-            return;
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
+        sendControlAndCommand("Switching to next tab", "Next tab <b>" + AVAILABLE, "Next tab <b>" + NOTSELECTED + ". ",
+                Keys.PAGE_DOWN);
     }
 
     /**
@@ -429,19 +366,8 @@ public class App {
      * that others.
      */
     public void switchPreviousTab() {
-        String action = "Switching to previous tab ";
-        String expected = "Previous tab <b>" + AVAILABLE;
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.PAGE_UP));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.PAGE_UP));
-        } catch (Exception e) {
-            file.recordAction(action, expected, "Previous tab <b>" + NOTSELECTED + ". " + e.getMessage(),
-                    Result.FAILURE);
-            file.addError();
-            log.error(e);
-            return;
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
+        sendControlAndCommand("Switching to previous tab", "Previous tab <b>" + AVAILABLE,
+                "Previous tab <b>" + NOTSELECTED + ". ", Keys.PAGE_UP);
     }
 
     /**
@@ -450,7 +376,17 @@ public class App {
      * this, as the browser will be terminated as well
      */
     public void closeTab() {
-        sendControlAndCommand("Closing currently open tab", "Tab is closed", "Tab was unable to be closed. ", "w");
+        String action = "Closing currently open tab";
+        String expected = "Tab is closed";
+        try {
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "w");
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Tab was unable to be closed. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
     }
 
     /**
@@ -465,7 +401,7 @@ public class App {
             file.recordAction(action, expected, "Browser was unable to go back one page. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -483,7 +419,7 @@ public class App {
             file.recordAction(action, expected, "Browser was unable to go forward one page. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -501,7 +437,7 @@ public class App {
             file.recordAction(action, expected, "Browser was unable to be refreshed. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -515,26 +451,15 @@ public class App {
      * new/fresh/clean session
      */
     public void refreshHard() {
-        String action = "Reloading current page while clearing the cache";
-        String expected = "Cache is cleared, and the page is refreshed";
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
-        } catch (Exception e) {
-            file.recordAction(action, expected,
-                    "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Result.FAILURE);
-            file.addError();
-            log.error(e);
-            return;
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
+        sendControlAndCommand("Reloading current page while clearing the cache",
+                "Cache is cleared, and the page is refreshed",
+                "There was a problem clearing the cache and reloading the page. ", Keys.F5);
     }
 
     /**
      * Adds a cookie to the application for this particular test
-     * 
-     * @param cookie
-     *            - the details of the cookie to set
+     *
+     * @param cookie - the details of the cookie to set
      */
     public void setCookie(Cookie cookie) {
         String domain = cookie.getDomain();
@@ -543,17 +468,17 @@ public class App {
         String path = cookie.getPath();
         String value = cookie.getValue();
 
-        String action = "Setting up cookie with attributes:<div><table><tbody><tr><td>Domain</td><td>" + domain
-                + "</tr><tr><td>Expiration</td><td>" + expiry.toString() + "</tr><tr><td>Name</td><td>" + name
-                + "</tr><tr><td>Path</td><td>" + path + "</tr><tr><td>Value</td><td>" + value
-                + "</tr></tbody></table></div><br/>";
+        String action = "Setting up cookie with attributes:<div><table><tbody><tr><td>Domain</td><td>" + domain +
+                "</tr><tr><td>Expiration</td><td>" + expiry.toString() + "</tr><tr><td>Name</td><td>" + name +
+                "</tr><tr><td>Path</td><td>" + path + "</tr><tr><td>Value</td><td>" + value +
+                "</tr></tbody></table></div><br/>";
         String expected = "Cookie is added";
         try {
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
             file.recordAction(action, expected, "Unable to add cookie. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -563,27 +488,26 @@ public class App {
      * Deletes a stored cookie, indicated by the cookieName for this particular
      * test. If the cookie by the provided name isn't present, than an error
      * will be logged and recorded
-     * 
-     * @param cookieName
-     *            - the name of the cookie to delete
+     *
+     * @param cookieName - the name of the cookie to delete
      */
     public void deleteCookie(String cookieName) {
         String action = "Deleting cookie <i>" + cookieName + "</i>";
         String expected = "Cookie <i>" + cookieName + "</i> is removed";
-        Cookie cookie = driver.manage().getCookieNamed(cookieName);
-        if (cookie == null) {
-            file.recordAction(action, expected,
-                    "Unable to remove cookie <i>" + cookieName + "</i> as it doesn't exist.", Result.FAILURE);
-            file.addError();
-            return;
-        }
         try {
+            Cookie cookie = driver.manage().getCookieNamed(cookieName);
+            if (cookie == null) {
+                file.recordAction(action, expected,
+                        "Unable to remove cookie <i>" + cookieName + "</i> as it doesn't exist.", Result.FAILURE);
+                file.addError();
+                return;
+            }
             driver.manage().deleteCookieNamed(cookieName);
         } catch (Exception e) {
             file.recordAction(action, expected, "Unable to remove cookie <i>" + cookieName + "</i>. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -601,7 +525,7 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Unable to remove all cookies. " + e.getMessage(), Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -620,7 +544,7 @@ public class App {
             file.recordAction(action, expected, "Browser was unable to be maximized. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -632,20 +556,28 @@ public class App {
      * page isn't long enough to support scrolling to the desired position, than
      * an error will be logged and recorded
      *
-     * @param desiredPosition
-     *            - the position on the page to scroll to
+     * @param desiredPosition - the position on the page to scroll to
      */
     public void scroll(int desiredPosition) {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        Long initialPosition = (Long) jse.executeScript("return window.scrollY;");
+        String action = "Scrolling page by " + desiredPosition + " pixels";
+        String expected = "Page is scrolled down " + desiredPosition + " pixels";
+        Long newPosition;
+        try {
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            Long initialPosition = (Long) jse.executeScript("return window.scrollY;");
 
-        String action = "Scrolling page from " + initialPosition + " to " + desiredPosition;
-        String expected = "Page is now set at position " + desiredPosition;
+            action = "Scrolling page from " + initialPosition + " to " + desiredPosition;
+            expected = "Page is now set at position " + desiredPosition;
 
-        jse.executeScript("window.scrollBy(0, " + desiredPosition + ")");
+            jse.executeScript("window.scrollBy(0, " + desiredPosition + ")");
 
-        Long newPosition = (Long) jse.executeScript("return window.scrollY;");
-
+            newPosition = (Long) jse.executeScript("return window.scrollY;");
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Unable to scroll on the page. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+            return;
+        }
         if (newPosition != desiredPosition) {
             file.recordAction(action, expected, "Page is set at position " + newPosition, Result.FAILURE);
             file.addError();
@@ -655,11 +587,37 @@ public class App {
     }
 
     /**
+     * Opens a new tab, and have it selected. The page provided will be loaded
+     *
+     * @param url - the url to load once the new tab is opened and selected
+     */
+    public void openNewWindow(String url) {
+        String action = "Opening new window to url " + url;
+        String expected = "New window is opened to url " + url;
+        try {
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("window.open('" + url + "','_blank');");
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Unable to open window tab. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+            return;
+        }
+        switchToNewWindow();
+        waitFor().location(url);
+        if (!get().location().equals(url)) {
+            file.recordAction(action, expected, "Unable to open new window to " + url, Result.FAILURE);
+            file.addError();
+            return;
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
      * Switches to the next window. This is an alternative to switchNextTab or
      * switchPreviousTab, as this works better for some systems and environments
      * that others.
      */
-
     public void switchToNewWindow() {
         String action = "Switching to the new window";
         String expected = "New window is available and selected";
@@ -672,7 +630,7 @@ public class App {
             file.recordAction(action, expected, "New window was unable to be selected. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -683,7 +641,6 @@ public class App {
      * switchNextTab or switchPreviousTab, as this works better for some systems
      * and environments that others.
      */
-
     public void switchToParentWindow() {
         String action = "Switching back to parent window";
         String expected = "Parent window is available and selected";
@@ -693,7 +650,7 @@ public class App {
             file.recordAction(action, expected, "Parent window was unable to be selected. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -705,7 +662,6 @@ public class App {
      * switchToParentWindow methods. This is an alternative to closeTab, as this
      * works better for some systems and environments that others.
      */
-
     public void closeCurrentWindow() {
         String action = "Closing currently selected window";
         String expected = "Current window is closed";
@@ -715,7 +671,45 @@ public class App {
             file.recordAction(action, expected, "Current window was unable to be closed. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
+            return;
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
+     * Select the main window. Used for returning to the main content after
+     * selecting a frame. If there are nested frames, the main content will be
+     * selected, not the next frame in the parent child relationship
+     */
+    public void selectMainWindow() {
+        String action = "Switching to main window";
+        String expected = "Main window is selected";
+        try {
+            driver.switchTo().defaultContent();
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Main window was not selected. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+            return;
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
+     * Select the parent frame. Used for returning to the next frame up after
+     * selecting a frame. If there are nested frames, the main content won't be
+     * selected, however the next frame in the parent child relationship will be
+     */
+    public void selectParentFrame() {
+        String action = "Switching to parent frame";
+        String expected = "Parent frame is selected";
+        try {
+            driver.switchTo().parentFrame();
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Parent frame was not selected. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -726,9 +720,8 @@ public class App {
      * frames, the first frame would be at index 0, the second at index 1 and
      * the third at index 2. Once the frame has been selected, all subsequent
      * calls on the WebDriver interface are made to that frame.
-     * 
-     * @param frameNumber
-     *            - the frame number, starts at 0
+     *
+     * @param frameNumber - the frame number, starts at 0
      */
     public void selectFrame(int frameNumber) {
         String action = "Switching to frame <b>" + frameNumber + "</b>";
@@ -739,7 +732,7 @@ public class App {
             file.recordAction(action, expected, FRAME + frameNumber + NOTSELECTED + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -748,9 +741,8 @@ public class App {
     /**
      * Select a frame by its name or ID. Frames located by matching name
      * attributes are always given precedence over those matched by ID.
-     * 
-     * @param frameIdentifier
-     *            - the frame name or ID
+     *
+     * @param frameIdentifier - the frame name or ID
      */
     public void selectFrame(String frameIdentifier) {
         String action = "Switching to frame <b>" + frameIdentifier + "</b>";
@@ -761,7 +753,7 @@ public class App {
             file.recordAction(action, expected, FRAME + frameIdentifier + NOTSELECTED + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
-            log.error(e);
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
@@ -773,23 +765,20 @@ public class App {
 
     /**
      * Accept (click 'OK' on) whatever popup is present on the page
-     * 
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * @param popup
-     *            - the element we are interacting with
+     *
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param popup    - the element we are interacting with
      */
     private void accept(String action, String expected, String popup) {
         try {
             Alert alert = driver.switchTo().alert();
             alert.accept();
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action, expected, "Unable to click 'OK' on the " + popup + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, "Clicked 'OK' on the " + popup, Result.SUCCESS);
@@ -797,20 +786,17 @@ public class App {
 
     /**
      * Dismiss (click 'Cancel' on) whatever popup is present on the page
-     * 
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * @param popup
-     *            - the element we are interacting with
+     *
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param popup    - the element we are interacting with
      */
     private void dismiss(String action, String expected, String popup) {
         try {
             Alert alert = driver.switchTo().alert();
             alert.dismiss();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, "Unable to click 'Cancel' on the " + popup + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
@@ -823,12 +809,9 @@ public class App {
      * Determines if a confirmation is present or not, and can be interacted
      * with. If it's not present, an indication that the confirmation can't be
      * clicked on is written to the log file
-     * 
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * 
+     *
+     * @param action   - the action occurring
+     * @param expected - the expected result
      * @return Boolean: is a confirmation actually present or not.
      */
     private boolean isConfirmation(String action, String expected) {
@@ -847,13 +830,10 @@ public class App {
      * Determines if a prompt is present or not, and can be interacted with. If
      * it's not present, an indication that the confirmation can't be clicked on
      * is written to the log file
-     * 
-     * @param action
-     *            - the action occurring
-     * @param expected
-     *            - the expected result
-     * @param perform
-     *            - the action occurring to the prompt
+     *
+     * @param action   - the action occurring
+     * @param expected - the expected result
+     * @param perform  - the action occurring to the prompt
      * @return Boolean: is a prompt actually present or not.
      */
     private boolean isPrompt(String action, String expected, String perform) {
@@ -936,9 +916,8 @@ public class App {
 
     /**
      * Type text into a prompt box
-     * 
-     * @param text
-     *            - the text to type into the prompt
+     *
+     * @param text - the text to type into the prompt
      */
     public void typeIntoPrompt(String text) {
         String action = "Typing text '" + text + "' into prompt";
@@ -950,9 +929,9 @@ public class App {
             Alert alert = driver.switchTo().alert();
             alert.sendKeys(text);
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action, expected, "Unable to type into prompt. " + e.getMessage(), Result.FAILURE);
             file.addError();
+            log.warn(e);
             return;
         }
         file.recordAction(action, expected, "Typed text '" + text + "' into prompt", Result.SUCCESS);

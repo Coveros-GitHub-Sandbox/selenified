@@ -1,25 +1,24 @@
 package unit;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
+import com.coveros.selenified.Browser;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.OutputFile.Success;
-import com.coveros.selenified.Browser;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OutputFileTest {
 
@@ -304,14 +303,14 @@ public class OutputFileTest {
 
     @Test
     public void outputRequestPropertiesEmptyParamsTest() {
-        Request request = new Request(new HashMap<String, String>());
+        Request request = new Request(new HashMap<>());
         Assert.assertEquals(outputFile.outputRequestProperties(request),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>");
     }
 
     @Test
     public void outputRequestPropertiesParamsTest() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request(map);
         Assert.assertEquals(outputFile.outputRequestProperties(request),
@@ -320,7 +319,7 @@ public class OutputFileTest {
 
     @Test
     public void outputRequestPropertiesBothTest() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request(map);
         JsonObject json = new JsonObject();

@@ -20,11 +20,6 @@
 
 package com.coveros.selenified.element;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -32,10 +27,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Get retrieves information about a particular element. If an object isn't
  * present, null will be returned
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/14/2017
@@ -44,11 +44,11 @@ public class Get {
     private static final Logger log = Logger.getLogger(Get.class);
 
     // what element are we trying to interact with on the page
-    private Element element;
+    private final Element element;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // constants
     private static final String VALUE = "value";
@@ -65,7 +65,7 @@ public class Get {
     /**
      * Retrieves the number of elements on the page, that match this element's
      * description
-     * 
+     *
      * @return Integer: how many element match the selector
      */
     public int matchCount() {
@@ -74,16 +74,11 @@ public class Get {
 
     /**
      * Determines if the element is both present and a select.
-     * 
-     * @param element
-     *            - the element to be checked
+     *
      * @return Boolean: is the element present AND an input
      */
     private boolean isPresentSelect() {
-        if (!element.is().present()) {
-            return false;
-        }
-        return element.is().select();
+        return element.is().present() && element.is().select();
     }
 
     /**
@@ -193,8 +188,7 @@ public class Get {
      * present, the css attribute doesn't exist, or the attributes can't be
      * accessed, a null value will be returned.
      *
-     * @param attribute
-     *            - the css attribute to be returned
+     * @param attribute - the css attribute to be returned
      * @return String: the value of the css attribute
      */
     public String css(String attribute) {
@@ -205,7 +199,7 @@ public class Get {
             WebElement webElement = element.getWebElement();
             return webElement.getCssValue(attribute);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -215,8 +209,7 @@ public class Get {
      * present, the attribute doesn't exist, or the attributes can't be
      * accessed, a null value will be returned.
      *
-     * @param attribute
-     *            - the css attribute to be returned
+     * @param attribute - the css attribute to be returned
      * @return String: the value of the css attribute
      */
     public String attribute(String attribute) {
@@ -227,7 +220,7 @@ public class Get {
             WebElement webElement = element.getWebElement();
             return webElement.getAttribute(attribute);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -250,7 +243,7 @@ public class Get {
                     "var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;",
                     webElement);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -259,9 +252,8 @@ public class Get {
      * Executes a provided script on the element, and returns the output of that
      * script. If the element doesn't exist, or there is an error executing this
      * script, a null value will be returned.
-     * 
-     * @param javascriptFunction
-     *            - the javascript function that is going to be executed
+     *
+     * @param javascriptFunction - the javascript function that is going to be executed
      * @return Object: any resultant output from the javascript command
      */
     public Object eval(String javascriptFunction) {
@@ -273,7 +265,7 @@ public class Get {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             return js.executeScript(javascriptFunction, webElement);
         } catch (NoSuchMethodError | Exception e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
@@ -281,9 +273,9 @@ public class Get {
     /**
      * Retrieves the number of select options in the element. If the element
      * isn't present or a select, the returned response will be zero.
-     * 
+     *
      * @return Integer: how many select options are available in the select
-     *         element
+     * element
      */
     public int numOfSelectOptions() {
         if (!isPresentSelect()) {
@@ -340,7 +332,7 @@ public class Get {
     /**
      * Retrieves the number of rows in the element. If the element isn't present
      * or a table, the returned response will be zero
-     * 
+     *
      * @return Integer: the number of rows the table has
      */
     public int numOfTableRows() {
@@ -419,9 +411,8 @@ public class Get {
      * or a table, a null value will be returned. If the specified row is out of
      * range, an empty list is returned
      *
-     * @param rowNum
-     *            - the row number of the table to obtain - note, row numbering
-     *            starts at 1, NOT 0
+     * @param rowNum - the row number of the table to obtain - note, row numbering
+     *               starts at 1, NOT 0
      * @return List: a list of the table cells in the row as WebElements
      */
     public List<WebElement> tableRow(int rowNum) {
@@ -436,9 +427,7 @@ public class Get {
         WebElement thisRow = rows.get(rowNum);
         List<WebElement> cells = thisRow.findElements(By.xpath(".//th|.//td"));
         List<WebElement> row = new ArrayList<>();
-        for (WebElement cell : cells) {
-            row.add(cell);
-        }
+        row.addAll(cells);
         return row;
     }
 
@@ -447,9 +436,8 @@ public class Get {
      * present or a table, a null value will be returned. If the specified row
      * is out of range, an empty list is returned
      *
-     * @param colNum
-     *            - the column number of the table to obtain - note, column
-     *            numbering starts at 1, NOT 0
+     * @param colNum - the column number of the table to obtain - note, column
+     *               numbering starts at 1, NOT 0
      * @return List: a list of the table cells in the column as WebElements
      */
     public List<WebElement> tableColumn(int colNum) {
@@ -469,14 +457,12 @@ public class Get {
      * or a table, or the row and cell combination doesn't exist, a null value
      * will be returned.
      *
-     * @param rowNum
-     *            - the number of the row in the table - note, row numbering
-     *            starts at 1, NOT 0
-     * @param colNum
-     *            - the number of the column in the table - note, column
-     *            numbering starts at 1, NOT 0
+     * @param rowNum - the number of the row in the table - note, row numbering
+     *               starts at 1, NOT 0
+     * @param colNum - the number of the column in the table - note, column
+     *               numbering starts at 1, NOT 0
      * @return WebElement: the cell element object, and all associated values
-     *         with it
+     * with it
      */
     public WebElement tableCell(int rowNum, int colNum) {
         List<WebElement> row = tableRow(rowNum);
@@ -484,5 +470,16 @@ public class Get {
             return null;
         }
         return row.get(colNum);
+    }
+
+    /**
+     * Retrieves the xpath associated with the particular element. If the
+     * element doesn't exist, a null value will be returned
+     *
+     * @return String: the element's xpath
+     */
+    public String xPath() {
+        return (String) eval(
+                "gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();");
     }
 }

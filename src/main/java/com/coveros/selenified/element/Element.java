@@ -20,31 +20,23 @@
 
 package com.coveros.selenified.element;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.Locator;
-import com.coveros.selenified.element.Get;
-import com.coveros.selenified.element.Is;
-import com.coveros.selenified.element.WaitFor;
-import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Element an object representative of a web element on a particular page that
  * is under test.
- * 
+ * <p>
  * Elements should be directly interacted with, with actions performed on them,
  * and assertions make about their current state
  *
@@ -56,8 +48,8 @@ public class Element {
 
     private static final Logger log = Logger.getLogger(Element.class);
 
-    private Locator type;
-    private String locator;
+    private final Locator type;
+    private final String locator;
     private int match = 0;
 
     // this will be the name of the file we write all commands out to
@@ -107,17 +99,13 @@ public class Element {
      * information about the element, the locator type, and the actual selector
      * are defined to indicate which element to interact with on the current
      * page
-     * 
-     * @param driver
-     *            - the selenium web driver, the underlying way all actions and
-     *            assertions are controlled
-     * @param file
-     *            - the TestOutput file. This is provided by the
-     *            SeleniumTestBase functionality
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
+     *
+     * @param driver  - the selenium web driver, the underlying way all actions and
+     *                assertions are controlled
+     * @param file    - the TestOutput file. This is provided by the
+     *                SeleniumTestBase functionality
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
      */
     public Element(WebDriver driver, OutputFile file, Locator type, String locator) {
         this.type = type;
@@ -131,20 +119,15 @@ public class Element {
      * information about the element, the locator type, the actual selector, and
      * the element's uniqueness match are defined to indicate which element to
      * interact with on the current page
-     * 
-     * @param driver
-     *            - the selenium web driver, the underlying way all actions and
-     *            assertions are controlled
-     * @param file
-     *            - the TestOutput file. This is provided by the
-     *            SeleniumTestBase functionality
-     * @param type
-     *            - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator
-     *            - the locator string e.g. login, //input[@id='login']
-     * @param match
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
+     *
+     * @param driver  - the selenium web driver, the underlying way all actions and
+     *                assertions are controlled
+     * @param file    - the TestOutput file. This is provided by the
+     *                SeleniumTestBase functionality
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param match   - if there are multiple matches of the selector, this is which
+     *                match (starting at 0) to interact with
      */
     public Element(WebDriver driver, OutputFile file, Locator type, String locator, int match) {
         this.type = type;
@@ -155,13 +138,11 @@ public class Element {
 
     /**
      * A private method to finish setting up each element
-     * 
-     * @param driver
-     *            - the selenium web driver, the underlying way all actions and
-     *            assertions are controlled
-     * @param file
-     *            - the TestOutput file. This is provided by the
-     *            SeleniumTestBase functionality
+     *
+     * @param driver - the selenium web driver, the underlying way all actions and
+     *               assertions are controlled
+     * @param file   - the TestOutput file. This is provided by the
+     *               SeleniumTestBase functionality
      */
     private void init(WebDriver driver, OutputFile file) {
         this.driver = driver;
@@ -180,10 +161,9 @@ public class Element {
      * Indicates the uniqueness match of the element to interact with. By
      * default this is set to 0, meaning the first element matching the locator
      * and selector assumed
-     * 
-     * @param match
-     *            - if there are multiple matches of the selector, this is which
-     *            match (starting at 0) to interact with
+     *
+     * @param match - if there are multiple matches of the selector, this is which
+     *              match (starting at 0) to interact with
      */
     public void setMatch(int match) {
         this.match = match;
@@ -191,7 +171,7 @@ public class Element {
 
     /**
      * Retrieves the Locator set for this element
-     * 
+     *
      * @return Locator: the locator for the element
      */
     public Locator getType() {
@@ -200,7 +180,7 @@ public class Element {
 
     /**
      * Retrieves the selector set for this element
-     * 
+     *
      * @return String: the selector for the element
      */
     public String getLocator() {
@@ -209,7 +189,7 @@ public class Element {
 
     /**
      * Retrieves the uniqueness set for this element
-     * 
+     *
      * @return Integer: the uniqueness match for the element
      */
     public int getMatch() {
@@ -220,7 +200,7 @@ public class Element {
      * Retrieves the Selenium driver instance
      *
      * @return WebDriver: access to the driver controlling the browser via
-     *         webdriver
+     * webdriver
      */
     public WebDriver getDriver() {
         return driver;
@@ -229,7 +209,7 @@ public class Element {
     /**
      * Retrieves a nicely HTML formatted output which identifies the element by
      * locator and selector, which should be used at the beginning of a sentence
-     * 
+     *
      * @return String: text identifying how the element was located
      */
     public String prettyOutputStart() {
@@ -239,7 +219,7 @@ public class Element {
     /**
      * Retrieves a nicely HTML formatted output which identifies the element by
      * locator and selector, which can be used anywhere in a sentence
-     * 
+     *
      * @return String: text identifying how the element was located
      */
     public String prettyOutputLowercase() {
@@ -251,7 +231,7 @@ public class Element {
      * Retrieves a nicely HTML formatted output which identifies the element by
      * locator and selector, framed with spaces, which can be used anywhere in a
      * sentence
-     * 
+     *
      * @return String: text identifying how the element was located
      */
     public String prettyOutput() {
@@ -261,7 +241,7 @@ public class Element {
     /**
      * Retrieves a nicely HTML formatted output which identifies the element by
      * locator and selector, which should be used to end a sentence
-     * 
+     *
      * @return String: text identifying how the element was located
      */
     public String prettyOutputEnd() {
@@ -350,48 +330,52 @@ public class Element {
      * Determines Selenium's 'By' object using Webdriver
      *
      * @return By: the Selenium object
-     * @throws InvalidLocatorTypeException
+     * @throws InvalidLocatorTypeException: if a bad locator type is passed, an invalid locator type exception will
+     *                                      be thrown
      */
     private By defineByElement() throws InvalidLocatorTypeException {
         // consider adding strengthening
         By byElement;
         switch (type) { // determine which locator type we are interested in
-        case XPATH:
-            byElement = By.xpath(locator);
-            break;
-        case ID:
-            byElement = By.id(locator);
-            break;
-        case NAME:
-            byElement = By.name(locator);
-            break;
-        case CLASSNAME:
-            byElement = By.className(locator);
-            break;
-        case CSS:
-            byElement = By.cssSelector(locator);
-            break;
-        case LINKTEXT:
-            byElement = By.linkText(locator);
-            break;
-        case PARTIALLINKTEXT:
-            byElement = By.partialLinkText(locator);
-            break;
-        case TAGNAME:
-            byElement = By.tagName(locator);
-            break;
-        default:
-            throw new InvalidLocatorTypeException();
+            case XPATH:
+                byElement = By.xpath(locator);
+                break;
+            case ID:
+                byElement = By.id(locator);
+                break;
+            case NAME:
+                byElement = By.name(locator);
+                break;
+            case CLASSNAME:
+                byElement = By.className(locator);
+                break;
+            case CSS:
+                byElement = By.cssSelector(locator);
+                break;
+            case LINKTEXT:
+                byElement = By.linkText(locator);
+                break;
+            case PARTIALLINKTEXT:
+                byElement = By.partialLinkText(locator);
+                break;
+            case TAGNAME:
+                byElement = By.tagName(locator);
+                break;
+            default:
+                throw new InvalidLocatorTypeException();
         }
         return byElement;
     }
 
     /**
-     * Retrieves the identified matching web element using Webdriver
+     * Retrieves the identified matching web element using Webdriver. Use this
+     * sparingly, only when the action you want to perform on the element isn't
+     * available, as commands from it won't be checked, logged, caught, or
+     * screenshotted.
      *
      * @return WebElement: the element object, and all associated values with it
      */
-    protected WebElement getWebElement() {
+    public WebElement getWebElement() {
         List<WebElement> elements = getWebElements();
         if (elements.size() > match) {
             return elements.get(match);
@@ -399,23 +383,47 @@ public class Element {
         try {
             return driver.findElement(defineByElement());
         } catch (InvalidLocatorTypeException e) {
-            log.error(e);
+            log.warn(e);
             return null;
         }
     }
 
     /**
-     * Retrieves all matching web elements using Webdriver
+     * Retrieves all matching web elements using Webdriver. Use this sparingly,
+     * only when the action you want to perform on the element isn't available,
+     * as commands from it won't be checked, logged, caught, or screenshotted.
      *
      * @return List: a list of WebElement objects, and all associated values
-     *         with them
+     * with them
      */
-    protected List<WebElement> getWebElements() {
+    public List<WebElement> getWebElements() {
         try {
             return driver.findElements(defineByElement());
         } catch (InvalidLocatorTypeException e) {
-            log.error(e);
+            log.warn(e);
             return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Searches for a child element within the element, and creates and returns
+     * this new child element
+     *
+     * @param child - the child element to search for within the element
+     * @return Element: the full reference to the child element element
+     */
+    public Element findChild(Element child) {
+        try {
+            WebElement webElement = getWebElement();
+            WebElement childElement = webElement.findElement(child.defineByElement());
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            String xPath = (String) js.executeScript(
+                    "gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();",
+                    childElement);
+            return new Element(driver, file, Locator.XPATH, xPath);
+        } catch (InvalidLocatorTypeException e) {
+            log.warn(e);
+            return null;
         }
     }
 
@@ -426,13 +434,10 @@ public class Element {
     /**
      * Determines if the element is present. If it isn't, it'll wait up to the
      * default time (5 seconds) for the element to be present
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element present?
      */
     private boolean isPresent(String action, String expected, String extra) {
@@ -451,13 +456,10 @@ public class Element {
     /**
      * Determines if the element is displayed. If it isn't, it'll wait up to the
      * default time (5 seconds) for the element to be displayed
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element displayed?
      */
     private boolean isDisplayed(String action, String expected, String extra) {
@@ -476,13 +478,10 @@ public class Element {
     /**
      * Determines if the element is displayed. If it isn't, it'll wait up to the
      * default time (5 seconds) for the element to be displayed
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element enabled?
      */
     private boolean isEnabled(String action, String expected, String extra) {
@@ -500,13 +499,10 @@ public class Element {
 
     /**
      * Determines if the element is an input.
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element enabled?
      */
     private boolean isInput(String action, String expected, String extra) {
@@ -522,19 +518,15 @@ public class Element {
 
     /**
      * Determines if the element is a select.
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
      * @return Boolean: is the element enabled?
      */
-    private boolean isSelect(String action, String expected, String extra) {
+    private boolean isSelect(String action, String expected) {
         // wait for element to be displayed
         if (!is.select()) {
-            file.recordAction(action, expected, extra + prettyOutput() + NOTSELECT, Result.FAILURE);
+            file.recordAction(action, expected, Element.CANTSELECT + prettyOutput() + NOTSELECT, Result.FAILURE);
             file.addError();
             // indicates element not an input
             return false;
@@ -545,13 +537,10 @@ public class Element {
     /**
      * Determines if something is present, displayed, and enabled. This returns
      * true if all three are true, otherwise, it returns false
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element present, displayed, and enabled?
      */
     private boolean isPresentDisplayedEnabled(String action, String expected, String extra) {
@@ -570,39 +559,29 @@ public class Element {
     /**
      * Determines if something is present, enabled, and an input. This returns
      * true if all three are true, otherwise, it returns false
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
      * @return Boolean: is the element present, enabled, and an input?
      */
-    private boolean isPresentEnabledInput(String action, String expected, String extra) {
+    private boolean isPresentEnabledInput(String action, String expected) {
         // wait for element to be present
-        if (!isPresent(action, expected, extra)) {
+        if (!isPresent(action, expected, Element.CANTTYPE)) {
             return false;
         }
         // wait for element to be enabled
-        if (!isEnabled(action, expected, extra)) {
-            return false;
-        }
-        return isInput(action, expected, extra);
+        return isEnabled(action, expected, Element.CANTTYPE) && isInput(action, expected, Element.CANTTYPE);
     }
 
     /**
      * Determines if something is present, displayed, enabled, and an input.
      * This returns true if all four are true, otherwise, it returns false
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
+     * @param extra    - what actually is occurring
      * @return Boolean: is the element present, displayed, enabled, and an
-     *         input?
+     * input?
      */
     private boolean isPresentDisplayedEnabledInput(String action, String expected, String extra) {
         // wait for element to be present
@@ -614,39 +593,29 @@ public class Element {
             return false;
         }
         // wait for element to be enabled
-        if (!isEnabled(action, expected, extra)) {
-            return false;
-        }
-        return isInput(action, expected, extra);
+        return isEnabled(action, expected, extra) && isInput(action, expected, extra);
     }
 
     /**
      * Determines if something is present, displayed, enabled, and a select.
      * This returns true if all four are true, otherwise, it returns false
-     * 
-     * @param action
-     *            - what action is occurring
-     * @param expected
-     *            - what is the expected result
-     * @param extra
-     *            - what actually is occurring
+     *
+     * @param action   - what action is occurring
+     * @param expected - what is the expected result
      * @return Boolean: is the element present, displayed, enabled, and an
-     *         input?
+     * input?
      */
-    private boolean isPresentDisplayedEnabledSelect(String action, String expected, String extra) {
+    private boolean isPresentDisplayedEnabledSelect(String action, String expected) {
         // wait for element to be present
-        if (!isPresent(action, expected, extra)) {
+        if (!isPresent(action, expected, Element.CANTSELECT)) {
             return false;
         }
         // wait for element to be displayed
-        if (!isDisplayed(action, expected, extra)) {
+        if (!isDisplayed(action, expected, Element.CANTSELECT)) {
             return false;
         }
         // wait for element to be enabled
-        if (!isEnabled(action, expected, extra)) {
-            return false;
-        }
-        return isSelect(action, expected, extra);
+        return isEnabled(action, expected, Element.CANTSELECT) && isSelect(action, expected);
     }
 
     // ///////////////////////////////////
@@ -662,20 +631,19 @@ public class Element {
         String cantClick = "Unable to click ";
         String action = "Clicking " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be clicked";
-        if (!isPresentDisplayedEnabled(action, expected, cantClick)) {
-            return;
-        }
         try {
+            if (!isPresentDisplayedEnabled(action, expected, cantClick)) {
+                return;
+            }
             WebElement webElement = getWebElement();
-            Actions selAction = new Actions(driver);
-            selAction.click(webElement).perform();
+            webElement.click();
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action, expected, cantClick + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
+            log.warn(e);
             return;
         }
-        file.recordAction(action, expected, "Clicked " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Clicked " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -687,19 +655,19 @@ public class Element {
         String cantSubmit = "Unable to submit ";
         String action = "Submitting " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be submitted    ";
-        if (!isPresentDisplayedEnabled(action, expected, cantSubmit)) {
-            return;
-        }
-        WebElement webElement = getWebElement();
         try {
+            if (!isPresentDisplayedEnabled(action, expected, cantSubmit)) {
+                return;
+            }
+            WebElement webElement = getWebElement();
             webElement.submit();
         } catch (Exception e) {
-            log.error(e);
             file.recordAction(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
+            log.warn(e);
             return;
         }
-        file.recordAction(action, expected, "Submitted " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Submitted " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -711,25 +679,25 @@ public class Element {
         String cantHover = "Unable to hover over ";
         String action = "Hovering over " + prettyOutput();
         String expected = prettyOutput() + " is present, and displayed to be hovered over";
-        // wait for element to be present
-        if (!isPresent(action, expected, cantHover)) {
-            return;
-        }
-        // wait for element to be displayed
-        if (!isDisplayed(action, expected, cantHover)) {
-            return;
-        }
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, cantHover)) {
+                return;
+            }
+            // wait for element to be displayed
+            if (!isDisplayed(action, expected, cantHover)) {
+                return;
+            }
             Actions selAction = new Actions(driver);
             WebElement webElement = getWebElement();
             selAction.moveToElement(webElement).perform();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, cantHover + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Hovered over " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Hovered over " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -742,19 +710,20 @@ public class Element {
         String cantFocus = "Unable to focus on ";
         String action = "Focusing, then unfocusing (blurring) on " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be blurred";
-        if (!isPresentDisplayedEnabledInput(action, expected, cantFocus)) {
-            return;
-        }
         try {
+            if (!isPresentDisplayedEnabledInput(action, expected, cantFocus)) {
+                return;
+            }
             WebElement webElement = getWebElement();
-            webElement.sendKeys("\t");
+            webElement.sendKeys(Keys.TAB);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd(),
+                Result.SUCCESS);
     }
 
     /**
@@ -764,33 +733,32 @@ public class Element {
      * element is not displayed, a warning will be written in the log, to
      * indicate this is not a normal action as could be performed by the user.
      *
-     * @param text
-     *            - the text to be typed in
+     * @param text - the text to be typed in
      */
     public void type(String text) {
         String action = "Typing text '" + text + IN + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + text + " typed in";
-        if (!isPresentEnabledInput(action, expected, CANTTYPE)) {
-            return;
-        }
         Boolean warning = false;
-        if (!is.displayed()) {
-            warning = true;
-        }
         try {
+            if (!isPresentEnabledInput(action, expected)) {
+                return;
+            }
+            if (!is.displayed()) {
+                warning = true;
+            }
             WebElement webElement = getWebElement();
             webElement.sendKeys(text);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
         if (warning) {
-            file.recordAction(action, expected, TYPTED + text + IN + prettyOutput()
-                    + ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
+            file.recordAction(action, expected, TYPTED + text + IN + prettyOutput() +
+                    ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
         } else {
-            file.recordAction(action, expected, TYPTED + text + IN + prettyOutput(), Result.SUCCESS);
+            file.recordAction(action, expected, TYPTED + text + IN + prettyOutputEnd(), Result.SUCCESS);
         }
     }
 
@@ -801,33 +769,32 @@ public class Element {
      * element is not displayed, a warning will be written in the log, to
      * indicate this is not a normal action as could be performed by the user.
      *
-     * @param key
-     *            - the key to be pressed
+     * @param key - the key to be pressed
      */
     public void type(Keys key) {
         String action = "Typing key '" + key + IN + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + key + " entered";
-        if (!isPresentEnabledInput(action, expected, CANTTYPE)) {
-            return;
-        }
         Boolean warning = false;
-        if (!is.displayed()) {
-            warning = true;
-        }
         try {
+            if (!isPresentEnabledInput(action, expected)) {
+                return;
+            }
+            if (!is.displayed()) {
+                warning = true;
+            }
             WebElement webElement = getWebElement();
             webElement.sendKeys(key);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
         if (warning) {
-            file.recordAction(action, expected, TYPTED + key + IN + prettyOutput()
-                    + ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
+            file.recordAction(action, expected, TYPTED + key + IN + prettyOutput() +
+                    ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
         } else {
-            file.recordAction(action, expected, TYPTED + key + IN + prettyOutput(), Result.SUCCESS);
+            file.recordAction(action, expected, TYPTED + key + IN + prettyOutputEnd(), Result.SUCCESS);
         }
     }
 
@@ -840,19 +807,19 @@ public class Element {
         String cantClear = "Unable to clear ";
         String action = "Clearing text in " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text cleared";
-        if (!isPresentDisplayedEnabledInput(action, expected, cantClear)) {
-            return;
-        }
-        WebElement webElement = getWebElement();
         try {
+            if (!isPresentDisplayedEnabledInput(action, expected, cantClear)) {
+                return;
+            }
+            WebElement webElement = getWebElement();
             webElement.clear();
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, cantClear + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Cleared text in " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Cleared text in " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -861,35 +828,35 @@ public class Element {
      * are not met, the select action will be logged, but skipped and the test
      * will continue.
      *
-     * @param index
-     *            - the select option to be selected - note, row numbering
-     *            starts at 0
+     * @param index - the select option to be selected - note, row numbering
+     *              starts at 0
      */
     public void select(int index) {
         String action = SELECTING + index + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + index + SELECTED;
-        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
-            return;
-        }
-        String[] options = get.selectOptions();
-        if (index > options.length) {
-            file.recordAction(action, expected, "Unable to select the <i>" + index
-                    + "</i> option, as there are only <i>" + options.length + "</i> available.", Result.FAILURE);
-            file.addError();
-            return;
-        }
-        // do the select
         try {
+            if (!isPresentDisplayedEnabledSelect(action, expected)) {
+                return;
+            }
+            String[] options = get.selectOptions();
+            if (index > options.length) {
+                file.recordAction(action, expected,
+                        "Unable to select the <i>" + index + "</i> option, as there are only <i>" + options.length +
+                                "</i> available.", Result.FAILURE);
+                file.addError();
+                return;
+            }
+            // do the select
             WebElement webElement = getWebElement();
             Select dropdown = new Select(webElement);
             dropdown.selectByIndex(index);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected option <b>" + index + INN + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -898,37 +865,34 @@ public class Element {
      * those conditions are not met, the select action will be logged, but
      * skipped and the test will continue.
      *
-     * @param option
-     *            - the select option to be selected
+     * @param option - the select option to be selected
      */
     public void selectOption(String option) {
         String action = SELECTING + option + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + option + SELECTED;
-        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
-            return;
-        }
-        // ensure the option exists
-        if (!Arrays.asList(get.selectOptions()).contains(option)) {
-            file.recordAction(action, expected,
-                    CANTSELECT + option + " in " + prettyOutput()
-                            + " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
-                            + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>",
-                    Result.FAILURE);
-            file.addError();
-            return;
-        }
-        // do the select
         try {
+            if (!isPresentDisplayedEnabledSelect(action, expected)) {
+                return;
+            }
+            // ensure the option exists
+            if (!Arrays.asList(get.selectOptions()).contains(option)) {
+                file.recordAction(action, expected, CANTSELECT + option + " in " + prettyOutput() +
+                        " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;" +
+                        String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>", Result.FAILURE);
+                file.addError();
+                return;
+            }
+            // do the select
             WebElement webElement = getWebElement();
             Select dropdown = new Select(webElement);
             dropdown.selectByVisibleText(option);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected <b>" + option + INN + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected <b>" + option + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -937,52 +901,46 @@ public class Element {
      * conditions are not met, the select action will be logged, but skipped and
      * the test will continue.
      *
-     * @param value
-     *            - the select value to be selected
+     * @param value - the select value to be selected
      */
     public void selectValue(String value) {
         String action = SELECTING + value + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + value + SELECTED;
-        if (!isPresentDisplayedEnabledSelect(action, expected, CANTSELECT)) {
-            return;
-        }
-        // ensure the value exists
-        if (!Arrays.asList(get.selectValues()).contains(value)) {
-            file.recordAction(action, expected,
-                    CANTSELECT + value + " in " + prettyOutput()
-                            + " as that value isn't present. Available values are:<i><br/>" + "&nbsp;&nbsp;&nbsp;"
-                            + String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>",
-                    Result.FAILURE);
-            file.addError();
-            return;
-        }
-        // do the select
         try {
+            if (!isPresentDisplayedEnabledSelect(action, expected)) {
+                return;
+            }
+            // ensure the value exists
+            if (!Arrays.asList(get.selectValues()).contains(value)) {
+                file.recordAction(action, expected, CANTSELECT + value + " in " + prettyOutput() +
+                        " as that value isn't present. Available values are:<i><br/>" + "&nbsp;&nbsp;&nbsp;" +
+                        String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>", Result.FAILURE);
+                file.addError();
+                return;
+            }
+            // do the select
             WebElement webElement = getWebElement();
             Select dropdown = new Select(webElement);
             dropdown.selectByValue(value);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected <b>" + value + INN + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Selected <b>" + value + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
      * Generates and logs an error (with a screenshot), stating that the element
      * was unable to me moved to
-     * 
-     * @param e
-     *            - the exception that was thrown
-     * @param action
-     *            - what is the action occurring
-     * @param expected
-     *            - what is the expected outcome of said action
+     *
+     * @param e        - the exception that was thrown
+     * @param action   - what is the action occurring
+     * @param expected - what is the expected outcome of said action
      */
     private void cantMove(Exception e, String action, String expected) {
-        log.error(e);
+        log.warn(e);
         file.recordAction(action, expected, CANTMOVE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
         file.addError();
     }
@@ -990,20 +948,18 @@ public class Element {
     /**
      * Determines if the element moved towards is now currently displayed on the
      * screen
-     * 
-     * @param action
-     *            - what is the action occurring
-     * @param expected
-     *            - what is the expected outcome of said action
+     *
+     * @param action   - what is the action occurring
+     * @param expected - what is the expected outcome of said action
      */
     private void isMoved(String action, String expected) {
         if (!is.displayed()) {
-            file.recordAction(action, expected, prettyOutput() + " is not displayed within the current viewport",
+            file.recordAction(action, expected, prettyOutputStart() + " is not displayed within the current viewport",
                     Result.FAILURE);
             file.addError();
             return; // indicates element not on displayed screen
         }
-        file.recordAction(action, expected, prettyOutput() + " is displayed within the current viewport",
+        file.recordAction(action, expected, prettyOutputStart() + " is displayed within the current viewport",
                 Result.SUCCESS);
     }
 
@@ -1016,11 +972,12 @@ public class Element {
     public void move() {
         String action = "Moving screen to " + prettyOutput();
         String expected = prettyOutput() + " is now displayed within the current viewport";
-        // wait for element to be present
-        if (!isPresent(action, expected, CANTMOVE)) {
-            return;
-        }
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, CANTMOVE)) {
+                return;
+            }
+            // perform the move action
             WebElement webElement = getWebElement();
             Actions builder = new Actions(driver);
             builder.moveToElement(webElement);
@@ -1037,18 +994,17 @@ public class Element {
      * if the element is present. If that condition is not met, the move action
      * will be logged, but skipped and the test will continue.
      *
-     * @param position
-     *            - how many pixels above the element to scroll to
+     * @param position - how many pixels above the element to scroll to
      */
     public void move(long position) {
         String action = "Moving screen to " + position + " pixels above " + prettyOutput();
         String expected = prettyOutput() + " is now displayed within the current viewport";
-        // wait for element to be present
-        if (!isPresent(action, expected, CANTMOVE)) {
-            return;
-        }
-
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, CANTMOVE)) {
+                return;
+            }
+            // perform the move action
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             WebElement webElement = getWebElement();
             long elementPosition = webElement.getLocation().getY();
@@ -1070,23 +1026,24 @@ public class Element {
         String cantSelect = "Unable to focus on frame ";
         String action = "Focusing on frame " + prettyOutput();
         String expected = "Frame " + prettyOutput() + " is present, displayed, and focused";
-        // wait for element to be present
-        if (!isPresent(action, expected, cantSelect)) {
-            return;
-        }
-        // wait for element to be displayed
-        if (!isDisplayed(action, expected, cantSelect)) {
-            return;
-        }
-        WebElement webElement = getWebElement();
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, cantSelect)) {
+                return;
+            }
+            // wait for element to be displayed
+            if (!isDisplayed(action, expected, cantSelect)) {
+                return;
+            }
+            // select the actual frame
+            WebElement webElement = getWebElement();
             driver.switchTo().frame(webElement);
         } catch (Exception e) {
-            log.error(e);
+            log.warn(e);
             file.recordAction(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Focused on frame " + prettyOutput(), Result.SUCCESS);
+        file.recordAction(action, expected, "Focused on frame " + prettyOutputEnd(), Result.SUCCESS);
     }
 }

@@ -20,12 +20,11 @@
 
 package com.coveros.selenified.utilities;
 
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.OutputFile.Result;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
-
-import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.Browser;
 
 import java.io.File;
 
@@ -34,7 +33,7 @@ import java.io.File;
  * for easier tracking and viewing of detailed custom test reports. This class
  * should be specified as a listener for the main Selenified class, and/or in
  * the TestNG xml file.
- * 
+ *
  * @author Max Saperstone
  */
 public class Listener extends TestListenerAdapter {
@@ -49,9 +48,8 @@ public class Listener extends TestListenerAdapter {
 
     /**
      * determines the folder name associated with the given tests
-     * 
-     * @param test
-     *            - the testng itestresult object
+     *
+     * @param test - the testng itestresult object
      * @return String: a string version of the folder name
      */
     private static String getFolderName(ITestResult test) {
@@ -60,9 +58,7 @@ public class Listener extends TestListenerAdapter {
 
     /**
      * determines the test name associated with the given tests
-     * 
-     * @param test
-     *            - the testng itestresult object
+     *
      * @return String: a string version of the test name
      */
     private static String getTestName(ITestResult result) {
@@ -89,9 +85,9 @@ public class Listener extends TestListenerAdapter {
 
         String testName = getTestName(test);
         Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
-        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
-                + getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
-                + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
+        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START +
+                getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK +
+                (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
     }
 
     /**
@@ -103,9 +99,9 @@ public class Listener extends TestListenerAdapter {
         super.onTestSkipped(test);
         String testName = getTestName(test);
         Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
-        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
-                + getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
-                + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
+        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START +
+                getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK +
+                (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
     }
 
     /**
@@ -117,8 +113,8 @@ public class Listener extends TestListenerAdapter {
         super.onTestSuccess(test);
         String testName = getTestName(test);
         Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
-        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START
-                + getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK
-                + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
+        Reporter.log(Result.values()[test.getStatus()] + OUTPUT_BREAK + browser + OUTPUT_BREAK + LINK_START +
+                getFolderName(test) + "/" + testName + browser + LINK_MIDDLE + testName + LINK_END + OUTPUT_BREAK +
+                (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
     }
 }

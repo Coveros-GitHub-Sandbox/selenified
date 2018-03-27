@@ -30,7 +30,7 @@ import com.coveros.selenified.OutputFile.Success;
  * oriented capabilities, they take screenshots with each verification to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests. State checks that elements are in a particular state.
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -141,11 +141,10 @@ public class State extends Assert {
      * this will constitute a failure, same as it not being editable. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
-     * 
-     * @param presence
-     *            - what additional attribute is expected from the element
+     *
+     * @param presence - what additional attribute is expected from the element
      */
-    private void editable(String presence) {
+    public void editable(String presence) {
         // check for the object to the editable
         if (!element.is().input()) {
             file.recordActual(element.prettyOutputStart() + IS + presence + " but not an input on the page",
@@ -167,11 +166,10 @@ public class State extends Assert {
      * this will constitute a pass, as non input elements are not editable. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
-     * 
-     * @param presence
-     *            - what additional attribute is expected from the element
+     *
+     * @param presence - what additional attribute is expected from the element
      */
-    private void notEditable(String presence) {
+    public void notEditable(String presence) {
         // check for the object to the editable
         if (element.is().input() && element.is().enabled()) {
             file.recordActual(element.prettyOutputStart() + IS + presence + " but editable on the page", Success.FAIL);
