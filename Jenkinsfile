@@ -86,7 +86,7 @@ node {
             archiveArtifacts artifacts: '**/target*/*-reports/**'
         }
         stage('Send Notifications') {
-            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'max.saperstone@coveros.com', sendToIndividuals: true])
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'max.saperstone@coveros.com,matt.grasberger@coveros.com', sendToIndividuals: true])
         }
     }
 }
