@@ -35,6 +35,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
@@ -321,8 +322,8 @@ public class App {
             }
             // now we need to save the file
             FileUtils.copyFile(srcFile, new File(imageName));
-        } catch (Exception e) {
-            log.error("Error taking screenshot: " + e);
+        } catch (IOException e) {
+            log.error("IO Error taking screenshot: " + e);
         }
     }
 
