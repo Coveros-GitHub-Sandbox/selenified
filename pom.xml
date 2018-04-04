@@ -19,12 +19,12 @@
         <failsafe.threads>5</failsafe.threads>
         <failsafe.groups.include>integration</failsafe.groups.include>
         <failsafe.groups.exclude>browser</failsafe.groups.exclude>
-        <failsafe.classes></failsafe.classes>
-        <failsafe.packages></failsafe.packages>
-        <failsafe.methods.include></failsafe.methods.include>
-        <failsafe.methods.exclude></failsafe.methods.exclude>
+        <!--<failsafe.classes></failsafe.classes>-->
+        <!--<failsafe.packages></failsafe.packages>-->
+        <!--<failsafe.methods.include></failsafe.methods.include>-->
+        <!--<failsafe.methods.exclude></failsafe.methods.exclude>-->
 
-        <skip.unit.tests>true</skip.unit.tests>
+        <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
 
         <!-- General Selenium run versions -->
