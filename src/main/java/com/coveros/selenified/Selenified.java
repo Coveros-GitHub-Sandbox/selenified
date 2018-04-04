@@ -34,10 +34,7 @@ import org.testng.log4testng.Logger;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -69,6 +66,7 @@ public class Selenified {
     // used for credentials
     protected static String servicesUser = "";
     protected static String servicesPass = "";
+    protected static Map<String, String> extraHeaders = new HashMap<>();
 
     // any additional browser capabilities that might be necessary
     protected static DesiredCapabilities extraCapabilities = null;
@@ -190,6 +188,10 @@ public class Selenified {
         context.setAttribute(testSuite + "Author", author);
     }
 
+    protected static void addHeaders(Map<String, String> headers) {
+        extraHeaders = headers;
+    }
+
     /**
      * Runs once before any of the tests run, to parse and setup the static
      * passed information such as browsers, proxy, hub, etc
@@ -284,7 +286,7 @@ public class Selenified {
             }
         } else {
             HTTP http = new HTTP(getTestSite(extClass, test), servicesUser, servicesPass);
-            Call call = new Call(http, myFile);
+            Call call = new Call(http, myFile, extraHeaders);
             this.apps.set(null);
             this.calls.set(call);
         }

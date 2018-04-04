@@ -290,6 +290,30 @@ different ways, we don’t have a standard setup for oauth, csrf tokens, or othe
 [wiki](https://github.com/Coveros/selenified/wiki/Service-Authentication) for more information on authentication 
 schemes.
 
+###### Custom Headers
+Custom headers can be added to web-services calls, for whatever purpose. They can add user-agents, custom
+required headers for sites, or even override the default provided headers. Headers can be added on a per
+test basis, or can be added for all tests in a suite. Headers should be set as key-value pairs, in a HashMap.
+```java
+Map<String, String> headers = new HashMap<>();
+headers.put("X-Atlassian-Token", "no-check");
+```
+To set this on an individual basis, simply retrieve the `Call` object, and add the headers
+```java
+Call call = this.calls.get();
+call.addHeaders(headers);
+``` 
+To set the headers for an entire class, in the `@BeforeMethod`, just call the static `addHeader` method.
+```java
+addHeaders(headers);
+```
+Finally, if you want to reset the headers, on a test by test basis (maybe you want to set up headers for all 
+tests instead of one), you can call the `resetHeaders` method.
+```java
+Call call = this.calls.get();
+call.resetHeaders();
+```
+
 ##### Finalizing your tests
 Finally, in order to track errors within the tests, the last step of each test is comparing the value within 
 errors to the number 0. This will then throw an error if any issues occurred during the test. All previous

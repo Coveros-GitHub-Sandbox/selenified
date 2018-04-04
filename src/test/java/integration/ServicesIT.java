@@ -4,6 +4,7 @@ import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
+import com.coveros.selenified.services.Response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -33,6 +34,36 @@ public class ServicesIT extends Selenified {
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
+    }
+
+    @Test(groups = {"integration", "services", "headers"},
+            description = "An integration test to verify we can successfully set header values")
+    public void setHeaderTest() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        //set some custom headers
+        Map<String, String> headers = new HashMap<>();
+        headers.put("X-Atlassian-Token", "no-check");
+        call.addHeaders(headers);
+        // perform some actions
+        call.get("posts/").assertEquals(200);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "headers"},
+            description = "An integration test to verify we can successfully override standard header values")
+    public void overrideAcceptTest() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        //set some custom headers
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Accept", "no-check");
+        call.addHeaders(headers);
+        // perform some actions
+        call.get("posts/").assertEquals(200);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "services", "httpget"},
