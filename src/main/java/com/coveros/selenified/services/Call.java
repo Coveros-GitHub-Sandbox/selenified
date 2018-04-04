@@ -24,6 +24,9 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import org.testng.log4testng.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Performs the general web service method calls, and provides a simple access
  * to the HTTP class
@@ -48,9 +51,27 @@ public class Call {
     private static final String PATCH = "PATCH";
     private static final String DELETE = "DELETE";
 
-    public Call(HTTP http, OutputFile file) {
+    public Call(HTTP http, OutputFile file, Map<String, String> headers) {
         this.http = http;
         this.file = file;
+        addHeaders(headers);
+    }
+
+    /**
+     * Adds the desired headers via a map. These should just be key-value pairs, as many as are desired to set.
+     * Content-length, Content-Type, and accept are already set, but can be overridden with these values
+     *
+     * @param headers - the key-value pair of headers to set
+     */
+    public void addHeaders(Map<String, String> headers) {
+        http.addHeaders(headers);
+    }
+
+    /**
+     * Clears out any custom set headers
+     */
+    public void resetHeaders() {
+        http.resetHeaders();
     }
 
     ///////////////////////////////////////////////////////////////////

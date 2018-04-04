@@ -32,6 +32,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class designed to make HTTP calls. This is wrapped by the Action and Assert
@@ -51,6 +53,7 @@ public class HTTP {
     private final String serviceBaseUrl;
     private String user = "";
     private String pass = "";
+    private Map<String, String> extraHeaders = new HashMap<>();
 
     /**
      * Instantiates a HTTP session for making web service calls without any
@@ -74,6 +77,23 @@ public class HTTP {
         this.serviceBaseUrl = serviceBaseUrl;
         this.user = user;
         this.pass = pass;
+    }
+
+    /**
+     * Adds the desired headers via a map. These should just be key-value pairs, as many as are desired to set.
+     * Content-length, Content-Type, and accept are already set, but can be overridden with these values
+     *
+     * @param headers - the key-value pair of headers to set
+     */
+    public void addHeaders(Map<String, String> headers) {
+        this.extraHeaders.putAll(headers);
+    }
+
+    /**
+     * Clears out any custom set headers
+     */
+    public void resetHeaders() {
+        this.extraHeaders = new HashMap<>();
     }
 
     /**
@@ -228,6 +248,9 @@ public class HTTP {
             connection.setRequestProperty("Content-length", "0");
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+                connection.setRequestProperty(entry.getKey(), entry.getValue());
+            }
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setUseCaches(false);
