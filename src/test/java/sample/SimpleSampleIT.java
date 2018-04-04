@@ -14,7 +14,7 @@ public class SimpleSampleIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "https://www.google.com");
+        setTestSite(this, test, "http://172.31.2.65/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -27,33 +27,39 @@ public class SimpleSampleIT extends Selenified {
         return new Object[][]{new Object[]{"Volvo"}, new Object[]{"Saab"}, new Object[]{"Mercedes"}};
     }
 
-    @Test(groups = {"sampleS"}, description = "A sample test to check a title")
+    @Test(groups = {"sample"}, description = "A sample test to check a title")
     public void sampleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform the verification
-        app.azzert().titleEquals("Google");
+        app.azzert().titleEquals("Selenified Test Page");
         // perform the verification
         finish();
     }
 
-
-    @Test(dataProvider = "google search terms", groups = { "search" },
-            description = "A sample selenium test using a data provider to perform searches")
-    public void sampleTestWDataProvider(String searchTerm) throws Exception {
+    @Test(dataProvider = "car list items", groups = {"sample"},
+            description = "A sample test using a data provider to perform searches")
+    public void sampleTestWDataProvider(String listItem) {
         // use this object to manipulate the app
         App app = this.apps.get();
-        // find the search box element and create the object
-        Element searchBox = app.newElement(Locator.NAME, "q");
-        //perform the search and submit
-        searchBox.type(searchTerm);
-        searchBox.submit();
-        //wait for the page to return the results
-        //app.newElement(Locator.ID, "resultStats").waitFor().present();
-        app.wait(2d);
-        // verify the correct page title
-        app.azzert().titleEquals(searchTerm + " - Google Search");
-        // verify no issues
+        // perform some actions
+        app.newElement(Locator.ID, "car_list").selectOption(listItem);
+        // close out the test
+        finish();
+    }
+
+    @Test(groups = {"sample"}, description = "A sample test to show how to loop through elements with multiple matches")
+    public void sampleTestLoopThroughElements() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element element = app.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
+        for (int match = 0; match < element.get().matchCount(); match++) {
+            element.setMatch(match);
+            element.click();
+            element.assertState().checked();
+        }
+        // close out the test
         finish();
     }
 }
