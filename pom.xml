@@ -16,17 +16,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Test run information -->
-        <!--<suiteXmlFile>integration.xml</suiteXmlFile>-->
-        <failsafe.include.groups>integration</failsafe.include.groups>
-        <failsafe.exclude.groups>browser</failsafe.exclude.groups>
-        <!--<failsafe.groups></failsafe.groups>-->
-        <!--<failsafe.class></failsafe.class>-->
-        <!--<failsafe.package></failsafe.package>-->
-        <!--<failsafe.method></failsafe.method>-->
-        <failsafe.groups></failsafe.groups>
-        <failsafe.class>*</failsafe.class>
-        <failsafe.package>**</failsafe.package>
-        <failsafe.method></failsafe.method>
+        <failsafe.threads>5</failsafe.threads>
+        <failsafe.groups.include>integration</failsafe.groups.include>
+        <failsafe.groups.exclude>browser</failsafe.groups.exclude>
+        <failsafe.classes></failsafe.classes>
+        <failsafe.packages></failsafe.packages>
+        <failsafe.methods.include></failsafe.methods.include>
+        <failsafe.methods.exclude></failsafe.methods.exclude>
 
         <skip.unit.tests>true</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
@@ -197,17 +193,16 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven.failsafe.plugin.version}</version>
                 <configuration>
-                    <!--<suiteXmlFiles>-->
-                    <!--<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>-->
-                    <!--</suiteXmlFiles>-->
-                    <!--<groups>${failsafe.include.groups}</groups>-->
-                    <!--<groups>${failsafe.groups}</groups>-->
-                    <!--<test>**//${failsafe.package}</test>-->
-                    <!--<test>${failsafe.method}</test>-->
-                    <!--<includes>${failsafe.class}</includes>-->
-                    <!--<excludedGroups>${failsafe.exclude.groups}</excludedGroups>-->
-                    <groups>${failsafe.groups}</groups>
-                    <includes>${failsafe.package}/${failsafe.class}.java</includes>
+                    <parallel>methods</parallel>
+                    <threadCount>${failsafe.threads}</threadCount>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>com.coveros.selenified.utilities.Transformer</value>
+                        </property>
+                    </properties>
+                    <groups>${failsafe.groups.include}</groups>
+                    <excludedGroups>${failsafe.groups.exclude}</excludedGroups>
                 </configuration>
                 <executions>
                     <execution>
