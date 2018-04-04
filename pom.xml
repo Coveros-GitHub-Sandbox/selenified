@@ -19,6 +19,8 @@
         <failsafe.threads>5</failsafe.threads>
         <failsafe.groups.include>integration</failsafe.groups.include>
         <failsafe.groups.exclude>browser</failsafe.groups.exclude>
+        <failsafe.files.include>**/*IT.java</failsafe.files.include>
+        <failsafe.files.exclude></failsafe.files.exclude>
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
@@ -199,6 +201,12 @@
                     </properties>
                     <groups>${failsafe.groups.include}</groups>
                     <excludedGroups>${failsafe.groups.exclude}</excludedGroups>
+                    <includes>
+                        <include>${failsafe.files.include}</include>
+                    </includes>
+                    <excludes>
+                        <exclude>${failsafe.files.exclude}</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
