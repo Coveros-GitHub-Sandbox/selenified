@@ -17,6 +17,7 @@
 
         <!-- Test run information -->
         <failsafe.threads>5</failsafe.threads>
+        <failsafe.verbosity>0</failsafe.verbosity>
         <failsafe.groups.include>integration</failsafe.groups.include>
         <failsafe.groups.exclude>browser</failsafe.groups.exclude>
         <failsafe.files.include>**/*IT.java</failsafe.files.include>
@@ -194,6 +195,10 @@
                     <parallel>methods</parallel>
                     <threadCount>${failsafe.threads}</threadCount>
                     <properties>
+                        <property>
+                            <name>surefire.testng.verbose</name>
+                            <value>${failsafe.verbosity}</value>
+                        </property>
                         <property>
                             <name>listener</name>
                             <value>com.coveros.selenified.utilities.Transformer</value>
