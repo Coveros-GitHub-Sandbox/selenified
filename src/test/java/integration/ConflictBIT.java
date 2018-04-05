@@ -13,7 +13,7 @@ public class ConflictBIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setTestSite(this, test, "file://" + System.getProperty("user.dir") + "/public/index.html");
         // set the author of the tests here
         setAuthor(this, test, "Matt Grasberger\n<br/>matthew.grasberger@coveros.com");
         // set the version of the tests or of the software, possibly with a
