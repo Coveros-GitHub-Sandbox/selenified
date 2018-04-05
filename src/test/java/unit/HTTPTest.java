@@ -1,9 +1,8 @@
 package unit;
 
+import com.coveros.selenified.services.HTTP;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import com.coveros.selenified.services.HTTP;
 
 public class HTTPTest {
 

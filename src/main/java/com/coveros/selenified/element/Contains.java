@@ -20,10 +20,10 @@
 
 package com.coveros.selenified.element;
 
-import java.util.Arrays;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
+
+import java.util.Arrays;
 
 /**
  * Contains extends Asserts to provide some additional verification
@@ -33,7 +33,7 @@ import com.coveros.selenified.OutputFile.Success;
  * verification to provide additional traceability, and assist in
  * troubleshooting and debugging failing tests. Contains checks that elements
  * have a particular value associated to them.
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -54,9 +54,8 @@ public class Contains extends Assert {
      * If the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
-     * 
-     * @param expectedClass
-     *            - the expected class value
+     *
+     * @param expectedClass - the expected class value
      */
     public void clazz(String expectedClass) {
         // wait for the element
@@ -68,13 +67,14 @@ public class Contains extends Assert {
         // get the class
         String actualClass = element.get().attribute(CLASS);
         // file.record the element
-        if (!actualClass.contains(expectedClass)) {
+        if (actualClass == null || !actualClass.contains(expectedClass)) {
             file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>", Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>"
-                + expectedClass + "</b>", Success.PASS);
+        file.recordActual(
+                element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>" + expectedClass +
+                        "</b>", Success.PASS);
     }
 
     /**
@@ -83,8 +83,7 @@ public class Contains extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param attribute
-     *            - the attribute to check for
+     * @param attribute - the attribute to check for
      */
     public void attribute(String attribute) {
         String[] allAttributes = getAttributes(attribute, "with");
@@ -93,8 +92,9 @@ public class Contains extends Assert {
         }
         // file.record the element
         if (!Arrays.asList(allAttributes).contains(attribute)) {
-            file.recordActual(element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute
-                    + "</b>" + ONLYVALUE + Arrays.toString(allAttributes) + "</b>", Success.FAIL);
+            file.recordActual(
+                    element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
+                            ONLYVALUE + Arrays.toString(allAttributes) + "</b>", Success.FAIL);
             file.addError();
             return;
         }
@@ -107,9 +107,8 @@ public class Contains extends Assert {
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
-     * 
-     * @param expectedValue
-     *            the expected value of the element
+     *
+     * @param expectedValue the expected value of the element
      */
     public void text(String expectedValue) {
         // wait for the element
@@ -134,8 +133,7 @@ public class Contains extends Assert {
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedValue
-     *            the expected value of the element
+     * @param expectedValue the expected value of the element
      */
     public void value(String expectedValue) {
         String elementValue = getValue(expectedValue, HASVALUE);
@@ -156,20 +154,20 @@ public class Contains extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param option
-     *            the option expected in the list
+     * @param option the option expected in the list
      */
     public void selectOption(String option) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with the option <b>" + option
-                + "</b> available to be selected on the page")) {
+        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with the option <b>" + option +
+                "</b> available to be selected on the page")) {
             return;
         }
         // check for the object to the editable
         String[] allOptions = element.get().selectOptions();
         if (!Arrays.asList(allOptions).contains(option)) {
-            file.recordActual(element.prettyOutputStart() + " is present but does not contain the option " + "<b>"
-                    + option + "</b>", Success.FAIL);
+            file.recordActual(
+                    element.prettyOutputStart() + " is present but does not contain the option " + "<b>" + option +
+                            "</b>", Success.FAIL);
             file.addError();
             return;
         }
@@ -184,20 +182,19 @@ public class Contains extends Assert {
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param selectValue
-     *            the expected input value of the element
+     * @param selectValue the expected input value of the element
      */
     public void selectValue(String selectValue) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " having a select value of <b>" + selectValue
-                + "</b> available to be selected on the page")) {
+        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " having a select value of <b>" + selectValue +
+                "</b> available to be selected on the page")) {
             return;
         }
         // check for the object to the present on the page
         String[] elementValues = element.get().selectValues();
         if (!Arrays.asList(elementValues).contains(selectValue)) {
-            file.recordActual(element.prettyOutputStart() + HASNTVALUE + selectValue + "</b>" + ONLYVALUE
-                    + Arrays.toString(elementValues) + "</b>", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + HASNTVALUE + selectValue + "</b>" + ONLYVALUE +
+                    Arrays.toString(elementValues) + "</b>", Success.FAIL);
             file.addError();
             return;
         }
@@ -210,13 +207,13 @@ public class Contains extends Assert {
      * as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param numOfOptions
-     *            the expected number of options in the select element
+     * @param numOfOptions the expected number of options in the select element
      */
     public void selectOptions(int numOfOptions) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with number of select values equal to <b>"
-                + numOfOptions + "</b>")) {
+        if (!isPresentSelect(
+                EXPECTED + element.prettyOutput() + " with number of select values equal to <b>" + numOfOptions +
+                        "</b>")) {
             return;
         }
         // check for the object to the present on the page
@@ -237,19 +234,19 @@ public class Contains extends Assert {
      * a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param numOfColumns
-     *            the expected number of column elements of a table
+     * @param numOfColumns the expected number of column elements of a table
      */
     public void columns(int numOfColumns) {
         // wait for the table
-        if (!isPresentTable(EXPECTED + element.prettyOutput() + " with the number of table columns equal to <b>"
-                + numOfColumns + "</b>")) {
+        if (!isPresentTable(
+                EXPECTED + element.prettyOutput() + " with the number of table columns equal to <b>" + numOfColumns +
+                        "</b>")) {
             return;
         }
         int actualNumOfCols = element.get().numOfTableColumns();
         if (actualNumOfCols != numOfColumns) {
-            file.recordActual(element.prettyOutputStart() + " does not have the number of columns <b>" + numOfColumns
-                    + "</b>. Instead, " + actualNumOfCols + " columns were found", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + " does not have the number of columns <b>" + numOfColumns +
+                    "</b>. Instead, " + actualNumOfCols + " columns were found", Success.FAIL);
             file.addError();
             return;
         }
@@ -262,19 +259,19 @@ public class Contains extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param numOfRows
-     *            the expected number of row elements of a table
+     * @param numOfRows the expected number of row elements of a table
      */
     public void rows(int numOfRows) {
         // wait for the table
-        if (!isPresentTable(EXPECTED + element.prettyOutput() + " with the number of table rows equal to <b>"
-                + numOfRows + "</b>")) {
+        if (!isPresentTable(
+                EXPECTED + element.prettyOutput() + " with the number of table rows equal to <b>" + numOfRows +
+                        "</b>")) {
             return;
         }
         int actualNumOfRows = element.get().numOfTableRows();
         if (actualNumOfRows != numOfRows) {
-            file.recordActual(element.prettyOutputStart() + " does not have the number of rows <b>" + numOfRows
-                    + "</b>. Instead, " + actualNumOfRows + " rows were found", Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + " does not have the number of rows <b>" + numOfRows +
+                    "</b>. Instead, " + actualNumOfRows + " rows were found", Success.FAIL);
             file.addError();
             return;
         }

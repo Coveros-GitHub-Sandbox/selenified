@@ -4,13 +4,13 @@ import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
 
-public final class MainPage {
+final class MainPage {
 
     // our page elements
-    private Element click;
-    private Element alert;
-    private Element carList;
-    public Element checkbox;
+    private final Element click;
+    private final Element alert;
+    private final Element carList;
+    public final Element checkbox;
 
     public MainPage(App app) {
         click = app.newElement(Locator.CLASSNAME, "click");

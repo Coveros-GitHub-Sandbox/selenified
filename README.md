@@ -64,33 +64,36 @@ Have a look at this example test class to get an idea of what you'll actually be
             finish();
         }
 
-        @Test(dataProvider = "google search terms", groups = { "sample" },
-                description = "A sample selenium test using a data provider to perform searches")
-        public void sampleTestWDataProvider(String searchTerm) {
-            // use this object to manipulate the app
-            App app = this.apps.get();
-            // perform a simple search
-            app.newElement(Locator.NAME, "q").type(searchTerm);
-            app.newElement(Locator.NAME, "btnG").click();
-            app.newElement(Locator.ID, "resultStats").waitFor().present();
-            // verify the correct page title 
-            app.azzert().titleEquals(searchTerm + " - Google Search");
-            // verify no issues
-            finish();
-        }
-        
-        @Test(groups = { "sample" }, description = "An sample services test to verify the response code")
-    	public void sampleServicesTest() {
-	    	// the parameters to pass to google
-    		Map<String, String> params = new HashMap<>();
-	        params.put("q", "cheese");
-    	    // use this object to make web service calls
-	        Call call = this.calls.get();
-    	    // make a get call, and confirm we get a 200 response code
-        	call.get().("", new Request(params)).assertEquals(200);
-	        // verify no issues
-    	    finish();
-    	}
+         @Test(dataProvider = "google search terms", groups = { "sample"},
+                         description = "A sample selenium test using a data provider to perform a google search")
+         public void sampleTestWDataProvider(String searchTerm) {
+             // use this object to manipulate the app
+             App app = this.apps.get();
+             // find the search box element and create the object
+             Element searchBox = app.newElement(Locator.NAME, "q");
+             //perform the search and submit
+             searchBox.type(searchTerm);
+             searchBox.submit();
+             //wait for the page to return the results
+             app.newElement(Locator.ID, "resultStats").waitFor().present();
+             // verify the correct page title
+             app.azzert().titleEquals(searchTerm + " - Google Search");
+             // verify no issues
+             finish();
+         }
+
+         @Test(groups = { "sampleServices" }, description = "A sample web services test to verify the response code")
+             public void sampleServicesCityTest() {
+             Map<String, String> params = new HashMap<>();
+             params.put("address", "chicago");
+             // use this object to verify the app looks as expected
+             Call call = this.calls.get();
+             // retrieve the zip code and verify the return code
+             call.get("", new Request(params)).assertEquals(200);
+             // verify no issues
+             finish();
+         }
+
     }
 ```
 
@@ -99,8 +102,9 @@ In the next test, sampleTestWDataProvider, the App class is used to generate ele
 to interact with; type a search term, submit the search term and the wait for the page to load. 
 We then use that same element in order to verify the title contains the same search term. The 
 'google search terms' dataProvider provides a search term to the test. In the third test, a call 
-is made to the main google page, with the parameters of q equaling 'cheese'. For more information 
-on the App and Call class plus all the other classes used by Selenified, check out the 
+is made to the google maps api to retrieve the GPS coordinates of the city of Chicago, then verify
+the response code.
+For more information on the App and Call class plus all the other classes used by Selenified, check out the
 documentation [here](https://msaperst.github.io).
 
 ## Writing Tests
@@ -286,6 +290,30 @@ different ways, we don’t have a standard setup for oauth, csrf tokens, or othe
 [wiki](https://github.com/Coveros/selenified/wiki/Service-Authentication) for more information on authentication 
 schemes.
 
+###### Custom Headers
+Custom headers can be added to web-services calls, for whatever purpose. They can add user-agents, custom
+required headers for sites, or even override the default provided headers. Headers can be added on a per
+test basis, or can be added for all tests in a suite. Headers should be set as key-value pairs, in a HashMap.
+```java
+Map<String, String> headers = new HashMap<>();
+headers.put("X-Atlassian-Token", "no-check");
+```
+To set this on an individual basis, simply retrieve the `Call` object, and add the headers
+```java
+Call call = this.calls.get();
+call.addHeaders(headers);
+``` 
+To set the headers for an entire class, in the `@BeforeMethod`, just call the static `addHeader` method.
+```java
+addHeaders(headers);
+```
+Finally, if you want to reset the headers, on a test by test basis (maybe you want to set up headers for all 
+tests instead of one), you can call the `resetHeaders` method.
+```java
+Call call = this.calls.get();
+call.resetHeaders();
+```
+
 ##### Finalizing your tests
 Finally, in order to track errors within the tests, the last step of each test is comparing the value within 
 errors to the number 0. This will then throw an error if any issues occurred during the test. All previous
@@ -454,46 +482,9 @@ Of course, if this is something that you believe others can benefit from, feel f
 [open an issue](https://github.com/Coveros/selenified/issues), or fork the repo, and submit a PR once it's
 implemented.
 
-### Update testng build file
-When tests are executed from the commandline, the build file dictates which tests to execute. When a new package, 
-class or method is added to the test suite, they need to be included in the XML file if you want them to run. 
-More details on how to update this file can be found on the 
-[​TestNG Documentation site](http://testng.org/doc/documentation-main.html#testng-xml).
-
-## Configuring within an IDE
-### Eclipse
-Coming Soon
-### IntelliJ
-#### Clone from GitHub
-Select `File -> New -> Project From Version Control -> GitHub`, then log in to your github account.
-Enter `https://github.com/Coveros/selenified-testing-framework.git` as the project location.
-#### With code already cloned locally
-Select ```File -> New -> Project From Existing Sources```.
-Navigate to wherever you cloned the project, and select OK
-
-Click OK to open the project.
-Right click on `pom.xml`
-Select `Add as Maven Project`
-
-#### You might need to select a Module SDK
-Right click on the project
-Select `Open Module Settings` or click F4
-Click the dependencies tab
-Select 1.8 as the Module SDK
-
 ## Running Tests
 ### Parameters
 The testing framework requires no parameters, but takes several optional input parameters.
-#### Test Suite
-As the Selenified Testing Framework is built on top of TestNG, it follows the testng testing suite example 
-for determining which tests to execute. An XML file must exist following the guidelines outlined 
-[here](http://testng.org/doc/documentation-main.html#testng-xml). If this file is not specified, the default 
-file specified in the build tool will be used. If that file does not exist, no tests will be specified, and 
-so nothing will run.   
-```
--DsuiteXmlFile=my-test-suite.xml
-```
-There is a sample testng build file included named `integration.xml` which points to the included integration tests
 #### Application URL
 This is the default URL that all tests should run against. This value can be overridden in each test, class, or 
 even suite (see below).
@@ -528,6 +519,65 @@ address and port in the parameter
 ```
 -Dproxy=localhost:5013
 ```
+#### Headless
+Currently, only Chrome and Firefox supports running in headless mode. To achieve this, simply pass in the parameter `headless`
+```
+-Dheadless
+```
+#### Failsafe
+The pom included in this project works as an example for specifying which tests to run, and how to execute them. Tests 
+should be executed using the failsafe plugin, if using Maven, following standard Java practices. Several variables can 
+be easily set to specify which tests to run, and how to run them, all from the failsafe plugin itself.
+```xml
+<maven.failsafe.plugin.version>2.21.0</maven.failsafe.plugin.version>
+<!-- Test run information -->
+<failsafe.threads>5</failsafe.threads>
+<failsafe.verbosity>0</failsafe.verbosity>
+<failsafe.groups.include>integration</failsafe.groups.include>
+<failsafe.groups.exclude>browser</failsafe.groups.exclude>
+<failsafe.files.include>**/*IT.java</failsafe.files.include>
+<failsafe.files.exclude></failsafe.files.exclude>
+
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>${maven.failsafe.plugin.version}</version>
+    <configuration>
+        <parallel>methods</parallel>
+        <threadCount>${failsafe.threads}</threadCount>
+        <properties>
+            <property>
+                <name>surefire.testng.verbose</name>
+                <value>${failsafe.verbosity}</value>
+            </property>
+            <property>
+                <name>listener</name>
+                <value>com.coveros.selenified.utilities.Transformer</value>
+            </property>
+        </properties>
+        <groups>${failsafe.groups.include}</groups>
+        <excludedGroups>${failsafe.groups.exclude}</excludedGroups>
+        <includes>
+            <include>${failsafe.files.include}</include>
+        </includes>
+        <excludes>
+            <exclude>${failsafe.files.exclude}</exclude>
+        </excludes>
+    </configuration>
+    <executions>
+        <execution>
+            <id>verify</id>
+            <goals>
+                <goal>verify</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+``` 
+Several options exist to change how your tests are run, including `threads` (how many to run in parallel), `verbosity` 
+(how much logging is desired), `groups` (both included and excluded), and `files` (both included and excluded). Be sure 
+to set some standard values like in the above, and these can then be simply overridden from the commandline. More 
+options can he found [here](https://maven.apache.org/surefire/maven-failsafe-plugin/examples/testng.html)
 
 ### Eclipse
 Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
@@ -541,7 +591,7 @@ If you want to provide inputs to the tests being run, when right clicking on the
 Run Configurations... sub-item. On the option screen, select the Arguments tab on the upper left of the screen. In the 
 Program arguments input area, enter in the desired input details to be tested as below:
 ```
--DsuiteXmlFile=smoke.xml -appURL=www.google.com -Dbrowser=Chrome -Dhub=localhost -Dproxy=localhost:8082
+-appURL=www.google.com -Dbrowser=Chrome -Dhub=localhost -Dproxy=localhost:8082
 ```
 ### IntelliJ
 Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is 
@@ -550,40 +600,11 @@ SampleIT.java), and select the Run (package, class, or method) menu item. This w
 If you want to provide inputs to the tests being run, select Run -> Edit Configurations... from the top menu. 
 On the option menu, under JDK Settings tab, add your options into the VM options field as below:
 ```
--DsuiteXmlFile=./suites/regression.xml -appURL=google.com -Dbrowser=InternetExplorer -Dhub=192.168.1.10
+-appURL=google.com -Dbrowser=InternetExplorer -Dhub=192.168.1.10
 ```
 You can enter these values under either your already created tests, or as the default, if you want all tests to use them.
 
 ### Command Line
-#### TestNG
-Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
-command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
-```
-rm -rf bin/*
-```
-Create a directory for your dependencies, and download all of the required dependencies.
-```
-mkdir target/dependency
-cd target/dependency
-wget http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-java/2.53.1/selenium-java-2.53.1.jar
-wget http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-server/2.53.1/selenium-server-2.53.1.jar
-wget http://central.maven.org/maven2/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar
-wget http://central.maven.org/maven2/org/testng/testng/6.10/testng-6.10.jar
-wget http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-htmlunit-driver/2.52.0/selenium-htmlunit-driver-2.52.0.jar
-wget http://central.maven.org/maven2/org/slf4j/slf4j-simple/1.7.23/slf4j-simple-1.7.23.jar
-```
-Create the folder to hold our compiled classes
-```
-mkdir bin
-```
-Compile your tests
-```
-javac  -cp "target/dependency/*" -d bin test/*.java
-```
-Finally, launch your tests
-```
-java -cp "bin;target/dependency/*" -DappURL=http://localhost/ org.testng.TestNG sample.xml
-```
 #### Ant
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
 command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
@@ -592,11 +613,11 @@ ant clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-ant -DsuiteXmlFile=../acceptance.xml -DappURL=http://google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
+ant -DappURL=http://google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
 ```
 The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean test -DsuiteXmlFile=./suites/all.xml -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
+ant clean test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
 #### Maven
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
@@ -606,12 +627,12 @@ mvn clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-mvn verify -DsuiteXmlFile=../acceptance.xml -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
+mvn verify -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
 ```
 To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
-additional parameter, failsafe.groups with the desired group to test
+additional parameter, `failsafe.groups.include` with the desired group to test
 ```
-mvn verify -Dfailsafe.groups=smoke
+mvn verify -Dfailsafe.groups.include=smoke
 ```
 #### Gradle
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
@@ -621,7 +642,7 @@ gradle clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-gradle seleniumTest -PsuiteXmlFile=../acceptance.xml -DappURL=google.com -Dbrowser=Firefox
+gradle seleniumTest -DappURL=google.com -Dbrowser=Firefox
 ```
 To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
 additional parameter, groups with the desired group to test
@@ -666,7 +687,7 @@ Some of the integration tests require a physical browser to run, and so they can
 entire set with a browser, or a subset using HtmlUnit
 ```
 mvn clean verify -Dbrowser=Firefox
-mvn clean verify -Dfailsafe.groups=virtual
+mvn clean verify -Dfailsafe.groups.include=virtual
 ```
 
 ### Adding the jar to your project
@@ -680,7 +701,3 @@ and set it to true
 mvn clean verify -Dbrowser=Firefox -DpackageResults=true
 ```
 The zipped results will be placed in the same directory as the test results
-
-## Open Issues
-Note that there are a few open issues with the framework
-* Running blur and type keys on a Mac can fail when threaded. Be cautious when running these tests

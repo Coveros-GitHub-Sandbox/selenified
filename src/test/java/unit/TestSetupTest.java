@@ -1,11 +1,8 @@
 package unit;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.TestSetup;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -16,16 +13,19 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.utilities.TestSetup;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TestSetupTest {
 
-    private DesiredCapabilities capabilities = new DesiredCapabilities();
+    private final DesiredCapabilities capabilities = new DesiredCapabilities();
     private String setBrowser = null;
     private String setHub = null;
     private String setProxy = null;
+    private String setHeadless = null;
 
     @BeforeClass
     public void saveBrowser() {
@@ -37,6 +37,9 @@ public class TestSetupTest {
         }
         if (System.getProperty("proxy") != null) {
             setProxy = System.getProperty("proxy");
+        }
+        if (System.getProperty("headless") != null) {
+            setHeadless = System.getProperty("headless");
         }
     }
 
@@ -51,6 +54,9 @@ public class TestSetupTest {
         if (setProxy != null) {
             System.setProperty("proxy", setProxy);
         }
+        if (setHeadless != null) {
+            System.setProperty("headless", setHeadless);
+        }
     }
 
     @BeforeMethod
@@ -58,6 +64,7 @@ public class TestSetupTest {
         System.clearProperty("browser");
         System.clearProperty("hub");
         System.clearProperty("proxy");
+        System.clearProperty("headless");
     }
 
     @Test
@@ -300,8 +307,8 @@ public class TestSetupTest {
         Assert.assertEquals(capability.getCapability(CapabilityType.PLATFORM).toString(), "LINUX");
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void setupBrowserDetailsIllegalDevicePlatformTest() {
+    @Test
+    public void setupBrowserDetailsNonStandardDevicePlatformTest() {
         Map<String, String> browserDetails = new HashMap<>();
         browserDetails.put("devicePlatform", "Sun");
         TestSetup setup = new TestSetup();
@@ -382,16 +389,6 @@ public class TestSetupTest {
     }
 
     @Test
-    public void setupBrowserCapabilityMaronetteTest() throws InvalidBrowserException {
-        TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.MARIONETTE);
-        DesiredCapabilities capability = setup.getDesiredCapabilities();
-        Assert.assertEquals(capability.getBrowserName(), "firefox");
-        Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "firefox");
-        Assert.assertTrue((Boolean) capability.getCapability("marionette"));
-    }
-
-    @Test
     public void setupBrowserCapabilityOperaTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
         setup.setupBrowserCapability(Browser.OPERA);
@@ -429,47 +426,42 @@ public class TestSetupTest {
         TestSetup.setupDriver(Browser.ANDROID, capabilities);
     }
 
-    // @Test
-    // public void setupDriverCHROMETest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.CHROME,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "ChromeDriver");
-    // driver.quit();
-    // }
-
-    // @Test
-    // public void setupDriverEdgeTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.Edge,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(),
-    // "MicrosoftEdgeDriver");
-    // driver.quit();
-    // }
-
-    // @Test
-    // public void setupDriverFIREFOXTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.FIREFOX,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "FirefoxDriver");
-    // driver.quit();
-    // }
-
     @Test
     public void setupDriverHtmlUnitTest() throws InvalidBrowserException {
         WebDriver driver = TestSetup.setupDriver(Browser.HTMLUNIT, capabilities);
-        Assert.assertEquals(driver.getClass().getSimpleName(), "CustomHtmlUnitDriver");
+        Assert.assertEquals(driver.getClass().getSimpleName(), "HtmlUnitDriver");
         driver.quit();
     }
 
-    // @Test
-    // public void setupDriverInternetExplorerTest() throws
-    // InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.InternetExplorer,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(),
-    // "InternetExplorerDriver");
-    // driver.quit();
-    // }
+    @Test
+    public void setupDriverFirefoxTest() throws InvalidBrowserException {
+        System.setProperty("headless", "true");
+        WebDriver driver = TestSetup.setupDriver(Browser.FIREFOX, capabilities);
+        Assert.assertEquals(driver.getClass().getSimpleName(), "FirefoxDriver");
+        driver.quit();
+    }
+
+    @Test
+    public void setupDriverChromeTest() throws InvalidBrowserException {
+        System.setProperty("headless", "true");
+        WebDriver driver = TestSetup.setupDriver(Browser.CHROME, capabilities);
+        Assert.assertEquals(driver.getClass().getSimpleName(), "ChromeDriver");
+        driver.quit();
+    }
+
+//     @Test(expectedExceptions = NoSuchMethodError.class)
+//     public void setupDriverEdgeTest() throws InvalidBrowserException {
+//         WebDriver driver = TestSetup.setupDriver(Browser.EDGE, capabilities);
+//         Assert.assertEquals(driver.getClass().getSimpleName(), "MicrosoftEdgeDriver");
+//         driver.quit();
+//     }
+
+//     @Test(expectedExceptions = NoSuchMethodError.class)
+//     public void setupDriverInternetExplorerTest() throws InvalidBrowserException {
+//         WebDriver driver = TestSetup.setupDriver(Browser.INTERNETEXPLORER, capabilities);
+//         Assert.assertEquals(driver.getClass().getSimpleName(), "InternetExplorerDriver");
+//         driver.quit();
+//     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverIpadTest() throws InvalidBrowserException {
@@ -481,36 +473,26 @@ public class TestSetupTest {
         TestSetup.setupDriver(Browser.IPAD, capabilities);
     }
 
-    // @Test
-    // public void setupDriverMarionetteTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.Marionette,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "FirefoxDriver");
-    // driver.quit();
-    // }
+//    @Test(expectedExceptions = NoSuchMethodError.class)
+//    public void setupDriverOperaTest() throws InvalidBrowserException {
+//        WebDriver driver = TestSetup.setupDriver(Browser.OPERA, capabilities);
+//        Assert.assertEquals(driver.getClass().getSimpleName(), "OperaDriver");
+//        driver.quit();
+//    }
 
-    // @Test
-    // public void setupDriverOperaTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.Opera,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "OperaDriver");
-    // driver.quit();
-    // }
+//     @Test(expectedExceptions = NoSuchMethodError.class)
+//     public void setupDriverSafariTest() throws InvalidBrowserException {
+//         WebDriver driver = TestSetup.setupDriver(Browser.SAFARI, capabilities);
+//         Assert.assertEquals(driver.getClass().getSimpleName(), "SafariDriver");
+//         driver.quit();
+//     }
 
-    @Test(expectedExceptions = InvalidBrowserException.class)
-    public void setupDriverPhantomJSTest() throws InvalidBrowserException {
-        WebDriver driver = TestSetup.setupDriver(Browser.PHANTOMJS, capabilities);
-        Assert.assertEquals(driver.getClass().getSimpleName(), "PhantomDriver");
-        driver.quit();
-    }
-
-    // @Test
-    // public void setupDriverSafariTest() throws InvalidBrowserException {
-    // WebDriver driver = SeleniumSetup.setupDriver(Browser.Safari,
-    // capabilities);
-    // Assert.assertEquals(driver.getClass().getSimpleName(), "SafariDriver");
-    // driver.quit();
-    // }
+//    @Test(expectedExceptions = NoSuchMethodError.class)
+//    public void setupDriverPhantomJSTest() throws InvalidBrowserException {
+//        WebDriver driver = TestSetup.setupDriver(Browser.PHANTOMJS, capabilities);
+//        Assert.assertEquals(driver.getClass().getSimpleName(), "PhantomDriver");
+//        driver.quit();
+//    }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverIllegalBrowserTest() throws InvalidBrowserException {
@@ -552,10 +534,10 @@ public class TestSetupTest {
     @Test
     public void getTestNameTest(Method method) {
         Assert.assertEquals(TestSetup.getTestName(method), "unit_TestSetupTest_getTestNameTest");
-        Object[] options = new Object[] { "Python", "public" };
+        Object[] options = new Object[]{"Python", "public"};
         Assert.assertEquals(TestSetup.getTestName(method, options),
                 "unit_TestSetupTest_getTestNameTestWithOptionPython");
-        options = new Object[] { "Python", null };
+        options = new Object[]{"Python", null};
         Assert.assertEquals(TestSetup.getTestName(method, options),
                 "unit_TestSetupTest_getTestNameTestWithOptionPython");
         Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
@@ -567,21 +549,23 @@ public class TestSetupTest {
                 "UnitTests_helloWorldWithOptionPython");
         Assert.assertEquals(TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl"),
                 "UnitTests_helloWorldWithOptionPythonPerl");
-        Assert.assertEquals(
-                TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+        Assert.assertEquals(TestSetup
+                        .getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+                                "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
+                                "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
+                                "Gosu", "Powershell", "Squeak", "Gambas"),
+                "UnitTests_helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
+        String testName = TestSetup
+                .getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
                         "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
                         "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
-                        "Gosu", "Powershell", "Squeak", "Gambas"),
-                "UnitTests_helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
-        String testName = TestSetup.getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
-                "Groovy", "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell",
-                "Swift", "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
-                "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
+                        "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
         Assert.assertTrue(testName.matches("^UnitTests_helloWorld@[0-9a-f]+$"));
-        testName = TestSetup.getTestName("unit", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby",
-                "Groovy", "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell",
-                "Swift", "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
-                "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
+        testName = TestSetup
+                .getTestName("unit", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+                        "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
+                        "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
+                        "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
         Assert.assertTrue(testName.matches("^unit_UnitTests_helloWorld@[0-9a-f]+$"));
     }
 

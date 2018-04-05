@@ -1,7 +1,9 @@
 package integration;
 
-import java.lang.reflect.Method;
-
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -9,10 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.DriverSetup;
-import com.coveros.selenified.application.App;
+import java.lang.reflect.Method;
 
 public class NoBrowserIT extends Selenified {
 
@@ -32,8 +31,7 @@ public class NoBrowserIT extends Selenified {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
-    @Test(groups = { "integration",
-            "virtual" }, description = "An integration test to verify we can start a test without a browser")
+    @Test(groups = {"integration"}, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowser() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -43,8 +41,7 @@ public class NoBrowserIT extends Selenified {
         finish();
     }
 
-    @Test(groups = { "integration",
-            "virtual" }, description = "An integration test to verify we can start a test without a browser")
+    @Test(groups = {"integration"}, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowserActions() {
         // use this object to manipulate the app
         Browser browser = this.browser.get();
