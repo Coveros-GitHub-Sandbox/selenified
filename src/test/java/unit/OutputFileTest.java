@@ -45,6 +45,7 @@ public class OutputFileTest {
         File file = new File("somenewdir", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         file.delete();
+        new File("somenewdir").delete();
     }
 
     @Test
