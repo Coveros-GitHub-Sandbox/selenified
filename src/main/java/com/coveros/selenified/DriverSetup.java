@@ -28,8 +28,8 @@ package com.coveros.selenified;
 public enum DriverSetup {
     FALSE, OPEN, LOAD;
 
-    protected Boolean browser;
-    protected Boolean load;
+    private Boolean browser;
+    private Boolean load;
 
     static {
         FALSE.browser = false;

@@ -20,21 +20,19 @@
 
 package com.coveros.selenified.element;
 
+import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.OutputFile.Result;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.testng.log4testng.Logger;
-
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.element.Element;
 
 /**
  * WaitFor performs dynamic waits on a particular element, until a particular
  * condition is met. Nothing is ever returned. The default wait is 5 seconds,
  * but can be overridden. If the condition is not met in the allotted time,
  * still nothing is returned, but an error is logged
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/13/2017
@@ -44,10 +42,10 @@ public class WaitFor {
     private static final Logger log = Logger.getLogger(WaitFor.class);
 
     // what element are we trying to interact with on the page
-    private Element element;
+    private final Element element;
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private final OutputFile file;
 
     // constants
     private static final String WAITED = "Waited ";
@@ -68,10 +66,9 @@ public class WaitFor {
 
     /**
      * Changes the default wait time from 5.0 seconds to some custom number.
-     * 
-     * @param seconds
-     *            - how many seconds should WaitFor wait for the condition to be
-     *            met
+     *
+     * @param seconds - how many seconds should WaitFor wait for the condition to be
+     *                met
      */
     public void changeDefaultWait(double seconds) {
         defaultWait = seconds;
@@ -130,9 +127,8 @@ public class WaitFor {
 
     /**
      * Wait up to a specified time for the element to be present
-     * 
-     * @param seconds
-     *            - the number of seconds to wait
+     *
+     * @param seconds - the number of seconds to wait
      */
     public void present(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + PRESENT;
@@ -141,7 +137,7 @@ public class WaitFor {
         double end = System.currentTimeMillis() + (seconds * 1000);
         while (System.currentTimeMillis() < end) {
             try { // If results have been returned, the results are displayed in
-                    // a drop down.
+                // a drop down.
                 element.getWebElement().getText();
                 break;
             } catch (NoSuchElementException | StaleElementReferenceException e) {
@@ -163,8 +159,7 @@ public class WaitFor {
     /**
      * Wait up to a specified time for the element to no longer be present
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void notPresent(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be present";
@@ -191,8 +186,7 @@ public class WaitFor {
     /**
      * Wait up to a specified time for the element to be displayed
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void displayed(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + DISPLAYED;
@@ -228,15 +222,15 @@ public class WaitFor {
     /**
      * Wait up to a specified time for the element to no longer be displayed
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void notDisplayed(double seconds) {
         // this might fail if the element disappears completely
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be displayed";
         String expected = element.prettyOutputStart() + " is not displayed";
         if (!element.is().present()) {
-            file.recordAction(action, expected, element.prettyOutput() + " is not present, and therefore not displayed",
+            file.recordAction(action, expected, element.prettyOutputStart() + " is not present, and therefore not " +
+                            "displayed",
                     Result.SUCCESS);
             return;
         }
@@ -245,8 +239,7 @@ public class WaitFor {
         // wait for up to XX seconds
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            while (webElement.isDisplayed() && System.currentTimeMillis() < end)
-                ;
+            while (webElement.isDisplayed() && System.currentTimeMillis() < end);
         } catch (StaleElementReferenceException e) {
             log.info(e);
             file.recordAction(action, expected,
@@ -268,8 +261,7 @@ public class WaitFor {
     /**
      * Wait up to a specified time for the element to be enabled
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void enabled(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + ENABLED;
@@ -304,15 +296,15 @@ public class WaitFor {
     /**
      * Wait up to a specified time for the element to no longer be enabled
      *
-     * @param seconds
-     *            - the number of seconds to wait
+     * @param seconds - the number of seconds to wait
      */
     public void notEnabled(double seconds) {
         // this might fail if the element is no longer present
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be enabled";
         String expected = element.prettyOutputStart() + " is not enabled";
         if (!element.is().present()) {
-            file.recordAction(action, expected, element.prettyOutput() + " is not present, and therefore not enabled",
+            file.recordAction(action, expected, element.prettyOutputStart() + " is not present, and therefore not " +
+                            "enabled",
                     Result.SUCCESS);
             return;
         }
@@ -321,8 +313,7 @@ public class WaitFor {
         // wait for up to XX seconds
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            while (webElement.isEnabled() && System.currentTimeMillis() < end)
-                ;
+            while (webElement.isEnabled() && System.currentTimeMillis() < end);
         } catch (StaleElementReferenceException e) {
             log.info(e);
             file.recordAction(action, expected,

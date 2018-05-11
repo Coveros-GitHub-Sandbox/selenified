@@ -20,9 +20,9 @@
 
 package com.coveros.selenified.services;
 
-import java.util.Map;
-
 import com.google.gson.JsonObject;
+
+import java.util.Map;
 
 /**
  * A class designed to hold data needed to provide to the HTTP calls.

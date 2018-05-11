@@ -29,17 +29,15 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
  * Safari, PhantomJS
  */
 public enum Browser {
-    NONE, HTMLUNIT, FIREFOX, MARIONETTE, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
+    NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
 
     /**
      * allows the browser selected to be passed in with a case insensitive name
-     * 
-     * @param b
-     *            - the string name of the browser
+     *
+     * @param b - the string name of the browser
      * @return Browser: the enum version of the browser
-     * @throws InvalidBrowserException
-     *             If a browser that is not one specified in the
-     *             Selenium.Browser class is used, this exception will be thrown
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public static Browser lookup(String b) throws InvalidBrowserException {
         for (Browser browser : Browser.values()) {

@@ -20,10 +20,10 @@
 
 package com.coveros.selenified.element;
 
-import java.util.Arrays;
-
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
+
+import java.util.Arrays;
 
 /**
  * Equals extends Asserts to provide some additional verification capabilities.
@@ -33,7 +33,7 @@ import com.coveros.selenified.OutputFile.Success;
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests. Equals checks that elements have a particular value associated
  * to them.
- * 
+ *
  * @author Max Saperstone
  * @version 3.0.0
  * @lastupdate 8/14/2017
@@ -62,10 +62,8 @@ public class Equals extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param attribute
-     *            - the css attribute to be checked
-     * @param expectedValue
-     *            the expected css value of the passed attribute of the element
+     * @param attribute     - the css attribute to be checked
+     * @param expectedValue the expected css value of the passed attribute of the element
      */
     public void cssValue(String attribute, String expectedValue) {
         // wait for the element
@@ -73,23 +71,25 @@ public class Equals extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " having a css attribute of <i>" + attribute
-                + " with a value of <b>" + expectedValue + "</b>");
+        file.recordExpected(EXPECTED + element.prettyOutput() + " having a css attribute of <i>" + attribute +
+                " with a value of <b>" + expectedValue + "</b>");
         // get the actual css element value
         String elementCssValue = element.get().css(attribute);
         if (elementCssValue == null) {
-            file.recordActual("Unable to assess the css of " + element.prettyOutput(), Success.FAIL);
+            file.recordActual("Unable to assess the css of " + element.prettyOutputEnd(), Success.FAIL);
             file.addError();
             return;
         }
         if (!elementCssValue.equals(expectedValue)) {
-            file.recordActual(element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH
-                    + elementCssValue + "</b>", Success.FAIL);
+            file.recordActual(
+                    element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + elementCssValue +
+                            "</b>", Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH
-                + elementCssValue + "</b>", Success.PASS);
+        file.recordActual(
+                element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + elementCssValue +
+                        "</b>", Success.PASS);
     }
 
     /**
@@ -98,8 +98,7 @@ public class Equals extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param expectedClass
-     *            - the full expected class value
+     * @param expectedClass - the full expected class value
      */
     public void clazz(String expectedClass) {
         // wait for the element
@@ -111,7 +110,7 @@ public class Equals extends Assert {
         // get the actual class value
         String actualClass = element.get().attribute(CLASS);
         // file.record the element
-        if (!actualClass.equals(expectedClass)) {
+        if (expectedClass == null ? actualClass != null : !expectedClass.equals(actualClass)) {
             file.recordActual(element.prettyOutputStart() + CLASSVALUE + actualClass + "</b>", Success.FAIL);
             file.addError();
             return;
@@ -126,10 +125,8 @@ public class Equals extends Assert {
      * This information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
-     * @param attribute
-     *            - the attribute to be checked
-     * @param expectedValue
-     *            the expected value of the passed attribute of the element
+     * @param attribute     - the attribute to be checked
+     * @param expectedValue the expected value of the passed attribute of the element
      */
     public void attribute(String attribute, String expectedValue) {
         // wait for the element
@@ -137,8 +134,9 @@ public class Equals extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " having an attribute of <i>" + attribute
-                + " with a value of <b>" + expectedValue + "</b>");
+        file.recordExpected(
+                EXPECTED + element.prettyOutput() + " having an attribute of <i>" + attribute + " with a value of <b>" +
+                        expectedValue + "</b>");
         // get the actual attribute value
         String elementValue = element.get().attribute(attribute);
         if (elementValue == null) {
@@ -165,8 +163,7 @@ public class Equals extends Assert {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param expectedText
-     *            the expected value of the element
+     * @param expectedText the expected value of the element
      */
     public void text(String expectedText) {
         // wait for the element
@@ -192,33 +189,31 @@ public class Equals extends Assert {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      *
-     * @param row
-     *            - the number of the row in the table - note, row numbering
-     *            starts at 1, NOT 0
-     * @param col
-     *            - the number of the column in the table - note, column
-     *            numbering starts at 1, NOT 0
-     * @param text
-     *            - what text do we expect to be in the table cell
+     * @param row  - the number of the row in the table - note, row numbering
+     *             starts at 1, NOT 0
+     * @param col  - the number of the column in the table - note, column
+     *             numbering starts at 1, NOT 0
+     * @param text - what text do we expect to be in the table cell
      */
     public void text(int row, int col, String text) {
         String column = " and column ";
         String within = " within element ";
         // wait for the table
-        if (!isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput()
-                + " to have the text value of <b>" + text + "</b>")) {
+        if (!isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput() +
+                " to have the text value of <b>" + text + "</b>")) {
             return;
         }
         // get the table cell text
         String actualText = element.get().tableCell(row, col).getText();
         if (!actualText.equals(text)) {
-            file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput()
-                    + " has the text value of <b>" + actualText + "</b>", Success.FAIL);
+            file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput() +
+                    " has the text value of <b>" + actualText + "</b>", Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput()
-                + " has the text value of <b>" + actualText + "</b>", Success.PASS);
+        file.recordActual(
+                "Cell at row " + row + column + col + within + element.prettyOutput() + " has the text value of <b>" +
+                        actualText + "</b>", Success.PASS);
     }
 
     /**
@@ -227,8 +222,7 @@ public class Equals extends Assert {
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedValue
-     *            the expected input value of the element
+     * @param expectedValue the expected input value of the element
      */
     public void value(String expectedValue) {
         // wait for the element
@@ -259,8 +253,7 @@ public class Equals extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedText
-     *            the expected input text of the element
+     * @param expectedText the expected input text of the element
      */
     public void selectedOption(String expectedText) {
         // wait for the select
@@ -284,8 +277,7 @@ public class Equals extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedValue
-     *            the expected input value of the element
+     * @param expectedValue the expected input value of the element
      */
     public void selectedValue(String expectedValue) {
         // wait for the select
@@ -309,8 +301,7 @@ public class Equals extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedOptions
-     *            the expected input value of the element
+     * @param expectedOptions the expected input value of the element
      */
     public void selectOptions(String... expectedOptions) {
         // wait for the select
@@ -336,13 +327,13 @@ public class Equals extends Assert {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedValues
-     *            the expected input value of the element
+     * @param expectedValues the expected input value of the element
      */
     public void selectValues(String... expectedValues) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with select values of <b>"
-                + Arrays.toString(expectedValues) + "</b>")) {
+        if (!isPresentSelect(
+                EXPECTED + element.prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) +
+                        "</b>")) {
             return;
         }
         // get the actual select values

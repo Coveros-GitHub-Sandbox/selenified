@@ -1,9 +1,8 @@
 package integration;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
-
+import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -11,9 +10,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.coveros.selenified.Selenified;
-import com.coveros.selenified.DriverSetup;
-import com.coveros.selenified.application.App;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class NoLoadIT extends Selenified {
 
@@ -34,8 +33,8 @@ public class NoLoadIT extends Selenified {
     }
 
     @SuppressWarnings("deprecation")
-    @Test(groups = { "integration",
-            "virtual" }, description = "An integration test to verify we can start a test with a browser, but won't load any app")
+    @Test(groups = {"integration"},
+            description = "An integration test to verify we can start a test with a browser, but won't load any app")
     public void verifyNoLoad(ITestContext context) throws IOException {
         // use this object to manipulate the app
         App app = this.apps.get();

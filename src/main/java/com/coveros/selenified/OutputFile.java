@@ -20,13 +20,15 @@
 
 package com.coveros.selenified;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.services.Request;
+import com.coveros.selenified.services.Response;
+import com.coveros.selenified.utilities.TestSetup;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.testng.log4testng.Logger;
+
+import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,16 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import org.testng.log4testng.Logger;
-
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.application.App;
-import com.coveros.selenified.services.Request;
-import com.coveros.selenified.services.Response;
-import com.coveros.selenified.utilities.TestSetup;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * A custom output file, recording all details of every step performed, both
@@ -64,19 +56,19 @@ public class OutputFile {
 
     private App app = null;
 
-    private String url;
-    private String suite;
-    private String group;
-    private String version;
-    private String author;
-    private String objectives;
+    private final String url;
+    private final String suite;
+    private final String group;
+    private final String version;
+    private final String author;
+    private final String objectives;
 
-    private String test;
-    private String directory;
-    private File file;
-    private String filename;
+    private final String test;
+    private final String directory;
+    private final File file;
+    private final String filename;
     private Browser browser = Browser.NONE;
-    private List<String> screenshots = new ArrayList<>();
+    private final List<String> screenshots = new ArrayList<>();
 
     // timing of the test
     private long startTime;
@@ -86,7 +78,7 @@ public class OutputFile {
     // this will keep track of the errors
     private int errors = 0;
     // the image width for reporting
-    private int embeddedImageWidth = 300;
+    private final int embeddedImageWidth = 300;
 
     // constants
     private static final String START_ROW = "   <tr>\n";
@@ -97,29 +89,20 @@ public class OutputFile {
     /**
      * Creates a new instance of the OutputFile, which will serve as the
      * detailed log
-     * 
-     * @param directory
-     *            - a string of the directory holding the files
-     * @param test
-     *            - a string value of the test name, typically the method name
-     * @param browser
-     *            - the browser the tests are running on
-     * @param url
-     *            - the url all of the tests are running against
-     * @param suite
-     *            - the test suite associated with the particular test
-     * @param group
-     *            - any testng groups associated with the particular test
-     * @param author
-     *            - the author associated with the particular test
-     * @param version
-     *            - the version of the test suite associated with the particular
-     *            test
-     * @param objectives
-     *            - the test objectives, taken from the testng description
+     *
+     * @param directory  - a string of the directory holding the files
+     * @param test       - a string value of the test name, typically the method name
+     * @param browser    - the browser the tests are running on
+     * @param url        - the url all of the tests are running against
+     * @param suite      - the test suite associated with the particular test
+     * @param group      - any testng groups associated with the particular test
+     * @param author     - the author associated with the particular test
+     * @param version    - the version of the test suite associated with the particular
+     *                   test
+     * @param objectives - the test objectives, taken from the testng description
      */
     public OutputFile(String directory, String test, Browser browser, String url, String suite, String group,
-            String author, String version, String objectives) {
+                      String author, String version, String objectives) {
         this.directory = directory;
         this.test = test;
         this.browser = browser;
@@ -147,7 +130,7 @@ public class OutputFile {
 
     /**
      * Retrieves the filename in string form of the output file
-     * 
+     *
      * @return String: filename
      */
     public String getFileName() {
@@ -156,9 +139,9 @@ public class OutputFile {
 
     /**
      * Retrieves the current error count of the test
-     * 
+     *
      * @return Integer: the number of errors current encountered on the current
-     *         test
+     * test
      */
     public int getErrors() {
         return errors;
@@ -174,8 +157,7 @@ public class OutputFile {
     /**
      * Increments the current error count of the test by the provided amount
      *
-     * @param errorsToAdd
-     *            - the number of errors to add
+     * @param errorsToAdd - the number of errors to add
      */
     public void addErrors(int errorsToAdd) {
         errors += errorsToAdd;
@@ -184,7 +166,7 @@ public class OutputFile {
     /**
      * Determines if a 'real' browser is being used. If the browser is NONE or
      * HTMLUNIT it is not considered a real browser
-     * 
+     *
      * @return Boolean: is the browser a 'real' browser
      */
     private boolean isRealBrowser() {
@@ -193,9 +175,8 @@ public class OutputFile {
 
     /**
      * Sets the App class which controls all actions within the browser
-     * 
-     * @param app
-     *            - the application to be tested, contains all control elements
+     *
+     * @param app - the application to be tested, contains all control elements
      */
     public void setApp(App app) {
         this.app = app;
@@ -222,15 +203,14 @@ public class OutputFile {
     /**
      * Counts the number of occurrence of a string within a file
      *
-     * @param textToFind
-     *            - the text to count
+     * @param textToFind - the text to count
      * @return Integer: the number of times the text was found in the file
-     *         provided
+     * provided
      */
     private int countInstancesOf(String textToFind) {
         int count = 0;
-        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
-            String line = "";
+        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
+            String line;
             while ((line = reader.readLine()) != null) {
                 if (line.contains(textToFind)) {
                     count++;
@@ -245,18 +225,17 @@ public class OutputFile {
     /**
      * Replaces an occurrence of a string within a file
      *
-     * @param oldText
-     *            - the text to be replaced
-     * @param newText
-     *            - the text to be replaced with
+     * @param oldText - the text to be replaced
+     * @param newText - the text to be replaced with
      */
     private void replaceInFile(String oldText, String newText) {
         StringBuilder oldContent = new StringBuilder();
 
-        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr);) {
-            String line = "";
+        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
+            String line;
             while ((line = reader.readLine()) != null) {
-                oldContent.append(line + "\r\n");
+                oldContent.append(line);
+                oldContent.append("\r\n");
             }
         } catch (IOException e) {
             log.error(e);
@@ -265,7 +244,7 @@ public class OutputFile {
         // replace a word in a file
         String newContent = oldContent.toString().replaceAll(oldText, newText);
 
-        try (FileWriter writer = new FileWriter(file);) {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(newContent);
         } catch (IOException ioe) {
             log.error(ioe);
@@ -296,14 +275,10 @@ public class OutputFile {
      * is considered a failure, and a 'real' browser is being used (not NONE or
      * HTMLUNIT), then a screenshot will automatically be taken
      *
-     * @param action
-     *            - the step that was performed
-     * @param expectedResult
-     *            - the result that was expected to occur
-     * @param actualResult
-     *            - the result that actually occurred
-     * @param result
-     *            - the result of the action
+     * @param action         - the step that was performed
+     * @param expectedResult - the result that was expected to occur
+     * @param actualResult   - the result that actually occurred
+     * @param result         - the result of the action
      */
     public void recordAction(String action, String expectedResult, String actualResult, Result result) {
         stepNum++;
@@ -326,7 +301,7 @@ public class OutputFile {
         lastTime = currentTime.getTime();
         try (
                 // Reopen file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // record the action
             out.write(START_ROW);
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
@@ -347,15 +322,13 @@ public class OutputFile {
      * failure. This method should only be used after first writing the expected
      * result, using the recordExpected method.
      *
-     * @param actualOutcome
-     *            - what the actual outcome was
-     * @param result
-     *            - whether this result is a pass or a failure
+     * @param actualOutcome - what the actual outcome was
+     * @param result        - whether this result is a pass or a failure
      */
     public void recordActual(String actualOutcome, Success result) {
         try (
                 // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // get a screen shot of the action
             String imageLink = "";
             if (isRealBrowser()) {
@@ -387,15 +360,14 @@ public class OutputFile {
      * should always be followed the recordActual method to record what actually
      * happened.
      *
-     * @param expectedOutcome
-     *            - what the expected outcome is
+     * @param expectedOutcome - what the expected outcome is
      */
     public void recordExpected(String expectedOutcome) {
         stepNum++;
 
         try (
                 // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // start the row
             out.write(START_ROW);
             // log the step number
@@ -425,7 +397,7 @@ public class OutputFile {
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
         String datePart = sdf.format(new Date());
         String sTime = stf.format(startTime);
-        try (FileWriter fw = new FileWriter(file); BufferedWriter out = new BufferedWriter(fw);) {
+        try (FileWriter fw = new FileWriter(file); BufferedWriter out = new BufferedWriter(fw)) {
             out.write("<html>\n");
             out.write(" <head>\n");
             out.write("  <title>" + test + "</title>\n");
@@ -547,8 +519,8 @@ public class OutputFile {
             out.write("    <td colspan=3 style='padding: 0px;'>\n");
             out.write("     <table style='width: 100%;'><tr>\n");
             out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
-            out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>"
-                    + "<td><b>Steps Failed</b></td>\n");
+            out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" +
+                    "<td><b>Steps Failed</b></td>\n");
             out.write("     </tr><tr>\n");
             out.write("      <td>STEPSPERFORMED</td><td>STEPSPASSED</td><td>STEPSFAILED</td>\n");
             out.write("     </tr></table>\n");
@@ -570,11 +542,10 @@ public class OutputFile {
             out.write("  </table>\n");
             out.write("  <table id='all_results'>\n");
             out.write(START_ROW);
-            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>"
-                    + "<th style='text-align:center'>Expected Result</th>"
-                    + "<th style='text-align:center'>Actual Result</th>"
-                    + "<th style='text-align:center'>Step Times</th>"
-                    + "<th style='text-align:center'>Pass/Fail</th>\n");
+            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>" +
+                    "<th style='text-align:center'>Expected Result</th>" +
+                    "<th style='text-align:center'>Actual Result</th>" +
+                    "<th style='text-align:center'>Step Times</th>" + "<th style='text-align:center'>Pass/Fail</th>\n");
             out.write(END_ROW);
         } catch (IOException e) {
             log.error(e);
@@ -588,7 +559,7 @@ public class OutputFile {
      */
     public void finalizeOutputFile() {
         // reopen the file
-        try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw);) {
+        try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             out.write("  </table>\n");
             out.write(" </body>\n");
             out.write("</html>\n");
@@ -638,7 +609,7 @@ public class OutputFile {
     private void packageTestResults() {
         File f = new File(directory, filename + "_RESULTS.zip");
         try (// Create new zip file
-                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
+             ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
 
             // Add html results to zip file
             ZipEntry e = new ZipEntry(filename);
@@ -666,21 +637,20 @@ public class OutputFile {
     /**
      * Generates the HTML friendly link for the image
      *
-     * @param imageName
-     *            the name of the image being embedded
+     * @param imageName the name of the image being embedded
      * @return String: the link for the image which can be written out to the
-     *         html file
+     * html file
      */
     private String generateImageLink(String imageName) {
         String imageLink = "<br/>";
         if (imageName.length() >= directory.length() + 1) {
-            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\""
-                    + imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
-            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\""
-                    + imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
-            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='"
-                    + imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth
-                    + "px' style='display:none;'>";
+            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\"" +
+                    imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
+            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\"" +
+                    imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
+            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
+                    imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth +
+                    "px' style='display:none;'>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
         }
@@ -712,10 +682,9 @@ public class OutputFile {
 
     /**
      * Formats the request parameters to be 'prettily' printed out in HTML
-     * 
-     * @param params
-     *            - the parameters to be formatted. Either a JSON object, or a
-     *            hashmap
+     *
+     * @param params - the parameters to be formatted. Either a JSON object, or a
+     *               hashmap
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
     public String outputRequestProperties(Request params) {
@@ -744,9 +713,8 @@ public class OutputFile {
 
     /**
      * Formats the response parameters to be 'prettily' printed out in HTML
-     * 
-     * @param response
-     *            - the http response to be formatted.
+     *
+     * @param response - the http response to be formatted.
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
     public String formatResponse(Response response) {
@@ -771,10 +739,9 @@ public class OutputFile {
     /**
      * Takes a generic string and replaces spaces and new lines with HTML
      * friendly pieces for display purposes
-     * 
-     * @param string
-     *            : the regular string to be formatted into an HTML pretty
-     *            rendering string
+     *
+     * @param string : the regular string to be formatted into an HTML pretty
+     *               rendering string
      * @return String : the replaced result
      */
     public String formatHTML(String string) {
@@ -790,18 +757,14 @@ public class OutputFile {
 
     /**
      * Determines if the tests pass or fail
-     * 
-     * @author Max Saperstone
      *
+     * @author Max Saperstone
      */
     public enum Success {
         PASS, FAIL;
 
-        protected int errors;
+        int errors;
 
-        /**
-         * Are errors associated with the enumeration
-         */
         static {
             PASS.errors = 0;
             FAIL.errors = 1;
@@ -809,7 +772,7 @@ public class OutputFile {
 
         /**
          * Retrieves the errors associated with the enumeration
-         * 
+         *
          * @return Integer: the errors associated with the enumeration
          */
         public int getErrors() {
@@ -819,9 +782,8 @@ public class OutputFile {
 
     /**
      * Gives status for each test step
-     * 
-     * @author Max Saperstone
      *
+     * @author Max Saperstone
      */
     public enum Result {
         WARNING, SUCCESS, FAILURE, SKIPPED
