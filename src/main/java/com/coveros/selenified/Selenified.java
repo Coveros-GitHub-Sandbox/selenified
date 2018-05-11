@@ -25,8 +25,10 @@ import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.utilities.Sauce;
 import com.coveros.selenified.utilities.TestSetup;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -38,6 +40,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.Reporter.getCurrentTestResult;
 
 /**
  * Selenified contains all of the elements to setup the test suite, and to start
@@ -338,6 +341,9 @@ public class Selenified {
      */
     @AfterMethod(alwaysRun = true)
     protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+        if (Sauce.isSauce() && this.apps.get() != null && this.apps.get().getDriver() != null) {
+            result.setAttribute("SessionId", ((RemoteWebDriver) this.apps.get().getDriver()).getSessionId());
+        }
         String testName = TestSetup.getTestName(method, dataProvider);
         if (this.apps.get() != null) {
             this.apps.get().killDriver();

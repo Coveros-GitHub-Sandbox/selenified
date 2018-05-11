@@ -40,7 +40,7 @@ node {
             sh "rm -rf jacoco*"
         }
         stage('Update Test Site') {
-            sh 'scp public/* ec2-user@172.31.2.65:/var/www/noindex/'
+            sh 'scp public/* ec2-user@34.233.135.10:/var/www/noindex/'
         }
         stage('Run Unit Tests') {
             sh "mvn clean test"
