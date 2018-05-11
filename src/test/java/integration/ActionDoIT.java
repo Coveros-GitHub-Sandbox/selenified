@@ -1212,7 +1212,7 @@ public class ActionDoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "do", "draw"},
+    @Test(groups = {"integration", "actions", "do", "draw", "browser"},
             description = "An integration negative test to check the draw method")
     public void drawTest() {
         // use this object to manipulate the app
