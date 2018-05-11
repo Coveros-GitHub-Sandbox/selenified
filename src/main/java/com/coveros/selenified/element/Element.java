@@ -1070,7 +1070,7 @@ public class Element {
 
     /**
      * Simulates moving the mouse around while the cursor is pressed. Can be
-     * used for drawing on canvases, or swipping on certain elements
+     * used for drawing on canvases, or swipping on certain elements. Note, this is not supported in HTMLUNIT
      *
      * @param points - a list of points to connect. At least one point must be
      *               provided in the list
