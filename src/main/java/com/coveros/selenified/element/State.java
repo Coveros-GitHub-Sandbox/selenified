@@ -332,8 +332,7 @@ public class State extends Assert {
         // file.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " enabled on the page");
         if (!element.is().enabled()) {
-            file.recordActual(element.prettyOutputStart() + IS + "present, but not enabled on the page",
-                    Success.FAIL);
+            file.recordActual(element.prettyOutputStart() + IS + "present, but not enabled on the page", Success.FAIL);
             file.addError();
             return;
         }

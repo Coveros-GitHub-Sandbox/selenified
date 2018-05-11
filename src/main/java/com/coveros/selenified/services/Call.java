@@ -24,7 +24,6 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import org.testng.log4testng.Logger;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
