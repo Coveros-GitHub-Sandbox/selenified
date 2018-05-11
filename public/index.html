@@ -107,13 +107,12 @@
         setTimeout(function() {
             five_second_button.disabled = true;
         }, 6100);
+
+        init();
     };
 
 
-    </script>
-    <script>
     var canvas, ctx, flag = false, prevX = 0, currX = 0, prevY = 0, currY = 0, dot_flag = false;
-
     var x = "black", y = 2;
 
     function init() {
@@ -174,8 +173,6 @@
             }
         }
     }
-
-
     </script>
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -227,11 +224,9 @@ tr:nth-child(even) {
     height: 25px;
     text-align: center;
 }
-
-
 </style>
 </head>
-<body onload="init()">
+<body>
 <table id="align_table" name="align_table" class="full_width">
     <tbody>
     <tr>
@@ -293,8 +288,7 @@ tr:nth-child(even) {
         </td>
         <td>
             <h2>
-                <a href="#" onclick="javascript:confirm('Confirmation')">I'M A
-                    LINK</a>
+                <a href="#" onclick="javascript:confirm('Confirmation')">I'M A LINK</a>
             </h2>
             <table id="table">
                 <thead>
