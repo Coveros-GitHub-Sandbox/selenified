@@ -312,11 +312,11 @@ public class TestSetup {
         }
         if (browser == Browser.CHROME && browserOptions.contains("--headless")) {
             browserOptions.remove("--headless");
-            System.setProperty("headless", "true");
+            System.setProperty(HEADLESS_INPUT, "true");
         }
         if (browser == Browser.FIREFOX && browserOptions.contains("-headless")) {
             browserOptions.remove("-headless");
-            System.setProperty("headless", "true");
+            System.setProperty(HEADLESS_INPUT, "true");
         }
         return browserOptions;
     }
