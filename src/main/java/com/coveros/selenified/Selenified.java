@@ -40,7 +40,6 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.Reporter.getCurrentTestResult;
 
 /**
  * Selenified contains all of the elements to setup the test suite, and to start
@@ -287,6 +286,9 @@ public class Selenified {
             if (selenium.loadPage()) {
                 loadInitialPage(app, getTestSite(extClass, test), myFile);
             }
+            if (Sauce.isSauce()) {
+                result.setAttribute("SessionId", ((RemoteWebDriver) app.getDriver()).getSessionId());
+            }
         } else {
             HTTP http = new HTTP(getTestSite(extClass, test), servicesUser, servicesPass);
             Call call = new Call(http, myFile, extraHeaders);
@@ -341,9 +343,6 @@ public class Selenified {
      */
     @AfterMethod(alwaysRun = true)
     protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-        if (Sauce.isSauce() && this.apps.get() != null && this.apps.get().getDriver() != null) {
-            result.setAttribute("SessionId", ((RemoteWebDriver) this.apps.get().getDriver()).getSessionId());
-        }
         String testName = TestSetup.getTestName(method, dataProvider);
         if (this.apps.get() != null) {
             this.apps.get().killDriver();

@@ -26,8 +26,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectValues("volvo", "saab", "mercedes", "audi");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectValues("volvo", "saab", "mercedes", "audi");
         // verify no issues
         finish();
     }
@@ -50,8 +49,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectValues("volvo", "ford", "mercedes", "audi");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectValues("volvo", "ford", "mercedes", "audi");
         // verify 1 issue
         finish(1);
     }
@@ -85,8 +83,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions("Volvo", "Saab", "Mercedes", "Audi");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectOptions("Volvo", "Saab", "Mercedes", "Audi");
         // verify no issues
         finish();
     }
@@ -109,8 +106,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions("Volvo", "Ford", "Mercedes", "Audi");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectOptions("Volvo", "Ford", "Mercedes", "Audi");
         // verify 1 issue
         finish(1);
     }
@@ -133,8 +129,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions("Volvo", "Saab", "Mercedes");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectOptions("Volvo", "Saab", "Mercedes");
         // verify no issue
         finish(1);
     }

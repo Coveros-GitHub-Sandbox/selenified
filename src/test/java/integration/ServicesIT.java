@@ -4,7 +4,6 @@ import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
-import com.coveros.selenified.services.Response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
