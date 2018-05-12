@@ -45,7 +45,7 @@ node {
         stage('Run Unit Tests') {
             sh "mvn clean test"
             sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec;"
-            sh "mkdir results/unit; mv target results/unit/"
+            sh "mkdir -p results/unit; mv target results/unit/"
         }
         wrap([$class: 'Xvfb']) {
             stage('Execute HTMLUnit Tests') {
@@ -55,7 +55,7 @@ node {
                     echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mkdir results/htmlunit; mv target results/htmlunit/";
+                    sh "mkdir -p results/htmlunit; mv target results/htmlunit/";
                 }
             }
             stage('Execute Chrome and Firefox Tests') {
@@ -65,7 +65,7 @@ node {
                     echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mkdir results/browserLocal; mv target results/browserLocal/";
+                    sh "mkdir -p results/browserLocal; mv target results/browserLocal/";
                 }
             }
         }
@@ -83,7 +83,7 @@ node {
                     echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mkdir results/browserRemote; mv target results/browserRemote/";
+                    sh "mkdir -p results/browserRemote; mv target results/browserRemote/";
                 }
             }
         }
