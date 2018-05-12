@@ -286,7 +286,7 @@ public class Selenified {
             if (selenium.loadPage()) {
                 loadInitialPage(app, getTestSite(extClass, test), myFile);
             }
-            if (Sauce.isSauce()) {
+            if (Sauce.isSauce() && app != null) {
                 result.setAttribute("SessionId", ((RemoteWebDriver) app.getDriver()).getSessionId());
             }
         } else {

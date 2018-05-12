@@ -77,14 +77,14 @@ public class OutputFile {
     private int stepNum = 0;
     // this will keep track of the errors
     private int errors = 0;
-    // the image width for reporting
-    private static final int embeddedImageWidth = 300;
 
     // constants
     private static final String START_ROW = "   <tr>\n";
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
+    // the image width for reporting
+    private static final int EMBEDDED_IMAGE_WIDTH = 300;
 
     /**
      * Creates a new instance of the OutputFile, which will serve as the
@@ -640,7 +640,7 @@ public class OutputFile {
             imageLink += " <a href='javascript:void(0)' onclick='displayImage(\"" +
                     imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
             imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
-                    imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth +
+                    imageName.substring(directory.length() + 1) + "' width='" + EMBEDDED_IMAGE_WIDTH +
                     "px' style='display:none;'>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
