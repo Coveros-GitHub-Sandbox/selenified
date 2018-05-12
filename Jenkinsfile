@@ -77,7 +77,7 @@ node {
             ),
             stage('Execute IE, Edge and Safari Tests') {
                 try {
-                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser=internetExplorer,edge,safari -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser=internetExplorer,edge,safari -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {
