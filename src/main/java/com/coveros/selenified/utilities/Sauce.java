@@ -6,7 +6,7 @@ public class Sauce {
 
     public static Boolean isSauce() {
         String hub = System.getProperty("hub");
-        return (hub != null && hub.contains("ondemand.saucelabs.com"));
+        return hub != null && hub.contains("ondemand.saucelabs.com");
     }
 
     private static String getSauceCreds(String hub) {

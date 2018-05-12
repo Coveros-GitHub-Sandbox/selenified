@@ -131,7 +131,7 @@ public class Listener extends TestListenerAdapter {
         if (Sauce.isSauce() && test.getAttributeNames().contains("SessionId")) {
             String sessionId = test.getAttribute("SessionId").toString();
             JsonObject json = new JsonObject();
-            json.addProperty("passed", (test.getStatus() == 1));
+            json.addProperty("passed", test.getStatus() == 1);
             JsonArray tags = new JsonArray();
             for (String tag : test.getMethod().getGroups()) {
                 tags.add(tag);

@@ -78,7 +78,7 @@ public class OutputFile {
     // this will keep track of the errors
     private int errors = 0;
     // the image width for reporting
-    private final int embeddedImageWidth = 300;
+    private static final int embeddedImageWidth = 300;
 
     // constants
     private static final String START_ROW = "   <tr>\n";
