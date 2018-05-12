@@ -8,6 +8,7 @@ def pullRequest
 def refspecs
 
 node {
+    cleanWs()
     ansiColor('xterm') {
         workspace = pwd()
         branch = env.BRANCH_NAME.replaceAll(/\//, "-")
@@ -36,35 +37,52 @@ node {
                     refspec      : "${refspecs}"
                 ]]
             ])
-            sh "rm -rf target*"
-            sh "rm -rf jacoco*"
+            sh "mkdir results"
         }
         stage('Update Test Site') {
             sh 'scp public/* ec2-user@34.233.135.10:/var/www/noindex/'
         }
         stage('Run Unit Tests') {
             sh "mvn clean test"
-            sh "mv target target-unit"
+            sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec;"
+            sh "mkdir results/unit; mv target results/unit/"
         }
         wrap([$class: 'Xvfb']) {
             stage('Execute HTMLUnit Tests') {
                 try {
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit'
+                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit -Dheadless'
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mv target target-htmlunit";
+                    sh "mkdir results/htmlunit; mv target results/htmlunit/";
                 }
             }
-            stage('Execute Browser Tests') {
+            stage('Execute Chrome and Firefox Tests') {
                 try {
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome,firefox -Dfailsafe.exclude.groups="" -Dheadless'
+                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome,firefox -Dfailsafe.groups.exclude="" -Dheadless'
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {
                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                    sh "mv target target-browser";
+                    sh "mkdir results/browserLocal; mv target results/browserLocal/";
+                }
+            }
+        }
+        withCredentials([
+            usernamePassword(
+                credentialsId: 'saucelabs',
+                usernameVariable: 'sauceusername',
+                passwordVariable: 'saucekey'
+            ),
+            stage('Execute IE, Edge and Safari Tests') {
+                try {
+                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser=internetExplorer,edge,safari -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                } catch (e) {
+                    echo "ERROR: ${e}"
+                } finally {
+                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                    sh "mkdir results/browserRemote; mv target results/browserRemote/";
                 }
             }
         }
@@ -74,8 +92,8 @@ node {
                         -Dsonar.projectKey=selenified:${branch} \
                         -Dsonar.projectName="Selenified - ${env.BRANCH_NAME}" \
                         -Dsonar.host.url=http://localhost:9000/sonar \
-                        -Dsonar.junit.reportPaths="target-unit/surefire-reports,target-htmlunit/failsafe-reports,target-browser/failsafe-reports" \
-                        -Dsonar.jacoco.reportPath=target-unit/coverage-reports/jacoco-ut.exec \
+                        -Dsonar.junit.reportPaths="results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports" \
+                        -Dsonar.jacoco.reportPath=jacoco-ut.exec \
                         -Dsonar.jacoco.itReportPath=jacoco-it.exec
             """
         }

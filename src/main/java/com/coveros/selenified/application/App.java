@@ -349,47 +349,6 @@ public class App {
     }
 
     /**
-     * Switches to the next available tab. If the last tab is already selected,
-     * it will loop back to the first tab. This is an alternative to
-     * switchToNewWindow, as this works better for some systems and environments
-     * that others.
-     */
-    public void switchNextTab() {
-        sendControlAndCommand("Switching to next tab", "Next tab <b>" + AVAILABLE, "Next tab <b>" + NOTSELECTED + ". ",
-                Keys.PAGE_DOWN);
-    }
-
-    /**
-     * Switch to the previous available tab. If the first tab is already
-     * selected, it will loop back to the last tab. This is an alternative to
-     * switchToNewWindow, as this works better for some systems and environments
-     * that others.
-     */
-    public void switchPreviousTab() {
-        sendControlAndCommand("Switching to previous tab", "Previous tab <b>" + AVAILABLE,
-                "Previous tab <b>" + NOTSELECTED + ". ", Keys.PAGE_UP);
-    }
-
-    /**
-     * Closes the current tab. Note that if this is the only tab open, this will
-     * end the test. No additional actions or asserts can be performed after
-     * this, as the browser will be terminated as well
-     */
-    public void closeTab() {
-        String action = "Closing currently open tab";
-        String expected = "Tab is closed";
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "w");
-        } catch (Exception e) {
-            file.recordAction(action, expected, "Tab was unable to be closed. " + e.getMessage(), Result.FAILURE);
-            file.addError();
-            log.warn(e);
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
-    }
-
-    /**
      * Go back one page in the current test's browser history
      */
     public void goBack() {
