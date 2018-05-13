@@ -76,9 +76,9 @@ node {
                 passwordVariable: 'saucekey'
             )
         ]) {
-            stage('Execute IE, Edge and Safari Tests') {
+            stage('Execute IE, Edge Tests') {
                 try {
-                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser=internetExplorer,edge,safari -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser="browserName=InternetExplorer&devicePlatform=Windows 10,browserName=Edge&devicePlatform=Windows 10,browserName=Safari" -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {
