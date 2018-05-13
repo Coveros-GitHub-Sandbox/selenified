@@ -226,8 +226,8 @@ public class TestSetupTest {
 
         setup.setupBrowserDetails(new Browser(BrowserName.CHROME));
         capability = setup.getDesiredCapabilities();
-        Assert.assertEquals(capability.getBrowserName(), "");
-        Assert.assertNull(capability.getCapability(CapabilityType.BROWSER_NAME));
+        Assert.assertEquals(capability.getBrowserName(), "chrome");
+        Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "chrome");
     }
 
     @Test
