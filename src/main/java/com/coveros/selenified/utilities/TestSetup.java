@@ -304,7 +304,7 @@ public class TestSetup {
                 break;
             // if the browser is not listed, throw an error
             default:
-                throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
+                throw new InvalidBrowserException("The selected browser " + browser.getName() + " is not an applicable choice");
         }
         return driver;
     }

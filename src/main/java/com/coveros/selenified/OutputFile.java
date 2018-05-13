@@ -113,7 +113,7 @@ public class OutputFile {
         this.author = author;
         this.version = version;
         this.objectives = objectives;
-        filename = test + browser + ".html";
+        filename = test + browser.getName() + ".html";
         file = new File(directory, filename);
         setupFile();
         setStartTime();
