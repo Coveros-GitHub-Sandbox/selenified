@@ -173,7 +173,7 @@ public class TestSetup {
     public void setupBrowserDetails(Browser browser) {
         if (browser != null) {
             // determine the browser information
-            if (browser.getName() != null) {
+            if (browser.getName() != null && areBrowserDetailsSet()) {
                 capabilities.setCapability(CapabilityType.BROWSER_NAME, browser.getName().toString());
             }
             if (browser.getVersion() != null) {
@@ -304,7 +304,8 @@ public class TestSetup {
                 break;
             // if the browser is not listed, throw an error
             default:
-                throw new InvalidBrowserException("The selected browser " + browser.getName() + " is not an applicable choice");
+                throw new InvalidBrowserException(
+                        "The selected browser " + browser.getName() + " is not an applicable choice");
         }
         return driver;
     }
