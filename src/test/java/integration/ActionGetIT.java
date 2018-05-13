@@ -1,6 +1,6 @@
 package integration;
 
-import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
@@ -36,7 +36,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        if (app.getBrowser() == Browser.NONE) {
+        if (app.getBrowser().getName() == BrowserName.NONE) {
             app.getOutputFile().addError();
         }
         // verify no issues

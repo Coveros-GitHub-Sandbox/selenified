@@ -1,6 +1,7 @@
 package integration;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
@@ -46,7 +47,7 @@ public class NoBrowserIT extends Selenified {
         // use this object to manipulate the app
         Browser browser = this.browser.get();
         // verify no selenium actions class was setup
-        Assert.assertEquals(browser, Browser.NONE);
+        Assert.assertEquals(browser.getName(), BrowserName.NONE);
         // verify no issues
         finish();
     }

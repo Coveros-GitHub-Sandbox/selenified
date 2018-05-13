@@ -21,6 +21,7 @@
 package com.coveros.selenified.application;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
@@ -104,7 +105,7 @@ public class App {
     public App(Browser browser, DesiredCapabilities capabilities,
                OutputFile file) throws InvalidBrowserException, MalformedURLException {
         if (browser == null) {
-            this.browser = Browser.NONE;
+            this.browser = new Browser(BrowserName.NONE);
         } else {
             this.browser = browser;
         }
@@ -308,7 +309,7 @@ public class App {
      *                  TestOutput.generateImageName
      */
     public void takeScreenshot(String imageName) {
-        if (browser == Browser.HTMLUNIT) {
+        if (browser.getName() == BrowserName.HTMLUNIT) {
             return;
         }
         try {

@@ -20,6 +20,7 @@
 
 package com.coveros.selenified;
 
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
@@ -67,7 +68,7 @@ public class OutputFile {
     private final String directory;
     private final File file;
     private final String filename;
-    private Browser browser = Browser.NONE;
+    private Browser browser = new Browser(BrowserName.NONE);
     private final List<String> screenshots = new ArrayList<>();
 
     // timing of the test
@@ -161,7 +162,7 @@ public class OutputFile {
      * @return Boolean: is the browser a 'real' browser
      */
     private boolean isRealBrowser() {
-        return browser != Browser.NONE && browser != Browser.HTMLUNIT;
+        return browser.getName() != BrowserName.NONE && browser.getName() != BrowserName.HTMLUNIT;
     }
 
     /**

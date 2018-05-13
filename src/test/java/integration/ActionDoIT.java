@@ -1,6 +1,7 @@
 package integration;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
@@ -535,7 +536,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "this").type(" ");
-        if (app.getBrowser() == Browser.CHROME) {  //test only applicable for Chrome
+        if (app.getBrowser().getName() == BrowserName.CHROME) {  //test only applicable for Chrome
             app.newElement(Locator.ID, "this").assertState().checked();
         }
         // verify no issues
@@ -1207,7 +1208,7 @@ public class ActionDoIT extends Selenified {
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotFirefoxLocalTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
-        App app = new App(Browser.FIREFOX, new DesiredCapabilities(), null);
+        App app = new App(new Browser(BrowserName.FIREFOX), new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "LOCAL");
         // perform some actions
         app.takeScreenshot("somefile");
@@ -1220,7 +1221,7 @@ public class ActionDoIT extends Selenified {
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotFirefoxHubTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
-        App app = new App(Browser.FIREFOX, new DesiredCapabilities(), null);
+        App app = new App(new Browser(BrowserName.FIREFOX), new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "HUB");
         // perform some actions
         app.takeScreenshot("somefile");
@@ -1233,7 +1234,7 @@ public class ActionDoIT extends Selenified {
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotHtmlUnitTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
-        App app = new App(Browser.HTMLUNIT, new DesiredCapabilities(), null);
+        App app = new App(new Browser(BrowserName.HTMLUNIT), new DesiredCapabilities(), null);
         // perform some actions
         app.takeScreenshot("somefile");
         app.killDriver();

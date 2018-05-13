@@ -20,6 +20,7 @@
 
 package com.coveros.selenified;
 
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
@@ -264,7 +265,7 @@ public class Selenified {
 
         Browser myBrowser = browsers.get(invocationCount);
         if (!selenium.useBrowser()) {
-            myBrowser = Browser.NONE;
+            myBrowser = new Browser(BrowserName.NONE);
         }
         DesiredCapabilities myCapability = capabilities.get(invocationCount);
         myCapability.setCapability("name", testName);
@@ -432,7 +433,7 @@ public class Selenified {
         private static void initializeSystem() {
             // check the browser
             if (System.getProperty(BROWSER_INPUT) == null) {
-                System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
+                System.setProperty(BROWSER_INPUT, BrowserName.HTMLUNIT.toString());
             }
             if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
                 servicesUser = System.getenv("SERVICES_USER");
@@ -458,10 +459,7 @@ public class Selenified {
                     setup.setupBrowserCapability(browser);
                 }
                 setup.setupProxy();
-                if (TestSetup.areBrowserDetailsSet()) {
-                    Map<String, String> browserDetails = TestSetup.parseMap(System.getProperty(BROWSER_INPUT));
-                    setup.setupBrowserDetails(browserDetails);
-                }
+                setup.setupBrowserDetails(browser);
                 DesiredCapabilities caps = setup.getDesiredCapabilities();
                 if (extraCapabilities != null) {
                     caps = caps.merge(extraCapabilities);
