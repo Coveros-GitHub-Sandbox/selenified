@@ -497,7 +497,7 @@ public class OutputFile {
             out.write("    <th>URL Under Test</th>\n");
             out.write(START_CELL + "<a href='" + url + "'>" + url + "</a>" + END_CELL);
             out.write("    <th>Browser</th>\n");
-            out.write(START_CELL + browser + END_CELL);
+            out.write(START_CELL + browser.getName() + END_CELL);
             out.write(swapRow);
             out.write("    <th>Testing Group</th>\n");
             out.write(START_CELL + group + END_CELL);
