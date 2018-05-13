@@ -58,9 +58,9 @@ node {
                     sh "mkdir -p results/htmlunit; mv target results/htmlunit/";
                 }
             }
-            stage('Execute Chrome and Firefox Tests') {
+            stage('Execute Local Tests') {
                 try {
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome,firefox -Dfailsafe.groups.exclude="" -Dheadless'
+                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="" -Dheadless'
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {
@@ -76,9 +76,9 @@ node {
                 passwordVariable: 'saucekey'
             )
         ]) {
-            stage('Execute IE, Edge Tests') {
+            stage('Execute Hub Tests') {
                 try {
-                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {
