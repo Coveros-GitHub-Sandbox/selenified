@@ -13,6 +13,8 @@ public class JiraOverrideTest {
     @Test
     public void verifyDefaultTest(Method method) {
         Assert.assertTrue(new JiraAnnotation(method).isAnnotationPresent());
+        Assert.assertTrue(new JiraAnnotation(method).isProjectPresent());
+        Assert.assertTrue(new JiraAnnotation(method).isIssuePresent());
 
     }
 

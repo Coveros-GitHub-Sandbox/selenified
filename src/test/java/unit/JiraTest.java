@@ -12,6 +12,8 @@ public class JiraTest {
     @Test
     public void verifyDefaultTest(Method method) {
         Assert.assertFalse(new JiraAnnotation(method).isAnnotationPresent());
+        Assert.assertFalse(new JiraAnnotation(method).isProjectPresent());
+        Assert.assertFalse(new JiraAnnotation(method).isIssuePresent());
     }
 
     @Test
