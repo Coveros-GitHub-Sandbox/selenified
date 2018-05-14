@@ -4,6 +4,7 @@ import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -12,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -865,8 +867,43 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        String location = (String) app.get().eval("document.location");
-        Assert.assertNull(location);
+        Element cars = app.newElement(Locator.ID, "car_list");
+        Assert.assertTrue(cars.is().present());
+        app.get().eval("document.body.innerHTML = '';");
+        Assert.assertFalse(cars.is().present());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    public void getEvalResultTest(Method method, ITestContext test) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.get().eval("return window.location.href;"),
+                getTestSite(method.getDeclaringClass().getName(), test));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    public void getEvalNullResultTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertNull(app.get().eval("document.body.innerHTML = '';"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration negative test to check the getEval method")
+    public void getEvalBadDriverTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        Assert.assertNull(app.get().eval("document.body.innerHTML = '';"));
         // verify no issues
         finish();
     }
@@ -876,8 +913,32 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        String location = (String) app.newElement(Locator.ID, "disable_click", 0).get().eval("document.location");
-        Assert.assertNull(location);
+        Element disabled = app.newElement(Locator.ID, "disable_click", 0);
+        Assert.assertTrue(disabled.is().present());
+        disabled.get().eval("arguments[0].remove();");
+        Assert.assertFalse(disabled.is().present());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    public void getElementEvalResultTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(
+                app.newElement(Locator.ID, "disable_click", 0).get().eval("return arguments[0]" + ".innerHTML;"),
+                "Click me to Disable/Enable a html button");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    public void getElementEvalNullResultTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertNull(app.newElement(Locator.ID, "disable_click", 0).get().eval("arguments[0].remove();"));
         // verify no issues
         finish();
     }
@@ -887,8 +948,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        String location = (String) app.newElement(Locator.ID, "disable_click", 0).get().eval(null);
-        Assert.assertNull(location);
+        Assert.assertNull(app.newElement(Locator.ID, "disable_click", 0).get().eval(null));
         // verify no issues
         finish();
     }
@@ -899,8 +959,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        String location = (String) app.newElement(Locator.ID, "non-existent-name").get().eval("document.location");
-        Assert.assertNull(location);
+        Assert.assertNull(app.newElement(Locator.ID, "non-existent-name").get().eval("return document" + ".location"));
         // verify no issues
         finish();
     }
@@ -990,6 +1049,18 @@ public class ActionGetIT extends Selenified {
     }
 
     @Test(groups = {"integration", "actions", "get"},
+            description = "An integration negative test to check the getHtmlSource method")
+    public void getHtmlSourceBadDriverTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        Assert.assertNull(app.get().htmlSource());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
             description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountTest() {
         // use this object to manipulate the app
@@ -1049,6 +1120,51 @@ public class ActionGetIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         Assert.assertNull(app.newElement(Locator.ID, "non-existent-name").get().xPath());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration test to check the get location method")
+    public void getLocationTest(Method method, ITestContext test) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.get().location(), getTestSite(method.getDeclaringClass().getName(), test));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration negative test to check the get location method")
+    public void getLocationBadDriverTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        Assert.assertNull(app.get().location());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the get title method")
+    public void getTitleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertEquals(app.get().title(), "Selenified Test Page");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get"},
+            description = "An integration negative test to check the get title method")
+    public void getTitleBadDriverTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        Assert.assertNull(app.get().title());
         // verify no issues
         finish();
     }
