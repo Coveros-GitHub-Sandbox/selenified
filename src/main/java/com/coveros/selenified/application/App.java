@@ -323,7 +323,7 @@ public class App {
             }
             // now we need to save the file
             FileUtils.copyFile(srcFile, new File(imageName));
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("IO Error taking screenshot: " + e);
         }
     }

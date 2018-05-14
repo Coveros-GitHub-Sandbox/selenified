@@ -194,12 +194,24 @@ public class ActionGoIT extends Selenified {
     }
 
     @Test(groups = {"integration", "actions", "go"},
-            description = "An integration test to check the deleteCookie method")
+            description = "An integration negative test to check the deleteCookie method")
     public void deleteNonExistentCookieTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.deleteCookie("new_cookie");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "go"},
+            description = "An integration negative test to check the deleteCookie method")
+    public void deleteCookieBadDriverTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        app.deleteCookie("cookie");
         // verify 1 issue
         finish(1);
     }

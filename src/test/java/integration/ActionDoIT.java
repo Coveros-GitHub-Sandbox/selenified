@@ -1204,6 +1204,18 @@ public class ActionDoIT extends Selenified {
         finish(1);
     }
 
+    @Test(groups = {"integration", "actions", "scroll", "do"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollBadDriverTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        app.scroll(50);
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = {"integration", "actions", "screenshot", "do"},
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotFirefoxLocalTest() throws InvalidBrowserException, MalformedURLException {
@@ -1238,6 +1250,18 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.takeScreenshot("somefile");
         app.killDriver();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "screenshot", "do"},
+            description = "An integration negative test to check the takeScreenshot method")
+    public void takeScreenshotBadDriverTest() throws InvalidBrowserException, MalformedURLException {
+        // use this object to manipulate the app
+        App app = new App(new Browser(BrowserName.FIREFOX), new DesiredCapabilities(), null);
+        // perform some actions
+        app.killDriver();
+        app.takeScreenshot("somefile");
         // verify no issues
         finish();
     }
