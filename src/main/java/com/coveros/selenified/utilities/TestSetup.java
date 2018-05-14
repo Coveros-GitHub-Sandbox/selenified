@@ -173,7 +173,8 @@ public class TestSetup {
     public void setupBrowserDetails(Browser browser) {
         if (browser != null) {
             // determine the browser information
-            if (browser.getName() != null) {
+            if (browser.getName() != null &&
+                    (capabilities.getBrowserName() == null || "".equals(capabilities.getBrowserName()))) {
                 capabilities.setCapability(CapabilityType.BROWSER_NAME, browser.getName().toString().toLowerCase());
             }
             if (browser.getVersion() != null) {
