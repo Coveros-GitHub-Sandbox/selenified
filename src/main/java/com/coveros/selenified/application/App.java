@@ -36,7 +36,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
