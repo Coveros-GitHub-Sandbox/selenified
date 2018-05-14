@@ -87,6 +87,19 @@ public class ActionGetIT extends Selenified {
     }
 
     @Test(groups = {"integration", "actions", "get", "cookie"},
+            description = "An integration negative test to check the getCookie method")
+    public void negativeGetCookieNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        Cookie cookie = app.get().cookie("badcookie");
+        Assert.assertNull(cookie);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "get", "cookie"},
             description = "An integration test to check the getCookieValue method")
     public void getCookieValueTest() throws IOException, ParseException {
         // use this object to manipulate the app
