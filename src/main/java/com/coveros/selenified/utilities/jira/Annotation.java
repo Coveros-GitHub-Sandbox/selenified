@@ -1,12 +1,14 @@
-package com.coveros.selenified.utilities;
+package com.coveros.selenified.utilities.jira;
+
+import com.coveros.selenified.utilities.jira.Jira;
 
 import java.lang.reflect.Method;
 
-public class JiraAnnotation {
+public class Annotation {
 
     Method method;
 
-    public JiraAnnotation(Method method) {
+    public Annotation(Method method) {
         this.method = method;
     }
 

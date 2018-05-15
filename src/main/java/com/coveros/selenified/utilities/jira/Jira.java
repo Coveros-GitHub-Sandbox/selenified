@@ -1,4 +1,4 @@
-package com.coveros.selenified.utilities;
+package com.coveros.selenified.utilities.jira;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
