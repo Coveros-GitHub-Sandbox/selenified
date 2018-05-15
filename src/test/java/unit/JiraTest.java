@@ -1,6 +1,6 @@
 package unit;
 
-import com.coveros.selenified.utilities.jira.Jira;
+import com.coveros.selenified.utilities.Jira;
 import com.coveros.selenified.utilities.jira.Annotation;
 import org.testng.Assert;
 import org.testng.annotations.Test;

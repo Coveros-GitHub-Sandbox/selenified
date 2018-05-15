@@ -1,6 +1,6 @@
 package com.coveros.selenified.utilities.jira;
 
-import com.coveros.selenified.utilities.jira.Jira;
+import com.coveros.selenified.utilities.Jira;
 
 import java.lang.reflect.Method;
 
