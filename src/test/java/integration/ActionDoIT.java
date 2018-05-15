@@ -1221,6 +1221,7 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.killDriver();
         app.scroll(50);
+    }
 
     @Test(groups = {"integration", "actions", "do", "draw", "browser"},
             description = "An integration negative test to check the draw method")

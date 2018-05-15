@@ -1,0 +1,7 @@
+com.coveros.selenified
+com.coveros.selenified.application
+com.coveros.selenified.element
+com.coveros.selenified.exceptions
+com.coveros.selenified.services
+com.coveros.selenified.utilities
+com.coveros.selenified.utilities.jira
