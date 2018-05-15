@@ -54,6 +54,11 @@
         <sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
         <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
         <sonar.jacoco.itReportPath>target/coverage-reports/jacoco-it.exec</sonar.jacoco.itReportPath>
+
+        <!-- JIRA Properties -->
+        <jira.link></jira.link>
+        <jira.username></jira.username>
+        <jira.password></jira.password>
     </properties>
 
     <name>Selenified Testing Framework</name>
