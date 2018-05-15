@@ -6,6 +6,7 @@ import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.Point;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
@@ -15,8 +16,12 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActionDoIT extends Selenified {
+
+    List<Point<Integer, Integer>> points = new ArrayList<Point<Integer, Integer>>();
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
@@ -27,6 +32,10 @@ public class ActionDoIT extends Selenified {
         // set the version of the tests or of the software, possibly with a
         // dynamic check
         setVersion(this, test, "0.0.1");
+
+        // setup our drawing points
+        points.add(new Point<Integer, Integer>(10, 10));
+        points.add(new Point<Integer, Integer>(100, 10));
     }
 
     @DataProvider(name = "car list options", parallel = true)
@@ -1212,6 +1221,81 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.killDriver();
         app.scroll(50);
+
+    @Test(groups = {"integration", "actions", "do", "draw", "browser"},
+            description = "An integration negative test to check the draw method")
+    public void drawTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "can").draw(points);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration test to check the draw method")
+    public void drawTestNotCanvas() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "overlay_span").draw(points);
+        // verify no issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration negative test to check the draw method")
+    public void drawTestNoPoints() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(new ArrayList<Point<Integer, Integer>>());
+        // verify no issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration negative test to check the draw method")
+    public void drawAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(points);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "draw", "do"},
+            description = "An integration negative test to check the draw method")
+    public void drawDisabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.CSS, "input#alert_button").draw(points);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration negative test to check the draw method")
+    public void drawNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").draw(points);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration negative test to check the draw method")
+    public void drawHiddenTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div").draw(points);
         // verify 1 issue
         finish(1);
     }

@@ -121,6 +121,15 @@ public class OutputFile {
     }
 
     /**
+     * Retrieves the directory in string form of the output files
+     *
+     * @return String: filename
+     */
+    public String getDirectory() {
+        return directory;
+    }
+
+    /**
      * Retrieves the filename in string form of the output file
      *
      * @return String: filename

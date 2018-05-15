@@ -107,7 +107,72 @@
         setTimeout(function() {
             five_second_button.disabled = true;
         }, 6100);
+
+        init();
     };
+
+
+    var canvas, ctx, flag = false, prevX = 0, currX = 0, prevY = 0, currY = 0, dot_flag = false;
+    var x = "black", y = 2;
+
+    function init() {
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+        w = canvas.width;
+        h = canvas.height;
+
+        canvas.addEventListener("mousemove", function(e) {
+            findxy('move', e)
+        }, false);
+        canvas.addEventListener("mousedown", function(e) {
+            findxy('down', e)
+        }, false);
+        canvas.addEventListener("mouseup", function(e) {
+            findxy('up', e)
+        }, false);
+        canvas.addEventListener("mouseout", function(e) {
+            findxy('out', e)
+        }, false);
+    }
+    function draw() {
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(currX, currY);
+        ctx.strokeStyle = x;
+        ctx.lineWidth = y;
+        ctx.stroke();
+        ctx.closePath();
+    }
+    function findxy(res, e) {
+        if (res == 'down') {
+            prevX = currX;
+            prevY = currY;
+            currX = e.clientX - canvas.offsetLeft;
+            currY = e.clientY - canvas.offsetTop;
+
+            flag = true;
+            dot_flag = true;
+            if (dot_flag) {
+                ctx.beginPath();
+                ctx.fillStyle = x;
+                ctx.fillRect(currX, currY, 2, 2);
+                ctx.closePath();
+                dot_flag = false;
+            }
+        }
+        if (res == 'up' || res == "out") {
+            flag = false;
+        }
+        if (res == 'move') {
+            if (flag) {
+                prevX = currX;
+                prevY = currY;
+                currX = e.clientX - canvas.offsetLeft;
+                currY = e.clientY - canvas.offsetTop;
+                draw();
+            }
+        }
+    }
     </script>
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -287,6 +352,8 @@ tr:nth-child(even) {
                 </tr>
                 </tbody>
             </table>
+            <canvas id="can" width="400" height="200"
+                    style="position: relative; border: 2px solid; float: right;"></canvas>
             <input name="new_window" id="new_window" type="button"
                    value="New Window"/> <br/> <span
                 class="btn btn-default btn-file"> <span>Browse</span> <input
@@ -302,6 +369,7 @@ tr:nth-child(even) {
                      style="z-index: 5;">Underlay
                 </div>
             </div>
+
             <div id="offscreen_div" name="offscreen_div" class="overlay"
                  style="left: -1000px; right: -1000px;">I'm Offscreen
             </div>
