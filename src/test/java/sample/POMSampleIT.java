@@ -51,6 +51,7 @@ public class POMSampleIT extends Selenified {
         MainPage main = this.main.get();
         // our test actions
         main.generateAlert();
+        app.azzert().alertPresent();
         app.acceptAlert();
         app.azzert().alertNotPresent();
         // close out the test

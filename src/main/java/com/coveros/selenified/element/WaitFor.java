@@ -229,9 +229,8 @@ public class WaitFor {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be displayed";
         String expected = element.prettyOutputStart() + " is not displayed";
         if (!element.is().present()) {
-            file.recordAction(action, expected, element.prettyOutputStart() + " is not present, and therefore not " +
-                            "displayed",
-                    Result.SUCCESS);
+            file.recordAction(action, expected,
+                    element.prettyOutputStart() + " is not present, and therefore not " + "displayed", Result.SUCCESS);
             return;
         }
         double start = System.currentTimeMillis();
@@ -239,7 +238,7 @@ public class WaitFor {
         // wait for up to XX seconds
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            while (webElement.isDisplayed() && System.currentTimeMillis() < end);
+            while (webElement.isDisplayed() && System.currentTimeMillis() < end) ;
         } catch (StaleElementReferenceException e) {
             log.info(e);
             file.recordAction(action, expected,
@@ -303,9 +302,8 @@ public class WaitFor {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be enabled";
         String expected = element.prettyOutputStart() + " is not enabled";
         if (!element.is().present()) {
-            file.recordAction(action, expected, element.prettyOutputStart() + " is not present, and therefore not " +
-                            "enabled",
-                    Result.SUCCESS);
+            file.recordAction(action, expected,
+                    element.prettyOutputStart() + " is not present, and therefore not " + "enabled", Result.SUCCESS);
             return;
         }
         double start = System.currentTimeMillis();
@@ -313,7 +311,7 @@ public class WaitFor {
         // wait for up to XX seconds
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            while (webElement.isEnabled() && System.currentTimeMillis() < end);
+            while (webElement.isEnabled() && System.currentTimeMillis() < end) ;
         } catch (StaleElementReferenceException e) {
             log.info(e);
             file.recordAction(action, expected,
