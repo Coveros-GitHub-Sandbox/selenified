@@ -12,6 +12,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServicesErrorIT extends Selenified {
 
@@ -24,9 +26,6 @@ public class ServicesErrorIT extends Selenified {
         // set the version of the tests or of the software, possibly with a
         // dynamic check
         setVersion(this, test, "0.0.1");
-        // for this particular test, we want to set some bogus credentials
-        servicesUser = "servicesUsername";
-        servicesPass = "servicesPassword";
     }
 
     @BeforeMethod(alwaysRun = true)

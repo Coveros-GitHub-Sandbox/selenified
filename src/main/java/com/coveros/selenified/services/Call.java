@@ -24,7 +24,6 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import org.testng.log4testng.Logger;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -54,7 +53,9 @@ public class Call {
     public Call(HTTP http, OutputFile file, Map<String, String> headers) {
         this.http = http;
         this.file = file;
-        addHeaders(headers);
+        if (headers != null) {
+            addHeaders(headers);
+        }
     }
 
     /**
@@ -72,6 +73,17 @@ public class Call {
      */
     public void resetHeaders() {
         http.resetHeaders();
+    }
+
+    /**
+     * Adds the desired credentials. These should just be a simple, unencrypted/hashed username and password
+     * pair
+     *
+     * @param user - the username required for authentication
+     * @param pass - the password required for authentication
+     */
+    public void addCredentials(String user, String pass) {
+        http.addCredentials(user, pass);
     }
 
     ///////////////////////////////////////////////////////////////////
