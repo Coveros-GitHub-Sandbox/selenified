@@ -535,4 +535,80 @@ public class AssertStateIT extends Selenified {
         // verify no issues
         finish();
     }
+
+    @Test(groups = {"integration", "asserts", "state"}, description = "An integration test to check the enabled method")
+    public void checkElementEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "input_box").assertState().enabled();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the enabled method")
+    public void negativeCheckElementEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non_existent", 0).assertState().enabled();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the enabled method")
+    public void negativeCheckElementEnabledNotInputTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table").assertState().enabled();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the enabled method")
+    public void negativeCheckElementEnabledNotEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "alert_button").assertState().enabled();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the notEnabled method")
+    public void checkElementNotEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "delayed_input").assertState().notEnabled();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the notEnabled method")
+    public void negativeCheckElementNotEnabledNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").assertState().notEnabled();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the notEnabled method")
+    public void negativeCheckElementNotEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "check").assertState().notEnabled();
+        // verify 1 issue
+        finish(1);
+    }
 }

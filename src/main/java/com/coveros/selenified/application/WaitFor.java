@@ -190,7 +190,7 @@ public class WaitFor {
     /**
      * Wait up to a specified time for the url to show a particular location
      *
-     * @param seconds - the number of seconds to wait
+     * @param seconds  - the number of seconds to wait
      * @param location - the location to wait for
      */
     public void location(double seconds, String location) {
