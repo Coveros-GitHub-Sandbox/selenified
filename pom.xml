@@ -169,6 +169,7 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
+                            <outputDirectory>${basedir}/docs</outputDirectory>
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                     </execution>
