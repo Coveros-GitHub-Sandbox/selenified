@@ -70,7 +70,7 @@ public class ServicesIT extends Selenified {
     public void setCredentialsTest() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
-        //set some custom headers
+        //set some custom credentials
         call.addCredentials("hello", "world");
         // perform some actions
         call.get("posts/").assertEquals(200);

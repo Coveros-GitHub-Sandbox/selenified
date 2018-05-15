@@ -283,6 +283,17 @@ Don’t worry, they’re not passed in clear text, but encoded, and passed as he
 set SERVICES_USER=myusername
 set SERVICES_PASS=mypassword
 ```
+Instead of passing in credentials globally for your tests, you can set them at the suite or test level as well.
+Note that globally passed in credentials take precedence over any set in the test cases themselves. You can 
+provide default credentials for an entire class, in the `@BeforeMethod`, just call the static `setCredentials` method.
+```java
+setCredentials(this, test, "hello", "world");
+```
+These, credentials can be overridden on a test by test basis by providing them directly in the test case.
+```java
+Call call = this.calls.get();
+call.addCredentials("hello", "world");
+```
 
 You may have some more complex authentication scheme. That is not atypical. Unfortunately, in order to set 
 this up, you’ll actually need to modify the source code a bit. Because authentication is performed in so many 
@@ -292,8 +303,10 @@ schemes.
 
 ###### Custom Headers
 Custom headers can be added to web-services calls, for whatever purpose. They can add user-agents, custom
-required headers for sites, or even override the default provided headers. Headers can be added on a per
-test basis, or can be added for all tests in a suite. Headers should be set as key-value pairs, in a HashMap.
+required headers for sites, or even override the default provided headers. By default, all web services calls
+are made with `Content-Type` set to `application/json; charset=UTF-8`. This can be changed by overridding this
+header. Headers can be added on a per test basis, or can be added for all tests in a suite. Headers should be 
+set as key-value pairs, in a HashMap.
 ```java
 Map<String, String> headers = new HashMap<>();
 headers.put("X-Atlassian-Token", "no-check");
@@ -305,7 +318,7 @@ call.addHeaders(headers);
 ``` 
 To set the headers for an entire class, in the `@BeforeMethod`, just call the static `addHeader` method.
 ```java
-addHeaders(headers);
+addHeaders(this, test, headers);
 ```
 Finally, if you want to reset the headers, on a test by test basis (maybe you want to set up headers for all 
 tests instead of one), you can call the `resetHeaders` method.
