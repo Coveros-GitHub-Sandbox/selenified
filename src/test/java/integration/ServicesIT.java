@@ -65,6 +65,19 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
+    @Test(groups = {"integration", "services", "headers"},
+            description = "An integration test to verify we can successfully override standard header values")
+    public void setCredentialsTest() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        //set some custom headers
+        call.addCredentials("hello", "world");
+        // perform some actions
+        call.get("posts/").assertEquals(200);
+        // verify no issues
+        finish();
+    }
+
     @Test(groups = {"integration", "services", "httpget"},
             description = "An integration test to verify the response code from a get call")
     public void compareGetResponseCode200Test() {
@@ -1108,5 +1121,24 @@ public class ServicesIT extends Selenified {
         call.delete("posts/5", new Request(request)).assertEquals(response);
         // verify one issue
         finish(1);
+    }
+
+    @Test(groups = {"integration", "services", "headers"},
+            description = "An integration negative test to verify we can successfully change header values")
+    public void setUnsupportedHeaderTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("title", "foo");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 2);
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        //set some custom headers
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/xml");
+        call.addHeaders(headers);
+        // perform some actions
+        call.post("posts/", new Request(request)).assertEquals(201);
+        // verify no issues
+        finish(2);
     }
 }

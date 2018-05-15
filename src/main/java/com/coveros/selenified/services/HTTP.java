@@ -26,12 +26,10 @@ import com.google.gson.JsonParser;
 import org.apache.commons.codec.binary.Base64;
 import org.testng.log4testng.Logger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +45,8 @@ import java.util.Map;
 public class HTTP {
 
     private static final Logger log = Logger.getLogger(HTTP.class);
+    private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
+    private static final String NEWLINE = "\r\n";
 
     private static final String PATCH = "PATCH";
 
@@ -54,6 +54,8 @@ public class HTTP {
     private String user = "";
     private String pass = "";
     private Map<String, String> extraHeaders = new HashMap<>();
+
+    private String contentType = "application/json; charset=UTF-8";
 
     /**
      * Instantiates a HTTP session for making web service calls without any
@@ -94,6 +96,18 @@ public class HTTP {
      */
     public void resetHeaders() {
         this.extraHeaders = new HashMap<>();
+    }
+
+    /**
+     * Adds the desired credentials. These should just be a simple, unencrypted/hashed username and password
+     * pair
+     *
+     * @param user           - the username required for authentication
+     * @param pass           - the password required for authentication
+     */
+    public void addCredentials(String user, String pass) {
+        this.user = user;
+        this.pass = pass;
     }
 
     /**
@@ -142,7 +156,7 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response get(String service) {
-        return call("GET", service, null);
+        return call("GET", service, null, null);
     }
 
     /**
@@ -154,7 +168,7 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response get(String service, Request request) {
-        return call("GET", service, request);
+        return call("GET", service, request, null);
     }
 
     /**
@@ -166,7 +180,21 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response post(String service, Request request) {
-        return call("POST", service, request);
+        return call("POST", service, request, null);
+    }
+
+    /**
+     * A basic http post call
+     *
+     * @param service - the endpoint of the service under test
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
+     * @param file    - a file to upload, accompanied with the post
+     * @return Response: the response provided from the http call
+     */
+    public Response post(String service, Request request, File file) {
+        this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+        return call("POST", service, request, file);
     }
 
     /**
@@ -178,7 +206,7 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response put(String service, Request request) {
-        return call("PUT", service, request);
+        return call("PUT", service, request, null);
     }
 
     /**
@@ -190,7 +218,7 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response patch(String service, Request request) {
-        return call(PATCH, service, request);
+        return call(PATCH, service, request, null);
     }
 
     /**
@@ -200,7 +228,7 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response delete(String service) {
-        return call("DELETE", service, null);
+        return call("DELETE", service, null, null);
     }
 
     /**
@@ -212,7 +240,7 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response delete(String service, Request request) {
-        return call("DELETE", service, request);
+        return call("DELETE", service, request, null);
     }
 
     /**
@@ -222,9 +250,10 @@ public class HTTP {
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
+     * @param file    - is there a file to upload as well
      * @return Response: the response provided from the http call
      */
-    private Response call(String call, String service, Request request) {
+    private Response call(String call, String service, Request request, File file) {
         StringBuilder params = new StringBuilder();
         if (request != null && request.getParams() != null) {
             params.append("?");
@@ -246,8 +275,8 @@ public class HTTP {
             }
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-length", "0");
+            connection.setRequestProperty("Content-Type", contentType);
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
                 connection.setRequestProperty(entry.getKey(), entry.getValue());
             }
@@ -261,8 +290,16 @@ public class HTTP {
                 connection.setRequestProperty("Authorization", "Basic " + encoding);
             }
             connection.connect();
-            if (request != null && request.getData() != null) {
-                writeDataRequest(connection, request);
+            if ((request != null && request.getData() != null) || file != null) {
+                if (connection.getRequestProperty("Content-Type").startsWith("application/json;")) {
+                    writeJsonDataRequest(connection, request);
+                } else if (connection.getRequestProperty("Content-Type").startsWith("multipart/form-data;")) {
+                    writeMultipartDataRequest(connection, request, file);
+                } else {
+                    throw new IOException("Content-Type '" + connection.getRequestProperty("Content-Type") +
+                            "' not currently supported by Selenified. Current supported types are " +
+                            "'application/json' and 'multipart/form-data'.");
+                }
             }
             return getResponse(connection);
         } catch (IOException e) {
@@ -286,9 +323,42 @@ public class HTTP {
      * @param request    - the parameters to be passed to the endpoint for the service
      *                   call
      */
-    private void writeDataRequest(HttpURLConnection connection, Request request) {
+    private void writeJsonDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream())) {
             wr.write(request.getData().toString());
+            wr.flush();
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Pushes request data to the open http connection
+     *
+     * @param connection - the open connection of the http call
+     * @param request    - the parameters to be passed to the endpoint for the service
+     *                   call
+     * @param file       - the file to upload with the request
+     */
+    private void writeMultipartDataRequest(HttpURLConnection connection, Request request, File file) {
+        try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
+            wr.writeBytes(NEWLINE);
+            if (request.getData() != null) {
+                wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
+                wr.writeBytes("Content-Disposition: form-data; name=\"data\"");
+                wr.writeBytes(NEWLINE + NEWLINE);
+                wr.writeBytes(request.getData().toString());
+            }
+            if (file != null && file.exists()) {
+                wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
+                wr.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"");
+                wr.writeBytes(NEWLINE);
+                wr.writeBytes("Content-Type: " + Files.probeContentType(file.toPath()));
+                wr.writeBytes(NEWLINE + NEWLINE);
+                byte[] bytes = Files.readAllBytes(file.toPath());
+                wr.write(bytes);
+            }
+            wr.writeBytes(NEWLINE + "--" + BOUNDARY + "--" + NEWLINE);
             wr.flush();
         } catch (IOException e) {
             log.error(e);

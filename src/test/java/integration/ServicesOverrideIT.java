@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServicesHeaderIT extends Selenified {
+public class ServicesOverrideIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
@@ -27,7 +27,9 @@ public class ServicesHeaderIT extends Selenified {
         // for this test, we want to change the default headers for each call
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/xml");
-        addHeaders(headers);
+        addHeaders(this, test, headers);
+        // for this particular test, we want to set some bogus credentials
+        setCredentials(this, test, "servicesUsername", "servicesPassword");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -37,7 +39,7 @@ public class ServicesHeaderIT extends Selenified {
 
     @Test(groups = {"integration", "services", "headers"},
             description = "An integration test to verify we can successfully set header values")
-    public void setHeaderTest() {
+    public void addHeaderTest() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         //set some custom headers
@@ -60,6 +62,19 @@ public class ServicesHeaderIT extends Selenified {
         headers.put("Accept", "no-check");
         call.resetHeaders();
         call.addHeaders(headers);
+        // perform some actions
+        call.get("posts/").assertEquals(200);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "headers"},
+            description = "An integration test to verify we can successfully override standard header values")
+    public void overrideCredentialsTest() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        //set some custom credentials
+        call.addCredentials("hello", "world");
         // perform some actions
         call.get("posts/").assertEquals(200);
         // verify no issues
