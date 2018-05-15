@@ -66,7 +66,6 @@ public class Selenified {
     private static final Logger log = Logger.getLogger(Selenified.class);
 
     // any additional browser capabilities that might be necessary
-    //TODO - currently this is global, should fix this
     protected static DesiredCapabilities extraCapabilities = null;
 
     // some passed in system params
@@ -497,22 +496,10 @@ public class Selenified {
             if (wasInvoked) {
                 return;
             }
-            initializeSystem();
             setupTestParameters();
             wasInvoked = true;
             //downgrade our logging
             java.util.logging.Logger.getLogger("io.github").setLevel(Level.SEVERE);
-        }
-
-        /**
-         * Initializes the test settings by setting default values for the
-         * browser, URL, and credentials if they are not specifically set
-         */
-        private static void initializeSystem() {
-            // check the browser
-            if (System.getProperty(BROWSER_INPUT) == null) {
-                System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
-            }
         }
 
         /**
@@ -524,6 +511,9 @@ public class Selenified {
          *                                 thrown
          */
         private static void setupTestParameters() throws InvalidBrowserException {
+            if (System.getProperty(BROWSER_INPUT) == null) {
+                System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
+            }
             browsers = TestSetup.setBrowser();
 
             for (Browser browser : browsers) {
