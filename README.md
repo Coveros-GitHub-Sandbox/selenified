@@ -280,8 +280,8 @@ for your services, Selenified makes it easy to provide those. Simply set the use
 environment variables, and Selenified will automatically pick them up, and pass them along with your call. 
 Don’t worry, they’re not passed in clear text, but encoded, and passed as header authorization information.
 ```shell
-set SERVICES_USER=myusername
-set SERVICES_PASS=mypassword
+export SERVICES_USER=myusername
+export SERVICES_PASS=mypassword
 ```
 Instead of passing in credentials globally for your tests, you can set them at the suite or test level as well.
 Note that globally passed in credentials take precedence over any set in the test cases themselves. You can 
