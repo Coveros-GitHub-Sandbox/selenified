@@ -112,9 +112,9 @@ public class ElementIT extends Selenified {
         Element table = app.newElement(Locator.TAGNAME, "th");
         List<WebElement> webElements = table.getWebElements();
         Assert.assertEquals(webElements.size(), 12);
-        Assert.assertEquals(webElements.get(0).getText(),"");
-        Assert.assertEquals(webElements.get(1).getText(),"Company");
-        Assert.assertEquals(webElements.get(2).getText(),"Contact");
+        Assert.assertEquals(webElements.get(0).getText(), "");
+        Assert.assertEquals(webElements.get(1).getText(), "Company");
+        Assert.assertEquals(webElements.get(2).getText(), "Contact");
         // verify no issues
         finish();
     }
@@ -129,9 +129,9 @@ public class ElementIT extends Selenified {
         Element cell = app.newElement(Locator.TAGNAME, "th", table);
         List<WebElement> webElements = cell.getWebElements();
         Assert.assertEquals(webElements.size(), 10);
-        Assert.assertEquals(webElements.get(0).getText(),"");
-        Assert.assertEquals(webElements.get(1).getText(),"Company");
-        Assert.assertEquals(webElements.get(2).getText(),"Contact");
+        Assert.assertEquals(webElements.get(0).getText(), "");
+        Assert.assertEquals(webElements.get(1).getText(), "Company");
+        Assert.assertEquals(webElements.get(2).getText(), "Contact");
         // verify no issues
         finish();
     }
@@ -157,7 +157,7 @@ public class ElementIT extends Selenified {
         // perform some actions
         Element table = app.newElement(Locator.TAGNAME, "th");
         WebElement webElement = table.getWebElement();
-        Assert.assertEquals(webElement.getText(),"");
+        Assert.assertEquals(webElement.getText(), "");
         // verify no issues
         finish();
     }
@@ -171,7 +171,7 @@ public class ElementIT extends Selenified {
         Element table = app.newElement(Locator.ID, "table");
         Element cell = app.newElement(Locator.TAGNAME, "th", table);
         WebElement webElement = cell.getWebElement();
-        Assert.assertEquals(webElement.getText(),"");
+        Assert.assertEquals(webElement.getText(), "");
         // verify no issues
         finish();
     }

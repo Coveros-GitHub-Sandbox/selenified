@@ -99,7 +99,7 @@ public class ElementTest {
 
     @Test
     public void checkFullParentElementWebDriverTest() {
-        Element element = new Element(null, null, Locator.ID, "myId", 2,null);
+        Element element = new Element(null, null, Locator.ID, "myId", 2, null);
         Assert.assertNull(element.getDriver());
     }
 

@@ -1234,7 +1234,7 @@ public class ActionDoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "do", "draw"},
+    @Test(groups = {"integration", "actions", "do", "draw", "browser"},
             description = "An integration test to check the draw method")
     public void drawTestNotCanvas() {
         // use this object to manipulate the app
