@@ -4,6 +4,7 @@ import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -105,6 +106,19 @@ public class ElementIT extends Selenified {
 
     @Test(groups = {"integration", "element"},
             description = "An integration test to check that an element can be retrieved")
+    public void getWebElementsNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element table = app.newElement(Locator.ID, "no-such-table");
+        List<WebElement> webElements = table.getWebElements();
+        Assert.assertTrue(webElements.isEmpty());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "element"},
+            description = "An integration test to check that an element can be retrieved")
     public void getMultipleWebElementsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -150,6 +164,19 @@ public class ElementIT extends Selenified {
     }
 
     @Test(groups = {"integration", "element"},
+            description = "An integration test to check that an element can be retrieved",
+            expectedExceptions = NoSuchElementException.class)
+    public void getWebElementNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element table = app.newElement(Locator.ID, "no-such-table");
+        table.getWebElement();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "element"},
             description = "An integration test to check that an element can be retrieved")
     public void getMultipleWebElementTest() {
         // use this object to manipulate the app
@@ -172,6 +199,34 @@ public class ElementIT extends Selenified {
         Element cell = app.newElement(Locator.TAGNAME, "th", table);
         WebElement webElement = cell.getWebElement();
         Assert.assertEquals(webElement.getText(), "");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "element"},
+            description = "An integration test to check that an element can be retrieved",
+            expectedExceptions = NoSuchElementException.class)
+    public void getWebElementParentNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element table = app.newElement(Locator.ID, "no-such-table");
+        Element cell = app.newElement(Locator.TAGNAME, "th", table);
+        cell.getWebElement();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "element"},
+            description = "An integration test to check that an element can be retrieved",
+            expectedExceptions = NoSuchElementException.class)
+    public void getWebElementNotExistParentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element table = app.newElement(Locator.ID, "table");
+        Element cell = app.newElement(Locator.TAGNAME, "tw", table);
+        cell.getWebElement();
         // verify no issues
         finish();
     }
