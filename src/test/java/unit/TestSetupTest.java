@@ -14,10 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TestSetupTest {
 
@@ -26,6 +23,7 @@ public class TestSetupTest {
     private String setHub = null;
     private String setProxy = null;
     private String setHeadless = null;
+    private String setOptions = null;
 
     @BeforeClass
     public void saveBrowser() {
@@ -40,6 +38,9 @@ public class TestSetupTest {
         }
         if (System.getProperty("headless") != null) {
             setHeadless = System.getProperty("headless");
+        }
+        if (System.getProperty("options") != null) {
+            setOptions = System.getProperty("options");
         }
     }
 
@@ -57,6 +58,9 @@ public class TestSetupTest {
         if (setHeadless != null) {
             System.setProperty("headless", setHeadless);
         }
+        if (setOptions != null) {
+            System.setProperty("headless", setOptions);
+        }
     }
 
     @BeforeMethod
@@ -65,6 +69,7 @@ public class TestSetupTest {
         System.clearProperty("hub");
         System.clearProperty("proxy");
         System.clearProperty("headless");
+        System.clearProperty("options");
     }
 
     @Test
@@ -580,5 +585,68 @@ public class TestSetupTest {
 
         Assert.assertTrue(map.containsKey("E"));
         Assert.assertEquals("F", map.get("E"));
+    }
+
+    @Test
+    public void runHeadlessDefaultTest() {
+        Assert.assertFalse(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void runHeadlessFalseTest() {
+        System.setProperty("headless", "false");
+        Assert.assertFalse(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void runHeadlessTrueTest() {
+        System.setProperty("headless", "true");
+        Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsDefaultTest() {
+        Assert.assertEquals(TestSetup.getBrowserOptions(Browser.FIREFOX), new ArrayList<>());
+    }
+
+    @Test
+    public void getBrowserOptionsDisableGPUTest() {
+        System.setProperty("options", "--disable-gpu");
+        Assert.assertEquals(TestSetup.getBrowserOptions(Browser.FIREFOX), Arrays.asList("--disable-gpu"));
+    }
+
+    @Test
+    public void getBrowserOptionsTwoTest() {
+        System.setProperty("options", "--disable-gpu,--hi-there");
+        Assert.assertEquals(TestSetup.getBrowserOptions(Browser.FIREFOX), Arrays.asList("--disable-gpu","--hi-there"));
+        Assert.assertFalse(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsChromeHeadlessTest() {
+        System.setProperty("options", "--headless");
+        Assert.assertEquals(TestSetup.getBrowserOptions(Browser.CHROME), new ArrayList<>());
+        Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsFirefoxHeadlessTest() {
+        System.setProperty("options", "-headless");
+        Assert.assertEquals(TestSetup.getBrowserOptions(Browser.FIREFOX), new ArrayList<>());
+        Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsChromeFullTest() {
+        System.setProperty("options", "--disable-gpu,--headless,--hi-there");
+        Assert.assertEquals(TestSetup.getBrowserOptions(Browser.CHROME), Arrays.asList("--disable-gpu","--hi-there"));
+        Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsFirefoxFullTest() {
+        System.setProperty("options", "--disable-gpu,-headless,--hi-there");
+        Assert.assertEquals(TestSetup.getBrowserOptions(Browser.FIREFOX), Arrays.asList("--disable-gpu","--hi-there"));
+        Assert.assertTrue(TestSetup.runHeadless());
     }
 }
