@@ -58,6 +58,7 @@ public class TestSetup {
     // constants
     private static final String PROXY_INPUT = "proxy";
     private static final String BROWSER_INPUT = "browser";
+    private static final String BROWSER_OPTIONS = "options";
     private static final String HEADLESS_INPUT = "headless";
     private static final String BROWSER_NAME_INPUT = "browserName";
     private static final String BROWSER_VERSION_INPUT = "browserVersion";
@@ -266,7 +267,8 @@ public class TestSetup {
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
-                if (System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT))) {
+                firefoxOptions.addArguments(getBrowserOptions(browser));
+                if (runHeadless()) {
                     firefoxOptions.setHeadless(true);
                 }
                 driver = new FirefoxDriver(firefoxOptions);
@@ -275,7 +277,8 @@ public class TestSetup {
                 ChromeDriverManager.getInstance().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(capabilities);
-                if (System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT))) {
+                chromeOptions.addArguments(getBrowserOptions(browser));
+                if (runHeadless()) {
                     chromeOptions.setHeadless(true);
                 }
                 driver = new ChromeDriver(chromeOptions);
@@ -309,6 +312,26 @@ public class TestSetup {
                         "The selected browser " + browser.getName() + " is not an applicable choice");
         }
         return driver;
+    }
+
+    public static Boolean runHeadless() {
+        return System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT));
+    }
+
+    public static List<String> getBrowserOptions(Browser browser) {
+        ArrayList<String> browserOptions = new ArrayList<>();
+        if (System.getProperty(BROWSER_OPTIONS) != null) {
+            browserOptions = new ArrayList(Arrays.asList(System.getProperty(BROWSER_OPTIONS).split("\\s*,\\s*")));
+        }
+        if (browser == Browser.CHROME && browserOptions.contains("--headless")) {
+            browserOptions.remove("--headless");
+            System.setProperty(HEADLESS_INPUT, "true");
+        }
+        if (browser == Browser.FIREFOX && browserOptions.contains("-headless")) {
+            browserOptions.remove("-headless");
+            System.setProperty(HEADLESS_INPUT, "true");
+        }
+        return browserOptions;
     }
 
     /**

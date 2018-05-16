@@ -43,8 +43,11 @@ public class OutputFileTest {
 
     @Test
     public void setupFileFreshTest() {
-        new OutputFile("/somenewdir", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null, null);
-        Assert.assertFalse(new File("/somenewdir/fileAndroid.html").exists());
+        new OutputFile("somenewdir", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null, null);
+        File file = new File("somenewdir", "fileANDROID.html");
+        Assert.assertTrue(file.exists());
+        file.delete();
+        new File("somenewdir").delete();
     }
 
     @Test
