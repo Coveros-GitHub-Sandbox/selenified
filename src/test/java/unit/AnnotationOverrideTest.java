@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 
 @Jira(project = "HW", issue = "HW-123456")
-public class JiraOverrideTest {
+public class AnnotationOverrideTest {
 
     @Test
     public void verifyDefaultTest(Method method) {

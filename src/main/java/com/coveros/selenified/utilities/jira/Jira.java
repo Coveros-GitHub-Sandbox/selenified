@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -27,23 +27,25 @@ import java.lang.reflect.Method;
 
 public class Jira {
 
+    private final static String JIRA_LINK = "jira.link";
+
     private final Annotation annotation;
-    private final HTTP jira;
+    private final HTTP http;
 
     public Jira(Method method) {
         this.annotation = new Annotation(method);
-        this.jira = getJiraHttp();
+        this.http = getJiraHttp();
     }
 
     public Boolean uploadToJira() {
-        return !(System.getProperty("jira.link") == null || "".equals(System.getProperty("jira.link")));
+        return !(System.getProperty(JIRA_LINK) == null || "".equals(System.getProperty(JIRA_LINK)));
     }
 
     public HTTP getJiraHttp() {
         if (!uploadToJira()) {
             return null;
         }
-        String link = System.getProperty("jira.link");
+        String link = System.getProperty(JIRA_LINK);
         String username = "";
         if (System.getProperty("jira.username") != null) {
             username = System.getProperty("jira.username");
@@ -56,12 +58,12 @@ public class Jira {
     }
 
     public HTTP getHTTP() {
-        return jira;
+        return http;
     }
 
     public int getProjectId() {
         String project = annotation.getProject();
-        Response response = jira.get("/rest/api/2/project/" + project);
+        Response response = http.get("/rest/api/2/project/" + project);
         if (response.getObjectData().has("id")) {
             return response.getObjectData().get("id").getAsInt();
         }
@@ -69,7 +71,7 @@ public class Jira {
     }
 
     public int getIssueId(String key) {
-        Response response = jira.get("/rest/api/2/issue/" + key);
+        Response response = http.get("/rest/api/2/issue/" + key);
         if (response.getObjectData().has("id")) {
             return response.getObjectData().get("id").getAsInt();
         }
