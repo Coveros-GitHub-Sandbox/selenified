@@ -533,9 +533,17 @@ address and port in the parameter
 -Dproxy=localhost:5013
 ```
 #### Headless
-Currently, only Chrome and Firefox supports running in headless mode. To achieve this, simply pass in the parameter `headless`
+Currently, only Chrome and Firefox supports running in headless mode. To achieve this, simply pass in the parameter 
+`headless`
 ```
 -Dheadless
+```
+#### Options
+Currently, only Chrome and Firefox supports adding additional options to launch the browser. To achieve this, simply 
+pass in the parameter `options` with whatever browser specific options are desired. The headless parameter can either
+be passed in via the above `headless` parameter, or in this method. For multiple options, make them comma separated.
+```
+-Doptions='--disable-gpu,--headless'
 ```
 #### Failsafe
 The pom included in this project works as an example for specifying which tests to run, and how to execute them. Tests 

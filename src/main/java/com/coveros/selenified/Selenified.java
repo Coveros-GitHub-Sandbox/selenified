@@ -20,13 +20,16 @@
 
 package com.coveros.selenified;
 
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.utilities.Sauce;
 import com.coveros.selenified.utilities.TestSetup;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -344,7 +347,7 @@ public class Selenified {
 
         Browser myBrowser = browsers.get(invocationCount);
         if (!selenium.useBrowser()) {
-            myBrowser = Browser.NONE;
+            myBrowser = new Browser(BrowserName.NONE);
         }
         DesiredCapabilities myCapability = capabilities.get(invocationCount);
         myCapability.setCapability("name", testName);
@@ -365,6 +368,9 @@ public class Selenified {
             myFile.setApp(app);
             if (selenium.loadPage()) {
                 loadInitialPage(app, getTestSite(extClass, test), myFile);
+            }
+            if (Sauce.isSauce() && app != null) {
+                result.setAttribute("SessionId", ((RemoteWebDriver) app.getDriver()).getSessionId());
             }
         } else {
             HTTP http = new HTTP(getTestSite(extClass, test), getServiceUserCredential(extClass, test),
@@ -512,7 +518,7 @@ public class Selenified {
          */
         private static void setupTestParameters() throws InvalidBrowserException {
             if (System.getProperty(BROWSER_INPUT) == null) {
-                System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
+                System.setProperty(BROWSER_INPUT, BrowserName.HTMLUNIT.toString());
             }
             browsers = TestSetup.setBrowser();
 
@@ -523,10 +529,7 @@ public class Selenified {
                     setup.setupBrowserCapability(browser);
                 }
                 setup.setupProxy();
-                if (TestSetup.areBrowserDetailsSet()) {
-                    Map<String, String> browserDetails = TestSetup.parseMap(System.getProperty(BROWSER_INPUT));
-                    setup.setupBrowserDetails(browserDetails);
-                }
+                setup.setupBrowserDetails(browser);
                 DesiredCapabilities caps = setup.getDesiredCapabilities();
                 if (extraCapabilities != null) {
                     caps = caps.merge(extraCapabilities);

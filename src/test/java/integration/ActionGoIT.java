@@ -19,7 +19,7 @@ public class ActionGoIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setTestSite(this, test, "http://34.233.135.10/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -194,12 +194,24 @@ public class ActionGoIT extends Selenified {
     }
 
     @Test(groups = {"integration", "actions", "go"},
-            description = "An integration test to check the deleteCookie method")
+            description = "An integration negative test to check the deleteCookie method")
     public void deleteNonExistentCookieTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.deleteCookie("new_cookie");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "go"},
+            description = "An integration negative test to check the deleteCookie method")
+    public void deleteCookieBadDriverTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        app.deleteCookie("cookie");
         // verify 1 issue
         finish(1);
     }
