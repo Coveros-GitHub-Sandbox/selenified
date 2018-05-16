@@ -21,6 +21,7 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import io.github.bonigarcia.wdm.*;
 import org.openqa.selenium.Proxy;
@@ -267,7 +268,7 @@ public class TestSetup {
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
-                firefoxOptions.addArguments(getBrowserOptions(browser));
+                firefoxOptions.addArguments(getBrowserOptions(browser.getName()));
                 if (runHeadless()) {
                     firefoxOptions.setHeadless(true);
                 }
@@ -277,7 +278,7 @@ public class TestSetup {
                 ChromeDriverManager.getInstance().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(capabilities);
-                chromeOptions.addArguments(getBrowserOptions(browser));
+                chromeOptions.addArguments(getBrowserOptions(browser.getName()));
                 if (runHeadless()) {
                     chromeOptions.setHeadless(true);
                 }
@@ -318,16 +319,16 @@ public class TestSetup {
         return System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT));
     }
 
-    public static List<String> getBrowserOptions(Browser browser) {
+    public static List<String> getBrowserOptions(BrowserName browser) {
         ArrayList<String> browserOptions = new ArrayList<>();
         if (System.getProperty(BROWSER_OPTIONS) != null) {
             browserOptions = new ArrayList(Arrays.asList(System.getProperty(BROWSER_OPTIONS).split("\\s*,\\s*")));
         }
-        if (browser == Browser.CHROME && browserOptions.contains("--headless")) {
+        if (browser == BrowserName.CHROME && browserOptions.contains("--headless")) {
             browserOptions.remove("--headless");
             System.setProperty(HEADLESS_INPUT, "true");
         }
-        if (browser == Browser.FIREFOX && browserOptions.contains("-headless")) {
+        if (browser == BrowserName.FIREFOX && browserOptions.contains("-headless")) {
             browserOptions.remove("-headless");
             System.setProperty(HEADLESS_INPUT, "true");
         }
