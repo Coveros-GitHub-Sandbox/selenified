@@ -56,6 +56,54 @@ public class ElementTest {
     }
 
     @Test
+    public void checkParentElementTypeTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", null);
+        Assert.assertEquals(element.getType(), Locator.ID);
+    }
+
+    @Test
+    public void checkParentElementLocatorTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", null);
+        Assert.assertEquals(element.getLocator(), "myId");
+    }
+
+    @Test
+    public void checkParentElementMatchTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", null);
+        Assert.assertEquals(element.getMatch(), 0);
+    }
+
+    @Test
+    public void checkParentElementWebDriverTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", null);
+        Assert.assertNull(element.getDriver());
+    }
+
+    @Test
+    public void checkFullParentElementTypeTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 2, null);
+        Assert.assertEquals(element.getType(), Locator.ID);
+    }
+
+    @Test
+    public void checkFullParentElementLocatorTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 2, null);
+        Assert.assertEquals(element.getLocator(), "myId");
+    }
+
+    @Test
+    public void checkFullParentElementMatchTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 2, null);
+        Assert.assertEquals(element.getMatch(), 2);
+    }
+
+    @Test
+    public void checkFullParentElementWebDriverTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 2,null);
+        Assert.assertNull(element.getDriver());
+    }
+
+    @Test
     public void checkPrettyOutputTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
         Assert.assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> ");

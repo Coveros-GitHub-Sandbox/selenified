@@ -154,6 +154,32 @@ public class App {
         return new Element(driver, file, type, locator, match);
     }
 
+    /**
+     * setups a new element which is located on the page
+     *
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param parent  - the parent of the element to be defined
+     * @return Element: a page element to interact with
+     */
+    public Element newElement(Locator type, String locator, Element parent) {
+        return new Element(driver, file, type, locator, parent);
+    }
+
+    /**
+     * setups a new element which is located on the page
+     *
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param match   - if there are multiple matches of the selector, this is which
+     *                match (starting at 0) to interact with
+     * @param parent  - the parent of the element to be defined
+     * @return Element: a page element to interact with
+     */
+    public Element newElement(Locator type, String locator, int match, Element parent) {
+        return new Element(driver, file, type, locator, match, parent);
+    }
+
     ///////////////////////////////////////////////////////
     // instantiating our additional action classes for further use
     ///////////////////////////////////////////////////////
