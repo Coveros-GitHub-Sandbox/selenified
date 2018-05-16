@@ -21,6 +21,7 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import io.github.bonigarcia.wdm.*;
 import org.openqa.selenium.Proxy;
@@ -323,11 +324,11 @@ public class TestSetup {
         if (System.getProperty(BROWSER_OPTIONS) != null) {
             browserOptions = new ArrayList(Arrays.asList(System.getProperty(BROWSER_OPTIONS).split("\\s*,\\s*")));
         }
-        if (browser == Browser.CHROME && browserOptions.contains("--headless")) {
+        if (browser.getName() == BrowserName.CHROME && browserOptions.contains("--headless")) {
             browserOptions.remove("--headless");
             System.setProperty(HEADLESS_INPUT, "true");
         }
-        if (browser == Browser.FIREFOX && browserOptions.contains("-headless")) {
+        if (browser.getName() == BrowserName.FIREFOX && browserOptions.contains("-headless")) {
             browserOptions.remove("-headless");
             System.setProperty(HEADLESS_INPUT, "true");
         }
