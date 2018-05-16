@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
 
 public class Jira {
 
-    private final static String JIRA_LINK = "jira.link";
+    private static final String JIRA_LINK = "jira.link";
 
     private final Annotation annotation;
     private final HTTP http;
