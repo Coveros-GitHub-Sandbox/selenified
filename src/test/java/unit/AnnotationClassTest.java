@@ -27,11 +27,12 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-public class AnnotationTest {
+@Jira
+public class AnnotationClassTest {
 
     @Test
     public void verifyDefaultTest(Method method) {
-        Assert.assertFalse(new Annotation(method).isAnnotationPresent());
+        Assert.assertTrue(new Annotation(method).isAnnotationPresent());
         Assert.assertFalse(new Annotation(method).isProjectPresent());
         Assert.assertFalse(new Annotation(method).isIssuePresent());
     }

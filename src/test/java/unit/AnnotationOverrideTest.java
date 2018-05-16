@@ -15,6 +15,8 @@ public class AnnotationOverrideTest {
         Assert.assertTrue(new Annotation(method).isAnnotationPresent());
         Assert.assertTrue(new Annotation(method).isProjectPresent());
         Assert.assertTrue(new Annotation(method).isIssuePresent());
+        Assert.assertEquals(new Annotation(method).getProject(), "HW");
+        Assert.assertEquals(new Annotation(method).getIssue(), "HW-123456");
     }
 
     @Test

@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-public class AnnotationTest {
+public class AnnotationMethodTest {
 
     @Test
     public void verifyDefaultTest(Method method) {

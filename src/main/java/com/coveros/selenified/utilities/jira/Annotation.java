@@ -47,7 +47,8 @@ public class Annotation {
                 !"".equals(method.getDeclaringClass().getAnnotation(Jira.class).project())) {
             return true;
         }
-        return !"".equals(method.getAnnotation(Jira.class).project());
+        return method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira
+                .class).project());
     }
 
     public Boolean isIssuePresent() {
@@ -58,7 +59,7 @@ public class Annotation {
                 !"".equals(method.getDeclaringClass().getAnnotation(Jira.class).issue())) {
             return true;
         }
-        return !"".equals(method.getAnnotation(Jira.class).issue());
+        return method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).issue());
     }
 
     public String getProject() {

@@ -29,8 +29,4 @@ public class InvalidLocatorTypeException extends IOException {
     public InvalidLocatorTypeException() {
         super();
     }
-
-    public InvalidLocatorTypeException(String msg) {
-        super(msg);
-    }
 }
