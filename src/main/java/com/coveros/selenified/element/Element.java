@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -1091,12 +1091,12 @@ public class Element {
         }
         String action = "Drawing object from " + pointString.toString() + " in " + prettyOutput();
         String expected = prettyOutput() + " now has object drawn on it from " + pointString.toString();
-        // wait for element to be present
-        if (!isPresent(action, expected, "Unable to drawn in ")) {
-            return;
-        }
-        WebElement webElement = getWebElement();
         try {
+            // wait for element to be present
+            if (!isPresent(action, expected, "Unable to drawn in ")) {
+                return;
+            }
+            WebElement webElement = getWebElement();
             // do our actions
             Actions builder = new Actions(driver);
             Point<Integer, Integer> firstPoint = points.get(0);

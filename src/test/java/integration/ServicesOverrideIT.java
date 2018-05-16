@@ -23,7 +23,7 @@ public class ServicesOverrideIT extends Selenified {
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
         // for this test, we want to change the default headers for each call
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/xml");

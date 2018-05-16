@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -67,6 +67,8 @@ import static org.testng.AssertJUnit.assertEquals;
 public class Selenified {
 
     private static final Logger log = Logger.getLogger(Selenified.class);
+    private static final String SERVICES_USER = "ServicesUser";
+    private static final String SERVICES_PASS = "ServicesPass";
 
     // any additional browser capabilities that might be necessary
     protected static DesiredCapabilities extraCapabilities = null;
@@ -230,8 +232,8 @@ public class Selenified {
         if (System.getenv("SERVICES_USER") != null) {
             return System.getenv("SERVICES_USER");
         }
-        if (context.getAttribute(clazz + "ServicesUser") != null) {
-            return (String) context.getAttribute(clazz + "ServicesUser");
+        if (context.getAttribute(clazz + SERVICES_USER) != null) {
+            return (String) context.getAttribute(clazz + SERVICES_USER);
         } else {
             return "";
         }
@@ -253,8 +255,8 @@ public class Selenified {
         if (System.getenv("SERVICES_PASS") != null) {
             return System.getenv("SERVICES_PASS");
         }
-        if (context.getAttribute(clazz + "ServicesPass") != null) {
-            return (String) context.getAttribute(clazz + "ServicesPass");
+        if (context.getAttribute(clazz + SERVICES_PASS) != null) {
+            return (String) context.getAttribute(clazz + SERVICES_PASS);
         } else {
             return "";
         }
@@ -273,8 +275,8 @@ public class Selenified {
      */
     protected static void setCredentials(Selenified clazz, ITestContext context, String servicesUser,
                                          String servicesPass) {
-        context.setAttribute(clazz.getClass().getName() + "ServicesUser", servicesUser);
-        context.setAttribute(clazz.getClass().getName() + "ServicesPass", servicesPass);
+        context.setAttribute(clazz.getClass().getName() + SERVICES_USER, servicesUser);
+        context.setAttribute(clazz.getClass().getName() + SERVICES_PASS, servicesPass);
     }
 
     /**

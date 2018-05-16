@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -49,6 +49,7 @@ public class HTTP {
     private static final String NEWLINE = "\r\n";
 
     private static final String PATCH = "PATCH";
+    private static final String CONTENT_TYPE = "Content-Type";
 
     private final String serviceBaseUrl;
     private String user = "";
@@ -275,7 +276,7 @@ public class HTTP {
             }
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-length", "0");
-            connection.setRequestProperty("Content-Type", contentType);
+            connection.setRequestProperty(CONTENT_TYPE, contentType);
             connection.setRequestProperty("Accept", "application/json");
             for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
                 connection.setRequestProperty(entry.getKey(), entry.getValue());
@@ -291,12 +292,12 @@ public class HTTP {
             }
             connection.connect();
             if ((request != null && request.getData() != null) || file != null) {
-                if (connection.getRequestProperty("Content-Type").startsWith("application/json;")) {
+                if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json;")) {
                     writeJsonDataRequest(connection, request);
-                } else if (connection.getRequestProperty("Content-Type").startsWith("multipart/form-data;")) {
+                } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data;")) {
                     writeMultipartDataRequest(connection, request, file);
                 } else {
-                    throw new IOException("Content-Type '" + connection.getRequestProperty("Content-Type") +
+                    throw new IOException("Content-Type '" + connection.getRequestProperty(CONTENT_TYPE) +
                             "' not currently supported by Selenified. Current supported types are " +
                             "'application/json' and 'multipart/form-data'.");
                 }
