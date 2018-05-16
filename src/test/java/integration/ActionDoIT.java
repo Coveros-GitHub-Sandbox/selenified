@@ -1242,7 +1242,7 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "overlay_span").draw(points);
         // verify no issues
-        finish(1);
+        finish(0);
     }
 
     @Test(groups = {"integration", "actions", "do", "draw"},
