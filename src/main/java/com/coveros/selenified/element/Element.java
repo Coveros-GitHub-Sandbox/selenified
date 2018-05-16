@@ -33,6 +33,7 @@ import org.testng.log4testng.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.RasterFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -1092,8 +1093,8 @@ public class Element {
         String action = "Drawing object from " + pointString.toString() + " in " + prettyOutput();
         String expected = prettyOutput() + " now has object drawn on it from " + pointString.toString();
         try {
-            // wait for element to be present
-            if (!isPresent(action, expected, "Unable to drawn in ")) {
+            // wait for element to be present, displayed, and enabled
+            if (!isPresentDisplayedEnabled(action, expected, "Unable to drawn in ")) {
                 return;
             }
             WebElement webElement = getWebElement();
@@ -1170,7 +1171,7 @@ public class Element {
             // Crop the entire page screenshot to get only element screenshot
             BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
             ImageIO.write(eleScreenshot, "png", image);
-        } catch (IOException e) {
+        } catch (RasterFormatException | IOException e) {
             log.error(e);
         }
         return imageLink;
