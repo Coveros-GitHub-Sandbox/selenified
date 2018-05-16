@@ -102,8 +102,8 @@ public class HTTP {
      * Adds the desired credentials. These should just be a simple, unencrypted/hashed username and password
      * pair
      *
-     * @param user           - the username required for authentication
-     * @param pass           - the password required for authentication
+     * @param user - the username required for authentication
+     * @param pass - the password required for authentication
      */
     public void addCredentials(String user, String pass) {
         this.user = user;

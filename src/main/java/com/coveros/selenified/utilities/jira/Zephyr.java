@@ -118,14 +118,12 @@ public class Zephyr {
         testForCycle.add("issues", tests);
         testForCycle.addProperty(VERSION, -1);
         testForCycle.addProperty("method", 1);
-        Response response =
-                service.post("/rest/zapi/latest/execution/addTestsToCycle", new Request(testForCycle));
+        Response response = service.post("/rest/zapi/latest/execution/addTestsToCycle", new Request(testForCycle));
         return response.getCode() == 200;
     }
 
     public JsonObject getExecution(int executionId) {
-        return service.get("/rest/zapi/latest/execution/" + executionId).getObjectData()
-                .getAsJsonObject("execution");
+        return service.get("/rest/zapi/latest/execution/" + executionId).getObjectData().getAsJsonObject("execution");
     }
 
     public int createExecution(int projectId, int cycleId, int testId) {
@@ -187,8 +185,8 @@ public class Zephyr {
         Map<String, String> params = new HashMap<>();
         params.put("entityId", String.valueOf(executionId));
         params.put("entityType", "EXECUTION");
-        return service.get("/rest/zapi/latest/attachment/attachmentsByEntity", new Request(params))
-                .getObjectData().getAsJsonArray("data");
+        return service.get("/rest/zapi/latest/attachment/attachmentsByEntity", new Request(params)).getObjectData()
+                .getAsJsonArray("data");
     }
 
     public JsonObject getExecutionAttachment(int fileId) {
