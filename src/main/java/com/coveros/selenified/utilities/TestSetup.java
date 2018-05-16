@@ -268,7 +268,7 @@ public class TestSetup {
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
-                firefoxOptions.addArguments(getBrowserOptions(browser.getName()));
+                firefoxOptions.addArguments(getBrowserOptions(browser));
                 if (runHeadless()) {
                     firefoxOptions.setHeadless(true);
                 }
@@ -278,7 +278,7 @@ public class TestSetup {
                 ChromeDriverManager.getInstance().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(capabilities);
-                chromeOptions.addArguments(getBrowserOptions(browser.getName()));
+                chromeOptions.addArguments(getBrowserOptions(browser));
                 if (runHeadless()) {
                     chromeOptions.setHeadless(true);
                 }
@@ -319,16 +319,16 @@ public class TestSetup {
         return System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT));
     }
 
-    public static List<String> getBrowserOptions(BrowserName browser) {
+    public static List<String> getBrowserOptions(Browser browser) {
         ArrayList<String> browserOptions = new ArrayList<>();
         if (System.getProperty(BROWSER_OPTIONS) != null) {
             browserOptions = new ArrayList(Arrays.asList(System.getProperty(BROWSER_OPTIONS).split("\\s*,\\s*")));
         }
-        if (browser == BrowserName.CHROME && browserOptions.contains("--headless")) {
+        if (browser.getName() == BrowserName.CHROME && browserOptions.contains("--headless")) {
             browserOptions.remove("--headless");
             System.setProperty(HEADLESS_INPUT, "true");
         }
-        if (browser == BrowserName.FIREFOX && browserOptions.contains("-headless")) {
+        if (browser.getName() == BrowserName.FIREFOX && browserOptions.contains("-headless")) {
             browserOptions.remove("-headless");
             System.setProperty(HEADLESS_INPUT, "true");
         }
