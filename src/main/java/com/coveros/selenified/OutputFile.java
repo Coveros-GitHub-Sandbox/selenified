@@ -20,6 +20,7 @@
 
 package com.coveros.selenified;
 
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
@@ -67,7 +68,7 @@ public class OutputFile {
     private final String directory;
     private final File file;
     private final String filename;
-    private Browser browser = Browser.NONE;
+    private Browser browser = new Browser(BrowserName.NONE);
     private final List<String> screenshots = new ArrayList<>();
 
     // timing of the test
@@ -77,14 +78,14 @@ public class OutputFile {
     private int stepNum = 0;
     // this will keep track of the errors
     private int errors = 0;
-    // the image width for reporting
-    private final int embeddedImageWidth = 300;
 
     // constants
     private static final String START_ROW = "   <tr>\n";
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
+    // the image width for reporting
+    private static final int EMBEDDED_IMAGE_WIDTH = 300;
 
     /**
      * Creates a new instance of the OutputFile, which will serve as the
@@ -112,7 +113,7 @@ public class OutputFile {
         this.author = author;
         this.version = version;
         this.objectives = objectives;
-        filename = test + browser + ".html";
+        filename = test + browser.getName() + ".html";
         file = new File(directory, filename);
         setupFile();
         setStartTime();
@@ -170,7 +171,7 @@ public class OutputFile {
      * @return Boolean: is the browser a 'real' browser
      */
     private boolean isRealBrowser() {
-        return browser != Browser.NONE && browser != Browser.HTMLUNIT;
+        return browser.getName() != BrowserName.NONE && browser.getName() != BrowserName.HTMLUNIT;
     }
 
     /**
@@ -505,7 +506,7 @@ public class OutputFile {
             out.write("    <th>URL Under Test</th>\n");
             out.write(START_CELL + "<a href='" + url + "'>" + url + "</a>" + END_CELL);
             out.write("    <th>Browser</th>\n");
-            out.write(START_CELL + browser + END_CELL);
+            out.write(START_CELL + browser.getName() + END_CELL);
             out.write(swapRow);
             out.write("    <th>Testing Group</th>\n");
             out.write(START_CELL + group + END_CELL);
@@ -649,7 +650,7 @@ public class OutputFile {
             imageLink += " <a href='javascript:void(0)' onclick='displayImage(\"" +
                     imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
             imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
-                    imageName.substring(directory.length() + 1) + "' width='" + embeddedImageWidth +
+                    imageName.substring(directory.length() + 1) + "' width='" + EMBEDDED_IMAGE_WIDTH +
                     "px' style='display:none;'>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";

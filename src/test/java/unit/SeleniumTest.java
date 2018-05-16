@@ -1,6 +1,7 @@
 package unit;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
@@ -22,25 +23,25 @@ public class SeleniumTest {
 
     @Test
     public void browsersTest() throws InvalidBrowserException {
-        Assert.assertEquals(Browser.lookup("CHROME"), Browser.CHROME);
-        Assert.assertEquals(Browser.lookup("chrome"), Browser.CHROME);
-        Assert.assertEquals(Browser.lookup("cHroMe"), Browser.CHROME);
+        Assert.assertEquals(Browser.lookup("CHROME"), BrowserName.CHROME);
+        Assert.assertEquals(Browser.lookup("chrome"), BrowserName.CHROME);
+        Assert.assertEquals(Browser.lookup("cHroMe"), BrowserName.CHROME);
     }
 
     @Test
     public void eachBrowsersTest() throws InvalidBrowserException {
-        Assert.assertEquals(Browser.lookup("NONE"), Browser.NONE);
-        Assert.assertEquals(Browser.lookup("HTMLUNIT"), Browser.HTMLUNIT);
-        Assert.assertEquals(Browser.lookup("FIREFOX"), Browser.FIREFOX);
-        Assert.assertEquals(Browser.lookup("CHROME"), Browser.CHROME);
-        Assert.assertEquals(Browser.lookup("INTERNETEXPLORER"), Browser.INTERNETEXPLORER);
-        Assert.assertEquals(Browser.lookup("EDGE"), Browser.EDGE);
-        Assert.assertEquals(Browser.lookup("ANDROID"), Browser.ANDROID);
-        Assert.assertEquals(Browser.lookup("IPAD"), Browser.IPAD);
-        Assert.assertEquals(Browser.lookup("IPHONE"), Browser.IPHONE);
-        Assert.assertEquals(Browser.lookup("OPERA"), Browser.OPERA);
-        Assert.assertEquals(Browser.lookup("SAFARI"), Browser.SAFARI);
-        Assert.assertEquals(Browser.lookup("PHANTOMJS"), Browser.PHANTOMJS);
+        Assert.assertEquals(Browser.lookup("NONE"), BrowserName.NONE);
+        Assert.assertEquals(Browser.lookup("HTMLUNIT"), BrowserName.HTMLUNIT);
+        Assert.assertEquals(Browser.lookup("FIREFOX"), BrowserName.FIREFOX);
+        Assert.assertEquals(Browser.lookup("CHROME"), BrowserName.CHROME);
+        Assert.assertEquals(Browser.lookup("INTERNETEXPLORER"), BrowserName.INTERNETEXPLORER);
+        Assert.assertEquals(Browser.lookup("EDGE"), BrowserName.EDGE);
+        Assert.assertEquals(Browser.lookup("ANDROID"), BrowserName.ANDROID);
+        Assert.assertEquals(Browser.lookup("IPAD"), BrowserName.IPAD);
+        Assert.assertEquals(Browser.lookup("IPHONE"), BrowserName.IPHONE);
+        Assert.assertEquals(Browser.lookup("OPERA"), BrowserName.OPERA);
+        Assert.assertEquals(Browser.lookup("SAFARI"), BrowserName.SAFARI);
+        Assert.assertEquals(Browser.lookup("PHANTOMJS"), BrowserName.PHANTOMJS);
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)

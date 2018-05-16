@@ -1,6 +1,7 @@
 package unit;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.services.Response;
 import com.google.common.base.Charsets;
@@ -25,7 +26,8 @@ public class ResponseTest {
 
     @BeforeMethod
     public void createFile() {
-        outputFile = new OutputFile("directory", "file", Browser.NONE, null, null, null, null, null, null);
+        outputFile =
+                new OutputFile("directory", "file", new Browser(BrowserName.NONE), null, null, null, null, null, null);
         directory = new File("directory");
         file = new File("directory", "fileNONE.html");
     }
@@ -56,8 +58,9 @@ public class ResponseTest {
 
     @Test
     public void checkNewResponseFileMessageTest() {
-        Response response =
-                new Response(new OutputFile("directory", "file", Browser.ANDROID, null, null, null, null, null, null));
+        Response response = new Response(
+                new OutputFile("directory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
+                        null));
         Assert.assertNull(response.getMessage());
     }
 

@@ -21,6 +21,7 @@
 package com.coveros.selenified.application;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
@@ -35,7 +36,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
@@ -104,7 +104,7 @@ public class App {
     public App(Browser browser, DesiredCapabilities capabilities,
                OutputFile file) throws InvalidBrowserException, MalformedURLException {
         if (browser == null) {
-            this.browser = Browser.NONE;
+            this.browser = new Browser(BrowserName.NONE);
         } else {
             this.browser = browser;
         }
@@ -308,7 +308,7 @@ public class App {
      *                  TestOutput.generateImageName
      */
     public void takeScreenshot(String imageName) {
-        if (browser == Browser.HTMLUNIT) {
+        if (browser.getName() == BrowserName.HTMLUNIT) {
             return;
         }
         try {
@@ -322,7 +322,7 @@ public class App {
             }
             // now we need to save the file
             FileUtils.copyFile(srcFile, new File(imageName));
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("IO Error taking screenshot: " + e);
         }
     }
@@ -342,47 +342,6 @@ public class App {
             driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, key));
         } catch (Exception e) {
             file.recordAction(action, expected, fail + e.getMessage(), Result.FAILURE);
-            file.addError();
-            log.warn(e);
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
-    }
-
-    /**
-     * Switches to the next available tab. If the last tab is already selected,
-     * it will loop back to the first tab. This is an alternative to
-     * switchToNewWindow, as this works better for some systems and environments
-     * that others.
-     */
-    public void switchNextTab() {
-        sendControlAndCommand("Switching to next tab", "Next tab <b>" + AVAILABLE, "Next tab <b>" + NOTSELECTED + ". ",
-                Keys.PAGE_DOWN);
-    }
-
-    /**
-     * Switch to the previous available tab. If the first tab is already
-     * selected, it will loop back to the last tab. This is an alternative to
-     * switchToNewWindow, as this works better for some systems and environments
-     * that others.
-     */
-    public void switchPreviousTab() {
-        sendControlAndCommand("Switching to previous tab", "Previous tab <b>" + AVAILABLE,
-                "Previous tab <b>" + NOTSELECTED + ". ", Keys.PAGE_UP);
-    }
-
-    /**
-     * Closes the current tab. Note that if this is the only tab open, this will
-     * end the test. No additional actions or asserts can be performed after
-     * this, as the browser will be terminated as well
-     */
-    public void closeTab() {
-        String action = "Closing currently open tab";
-        String expected = "Tab is closed";
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.COMMAND + "w");
-        } catch (Exception e) {
-            file.recordAction(action, expected, "Tab was unable to be closed. " + e.getMessage(), Result.FAILURE);
             file.addError();
             log.warn(e);
         }
