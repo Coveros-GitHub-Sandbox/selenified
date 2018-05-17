@@ -10,7 +10,7 @@ public class SelenifiedIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://34.233.135.10/");
+        setTestSite(this, test, "http://www.google.com/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -20,25 +20,25 @@ public class SelenifiedIT extends Selenified {
 
     @Test
     public void noAnnotationDetailsTest() {
-        // verify no issues
-        finish();
+        // verify 1 issues
+        finish(1);
     }
 
     @Test(groups = {"integration", "selenified"})
     public void noDescriptionTest() {
-        // verify no issues
-        finish();
+        // verify 1 issues
+        finish(1);
     }
 
     @Test(description = "A test to verify that logs work without any groups")
     public void noGroupsTest() {
-        // verify no issues
-        finish();
+        // verify 1 issues
+        finish(1);
     }
 
     @Test(groups = "integration")
     public void oneGroupTest() {
-        // verify no issues
-        finish();
+        // verify 1 issues
+        finish(1);
     }
 }
