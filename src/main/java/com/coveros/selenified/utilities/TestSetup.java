@@ -255,6 +255,9 @@ public class TestSetup {
     public static WebDriver setupDriver(Browser browser,
                                         DesiredCapabilities capabilities) throws InvalidBrowserException {
         WebDriver driver;
+        if (browser == null || browser.getName() == null) {
+            throw new InvalidBrowserException("No browser was selected");
+        }
         // check the browser
         switch (browser.getName()) {
             case HTMLUNIT:

@@ -61,7 +61,7 @@ public class BrowserTest {
         Browser browser = new Browser(Browser.BrowserName.FIREFOX);
         browser.setVersion("1.0.5");
         Assert.assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
-        Assert.assertEquals(browser.getVersion(),"1.0.5");
+        Assert.assertEquals(browser.getVersion(), "1.0.5");
         Assert.assertNull(browser.getDevice());
         Assert.assertNull(browser.getOrientation());
         Assert.assertNull(browser.getPlatform());
@@ -73,7 +73,7 @@ public class BrowserTest {
         browser.setDevice("1.0.5");
         Assert.assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
         Assert.assertNull(browser.getVersion());
-        Assert.assertEquals(browser.getDevice(),"1.0.5");
+        Assert.assertEquals(browser.getDevice(), "1.0.5");
         Assert.assertNull(browser.getOrientation());
         Assert.assertNull(browser.getPlatform());
     }
@@ -85,7 +85,7 @@ public class BrowserTest {
         Assert.assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
         Assert.assertNull(browser.getVersion());
         Assert.assertNull(browser.getDevice());
-        Assert.assertEquals(browser.getOrientation(),"1.0.5");
+        Assert.assertEquals(browser.getOrientation(), "1.0.5");
         Assert.assertNull(browser.getPlatform());
     }
 
@@ -97,6 +97,6 @@ public class BrowserTest {
         Assert.assertNull(browser.getVersion());
         Assert.assertNull(browser.getDevice());
         Assert.assertNull(browser.getOrientation());
-        Assert.assertEquals(browser.getPlatform(),"1.0.5");
+        Assert.assertEquals(browser.getPlatform(), "1.0.5");
     }
 }

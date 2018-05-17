@@ -226,6 +226,27 @@ public class TestSetupTest {
     }
 
     @Test
+    public void setupBrowserDetailsNullNameTest() {
+        TestSetup setup = new TestSetup();
+        setup.setupBrowserDetails(new Browser(null));
+        DesiredCapabilities capability = setup.getDesiredCapabilities();
+        Assert.assertFalse(capability.is(CapabilityType.BROWSER_NAME));
+        Assert.assertNull(capability.getCapability(CapabilityType.BROWSER_NAME));
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void setupDriverNullBrowserTest() throws InvalidBrowserException {
+        TestSetup setup = new TestSetup();
+        setup.setupDriver(null, null);
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void setupDriverNullBrowserNameTest() throws InvalidBrowserException {
+        TestSetup setup = new TestSetup();
+        setup.setupDriver(new Browser(null), null);
+    }
+
+    @Test
     public void setupBrowserDetailsBrowserNameTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
         setup.setupBrowserDetails(null);
