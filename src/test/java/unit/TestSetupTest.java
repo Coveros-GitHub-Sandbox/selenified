@@ -16,9 +16,9 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.*;
 
 public class TestSetupTest {
 
@@ -223,6 +223,27 @@ public class TestSetupTest {
         Assert.assertNull(firefox.getDevice());
         Assert.assertNull(firefox.getOrientation());
         Assert.assertEquals(firefox.getPlatform(), "Windows 10");
+    }
+
+    @Test
+    public void setupBrowserDetailsNullNameTest() {
+        TestSetup setup = new TestSetup();
+        setup.setupBrowserDetails(new Browser(null));
+        DesiredCapabilities capability = setup.getDesiredCapabilities();
+        Assert.assertFalse(capability.is(CapabilityType.BROWSER_NAME));
+        Assert.assertNull(capability.getCapability(CapabilityType.BROWSER_NAME));
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void setupDriverNullBrowserTest() throws InvalidBrowserException {
+        TestSetup setup = new TestSetup();
+        setup.setupDriver(null, null);
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void setupDriverNullBrowserNameTest() throws InvalidBrowserException {
+        TestSetup setup = new TestSetup();
+        setup.setupDriver(new Browser(null), null);
     }
 
     @Test
@@ -634,47 +655,51 @@ public class TestSetupTest {
 
     @Test
     public void getBrowserOptionsDefaultTest() {
-        Assert.assertEquals(TestSetup.getBrowserOptions(BrowserName.FIREFOX), new ArrayList<>());
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)), new ArrayList<>());
     }
 
     @Test
     public void getBrowserOptionsDisableGPUTest() {
         System.setProperty("options", "--disable-gpu");
-        Assert.assertEquals(TestSetup.getBrowserOptions(BrowserName.FIREFOX), Arrays.asList("--disable-gpu"));
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)),
+                Arrays.asList("--disable-gpu"));
     }
 
     @Test
     public void getBrowserOptionsTwoTest() {
         System.setProperty("options", "--disable-gpu,--hi-there");
-        Assert.assertEquals(TestSetup.getBrowserOptions(BrowserName.FIREFOX), Arrays.asList("--disable-gpu","--hi-there"));
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)),
+                Arrays.asList("--disable-gpu", "--hi-there"));
         Assert.assertFalse(TestSetup.runHeadless());
     }
 
     @Test
     public void getBrowserOptionsChromeHeadlessTest() {
         System.setProperty("options", "--headless");
-        Assert.assertEquals(TestSetup.getBrowserOptions(BrowserName.CHROME), new ArrayList<>());
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.CHROME)), new ArrayList<>());
         Assert.assertTrue(TestSetup.runHeadless());
     }
 
     @Test
     public void getBrowserOptionsFirefoxHeadlessTest() {
         System.setProperty("options", "-headless");
-        Assert.assertEquals(TestSetup.getBrowserOptions(BrowserName.FIREFOX), new ArrayList<>());
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)), new ArrayList<>());
         Assert.assertTrue(TestSetup.runHeadless());
     }
 
     @Test
     public void getBrowserOptionsChromeFullTest() {
         System.setProperty("options", "--disable-gpu,--headless,--hi-there");
-        Assert.assertEquals(TestSetup.getBrowserOptions(BrowserName.CHROME), Arrays.asList("--disable-gpu","--hi-there"));
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.CHROME)),
+                Arrays.asList("--disable-gpu", "--hi-there"));
         Assert.assertTrue(TestSetup.runHeadless());
     }
 
     @Test
     public void getBrowserOptionsFirefoxFullTest() {
         System.setProperty("options", "--disable-gpu,-headless,--hi-there");
-        Assert.assertEquals(TestSetup.getBrowserOptions(BrowserName.FIREFOX), Arrays.asList("--disable-gpu","--hi-there"));
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)),
+                Arrays.asList("--disable-gpu", "--hi-there"));
         Assert.assertTrue(TestSetup.runHeadless());
     }
 }

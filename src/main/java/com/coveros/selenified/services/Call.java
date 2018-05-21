@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -53,7 +53,9 @@ public class Call {
     public Call(HTTP http, OutputFile file, Map<String, String> headers) {
         this.http = http;
         this.file = file;
-        addHeaders(headers);
+        if (headers != null) {
+            addHeaders(headers);
+        }
     }
 
     /**
@@ -71,6 +73,17 @@ public class Call {
      */
     public void resetHeaders() {
         http.resetHeaders();
+    }
+
+    /**
+     * Adds the desired credentials. These should just be a simple, unencrypted/hashed username and password
+     * pair
+     *
+     * @param user - the username required for authentication
+     * @param pass - the password required for authentication
+     */
+    public void addCredentials(String user, String pass) {
+        http.addCredentials(user, pass);
     }
 
     ///////////////////////////////////////////////////////////////////
