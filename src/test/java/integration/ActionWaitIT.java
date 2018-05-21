@@ -23,7 +23,7 @@ public class ActionWaitIT extends Selenified {
         setVersion(this, test, "0.0.1");
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "actions", "wait1"},
             description = "An integration negative test to check the wait method")
     public void waitTest() throws IOException, InterruptedException {
         // use this object to manipulate the app
@@ -97,7 +97,7 @@ public class ActionWaitIT extends Selenified {
 
     @Test(groups = {"integration", "actions", "wait", "location"},
             description = "An integration negative test to check the wait for location method")
-    public void negativeWaitLocationTest(ITestContext context) throws IOException, InterruptedException {
+    public void negativeWaitLocationTest() throws IOException, InterruptedException {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
