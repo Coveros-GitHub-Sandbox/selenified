@@ -415,8 +415,12 @@ public class HTTP {
                     response.setObjectData(object);
                 } catch (ClassCastException e) {
                     log.debug(e);
-                    array = (JsonArray) parser.parse(data);
-                    response.setArrayData(array);
+                    try {
+                        array = (JsonArray) parser.parse(data);
+                        response.setArrayData(array);
+                    } catch (ClassCastException f) {
+                        log.debug(e);
+                    }
                 }
             }
         }

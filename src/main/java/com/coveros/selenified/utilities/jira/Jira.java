@@ -63,16 +63,23 @@ public class Jira {
 
     public int getProjectId() {
         String project = annotation.getProject();
+        if (project == null) {
+            return 0;
+        }
         Response response = http.get("/rest/api/2/project/" + project);
-        if (response.getObjectData().has("id")) {
+        if (response.getObjectData() != null && response.getObjectData().has("id")) {
             return response.getObjectData().get("id").getAsInt();
         }
         return 0;
     }
 
-    public int getIssueId(String key) {
-        Response response = http.get("/rest/api/2/issue/" + key);
-        if (response.getObjectData().has("id")) {
+    public int getIssueId() {
+        String issue = annotation.getIssue();
+        if (issue == null) {
+            return 0;
+        }
+        Response response = http.get("/rest/api/2/issue/" + issue);
+        if (response.getObjectData() != null && response.getObjectData().has("id")) {
             return response.getObjectData().get("id").getAsInt();
         }
         return 0;

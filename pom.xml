@@ -55,9 +55,9 @@
         <sonar.jacoco.itReportPath>target/coverage-reports/jacoco-it.exec</sonar.jacoco.itReportPath>
 
         <!-- JIRA Properties -->
-        <jira.link></jira.link>
-        <jira.username></jira.username>
-        <jira.password></jira.password>
+        <jira.link>http://localhost:1080/jira</jira.link>
+        <jira.username>sampleUser</jira.username>
+        <jira.password>samplePass</jira.password>
     </properties>
 
     <name>Selenified Testing Framework</name>
@@ -131,6 +131,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mock-server/mockserver-netty -->
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-netty</artifactId>
+            <version>5.3.0</version>
         </dependency>
     </dependencies>
 
