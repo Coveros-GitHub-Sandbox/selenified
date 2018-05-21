@@ -3,7 +3,10 @@ package unit;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.utilities.jira.Jira;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
@@ -86,7 +89,7 @@ public class JiraTest {
         System.setProperty("jira.link", "myLink");
         Jira jira = new Jira(method);
         HTTP http = jira.getHTTP();
-        Assert.assertEquals(http.getServiceBaseUrl(),"myLink");
+        Assert.assertEquals(http.getServiceBaseUrl(), "myLink");
         Assert.assertEquals(http.getUser(), "");
         Assert.assertEquals(http.getPass(), "");
     }
@@ -96,7 +99,7 @@ public class JiraTest {
         System.setProperty("jira.link", "myLink");
         Jira jira = new Jira(method);
         HTTP http = jira.getJiraHttp();
-        Assert.assertEquals(http.getServiceBaseUrl(),"myLink");
+        Assert.assertEquals(http.getServiceBaseUrl(), "myLink");
         Assert.assertEquals(http.getUser(), "");
         Assert.assertEquals(http.getPass(), "");
     }
@@ -107,7 +110,7 @@ public class JiraTest {
         System.setProperty("jira.username", "username");
         Jira jira = new Jira(method);
         HTTP http = jira.getHTTP();
-        Assert.assertEquals(http.getServiceBaseUrl(),"myLink");
+        Assert.assertEquals(http.getServiceBaseUrl(), "myLink");
         Assert.assertEquals(http.getUser(), "username");
         Assert.assertEquals(http.getPass(), "");
     }
@@ -118,7 +121,7 @@ public class JiraTest {
         System.setProperty("jira.password", "password");
         Jira jira = new Jira(method);
         HTTP http = jira.getHTTP();
-        Assert.assertEquals(http.getServiceBaseUrl(),"myLink");
+        Assert.assertEquals(http.getServiceBaseUrl(), "myLink");
         Assert.assertEquals(http.getUser(), "");
         Assert.assertEquals(http.getPass(), "password");
     }
@@ -126,12 +129,12 @@ public class JiraTest {
     @Test
     public void getProjectIdDefaultTest(Method method) {
         Jira jira = new Jira(method);
-        Assert.assertEquals(jira.getProjectId(),0);
+        Assert.assertEquals(jira.getProjectId(), 0);
     }
 
     @Test
     public void getIssueIdDefaultTest(Method method) {
         Jira jira = new Jira(method);
-        Assert.assertEquals(jira.getIssueId(),0);
+        Assert.assertEquals(jira.getIssueId(), 0);
     }
 }
