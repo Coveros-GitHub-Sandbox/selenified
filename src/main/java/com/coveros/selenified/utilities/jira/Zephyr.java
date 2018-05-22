@@ -43,7 +43,7 @@ public class Zephyr {
     private final Jira jira;
     private final HTTP service;
 
-    private int cycleId = 0;
+    public int cycleId = 0;
 
     public Zephyr(Method method) {
         this.jira = new Jira(method);
@@ -71,7 +71,7 @@ public class Zephyr {
         cycle.addProperty("endDate", start);
         cycle.addProperty(VERSION, -1);
         Response response = service.post("/rest/zapi/latest/cycle", new Request(cycle));
-        if (response.getObjectData().has("id")) {
+        if (response.getObjectData() != null && response.getObjectData().has("id")) {
             cycleId = response.getObjectData().get("id").getAsInt();
         }
         cycleId = 0;
