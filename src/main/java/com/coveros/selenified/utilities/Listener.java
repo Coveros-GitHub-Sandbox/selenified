@@ -21,16 +21,23 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
+import com.coveros.selenified.utilities.jira.Jira;
+import com.coveros.selenified.utilities.jira.Zephyr;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
+import org.testng.log4testng.Logger;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Appends additional test links and information into the TestNG report file,
@@ -42,6 +49,8 @@ import java.io.File;
  */
 public class Listener extends TestListenerAdapter {
 
+    private static final Logger log = Logger.getLogger(Listener.class);
+
     private static final String BROWSER_INPUT = "browser";
     private static final String OUTPUT_BREAK = " | ";
     private static final String FILE_EXTENTION = "html";
@@ -49,6 +58,8 @@ public class Listener extends TestListenerAdapter {
     private static final String LINK_MIDDLE = "." + FILE_EXTENTION + "'>";
     private static final String LINK_END = "</a>";
     private static final String TIME_UNIT = " seconds";
+
+    private Map<Integer, Zephyr> zephyrs = new HashMap<>();
 
     /**
      * determines the folder name associated with the given tests
@@ -144,6 +155,45 @@ public class Listener extends TestListenerAdapter {
                     new HTTP("https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
                             Sauce.getSauceKey());
             http.put(sessionId, new Request(json));
+        }
+        if (Jira.uploadToJira() && test.getAttributeNames().contains("Output")) {
+            Method testMethod = test.getMethod().getConstructorOrMethod().getMethod();
+            Jira jira = new Jira(testMethod);
+            int project = jira.getProjectId();
+            int issue = jira.getIssueId();
+            Zephyr zephyr;
+            if (project == 0) {
+                return;
+            } else if (!zephyrs.containsKey(project)) {
+                zephyr = new Zephyr(testMethod);
+                zephyr.createCycle();
+                zephyrs.put(project, zephyr);
+            } else {
+                zephyr = zephyrs.get(project);
+            }
+            zephyr.addTestToCycle(String.valueOf(issue));
+            int executionId = zephyr.createExecution(issue);
+            switch (Result.values()[test.getStatus()]) {
+                case SUCCESS:
+                    zephyr.markExecutionPassed(executionId);
+                    break;
+                case FAILURE:
+                    zephyr.markExecutionFailed(executionId);
+                    break;
+                case WARNING:
+                    zephyr.markExecutionWIP(executionId);
+                    break;
+                case SKIPPED:
+                    zephyr.markExecutionUnexecuted(executionId);
+                    break;
+                default:
+                    zephyr.markExecutionBlocked(executionId);
+            }
+            OutputFile outputFile = (OutputFile) test.getAttribute("Output");
+            zephyr.uploadExecutionResults(executionId, outputFile.getFile());
+            for (String screenshot : outputFile.getScreenshots()) {
+                zephyr.uploadExecutionResults(executionId, new File(screenshot));
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ public class JiraTest {
     private String jiraPass = null;
 
     @BeforeClass
-    public void saveJiraLink() {
+    public void storeJiraProperties() {
         if (System.getProperty("jira.link") != null) {
             jiraLink = System.getProperty("jira.link");
             System.clearProperty("jira.link");
@@ -33,7 +33,7 @@ public class JiraTest {
     }
 
     @AfterClass
-    public void resetJiraLink() {
+    public void restoreJiraProperties() {
         if (jiraLink != null) {
             System.setProperty("jira.link", jiraLink);
         }
@@ -46,7 +46,7 @@ public class JiraTest {
     }
 
     @AfterMethod
-    public void stopMockServer() {
+    public void clearJiraProperties() {
         System.clearProperty("jira.link");
         System.clearProperty("jira.username");
         System.clearProperty("jira.password");
@@ -54,6 +54,13 @@ public class JiraTest {
 
     @Test
     public void uploadToJiraDefaultTest(Method method) {
+        Jira jira = new Jira(method);
+        Assert.assertFalse(jira.uploadToJira());
+    }
+
+    @Test
+    public void uploadToJiraEmptyTest(Method method) {
+        System.setProperty("jira.link", "");
         Jira jira = new Jira(method);
         Assert.assertFalse(jira.uploadToJira());
     }

@@ -43,28 +43,23 @@ public class Zephyr {
     private final Jira jira;
     private final HTTP service;
 
+    private int cycleId = 0;
+
     public Zephyr(Method method) {
         this.jira = new Jira(method);
         this.service = jira.getHTTP();
     }
 
-    public JsonObject getCycle(int cycleId) {
-        return service.get("/rest/zapi/latest/cycle/" + cycleId).getObjectData();
-    }
+    public void createCycle() {
+        //TODO pull these from cmd properties
+        String cycleName = "Sample";
+        String cycleDescription = "";
+        String build = "";
+        String environment = "";
 
-    public int createCycle(int projectId, String cycleName) {
-        return createCycle(projectId, cycleName, "", "", "");
-    }
-
-    public int createCycle(int projectId, String cycleName, String cycleDescription) {
-        return createCycle(projectId, cycleName, cycleDescription, "", "");
-    }
-
-    private int createCycle(int projectId, String cycleName, String cycleDescription, String build,
-                            String environment) {
         JsonObject cycle = new JsonObject();
         cycle.addProperty("clonedCycleId", "");
-        cycle.addProperty(PROJECT, String.valueOf(projectId));
+        cycle.addProperty(PROJECT, String.valueOf(jira.getProjectId()));
         cycle.addProperty("name", cycleName);
         cycle.addProperty("description", cycleDescription);
         cycle.addProperty("build", build);
@@ -77,43 +72,18 @@ public class Zephyr {
         cycle.addProperty(VERSION, -1);
         Response response = service.post("/rest/zapi/latest/cycle", new Request(cycle));
         if (response.getObjectData().has("id")) {
-            return response.getObjectData().get("id").getAsInt();
+            cycleId = response.getObjectData().get("id").getAsInt();
         }
-        return 0;
+        cycleId = 0;
     }
 
-    public boolean updateCycle(int cycleId, String cycleName, String cycleDescription, String build,
-                               String environment) {
-        JsonObject cycle = new JsonObject();
-        cycle.addProperty("id", cycleId);
-        if (cycleName != null) {
-            cycle.addProperty("name", cycleName);
-        }
-        if (cycleDescription != null) {
-            cycle.addProperty("description", cycleDescription);
-        }
-        if (build != null) {
-            cycle.addProperty("build", build);
-        }
-        if (environment != null) {
-            cycle.addProperty("environment", environment);
-        }
-        Response response = service.put("/rest/zapi/latest/cycle", new Request(cycle));
-        return response.getCode() == 200;
-    }
-
-    public boolean deleteCycle(int cycleId) {
-        Response response = service.delete("/rest/zapi/latest/cycle/" + cycleId);
-        return response.getCode() == 200;
-    }
-
-    public boolean addTestToCycle(int projectId, int cycleId, String... testIds) {
+    public boolean addTestToCycle(String... testIds) {
         JsonArray tests = new JsonArray();
         for (String testId : testIds) {
             tests.add(testId);
         }
         JsonObject testForCycle = new JsonObject();
-        testForCycle.addProperty(PROJECT, projectId);
+        testForCycle.addProperty(PROJECT, jira.getProjectId());
         testForCycle.addProperty("cycleId", cycleId);
         testForCycle.add("issues", tests);
         testForCycle.addProperty(VERSION, -1);
@@ -122,13 +92,9 @@ public class Zephyr {
         return response.getCode() == 200;
     }
 
-    public JsonObject getExecution(int executionId) {
-        return service.get("/rest/zapi/latest/execution/" + executionId).getObjectData().getAsJsonObject("execution");
-    }
-
-    public int createExecution(int projectId, int cycleId, int testId) {
+    public int createExecution(int testId) {
         JsonObject execution = new JsonObject();
-        execution.addProperty(PROJECT, projectId);
+        execution.addProperty(PROJECT, jira.getProjectId());
         execution.addProperty("cycleId", cycleId);
         execution.addProperty("issueId", testId);
         execution.addProperty(VERSION, -1);
@@ -179,17 +145,5 @@ public class Zephyr {
         service.post("/rest/zapi/latest/attachment", new Request(params), results);
         //reset our headers
         service.resetHeaders();
-    }
-
-    public JsonArray getExecutionAttachments(int executionId) {
-        Map<String, String> params = new HashMap<>();
-        params.put("entityId", String.valueOf(executionId));
-        params.put("entityType", "EXECUTION");
-        return service.get("/rest/zapi/latest/attachment/attachmentsByEntity", new Request(params)).getObjectData()
-                .getAsJsonArray("data");
-    }
-
-    public JsonObject getExecutionAttachment(int fileId) {
-        return service.get("/rest/zapi/latest/attachment/" + fileId + "/file").getObjectData();
     }
 }

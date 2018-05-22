@@ -37,7 +37,7 @@ public class Jira {
         this.http = getJiraHttp();
     }
 
-    public Boolean uploadToJira() {
+    public static Boolean uploadToJira() {
         return !(System.getProperty(JIRA_LINK) == null || "".equals(System.getProperty(JIRA_LINK)));
     }
 

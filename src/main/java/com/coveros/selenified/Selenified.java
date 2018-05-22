@@ -383,6 +383,7 @@ public class Selenified {
         }
         this.browser.set(myBrowser);
         result.setAttribute(BROWSER_INPUT, myBrowser);
+        result.setAttribute("Output", myFile);
         this.files.set(myFile);
     }
 

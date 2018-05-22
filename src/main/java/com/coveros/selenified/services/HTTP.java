@@ -413,13 +413,13 @@ public class HTTP {
                 try {
                     object = (JsonObject) parser.parse(data);
                     response.setObjectData(object);
-                } catch (ClassCastException e) {
+                } catch (Exception e) {
                     log.debug(e);
                     try {
                         array = (JsonArray) parser.parse(data);
                         response.setArrayData(array);
-                    } catch (ClassCastException f) {
-                        log.debug(e);
+                    } catch (Exception f) {
+                        log.debug(f);
                     }
                 }
             }

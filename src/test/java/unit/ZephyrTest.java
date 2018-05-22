@@ -1,8 +1,7 @@
 package unit;
 
-import com.coveros.selenified.utilities.Jira;
+import com.coveros.selenified.utilities.jira.Zephyr;
 import org.mockserver.integration.ClientAndServer;
-import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
@@ -11,8 +10,7 @@ import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-
-public class JiraMockTest {
+public class ZephyrTest {
 
     private ClientAndServer mockServer;
     private String jiraLink = null;
@@ -64,44 +62,7 @@ public class JiraMockTest {
     }
 
     @Test
-    @Jira(project = "/")
-    public void getProjectIdIllegalProjectTest(Method method) {
-        com.coveros.selenified.utilities.jira.Jira jira = new com.coveros.selenified.utilities.jira.Jira(method);
-        Assert.assertEquals(jira.getProjectId(), 0);
-    }
-
-    @Test
-    @Jira(project = "FB")
-    public void getProjectIdBadProjectTest(Method method) {
-        com.coveros.selenified.utilities.jira.Jira jira = new com.coveros.selenified.utilities.jira.Jira(method);
-        Assert.assertEquals(jira.getProjectId(), 0);
-    }
-
-    @Test
-    @Jira(project = "HW")
-    public void getProjectIdTest(Method method) {
-        com.coveros.selenified.utilities.jira.Jira jira = new com.coveros.selenified.utilities.jira.Jira(method);
-        Assert.assertEquals(jira.getProjectId(), 12345);
-    }
-
-    @Test
-    @Jira(issue = "/")
-    public void getIssueIdIllegalIssueTest(Method method) {
-        com.coveros.selenified.utilities.jira.Jira jira = new com.coveros.selenified.utilities.jira.Jira(method);
-        Assert.assertEquals(jira.getIssueId(), 0);
-    }
-
-    @Test
-    @Jira(issue = "FB-987654")
-    public void getIssueIdBadIssueTest(Method method) {
-        com.coveros.selenified.utilities.jira.Jira jira = new com.coveros.selenified.utilities.jira.Jira(method);
-        Assert.assertEquals(jira.getIssueId(), 0);
-    }
-
-    @Test
-    @Jira(issue = "HW-123456")
-    public void getIssueIdTest(Method method) {
-        com.coveros.selenified.utilities.jira.Jira jira = new com.coveros.selenified.utilities.jira.Jira(method);
-        Assert.assertEquals(jira.getIssueId(), 234567);
+    public void getCycleTestBad(Method method) {
+        Zephyr zephyr = new Zephyr(method);
     }
 }

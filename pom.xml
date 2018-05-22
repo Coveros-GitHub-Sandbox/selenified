@@ -55,9 +55,9 @@
         <sonar.jacoco.itReportPath>target/coverage-reports/jacoco-it.exec</sonar.jacoco.itReportPath>
 
         <!-- JIRA Properties -->
-        <jira.link>http://localhost:1080/jira</jira.link>
-        <jira.username>sampleUser</jira.username>
-        <jira.password>samplePass</jira.password>
+        <jira.link></jira.link>
+        <jira.username></jira.username>
+        <jira.password></jira.password>
     </properties>
 
     <name>Selenified Testing Framework</name>

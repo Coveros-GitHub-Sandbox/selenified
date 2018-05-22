@@ -139,6 +139,24 @@ public class OutputFile {
     }
 
     /**
+     * Retrieves the output file
+     *
+     * @return String: file
+     */
+    public File getFile() {
+        return file;
+    }
+
+    /**
+     * Retrieves a list of the screenshots captured during the test
+     *
+     * @return String: screenshots
+     */
+    public List<String> getScreenshots() {
+        return screenshots;
+    }
+
+    /**
      * Retrieves the current error count of the test
      *
      * @return Integer: the number of errors current encountered on the current
