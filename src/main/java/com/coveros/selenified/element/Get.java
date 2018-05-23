@@ -92,8 +92,8 @@ public class Get {
             return null;
         }
         WebElement webElement = element.getWebElement();
-        Select dropdown = new Select(webElement);
-        WebElement option = dropdown.getFirstSelectedOption();
+        Select dropDown = new Select(webElement);
+        WebElement option = dropDown.getFirstSelectedOption();
         return option.getText();
     }
 
@@ -109,8 +109,8 @@ public class Get {
             // with no options selected
         }
         WebElement webElement = element.getWebElement();
-        Select dropdown = new Select(webElement);
-        List<WebElement> options = dropdown.getAllSelectedOptions();
+        Select dropDown = new Select(webElement);
+        List<WebElement> options = dropDown.getAllSelectedOptions();
         String[] stringOptions = new String[options.size()];
         for (int i = 0; i < options.size(); i++) {
             stringOptions[i] = options.get(i).getText();
@@ -129,8 +129,8 @@ public class Get {
             return null;
         }
         WebElement webElement = element.getWebElement();
-        Select dropdown = new Select(webElement);
-        WebElement option = dropdown.getFirstSelectedOption();
+        Select dropDown = new Select(webElement);
+        WebElement option = dropDown.getFirstSelectedOption();
         return option.getAttribute(VALUE);
     }
 
@@ -146,8 +146,8 @@ public class Get {
             // with no values selected
         }
         WebElement webElement = element.getWebElement();
-        Select dropdown = new Select(webElement);
-        List<WebElement> options = dropdown.getAllSelectedOptions();
+        Select dropDown = new Select(webElement);
+        List<WebElement> options = dropDown.getAllSelectedOptions();
         String[] stringOptions = new String[options.size()];
         for (int i = 0; i < options.size(); i++) {
             stringOptions[i] = options.get(i).getAttribute(VALUE);
@@ -282,8 +282,8 @@ public class Get {
             return 0;
         }
         WebElement webElement = element.getWebElement();
-        Select dropdown = new Select(webElement);
-        List<WebElement> options = dropdown.getOptions();
+        Select dropDown = new Select(webElement);
+        List<WebElement> options = dropDown.getOptions();
         return options.size();
     }
 
@@ -299,8 +299,8 @@ public class Get {
             // with no options available
         }
         WebElement webElement = element.getWebElement();
-        Select dropdown = new Select(webElement);
-        List<WebElement> options = dropdown.getOptions();
+        Select dropDown = new Select(webElement);
+        List<WebElement> options = dropDown.getOptions();
         String[] stringOptions = new String[options.size()];
         for (int i = 0; i < options.size(); i++) {
             stringOptions[i] = options.get(i).getText();
@@ -320,8 +320,8 @@ public class Get {
             // with no options available
         }
         WebElement webElement = element.getWebElement();
-        Select dropdown = new Select(webElement);
-        List<WebElement> options = dropdown.getOptions();
+        Select dropDown = new Select(webElement);
+        List<WebElement> options = dropDown.getOptions();
         String[] stringOptions = new String[options.size()];
         for (int i = 0; i < options.size(); i++) {
             stringOptions[i] = options.get(i).getAttribute(VALUE);

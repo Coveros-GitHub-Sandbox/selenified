@@ -24,8 +24,8 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 
 /**
  * Select a browser to run Available options are: HtmlUnit (only locally - not
- * on grid), Firefox, Marionette, Chrome, InternetExplorer, Edge, Android, Ipad
- * (only locally - not on grid), Iphone (only locally, not on grid), Opera,
+ * on grid), Firefox, Marionette, Chrome, InternetExplorer, Edge, Android, iPad
+ * (only locally - not on grid), iPhone (only locally, not on grid), Opera,
  * Safari, PhantomJS
  */
 public class Browser {

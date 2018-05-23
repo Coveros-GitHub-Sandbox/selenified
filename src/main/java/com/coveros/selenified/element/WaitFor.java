@@ -144,15 +144,15 @@ public class WaitFor {
                 log.info(e);
             }
         }
-        double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
-        timetook = timetook / 1000;
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
+        timeTook = timeTook / 1000;
         if (!element.is().present()) {
             file.recordAction(action, expected,
-                    WAITING + timetook + SECONDS_FOR + element.prettyOutput() + " is not present", Result.FAILURE);
+                    WAITING + timeTook + SECONDS_FOR + element.prettyOutput() + " is not present", Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() + PRESENT,
+        file.recordAction(action, expected, WAITED + timeTook + SECONDS_FOR + element.prettyOutput() + PRESENT,
                 Result.SUCCESS);
     }
 
@@ -171,16 +171,16 @@ public class WaitFor {
                 break;
             }
         }
-        double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
-        timetook = timetook / 1000;
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
+        timeTook = timeTook / 1000;
         if (element.is().present()) {
             file.recordAction(action, expected,
-                    WAITING + timetook + SECONDS_FOR + element.prettyOutput() + " is still present", Result.FAILURE);
+                    WAITING + timeTook + SECONDS_FOR + element.prettyOutput() + " is still present", Result.FAILURE);
             file.addError();
             return;
         }
         file.recordAction(action, expected,
-                WAITED + timetook + SECONDS_FOR + element.prettyOutput() + " to not be present", Result.SUCCESS);
+                WAITED + timeTook + SECONDS_FOR + element.prettyOutput() + " to not be present", Result.SUCCESS);
     }
 
     /**
@@ -208,14 +208,14 @@ public class WaitFor {
                 }
             }
         }
-        double timetook = (System.currentTimeMillis() - start) / 1000;
+        double timeTook = (System.currentTimeMillis() - start) / 1000;
         if (!webElement.isDisplayed()) {
             file.recordAction(action, expected,
-                    WAITING + timetook + SECONDS_FOR + element.prettyOutput() + " is not displayed", Result.FAILURE);
+                    WAITING + timeTook + SECONDS_FOR + element.prettyOutput() + " is not displayed", Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() + DISPLAYED,
+        file.recordAction(action, expected, WAITED + timeTook + SECONDS_FOR + element.prettyOutput() + DISPLAYED,
                 Result.SUCCESS);
     }
 

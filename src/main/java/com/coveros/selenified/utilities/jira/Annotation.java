@@ -37,21 +37,15 @@ public class Annotation {
     }
 
     public Boolean isProjectPresent() {
-        if (!isAnnotationPresent()) {
-            return false;
-        }
-        return method.getDeclaringClass().isAnnotationPresent(Jira.class) &&
+        return isAnnotationPresent() && (method.getDeclaringClass().isAnnotationPresent(Jira.class) &&
                 !"".equals(method.getDeclaringClass().getAnnotation(Jira.class).project()) ||
-                method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).project());
+                method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).project()));
     }
 
     public Boolean isIssuePresent() {
-        if (!isAnnotationPresent()) {
-            return false;
-        }
-        return method.getDeclaringClass().isAnnotationPresent(Jira.class) &&
+        return isAnnotationPresent() && (method.getDeclaringClass().isAnnotationPresent(Jira.class) &&
                 !"".equals(method.getDeclaringClass().getAnnotation(Jira.class).issue()) ||
-                method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).issue());
+                method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).issue()));
     }
 
     public String getProject() {

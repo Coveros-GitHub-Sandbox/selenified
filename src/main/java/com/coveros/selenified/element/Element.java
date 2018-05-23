@@ -318,7 +318,7 @@ public class Element {
     }
 
     /**
-     * Performs dyanamic waits on a particular element, until a particular
+     * Performs dynamic waits on a particular element, until a particular
      * condition is met. Nothing is ever returned. The default wait is 5
      * seconds, but can be overridden. If the condition is not met in the
      * allotted time, still nothing is returned, but an error is logged
@@ -428,7 +428,7 @@ public class Element {
      * Retrieves the identified matching web element using Webdriver. Use this
      * sparingly, only when the action you want to perform on the element isn't
      * available, as commands from it won't be checked, logged, caught, or
-     * screenshotted.
+     * screen-shot.
      *
      * @return WebElement: the element object, and all associated values with it
      */
@@ -451,7 +451,7 @@ public class Element {
     /**
      * Retrieves all matching web elements using Webdriver. Use this sparingly,
      * only when the action you want to perform on the element isn't available,
-     * as commands from it won't be checked, logged, caught, or screenshotted.
+     * as commands from it won't be checked, logged, caught, or screen-shot.
      *
      * @return List: a list of WebElement objects, and all associated values
      * with them
@@ -753,14 +753,14 @@ public class Element {
     }
 
     /**
-     * Blurs (focuses and then unfocuses) the element, but only if the element
+     * Blurs (focuses and then un-focuses) the element, but only if the element
      * is present, displayed, enabled, and an input. If those conditions are not
      * met, the blur action will be logged, but skipped and the test will
      * continue.
      */
     public void blur() {
         String cantFocus = "Unable to focus on ";
-        String action = "Focusing, then unfocusing (blurring) on " + prettyOutput();
+        String action = "Focusing, then un-focusing (blurring) on " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be blurred";
         try {
             if (!isPresentDisplayedEnabledInput(action, expected, cantFocus)) {
@@ -900,8 +900,8 @@ public class Element {
             }
             // do the select
             WebElement webElement = getWebElement();
-            Select dropdown = new Select(webElement);
-            dropdown.selectByIndex(index);
+            Select dropDown = new Select(webElement);
+            dropDown.selectByIndex(index);
         } catch (Exception e) {
             log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
@@ -912,7 +912,7 @@ public class Element {
     }
 
     /**
-     * Selects the option from the dropdown matching the provided value, but
+     * Selects the option from the drop-down matching the provided value, but
      * only if the element is present, displayed, enabled, and an input. If
      * those conditions are not met, the select action will be logged, but
      * skipped and the test will continue.
@@ -936,8 +936,8 @@ public class Element {
             }
             // do the select
             WebElement webElement = getWebElement();
-            Select dropdown = new Select(webElement);
-            dropdown.selectByVisibleText(option);
+            Select dropDown = new Select(webElement);
+            dropDown.selectByVisibleText(option);
         } catch (Exception e) {
             log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
@@ -948,7 +948,7 @@ public class Element {
     }
 
     /**
-     * Selects the value from the dropdown matching the provided value, but only
+     * Selects the value from the drop-down matching the provided value, but only
      * if the element is present, displayed, enabled, and an input. If those
      * conditions are not met, the select action will be logged, but skipped and
      * the test will continue.
@@ -972,8 +972,8 @@ public class Element {
             }
             // do the select
             WebElement webElement = getWebElement();
-            Select dropdown = new Select(webElement);
-            dropdown.selectByValue(value);
+            Select dropDown = new Select(webElement);
+            dropDown.selectByValue(value);
         } catch (Exception e) {
             log.warn(e);
             file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
@@ -1071,7 +1071,7 @@ public class Element {
 
     /**
      * Simulates moving the mouse around while the cursor is pressed. Can be
-     * used for drawing on canvases, or swipping on certain elements. Note, this is not supported in HTMLUNIT
+     * used for drawing on canvases, or swiping on certain elements. Note, this is not supported in HTMLUNIT
      *
      * @param points - a list of points to connect. At least one point must be
      *               provided in the list

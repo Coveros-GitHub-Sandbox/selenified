@@ -310,7 +310,7 @@ public class ActionIsIT extends Selenified {
     }
 
     @Test(groups = {"integration", "actions", "is"},
-            description = "An integration test to check if something is selected from a dropdown")
+            description = "An integration test to check if something is selected from a drop-down")
     public void isSomethingSelectedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -321,7 +321,7 @@ public class ActionIsIT extends Selenified {
     }
 
     @Test(groups = {"integration", "actions", "is"},
-            description = "An integration test to check if something is selected from a dropdown")
+            description = "An integration test to check if something is selected from a drop-down")
     public void isSomethingSelectedMultipleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -333,7 +333,7 @@ public class ActionIsIT extends Selenified {
     }
 
     @Test(groups = {"integration", "actions", "is"},
-            description = "An integration test to check if something is selected from a dropdown")
+            description = "An integration test to check if something is selected from a drop-down")
     public void isSomethingNotSelectedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

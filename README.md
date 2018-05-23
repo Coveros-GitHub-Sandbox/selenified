@@ -386,7 +386,7 @@ most simply in a @BeforeMethod call.
 
     @Test(groups = { "sample", "pom" }, description = "A sample test to perform searches")
     public void sampleTestWDataProvider() {
-        // our test actions - use our threadsafe main object
+        // our test actions - use our thread-safe main object
         main.get().selectCar("volvo");
         main.get().assertCar("volvo");
         // close out the test
@@ -434,7 +434,7 @@ Element carList = page.newElement( Locators.NAME, "car_list");
 ```
 ###### Classname
 ```java
-Element carList = page.newElement( Locators.CLASSNAME, "dropdown-default");
+Element carList = page.newElement( Locators.CLASSNAME, "drop-down-default");
 ```
 ###### CSS
 ```java

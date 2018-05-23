@@ -36,7 +36,7 @@ public class POMSampleIT extends Selenified {
     @Test(dataProvider = "car list items", groups = {"sample", "pom"},
             description = "A sample test using a data provider to perform searches")
     public void sampleTestWDataProvider(String listItem) {
-        // our test actions - use our threadsafe main object
+        // our test actions - use our thread-safe main object
         main.get().selectCar(listItem);
         main.get().assertCar(listItem);
         // close out the test
@@ -47,7 +47,7 @@ public class POMSampleIT extends Selenified {
     public void sampleTest() {
         // grab our main app object
         App app = this.apps.get();
-        // grab our main threadsafe object for future use
+        // grab our main thread-safe object for future use
         MainPage main = this.main.get();
         // our test actions
         main.generateAlert();

@@ -96,7 +96,7 @@ public class Selenified {
      * particular test suite. If no site was set, null will be returned, which
      * will causes the tests to error out
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -116,7 +116,7 @@ public class Selenified {
      * system property, this method ignores the passed in value, and uses the
      * system property.
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -133,7 +133,7 @@ public class Selenified {
      * Obtains the version of the current test suite being executed. If no
      * version was set, null will be returned
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -147,7 +147,7 @@ public class Selenified {
     /**
      * Sets the version of the current test suite being executed.
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -162,7 +162,7 @@ public class Selenified {
      * Obtains the author of the current test suite being executed. If no author
      * was set, null will be returned
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -176,7 +176,7 @@ public class Selenified {
     /**
      * Sets the author of the current test suite being executed.
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -191,12 +191,12 @@ public class Selenified {
      * Obtains the additional headers of the current test suite being executed. If no additional headers
      * were set, null will be returned
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String String>: the key-pair values of the headers of the current test being executed
+     * @return Map: the key-pair values of the headers of the current test being executed
      */
     protected static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -205,7 +205,7 @@ public class Selenified {
     /**
      * Sets any additional headers for the web services calls for each instance of the test suite being executed.
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -221,7 +221,7 @@ public class Selenified {
      * the command line will first be taken, to override any other values. Next, values being set in the classes will
      * be checked for. If neither of these are set, an empty string will be returned
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -244,7 +244,7 @@ public class Selenified {
      * the command line will first be taken, to override any other values. Next, values being set in the classes will
      * be checked for. If neither of these are set, an empty string will be returned
      *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
+     * @param clazz   - the test suite class, used for making thread-safe storage of
      *                application, allowing suites to have independent applications
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
@@ -265,7 +265,7 @@ public class Selenified {
     /**
      * Sets any additional headers for the web services calls for each instance of the test suite being executed.
      *
-     * @param clazz        - the test suite class, used for making threadsafe storage of
+     * @param clazz        - the test suite class, used for making thread-safe storage of
      *                     application, allowing suites to have independent applications
      *                     under test, run at the same time
      * @param context      - the TestNG context associated with the test suite, used for
