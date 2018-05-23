@@ -26,6 +26,7 @@ import com.coveros.selenified.services.Response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -36,26 +37,66 @@ import java.util.Map;
 
 public class Zephyr {
 
+    private static final Logger log = Logger.getLogger(Zephyr.class);
+
     private static final String PROJECT = "projectId";
     private static final String VERSION = "versionId";
 
     private final Jira jira;
     private final HTTP service;
 
-    public int cycleId = 0;
+    private int cycleId = 0;
 
     public Zephyr(Method method) {
         this.jira = new Jira(method);
         this.service = jira.getHTTP();
     }
 
+    private boolean isCycleInfo(String cycleInfo) {
+        return !(System.getProperty(cycleInfo) == null || "".equals(System.getProperty(cycleInfo)));
+    }
+
+    private String getCycleDescription() {
+        if (isCycleInfo("zephyr.cycle.description")) {
+            return System.getProperty("zephyr.cycle.description");
+        }
+        return "";
+    }
+
+    private String getCycleBuild() {
+        if (isCycleInfo("zephyr.cycle.build")) {
+            return System.getProperty("zephyr.cycle.build");
+        }
+        return "";
+    }
+
+    private String getCycleEnvironment() {
+        if (isCycleInfo("zephyr.cycle.environment")) {
+            return System.getProperty("zephyr.cycle.environment");
+        }
+        return "";
+    }
+
+    private String getCycleSprintId() {
+        if (isCycleInfo("zephyr.cycle.sprint.id")) {
+            return System.getProperty("zephyr.cycle.sprint.id");
+        }
+        return null;
+    }
+
     public boolean createCycle() {
-        //TODO pull these from cmd properties
-        String cycleName = "Sample";
-        String cycleDescription = "";
-        String build = "";
-        String environment = "";
-        String sprintId = null;
+        String cycleName;
+        if (isCycleInfo("zephyr.cycle.name")) {
+            cycleName = System.getProperty("zephyr.cycle.name");
+        } else {
+            log.error(
+                    "Unable to create test cycle as no cycle name is provided in system property 'zephyr.cycle.name'.");
+            return false;
+        }
+        String cycleDescription = getCycleDescription();
+        String build = getCycleBuild();
+        String environment = getCycleEnvironment();
+        String sprintId = getCycleSprintId();
 
         JsonObject cycle = new JsonObject();
         cycle.addProperty("clonedCycleId", "");
@@ -78,6 +119,10 @@ public class Zephyr {
             cycleId = response.getObjectData().get("id").getAsInt();
         }
         return cycleId != 0;
+    }
+
+    public int getCycleId() {
+        return cycleId;
     }
 
     public boolean addTestToCycle(String... testIds) {

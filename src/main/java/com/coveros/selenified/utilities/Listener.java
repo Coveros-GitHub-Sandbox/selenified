@@ -25,6 +25,7 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
+import com.coveros.selenified.utilities.jira.Annotation;
 import com.coveros.selenified.utilities.jira.Jira;
 import com.coveros.selenified.utilities.jira.Zephyr;
 import com.google.gson.JsonArray;
@@ -168,11 +169,11 @@ public class Listener extends TestListenerAdapter {
         if (Jira.uploadToJira() && test != null && test.getAttributeNames() != null &&
                 test.getAttributeNames().contains("Output")) {
             Method testMethod = test.getMethod().getConstructorOrMethod().getMethod();
-            Jira jira = new Jira(testMethod);
-            int project = jira.getProjectId();
-            int issue = jira.getIssueId();
+//            Jira jira = new Jira(testMethod);
+            int project = new Jira(testMethod).getProjectId();
+            String issue = new Annotation(testMethod).getIssue();
             Zephyr zephyr;
-            if (project == 0 || issue == 0) {
+            if (project == 0 || issue == null) {
                 log.error("Unable to retrieve project and issue information from JIRA. Please " +
                         "check your JIRA settings");
                 return;
@@ -186,11 +187,11 @@ public class Listener extends TestListenerAdapter {
             } else {
                 zephyr = zephyrs.get(project);
             }
-            if (!zephyr.addTestToCycle(String.valueOf(issue))) {
+            if (!zephyr.addTestToCycle(issue)) {
                 log.error("Unable to add test to cycle. Please check your JIRA settings");
                 return;
             }
-            int executionId = zephyr.createExecution(issue);
+            int executionId = zephyr.createExecution(new Jira(testMethod).getIssueId());
             if (executionId == 0) {
                 log.error("Unable to create test execution. Please check your JIRA settings");
                 return;

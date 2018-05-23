@@ -35,9 +35,6 @@ public class ZephyrTest {
     @BeforeMethod
     public void startMockServer() {
         mockServer = startClientAndServer(1080);
-        mockServer.when(request().withMethod("POST").withPath("/jira/rest/zapi/latest/cycle")).respond(
-                response().withStatusCode(406).withBody(
-                        "{\"ProjectBrowsePermissions\":\"Null or invalid projectId. Please provide a valid projectId.\"}"));
     }
 
     @AfterMethod
@@ -52,8 +49,11 @@ public class ZephyrTest {
 
     @Test
     public void createCycleBadTest(Method method) {
+        mockServer.when(request().withMethod("POST").withPath("/jira/rest/zapi/latest/cycle")).respond(
+                response().withStatusCode(406).withBody(
+                        "{\"ProjectBrowsePermissions\":\"Null or invalid projectId. Please provide a valid projectId.\"}"));
         Zephyr zephyr = new Zephyr(method);
         zephyr.createCycle();
-        Assert.assertEquals(zephyr.cycleId, 0);
+        Assert.assertEquals(zephyr.getCycleId(), 0);
     }
 }
