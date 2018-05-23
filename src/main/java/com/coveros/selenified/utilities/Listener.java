@@ -32,6 +32,7 @@ import com.google.gson.JsonObject;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
+import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -47,6 +48,8 @@ import java.util.Map;
  * @author Max Saperstone
  */
 public class Listener extends TestListenerAdapter {
+
+    private static final Logger log = Logger.getLogger(Listener.class);
 
     private static final String BROWSER_INPUT = "browser";
     private static final String OUTPUT_BREAK = " | ";
@@ -170,12 +173,13 @@ public class Listener extends TestListenerAdapter {
             int issue = jira.getIssueId();
             Zephyr zephyr;
             if (project == 0 || issue == 0) {
-                //TODO log/throw some error
+                log.warn("Unable to retrieve project and issue information from JIRA. Please " +
+                        "check your JIRA settings");
                 return;
             } else if (!zephyrs.containsKey(project)) {
                 zephyr = new Zephyr(testMethod);
                 if (!zephyr.createCycle()) {
-                    //TODO log/throw some error
+                    log.warn("Unable to mark create test cycle. Please check your JIRA settings");
                     return;
                 }
                 zephyrs.put(project, zephyr);
@@ -183,12 +187,12 @@ public class Listener extends TestListenerAdapter {
                 zephyr = zephyrs.get(project);
             }
             if (!zephyr.addTestToCycle(String.valueOf(issue))) {
-                //TODO log/throw some error
+                log.warn("Unable to add test to cycle. Please check your JIRA settings");
                 return;
             }
             int executionId = zephyr.createExecution(issue);
             if (executionId == 0) {
-                //TODO log/throw some error
+                log.warn("Unable to create test execution. Please check your JIRA settings");
                 return;
             }
             Boolean execution;
@@ -209,7 +213,7 @@ public class Listener extends TestListenerAdapter {
                     execution = zephyr.markExecutionBlocked(executionId);
             }
             if (!execution) {
-                //TODO log/throw some error
+                log.warn("Unable to mark test as executed. Please check your JIRA settings");
                 return;
             }
             OutputFile outputFile = (OutputFile) test.getAttribute("Output");
