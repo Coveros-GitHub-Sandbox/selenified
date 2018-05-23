@@ -33,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Zephyr {
 
@@ -50,12 +49,13 @@ public class Zephyr {
         this.service = jira.getHTTP();
     }
 
-    public void createCycle() {
+    public boolean createCycle() {
         //TODO pull these from cmd properties
         String cycleName = "Sample";
         String cycleDescription = "";
         String build = "";
         String environment = "";
+        String sprintId = null;
 
         JsonObject cycle = new JsonObject();
         cycle.addProperty("clonedCycleId", "");
@@ -69,12 +69,15 @@ public class Zephyr {
         String start = dt.format(today);
         cycle.addProperty("startDate", start);
         cycle.addProperty("endDate", start);
+        if (sprintId != null) {
+            cycle.addProperty("sprintId", start);
+        }
         cycle.addProperty(VERSION, -1);
         Response response = service.post("/rest/zapi/latest/cycle", new Request(cycle));
         if (response.getObjectData() != null && response.getObjectData().has("id")) {
             cycleId = response.getObjectData().get("id").getAsInt();
         }
-        cycleId = 0;
+        return cycleId != 0;
     }
 
     public boolean addTestToCycle(String... testIds) {
@@ -89,7 +92,7 @@ public class Zephyr {
         testForCycle.addProperty(VERSION, -1);
         testForCycle.addProperty("method", 1);
         Response response = service.post("/rest/zapi/latest/execution/addTestsToCycle", new Request(testForCycle));
-        return response.getCode() == 200;
+        return !response.getMessage().contains("Tests added: <strong>-</strong>");
     }
 
     public int createExecution(int testId) {
@@ -99,41 +102,47 @@ public class Zephyr {
         execution.addProperty("issueId", testId);
         execution.addProperty(VERSION, -1);
         Response response = service.post("/rest/zapi/latest/execution", new Request(execution));
-        Set<Map.Entry<String, JsonElement>> entries = response.getObjectData().entrySet();
-        for (Map.Entry<String, JsonElement> entry : entries) {
-            JsonObject newExecution = entry.getValue().getAsJsonObject();
-            return newExecution.get("id").getAsInt();
+        if (response.getCode() != 200) {
+            return 0;
         }
-        return -1;
+        if (response.getObjectData() != null && response.getObjectData().size() > 0) {
+            for (Map.Entry<String, JsonElement> entry : response.getObjectData().entrySet()) {
+                JsonObject newExecution = entry.getValue().getAsJsonObject();
+                return newExecution.get("id").getAsInt();
+            }
+        }
+        return 0;
     }
 
-    private void executeTestInCycle(int executionId, int status) {
+    private boolean executeTestInCycle(int executionId, int status) {
         JsonObject execution = new JsonObject();
         execution.addProperty("status", status);
-        service.put("/rest/zapi/latest/execution/" + executionId + "/execute", new Request(execution));
+        Response response =
+                service.put("/rest/zapi/latest/execution/" + executionId + "/execute", new Request(execution));
+        return response.getCode() == 200;
     }
 
-    public void markExecutionPassed(int executionId) {
-        executeTestInCycle(executionId, 1);
+    public boolean markExecutionPassed(int executionId) {
+        return executeTestInCycle(executionId, 1);
     }
 
-    public void markExecutionFailed(int executionId) {
-        executeTestInCycle(executionId, 2);
+    public boolean markExecutionFailed(int executionId) {
+        return executeTestInCycle(executionId, 2);
     }
 
-    public void markExecutionWIP(int executionId) {
-        executeTestInCycle(executionId, 3);
+    public boolean markExecutionWIP(int executionId) {
+        return executeTestInCycle(executionId, 3);
     }
 
-    public void markExecutionBlocked(int executionId) {
-        executeTestInCycle(executionId, 4);
+    public boolean markExecutionBlocked(int executionId) {
+        return executeTestInCycle(executionId, 4);
     }
 
-    public void markExecutionUnexecuted(int executionId) {
-        executeTestInCycle(executionId, -1);
+    public boolean markExecutionUnexecuted(int executionId) {
+        return executeTestInCycle(executionId, -1);
     }
 
-    public void uploadExecutionResults(int executionId, File results) {
+    public boolean uploadExecutionResults(int executionId, File results) {
         //set our upload xsrf headers
         Map<String, String> headers = new HashMap<>();
         headers.put("X-Atlassian-Token", "no-check");
@@ -142,8 +151,9 @@ public class Zephyr {
         Map<String, String> params = new HashMap<>();
         params.put("entityId", String.valueOf(executionId));
         params.put("entityType", "EXECUTION");
-        service.post("/rest/zapi/latest/attachment", new Request(params), results);
+        Response response = service.post("/rest/zapi/latest/attachment", new Request(params), results);
         //reset our headers
         service.resetHeaders();
+        return response.getCode() == 200;
     }
 }

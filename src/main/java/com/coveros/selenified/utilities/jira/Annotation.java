@@ -26,39 +26,32 @@ import java.lang.reflect.Method;
 
 public class Annotation {
 
-    Method method;
+    private final Method method;
 
     public Annotation(Method method) {
         this.method = method;
     }
 
     public Boolean isAnnotationPresent() {
-        if (method.getDeclaringClass().isAnnotationPresent(Jira.class)) {
-            return true;
-        }
-        return method.isAnnotationPresent(Jira.class);
+        return method.getDeclaringClass().isAnnotationPresent(Jira.class) || method.isAnnotationPresent(Jira.class);
     }
 
     public Boolean isProjectPresent() {
         if (!isAnnotationPresent()) {
             return false;
         }
-        if (method.getDeclaringClass().isAnnotationPresent(Jira.class) &&
-                !"".equals(method.getDeclaringClass().getAnnotation(Jira.class).project())) {
-            return true;
-        }
-        return method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).project());
+        return method.getDeclaringClass().isAnnotationPresent(Jira.class) &&
+                !"".equals(method.getDeclaringClass().getAnnotation(Jira.class).project()) ||
+                method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).project());
     }
 
     public Boolean isIssuePresent() {
         if (!isAnnotationPresent()) {
             return false;
         }
-        if (method.getDeclaringClass().isAnnotationPresent(Jira.class) &&
-                !"".equals(method.getDeclaringClass().getAnnotation(Jira.class).issue())) {
-            return true;
-        }
-        return method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).issue());
+        return method.getDeclaringClass().isAnnotationPresent(Jira.class) &&
+                !"".equals(method.getDeclaringClass().getAnnotation(Jira.class).issue()) ||
+                method.isAnnotationPresent(Jira.class) && !"".equals(method.getAnnotation(Jira.class).issue());
     }
 
     public String getProject() {

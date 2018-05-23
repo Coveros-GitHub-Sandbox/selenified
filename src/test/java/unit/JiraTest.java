@@ -55,28 +55,28 @@ public class JiraTest {
     @Test
     public void uploadToJiraDefaultTest(Method method) {
         Jira jira = new Jira(method);
-        Assert.assertFalse(jira.uploadToJira());
+        Assert.assertFalse(Jira.uploadToJira());
     }
 
     @Test
     public void uploadToJiraEmptyTest(Method method) {
         System.setProperty("jira.link", "");
         Jira jira = new Jira(method);
-        Assert.assertFalse(jira.uploadToJira());
+        Assert.assertFalse(Jira.uploadToJira());
     }
 
     @Test
     public void uploadToJiraTrueTest(Method method) {
         System.setProperty("jira.link", "true");
         Jira jira = new Jira(method);
-        Assert.assertTrue(jira.uploadToJira());
+        Assert.assertTrue(Jira.uploadToJira());
     }
 
     @Test
     public void uploadToJiraAlternateTest(Method method) {
         System.setProperty("jira.link", "hello world");
         Jira jira = new Jira(method);
-        Assert.assertTrue(jira.uploadToJira());
+        Assert.assertTrue(Jira.uploadToJira());
     }
 
     @Test

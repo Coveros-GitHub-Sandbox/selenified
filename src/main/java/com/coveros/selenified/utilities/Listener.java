@@ -32,7 +32,6 @@ import com.google.gson.JsonObject;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
-import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -48,8 +47,6 @@ import java.util.Map;
  * @author Max Saperstone
  */
 public class Listener extends TestListenerAdapter {
-
-    private static final Logger log = Logger.getLogger(Listener.class);
 
     private static final String BROWSER_INPUT = "browser";
     private static final String OUTPUT_BREAK = " | ";
@@ -133,7 +130,7 @@ public class Listener extends TestListenerAdapter {
      *
      * @param test - the testng itestresult object
      */
-    private void recordResult(ITestResult test) {
+    protected void recordResult(ITestResult test) {
         String testName = getTestName(test);
         Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
         if (browser != null) {
@@ -142,7 +139,13 @@ public class Listener extends TestListenerAdapter {
                             getFolderName(test) + "/" + testName + browser.getName() + LINK_MIDDLE + testName +
                             LINK_END + OUTPUT_BREAK + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
         }
-        if (Sauce.isSauce() && test.getAttributeNames().contains("SessionId")) {
+        recordSauce(test);
+        recordZephyr(test);
+    }
+
+    protected void recordSauce(ITestResult test) {
+        if (Sauce.isSauce() && test != null && test.getAttributeNames() != null &&
+                test.getAttributeNames().contains("SessionId")) {
             String sessionId = test.getAttribute("SessionId").toString();
             JsonObject json = new JsonObject();
             json.addProperty("passed", test.getStatus() == 1);
@@ -156,38 +159,58 @@ public class Listener extends TestListenerAdapter {
                             Sauce.getSauceKey());
             http.put(sessionId, new Request(json));
         }
-        if (Jira.uploadToJira() && test.getAttributeNames().contains("Output")) {
+    }
+
+    protected void recordZephyr(ITestResult test) {
+        if (Jira.uploadToJira() && test != null && test.getAttributeNames() != null &&
+                test.getAttributeNames().contains("Output")) {
             Method testMethod = test.getMethod().getConstructorOrMethod().getMethod();
             Jira jira = new Jira(testMethod);
             int project = jira.getProjectId();
             int issue = jira.getIssueId();
             Zephyr zephyr;
-            if (project == 0) {
+            if (project == 0 || issue == 0) {
+                //TODO log/throw some error
                 return;
             } else if (!zephyrs.containsKey(project)) {
                 zephyr = new Zephyr(testMethod);
-                zephyr.createCycle();
+                if (!zephyr.createCycle()) {
+                    //TODO log/throw some error
+                    return;
+                }
                 zephyrs.put(project, zephyr);
             } else {
                 zephyr = zephyrs.get(project);
             }
-            zephyr.addTestToCycle(String.valueOf(issue));
+            if (!zephyr.addTestToCycle(String.valueOf(issue))) {
+                //TODO log/throw some error
+                return;
+            }
             int executionId = zephyr.createExecution(issue);
+            if (executionId == 0) {
+                //TODO log/throw some error
+                return;
+            }
+            Boolean execution;
             switch (Result.values()[test.getStatus()]) {
                 case SUCCESS:
-                    zephyr.markExecutionPassed(executionId);
+                    execution = zephyr.markExecutionPassed(executionId);
                     break;
                 case FAILURE:
-                    zephyr.markExecutionFailed(executionId);
-                    break;
-                case WARNING:
-                    zephyr.markExecutionWIP(executionId);
+                    execution = zephyr.markExecutionFailed(executionId);
                     break;
                 case SKIPPED:
-                    zephyr.markExecutionUnexecuted(executionId);
+                    execution = zephyr.markExecutionUnexecuted(executionId);
+                    break;
+                case WARNING:
+                    execution = zephyr.markExecutionWIP(executionId);
                     break;
                 default:
-                    zephyr.markExecutionBlocked(executionId);
+                    execution = zephyr.markExecutionBlocked(executionId);
+            }
+            if (!execution) {
+                //TODO log/throw some error
+                return;
             }
             OutputFile outputFile = (OutputFile) test.getAttribute("Output");
             zephyr.uploadExecutionResults(executionId, outputFile.getFile());

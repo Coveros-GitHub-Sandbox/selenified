@@ -805,6 +805,6 @@ public class OutputFile {
      * @author Max Saperstone
      */
     public enum Result {
-        WARNING, SUCCESS, FAILURE, SKIPPED
+        BLOCKED, SUCCESS, FAILURE, SKIPPED, WARNING
     }
 }

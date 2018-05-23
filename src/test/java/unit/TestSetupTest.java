@@ -237,13 +237,13 @@ public class TestSetupTest {
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullBrowserTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupDriver(null, null);
+        TestSetup.setupDriver(null, null);
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullBrowserNameTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupDriver(new Browser(null), null);
+        TestSetup.setupDriver(new Browser(null), null);
     }
 
     @Test
