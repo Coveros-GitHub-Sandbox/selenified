@@ -173,13 +173,13 @@ public class Listener extends TestListenerAdapter {
             int issue = jira.getIssueId();
             Zephyr zephyr;
             if (project == 0 || issue == 0) {
-                log.warn("Unable to retrieve project and issue information from JIRA. Please " +
+                log.error("Unable to retrieve project and issue information from JIRA. Please " +
                         "check your JIRA settings");
                 return;
             } else if (!zephyrs.containsKey(project)) {
                 zephyr = new Zephyr(testMethod);
                 if (!zephyr.createCycle()) {
-                    log.warn("Unable to mark create test cycle. Please check your JIRA settings");
+                    log.error("Unable to mark create test cycle. Please check your JIRA settings");
                     return;
                 }
                 zephyrs.put(project, zephyr);
@@ -187,12 +187,12 @@ public class Listener extends TestListenerAdapter {
                 zephyr = zephyrs.get(project);
             }
             if (!zephyr.addTestToCycle(String.valueOf(issue))) {
-                log.warn("Unable to add test to cycle. Please check your JIRA settings");
+                log.error("Unable to add test to cycle. Please check your JIRA settings");
                 return;
             }
             int executionId = zephyr.createExecution(issue);
             if (executionId == 0) {
-                log.warn("Unable to create test execution. Please check your JIRA settings");
+                log.error("Unable to create test execution. Please check your JIRA settings");
                 return;
             }
             Boolean execution;
@@ -213,7 +213,7 @@ public class Listener extends TestListenerAdapter {
                     execution = zephyr.markExecutionBlocked(executionId);
             }
             if (!execution) {
-                log.warn("Unable to mark test as executed. Please check your JIRA settings");
+                log.error("Unable to mark test as executed. Please check your JIRA settings");
                 return;
             }
             OutputFile outputFile = (OutputFile) test.getAttribute("Output");
