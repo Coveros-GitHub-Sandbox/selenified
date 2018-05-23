@@ -1088,7 +1088,7 @@ public class Element {
         for (Point<Integer, Integer> point : points) {
             pointString.append(prefix);
             prefix = " to ";
-            pointString.append("<i>" + point.getX() + "x" + point.getY() + "</i>");
+            pointString.append("<i>").append(point.getX()).append("x").append(point.getY()).append("</i>");
         }
         String action = "Drawing object from " + pointString.toString() + " in " + prettyOutput();
         String expected = prettyOutput() + " now has object drawn on it from " + pointString.toString();

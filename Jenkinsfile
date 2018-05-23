@@ -69,23 +69,21 @@ node {
                 }
             }
         }
-        if (pullRequest) {
-            withCredentials([
-                usernamePassword(
-                    credentialsId: 'saucelabs',
-                    usernameVariable: 'sauceusername',
-                    passwordVariable: 'saucekey'
-                )
-            ]) {
-                stage('Execute Hub Tests') {
-                    try {
-                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-                    } catch (e) {
-                        echo "ERROR: ${e}"
-                    } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                        sh "mkdir -p results/browserRemote; mv target results/browserRemote/";
-                    }
+        withCredentials([
+            usernamePassword(
+                credentialsId: 'saucelabs',
+                usernameVariable: 'sauceusername',
+                passwordVariable: 'saucekey'
+            )
+        ]) {
+            stage('Execute Hub Tests') {
+                try {
+                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                } catch (e) {
+                    echo "ERROR: ${e}"
+                } finally {
+                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                    sh "mkdir -p results/browserRemote; mv target results/browserRemote/";
                 }
             }
         }

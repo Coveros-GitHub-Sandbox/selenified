@@ -420,12 +420,14 @@ public class App {
             driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
         } catch (Exception e) {
             file.recordAction("Reloading current page while clearing the cache",
-                    "Cache is cleared, and the page is refreshed", "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Result.FAILURE);
+                    "Cache is cleared, and the page is refreshed",
+                    "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Result.FAILURE);
             file.addError();
             log.warn(e);
         }
         file.recordAction("Reloading current page while clearing the cache",
-                "Cache is cleared, and the page is refreshed", "Cache is cleared, and the page is refreshed", Result.SUCCESS);
+                "Cache is cleared, and the page is refreshed", "Cache is cleared, and the page is refreshed",
+                Result.SUCCESS);
     }
 
     /**
