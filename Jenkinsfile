@@ -50,7 +50,7 @@ node {
         wrap([$class: 'Xvfb']) {
             stage('Execute HTMLUnit Tests') {
                 try {
-                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit -Dheadless'
+                    sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit -Dheadless -Dthreads=3'
                 } catch (e) {
                     echo "ERROR: ${e}"
                 } finally {

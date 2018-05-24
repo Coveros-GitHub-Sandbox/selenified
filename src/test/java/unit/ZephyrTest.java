@@ -44,7 +44,7 @@ public class ZephyrTest {
 
     @Test
     public void getCycleBadTest(Method method) {
-        Zephyr zephyr = new Zephyr(method);
+        new Zephyr(method);
     }
 
     @Test
