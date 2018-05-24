@@ -195,7 +195,9 @@ public class HTTP {
      */
     public Response post(String service, Request request, File file) {
         this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
-        return call("POST", service, request, file);
+        Response response = call("POST", service, request, file);
+        contentType = "application/json; charset=UTF-8";
+        return response;
     }
 
     /**

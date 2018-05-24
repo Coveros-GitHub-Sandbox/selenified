@@ -144,7 +144,7 @@ public class Listener extends TestListenerAdapter {
                             LINK_END + OUTPUT_BREAK + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
         }
         recordSauce(test);
-        recordZephyr(test);
+//        recordZephyr(test);
     }
 
     protected void recordSauce(ITestResult test) {
@@ -169,7 +169,6 @@ public class Listener extends TestListenerAdapter {
         if (Jira.uploadToJira() && test != null && test.getAttributeNames() != null &&
                 test.getAttributeNames().contains("Output")) {
             Method testMethod = test.getMethod().getConstructorOrMethod().getMethod();
-//            Jira jira = new Jira(testMethod);
             int project = new Jira(testMethod).getProjectId();
             String issue = new Annotation(testMethod).getIssue();
             Zephyr zephyr;
