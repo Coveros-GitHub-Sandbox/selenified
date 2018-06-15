@@ -277,4 +277,26 @@ public class ActionGoIT extends Selenified {
         // verify 1 issue
         finish(1);
     }
+
+    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the resize method")
+    public void resizeScreenTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.resize(200, 300);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "go"},
+            description = "An integration negative test to check the resize method")
+    public void resizeScreenErrorTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        app.resize(200, 300);
+        // verify no issues
+        finish(1);
+    }
 }
