@@ -51,8 +51,8 @@ node {
                 } finally {
                     sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec;"
                     sh "mkdir -p results/unit; mv target results/unit/"
-                    junit 'results/unit/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts artifacts: 'results/unit/target/surefire-reports/**'
+                    junit 'results/unit/target/surefire-reports/TEST-*.xml'
                 }
             }
             wrap([$class: 'Xvfb']) {
@@ -64,8 +64,8 @@ node {
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                         sh "mkdir -p results/htmlunit; mv target results/htmlunit/";
-                        junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
                         archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
+                        junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
                     }
                 }
                 stage('Execute Local Tests') {
@@ -76,8 +76,8 @@ node {
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                         sh "mkdir -p results/browserLocal; mv target results/browserLocal/";
-                        junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
                         archiveArtifacts artifacts: 'results/browserLocal/target/failsafe-reports/**'
+                        junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
                     }
                 }
             }
@@ -96,8 +96,8 @@ node {
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
                         sh "mkdir -p results/browserRemote; mv target results/browserRemote/";
-                        junit 'results/browserRemote/target/failsafe-reports/TEST-*.xml'
                         archiveArtifacts artifacts: 'results/browserRemote/target/failsafe-reports/**'
+                        junit 'results/browserRemote/target/failsafe-reports/TEST-*.xml'
                     }
                 }
             }
