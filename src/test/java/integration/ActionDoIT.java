@@ -89,7 +89,7 @@ public class ActionDoIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.goToURL("https://www.yahoo.com/");
+        app.goToURL("https://www.bing.com/");
         app.azzert().urlEquals("https://www.google.com/");
         // verify 1 issue
         finish(1);
