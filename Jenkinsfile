@@ -16,7 +16,7 @@ node {
         urlBranch = env.BRANCH_NAME.replaceAll(/\//, "%252F")
         baseVersion = "${env.BUILD_NUMBER}"
         version = "$branch-$baseVersion"
-        env.PROJECT = "Selenified"
+        env.PROJECT = "selenified"
         def branchCheckout
         pullRequest = env.CHANGE_ID
         if (pullRequest) {
@@ -118,7 +118,7 @@ node {
                         sh "${sonarCmd} -Dsonar.branch=${env.BRANCH_NAME}"
                     } else {
                         if (pullRequest) {
-                            sh "${sonarCmd} -Dsonar.analysis.mode=preview -Dsonar.branch=${env.BRANCH_NAME} -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=VibrentHealth/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
+                            sh "${sonarCmd} -Dsonar.analysis.mode=preview -Dsonar.branch=${env.BRANCH_NAME} -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
                         } else {
                             sh "${sonarCmd} -Dsonar.analysis.mode=preview"
                         }
