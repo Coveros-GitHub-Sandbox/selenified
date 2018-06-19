@@ -102,16 +102,28 @@ node {
                 }
             }
         } finally {
-            stage('Perform SonarQube Analysis') {
-                sh """
-                    mvn clean compile sonar:sonar \
-                            -Dsonar.projectKey=selenified:${branch} \
-                            -Dsonar.projectName="Selenified - ${env.BRANCH_NAME}" \
-                            -Dsonar.host.url=http://localhost:9000/sonar \
-                            -Dsonar.junit.reportPaths="results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports" \
-                            -Dsonar.jacoco.reportPath=jacoco-ut.exec \
-                            -Dsonar.jacoco.itReportPath=jacoco-it.exec
-                """
+            withCredentials([
+                string(
+                    credentialsId: 'sonar-token',
+                    variable: 'sonartoken'
+                ),
+                string(
+                    credentialsId: 'sonar-github',
+                    variable: 'SONAR_GITHUB_TOKEN'
+                )
+            ]) {
+                stage('Perform SonarQube Analysis') {
+                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPath=jacoco-ut.exec -Dsonar.jacoco.itReportPath=jacoco-it.exec"
+                    if (branch == 'develop' || branchType == 'master') {
+                        sh "${sonarCmd} -Dsonar.branch=${env.BRANCH_NAME}"
+                    } else {
+                        if (pullRequest) {
+                            sh "${sonarCmd} -Dsonar.analysis.mode=preview -Dsonar.branch=${env.BRANCH_NAME} -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=VibrentHealth/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
+                        } else {
+                            sh "${sonarCmd} -Dsonar.analysis.mode=preview"
+                        }
+                    }
+                }
             }
             stage('Publish Coverage Results') {
                 jacoco()
@@ -124,10 +136,10 @@ node {
                 )
             ]) {
                 stage('Send Notifications') {
-                    emailextrecipients([culprits(), developers(), requestor()])
+//                    emailextrecipients([culprits(), developers(), requestor()])
                     // send slack notifications
-                    def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
-                    sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
+//                    def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
+//                    sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
                 }
             }
         }
