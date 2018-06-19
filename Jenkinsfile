@@ -113,7 +113,7 @@ node {
                 )
             ]) {
                 stage('Perform SonarQube Analysis') {
-                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPath=jacoco-ut.exec -Dsonar.jacoco.itReportPath=jacoco-it.exec"
+                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPaths=jacoco-ut.exec,jacoco-it.exec"
                     if (branch == 'develop' || branchType == 'master') {
                         sh "${sonarCmd} -Dsonar.branch=${env.BRANCH_NAME}"
                     } else {
