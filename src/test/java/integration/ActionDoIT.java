@@ -85,12 +85,12 @@ public class ActionDoIT extends Selenified {
 
     @Test(groups = {"integration", "actions", "do", "url"},
             description = "An integration negative test to check the goToURL method")
-    public void negativeGoToURLTest() {
+    public void negativeGoToURLTest(ITestContext test) {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.goToURL("https://www.yahoo.com/");
-        app.azzert().urlEquals("https://www.google.com/");
+        app.goToURL("https://www.bing.com/");
+        app.azzert().urlEquals(getTestSite(this.getClass().getName(), test));
         // verify 1 issue
         finish(1);
     }
