@@ -532,6 +532,17 @@ address and port in the parameter
 ```
 -Dproxy=localhost:5013
 ```
+
+#### Screensize
+If specified, then the launched browsers, will be at the specified size. This can be provided in one of two ways,
+either as `width`x`height` or by specifying `maximum` implying you want the browser to be maximized. These make use 
+of the Selenified calls `resize` and `maximize` respectively on browser start-up, before even loading the initial 
+URL.
+```
+-Dscreensize=600x400
+-Dscreensize=maximum
+```
+
 #### Headless
 Currently, only Chrome and Firefox supports running in headless mode. To achieve this, simply pass in the parameter 
 `headless`

@@ -536,6 +536,27 @@ public class App {
     }
 
     /**
+     * Resizes the current window to the specified size
+     *
+     * @param width  - the  desired width of the browser
+     * @param height - the desired height of the browser
+     */
+    public void resize(int width, int height) {
+        String action = "Resizing browser to " + width + " x " + height;
+        String expected = "Browser is resized to " + width + " x " + height;
+        try {
+            Dimension dimension = new Dimension(width, height);
+            driver.manage().window().setSize(dimension);
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Browser was unable to be resized. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+            return;
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
      * An custom script to scroll to a given position on the page, using
      * javascript. If the browser being used doesn't support javascript, or the
      * page isn't long enough to support scrolling to the desired position, than
