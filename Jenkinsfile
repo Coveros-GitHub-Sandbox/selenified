@@ -113,7 +113,7 @@ node {
                 )
             ]) {
                 stage('Perform SonarQube Analysis') {
-                    def sonarCmd = "mvn clean compile sonar:sonar -X -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPaths=jacoco-ut.exec,jacoco-it.exec"
+                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPaths=jacoco-ut.exec,jacoco-it.exec"
                     if (branch == 'develop' || branchType == 'master') {
                         sh "${sonarCmd} -Dsonar.branch=${env.BRANCH_NAME}"
                     } else {
@@ -136,10 +136,10 @@ node {
                 )
             ]) {
                 stage('Send Notifications') {
-//                    emailextrecipients([culprits(), developers(), requestor()])
+                    emailextrecipients([culprits(), developers(), requestor()])
                     // send slack notifications
-//                    def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
-//                    sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
+                    def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
+                    sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
                 }
             }
         }
