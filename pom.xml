@@ -51,8 +51,7 @@
         <sonar.sources>src/main/java</sonar.sources>
         <sonar.test>src/test/java</sonar.test>
         <sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
-        <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
-        <sonar.jacoco.itReportPath>target/coverage-reports/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.jacoco.reportPaths>target/coverage-reports/jacoco-ut.exec,target/coverage-reports/jacoco-it.exec</sonar.jacoco.reportPaths>
     </properties>
 
     <name>Selenified Testing Framework</name>
