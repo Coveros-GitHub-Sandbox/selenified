@@ -16,7 +16,7 @@ node {
         urlBranch = env.BRANCH_NAME.replaceAll(/\//, "%252F")
         baseVersion = "${env.BUILD_NUMBER}"
         version = "$branch-$baseVersion"
-        env.PROJECT = "Selenified"
+        env.PROJECT = "selenified"
         def branchCheckout
         pullRequest = env.CHANGE_ID
         if (pullRequest) {
@@ -102,16 +102,28 @@ node {
                 }
             }
         } finally {
-            stage('Perform SonarQube Analysis') {
-                sh """
-                    mvn clean compile sonar:sonar \
-                            -Dsonar.projectKey=selenified:${branch} \
-                            -Dsonar.projectName="Selenified - ${env.BRANCH_NAME}" \
-                            -Dsonar.host.url=http://localhost:9000/sonar \
-                            -Dsonar.junit.reportPaths="results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports" \
-                            -Dsonar.jacoco.reportPath=jacoco-ut.exec \
-                            -Dsonar.jacoco.itReportPath=jacoco-it.exec
-                """
+            withCredentials([
+                string(
+                    credentialsId: 'sonar-token',
+                    variable: 'sonartoken'
+                ),
+                string(
+                    credentialsId: 'sonar-github',
+                    variable: 'SONAR_GITHUB_TOKEN'
+                )
+            ]) {
+                stage('Perform SonarQube Analysis') {
+                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPaths=jacoco-ut.exec,jacoco-it.exec"
+                    if (branch == 'develop' || branchType == 'master') {
+                        sh "${sonarCmd} -Dsonar.branch=${env.BRANCH_NAME}"
+                    } else {
+                        if (pullRequest) {
+                            sh "${sonarCmd} -Dsonar.analysis.mode=preview -Dsonar.branch=${env.BRANCH_NAME} -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
+                        } else {
+                            sh "${sonarCmd} -Dsonar.analysis.mode=preview"
+                        }
+                    }
+                }
             }
             stage('Publish Coverage Results') {
                 jacoco()
