@@ -31,7 +31,7 @@ public class ActionDoIT extends Selenified {
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
 
         // setup our drawing points
         points.add(new Point<Integer, Integer>(10, 10));
@@ -85,12 +85,12 @@ public class ActionDoIT extends Selenified {
 
     @Test(groups = {"integration", "actions", "do", "url"},
             description = "An integration negative test to check the goToURL method")
-    public void negativeGoToURLTest() {
+    public void negativeGoToURLTest(ITestContext test) {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.goToURL("https://www.yahoo.com/");
-        app.azzert().urlEquals("https://www.google.com/");
+        app.goToURL("https://www.bing.com/");
+        app.azzert().urlEquals(getTestSite(this.getClass().getName(), test));
         // verify 1 issue
         finish(1);
     }
@@ -1234,7 +1234,7 @@ public class ActionDoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "do", "draw"},
+    @Test(groups = {"integration", "actions", "do", "draw", "browser"},
             description = "An integration test to check the draw method")
     public void drawTestNotCanvas() {
         // use this object to manipulate the app
@@ -1242,7 +1242,7 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         app.newElement(Locator.ID, "overlay_span").draw(points);
         // verify no issues
-        finish(1);
+        finish(0);
     }
 
     @Test(groups = {"integration", "actions", "do", "draw"},
@@ -1308,7 +1308,8 @@ public class ActionDoIT extends Selenified {
         App app = new App(new Browser(BrowserName.FIREFOX), new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "LOCAL");
         // perform some actions
-        app.takeScreenshot("somefile");
+        app.takeScreenshot("firefoxLocalScreenshot");
+        new File("firefoxLocalScreenshot").delete();
         app.killDriver();
         // verify no issues
         finish();
@@ -1321,7 +1322,8 @@ public class ActionDoIT extends Selenified {
         App app = new App(new Browser(BrowserName.FIREFOX), new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "HUB");
         // perform some actions
-        app.takeScreenshot("somefile");
+        app.takeScreenshot("firefoxHubScreenshot");
+        new File("firefoxHubScreenshot").delete();
         app.killDriver();
         // verify no issues
         finish();

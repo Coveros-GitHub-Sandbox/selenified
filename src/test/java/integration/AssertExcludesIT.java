@@ -17,7 +17,7 @@ public class AssertExcludesIT extends Selenified {
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
     }
 
     @Test(groups = {"integration", "asserts", "excludes"},

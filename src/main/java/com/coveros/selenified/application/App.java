@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -152,6 +152,32 @@ public class App {
      */
     public Element newElement(Locator type, String locator, int match) {
         return new Element(driver, file, type, locator, match);
+    }
+
+    /**
+     * setups a new element which is located on the page
+     *
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param parent  - the parent of the element to be defined
+     * @return Element: a page element to interact with
+     */
+    public Element newElement(Locator type, String locator, Element parent) {
+        return new Element(driver, file, type, locator, parent);
+    }
+
+    /**
+     * setups a new element which is located on the page
+     *
+     * @param type    - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param match   - if there are multiple matches of the selector, this is which
+     *                match (starting at 0) to interact with
+     * @param parent  - the parent of the element to be defined
+     * @return Element: a page element to interact with
+     */
+    public Element newElement(Locator type, String locator, int match, Element parent) {
+        return new Element(driver, file, type, locator, match, parent);
     }
 
     ///////////////////////////////////////////////////////
@@ -502,6 +528,27 @@ public class App {
         } catch (Exception e) {
             file.recordAction(action, expected, "Browser was unable to be maximized. " + e.getMessage(),
                     Result.FAILURE);
+            file.addError();
+            log.warn(e);
+            return;
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
+     * Resizes the current window to the specified size
+     *
+     * @param width  - the  desired width of the browser
+     * @param height - the desired height of the browser
+     */
+    public void resize(int width, int height) {
+        String action = "Resizing browser to " + width + " x " + height;
+        String expected = "Browser is resized to " + width + " x " + height;
+        try {
+            Dimension dimension = new Dimension(width, height);
+            driver.manage().window().setSize(dimension);
+        } catch (Exception e) {
+            file.recordAction(action, expected, "Browser was unable to be resized. " + e.getMessage(), Result.FAILURE);
             file.addError();
             log.warn(e);
             return;

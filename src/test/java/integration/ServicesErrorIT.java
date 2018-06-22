@@ -23,10 +23,7 @@ public class ServicesErrorIT extends Selenified {
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
-        // for this particular test, we want to set some bogus credentials
-        servicesUser = "servicesUsername";
-        servicesPass = "servicesPassword";
+        setVersion(this, test, "3.0.2");
     }
 
     @BeforeMethod(alwaysRun = true)

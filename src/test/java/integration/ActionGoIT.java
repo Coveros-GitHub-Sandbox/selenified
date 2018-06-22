@@ -24,7 +24,7 @@ public class ActionGoIT extends Selenified {
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
     }
 
     @Test(groups = {"integration", "actions", "go", "browser"},
@@ -275,6 +275,38 @@ public class ActionGoIT extends Selenified {
         app.killDriver();
         app.maximize();
         // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the resize method")
+    public void resizeScreenTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.resize(200, 300);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the resize method")
+    public void resizeScreenTooLargeTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.resize(200000, 300000);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "go"},
+            description = "An integration negative test to check the resize method")
+    public void resizeScreenErrorTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        app.resize(200, 300);
+        // verify no issues
         finish(1);
     }
 }

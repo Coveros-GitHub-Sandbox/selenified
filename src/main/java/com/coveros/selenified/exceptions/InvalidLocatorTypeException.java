@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -28,9 +28,5 @@ public class InvalidLocatorTypeException extends IOException {
 
     public InvalidLocatorTypeException() {
         super();
-    }
-
-    public InvalidLocatorTypeException(String msg) {
-        super(msg);
     }
 }

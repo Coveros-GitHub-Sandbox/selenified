@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -22,6 +22,7 @@ package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import io.github.bonigarcia.wdm.*;
 import org.openqa.selenium.Proxy;
@@ -58,6 +59,7 @@ public class TestSetup {
 
     // constants
     private static final String PROXY_INPUT = "proxy";
+    private static final String SCREEN_SIZE = "screensize";
     private static final String BROWSER_INPUT = "browser";
     private static final String BROWSER_OPTIONS = "options";
     private static final String HEADLESS_INPUT = "headless";
@@ -255,6 +257,9 @@ public class TestSetup {
     public static WebDriver setupDriver(Browser browser,
                                         DesiredCapabilities capabilities) throws InvalidBrowserException {
         WebDriver driver;
+        if (browser == null || browser.getName() == null) {
+            throw new InvalidBrowserException("No browser was selected");
+        }
         // check the browser
         switch (browser.getName()) {
             case HTMLUNIT:
@@ -268,7 +273,7 @@ public class TestSetup {
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
-                firefoxOptions.addArguments(getBrowserOptions(browser.getName()));
+                firefoxOptions.addArguments(getBrowserOptions(browser));
                 if (runHeadless()) {
                     firefoxOptions.setHeadless(true);
                 }
@@ -278,7 +283,7 @@ public class TestSetup {
                 ChromeDriverManager.getInstance().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(capabilities);
-                chromeOptions.addArguments(getBrowserOptions(browser.getName()));
+                chromeOptions.addArguments(getBrowserOptions(browser));
                 if (runHeadless()) {
                     chromeOptions.setHeadless(true);
                 }
@@ -319,20 +324,41 @@ public class TestSetup {
         return System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT));
     }
 
-    public static List<String> getBrowserOptions(BrowserName browser) {
+    public static List<String> getBrowserOptions(Browser browser) {
         ArrayList<String> browserOptions = new ArrayList<>();
         if (System.getProperty(BROWSER_OPTIONS) != null) {
             browserOptions = new ArrayList(Arrays.asList(System.getProperty(BROWSER_OPTIONS).split("\\s*,\\s*")));
         }
-        if (browser == BrowserName.CHROME && browserOptions.contains("--headless")) {
+        if (browser.getName() == BrowserName.CHROME && browserOptions.contains("--headless")) {
             browserOptions.remove("--headless");
             System.setProperty(HEADLESS_INPUT, "true");
         }
-        if (browser == BrowserName.FIREFOX && browserOptions.contains("-headless")) {
+        if (browser.getName() == BrowserName.FIREFOX && browserOptions.contains("-headless")) {
             browserOptions.remove("-headless");
             System.setProperty(HEADLESS_INPUT, "true");
         }
         return browserOptions;
+    }
+
+    /**
+     * Sets up the initial size of the browser. Checks for the passed in parameter of screensize. If set to width
+     * x height, sets the browser to that size; if set to maximum, maximizes the browser.
+     *
+     * @param app - the application to be tested, contains all control elements
+     */
+    public static void setupScreenSize(App app) {
+        if (System.getProperty(SCREEN_SIZE) != null && !"" .equals(System.getProperty(SCREEN_SIZE))) {
+            String screensize = System.getProperty(SCREEN_SIZE);
+            if (screensize.matches("(\\d+)x(\\d+)")) {
+                int width = Integer.parseInt(System.getProperty(SCREEN_SIZE).split("x")[0]);
+                int height = Integer.parseInt(System.getProperty(SCREEN_SIZE).split("x")[1]);
+                app.resize(width, height);
+            } else if ("maximum" .equals(screensize)) {
+                app.maximize();
+            } else {
+                log.error("Provided screensize does not match expected pattern");
+            }
+        }
     }
 
     /**
