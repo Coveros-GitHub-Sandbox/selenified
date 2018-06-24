@@ -12,12 +12,12 @@ public class AssertStateIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setTestSite(this, test, "http://34.233.135.10/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
     }
 
     @Test(groups = {"integration", "asserts", "state"}, description = "An integration test to check a title")
@@ -534,5 +534,81 @@ public class AssertStateIT extends Selenified {
         app.newElement(Locator.ID, "table_no_header").assertState().notEditable();
         // verify no issues
         finish();
+    }
+
+    @Test(groups = {"integration", "asserts", "state"}, description = "An integration test to check the enabled method")
+    public void checkElementEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "input_box").assertState().enabled();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the enabled method")
+    public void negativeCheckElementEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non_existent", 0).assertState().enabled();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the enabled method")
+    public void negativeCheckElementEnabledNotInputTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table").assertState().enabled();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the enabled method")
+    public void negativeCheckElementEnabledNotEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "alert_button").assertState().enabled();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration test to check the notEnabled method")
+    public void checkElementNotEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "delayed_input").assertState().notEnabled();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the notEnabled method")
+    public void negativeCheckElementNotEnabledNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").assertState().notEnabled();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "asserts", "state"},
+            description = "An integration negative test to check the notEnabled method")
+    public void negativeCheckElementNotEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "check").assertState().notEnabled();
+        // verify 1 issue
+        finish(1);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -28,8 +28,60 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
  * (only locally - not on grid), Iphone (only locally, not on grid), Opera,
  * Safari, PhantomJS
  */
-public enum Browser {
-    NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
+public class Browser {
+    public enum BrowserName {
+        NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
+    }
+
+    private BrowserName name;
+    private String version = null;
+    private String device = null;
+    private String orientation = null;
+    private String platform = null;
+
+    public Browser(BrowserName browser) {
+        this.name = browser;
+    }
+
+    public BrowserName getName() {
+        return name;
+    }
+
+    public void setName(BrowserName name) {
+        this.name = name;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(String orientation) {
+        this.orientation = orientation;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
 
     /**
      * allows the browser selected to be passed in with a case insensitive name
@@ -39,8 +91,8 @@ public enum Browser {
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
-    public static Browser lookup(String b) throws InvalidBrowserException {
-        for (Browser browser : Browser.values()) {
+    public static BrowserName lookup(String b) throws InvalidBrowserException {
+        for (BrowserName browser : BrowserName.values()) {
             if (browser.name().equalsIgnoreCase(b)) {
                 return browser;
             }

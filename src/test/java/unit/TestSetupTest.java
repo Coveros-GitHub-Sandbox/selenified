@@ -1,6 +1,7 @@
 package unit;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.TestSetup;
 import org.openqa.selenium.Proxy;
@@ -15,7 +16,7 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class TestSetupTest {
     private String setHub = null;
     private String setProxy = null;
     private String setHeadless = null;
+    private String setOptions = null;
 
     @BeforeClass
     public void saveBrowser() {
@@ -40,6 +42,9 @@ public class TestSetupTest {
         }
         if (System.getProperty("headless") != null) {
             setHeadless = System.getProperty("headless");
+        }
+        if (System.getProperty("options") != null) {
+            setOptions = System.getProperty("options");
         }
     }
 
@@ -57,6 +62,9 @@ public class TestSetupTest {
         if (setHeadless != null) {
             System.setProperty("headless", setHeadless);
         }
+        if (setOptions != null) {
+            System.setProperty("headless", setOptions);
+        }
     }
 
     @BeforeMethod
@@ -65,6 +73,7 @@ public class TestSetupTest {
         System.clearProperty("hub");
         System.clearProperty("proxy");
         System.clearProperty("headless");
+        System.clearProperty("options");
     }
 
     @Test
@@ -117,20 +126,14 @@ public class TestSetupTest {
         System.setProperty("browser", "CHROME");
         List<Browser> browsers = TestSetup.setBrowser();
         Assert.assertEquals(browsers.size(), 1);
-        Assert.assertTrue(browsers.contains(Browser.CHROME));
+        Browser browser = browsers.get(0);
+        Assert.assertEquals(browser.getName(), BrowserName.CHROME);
 
         System.setProperty("browser", "browserName=CHROME");
         browsers = TestSetup.setBrowser();
         Assert.assertEquals(browsers.size(), 1);
-        Assert.assertTrue(browsers.contains(Browser.CHROME));
-    }
-
-    @Test
-    public void setBrowserBadBrowserTest() throws InvalidBrowserException {
-        System.setProperty("browser", "browserNaMe=CHROME");
-        List<Browser> browsers = TestSetup.setBrowser();
-        Assert.assertEquals(browsers.size(), 1);
-        Assert.assertNull(browsers.get(0));
+        browser = browsers.get(0);
+        Assert.assertEquals(browser.getName(), BrowserName.CHROME);
     }
 
     @Test
@@ -138,14 +141,24 @@ public class TestSetupTest {
         System.setProperty("browser", "CHROME,FIREFOX");
         List<Browser> browsers = TestSetup.setBrowser();
         Assert.assertEquals(browsers.size(), 2);
-        Assert.assertTrue(browsers.contains(Browser.CHROME));
-        Assert.assertTrue(browsers.contains(Browser.FIREFOX));
+        Browser chrome = browsers.get(0);
+        Assert.assertEquals(chrome.getName(), BrowserName.CHROME);
+        Browser firefox = browsers.get(1);
+        Assert.assertEquals(firefox.getName(), BrowserName.FIREFOX);
 
         System.setProperty("browser", "browserName=CHROME,browserName=FIREFOX");
         browsers = TestSetup.setBrowser();
         Assert.assertEquals(browsers.size(), 2);
-        Assert.assertTrue(browsers.contains(Browser.CHROME));
-        Assert.assertTrue(browsers.contains(Browser.FIREFOX));
+        chrome = browsers.get(0);
+        Assert.assertEquals(chrome.getName(), BrowserName.CHROME);
+        firefox = browsers.get(1);
+        Assert.assertEquals(firefox.getName(), BrowserName.FIREFOX);
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void setBrowserBadBrowserTest() throws InvalidBrowserException {
+        System.setProperty("browser", "browserNaMe=CHROME");
+        List<Browser> browsers = TestSetup.setBrowser();
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
@@ -155,32 +168,96 @@ public class TestSetupTest {
     }
 
     @Test
-    public void setupBrowserDetailsBrowserNameTest() {
+    public void setBrowserSingleBrowserDetailsTest() throws InvalidBrowserException {
+        System.setProperty("browser", "browserName=CHROME");
+        List<Browser> browsers = TestSetup.setBrowser();
+        Assert.assertEquals(browsers.size(), 1);
+        Browser browser = browsers.get(0);
+        Assert.assertEquals(browser.getName(), BrowserName.CHROME);
+        Assert.assertNull(browser.getVersion());
+        Assert.assertNull(browser.getDevice());
+        Assert.assertNull(browser.getOrientation());
+        Assert.assertNull(browser.getPlatform());
+    }
+
+    @Test
+    public void setBrowserSingleBrowserMultipleDetailsTest() throws InvalidBrowserException {
+        System.setProperty("browser", "browserName=CHROME&browserVersion=15.1&deviceName=Android&deviceOrientation" +
+                "=Landscape&devicePlatform=Windows 10");
+        List<Browser> browsers = TestSetup.setBrowser();
+        Assert.assertEquals(browsers.size(), 1);
+        Browser browser = browsers.get(0);
+        Assert.assertEquals(browser.getName(), BrowserName.CHROME);
+        Assert.assertEquals(browser.getVersion(), "15.1");
+        Assert.assertEquals(browser.getDevice(), "Android");
+        Assert.assertEquals(browser.getOrientation(), "Landscape");
+        Assert.assertEquals(browser.getPlatform(), "Windows 10");
+    }
+
+    @Test
+    public void setBrowserMultipleBrowserDetailsTest() throws InvalidBrowserException {
+        System.setProperty("browser", "browserName=CHROME,browserName=FIREFOX");
+        List<Browser> browsers = TestSetup.setBrowser();
+        Assert.assertEquals(browsers.size(), 2);
+        Browser chrome = browsers.get(0);
+        Assert.assertEquals(chrome.getName(), BrowserName.CHROME);
+        Browser firefox = browsers.get(1);
+        Assert.assertEquals(firefox.getName(), BrowserName.FIREFOX);
+    }
+
+    @Test
+    public void setBrowserMultipleBrowserMultipleDetailsTest() throws InvalidBrowserException {
+        System.setProperty("browser",
+                "browserName=CHROME&browserVersion=12," + "browserName=FIREFOX&devicePlatform=Windows 10");
+        List<Browser> browsers = TestSetup.setBrowser();
+        Assert.assertEquals(browsers.size(), 2);
+        Browser chrome = browsers.get(0);
+        Assert.assertEquals(chrome.getName(), BrowserName.CHROME);
+        Assert.assertEquals(chrome.getVersion(), "12");
+        Assert.assertNull(chrome.getDevice());
+        Assert.assertNull(chrome.getOrientation());
+        Assert.assertNull(chrome.getPlatform());
+        Browser firefox = browsers.get(1);
+        Assert.assertEquals(firefox.getName(), BrowserName.FIREFOX);
+        Assert.assertNull(firefox.getVersion());
+        Assert.assertNull(firefox.getDevice());
+        Assert.assertNull(firefox.getOrientation());
+        Assert.assertEquals(firefox.getPlatform(), "Windows 10");
+    }
+
+    @Test
+    public void setupBrowserDetailsNullNameTest() {
+        TestSetup setup = new TestSetup();
+        setup.setupBrowserDetails(new Browser(null));
+        DesiredCapabilities capability = setup.getDesiredCapabilities();
+        Assert.assertFalse(capability.is(CapabilityType.BROWSER_NAME));
+        Assert.assertNull(capability.getCapability(CapabilityType.BROWSER_NAME));
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void setupDriverNullBrowserTest() throws InvalidBrowserException {
+        TestSetup setup = new TestSetup();
+        setup.setupDriver(null, null);
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void setupDriverNullBrowserNameTest() throws InvalidBrowserException {
+        TestSetup setup = new TestSetup();
+        setup.setupDriver(new Browser(null), null);
+    }
+
+    @Test
+    public void setupBrowserDetailsBrowserNameTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
         setup.setupBrowserDetails(null);
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertFalse(capability.is(CapabilityType.BROWSER_NAME));
         Assert.assertNull(capability.getCapability(CapabilityType.BROWSER_NAME));
 
-        setup.setupBrowserDetails(new HashMap<>());
+        setup.setupBrowserDetails(new Browser(BrowserName.CHROME));
         capability = setup.getDesiredCapabilities();
-        Assert.assertFalse(capability.is(CapabilityType.BROWSER_NAME));
-        Assert.assertNull(capability.getCapability(CapabilityType.BROWSER_NAME));
-
-        Map<String, String> browserDetails = new HashMap<>();
-        browserDetails.put("browserName", "CHROME");
-        setup.setupBrowserDetails(browserDetails);
-        capability = setup.getDesiredCapabilities();
-        Assert.assertEquals(capability.getBrowserName(), "CHROME");
-        Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "CHROME");
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void setupBrowserDetailsBrowserNameIllegalBrowserTest() {
-        Map<String, String> browserDetails = new HashMap<>();
-        browserDetails.put("browserName", "BadBrowser");
-        TestSetup setup = new TestSetup();
-        setup.setupBrowserDetails(browserDetails);
+        Assert.assertEquals(capability.getBrowserName(), "chrome");
+        Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "chrome");
     }
 
     @Test
@@ -191,32 +268,26 @@ public class TestSetupTest {
         Assert.assertFalse(capability.is(CapabilityType.VERSION));
         Assert.assertNull(capability.getCapability(CapabilityType.VERSION));
 
-        setup.setupBrowserDetails(new HashMap<>());
+        Browser chrome = new Browser(BrowserName.CHROME);
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertFalse(capability.is(CapabilityType.VERSION));
         Assert.assertNull(capability.getCapability(CapabilityType.VERSION));
 
-        Map<String, String> browserDetails = new HashMap<>();
-        browserDetails.put("browserName", "CHROME");
-        setup.setupBrowserDetails(browserDetails);
-        capability = setup.getDesiredCapabilities();
-        Assert.assertFalse(capability.is(CapabilityType.VERSION));
-        Assert.assertNull(capability.getCapability(CapabilityType.VERSION));
-
-        browserDetails.put("browserVersion", "50");
-        setup.setupBrowserDetails(browserDetails);
+        chrome.setVersion("50");
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getVersion(), "50");
         Assert.assertEquals(capability.getCapability(CapabilityType.VERSION), "50");
 
-        browserDetails.put("browserVersion", "49.1.1");
-        setup.setupBrowserDetails(browserDetails);
+        chrome.setVersion("49.1.1");
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getVersion(), "49.1.1");
         Assert.assertEquals(capability.getCapability(CapabilityType.VERSION), "49.1.1");
 
-        browserDetails.put("browserVersion", "latest");
-        setup.setupBrowserDetails(browserDetails);
+        chrome.setVersion("latest");
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getVersion(), "latest");
         Assert.assertEquals(capability.getCapability(CapabilityType.VERSION), "latest");
@@ -230,20 +301,14 @@ public class TestSetupTest {
         Assert.assertFalse(capability.is("deviceName"));
         Assert.assertNull(capability.getCapability("deviceName"));
 
-        setup.setupBrowserDetails(new HashMap<>());
+        Browser chrome = new Browser(BrowserName.CHROME);
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertFalse(capability.is("deviceName"));
         Assert.assertNull(capability.getCapability("deviceName"));
 
-        Map<String, String> browserDetails = new HashMap<>();
-        browserDetails.put("browserName", "CHROME");
-        setup.setupBrowserDetails(browserDetails);
-        capability = setup.getDesiredCapabilities();
-        Assert.assertFalse(capability.is("deviceName"));
-        Assert.assertNull(capability.getCapability("deviceName"));
-
-        browserDetails.put("deviceName", "Android");
-        setup.setupBrowserDetails(browserDetails);
+        chrome.setDevice("Android");
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getCapability("deviceName"), "Android");
     }
@@ -256,20 +321,14 @@ public class TestSetupTest {
         Assert.assertFalse(capability.is("device-orientation"));
         Assert.assertNull(capability.getCapability("device-orientation"));
 
-        setup.setupBrowserDetails(new HashMap<>());
+        Browser chrome = new Browser(BrowserName.CHROME);
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertFalse(capability.is("device-orientation"));
         Assert.assertNull(capability.getCapability("device-orientation"));
 
-        Map<String, String> browserDetails = new HashMap<>();
-        browserDetails.put("browserName", "CHROME");
-        setup.setupBrowserDetails(browserDetails);
-        capability = setup.getDesiredCapabilities();
-        Assert.assertFalse(capability.is("device-orientation"));
-        Assert.assertNull(capability.getCapability("device-orientation"));
-
-        browserDetails.put("deviceOrientation", "Landscape");
-        setup.setupBrowserDetails(browserDetails);
+        chrome.setOrientation("Landscape");
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getCapability("device-orientation"), "Landscape");
     }
@@ -282,26 +341,20 @@ public class TestSetupTest {
         Assert.assertFalse(capability.is(CapabilityType.PLATFORM));
         Assert.assertNull(capability.getCapability(CapabilityType.PLATFORM));
 
-        setup.setupBrowserDetails(new HashMap<>());
+        Browser chrome = new Browser(BrowserName.CHROME);
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertFalse(capability.is(CapabilityType.PLATFORM));
         Assert.assertNull(capability.getCapability(CapabilityType.PLATFORM));
 
-        Map<String, String> browserDetails = new HashMap<>();
-        browserDetails.put("browserName", "CHROME");
-        setup.setupBrowserDetails(browserDetails);
-        capability = setup.getDesiredCapabilities();
-        Assert.assertFalse(capability.is(CapabilityType.PLATFORM));
-        Assert.assertNull(capability.getCapability(CapabilityType.PLATFORM));
-
-        browserDetails.put("devicePlatform", "Windows 10");
-        setup.setupBrowserDetails(browserDetails);
+        chrome.setPlatform("Windows 10");
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getPlatform().toString(), "WIN10");
         Assert.assertEquals(capability.getCapability(CapabilityType.PLATFORM).toString(), "WIN10");
 
-        browserDetails.put("devicePlatform", "Linux");
-        setup.setupBrowserDetails(browserDetails);
+        chrome.setPlatform("Linux");
+        setup.setupBrowserDetails(chrome);
         capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getPlatform().toString(), "LINUX");
         Assert.assertEquals(capability.getCapability(CapabilityType.PLATFORM).toString(), "LINUX");
@@ -309,17 +362,18 @@ public class TestSetupTest {
 
     @Test
     public void setupBrowserDetailsNonStandardDevicePlatformTest() {
-        Map<String, String> browserDetails = new HashMap<>();
-        browserDetails.put("devicePlatform", "Sun");
         TestSetup setup = new TestSetup();
-        setup.setupBrowserDetails(browserDetails);
+        Browser chrome = new Browser(BrowserName.CHROME);
+        chrome.setPlatform("Sun");
+        setup.setupBrowserDetails(chrome);
         setup.getDesiredCapabilities().getPlatform();
+        Assert.assertNull(setup.getDesiredCapabilities().getPlatform());
     }
 
     @Test
     public void setupBrowserCapabilityAndroidTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.ANDROID);
+        setup.setupBrowserCapability(new Browser(BrowserName.ANDROID));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "android");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "android");
@@ -328,7 +382,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityCHROMETest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.CHROME);
+        setup.setupBrowserCapability(new Browser(BrowserName.CHROME));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "chrome");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "chrome");
@@ -337,7 +391,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityEdgeTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.EDGE);
+        setup.setupBrowserCapability(new Browser(BrowserName.EDGE));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "MicrosoftEdge");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "MicrosoftEdge");
@@ -346,7 +400,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityFIREFOXTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.FIREFOX);
+        setup.setupBrowserCapability(new Browser(BrowserName.FIREFOX));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "firefox");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "firefox");
@@ -355,7 +409,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityHtmlUnitTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.HTMLUNIT);
+        setup.setupBrowserCapability(new Browser(BrowserName.HTMLUNIT));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "htmlunit");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "htmlunit");
@@ -364,7 +418,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityInternetExplorerTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.INTERNETEXPLORER);
+        setup.setupBrowserCapability(new Browser(BrowserName.INTERNETEXPLORER));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "internet explorer");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "internet explorer");
@@ -373,7 +427,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityIpadTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.IPAD);
+        setup.setupBrowserCapability(new Browser(BrowserName.IPAD));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "iPad");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "iPad");
@@ -382,7 +436,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityIphoneTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.IPHONE);
+        setup.setupBrowserCapability(new Browser(BrowserName.IPHONE));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "iPhone");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "iPhone");
@@ -391,7 +445,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityOperaTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.OPERA);
+        setup.setupBrowserCapability(new Browser(BrowserName.OPERA));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "operablink");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "operablink");
@@ -400,7 +454,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilityPhantomJSTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.PHANTOMJS);
+        setup.setupBrowserCapability(new Browser(BrowserName.PHANTOMJS));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "phantomjs");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "phantomjs");
@@ -409,7 +463,7 @@ public class TestSetupTest {
     @Test
     public void setupBrowserCapabilitySafariTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.SAFARI);
+        setup.setupBrowserCapability(new Browser(BrowserName.SAFARI));
         DesiredCapabilities capability = setup.getDesiredCapabilities();
         Assert.assertEquals(capability.getBrowserName(), "safari");
         Assert.assertEquals(capability.getCapability(CapabilityType.BROWSER_NAME), "safari");
@@ -418,17 +472,17 @@ public class TestSetupTest {
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupBrowserCapabilityIllegalBrowserTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupBrowserCapability(Browser.NONE);
+        setup.setupBrowserCapability(new Browser(BrowserName.NONE));
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverAndroidTest() throws InvalidBrowserException {
-        TestSetup.setupDriver(Browser.ANDROID, capabilities);
+        TestSetup.setupDriver(new Browser(BrowserName.ANDROID), capabilities);
     }
 
     @Test
     public void setupDriverHtmlUnitTest() throws InvalidBrowserException {
-        WebDriver driver = TestSetup.setupDriver(Browser.HTMLUNIT, capabilities);
+        WebDriver driver = TestSetup.setupDriver(new Browser(BrowserName.HTMLUNIT), capabilities);
         Assert.assertEquals(driver.getClass().getSimpleName(), "HtmlUnitDriver");
         driver.quit();
     }
@@ -436,7 +490,7 @@ public class TestSetupTest {
     @Test
     public void setupDriverFirefoxTest() throws InvalidBrowserException {
         System.setProperty("headless", "true");
-        WebDriver driver = TestSetup.setupDriver(Browser.FIREFOX, capabilities);
+        WebDriver driver = TestSetup.setupDriver(new Browser(BrowserName.FIREFOX), capabilities);
         Assert.assertEquals(driver.getClass().getSimpleName(), "FirefoxDriver");
         driver.quit();
     }
@@ -444,59 +498,59 @@ public class TestSetupTest {
     @Test
     public void setupDriverChromeTest() throws InvalidBrowserException {
         System.setProperty("headless", "true");
-        WebDriver driver = TestSetup.setupDriver(Browser.CHROME, capabilities);
+        WebDriver driver = TestSetup.setupDriver(new Browser(BrowserName.CHROME), capabilities);
         Assert.assertEquals(driver.getClass().getSimpleName(), "ChromeDriver");
         driver.quit();
     }
 
 //     @Test(expectedExceptions = NoSuchMethodError.class)
 //     public void setupDriverEdgeTest() throws InvalidBrowserException {
-//         WebDriver driver = TestSetup.setupDriver(Browser.EDGE, capabilities);
+//         WebDriver driver = TestSetup.setupDriver(new Browser(BrowserName.EDGE), capabilities);
 //         Assert.assertEquals(driver.getClass().getSimpleName(), "MicrosoftEdgeDriver");
 //         driver.quit();
 //     }
 
 //     @Test(expectedExceptions = NoSuchMethodError.class)
 //     public void setupDriverInternetExplorerTest() throws InvalidBrowserException {
-//         WebDriver driver = TestSetup.setupDriver(Browser.INTERNETEXPLORER, capabilities);
+//         WebDriver driver = TestSetup.setupDriver(new Browser(BrowserName.INTERNETEXPLORER), capabilities);
 //         Assert.assertEquals(driver.getClass().getSimpleName(), "InternetExplorerDriver");
 //         driver.quit();
 //     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverIpadTest() throws InvalidBrowserException {
-        TestSetup.setupDriver(Browser.IPAD, capabilities);
+        TestSetup.setupDriver(new Browser(BrowserName.IPAD), capabilities);
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverIphoneTest() throws InvalidBrowserException {
-        TestSetup.setupDriver(Browser.IPAD, capabilities);
+        TestSetup.setupDriver(new Browser(BrowserName.IPHONE), capabilities);
     }
 
 //    @Test(expectedExceptions = NoSuchMethodError.class)
 //    public void setupDriverOperaTest() throws InvalidBrowserException {
-//        WebDriver driver = TestSetup.setupDriver(Browser.OPERA, capabilities);
+//        WebDriver driver = TestSetup.setupDriver(new Browser(BrowserName.OPERA), capabilities);
 //        Assert.assertEquals(driver.getClass().getSimpleName(), "OperaDriver");
 //        driver.quit();
 //    }
 
 //     @Test(expectedExceptions = NoSuchMethodError.class)
 //     public void setupDriverSafariTest() throws InvalidBrowserException {
-//         WebDriver driver = TestSetup.setupDriver(Browser.SAFARI, capabilities);
+//         WebDriver driver = TestSetup.setupDriver(new Browser(BrowserName.SAFARI), capabilities);
 //         Assert.assertEquals(driver.getClass().getSimpleName(), "SafariDriver");
 //         driver.quit();
 //     }
 
 //    @Test(expectedExceptions = NoSuchMethodError.class)
 //    public void setupDriverPhantomJSTest() throws InvalidBrowserException {
-//        WebDriver driver = TestSetup.setupDriver(Browser.PHANTOMJS, capabilities);
+//        WebDriver driver = TestSetup.setupDriver(new Browser(BrowserName.PHANTOMJS), capabilities);
 //        Assert.assertEquals(driver.getClass().getSimpleName(), "PhantomDriver");
 //        driver.quit();
 //    }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverIllegalBrowserTest() throws InvalidBrowserException {
-        TestSetup.setupDriver(Browser.NONE, capabilities);
+        TestSetup.setupDriver(new Browser(BrowserName.NONE), capabilities);
     }
 
     @Test
@@ -580,5 +634,72 @@ public class TestSetupTest {
 
         Assert.assertTrue(map.containsKey("E"));
         Assert.assertEquals("F", map.get("E"));
+    }
+
+    @Test
+    public void runHeadlessDefaultTest() {
+        Assert.assertFalse(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void runHeadlessFalseTest() {
+        System.setProperty("headless", "false");
+        Assert.assertFalse(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void runHeadlessTrueTest() {
+        System.setProperty("headless", "true");
+        Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsDefaultTest() {
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)), new ArrayList<>());
+    }
+
+    @Test
+    public void getBrowserOptionsDisableGPUTest() {
+        System.setProperty("options", "--disable-gpu");
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)),
+                Arrays.asList("--disable-gpu"));
+    }
+
+    @Test
+    public void getBrowserOptionsTwoTest() {
+        System.setProperty("options", "--disable-gpu,--hi-there");
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)),
+                Arrays.asList("--disable-gpu", "--hi-there"));
+        Assert.assertFalse(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsChromeHeadlessTest() {
+        System.setProperty("options", "--headless");
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.CHROME)), new ArrayList<>());
+        Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsFirefoxHeadlessTest() {
+        System.setProperty("options", "-headless");
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)), new ArrayList<>());
+        Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsChromeFullTest() {
+        System.setProperty("options", "--disable-gpu,--headless,--hi-there");
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.CHROME)),
+                Arrays.asList("--disable-gpu", "--hi-there"));
+        Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void getBrowserOptionsFirefoxFullTest() {
+        System.setProperty("options", "--disable-gpu,-headless,--hi-there");
+        Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)),
+                Arrays.asList("--disable-gpu", "--hi-there"));
+        Assert.assertTrue(TestSetup.runHeadless());
     }
 }

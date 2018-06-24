@@ -1,6 +1,7 @@
 package integration;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
@@ -18,12 +19,12 @@ public class NoBrowserIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setTestSite(this, test, "http://34.233.135.10/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -46,7 +47,7 @@ public class NoBrowserIT extends Selenified {
         // use this object to manipulate the app
         Browser browser = this.browser.get();
         // verify no selenium actions class was setup
-        Assert.assertEquals(browser, Browser.NONE);
+        Assert.assertEquals(browser.getName(), BrowserName.NONE);
         // verify no issues
         finish();
     }

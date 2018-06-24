@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -21,6 +21,7 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import io.github.bonigarcia.wdm.*;
 import org.openqa.selenium.Proxy;
@@ -58,6 +59,7 @@ public class TestSetup {
     // constants
     private static final String PROXY_INPUT = "proxy";
     private static final String BROWSER_INPUT = "browser";
+    private static final String BROWSER_OPTIONS = "options";
     private static final String HEADLESS_INPUT = "headless";
     private static final String BROWSER_NAME_INPUT = "browserName";
     private static final String BROWSER_VERSION_INPUT = "browserVersion";
@@ -132,7 +134,7 @@ public class TestSetup {
             try {
                 String[] browserStrings = System.getProperty(BROWSER_INPUT).split(",");
                 for (String browserString : browserStrings) {
-                    browsers.add(Browser.lookup(browserString));
+                    browsers.add(new Browser(Browser.lookup(browserString)));
                 }
             } catch (InvalidBrowserException e) {
                 log.error(e);
@@ -142,11 +144,23 @@ public class TestSetup {
             String[] allDetails = System.getProperty(BROWSER_INPUT).split(",");
             for (String details : allDetails) {
                 Map<String, String> browserDetails = parseMap(details);
-                if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
-                    browsers.add(Browser.lookup(browserDetails.get(BROWSER_NAME_INPUT)));
-                } else {
-                    browsers.add(null);
+                if (!browserDetails.containsKey(BROWSER_NAME_INPUT)) {
+                    throw new InvalidBrowserException("browserName must be included in browser details");
                 }
+                Browser browser = new Browser(Browser.lookup(browserDetails.get(BROWSER_NAME_INPUT)));
+                if (browserDetails.containsKey(BROWSER_VERSION_INPUT)) {
+                    browser.setVersion(browserDetails.get(BROWSER_VERSION_INPUT));
+                }
+                if (browserDetails.containsKey(DEVICE_NAME_INPUT)) {
+                    browser.setDevice(browserDetails.get(DEVICE_NAME_INPUT));
+                }
+                if (browserDetails.containsKey(DEVICE_ORIENTATION_INPUT)) {
+                    browser.setOrientation(browserDetails.get(DEVICE_ORIENTATION_INPUT));
+                }
+                if (browserDetails.containsKey(DEVICE_PLATFORM_INPUT)) {
+                    browser.setPlatform(browserDetails.get(DEVICE_PLATFORM_INPUT));
+                }
+                browsers.add(browser);
             }
         }
         return browsers;
@@ -156,26 +170,26 @@ public class TestSetup {
      * sets the browser details (name, version, device, orientation, os) into
      * the device capabilities
      *
-     * @param browserDetails - a map containing all of the browser details
+     * @param browser - the browser object, with details included
      */
-    public void setupBrowserDetails(Map<String, String> browserDetails) {
-        if (browserDetails != null) {
+    public void setupBrowserDetails(Browser browser) {
+        if (browser != null) {
             // determine the browser information
-            if (browserDetails.containsKey(BROWSER_NAME_INPUT)) {
-                capabilities.setCapability(CapabilityType.BROWSER_NAME,
-                        Browser.valueOf(browserDetails.get(BROWSER_NAME_INPUT)).toString());
+            if (browser.getName() != null &&
+                    (capabilities.getBrowserName() == null || "".equals(capabilities.getBrowserName()))) {
+                capabilities.setCapability(CapabilityType.BROWSER_NAME, browser.getName().toString().toLowerCase());
             }
-            if (browserDetails.containsKey(BROWSER_VERSION_INPUT)) {
-                capabilities.setCapability(CapabilityType.VERSION, browserDetails.get(BROWSER_VERSION_INPUT));
+            if (browser.getVersion() != null) {
+                capabilities.setCapability(CapabilityType.VERSION, browser.getVersion());
             }
-            if (browserDetails.containsKey(DEVICE_NAME_INPUT)) {
-                capabilities.setCapability(DEVICE_NAME_INPUT, browserDetails.get(DEVICE_NAME_INPUT));
+            if (browser.getDevice() != null) {
+                capabilities.setCapability(DEVICE_NAME_INPUT, browser.getDevice());
             }
-            if (browserDetails.containsKey(DEVICE_ORIENTATION_INPUT)) {
-                capabilities.setCapability("device-orientation", browserDetails.get(DEVICE_ORIENTATION_INPUT));
+            if (browser.getOrientation() != null) {
+                capabilities.setCapability("device-orientation", browser.getOrientation());
             }
-            if (browserDetails.containsKey(DEVICE_PLATFORM_INPUT)) {
-                capabilities.setCapability(CapabilityType.PLATFORM, browserDetails.get(DEVICE_PLATFORM_INPUT));
+            if (browser.getPlatform() != null) {
+                capabilities.setCapability(CapabilityType.PLATFORM, browser.getPlatform());
             }
         }
     }
@@ -188,7 +202,7 @@ public class TestSetup {
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public void setupBrowserCapability(Browser browser) throws InvalidBrowserException {
-        switch (browser) { // check the browser
+        switch (browser.getName()) { // check the browser
             case HTMLUNIT:
                 capabilities = DesiredCapabilities.htmlUnit();
                 break;
@@ -241,8 +255,11 @@ public class TestSetup {
     public static WebDriver setupDriver(Browser browser,
                                         DesiredCapabilities capabilities) throws InvalidBrowserException {
         WebDriver driver;
+        if (browser == null || browser.getName() == null) {
+            throw new InvalidBrowserException("No browser was selected");
+        }
         // check the browser
-        switch (browser) {
+        switch (browser.getName()) {
             case HTMLUNIT:
                 capabilities.setBrowserName("htmlunit");
                 capabilities.setJavascriptEnabled(true);
@@ -254,7 +271,8 @@ public class TestSetup {
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
-                if (System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT))) {
+                firefoxOptions.addArguments(getBrowserOptions(browser));
+                if (runHeadless()) {
                     firefoxOptions.setHeadless(true);
                 }
                 driver = new FirefoxDriver(firefoxOptions);
@@ -263,7 +281,8 @@ public class TestSetup {
                 ChromeDriverManager.getInstance().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(capabilities);
-                if (System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT))) {
+                chromeOptions.addArguments(getBrowserOptions(browser));
+                if (runHeadless()) {
                     chromeOptions.setHeadless(true);
                 }
                 driver = new ChromeDriver(chromeOptions);
@@ -293,9 +312,30 @@ public class TestSetup {
                 break;
             // if the browser is not listed, throw an error
             default:
-                throw new InvalidBrowserException("The selected browser " + browser + " is not an applicable choice");
+                throw new InvalidBrowserException(
+                        "The selected browser " + browser.getName() + " is not an applicable choice");
         }
         return driver;
+    }
+
+    public static Boolean runHeadless() {
+        return System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT));
+    }
+
+    public static List<String> getBrowserOptions(Browser browser) {
+        ArrayList<String> browserOptions = new ArrayList<>();
+        if (System.getProperty(BROWSER_OPTIONS) != null) {
+            browserOptions = new ArrayList(Arrays.asList(System.getProperty(BROWSER_OPTIONS).split("\\s*,\\s*")));
+        }
+        if (browser.getName() == BrowserName.CHROME && browserOptions.contains("--headless")) {
+            browserOptions.remove("--headless");
+            System.setProperty(HEADLESS_INPUT, "true");
+        }
+        if (browser.getName() == BrowserName.FIREFOX && browserOptions.contains("-headless")) {
+            browserOptions.remove("-headless");
+            System.setProperty(HEADLESS_INPUT, "true");
+        }
+        return browserOptions;
     }
 
     /**

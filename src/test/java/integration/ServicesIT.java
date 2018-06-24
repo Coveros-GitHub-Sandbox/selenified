@@ -4,7 +4,6 @@ import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
-import com.coveros.selenified.services.Response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,7 +27,7 @@ public class ServicesIT extends Selenified {
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -60,6 +59,19 @@ public class ServicesIT extends Selenified {
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "no-check");
         call.addHeaders(headers);
+        // perform some actions
+        call.get("posts/").assertEquals(200);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "headers"},
+            description = "An integration test to verify we can successfully override standard header values")
+    public void setCredentialsTest() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        //set some custom credentials
+        call.addCredentials("hello", "world");
         // perform some actions
         call.get("posts/").assertEquals(200);
         // verify no issues
@@ -1109,5 +1121,24 @@ public class ServicesIT extends Selenified {
         call.delete("posts/5", new Request(request)).assertEquals(response);
         // verify one issue
         finish(1);
+    }
+
+    @Test(groups = {"integration", "services", "headers"},
+            description = "An integration negative test to verify we can successfully change header values")
+    public void setUnsupportedHeaderTest() {
+        JsonObject request = new JsonObject();
+        request.addProperty("title", "foo");
+        request.addProperty("body", "bar");
+        request.addProperty("userId", 2);
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        //set some custom headers
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/xml");
+        call.addHeaders(headers);
+        // perform some actions
+        call.post("posts/", new Request(request)).assertEquals(201);
+        // verify no issues
+        finish(2);
     }
 }

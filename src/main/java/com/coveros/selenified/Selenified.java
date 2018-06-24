@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -20,13 +20,16 @@
 
 package com.coveros.selenified;
 
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.utilities.Sauce;
 import com.coveros.selenified.utilities.TestSetup;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -34,7 +37,10 @@ import org.testng.log4testng.Logger;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -61,12 +67,8 @@ import static org.testng.AssertJUnit.assertEquals;
 public class Selenified {
 
     private static final Logger log = Logger.getLogger(Selenified.class);
-
-    // if were services calls are bring used, are there usernames and passwords
-    // used for credentials
-    protected static String servicesUser = "";
-    protected static String servicesPass = "";
-    protected static Map<String, String> extraHeaders = new HashMap<>();
+    private static final String SERVICES_USER = "ServicesUser";
+    private static final String SERVICES_PASS = "ServicesPass";
 
     // any additional browser capabilities that might be necessary
     protected static DesiredCapabilities extraCapabilities = null;
@@ -123,8 +125,7 @@ public class Selenified {
      */
     protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
         if (System.getProperty(APP_INPUT) == null) {
-            String testSuite = clazz.getClass().getName();
-            context.setAttribute(testSuite + APP_INPUT, siteURL);
+            context.setAttribute(clazz.getClass().getName() + APP_INPUT, siteURL);
         }
     }
 
@@ -154,8 +155,7 @@ public class Selenified {
      * @param version - the version of the test suite
      */
     protected static void setVersion(Selenified clazz, ITestContext context, String version) {
-        String testSuite = clazz.getClass().getName();
-        context.setAttribute(testSuite + "Version", version);
+        context.setAttribute(clazz.getClass().getName() + "Version", version);
     }
 
     /**
@@ -184,12 +184,99 @@ public class Selenified {
      * @param author  - the author of the test suite
      */
     protected static void setAuthor(Selenified clazz, ITestContext context, String author) {
-        String testSuite = clazz.getClass().getName();
-        context.setAttribute(testSuite + "Author", author);
+        context.setAttribute(clazz.getClass().getName() + "Author", author);
     }
 
-    protected static void addHeaders(Map<String, String> headers) {
-        extraHeaders = headers;
+    /**
+     * Obtains the additional headers of the current test suite being executed. If no additional headers
+     * were set, null will be returned
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @return Map<String,String>: the key-pair values of the headers of the current test being executed
+     */
+    protected static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
+        return (Map<String, String>) context.getAttribute(clazz + "Headers");
+    }
+
+    /**
+     * Sets any additional headers for the web services calls for each instance of the test suite being executed.
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @param headers - what headers do we want to set for this particular test suite
+     */
+    protected static void addHeaders(Selenified clazz, ITestContext context, Map<String, String> headers) {
+        context.setAttribute(clazz.getClass().getName() + "Headers", headers);
+    }
+
+    /**
+     * Obtains the web services username provided for the current test suite being executed. Anything passed in from
+     * the command line will first be taken, to override any other values. Next, values being set in the classes will
+     * be checked for. If neither of these are set, an empty string will be returned
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @return String: the web services username to use for authentication
+     */
+    protected static String getServiceUserCredential(String clazz, ITestContext context) {
+        if (System.getenv("SERVICES_USER") != null) {
+            return System.getenv("SERVICES_USER");
+        }
+        if (context.getAttribute(clazz + SERVICES_USER) != null) {
+            return (String) context.getAttribute(clazz + SERVICES_USER);
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Obtains the web services password provided for the current test suite being executed. Anything passed in from
+     * the command line will first be taken, to override any other values. Next, values being set in the classes will
+     * be checked for. If neither of these are set, an empty string will be returned
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @return String: the web services password to use for authentication
+     */
+    protected static String getServicePassCredential(String clazz, ITestContext context) {
+        if (System.getenv("SERVICES_PASS") != null) {
+            return System.getenv("SERVICES_PASS");
+        }
+        if (context.getAttribute(clazz + SERVICES_PASS) != null) {
+            return (String) context.getAttribute(clazz + SERVICES_PASS);
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Sets any additional headers for the web services calls for each instance of the test suite being executed.
+     *
+     * @param clazz        - the test suite class, used for making threadsafe storage of
+     *                     application, allowing suites to have independent applications
+     *                     under test, run at the same time
+     * @param context      - the TestNG context associated with the test suite, used for
+     *                     storing app url information
+     * @param servicesUser - the username required for authentication
+     * @param servicesPass - the password required for authentication
+     */
+    protected static void setCredentials(Selenified clazz, ITestContext context, String servicesUser,
+                                         String servicesPass) {
+        context.setAttribute(clazz.getClass().getName() + SERVICES_USER, servicesUser);
+        context.setAttribute(clazz.getClass().getName() + SERVICES_PASS, servicesPass);
     }
 
     /**
@@ -262,7 +349,7 @@ public class Selenified {
 
         Browser myBrowser = browsers.get(invocationCount);
         if (!selenium.useBrowser()) {
-            myBrowser = Browser.NONE;
+            myBrowser = new Browser(BrowserName.NONE);
         }
         DesiredCapabilities myCapability = capabilities.get(invocationCount);
         myCapability.setCapability("name", testName);
@@ -284,9 +371,13 @@ public class Selenified {
             if (selenium.loadPage()) {
                 loadInitialPage(app, getTestSite(extClass, test), myFile);
             }
+            if (Sauce.isSauce() && app != null) {
+                result.setAttribute("SessionId", ((RemoteWebDriver) app.getDriver()).getSessionId());
+            }
         } else {
-            HTTP http = new HTTP(getTestSite(extClass, test), servicesUser, servicesPass);
-            Call call = new Call(http, myFile, extraHeaders);
+            HTTP http = new HTTP(getTestSite(extClass, test), getServiceUserCredential(extClass, test),
+                    getServicePassCredential(extClass, test));
+            Call call = new Call(http, myFile, getExtraHeaders(extClass, test));
             this.apps.set(null);
             this.calls.set(call);
         }
@@ -413,26 +504,10 @@ public class Selenified {
             if (wasInvoked) {
                 return;
             }
-            initializeSystem();
             setupTestParameters();
             wasInvoked = true;
             //downgrade our logging
             java.util.logging.Logger.getLogger("io.github").setLevel(Level.SEVERE);
-        }
-
-        /**
-         * Initializes the test settings by setting default values for the
-         * browser, URL, and credentials if they are not specifically set
-         */
-        private static void initializeSystem() {
-            // check the browser
-            if (System.getProperty(BROWSER_INPUT) == null) {
-                System.setProperty(BROWSER_INPUT, Browser.HTMLUNIT.toString());
-            }
-            if (System.getenv("SERVICES_USER") != null && System.getenv("SERVICES_PASS") != null) {
-                servicesUser = System.getenv("SERVICES_USER");
-                servicesPass = System.getenv("SERVICES_PASS");
-            }
         }
 
         /**
@@ -444,6 +519,9 @@ public class Selenified {
          *                                 thrown
          */
         private static void setupTestParameters() throws InvalidBrowserException {
+            if (System.getProperty(BROWSER_INPUT) == null) {
+                System.setProperty(BROWSER_INPUT, BrowserName.HTMLUNIT.toString());
+            }
             browsers = TestSetup.setBrowser();
 
             for (Browser browser : browsers) {
@@ -453,10 +531,7 @@ public class Selenified {
                     setup.setupBrowserCapability(browser);
                 }
                 setup.setupProxy();
-                if (TestSetup.areBrowserDetailsSet()) {
-                    Map<String, String> browserDetails = TestSetup.parseMap(System.getProperty(BROWSER_INPUT));
-                    setup.setupBrowserDetails(browserDetails);
-                }
+                setup.setupBrowserDetails(browser);
                 DesiredCapabilities caps = setup.getDesiredCapabilities();
                 if (extraCapabilities != null) {
                     caps = caps.merge(extraCapabilities);

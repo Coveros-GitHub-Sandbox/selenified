@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Coveros, Inc.
+ * Copyright 2018 Coveros, Inc.
  * 
  * This file is part of Selenified.
  * 
@@ -316,6 +316,48 @@ public class State extends Assert {
         // outputFile.record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " not editable on the page");
         notEditable("present");
+    }
+
+    /**
+     * Verifies that the element is enabled. If the element isn't present, it waits
+     * up to the default time (5 seconds) for the element, before marking this
+     * verification as a failure. This information will be logged and recorded, with
+     * a screenshot for traceability and added debugging support.
+     */
+    public void enabled() {
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
+        // file.record the element
+        file.recordExpected(EXPECTED + element.prettyOutput() + " enabled on the page");
+        if (!element.is().enabled()) {
+            file.recordActual(element.prettyOutputStart() + IS + "present, but not enabled on the page", Success.FAIL);
+            file.addError();
+            return;
+        }
+        file.recordActual(element.prettyOutputStart() + IS + "present and enabled on the page", Success.PASS);
+    }
+
+    /**
+     * Verifies that the element is not enabled. If the element isn't present, it
+     * waits up to the default time (5 seconds) for the element, before marking this
+     * verification as a failure. This information will be logged and recorded, with
+     * a screenshot for traceability and added debugging support.
+     */
+    public void notEnabled() {
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
+        // file.record the element
+        file.recordExpected(EXPECTED + element.prettyOutput() + " not enabled on the page");
+        if (element.is().enabled()) {
+            file.recordActual(element.prettyOutputStart() + IS + "present, but enabled on the page", Success.FAIL);
+            file.addError();
+            return;
+        }
+        file.recordActual(element.prettyOutputStart() + IS + "present and not enabled on the page", Success.PASS);
     }
 
     /**

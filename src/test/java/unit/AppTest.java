@@ -1,6 +1,7 @@
 package unit;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.WebDriverException;
@@ -38,14 +39,14 @@ public class AppTest {
     @Test(expectedExceptions = WebDriverException.class)
     public void checkElementTypeTest() throws InvalidBrowserException, MalformedURLException {
         System.setProperty("hub", "http://myurl");
-        new App(Browser.HTMLUNIT, DesiredCapabilities.firefox(), null);
+        new App(new Browser(BrowserName.HTMLUNIT), DesiredCapabilities.firefox(), null);
         System.clearProperty("hub");
     }
 
     @Test(expectedExceptions = MalformedURLException.class)
     public void checkElementTypeBadURLTest() throws InvalidBrowserException, MalformedURLException {
         System.setProperty("hub", "myurl");
-        new App(Browser.ANDROID, DesiredCapabilities.firefox(), null);
+        new App(new Browser(BrowserName.ANDROID), DesiredCapabilities.firefox(), null);
         System.clearProperty("hub");
     }
 
@@ -56,7 +57,7 @@ public class AppTest {
 
     @Test
     public void nullDeviceCapbilitiesTest() throws InvalidBrowserException, MalformedURLException {
-        new App(Browser.HTMLUNIT, null, null);
+        new App(new Browser(BrowserName.HTMLUNIT), null, null);
         // just ensuring we don't throw an error
     }
 }

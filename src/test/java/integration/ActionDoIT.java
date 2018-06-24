@@ -1,10 +1,12 @@
 package integration;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.Point;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
@@ -14,18 +16,26 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActionDoIT extends Selenified {
+
+    List<Point<Integer, Integer>> points = new ArrayList<Point<Integer, Integer>>();
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setTestSite(this, test, "http://34.233.135.10/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
+
+        // setup our drawing points
+        points.add(new Point<Integer, Integer>(10, 10));
+        points.add(new Point<Integer, Integer>(100, 10));
     }
 
     @DataProvider(name = "car list options", parallel = true)
@@ -535,7 +545,7 @@ public class ActionDoIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "this").type(" ");
-        if (app.getBrowser() == Browser.CHROME) {  //test only applicable for Chrome
+        if (app.getBrowser().getName() == BrowserName.CHROME) {  //test only applicable for Chrome
             app.newElement(Locator.ID, "this").assertState().checked();
         }
         // verify no issues
@@ -1203,14 +1213,103 @@ public class ActionDoIT extends Selenified {
         finish(1);
     }
 
+    @Test(groups = {"integration", "actions", "scroll", "do"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollBadDriverTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.killDriver();
+        app.scroll(50);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw", "browser"},
+            description = "An integration negative test to check the draw method")
+    public void drawTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "can").draw(points);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw", "browser"},
+            description = "An integration test to check the draw method")
+    public void drawTestNotCanvas() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "overlay_span").draw(points);
+        // verify no issues
+        finish(0);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration negative test to check the draw method")
+    public void drawTestNoPoints() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(new ArrayList<Point<Integer, Integer>>());
+        // verify no issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration negative test to check the draw method")
+    public void drawAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(points);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "draw", "do"},
+            description = "An integration negative test to check the draw method")
+    public void drawDisabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.CSS, "input#alert_button").draw(points);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration negative test to check the draw method")
+    public void drawNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").draw(points);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "do", "draw"},
+            description = "An integration negative test to check the draw method")
+    public void drawHiddenTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div").draw(points);
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = {"integration", "actions", "screenshot", "do"},
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotFirefoxLocalTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
-        App app = new App(Browser.FIREFOX, new DesiredCapabilities(), null);
+        App app = new App(new Browser(BrowserName.FIREFOX), new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "LOCAL");
         // perform some actions
-        app.takeScreenshot("somefile");
+        app.takeScreenshot("firefoxLocalScreenshot");
+        new File("firefoxLocalScreenshot").delete();
         app.killDriver();
         // verify no issues
         finish();
@@ -1220,10 +1319,11 @@ public class ActionDoIT extends Selenified {
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotFirefoxHubTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
-        App app = new App(Browser.FIREFOX, new DesiredCapabilities(), null);
+        App app = new App(new Browser(BrowserName.FIREFOX), new DesiredCapabilities(), null);
         System.setProperty("hubAddress", "HUB");
         // perform some actions
-        app.takeScreenshot("somefile");
+        app.takeScreenshot("firefoxHubScreenshot");
+        new File("firefoxHubScreenshot").delete();
         app.killDriver();
         // verify no issues
         finish();
@@ -1233,10 +1333,22 @@ public class ActionDoIT extends Selenified {
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotHtmlUnitTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
-        App app = new App(Browser.HTMLUNIT, new DesiredCapabilities(), null);
+        App app = new App(new Browser(BrowserName.HTMLUNIT), new DesiredCapabilities(), null);
         // perform some actions
         app.takeScreenshot("somefile");
         app.killDriver();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "screenshot", "do"},
+            description = "An integration negative test to check the takeScreenshot method")
+    public void takeScreenshotBadDriverTest() throws InvalidBrowserException, MalformedURLException {
+        // use this object to manipulate the app
+        App app = new App(new Browser(BrowserName.FIREFOX), new DesiredCapabilities(), null);
+        // perform some actions
+        app.killDriver();
+        app.takeScreenshot("somefile");
         // verify no issues
         finish();
     }

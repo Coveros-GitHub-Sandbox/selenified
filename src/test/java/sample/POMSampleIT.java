@@ -13,12 +13,12 @@ public class POMSampleIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setTestSite(this, test, "http://34.233.135.10/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
     }
 
     @DataProvider(name = "car list items", parallel = true)
@@ -51,6 +51,7 @@ public class POMSampleIT extends Selenified {
         MainPage main = this.main.get();
         // our test actions
         main.generateAlert();
+        app.azzert().alertPresent();
         app.acceptAlert();
         app.azzert().alertNotPresent();
         // close out the test

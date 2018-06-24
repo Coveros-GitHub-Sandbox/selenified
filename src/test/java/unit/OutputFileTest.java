@@ -1,6 +1,7 @@
 package unit;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.OutputFile.Success;
@@ -28,7 +29,8 @@ public class OutputFileTest {
 
     @BeforeMethod
     public void createFile() {
-        outputFile = new OutputFile("directory", "file", Browser.ANDROID, null, null, null, null, null, null);
+        outputFile = new OutputFile("directory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
+                null);
         directory = new File("directory");
         file = new File("directory", "fileANDROID.html");
     }
@@ -41,8 +43,11 @@ public class OutputFileTest {
 
     @Test
     public void setupFileFreshTest() {
-        new OutputFile("/somenewdir", "file", Browser.ANDROID, null, null, null, null, null, null);
-        Assert.assertFalse(new File("/somenewdir/fileAndroid.html").exists());
+        new OutputFile("somenewdir", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null, null);
+        File file = new File("somenewdir", "fileANDROID.html");
+        Assert.assertTrue(file.exists());
+        file.delete();
+        new File("somenewdir").delete();
     }
 
     @Test
@@ -52,7 +57,7 @@ public class OutputFileTest {
         Assert.assertTrue(file.exists());
 
         // do it again, ensure nothing breaks when it already exists
-        new OutputFile("directory", "file", Browser.ANDROID, null, null, null, null, null, null);
+        new OutputFile("directory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null, null);
         Assert.assertNotEquals(file.length(), 0);
         Assert.assertTrue(directory.exists());
         Assert.assertTrue(file.exists());
@@ -89,7 +94,8 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderSuiteTest() throws IOException {
-        new OutputFile("newdirectory", "file", Browser.ANDROID, null, "My Suite", null, null, null, null);
+        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, "My Suite", null, null, null,
+                null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -100,7 +106,8 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderGroupTest() throws IOException {
-        new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, "My Group", null, null, null);
+        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, "My Group", null, null,
+                null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -111,7 +118,8 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderAuthorTest() throws IOException {
-        new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, "My Author", null, null);
+        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, "My Author", null,
+                null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -122,7 +130,8 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderVersionTest() throws IOException {
-        new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, null, "My Version", null);
+        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, null,
+                "My " + "Version", null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -133,7 +142,8 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderObjectivesTest() throws IOException {
-        new OutputFile("newdirectory", "file", Browser.ANDROID, null, null, null, null, null, "My Objectives");
+        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
+                "My " + "Objectives");
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -187,7 +197,9 @@ public class OutputFileTest {
 
     @Test
     public void recordActionBadFile() {
-        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID, null, null, null, null, null, null);
+        OutputFile file =
+                new OutputFile("/somenewdir", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
+                        null);
         file.recordAction("my action", "expected", "actual", Result.WARNING);
         // we are just verifying that no errors were thrown
     }
@@ -203,7 +215,9 @@ public class OutputFileTest {
 
     @Test
     public void recordExpectedBadFile() {
-        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID, null, null, null, null, null, null);
+        OutputFile file =
+                new OutputFile("/somenewdir", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
+                        null);
         file.recordExpected("expected");
         // we are just verifying that no errors were thrown
     }
@@ -228,7 +242,9 @@ public class OutputFileTest {
 
     @Test
     public void recordActualBadFile() {
-        OutputFile file = new OutputFile("/somenewdir", "file", Browser.ANDROID, null, null, null, null, null, null);
+        OutputFile file =
+                new OutputFile("/somenewdir", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
+                        null);
         file.recordActual("actual", Success.FAIL);
         // we are just verifying that no errors were thrown
     }
@@ -249,7 +265,8 @@ public class OutputFileTest {
 
     @Test
     public void packageResultsPositiveTest() throws IOException {
-        OutputFile outputFile = new OutputFile("results", "file", Browser.ANDROID, null, null, null, null, null, null);
+        OutputFile outputFile =
+                new OutputFile("results", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null, null);
         File directory = new File("results");
         File file = new File("results", "fileANDROID.html");
 

@@ -12,12 +12,12 @@ public class AssertEqualsIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setTestSite(this, test, "http://34.233.135.10/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "0.0.1");
+        setVersion(this, test, "3.0.2");
     }
 
     @Test(groups = {"integration", "asserts", "equals"},
@@ -26,8 +26,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectValues("volvo", "saab", "mercedes", "audi");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectValues("volvo", "saab", "mercedes", "audi");
         // verify no issues
         finish();
     }
@@ -50,8 +49,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectValues("volvo", "ford", "mercedes", "audi");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectValues("volvo", "ford", "mercedes", "audi");
         // verify 1 issue
         finish(1);
     }
@@ -85,8 +83,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions("Volvo", "Saab", "Mercedes", "Audi");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectOptions("Volvo", "Saab", "Mercedes", "Audi");
         // verify no issues
         finish();
     }
@@ -109,8 +106,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions("Volvo", "Ford", "Mercedes", "Audi");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectOptions("Volvo", "Ford", "Mercedes", "Audi");
         // verify 1 issue
         finish(1);
     }
@@ -133,8 +129,7 @@ public class AssertEqualsIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").assertEquals()
-                .selectOptions("Volvo", "Saab", "Mercedes");
+        app.newElement(Locator.NAME, "car_list").assertEquals().selectOptions("Volvo", "Saab", "Mercedes");
         // verify no issue
         finish(1);
     }
