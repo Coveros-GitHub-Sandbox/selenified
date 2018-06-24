@@ -22,6 +22,7 @@ package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import io.github.bonigarcia.wdm.*;
 import org.openqa.selenium.Proxy;
@@ -58,6 +59,7 @@ public class TestSetup {
 
     // constants
     private static final String PROXY_INPUT = "proxy";
+    private static final String SCREEN_SIZE = "screensize";
     private static final String BROWSER_INPUT = "browser";
     private static final String BROWSER_OPTIONS = "options";
     private static final String HEADLESS_INPUT = "headless";
@@ -336,6 +338,27 @@ public class TestSetup {
             System.setProperty(HEADLESS_INPUT, "true");
         }
         return browserOptions;
+    }
+
+    /**
+     * Sets up the initial size of the browser. Checks for the passed in parameter of screensize. If set to width
+     * x height, sets the browser to that size; if set to maximum, maximizes the browser.
+     *
+     * @param app - the application to be tested, contains all control elements
+     */
+    public static void setupScreenSize(App app) {
+        if (System.getProperty(SCREEN_SIZE) != null && !"" .equals(System.getProperty(SCREEN_SIZE))) {
+            String screensize = System.getProperty(SCREEN_SIZE);
+            if (screensize.matches("(\\d+)x(\\d+)")) {
+                int width = Integer.parseInt(System.getProperty(SCREEN_SIZE).split("x")[0]);
+                int height = Integer.parseInt(System.getProperty(SCREEN_SIZE).split("x")[1]);
+                app.resize(width, height);
+            } else if ("maximum" .equals(screensize)) {
+                app.maximize();
+            } else {
+                log.error("Provided screensize does not match expected pattern");
+            }
+        }
     }
 
     /**

@@ -28,6 +28,7 @@ public class TestSetupTest {
     private String setProxy = null;
     private String setHeadless = null;
     private String setOptions = null;
+    private String screensize = null;
 
     @BeforeClass
     public void saveBrowser() {
@@ -45,6 +46,9 @@ public class TestSetupTest {
         }
         if (System.getProperty("options") != null) {
             setOptions = System.getProperty("options");
+        }
+        if (System.getProperty("screensize") != null) {
+            screensize = System.getProperty("screensize");
         }
     }
 
@@ -65,6 +69,9 @@ public class TestSetupTest {
         if (setOptions != null) {
             System.setProperty("headless", setOptions);
         }
+        if (screensize != null) {
+            System.setProperty("screensize", screensize);
+        }
     }
 
     @BeforeMethod
@@ -74,6 +81,7 @@ public class TestSetupTest {
         System.clearProperty("proxy");
         System.clearProperty("headless");
         System.clearProperty("options");
+        System.clearProperty("screensize");
     }
 
     @Test
@@ -701,5 +709,29 @@ public class TestSetupTest {
         Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)),
                 Arrays.asList("--disable-gpu", "--hi-there"));
         Assert.assertTrue(TestSetup.runHeadless());
+    }
+
+    @Test
+    public void setupScreenSizeEmptyTest() {
+        System.setProperty("screensize", "");
+        TestSetup.setupScreenSize(null);
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void setupScreenSizeSizeTest() {
+        System.setProperty("screensize", "300x500");
+        TestSetup.setupScreenSize(null);
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void setupScreenSizeMaximizeTest() {
+        System.setProperty("screensize", "maximum");
+        TestSetup.setupScreenSize(null);
+    }
+
+    @Test
+    public void setupScreenSizeBadTest() {
+        System.setProperty("screensize", "bad");
+        TestSetup.setupScreenSize(null);
     }
 }

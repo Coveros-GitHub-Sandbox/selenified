@@ -368,6 +368,7 @@ public class Selenified {
             this.apps.set(app);
             this.calls.set(null);
             myFile.setApp(app);
+            TestSetup.setupScreenSize(app);
             if (selenium.loadPage()) {
                 loadInitialPage(app, getTestSite(extClass, test), myFile);
             }
@@ -389,6 +390,10 @@ public class Selenified {
     /**
      * Loads the initial app specified by the url, and ensures the app loads
      * successfully
+     *
+     * @param app  - the application to be tested, contains all control elements
+     * @param url  - the initial url to load
+     * @param file - the output file to write everything to
      */
     private void loadInitialPage(App app, String url, OutputFile file) {
         String startingPage = "The starting app <i>";

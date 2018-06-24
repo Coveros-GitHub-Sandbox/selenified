@@ -47,12 +47,11 @@
         <nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
 
         <!-- SonarQube properties -->
-        <sonar.host.url>https://172.31.2.202/sonar</sonar.host.url>
+        <sonar.host.url>http://localhost:9000/sonar</sonar.host.url>
         <sonar.sources>src/main/java</sonar.sources>
         <sonar.test>src/test/java</sonar.test>
         <sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
-        <sonar.jacoco.reportPath>target/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
-        <sonar.jacoco.itReportPath>target/coverage-reports/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.jacoco.reportPaths>target/coverage-reports/jacoco-ut.exec,target/coverage-reports/jacoco-it.exec</sonar.jacoco.reportPaths>
     </properties>
 
     <name>Selenified Testing Framework</name>
@@ -153,7 +152,7 @@
                     <skipTests>${skip.unit.tests}</skipTests>
                     <!-- Excludes integration tests when unit tests are run. -->
                     <excludes>
-                        <exclude>**/IT*.java</exclude>
+                        <exclude>**/*IT.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
