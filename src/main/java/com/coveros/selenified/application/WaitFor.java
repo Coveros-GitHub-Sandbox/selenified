@@ -22,7 +22,6 @@ package com.coveros.selenified.application;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;

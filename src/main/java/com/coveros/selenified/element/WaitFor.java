@@ -22,11 +22,7 @@ package com.coveros.selenified.element;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.log4testng.Logger;
@@ -259,7 +255,7 @@ public class WaitFor {
         }
         try {
             double start = System.currentTimeMillis();
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, 50);
             wait.until(ExpectedConditions.elementToBeClickable(element.defineByElement()));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() + ENABLED,
@@ -291,9 +287,8 @@ public class WaitFor {
         try {
             double start = System.currentTimeMillis();
             // wait for up to XX seconds
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, 50);
             wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.defineByElement())));
-            double end = System.currentTimeMillis() + (seconds * 1000);
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected,
                     WAITED + timetook + SECONDS_FOR + element.prettyOutput() + " to not be enabled", Result.SUCCESS);
