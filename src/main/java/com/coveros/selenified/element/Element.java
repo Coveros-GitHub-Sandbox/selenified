@@ -432,7 +432,7 @@ public class Element {
      *
      * @return WebElement: the element object, and all associated values with it
      */
-    WebElement getWebElement() {
+    public WebElement getWebElement() {
         List<WebElement> elements = getWebElements();
         if (elements.size() > match) {
             return elements.get(match);
