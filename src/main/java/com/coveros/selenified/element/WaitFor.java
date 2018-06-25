@@ -58,6 +58,7 @@ public class WaitFor {
     private static final String ENABLED = " to be enabled";
 
     private double defaultWait = 5.0;
+    private long defaultPollingInterval = 50;
 
     public WaitFor(Element element, OutputFile file) {
         this.element = element;
@@ -136,7 +137,7 @@ public class WaitFor {
         // wait for up to XX seconds for the error message
         try {
             double end = System.currentTimeMillis() + (seconds * 1000);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(element.defineByElement()));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
             timetook = timetook / 1000;
@@ -165,7 +166,7 @@ public class WaitFor {
         // wait for up to XX seconds for the error message
         try {
             double end = System.currentTimeMillis() + (seconds * 1000);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
             wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(element.defineByElement
                     ())));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
@@ -196,7 +197,7 @@ public class WaitFor {
         }
         try {
             double start = System.currentTimeMillis();
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
             wait.until(ExpectedConditions.visibilityOfElementLocated(element.defineByElement()));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() + DISPLAYED,
@@ -226,7 +227,7 @@ public class WaitFor {
         }
         try {
             double start = System.currentTimeMillis();
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(element.defineByElement()));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected,
@@ -255,7 +256,7 @@ public class WaitFor {
         }
         try {
             double start = System.currentTimeMillis();
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, 50);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
             wait.until(ExpectedConditions.elementToBeClickable(element.defineByElement()));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() + ENABLED,
@@ -287,7 +288,7 @@ public class WaitFor {
         try {
             double start = System.currentTimeMillis();
             // wait for up to XX seconds
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, 50);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
             wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.defineByElement())));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected,
