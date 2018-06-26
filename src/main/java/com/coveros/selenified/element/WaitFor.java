@@ -289,7 +289,8 @@ public class WaitFor {
             double start = System.currentTimeMillis();
             // wait for up to XX seconds
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
-            wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.defineByElement())));
+            wait.until(ExpectedConditions.or(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element
+                    .defineByElement())), ExpectedConditions.invisibilityOfElementLocated(element.defineByElement())));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected,
                     WAITED + timetook + SECONDS_FOR + element.prettyOutput() + " to not be enabled", Result.SUCCESS);
