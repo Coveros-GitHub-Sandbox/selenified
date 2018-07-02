@@ -40,9 +40,7 @@ import org.testng.log4testng.Logger;
  * @lastupdate 8/13/2017
  */
 public class WaitFor {
-
-    private static final Logger log = Logger.getLogger(WaitFor.class);
-
+    
     // this will be the name of the file we write all commands out to
     private final OutputFile file;
 
