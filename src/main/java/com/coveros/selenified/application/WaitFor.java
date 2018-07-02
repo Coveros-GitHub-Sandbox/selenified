@@ -114,7 +114,7 @@ public class WaitFor {
      * @param seconds - maximum time to wait in seconds
      * @return double - the total time waited
      */
-    private double popup(double seconds) throws TimeoutException {
+    private double popup(double seconds) {
         // wait for up to XX seconds for the error message
         double end = System.currentTimeMillis() + (seconds * 1000);
         WebDriverWait wait = new WebDriverWait(driver, (long) seconds);

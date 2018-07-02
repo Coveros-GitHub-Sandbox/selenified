@@ -190,10 +190,8 @@ public class WaitFor {
     public void displayed(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + DISPLAYED;
         String expected = element.prettyOutputStart() + " is displayed";
-        if (!element.is().present()) {
-            if (!present(seconds)) {
-                return;
-            }
+        if (!element.is().present() && !present(seconds)) {
+            return;
         }
         try {
             double start = System.currentTimeMillis();
@@ -249,10 +247,8 @@ public class WaitFor {
     public void enabled(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + ENABLED;
         String expected = element.prettyOutputStart() + " is enabled";
-        if (!element.is().present()) {
-            if (!present(seconds)) {
-                return;
-            }
+        if (!element.is().present() && !present(seconds)) {
+            return;
         }
         try {
             double start = System.currentTimeMillis();
