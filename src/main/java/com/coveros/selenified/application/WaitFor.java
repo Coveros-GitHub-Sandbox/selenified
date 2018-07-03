@@ -26,7 +26,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.log4testng.Logger;
 
 /**
  * WaitFor performs dynamic waits on the app in general, until a particular
@@ -36,11 +35,11 @@ import org.testng.log4testng.Logger;
  * is returned, but an error is logged
  *
  * @author Max Saperstone
- * @version 3.0.0
- * @lastupdate 8/13/2017
+ * @version 3.0.2
+ * @lastupdate 7/3/2018
  */
 public class WaitFor {
-    
+
     // this will be the name of the file we write all commands out to
     private final OutputFile file;
 
