@@ -390,7 +390,7 @@ public class Element {
      * @throws InvalidLocatorTypeException: if a bad locator type is passed, an invalid locator type exception will
      *                                      be thrown
      */
-    private By defineByElement() throws InvalidLocatorTypeException {
+    By defineByElement() throws InvalidLocatorTypeException {
         // consider adding strengthening
         By byElement;
         switch (type) { // determine which locator type we are interested in

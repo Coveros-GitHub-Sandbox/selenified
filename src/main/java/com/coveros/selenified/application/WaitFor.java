@@ -22,9 +22,10 @@ package com.coveros.selenified.application;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
-import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.testng.log4testng.Logger;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * WaitFor performs dynamic waits on the app in general, until a particular
@@ -34,12 +35,10 @@ import org.testng.log4testng.Logger;
  * is returned, but an error is logged
  *
  * @author Max Saperstone
- * @version 3.0.0
- * @lastupdate 8/13/2017
+ * @version 3.0.2
+ * @lastupdate 7/3/2018
  */
 public class WaitFor {
-
-    private static final Logger log = Logger.getLogger(WaitFor.class);
 
     // this will be the name of the file we write all commands out to
     private final OutputFile file;
@@ -47,9 +46,6 @@ public class WaitFor {
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
     private final WebDriver driver;
-
-    // the is class to determine if something exists, so the wait can end
-    private final Is is;
 
     // constants
     private static final String WAITED = "Waited ";
@@ -60,7 +56,6 @@ public class WaitFor {
     public WaitFor(WebDriver driver, OutputFile file) {
         this.driver = driver;
         this.file = file;
-        this.is = new Is(driver);
     }
 
     /**
@@ -119,15 +114,8 @@ public class WaitFor {
     private double popup(double seconds) {
         // wait for up to XX seconds for the error message
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (System.currentTimeMillis() < end) {
-            try { // If results have been returned, the results are displayed in
-                // a drop down.
-                driver.switchTo().alert();
-                break;
-            } catch (NoAlertPresentException e) {
-                log.info(e);
-            }
-        }
+        WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+        wait.until(ExpectedConditions.alertIsPresent());
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
         return timetook / 1000;
     }
@@ -140,14 +128,14 @@ public class WaitFor {
     public void alertPresent(double seconds) {
         String action = UPTO + seconds + " seconds for an alert to be present";
         String expected = "An alert is present";
-        double timetook = popup(seconds);
-        if (!is.alertPresent()) {
-            file.recordAction(action, expected, WAITING + timetook + " seconds, an alert is not present",
+        try {
+            double timetook = popup(seconds);
+            file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present", Result.SUCCESS);
+        } catch (TimeoutException e) {
+            file.recordAction(action, expected, WAITING + seconds + " seconds, an alert is not present",
                     Result.FAILURE);
             file.addError();
-            return;
         }
-        file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present", Result.SUCCESS);
     }
 
     /**
@@ -158,15 +146,15 @@ public class WaitFor {
     public void confirmationPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a confirmation to be present";
         String expected = "A confirmation is present";
-        double timetook = popup(seconds);
-        if (!is.confirmationPresent()) {
-            file.recordAction(action, expected, WAITING + timetook + " seconds, a confirmation is not present",
+        try {
+            double timetook = popup(seconds);
+            file.recordAction(action, expected, WAITED + timetook + " seconds for a confirmation to be present",
+                    Result.SUCCESS);
+        } catch (TimeoutException e) {
+            file.recordAction(action, expected, WAITING + seconds + " seconds, a confirmation is not present",
                     Result.FAILURE);
             file.addError();
-            return;
         }
-        file.recordAction(action, expected, WAITED + timetook + " seconds for a confirmation to be present",
-                Result.SUCCESS);
     }
 
     /**
@@ -177,14 +165,14 @@ public class WaitFor {
     public void promptPresent(double seconds) {
         String action = UPTO + seconds + " seconds for a prompt to be present";
         String expected = "A prompt is present";
-        double timetook = popup(seconds);
-        if (!is.promptPresent()) {
-            file.recordAction(action, expected, WAITING + timetook + " seconds, a prompt is not present",
+        try {
+            double timetook = popup(seconds);
+            file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present", Result.SUCCESS);
+        } catch (TimeoutException e) {
+            file.recordAction(action, expected, WAITING + seconds + " seconds, a prompt is not present",
                     Result.FAILURE);
             file.addError();
-            return;
         }
-        file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present", Result.SUCCESS);
     }
 
     /**
@@ -194,22 +182,20 @@ public class WaitFor {
      * @param location - the location to wait for
      */
     public void location(double seconds, String location) {
-        String action = UPTO + seconds + " seconds for url to show location";
+        String action = UPTO + seconds + " seconds for url to show location " + location;
         String expected = "Location shows as '" + location + "'";
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (System.currentTimeMillis() < end) {
-            if (location.equals(driver.getCurrentUrl())) {
-                break;
-            }
-        }
-        double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        if (!is.location(location)) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+            wait.until(ExpectedConditions.urlToBe(location));
+            double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             file.recordAction(action, expected,
-                    WAITING + timetook + " seconds, a the location still shows as '" + location + "'", Result.FAILURE);
+                    WAITED + timetook + " seconds for the location to show as '" + location + "'", Result.SUCCESS);
+        } catch (TimeoutException e) {
+            // No alert found in given time
+            file.recordAction(action, expected,
+                    WAITING + seconds + " seconds, the location shows as '" + driver.getCurrentUrl() + "'", Result.FAILURE);
             file.addError();
-            return;
         }
-        file.recordAction(action, expected,
-                WAITED + timetook + " seconds for the location to show as '" + location + "'", Result.SUCCESS);
     }
 }
