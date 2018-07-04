@@ -105,7 +105,7 @@ We then use that same element in order to verify the title contains the same sea
 is made to the google maps api to retrieve the GPS coordinates of the city of Chicago, then verify
 the response code.
 For more information on the App and Call class plus all the other classes used by Selenified, check out the
-documentation [here](https://msaperst.github.io).
+documentation [here](https://coveros.github.io/selenified).
 
 ## Writing Tests
 ### Create A New Test Suite
