@@ -20,7 +20,7 @@ Update your pom.xml file to include
     <dependency>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <scope>test</scope>
     </dependency>
 ```
@@ -30,7 +30,7 @@ Update your ivy.xml file to include
 ```xml
     <ivy-module>
         <dependencies>
-            <dependency org="com.coveros" name="selenified" rev="3.0.1"/>
+            <dependency org="com.coveros" name="selenified" rev="3.0.2"/>
         </dependencies>
     </ivy-module>
 ```
@@ -39,7 +39,7 @@ Update your ivy.xml file to include
 Update your build.gradle file to include
 ```groovy
     dependencies {
-        testCompile 'com.coveros:selenified:3.0.1'
+        testCompile 'com.coveros:selenified:3.0.2'
     }
 ```
 
