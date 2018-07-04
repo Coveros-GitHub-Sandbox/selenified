@@ -337,7 +337,7 @@ read as follow:
 ```
 
 Using and IDE such as Eclipse will help you auto-complete desired commands, and the 
-[JavaDocs](https://msaperst.github.io/) provided will outline each piece of functionality.
+[JavaDocs](https://coveros.github.io/selenified) provided will outline each piece of functionality.
 
 #### Using Page Object Model
 Selenified supports allowing tests to be written following the Page Object Model (POM). Each page or module
