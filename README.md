@@ -75,7 +75,7 @@ created for your project above. Jump to the [Writing Your First Test](#writing-y
 to get started with your first test.
 
 #### <a name="ant-qs-setup"></a>Ant
-If you instead prefer Ant, the easiest way to get a project going is using it in conjunction with Ivy to 
+If you instead prefer Ant, the easiest way to get a project going is using it in conjunction with Ivy and TestNG to 
 manage your dependencies. Once you’ve done this, you can import the Ant project into your preferred IDE.
 
 First, create a folder to contain your Selenified project files. Then, to use Ant, you need a `build.xml` file.
@@ -159,7 +159,81 @@ Each of these files should be created in the folder you created for your project
 [Writing Your First Test](#writing-your-first-test) section to get started with your first test.
 
 #### <a name="gradle-qs-setup"></a>Gradle
-Magic
+If you prefer Gradle, you can use it directly to manage your dependencies, however, you'll also need to include
+TestNG dependencies. Once you’ve done this, you can import the Gradle project into your preferred IDE.
+
+First, create a folder to contain your Selenified project files. Then, to use Gradle, you need a `build.gradle` file.
+This can be created with any text editor, and for more details, checkout the 
+[Gradle Documentation](#https://guides.gradle.org/creating-new-gradle-builds). Your `build.gradle` file will look 
+something like this.
+```gradle
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'my.company.name'
+version = '0.0.1-SNAPSHOT'
+
+description = "My Selenified Project"
+
+repositories {
+    maven { url "http://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile group: 'com.coveros', name: 'selenified', version: '3.0.2'
+}
+
+sourceSets {
+    seleniumTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+configurations {
+    seleniumTestCompile.extendsFrom testCompile
+    seleniumTestRuntime.extendsFrom testRuntime
+}
+
+test {
+    outputs.upToDateWhen { false }
+    useTestNG()
+}
+
+task verify(type:Test) {
+    outputs.upToDateWhen { false }
+    testClassesDir = project.sourceSets.seleniumTest.output.classesDir
+    classpath = project.sourceSets.seleniumTest.runtimeClasspath
+    useTestNG() {
+        systemProperties System.getProperties()
+        suites "testng.xml"
+    }
+}
+```
+
+Finally, you'll want to setup the `testng.xml` file, which will indicate which tests to run. For our example below, it
+would look like
+```xml
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Sample Suite" parallel="methods" thread-count="20" verbose="3">
+    <listeners>
+        <listener class-name="com.coveros.selenified.utilities.Transformer" />
+    </listeners>
+
+    <test name="Sample Test">
+        <classes>
+            <class name="SampleIT" />
+        </classes>
+    </test>
+</suite>
+```
+
+Each of these files should be created in the folder you created for your project above. Jump to the 
+[Writing Your First Test](#writing-your-first-test) section to get started with your first test.
+
 
 ### Writing Your First Test
 Next, you need to create your test class. As mentioned above, you can do with with either an IDE, or any 
@@ -171,7 +245,8 @@ Put all tests in `src/test/java/[PACKAGE]` and start or end the filename with IT
 #### <a name="ant-qs-test"></a>Ant
 Put all tests in `src/test/java/[PACKAGE]` and follow the naming convention outlined in your `testng.xml` file
 #### <a name="gradle-qs-test"></a>Gradle
-Magic
+Put all tests in `src/test/java/[PACKAGE]`, or whatever folder is specified in your `sourceSets` and follow the naming 
+convention outlined in your `testng.xml` file
 
 Your test class should have 2 parts: the [test suite setup](#structuring-the-test-suite) and the actual 
 [tests themselves](#write-the-tests). A sample test class for Maven is below, for the file 
@@ -252,7 +327,7 @@ To view test results, open the `target/failsafe-reports/index.html` file in a br
 #### <a name="ant-qs-results"></a>Ant
 To view test results, open the `target/index.html` file in a browser within the project directory.
 #### <a name="gradle-qs-results"></a>Gradle
-Magic
+To view test results, open the `build/reports/tests/index.html` file in a browser within the project directory.
 
 ## Writing Tests
 ### Create A New Test Suite
