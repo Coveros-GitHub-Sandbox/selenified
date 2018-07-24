@@ -5,107 +5,149 @@ both web and API testing, wraps and extends Selenium calls to more appropriately
 and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in 
 parallel. It can be a great starting point for building or improving test automation in your organization.
 
-## Test Examples
-### Getting Started
+## Getting Started
 One of Selenified's goals is to be a framework that is easy to drop in to an existing project. You can 
-easily have Selenified running within minutes using only a Maven POM, Java test class and a TestNG XML Suite.
+easily have Selenified running within minutes using only a Maven POM, and Java test class.
 
-### Adding the Selenified Dependency
-It’s very simple to get started using Selenified. Just add selenified.jar to your project, and you can start 
-writing your test cases. If you’re using a build tool, simply add the jar as a dependency.
-
+### Project Setup
 #### Maven
-Update your pom.xml file to include
+The easiest way to set up a Selenified project is to use Maven. Maven will download everything you need
+to get started, and ensure you can execute the tests simply. Once you’ve done this, you can import the 
+maven project into your preferred IDE. We have instructions before for [IntelliJ IDEA](#intellij) or 
+[Eclipse](#eclipse).
+
+First, create a folder to contain your Selenified project files. Then, to use Maven, you need a pom.xml 
+file. This can be created with any text editor, and for more details, checkout the [Apache 
+Documentation](https://maven.apache.org/pom.html). Your pom.xml file will look something like this. 
 ```xml
-    <dependency>
-    <groupId>com.coveros</groupId>
-    <artifactId>selenified</artifactId>
-    <version>3.0.2</version>
-    <scope>test</scope>
-    </dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>my.company.name</groupId>
+    <artifactId>my.selenified.project</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>My Selenified Project</name>
+    <dependencies>
+        <dependency>
+            <groupId>com.coveros</groupId>
+            <artifactId>selenified</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.21.0</version>
+                <configuration>
+                    <parallel>methods</parallel>
+                    <threadCount>1</threadCount>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>com.coveros.selenified.utilities.Transformer</value>
+                        </property>
+                    </properties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
 ```
+More details on each of the entries in the pom can be found below. Create this file in the folder you 
+created for your project above. Jump to the [Writing Your First Test](#writing-your-first-test) section
+to get started with your first test.
 
 #### Ant
-Update your ivy.xml file to include
-```xml
-    <ivy-module>
-        <dependencies>
-            <dependency org="com.coveros" name="selenified" rev="3.0.2"/>
-        </dependencies>
-    </ivy-module>
+Magic
+
+#### Gradle
+Magic
+
+### Writing Your First Test
+Next, you need to create your test class. As mentioned above, you can do with with either an IDE, or any 
+text editor. 
+
+Your test class should have 2 parts: the [test suite setup](#structuring-the-test-suite) and the actual 
+[tests themselves](#write-the-tests). A sample test class is below.
+```java
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
+import org.testng.ITestContext;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class SampleIT extends Selenified {
+
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass(ITestContext test) {
+        // set the base URL for the tests here
+        setTestSite(this, test, "http://34.233.135.10/");
+    }
+
+    @Test(groups = {"sample"}, description = "A sample test to check a title")
+    public void sampleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // verify the title
+        app.azzert().titleEquals("Selenified Test Page");
+        // check each checkbox
+        Element element = app.newElement(Locator.XPATH, "//form/input[@type='checkbox']");
+        for (int match = 0; match < element.get().matchCount(); match++) {
+            element.setMatch(match);
+            element.click();
+            element.assertState().checked();
+        }
+        // close out the test
+        finish();
+    }
+}
+```
+More details can be found in the [Writing Tests](#writing-tests) section below.
+
+### Executing Your Test
+You can execute tests either directly from the command line, or, if you imported your project to an IDE,
+directly from there. Based on your project setup above, choose the same build tool for command line execution.
+
+#### Maven
+To run your tests, navigate to the project directory, and execute the below command
+```bash
+mvn clean verify
+```
+More details on [command line parameters](#parameters) can be found below.
+
+#### Ant
+To run your tests, navigate to the project directory, and execute the below command
+```bash
+Magic
 ```
 
 #### Gradle
-Update your build.gradle file to include
-```groovy
-    dependencies {
-        testCompile 'com.coveros:selenified:3.0.2'
-    }
+To run your tests, navigate to the project directory, and execute the below command
+```bash
+Magic
 ```
 
-Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
+#### Editors
+If you imported your project into an IDE, simply right click on your test case, and select run. More details
+can be found below for test execution for [IntelliJ IDEA](#intellij) or [Eclipse](#eclipse).
 
-```java
-    public class SampleTests extends Selenified {
-
-        @DataProvider(name = "google search terms", parallel = true)
-        public Object[][] DataSetOptions() {
-            return new Object[][] { new Object[] { "python" }, 
-                new Object[] { "perl" }, new Object[] { "bash" }, };
-        }
-
-        @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
-        public void sampleTest() {
-            // use this object to manipulate the app
-            App app = this.apps.get();
-            // verify the correct page title
-            app.azzert().titleEquals("Google");
-            // verify no issues
-            finish();
-        }
-
-         @Test(dataProvider = "google search terms", groups = { "sample"},
-                         description = "A sample selenium test using a data provider to perform a google search")
-         public void sampleTestWDataProvider(String searchTerm) {
-             // use this object to manipulate the app
-             App app = this.apps.get();
-             // find the search box element and create the object
-             Element searchBox = app.newElement(Locator.NAME, "q");
-             //perform the search and submit
-             searchBox.type(searchTerm);
-             searchBox.submit();
-             //wait for the page to return the results
-             app.newElement(Locator.ID, "resultStats").waitFor().present();
-             // verify the correct page title
-             app.azzert().titleEquals(searchTerm + " - Google Search");
-             // verify no issues
-             finish();
-         }
-
-         @Test(groups = { "sampleServices" }, description = "A sample web services test to verify the response code")
-             public void sampleServicesCityTest() {
-             Map<String, String> params = new HashMap<>();
-             params.put("address", "chicago");
-             // use this object to verify the app looks as expected
-             Call call = this.calls.get();
-             // retrieve the zip code and verify the return code
-             call.get("", new Request(params)).assertEquals(200);
-             // verify no issues
-             finish();
-         }
-
-    }
-```
-
-In the first test, sampleTest, the App class is used to check the title of the page. 
-In the next test, sampleTestWDataProvider, the App class is used to generate elements we want
-to interact with; type a search term, submit the search term and the wait for the page to load. 
-We then use that same element in order to verify the title contains the same search term. The 
-'google search terms' dataProvider provides a search term to the test. In the third test, a call 
-is made to the google maps api to retrieve the GPS coordinates of the city of Chicago, then verify
-the response code.
-For more information on the App and Call class plus all the other classes used by Selenified, check out the
-documentation [here](https://coveros.github.io/selenified).
+### Viewing Results
+Magic
 
 ## Writing Tests
 ### Create A New Test Suite
@@ -114,9 +156,9 @@ or nested set of folders within the src directory. Within each folder, then crea
 more Java classes. Name the class something descriptive following the test suites purposes.
 
 ### Structuring the Test Suite
-Have each class extend the Selenified class which is contained within the 
+Have each class extend the `Selenified` class which is contained within the 
 selenified.jar. Each should contain a method setting up some details to 
-be used in each test, Only the testSite is required, if the URL is passed in from
+be used in each test, Only the testSite is required, however, if the URL is passed in from
 the commandline, even this can be excluded. Additional optional parameters are 
 the author of the tests, and the version of tests or software under test. 
 See below for an example:
@@ -124,7 +166,7 @@ See below for an example:
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setTestSite(this, test, "http://34.233.135.10/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
