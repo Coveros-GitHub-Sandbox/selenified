@@ -16,11 +16,11 @@ Selenified is easy to get setup and running with [Maven](#maven-qs-setup), [Ant]
 #### <a name="maven-qs-setup"></a>Maven
 The easiest way to set up a Selenified project is to use Maven. Maven will download everything you need
 to get started, and ensure you can execute the tests simply. Once you’ve done this, you can import the 
-maven project into your preferred IDE.
+Maven project into your preferred IDE.
 
-First, create a folder to contain your Selenified project files. Then, to use Maven, you need a pom.xml 
+First, create a folder to contain your Selenified project files. Then, to use Maven, you need a `pom.xml` 
 file. This can be created with any text editor, and for more details, checkout the [Apache 
-Documentation](https://maven.apache.org/pom.html). Your pom.xml file will look something like this. 
+Documentation](https://maven.apache.org/pom.html). Your `pom.xml` file will look something like this. 
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -70,12 +70,93 @@ Documentation](https://maven.apache.org/pom.html). Your pom.xml file will look s
     </build>
 </project>
 ```
-More details on each of the entries in the pom can be found below. Create this file in the folder you 
+More details on each of the [entries in the pom](#failsafe) can be found below. Create this file in the folder you 
 created for your project above. Jump to the [Writing Your First Test](#writing-your-first-test) section
 to get started with your first test.
 
 #### <a name="ant-qs-setup"></a>Ant
-Magic
+If you instead prefer Ant, the easiest way to get a project going is using it in conjunction with Ivy to 
+manage your dependencies. Once you’ve done this, you can import the Ant project into your preferred IDE.
+
+First, create a folder to contain your Selenified project files. Then, to use Ant, you need a `build.xml` file.
+This can be created with any text editor, and for more details, checkout the 
+[Apache Documentation](#https://ant.apache.org/). Your `build.xml` file will look something like this.
+```xml
+<project xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:unless="ant:unless" name="Selenified" basedir="." default="test">
+    <property name="rootdir" value="./" />
+    <property name="lib-dir" value="./lib"/>
+    <property name="test-dir" value="./src/test/java" />
+    <property name="out-dir" value="./target" />
+    <property name="com-dir" value="${out-dir}/classes" />
+
+    <target name="clean">
+        <delete dir="${out-dir}" />
+    </target>
+
+    <target name="ivy">
+        <mkdir dir="${user.home}/.ant/lib" />
+        <get dest="${user.home}/.ant/lib/ivy.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.4.0-rc1/ivy-2.4.0-rc1.jar" />
+    </target>
+
+    <target name="resolve" depends="ivy">
+        <ivy:retrieve />
+    </target>
+
+    <target name="classpath" depends="resolve">
+        <path id="classpath">
+            <fileset dir="${lib-dir}" includes="**/*.jar"/>
+            <pathelement location="${com-dir}"/>
+        </path>
+    </target>
+
+    <target name="compile" depends="classpath">
+        <mkdir dir="${com-dir}" />
+        <javac srcdir="${test-dir}" destdir="${com-dir}" classpathref="classpath" includeantruntime="false" />
+    </target>
+    
+    <target name="verify" depends="compile" description="Run integration tests in parallel">
+        <java classpathref="classpath" classname="org.testng.TestNG" failonerror="true">
+            <arg value="-d" />
+            <arg value="${out-dir}" />
+            <arg value="testng.xml"/>
+        </java>
+    </target>
+
+</project>
+```
+
+Next you'll need to create the two dependent xml files indicated in the `build.xml` file. Your `ivy.xml` will contain 
+your dependencies, which in this case, is Selenified.
+```xml
+<ivy-module version="2.0">
+    <info organisation="coveros" module="selenified"/>
+    <dependencies>
+      <!-- https://mvnrepository.com/artifact/com.coveros/selenified -->
+      <dependency org="com.coveros" name="selenified" rev="3.0.2"/>
+    </dependencies>
+</ivy-module>
+```
+
+Finally, you'll want to setup the `testng.xml` file, which will indicate which tests to run. For our example below, it
+would look like
+```xml
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Sample Suite" parallel="methods" thread-count="20" verbose="3">
+    <listeners>
+        <listener class-name="com.coveros.selenified.utilities.Transformer" />
+    </listeners>
+
+    <test name="Sample Test">
+        <classes>
+            <class name="SampleIT" />
+        </classes>
+    </test>
+</suite>
+```
+
+Each of these files should be created in the folder you created for your project above. Jump to the 
+[Writing Your First Test](#writing-your-first-test) section to get started with your first test.
 
 #### <a name="gradle-qs-setup"></a>Gradle
 Magic
@@ -84,10 +165,11 @@ Magic
 Next, you need to create your test class. As mentioned above, you can do with with either an IDE, or any 
 text editor. Follow your build tools best practices for file location and naming convention
 
+First, create a folder to contain your Selenified project files. 
 #### <a name="maven-qs-test"></a>Maven
 Put all tests in `src/test/java/[PACKAGE]` and start or end the filename with IT
 #### <a name="ant-qs-test"></a>Ant
-Magic
+Put all tests in `src/test/java/[PACKAGE]` and follow the naming convention outlined in your `testng.xml` file
 #### <a name="gradle-qs-test"></a>Gradle
 Magic
 
@@ -161,13 +243,14 @@ If you imported your project into an IDE, simply right click on your test case, 
 can be found below for test execution for [IntelliJ IDEA](#intellij) or [Eclipse](#eclipse).
 
 ### Viewing Results
-More details on the [results report](#viewing-results) can be found below.
+More details on the [results report](#viewing-results) can be found below. Open the `index.html` file in the location
+indicated below based your build tool. Click the `Reporter Output` link in the upper left modal. Your test results will 
+display on the main (right) modal, clicking the link for each test case will pull up the detailed results.
+
 #### <a name="maven-qs-results"></a>Maven
 To view test results, open the `target/failsafe-reports/index.html` file in a browser within the project directory. 
-Click the `Reporter Output` link in the upper left modal. Your test results will display on the main (right) modal, 
-Clicking the link for each test case will pull up the detailed results.
 #### <a name="ant-qs-results"></a>Ant
-Magic
+To view test results, open the `target/index.html` file in a browser within the project directory.
 #### <a name="gradle-qs-results"></a>Gradle
 Magic
 
