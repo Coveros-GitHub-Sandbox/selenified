@@ -10,6 +10,9 @@ One of Selenified's goals is to be a framework that is easy to drop in to an exi
 easily have Selenified running within minutes using only a Maven POM, and Java test class.
 
 ### Project Setup
+Selenified is easy to get setup and running with [Maven](#maven-qs-setup), [Ant](#ant-qs-setup), or 
+[Gradle](#gradle-qs-setup).
+
 #### <a name="maven-qs-setup"></a>Maven
 The easiest way to set up a Selenified project is to use Maven. Maven will download everything you need
 to get started, and ensure you can execute the tests simply. Once you’ve done this, you can import the 
