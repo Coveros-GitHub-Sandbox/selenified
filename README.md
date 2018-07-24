@@ -78,10 +78,19 @@ Magic
 
 ### Writing Your First Test
 Next, you need to create your test class. As mentioned above, you can do with with either an IDE, or any 
-text editor. 
+text editor. Follow your build tools best practices for file location and naming convention
+
+#### Maven
+Put all tests in `src/test/java/[PACKAGE]` and start or end the filename with IT
+#### Ant
+Magic
+#### Gradle
+Magic
 
 Your test class should have 2 parts: the [test suite setup](#structuring-the-test-suite) and the actual 
-[tests themselves](#write-the-tests). A sample test class is below.
+[tests themselves](#write-the-tests). A sample test class for Maven is below, for the file 
+`src/test/java/SampleIT.java`.
+
 ```java
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
