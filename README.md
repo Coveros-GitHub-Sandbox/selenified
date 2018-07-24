@@ -27,6 +27,7 @@ Documentation](https://maven.apache.org/pom.html). Your pom.xml file will look s
     <artifactId>my.selenified.project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>My Selenified Project</name>
+
     <dependencies>
         <dependency>
             <groupId>com.coveros</groupId>
@@ -34,6 +35,7 @@ Documentation](https://maven.apache.org/pom.html). Your pom.xml file will look s
             <version>3.0.2</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -131,26 +133,27 @@ More details can be found in the [Writing Tests](#writing-tests) section below.
 ### Executing Your Test
 You can execute tests either directly from the command line, or, if you imported your project to an IDE,
 directly from there. Based on your project setup above, choose the same build tool for command line execution.
+More details on [command line parameters](#parameters) can be found below.
 
 #### Maven
 To run your tests, navigate to the project directory, and execute the below command
 ```bash
 mvn clean verify
 ```
-More details on [command line parameters](#parameters) can be found below.
+More details on [running with Maven from the commandline](#maven) can be found below.
 
 #### Ant
 To run your tests, navigate to the project directory, and execute the below command
 ```bash
-Magic
+ant clean verify
 ```
-
+More details on [running with Ant from the commandline](#ant) can be found below.
 #### Gradle
 To run your tests, navigate to the project directory, and execute the below command
 ```bash
-Magic
+gradle clean verify
 ```
-
+More details on [running with Gradle from the commandline](#gradle) can be found below.
 #### Editors
 If you imported your project into an IDE, simply right click on your test case, and select run. More details
 can be found below for test execution for [IntelliJ IDEA](#intellij) or [Eclipse](#eclipse).
