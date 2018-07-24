@@ -10,7 +10,7 @@ One of Selenified's goals is to be a framework that is easy to drop in to an exi
 easily have Selenified running within minutes using only a Maven POM, and Java test class.
 
 ### Project Setup
-#### Maven
+#### <a name="maven-qs-setup"></a>Maven
 The easiest way to set up a Selenified project is to use Maven. Maven will download everything you need
 to get started, and ensure you can execute the tests simply. Once you’ve done this, you can import the 
 maven project into your preferred IDE. We have instructions before for [IntelliJ IDEA](#intellij) or 
@@ -72,21 +72,21 @@ More details on each of the entries in the pom can be found below. Create this f
 created for your project above. Jump to the [Writing Your First Test](#writing-your-first-test) section
 to get started with your first test.
 
-#### Ant
+#### <a name="ant-qs-setup"></a>Ant
 Magic
 
-#### Gradle
+#### <a name="gradle-qs-setup"></a>Gradle
 Magic
 
 ### Writing Your First Test
 Next, you need to create your test class. As mentioned above, you can do with with either an IDE, or any 
 text editor. Follow your build tools best practices for file location and naming convention
 
-#### Maven
+#### <a name="maven-qs-test"></a>Maven
 Put all tests in `src/test/java/[PACKAGE]` and start or end the filename with IT
-#### Ant
+#### <a name="ant-qs-test"></a>Ant
 Magic
-#### Gradle
+#### <a name="gradle-qs-test"></a>Gradle
 Magic
 
 Your test class should have 2 parts: the [test suite setup](#structuring-the-test-suite) and the actual 
@@ -135,25 +135,25 @@ You can execute tests either directly from the command line, or, if you imported
 directly from there. Based on your project setup above, choose the same build tool for command line execution.
 More details on [command line parameters](#parameters) can be found below.
 
-#### Maven
+#### <a name="maven-qs-execution"></a>Maven
 To run your tests, navigate to the project directory, and execute the below command
 ```bash
 mvn clean verify
 ```
-More details on [running with Maven from the commandline](#maven) can be found below.
+More details on [running with Maven from the commandline](#maven-execution) can be found below.
 
-#### Ant
+#### <a name="ant-qs-execution"></a>Ant
 To run your tests, navigate to the project directory, and execute the below command
 ```bash
 ant clean verify
 ```
-More details on [running with Ant from the commandline](#ant) can be found below.
-#### Gradle
+More details on [running with Ant from the commandline](#ant-execution) can be found below.
+#### <a name="gradle-qs-execution"></a>Gradle
 To run your tests, navigate to the project directory, and execute the below command
 ```bash
 gradle clean verify
 ```
-More details on [running with Gradle from the commandline](#gradle) can be found below.
+More details on [running with Gradle from the commandline](#gradle-execution) can be found below.
 #### Editors
 If you imported your project into an IDE, simply right click on your test case, and select run. More details
 can be found below for test execution for [IntelliJ IDEA](#intellij) or [Eclipse](#eclipse).
@@ -550,6 +550,79 @@ Of course, if this is something that you believe others can benefit from, feel f
 implemented.
 
 ## Running Tests
+### Execution
+#### <a name="maven-execution"></a>Maven
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
+command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+```
+mvn clean
+```
+Once that completes, run the following command to execute the tests:
+```
+mvn verify -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
+```
+To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
+additional parameter, `failsafe.groups.include` with the desired group to test
+```
+mvn verify -Dfailsafe.groups.include=smoke
+```
+
+#### <a name="ant-execution"></a>Ant
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
+command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+```
+ant clean
+```
+Once that completes, run the following command to execute the tests:
+```
+ant -DappURL=http://google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
+```
+The default task is 'test', which can alternatively be executed, or could be chained with other commands.
+```
+ant clean test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
+```
+
+#### <a name="gradle-execution"></a>Gradle
+Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
+command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
+```
+gradle clean
+```
+Once that completes, run the following command to execute the tests:
+```
+gradle seleniumTest -DappURL=google.com -Dbrowser=Firefox
+```
+To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
+additional parameter, groups with the desired group to test
+```
+gradle seleniumTest -Pgroups=virtual
+```
+
+#### Eclipse
+Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
+the test(s) you want to run (for our example it is SampleTests.java), and select the Run As menu item, and click on 
+the TestNG Test sub-item. This will launch the tests.
+
+Once the tests have completed running, TestNG results will be displayed under the TestNG tab at the lower section of 
+the screen.
+
+If you want to provide inputs to the tests being run, when right clicking on the Java file containing test, select the 
+Run Configurations... sub-item. On the option screen, select the Arguments tab on the upper left of the screen. In the 
+Program arguments input area, enter in the desired input details to be tested as below:
+```
+-appURL=www.google.com -Dbrowser=Chrome -Dhub=localhost -Dproxy=localhost:8082
+```
+#### IntelliJ
+Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is 
+SampleIT.java), and select the Run (package, class, or method) menu item. This will launch the tests.
+
+If you want to provide inputs to the tests being run, select Run -> Edit Configurations... from the top menu. 
+On the option menu, under JDK Settings tab, add your options into the VM options field as below:
+```
+-appURL=google.com -Dbrowser=InternetExplorer -Dhub=192.168.1.10
+```
+You can enter these values under either your already created tests, or as the default, if you want all tests to use them.
+
 ### Parameters
 The testing framework requires no parameters, but takes several optional input parameters.
 #### Application URL
@@ -665,76 +738,14 @@ Several options exist to change how your tests are run, including `threads` (how
 to set some standard values like in the above, and these can then be simply overridden from the commandline. More 
 options can he found [here](https://maven.apache.org/surefire/maven-failsafe-plugin/examples/testng.html)
 
-### Eclipse
-Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
-the test(s) you want to run (for our example it is SampleTests.java), and select the Run As menu item, and click on 
-the TestNG Test sub-item. This will launch the tests.
+#### Packaging Results
+If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
+and set it to true
+```
+mvn clean verify -Dbrowser=Firefox -DpackageResults=true
+```
+The zipped results will be placed in the same directory as the test results
 
-Once the tests have completed running, TestNG results will be displayed under the TestNG tab at the lower section of 
-the screen.
-
-If you want to provide inputs to the tests being run, when right clicking on the Java file containing test, select the 
-Run Configurations... sub-item. On the option screen, select the Arguments tab on the upper left of the screen. In the 
-Program arguments input area, enter in the desired input details to be tested as below:
-```
--appURL=www.google.com -Dbrowser=Chrome -Dhub=localhost -Dproxy=localhost:8082
-```
-### IntelliJ
-Right-click on the Java package, class, or method containing the test(s) you want to run (for our example it is 
-SampleIT.java), and select the Run (package, class, or method) menu item. This will launch the tests.
-
-If you want to provide inputs to the tests being run, select Run -> Edit Configurations... from the top menu. 
-On the option menu, under JDK Settings tab, add your options into the VM options field as below:
-```
--appURL=google.com -Dbrowser=InternetExplorer -Dhub=192.168.1.10
-```
-You can enter these values under either your already created tests, or as the default, if you want all tests to use them.
-
-### Command Line
-#### Ant
-Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
-command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
-```
-ant clean
-```
-Once that completes, run the following command to execute the tests:
-```
-ant -DappURL=http://google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=localhost:8080
-```
-The default task is 'test', which can alternatively be executed, or could be chained with other commands.
-```
-ant clean test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
-```
-#### Maven
-Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
-command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
-```
-mvn clean
-```
-Once that completes, run the following command to execute the tests:
-```
-mvn verify -DappURL=https://amazon.com -Dbrowser=Edge -Dhub=https://172.16.3.12:6443
-```
-To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
-additional parameter, `failsafe.groups.include` with the desired group to test
-```
-mvn verify -Dfailsafe.groups.include=smoke
-```
-#### Gradle
-Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
-command. Once at the folder, if these tests have been before, it’s best to clean out the results folder. Run the command:
-```
-gradle clean
-```
-Once that completes, run the following command to execute the tests:
-```
-gradle seleniumTest -DappURL=google.com -Dbrowser=Firefox
-```
-To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
-additional parameter, groups with the desired group to test
-```
-gradle seleniumTest -Pgroups=virtual
-```
 ## Viewing Results
 To view test results, navigate to the newly created target-output folder within the framework directory. Within 
 SecureCI™ you can view these results through the browser. Open the index.html file: this is a file generated by 
@@ -779,11 +790,3 @@ mvn clean verify -Dfailsafe.groups.include=virtual
 ### Adding the jar to your project
 See the below sections on executing tests to see the proper way to source the jar, and add them to your 
 classpath
-
-### Packaging Results
-If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
-and set it to true
-```
-mvn clean verify -Dbrowser=Firefox -DpackageResults=true
-```
-The zipped results will be placed in the same directory as the test results
