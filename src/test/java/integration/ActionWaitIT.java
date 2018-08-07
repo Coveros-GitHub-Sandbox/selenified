@@ -106,6 +106,28 @@ public class ActionWaitIT extends Selenified {
         finish(1);
     }
 
+    @Test(groups = {"integration", "actions", "wait", "title"},
+            description = "An integration test to check the wait for title method")
+    public void waitTitleTest(ITestContext context) throws IOException, InterruptedException {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().title("Selenified Test Page");
+        // verify no issues
+        finish(0);
+    }
+
+    @Test(groups = {"integration", "actions", "wait", "title"},
+            description = "An integration negative test to check the wait for title method")
+    public void negativeWaitTitleTest() throws IOException, InterruptedException {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().title("Selenium TST pg");
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = {"integration", "actions", "wait"},
             description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresentTest() {
