@@ -7,8 +7,10 @@ import com.coveros.selenified.services.Request;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.mockserver.integration.ClientAndServer;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,12 +19,18 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServicesIT extends Selenified {
+import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
+
+public class ServicesGetIT extends Selenified {
+
+    private ClientAndServer mockServer;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "https://jsonplaceholder.typicode.com/");
+        setTestSite(this, test, "http://localhost:1080/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -35,9 +43,20 @@ public class ServicesIT extends Selenified {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
+    @BeforeMethod
+    public void startMockServer() {
+        mockServer = startClientAndServer(1080);
+    }
+
+    @AfterMethod
+    public void stopMockServer() {
+        mockServer.stop();
+    }
+
     @Test(groups = {"integration", "services", "headers"},
             description = "An integration test to verify we can successfully set header values")
     public void setHeaderTest() {
+        mockServer.when(request().withMethod("GET").withPath("/sample/")).respond(response().withStatusCode(200));
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         //set some custom headers
@@ -45,7 +64,7 @@ public class ServicesIT extends Selenified {
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions
-        call.get("posts/").assertEquals(200);
+        call.get("sample/").assertEquals(200);
         // verify no issues
         finish();
     }
