@@ -186,10 +186,14 @@ public class HTTP {
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
+     * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response put(String service, Request request) {
-        return call("PUT", service, request, null);
+    public Response put(String service, Request request, File file) {
+        if (file != null) {
+            this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+        }
+        return call("PUT", service, request, file);
     }
 
     /**
@@ -198,10 +202,14 @@ public class HTTP {
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
+     * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response patch(String service, Request request) {
-        return call(PATCH, service, request, null);
+    public Response patch(String service, Request request, File file) {
+        if (file != null) {
+            this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+        }
+        return call(PATCH, service, request, file);
     }
 
     /**
@@ -210,12 +218,22 @@ public class HTTP {
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
+     * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response delete(String service, Request request) {
-        return call("DELETE", service, request, null);
+    public Response delete(String service, Request request, File file) {
+        if (file != null) {
+            this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+        }
+        return call("DELETE", service, request, file);
     }
 
+    /**
+     * Returns a string representation of the parameters, able to be appended to the url
+     *
+     * @param request
+     * @return
+     */
     public String getRequestParams(Request request) {
         StringBuilder params = new StringBuilder();
         if (request != null && request.getUrlParams() != null) {
@@ -226,6 +244,7 @@ public class HTTP {
                 params.append(String.valueOf(request.getUrlParams().get(key)));
                 params.append("&");
             }
+            params.deleteCharAt(params.length() - 1);
         }
         return params.toString();
     }

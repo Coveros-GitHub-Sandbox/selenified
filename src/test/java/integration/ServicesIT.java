@@ -91,7 +91,7 @@ public class ServicesIT extends Selenified {
         mockServer.stop();
     }
 
-    //TODO - combine param urls and objects in tests?
+    //combine param urls and objects in tests?
 
     @Test(groups = {"integration", "services", "headers"},
             description = "An integration test to verify we can successfully set header values")
