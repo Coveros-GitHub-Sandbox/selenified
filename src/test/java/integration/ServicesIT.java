@@ -336,10 +336,10 @@ public class ServicesIT extends Selenified {
     }
 
     // for patch calls
-    // TODO - copy post
+    // TODO - copy post (don't need file - research?)
 
     // for put calls
-    // TODO - copy post
+    // TODO - copy post (don't need file - research?)
 
     // for delete calls
     // TODO - copy delete

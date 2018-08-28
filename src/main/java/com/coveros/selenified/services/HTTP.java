@@ -156,34 +156,12 @@ public class HTTP {
      * A basic http get call
      *
      * @param service - the endpoint of the service under test
-     * @return Response: the response provided from the http call
-     */
-    public Response get(String service) {
-        return call("GET", service, null, null);
-    }
-
-    /**
-     * A basic http get call
-     *
-     * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
      * @return Response: the response provided from the http call
      */
     public Response get(String service, Request request) {
         return call("GET", service, request, null);
-    }
-
-    /**
-     * A basic http post call
-     *
-     * @param service - the endpoint of the service under test
-     * @param request - the parameters to be passed to the endpoint for the service
-     *                call
-     * @return Response: the response provided from the http call
-     */
-    public Response post(String service, Request request) {
-        return call("POST", service, request, null);
     }
 
     /**
@@ -222,16 +200,6 @@ public class HTTP {
      */
     public Response patch(String service, Request request) {
         return call(PATCH, service, request, null);
-    }
-
-    /**
-     * A basic http delete call
-     *
-     * @param service - the endpoint of the service under test
-     * @return Response: the response provided from the http call
-     */
-    public Response delete(String service) {
-        return call("DELETE", service, null, null);
     }
 
     /**
