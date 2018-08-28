@@ -22,20 +22,19 @@ node {
         if (pullRequest) {
             branchCheckout = "pr/${pullRequest}"
             refspecs = '+refs/pull/*/head:refs/remotes/origin/pr/*'
-        }
-        else {
+        } else {
             branchCheckout = env.BRANCH_NAME
             refspecs = '+refs/heads/*:refs/remotes/origin/*'
         }
         stage('Checkout Selenified') {
             // Get the test code from GitHub repository
             checkout([
-                $class           : 'GitSCM',
-                branches: [[ name: "*/${branchCheckout}"]],
-                userRemoteConfigs: [[
-                    url          : 'https://github.com/Coveros/selenified.git',
-                    refspec      : "${refspecs}"
-                ]]
+                    $class           : 'GitSCM',
+                    branches         : [[name: "*/${branchCheckout}"]],
+                    userRemoteConfigs: [[
+                                                url    : 'https://github.com/Coveros/selenified.git',
+                                                refspec: "${refspecs}"
+                                        ]]
             ])
             sh "mkdir results"
         }
@@ -82,11 +81,11 @@ node {
                 }
             }
             withCredentials([
-                usernamePassword(
-                    credentialsId: 'saucelabs',
-                    usernameVariable: 'sauceusername',
-                    passwordVariable: 'saucekey'
-                )
+                    usernamePassword(
+                            credentialsId: 'saucelabs',
+                            usernameVariable: 'sauceusername',
+                            passwordVariable: 'saucekey'
+                    )
             ]) {
                 stage('Execute Hub Tests') {
                     try {
@@ -103,25 +102,21 @@ node {
             }
         } finally {
             withCredentials([
-                string(
-                    credentialsId: 'sonar-token',
-                    variable: 'sonartoken'
-                ),
-                string(
-                    credentialsId: 'sonar-github',
-                    variable: 'SONAR_GITHUB_TOKEN'
-                )
+                    string(
+                            credentialsId: 'sonar-token',
+                            variable: 'sonartoken'
+                    ),
+                    string(
+                            credentialsId: 'sonar-github',
+                            variable: 'SONAR_GITHUB_TOKEN'
+                    )
             ]) {
                 stage('Perform SonarQube Analysis') {
                     def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPaths=jacoco-ut.exec,jacoco-it.exec"
-                    if (branch == 'develop' || branchType == 'master') {
-                        sh "${sonarCmd} -Dsonar.branch=${env.BRANCH_NAME}"
+                    if (pullRequest) {
+                        sh "${sonarCmd} -Dsonar.analysis.mode=preview -Dsonar.branch=${env.BRANCH_NAME} -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
                     } else {
-                        if (pullRequest) {
-                            sh "${sonarCmd} -Dsonar.analysis.mode=preview -Dsonar.branch=${env.BRANCH_NAME} -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
-                        } else {
-                            sh "${sonarCmd} -Dsonar.analysis.mode=preview"
-                        }
+                        sh "${sonarCmd} -Dsonar.branch=${env.BRANCH_NAME}"
                     }
                 }
             }
@@ -129,11 +124,11 @@ node {
                 jacoco()
             }
             withCredentials([
-                usernamePassword(
-                    credentialsId: 'saperstone-slack',
-                    usernameVariable: '',
-                    passwordVariable: 'botToken'
-                )
+                    usernamePassword(
+                            credentialsId: 'saperstone-slack',
+                            usernameVariable: '',
+                            passwordVariable: 'botToken'
+                    )
             ]) {
                 stage('Send Notifications') {
                     emailextrecipients([culprits(), developers(), requestor()])
