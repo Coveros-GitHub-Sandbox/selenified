@@ -121,8 +121,6 @@ public class Response {
         file.addErrors(success.getErrors());
     }
 
-    //TODO - technically put and patch have no body response
-
     /**
      * Verifies the actual response json payload is equal to the expected
      * response json payload, and writes that out to the output file
@@ -174,8 +172,6 @@ public class Response {
         file.addErrors(success.getErrors());
     }
 
-    // TODO - consider expanding this to allow checking for multiple value type (including JSON, array, etc)
-
     /**
      * Verifies the actual response json payload contains each of the pair
      * values provided, and writes that to the output file
@@ -193,7 +189,7 @@ public class Response {
             expectedString.append(file.formatHTML(String.valueOf(entry.getValue())));
             expectedString.append("</div>");
             if ( object != null && object.has(entry.getKey())) {
-                Object objectVal = new Object();
+                Object objectVal;
                 if( entry.getValue() instanceof String ) {
                     objectVal = object.get(entry.getKey()).getAsString();
                 } else if ( entry.getValue() instanceof Integer) {
