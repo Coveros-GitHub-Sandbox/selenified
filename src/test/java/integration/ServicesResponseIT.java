@@ -11,10 +11,7 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Parameter;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -37,7 +34,7 @@ public class ServicesResponseIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://localhost:1080/");
+        setTestSite(this, test, "http://localhost:1090/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -72,9 +69,9 @@ public class ServicesResponseIT extends Selenified {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
-    @BeforeMethod
+    @BeforeClass(alwaysRun = true)
     public void startMockServer() {
-        mockServer = startClientAndServer(1080);
+        mockServer = startClientAndServer(1090);
         mockServer.when(request().withMethod("GET").withPath("/null/"))
                 .respond(response().withStatusCode(404).withBody("We encountered an error, no page was found"));
         mockServer.when(request().withMethod("GET").withPath("/posts/")
@@ -86,7 +83,7 @@ public class ServicesResponseIT extends Selenified {
                 "[{\"userId\":1,\"id\":1,\"title\":\"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\"body\":\"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"},{\"userId\":1,\"id\":2,\"title\":\"qui est esse\",\"body\":\"est rerum tempore vitae\\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\\nqui aperiam non debitis possimus qui neque nisi nulla\"},{\"userId\":1,\"id\":3,\"title\":\"ea molestias quasi exercitationem repellat qui ipsa sit aut\",\"body\":\"et iusto sed quo iure\\nvoluptatem occaecati omnis eligendi aut ad\\nvoluptatem doloribus vel accusantium quis pariatur\\nmolestiae porro eius odio et labore et velit aut\"},{\"userId\":1,\"id\":4,\"title\":\"eum et est occaecati\",\"body\":\"ullam et saepe reiciendis voluptatem adipisci\\nsit amet autem assumenda provident rerum culpa\\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\\nquis sunt voluptatem rerum illo velit\"}]"));
     }
 
-    @AfterMethod
+    @AfterClass(alwaysRun = true)
     public void stopMockServer() {
         mockServer.stop();
     }
@@ -135,7 +132,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/").assertEquals(201);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -146,7 +143,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/").assertEquals(json1);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -157,7 +154,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/?id=4").assertEquals(json1);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -168,7 +165,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("null/").assertEquals(json1);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -183,7 +180,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/").assertEquals(json);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -196,7 +193,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/?id=4").assertEquals(json);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -209,7 +206,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("null/").assertEquals(json);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -224,7 +221,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/").assertEquals(json.toString());
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -237,7 +234,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/?id=4").assertEquals(json.toString());
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -250,7 +247,7 @@ public class ServicesResponseIT extends Selenified {
         Response response = call.get("posts/?id=4");
         response.setMessage(null);
         response.assertEquals("Something");
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -330,7 +327,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/").assertContains(json);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -343,7 +340,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/?id=4").assertContains(values);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -354,7 +351,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("null/").assertContains("We found an error");
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -367,7 +364,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/").assertContains(values);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -383,7 +380,7 @@ public class ServicesResponseIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.get("posts/?id=4").assertContains(json);
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -396,7 +393,7 @@ public class ServicesResponseIT extends Selenified {
         Response response = call.get("null/");
         response.setMessage(null);
         response.assertContains("Something");
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 }

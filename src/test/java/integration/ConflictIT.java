@@ -8,7 +8,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class ConflictBIT extends Selenified {
+public class ConflictIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {

@@ -174,7 +174,9 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response post(String service, Request request, File file) {
-        this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+        if (file != null) {
+            this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+        }
         return call("POST", service, request, file);
     }
 

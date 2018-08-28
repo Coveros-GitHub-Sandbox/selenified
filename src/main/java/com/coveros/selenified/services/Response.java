@@ -45,7 +45,7 @@ public class Response {
     private OutputFile file;
 
     // constants
-    private static final String FOUND = "Found a response of:";
+    private static final String FOUND = "Found a response of: ";
 
     // a basic response setup, just with an output file to write information to
     public Response(OutputFile file) {
@@ -133,7 +133,7 @@ public class Response {
             success = object.equals(expectedJson) ? Success.PASS : Success.FAIL;
         }
         file.recordExpected(
-                "Expected to find a response of:" + file.formatResponse(new Response(0, expectedJson, null)));
+                "Expected to find a response of: " + file.formatResponse(new Response(0, expectedJson, null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
     }
@@ -150,7 +150,7 @@ public class Response {
             success = array.equals(expectedArray) ? Success.PASS : Success.FAIL;
         }
         file.recordExpected(
-                "Expected to find a response of:" + file.formatResponse(new Response(0, expectedArray, null)));
+                "Expected to find a response of: " + file.formatResponse(new Response(0, expectedArray, null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
     }

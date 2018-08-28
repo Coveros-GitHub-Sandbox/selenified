@@ -10,10 +10,7 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Parameter;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -72,9 +69,10 @@ public class ServicesIT extends Selenified {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
-    @BeforeMethod
+    @BeforeClass(alwaysRun = true)
     public void startMockServer() {
         mockServer = startClientAndServer(1080);
+        System.out.println( "starting server" );
         mockServer.when(request().withMethod("GET").withPath("/sample/")).respond(response().withBody("{}"));
         mockServer.when(request().withPath("/null/"))
                 .respond(response().withStatusCode(404).withBody("We encountered an error, no page was found"));
@@ -88,7 +86,7 @@ public class ServicesIT extends Selenified {
         mockServer.when(request().withMethod("POST").withPath("/posts/")).respond(response().withBody("{\"id\":4}"));
     }
 
-    @AfterMethod
+    @AfterClass(alwaysRun = true)
     public void stopMockServer() {
         mockServer.stop();
     }
@@ -145,13 +143,14 @@ public class ServicesIT extends Selenified {
         request.addProperty("userId", 2);
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
-        //set some custom headers
+        // set some custom headers
+        // as application/xml is not currently supported, the initial post call will also fail
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/xml");
         call.addHeaders(headers);
         // perform some actions
-        call.post("sample/", new Request(request)).assertEquals(201);
-        // verify no issues
+        call.post("posts/", new Request(request)).assertEquals(201);
+        // verify 2 issues
         finish(2);
     }
 
@@ -324,7 +323,7 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "services", "httppost", "response", "my-sample-tag"},
             description = "An integration test to verify a successful post call with parameters in url")
     public void verifySuccessfulBadPostCall() {
         // use this object to verify the app looks as expected

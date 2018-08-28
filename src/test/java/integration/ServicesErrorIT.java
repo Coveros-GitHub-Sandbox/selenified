@@ -37,9 +37,9 @@ public class ServicesErrorIT extends Selenified {
         // use this object to make calls
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").assertEquals(200);
-        // verify 2 issues
-        finish(2);
+        call.get("posts/4").assertEquals(200);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "services", "httppost"},
@@ -53,8 +53,8 @@ public class ServicesErrorIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.post("posts/", new Request(request)).assertEquals(201);
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "services", "httpput"},
@@ -69,8 +69,8 @@ public class ServicesErrorIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.put("posts/3", new Request(request)).assertEquals(200);
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "services", "httppatch"},
@@ -85,8 +85,8 @@ public class ServicesErrorIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.patch("posts/4", new Request(request)).assertEquals(200);
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "services", "httpdelete"},
@@ -101,7 +101,7 @@ public class ServicesErrorIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.delete("posts/5", new Request(request)).assertEquals(200);
-        // verify 2 issues
-        finish(2);
+        // verify 1 issue
+        finish(1);
     }
 }
