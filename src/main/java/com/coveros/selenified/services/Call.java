@@ -24,6 +24,7 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import org.testng.log4testng.Logger;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -98,7 +99,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint) {
-        return call(GET, endpoint, null);
+        return call(GET, endpoint, null, null);
     }
 
     /**
@@ -111,7 +112,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint, Request params) {
-        return call(GET, endpoint, params);
+        return call(GET, endpoint, params, null);
     }
 
     /**
@@ -124,7 +125,21 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params) {
-        return call(POST, endpoint, params);
+        return call(POST, endpoint, params, null);
+    }
+
+    /**
+     * Performs a post http call and writes the call and response information to
+     * the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
+     * @param file     - an input file to be provided with the call
+     * @return Response: the response provided from the http call
+     */
+    public Response post(String endpoint, Request params, File file) {
+        return call(POST, endpoint, params, file);
     }
 
     /**
@@ -137,7 +152,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params) {
-        return call(PUT, endpoint, params);
+        return call(PUT, endpoint, params, null);
     }
 
     /**
@@ -150,7 +165,18 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response patch(String endpoint, Request params) {
-        return call(PATCH, endpoint, params);
+        return call(PATCH, endpoint, params, null);
+    }
+
+    /**
+     * Performs a delete http call and writes the call and response information
+     * to the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @return Response: the response provided from the http call
+     */
+    public Response delete(String endpoint) {
+        return call(DELETE, endpoint, null, null);
     }
 
     /**
@@ -163,7 +189,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint, Request params) {
-        return call(DELETE, endpoint, params);
+        return call(DELETE, endpoint, params, null);
     }
 
     /**
@@ -176,7 +202,7 @@ public class Call {
      *                 call
      * @return Response: the response provided from the http call
      */
-    private Response call(String call, String endpoint, Request params) {
+    private Response call(String call, String endpoint, Request params, File inputFile) {
         StringBuilder action = new StringBuilder();
         action.append("Making <i>");
         action.append(call);
@@ -193,7 +219,7 @@ public class Call {
                     response = http.get(endpoint, params);
                     break;
                 case POST:
-                    response = http.post(endpoint, params);
+                    response = http.post(endpoint, params, inputFile);
                     break;
                 case PUT:
                     response = http.put(endpoint, params);

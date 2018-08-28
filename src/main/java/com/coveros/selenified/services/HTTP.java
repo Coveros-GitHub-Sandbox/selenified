@@ -23,6 +23,8 @@ package com.coveros.selenified.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import org.apache.commons.codec.binary.Base64;
 import org.testng.log4testng.Logger;
 
@@ -261,7 +263,7 @@ public class HTTP {
             for (String key : request.getParams().keySet()) {
                 params.append(key);
                 params.append("=");
-                params.append(request.getParams().get(key));
+                params.append(String.valueOf(request.getParams().get(key)));
                 params.append("&");
             }
         }
@@ -413,10 +415,14 @@ public class HTTP {
                 try {
                     object = (JsonObject) parser.parse(data);
                     response.setObjectData(object);
-                } catch (ClassCastException e) {
+                } catch (JsonSyntaxException | ClassCastException e) {
                     log.debug(e);
-                    array = (JsonArray) parser.parse(data);
-                    response.setArrayData(array);
+                    try {
+                        array = (JsonArray) parser.parse(data);
+                        response.setArrayData(array);
+                    } catch (JsonSyntaxException | ClassCastException ee) {
+                        log.debug(ee);
+                    }
                 }
             }
         }

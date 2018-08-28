@@ -156,47 +156,74 @@ public class Response {
     }
 
     /**
+     * Verifies the actual response payload is equal to the expected
+     * response payload, and writes that out to the output file
+     *
+     * @param expectedMessage - the expected response message
+     */
+    public void assertEquals(String expectedMessage) {
+        Success success = Success.FAIL;
+        if (message != null) {
+            success = message.equals(expectedMessage) ? Success.PASS : Success.FAIL;
+        }
+        file.recordExpected(
+                "Expected to find a response of: '<i>" + expectedMessage + "</i>'");
+        file.recordActual(FOUND + "'<i>" + message + "</i>'", success);
+        file.addErrors(success.getErrors());
+    }
+
+    // TODO - consider expanding this to allow checking for multiple value type (including JSON, array, etc)
+
+    /**
      * Verifies the actual response json payload contains each of the pair
      * values provided, and writes that to the output file
      *
      * @param expectedPairs a hashmap with string key value pairs expected in the json
      *                      response
      */
-    public void assertContains(Map<String, String> expectedPairs) {
+    public void assertContains(Map<String, Object> expectedPairs) {
         StringBuilder expectedString = new StringBuilder();
         Success success = (object == null) ? Success.FAIL : Success.PASS;
-        for (Map.Entry<String, String> entry : expectedPairs.entrySet()) {
+        for (Map.Entry<String, Object> entry : expectedPairs.entrySet()) {
             expectedString.append("<div>");
             expectedString.append(entry.getKey());
             expectedString.append(" : ");
-            expectedString.append(entry.getValue());
+            expectedString.append(file.formatHTML(String.valueOf(entry.getValue())));
             expectedString.append("</div>");
-            if (object != null && (!object.has(entry.getKey()) ||
-                    !object.get(entry.getKey()).getAsString().equals(entry.getValue()))) {
+            if ( object != null && object.has(entry.getKey())) {
+                Object objectVal = new Object();
+                if( entry.getValue() instanceof String ) {
+                    objectVal = object.get(entry.getKey()).getAsString();
+                } else if ( entry.getValue() instanceof Integer) {
+                    objectVal = object.get(entry.getKey()).getAsInt();
+                } else if ( entry.getValue() instanceof Double) {
+                    objectVal = object.get(entry.getKey()).getAsDouble();
+                } else if ( entry.getValue() instanceof Float) {
+                    objectVal = object.get(entry.getKey()).getAsFloat();
+                } else if ( entry.getValue() instanceof Long) {
+                    objectVal = object.get(entry.getKey()).getAsLong();
+                } else if ( entry.getValue() instanceof Boolean) {
+                    objectVal = object.get(entry.getKey()).getAsBoolean();
+                } else if ( entry.getValue() instanceof Byte) {
+                    objectVal = object.get(entry.getKey()).getAsByte();
+                } else if ( entry.getValue() instanceof Character) {
+                    objectVal = object.get(entry.getKey()).getAsCharacter();
+                } else if ( entry.getValue() instanceof JsonArray) {
+                    objectVal = object.get(entry.getKey()).getAsJsonArray();
+                } else if ( entry.getValue() instanceof JsonObject) {
+                    objectVal = object.get(entry.getKey()).getAsJsonObject();
+                } else {
+                    objectVal = object.get(entry.getKey());
+                }
+                if( !entry.getValue().equals(objectVal)) {
+                    success = Success.FAIL;
+                }
+            } else {
                 success = Success.FAIL;
             }
         }
         file.recordExpected(
                 "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>");
-        file.recordActual(FOUND + file.formatResponse(this), success);
-        file.addErrors(success.getErrors());
-    }
-
-    /**
-     * Verifies the actual response json payload contains a key with a value
-     * equals to the expected json element, and writes that out to the output
-     * file
-     *
-     * @param key          - a String key value expected in the result
-     * @param expectedJson - the expected response json object
-     */
-    public void assertContains(String key, JsonElement expectedJson) {
-        Success success = Success.FAIL;
-        if (object != null && object.has(key)) {
-            success = object.get(key).equals(expectedJson) ? Success.PASS : Success.FAIL;
-        }
-        file.recordExpected("Expected to find a response with key <i>" + key + "</i> equal to: " +
-                file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
         file.addErrors(success.getErrors());
     }
@@ -215,6 +242,23 @@ public class Response {
         file.recordExpected("Expected to find a response containing:" +
                 file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)));
         file.recordActual(FOUND + file.formatResponse(this), success);
+        file.addErrors(success.getErrors());
+    }
+
+    /**
+     * Verifies the actual response json payload contains to the expected json
+     * element, and writes that out to the output file
+     *
+     * @param expectedMessage - the expected response json array
+     */
+    public void assertContains(String expectedMessage) {
+        Success success = Success.FAIL;
+        if (message != null) {
+            success = message.contains(expectedMessage) ? Success.PASS : Success.FAIL;
+        }
+        file.recordExpected(
+                "Expected to find a response containing: '<i>" + expectedMessage + "</i>'");
+        file.recordActual(FOUND + "'<i>" + message + "</i>'", success);
         file.addErrors(success.getErrors());
     }
 }

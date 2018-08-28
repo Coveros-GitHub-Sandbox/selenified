@@ -702,9 +702,9 @@ public class OutputFile {
         if (params.getParams() != null) {
             for (Map.Entry<String, String> entry : params.getParams().entrySet()) {
                 output.append("<div>");
-                output.append(entry.getKey());
+                output.append(String.valueOf(entry.getKey()));
                 output.append(" : ");
-                output.append(entry.getValue());
+                output.append(String.valueOf(entry.getValue()));
                 output.append("</div>");
             }
         }
