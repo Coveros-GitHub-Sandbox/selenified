@@ -156,6 +156,20 @@ public class Call {
     }
 
     /**
+     * Performs a put http call and writes the call and response information to
+     * the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
+     * @param file     - an input file to be provided with the call
+     * @return Response: the response provided from the http call
+     */
+    public Response put(String endpoint, Request params, File file) {
+        return call(PUT, endpoint, params, file);
+    }
+
+    /**
      * Performs a patch http call and writes the call and response information
      * to the output file
      *
@@ -166,6 +180,20 @@ public class Call {
      */
     public Response patch(String endpoint, Request params) {
         return call(PATCH, endpoint, params, null);
+    }
+
+    /**
+     * Performs a patch http call and writes the call and response information
+     * to the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
+     * @param file     - an input file to be provided with the call
+     * @return Response: the response provided from the http call
+     */
+    public Response patch(String endpoint, Request params, File file) {
+        return call(PATCH, endpoint, params, file);
     }
 
     /**
@@ -193,6 +221,20 @@ public class Call {
     }
 
     /**
+     * Performs a delete http call and writes the call and response information
+     * to the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
+     * @param file     - an input file to be provided with the call
+     * @return Response: the response provided from the http call
+     */
+    public Response delete(String endpoint, Request params, File file) {
+        return call(DELETE, endpoint, params, file);
+    }
+
+    /**
      * Performs an http call and writes the call and response information to the
      * output file
      *
@@ -207,10 +249,10 @@ public class Call {
         action.append("Making <i>");
         action.append(call);
         action.append("</i> call to <i>");
-        action.append(http.getServiceBaseUrl());
-        action.append(endpoint).append("</i>");
+        action.append(http.getServiceBaseUrl()).append(endpoint).append(http.getRequestParams(params));
+        action.append("</i>");
         action.append(appendCredentials());
-        action.append(file.outputRequestProperties(params));
+        action.append(file.outputRequestProperties(params, inputFile));
         String expected = "<i>" + call + "</i> call was made successfully";
         Response response = new Response(file);
         try {

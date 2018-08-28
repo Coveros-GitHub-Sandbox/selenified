@@ -688,27 +688,29 @@ public class OutputFile {
      *               hashmap
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
-    public String outputRequestProperties(Request params) {
-        if (params == null) {
-            return "";
-        }
+    public String outputRequestProperties(Request params, File file) {
         StringBuilder output = new StringBuilder();
-        output.append("<br/> with parameters: ");
-        output.append("<div><i>");
-        if (params.getData() != null) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            output.append(gson.toJson(params.getData()));
-        }
-        if (params.getParams() != null) {
-            for (Map.Entry<String, String> entry : params.getParams().entrySet()) {
-                output.append("<div>");
-                output.append(String.valueOf(entry.getKey()));
-                output.append(" : ");
-                output.append(String.valueOf(entry.getValue()));
-                output.append("</div>");
+        if (params != null && params.isPayload()) {
+            output.append("<br/> with parameters: ");
+            output.append("<div><i>");
+            if (params.getJsonPayload() != null) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                output.append(gson.toJson(params.getJsonPayload()));
             }
+            if (params.getMultipartData() != null) {
+                for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
+                    output.append("<div>");
+                    output.append(String.valueOf(entry.getKey()));
+                    output.append(" : ");
+                    output.append(String.valueOf(entry.getValue()));
+                    output.append("</div>");
+                }
+            }
+            output.append("</i></div>");
         }
-        output.append("</i></div>");
+        if (file != null) {
+            output.append("with file: <i>" + file.getAbsoluteFile() + "</i>");
+        }
         return formatHTML(output.toString());
     }
 

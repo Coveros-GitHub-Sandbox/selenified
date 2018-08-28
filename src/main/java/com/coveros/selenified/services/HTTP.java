@@ -216,6 +216,20 @@ public class HTTP {
         return call("DELETE", service, request, null);
     }
 
+    public String getRequestParams(Request request) {
+        StringBuilder params = new StringBuilder();
+        if (request != null && request.getUrlParams() != null) {
+            params.append("?");
+            for (String key : request.getUrlParams().keySet()) {
+                params.append(key);
+                params.append("=");
+                params.append(String.valueOf(request.getUrlParams().get(key)));
+                params.append("&");
+            }
+        }
+        return params.toString();
+    }
+
     /**
      * A basic generic http call
      *
@@ -227,19 +241,9 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     private Response call(String call, String service, Request request, File file) {
-        StringBuilder params = new StringBuilder();
-        if (request != null && request.getParams() != null) {
-            params.append("?");
-            for (String key : request.getParams().keySet()) {
-                params.append(key);
-                params.append("=");
-                params.append(String.valueOf(request.getParams().get(key)));
-                params.append("&");
-            }
-        }
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(this.serviceBaseUrl + service + params.toString());
+            URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
             connection = (HttpURLConnection) url.openConnection();
             String method = call;
             if (PATCH.equals(method)) {
@@ -263,11 +267,12 @@ public class HTTP {
                 connection.setRequestProperty("Authorization", "Basic " + encoding);
             }
             connection.connect();
-            if ((request != null && request.getData() != null) || file != null) {
-                if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json;")) {
-                    writeJsonDataRequest(connection, request);
-                } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data;")) {
+            if ((request != null && request.isPayload()) || file != null) {
+                if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data") ||
+                        request.getMultipartData() != null || file != null) {
                     writeMultipartDataRequest(connection, request, file);
+                } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json")) {
+                    writeJsonDataRequest(connection, request);
                 } else {
                     throw new IOException("Content-Type '" + connection.getRequestProperty(CONTENT_TYPE) +
                             "' not currently supported by Selenified. Current supported types are " +
@@ -298,7 +303,11 @@ public class HTTP {
      */
     private void writeJsonDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream())) {
-            wr.write(request.getData().toString());
+            if (request.getJsonPayload() == null) {
+                log.warn("The data provided should be in the form of a json payload to support the " +
+                        "'application/json' method. No data will be provided to the requested endpoint");
+            }
+            wr.write(request.getJsonPayload().toString());
             wr.flush();
         } catch (IOException e) {
             log.error(e);
@@ -316,20 +325,32 @@ public class HTTP {
     private void writeMultipartDataRequest(HttpURLConnection connection, Request request, File file) {
         try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
             wr.writeBytes(NEWLINE);
-            if (request.getData() != null) {
+            if (request.getJsonPayload() != null) {
                 wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
                 wr.writeBytes("Content-Disposition: form-data; name=\"data\"");
                 wr.writeBytes(NEWLINE + NEWLINE);
-                wr.writeBytes(request.getData().toString());
+                wr.writeBytes(request.getJsonPayload().toString());
             }
-            if (file != null && file.exists()) {
-                wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
-                wr.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"");
-                wr.writeBytes(NEWLINE);
-                wr.writeBytes("Content-Type: " + Files.probeContentType(file.toPath()));
-                wr.writeBytes(NEWLINE + NEWLINE);
-                byte[] bytes = Files.readAllBytes(file.toPath());
-                wr.write(bytes);
+            if (request.getMultipartData() != null) {
+                for (String param : request.getMultipartData().keySet()) {
+                    wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
+                    wr.writeBytes("Content-Disposition: form-data; name=\"" + param + "\"");
+                    wr.writeBytes(NEWLINE + NEWLINE);
+                    wr.writeBytes(request.getMultipartData().get(param).toString());
+                }
+            }
+            if (file != null) {
+                if (!file.exists()) {
+                    log.error("Unable to upload file with http call, as file can't be found: " + file.getName());
+                } else {
+                    wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
+                    wr.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"");
+                    wr.writeBytes(NEWLINE);
+                    wr.writeBytes("Content-Type: " + Files.probeContentType(file.toPath()));
+                    wr.writeBytes(NEWLINE + NEWLINE);
+                    byte[] bytes = Files.readAllBytes(file.toPath());
+                    wr.write(bytes);
+                }
             }
             wr.writeBytes(NEWLINE + "--" + BOUNDARY + "--" + NEWLINE);
             wr.flush();

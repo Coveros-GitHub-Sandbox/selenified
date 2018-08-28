@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ActionDoIT extends Selenified {
 
-    List<Point<Integer, Integer>> points = new ArrayList<Point<Integer, Integer>>();
+    private List<Point<Integer, Integer>> points = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
@@ -34,8 +34,8 @@ public class ActionDoIT extends Selenified {
         setVersion(this, test, "3.0.2");
 
         // setup our drawing points
-        points.add(new Point<Integer, Integer>(10, 10));
-        points.add(new Point<Integer, Integer>(100, 10));
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 10));
     }
 
     @DataProvider(name = "car list options", parallel = true)
@@ -1251,7 +1251,7 @@ public class ActionDoIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(new ArrayList<Point<Integer, Integer>>());
+        app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(new ArrayList<>());
         // verify no issues
         finish(1);
     }

@@ -24,11 +24,11 @@ import static org.mockserver.model.HttpResponse.response;
 public class ServicesIT extends Selenified {
 
     private ClientAndServer mockServer;
-    JsonObject json1 = new JsonObject();
-    JsonObject json2 = new JsonObject();
-    JsonObject json3 = new JsonObject();
-    JsonObject json4 = new JsonObject();
-    JsonObject simJson4 = new JsonObject();
+    private JsonObject json1 = new JsonObject();
+    private JsonObject json2 = new JsonObject();
+    private JsonObject json3 = new JsonObject();
+    private JsonObject json4 = new JsonObject();
+    private JsonObject simJson4 = new JsonObject();
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
@@ -72,7 +72,7 @@ public class ServicesIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void startMockServer() {
         mockServer = startClientAndServer(1080);
-        System.out.println( "starting server" );
+        System.out.println("starting server");
         mockServer.when(request().withMethod("GET").withPath("/sample/")).respond(response().withBody("{}"));
         mockServer.when(request().withPath("/null/"))
                 .respond(response().withStatusCode(404).withBody("We encountered an error, no page was found"));
@@ -83,13 +83,15 @@ public class ServicesIT extends Selenified {
                 "{\"userId\":1,\"id\":4,\"title\":\"eum et est occaecati\",\"body\":\"ullam et saepe reiciendis voluptatem adipisci\\nsit amet autem assumenda provident rerum culpa\\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\\nquis sunt voluptatem rerum illo velit\"}"));
         mockServer.when(request().withMethod("GET").withPath("/posts/")).respond(response().withBody(
                 "[{\"userId\":1,\"id\":1,\"title\":\"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\"body\":\"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"},{\"userId\":1,\"id\":2,\"title\":\"qui est esse\",\"body\":\"est rerum tempore vitae\\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\\nqui aperiam non debitis possimus qui neque nisi nulla\"},{\"userId\":1,\"id\":3,\"title\":\"ea molestias quasi exercitationem repellat qui ipsa sit aut\",\"body\":\"et iusto sed quo iure\\nvoluptatem occaecati omnis eligendi aut ad\\nvoluptatem doloribus vel accusantium quis pariatur\\nmolestiae porro eius odio et labore et velit aut\"},{\"userId\":1,\"id\":4,\"title\":\"eum et est occaecati\",\"body\":\"ullam et saepe reiciendis voluptatem adipisci\\nsit amet autem assumenda provident rerum culpa\\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\\nquis sunt voluptatem rerum illo velit\"}]"));
-        mockServer.when(request().withMethod("POST").withPath("/posts/")).respond(response().withBody("{\"id\":4}"));
+        mockServer.when(request().withPath("/post/4")).respond(response().withBody("{\"id\":4}"));
     }
 
     @AfterClass(alwaysRun = true)
     public void stopMockServer() {
         mockServer.stop();
     }
+
+    //TODO - combine param urls and objects in tests?
 
     @Test(groups = {"integration", "services", "headers"},
             description = "An integration test to verify we can successfully set header values")
@@ -149,7 +151,7 @@ public class ServicesIT extends Selenified {
         headers.put("Content-Type", "application/xml");
         call.addHeaders(headers);
         // perform some actions
-        call.post("posts/", new Request(request)).assertEquals(201);
+        call.post("posts/", new Request().setJsonPayload(request)).assertEquals(201);
         // verify 2 issues
         finish(2);
     }
@@ -173,9 +175,9 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map params = new HashMap();
+        Map<String, Object> params = new HashMap<>();
         params.put("id", 4);
-        call.get("posts/", new Request(params)).assertEquals(200);
+        call.get("posts/", new Request().setUrlParams(params)).assertEquals(200);
         // verify no issues
         finish();
     }
@@ -229,9 +231,9 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map params = new HashMap();
+        Map<String, Object> params = new HashMap<>();
         params.put("id", 4);
-        call.get("posts/", new Request(params)).assertEquals(json4);
+        call.get("posts/", new Request().setUrlParams(params)).assertEquals(json4);
         // verify no issues
         finish();
     }
@@ -242,9 +244,9 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map params = new HashMap();
+        Map<String, Object> params = new HashMap<>();
         params.put("id", 4);
-        call.get("posts/", new Request(params)).assertEquals(json4.toString());
+        call.get("posts/", new Request().setUrlParams(params)).assertEquals(json4.toString());
         // verify no issues
         finish();
     }
@@ -290,56 +292,881 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map params = new HashMap();
-        params.put("id", 4);
-        call.post("posts/", new Request(params)).assertEquals(200);
+        call.post("post/4", new Request()).assertEquals(200);
         // verify no issues
         finish();
     }
 
     @Test(groups = {"integration", "services", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
-    public void verifySuccessfulPostCallData() {
+    public void verifySuccessfulPostParamsCallNoData() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", 4);
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map params = new HashMap();
-        params.put("id", 4);
-        call.post("posts/", new Request(params)).assertEquals(simJson4);
+        call.post("post/4", new Request().setUrlParams(params)).assertEquals(simJson4);
         // verify no issues
         finish();
     }
 
     @Test(groups = {"integration", "services", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
-    public void verifySuccessfulPostCallFile() {
+    public void verifySuccessfulPostCallNoData() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map params = new HashMap();
-        params.put("id", 4);
-        call.post("posts/", new Request(params), new File("Jenkinsfile")).assertEquals(simJson4);
+        call.post("post/4", new Request()).assertEquals(simJson4);
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response", "my-sample-tag"},
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallJsonObjectData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallJsonArrayData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallJsonObjectMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallJsonArrayMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.post("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallJsonObjectMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.post("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallJsonArrayMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.post("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallUrlParamsData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallNoDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request(), new File("Jenkinsfile")).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallJsonObjectDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallJsonArrayDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallMultipartDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallUrlParamsDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters in url")
     public void verifySuccessfulBadPostCall() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("null/", new Request(new JsonObject())).assertEquals("We encountered an error, no page was found");
+        call.post("null/", new Request()).assertEquals("We encountered an error, no page was found");
         // verify no issues
         finish();
     }
 
     // for patch calls
-    // TODO - copy post (don't need file - research?)
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCall() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request()).assertEquals(200);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchParamsCallNoData() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", 4);
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setUrlParams(params)).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallNoData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request()).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonObjectData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonArrayData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonObjectMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonArrayMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.patch("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonObjectMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.patch("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonArrayMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.patch("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallUrlParamsData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallNoDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request(), new File("Jenkinsfile")).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonObjectDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonArrayDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallMultipartDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallUrlParamsDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters in url")
+    public void verifySuccessfulBadPatchCall() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("null/", new Request()).assertEquals("We encountered an error, no page was found");
+        // verify no issues
+        finish();
+    }
 
     // for put calls
-    // TODO - copy post (don't need file - research?)
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCall() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request()).assertEquals(200);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutParamCallNoData() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", 4);
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setUrlParams(params)).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallNoData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request()).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallJsonObjectData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallJsonArrayData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallJsonObjectMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallJsonArrayMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallJsonObjectMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.put("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallJsonArrayMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.put("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallUrlParamsData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallNoDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request(), new File("Jenkinsfile")).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallJsonObjectDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallJsonArrayDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallMultipartDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallUrlParamsDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile")).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters in url")
+    public void verifySuccessfulBadPutCall() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.put("null/", new Request()).assertEquals("We encountered an error, no page was found");
+        // verify no issues
+        finish();
+    }
 
     // for delete calls
-    // TODO - copy delete
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCall() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request()).assertEquals(200);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallNoData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4").assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteParamsCallNoData() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", 4);
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setUrlParams(params)).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallEmptyData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request()).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallJsonObjectData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallJsonArrayData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallJsonObjectMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallJsonArrayMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.delete("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallJsonObjectMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.delete("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallJsonArrayMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.delete("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallUrlParamsData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallNoDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request(), new File("Jenkinsfile")).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallJsonObjectDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallJsonArrayDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallMultipartDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallUrlParamsDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile"))
+                .assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters in url")
+    public void verifySuccessfulBadDeleteCall() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.delete("null/", new Request()).assertEquals("We encountered an error, no page was found");
+        // verify no issues
+        finish();
+    }
 }

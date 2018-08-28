@@ -26,10 +26,10 @@ import static org.testng.Assert.assertTrue;
 public class ServicesResponseIT extends Selenified {
 
     private ClientAndServer mockServer;
-    JsonObject json1 = new JsonObject();
-    JsonObject json2 = new JsonObject();
-    JsonObject json3 = new JsonObject();
-    JsonObject json4 = new JsonObject();
+    private JsonObject json1 = new JsonObject();
+    private JsonObject json2 = new JsonObject();
+    private JsonObject json3 = new JsonObject();
+    private JsonObject json4 = new JsonObject();
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
@@ -105,9 +105,9 @@ public class ServicesResponseIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map params = new HashMap();
+        Map<String, Object> params = new HashMap<>();
         params.put("id", 4);
-        assertTrue(call.get("posts/", new Request(params)).isData());
+        assertTrue(call.get("posts/", new Request().setUrlParams(params)).isData());
         // verify no issues
         finish();
     }
@@ -267,7 +267,7 @@ public class ServicesResponseIT extends Selenified {
     @Test(groups = {"integration", "services", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectContainsInteger() {
-        Map values = new HashMap();
+        Map<String, Object> values = new HashMap<>();
         values.put("id", 4);
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -280,7 +280,7 @@ public class ServicesResponseIT extends Selenified {
     @Test(groups = {"integration", "services", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectContainsString() {
-        Map values = new HashMap();
+        Map<String, Object> values = new HashMap<>();
         values.put("title", "eum et est occaecati");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -293,7 +293,7 @@ public class ServicesResponseIT extends Selenified {
     @Test(groups = {"integration", "services", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectContainsMultiple() {
-        Map values = new HashMap();
+        Map<String, Object> values = new HashMap<>();
         values.put("id", 4);
         values.put("title", "eum et est occaecati");
         // use this object to verify the app looks as expected
@@ -334,7 +334,7 @@ public class ServicesResponseIT extends Selenified {
     @Test(groups = {"integration", "services", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectDoesntContain() {
-        Map values = new HashMap();
+        Map<String, Object> values = new HashMap<>();
         values.put("id", 3);
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -358,7 +358,7 @@ public class ServicesResponseIT extends Selenified {
     @Test(groups = {"integration", "services", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonArrayDoesntContainMismatch() {
-        Map values = new HashMap();
+        Map<String, Object> values = new HashMap<>();
         values.put("id", 3);
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
