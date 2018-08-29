@@ -32,6 +32,16 @@ public class CallTest {
     public void appendCredentials() {
         HTTP http = new HTTP("SomeURL", "User", "Pass");
         Call call = new Call(http, null, new HashMap<>());
-        Assert.assertEquals(call.getCredentialString(), "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");
+        Assert.assertEquals(call.getCredentialString(),
+                "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");
+    }
+
+    @Test
+    public void addCredentials() {
+        HTTP http = new HTTP("SomeURL");
+        Call call = new Call(http, null, new HashMap<>());
+        call.addCredentials("User", "Pass");
+        Assert.assertEquals(call.getCredentialString(),
+                "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");
     }
 }

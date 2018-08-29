@@ -347,13 +347,13 @@ public class TestSetup {
      * @param app - the application to be tested, contains all control elements
      */
     public static void setupScreenSize(App app) {
-        if (System.getProperty(SCREEN_SIZE) != null && !"" .equals(System.getProperty(SCREEN_SIZE))) {
+        if (System.getProperty(SCREEN_SIZE) != null && !"".equals(System.getProperty(SCREEN_SIZE))) {
             String screensize = System.getProperty(SCREEN_SIZE);
             if (screensize.matches("(\\d+)x(\\d+)")) {
                 int width = Integer.parseInt(System.getProperty(SCREEN_SIZE).split("x")[0]);
                 int height = Integer.parseInt(System.getProperty(SCREEN_SIZE).split("x")[1]);
                 app.resize(width, height);
-            } else if ("maximum" .equals(screensize)) {
+            } else if ("maximum".equals(screensize)) {
                 app.maximize();
             } else {
                 log.error("Provided screensize does not match expected pattern");

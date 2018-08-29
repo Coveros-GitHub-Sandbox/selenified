@@ -11,7 +11,10 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Parameter;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
