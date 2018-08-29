@@ -84,6 +84,7 @@ public class OutputFile {
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
+    private static final String END_IDIV = "</i></div>";
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
 
@@ -706,10 +707,10 @@ public class OutputFile {
                     output.append("</div>");
                 }
             }
-            output.append("</i></div>");
+            output.append(END_IDIV);
         }
         if (file != null) {
-            output.append("<div> with file: <i>" + file.getAbsoluteFile() + "</i></div>");
+            output.append("<div> with file: <i>" + file.getAbsoluteFile() + END_IDIV);
         }
         return formatHTML(output.toString());
     }
@@ -734,7 +735,7 @@ public class OutputFile {
             if (response.getObjectData() != null) {
                 output.append(gson.toJson(response.getObjectData()));
             }
-            output.append("</i></div>");
+            output.append(END_IDIV);
         }
         return formatHTML(output.toString());
     }
