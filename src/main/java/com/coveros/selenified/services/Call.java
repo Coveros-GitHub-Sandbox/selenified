@@ -251,7 +251,7 @@ public class Call {
         action.append("</i> call to <i>");
         action.append(http.getServiceBaseUrl()).append(endpoint).append(http.getRequestParams(params));
         action.append("</i>");
-        action.append(appendCredentials());
+        action.append(getCredentialString());
         action.append(file.outputRequestProperties(params, inputFile));
         String expected = "<i>" + call + "</i> call was made successfully";
         Response response = new Response(file);
@@ -297,7 +297,7 @@ public class Call {
      * @return String: an HTML formated string with the username and password -
      * if they are both set
      */
-    private String appendCredentials() {
+    public String getCredentialString() {
         StringBuilder credentials = new StringBuilder();
         if (http.useCredentials()) {
             credentials.append("<br/> with credentials: ");

@@ -21,7 +21,6 @@
 package com.coveros.selenified.services;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.util.Map;
 

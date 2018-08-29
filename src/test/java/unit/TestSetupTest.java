@@ -216,7 +216,7 @@ public class TestSetupTest {
     @Test
     public void setBrowserMultipleBrowserMultipleDetailsTest() throws InvalidBrowserException {
         System.setProperty("browser",
-                "browserName=CHROME&browserVersion=12," + "browserName=FIREFOX&devicePlatform=Windows 10");
+                "browserName=CHROME&browserVersion=12,browserName=FIREFOX&devicePlatform=Windows 10");
         List<Browser> browsers = TestSetup.setBrowser();
         Assert.assertEquals(browsers.size(), 2);
         Browser chrome = browsers.get(0);

@@ -46,6 +46,7 @@ public class Response {
 
     // constants
     private static final String FOUND = "Found a response of: ";
+    private static final String ENDI = "</i>'";
 
     // a basic response setup, just with an output file to write information to
     public Response(OutputFile file) {
@@ -166,10 +167,48 @@ public class Response {
         if (message != null) {
             success = message.equals(expectedMessage) ? Success.PASS : Success.FAIL;
         }
-        file.recordExpected(
-                "Expected to find a response of: '<i>" + expectedMessage + "</i>'");
-        file.recordActual(FOUND + "'<i>" + message + "</i>'", success);
+        file.recordExpected("Expected to find a response of: '<i>" + expectedMessage + ENDI);
+        file.recordActual(FOUND + "'<i>" + message + ENDI, success);
         file.addErrors(success.getErrors());
+    }
+
+    /**
+     * Casts an unknown JsonElement into an object, based on the expected behavior of it
+     *
+     * @param known   - what value are we expecting
+     * @param unknown - what JsonElement are we trying to cast
+     * @return Object - the expected object, properly cast
+     */
+    public Object castObject(Object known, JsonElement unknown) {
+        Object objectVal;
+        try {
+            if (known instanceof String) {
+                objectVal = unknown.getAsString();
+            } else if (known instanceof Integer) {
+                objectVal = unknown.getAsInt();
+            } else if (known instanceof Double) {
+                objectVal = unknown.getAsDouble();
+            } else if (known instanceof Float) {
+                objectVal = unknown.getAsFloat();
+            } else if (known instanceof Long) {
+                objectVal = unknown.getAsLong();
+            } else if (known instanceof Boolean) {
+                objectVal = unknown.getAsBoolean();
+            } else if (known instanceof Byte) {
+                objectVal = unknown.getAsByte();
+            } else if (known instanceof Character) {
+                objectVal = unknown.getAsCharacter();
+            } else if (known instanceof JsonArray) {
+                objectVal = unknown.getAsJsonArray();
+            } else if (known instanceof JsonObject) {
+                objectVal = unknown.getAsJsonObject();
+            } else {
+                objectVal = unknown;
+            }
+            return objectVal;
+        } catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e) {
+            return unknown;
+        }
     }
 
     /**
@@ -188,32 +227,9 @@ public class Response {
             expectedString.append(" : ");
             expectedString.append(file.formatHTML(String.valueOf(entry.getValue())));
             expectedString.append("</div>");
-            if ( object != null && object.has(entry.getKey())) {
-                Object objectVal;
-                if( entry.getValue() instanceof String ) {
-                    objectVal = object.get(entry.getKey()).getAsString();
-                } else if ( entry.getValue() instanceof Integer) {
-                    objectVal = object.get(entry.getKey()).getAsInt();
-                } else if ( entry.getValue() instanceof Double) {
-                    objectVal = object.get(entry.getKey()).getAsDouble();
-                } else if ( entry.getValue() instanceof Float) {
-                    objectVal = object.get(entry.getKey()).getAsFloat();
-                } else if ( entry.getValue() instanceof Long) {
-                    objectVal = object.get(entry.getKey()).getAsLong();
-                } else if ( entry.getValue() instanceof Boolean) {
-                    objectVal = object.get(entry.getKey()).getAsBoolean();
-                } else if ( entry.getValue() instanceof Byte) {
-                    objectVal = object.get(entry.getKey()).getAsByte();
-                } else if ( entry.getValue() instanceof Character) {
-                    objectVal = object.get(entry.getKey()).getAsCharacter();
-                } else if ( entry.getValue() instanceof JsonArray) {
-                    objectVal = object.get(entry.getKey()).getAsJsonArray();
-                } else if ( entry.getValue() instanceof JsonObject) {
-                    objectVal = object.get(entry.getKey()).getAsJsonObject();
-                } else {
-                    objectVal = object.get(entry.getKey());
-                }
-                if( !entry.getValue().equals(objectVal)) {
+            if (object != null && object.has(entry.getKey())) {
+                Object objectVal = castObject(entry.getValue(), object.get(entry.getKey()));
+                if (!entry.getValue().equals(objectVal)) {
                     success = Success.FAIL;
                 }
             } else {
@@ -254,9 +270,8 @@ public class Response {
         if (message != null) {
             success = message.contains(expectedMessage) ? Success.PASS : Success.FAIL;
         }
-        file.recordExpected(
-                "Expected to find a response containing: '<i>" + expectedMessage + "</i>'");
-        file.recordActual(FOUND + "'<i>" + message + "</i>'", success);
+        file.recordExpected("Expected to find a response containing: '<i>" + expectedMessage + ENDI);
+        file.recordActual(FOUND + "'<i>" + message + ENDI, success);
         file.addErrors(success.getErrors());
     }
 }

@@ -91,8 +91,6 @@ public class ServicesIT extends Selenified {
         mockServer.stop();
     }
 
-    //combine param urls and objects in tests?
-
     @Test(groups = {"integration", "services", "headers"},
             description = "An integration test to verify we can successfully set header values")
     public void setHeaderTest() {
@@ -154,6 +152,20 @@ public class ServicesIT extends Selenified {
         call.post("posts/", new Request().setJsonPayload(request)).assertEquals(201);
         // verify 2 issues
         finish(2);
+    }
+
+    //TODO - handle empty calls/responses (PUT/PATCH won't have body's returned)
+    // try it by making: `call.post("posts/", new Request(), new File("Jenkins")).assertEquals(200);`
+
+    @Test(groups = {"integration", "services", "headers"},
+            description = "An integration negative test to verify we can successfully change header values")
+    public void setPostMissingFileTest() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request(), new File("Jenkins")).assertEquals(200);
+        // verify no issues
+        finish();
     }
 
     // for get calls
@@ -323,6 +335,17 @@ public class ServicesIT extends Selenified {
 
     @Test(groups = {"integration", "services", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallNullData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.post("post/4", new Request().setJsonPayload(null)).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonObjectData() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -345,11 +368,24 @@ public class ServicesIT extends Selenified {
 
     @Test(groups = {"integration", "services", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
-    public void verifySuccessfulPostCallMultipartData() {
+    public void verifySuccessfulPostCallEmptyMultipartData() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         call.post("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppost", "response"},
+            description = "An integration test to verify a successful post call with parameters")
+    public void verifySuccessfulPostCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        call.post("post/4", new Request().setMultipartData(map)).assertEquals(simJson4);
         // verify no issues
         finish();
     }
@@ -564,11 +600,24 @@ public class ServicesIT extends Selenified {
 
     @Test(groups = {"integration", "services", "httppatch", "response"},
             description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallMultipartData() {
+    public void verifySuccessfulPatchCallEmptyMultipartData() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         call.patch("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        call.patch("post/4", new Request().setMultipartData(map)).assertEquals(simJson4);
         // verify no issues
         finish();
     }
@@ -783,11 +832,24 @@ public class ServicesIT extends Selenified {
 
     @Test(groups = {"integration", "services", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
-    public void verifySuccessfulPutCallMultipartData() {
+    public void verifySuccessfulPutCallEmptyMultipartData() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpput", "response"},
+            description = "An integration test to verify a successful put call with parameters")
+    public void verifySuccessfulPutCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        call.put("post/4", new Request().setMultipartData(map)).assertEquals(simJson4);
         // verify no issues
         finish();
     }
@@ -1012,11 +1074,24 @@ public class ServicesIT extends Selenified {
 
     @Test(groups = {"integration", "services", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
-    public void verifySuccessfulDeleteCallMultipartData() {
+    public void verifySuccessfulDeleteCallEmptyMultipartData() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         call.delete("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "services", "httpdelete", "response"},
+            description = "An integration test to verify a successful delete call with parameters")
+    public void verifySuccessfulDeleteCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        call.delete("post/4", new Request().setMultipartData(map)).assertEquals(simJson4);
         // verify no issues
         finish();
     }

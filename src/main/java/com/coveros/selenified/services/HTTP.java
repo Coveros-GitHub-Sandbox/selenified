@@ -24,7 +24,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.MalformedJsonException;
 import org.apache.commons.codec.binary.Base64;
 import org.testng.log4testng.Logger;
 
@@ -47,6 +46,7 @@ import java.util.Map;
 public class HTTP {
 
     private static final Logger log = Logger.getLogger(HTTP.class);
+    private static final String MULTIPART = "multipart/form-data; boundary=";
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
     private static final String NEWLINE = "\r\n";
 
@@ -175,7 +175,7 @@ public class HTTP {
      */
     public Response post(String service, Request request, File file) {
         if (file != null) {
-            this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+            this.contentType = MULTIPART + BOUNDARY;
         }
         return call("POST", service, request, file);
     }
@@ -191,7 +191,7 @@ public class HTTP {
      */
     public Response put(String service, Request request, File file) {
         if (file != null) {
-            this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+            this.contentType = MULTIPART + BOUNDARY;
         }
         return call("PUT", service, request, file);
     }
@@ -207,7 +207,7 @@ public class HTTP {
      */
     public Response patch(String service, Request request, File file) {
         if (file != null) {
-            this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+            this.contentType = MULTIPART + BOUNDARY;
         }
         return call(PATCH, service, request, file);
     }
@@ -223,7 +223,7 @@ public class HTTP {
      */
     public Response delete(String service, Request request, File file) {
         if (file != null) {
-            this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+            this.contentType = MULTIPART + BOUNDARY;
         }
         return call("DELETE", service, request, file);
     }
@@ -322,10 +322,6 @@ public class HTTP {
      */
     private void writeJsonDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream())) {
-            if (request.getJsonPayload() == null) {
-                log.warn("The data provided should be in the form of a json payload to support the " +
-                        "'application/json' method. No data will be provided to the requested endpoint");
-            }
             wr.write(request.getJsonPayload().toString());
             wr.flush();
         } catch (IOException e) {

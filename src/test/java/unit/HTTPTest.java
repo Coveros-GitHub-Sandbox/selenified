@@ -41,6 +41,12 @@ public class HTTPTest {
     }
 
     @Test
+    public void buildStringNullParamTest() {
+        HTTP http = new HTTP("Service");
+        Assert.assertEquals(http.getRequestParams(null), "");
+    }
+
+    @Test
     public void buildStringEmptyParamTest() {
         HTTP http = new HTTP("Service");
         Assert.assertEquals(http.getRequestParams(new Request()), "");
@@ -67,5 +73,51 @@ public class HTTPTest {
         params.put("hello", "world");
         params.put("john", 5);
         Assert.assertEquals(http.getRequestParams(new Request().setUrlParams(params)), "?john=5&hello=world");
+    }
+
+    @Test
+    public void checkAddingCredentialsTest() {
+        HTTP http = new HTTP("Service");
+        http.addCredentials("User", "Pass");
+        Assert.assertTrue(http.useCredentials());
+    }
+
+    @Test
+    public void checkAddingUserCredentialsTest() {
+        HTTP http = new HTTP("Service");
+        http.addCredentials("User", "");
+        Assert.assertFalse(http.useCredentials());
+    }
+
+    @Test
+    public void checkAddingPassCredentialsTest() {
+        HTTP http = new HTTP("Service");
+        http.addCredentials("", "Pass");
+        Assert.assertFalse(http.useCredentials());
+    }
+
+    @Test
+    public void checkAddingNoCredentialsTest() {
+        HTTP http = new HTTP("Service");
+        http.addCredentials("", "");
+        Assert.assertFalse(http.useCredentials());
+    }
+
+    @Test
+    public void checkAddingBaseUrl() {
+        HTTP http = new HTTP("Service");
+        Assert.assertEquals(http.getServiceBaseUrl(), "Service");
+    }
+
+    @Test
+    public void checkAddingNullBaseUrl() {
+        HTTP http = new HTTP(null);
+        Assert.assertNull(http.getServiceBaseUrl());
+    }
+
+    @Test
+    public void checkAddingEmptyBaseUrl() {
+        HTTP http = new HTTP("");
+        Assert.assertEquals(http.getServiceBaseUrl(), "");
     }
 }

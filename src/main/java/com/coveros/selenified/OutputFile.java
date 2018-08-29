@@ -484,7 +484,7 @@ public class OutputFile {
             out.write("  <table>\n");
             out.write(START_ROW);
             out.write("    <th bgcolor='lightblue'><font size='5'>Test</font></th>\n");
-            out.write("    <td bgcolor='lightblue' colspan=3>" + "<font size='5'>" + test + " </font></td>\n");
+            out.write("    <td bgcolor='lightblue' colspan=3><font size='5'>" + test + " </font></td>\n");
             out.write(swapRow);
             out.write("    <th>Tester</th>\n");
             out.write("    <td>Automated</td>\n");
@@ -543,10 +543,10 @@ public class OutputFile {
             out.write("  </table>\n");
             out.write("  <table id='all_results'>\n");
             out.write(START_ROW);
-            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>" +
+            out.write("    <th align='center'>Step</th><th style='text-align:center'>Action</th>" +
                     "<th style='text-align:center'>Expected Result</th>" +
                     "<th style='text-align:center'>Actual Result</th>" +
-                    "<th style='text-align:center'>Step Times</th>" + "<th style='text-align:center'>Pass/Fail</th>\n");
+                    "<th style='text-align:center'>Step Times</th><th style='text-align:center'>Pass/Fail</th>\n");
             out.write(END_ROW);
         } catch (IOException e) {
             log.error(e);
@@ -709,7 +709,7 @@ public class OutputFile {
             output.append("</i></div>");
         }
         if (file != null) {
-            output.append("with file: <i>" + file.getAbsoluteFile() + "</i>");
+            output.append("<div> with file: <i>" + file.getAbsoluteFile() + "</i></div>");
         }
         return formatHTML(output.toString());
     }

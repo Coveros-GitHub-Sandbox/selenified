@@ -7,7 +7,10 @@ import com.coveros.selenified.services.Response;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import org.openqa.selenium.json.Json;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -291,6 +294,45 @@ public class ResponseTest {
     }
 
     @Test
+    public void confirmEqualsMessagePassTest() throws IOException {
+        Response response = new Response(5, new JsonObject(), "Some message");
+        response.setOutputFile(outputFile);
+        response.assertEquals("Some message");
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
+                        "response of: '<i>Some message</i>'</td>\n    <td>Found " +
+                        "a response of: '<i>Some message</i>'</td>\n    <td>[0-9]+ms" +
+                        " / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsMessageFailTest() throws IOException {
+        Response response = new Response(5, new JsonObject(), "SOME MESSAGE");
+        response.setOutputFile(outputFile);
+        response.assertEquals("Some message");
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
+                        "response of: '<i>Some message</i>'</td>\n    <td>Found " +
+                        "a response of: '<i>SOME MESSAGE</i>'</td>\n    <td>[0-9]+ms" +
+                        " / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsMessageNullTest() throws IOException {
+        Response response = new Response(5, new JsonObject(), null);
+        response.setOutputFile(outputFile);
+        response.assertEquals("");
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
+                        "response of: '<i></i>'</td>\n    <td>Found " +
+                        "a response of: '<i>null</i>'</td>\n    <td>[0-9]+ms" +
+                        " / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+    }
+
+    @Test
     public void confirmContainsPairsStringPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
@@ -571,7 +613,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : true</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;true<br/>\\}</i></div></td>\n " +
-                        "   " + "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "   <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
     }
 
     @Test
@@ -848,12 +890,11 @@ public class ResponseTest {
         pairs.put("name", 5);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n" + "    <td align='center'>1.</td>\n" + "    <td> </td>\n" +
-                        "    <td>Expected to find a response containing: <div><i><div>name : 5</div></i></div></td>\n" +
-                        "    <td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;" +
-                        "5<br/>\\}</i></div></td>\n" + "    <td>[0-9]+ms / [0-9]+ms</td>\n" +
-                        "    <td class='pass'>Pass</td>\n" + "   </tr>\n"));
+        Assert.assertTrue(content.matches("[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n" +
+                "    <td>Expected to find a response containing: <div><i><div>name : 5</div></i></div></td>\n" +
+                "    <td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;" +
+                "5<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n" +
+                "    <td class='pass'>Pass</td>\n   </tr>\n"));
     }
 
     @Test
@@ -902,5 +943,275 @@ public class ResponseTest {
         Assert.assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void confirmContainsMessagePassTest() throws IOException {
+        Response response = new Response(5, new JsonObject(), "Some message");
+        response.setOutputFile(outputFile);
+        response.assertContains("message");
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
+                        "response containing: '<i>message</i>'</td>\n    <td>Found a response of: " +
+                        "'<i>Some message</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
+                        "class='pass'>Pass</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void confirmContainsMessageFailTest() throws IOException {
+        Response response = new Response(5, new JsonObject(), "Some message");
+        response.setOutputFile(outputFile);
+        response.assertContains("message ");
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
+                        "response containing: '<i>message </i>'</td>\n    <td>Found a response of: " +
+                        "'<i>Some message</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
+                        "class='fail'>Fail</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void confirmContainsMessageNullTest() throws IOException {
+        Response response = new Response(5, new JsonObject(), null);
+        response.setOutputFile(outputFile);
+        response.assertContains("");
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
+                        "response containing: '<i></i>'</td>\n    <td>Found a response of: " +
+                        "'<i>null</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
+                        "class='fail'>Fail</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void confirmContainsMessageNull2Test() throws IOException {
+        Response response = new Response(5, new JsonObject(), null);
+        response.setOutputFile(outputFile);
+        response.assertContains("null");
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
+                        "response containing: '<i>null</i>'</td>\n    <td>Found a response of: " +
+                        "'<i>null</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
+                        "class='fail'>Fail</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void castObjectNullNullTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        Assert.assertNull(response.castObject(null, null));
+    }
+
+    @Test
+    public void castObjectNullTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        Assert.assertEquals(response.castObject(null, new JsonObject()), new JsonObject());
+    }
+
+    @Test
+    public void castObjectMismatchTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        Assert.assertEquals(response.castObject("Hello", new JsonObject()), new JsonObject());
+    }
+
+    @Test
+    public void castObjectStringTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "World");
+        Assert.assertEquals(response.castObject("Hello", json.get("name")), "World");
+    }
+
+    @Test
+    public void castObjectIntegerTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 5);
+        Assert.assertEquals(response.castObject(6, json.get("name")), 5);
+    }
+
+    @Test
+    public void castObjectDoubleTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 5d);
+        Assert.assertEquals(response.castObject(6d, json.get("name")), 5d);
+    }
+
+    @Test
+    public void castObjectFloatTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 5f);
+        Assert.assertEquals(response.castObject(6f, json.get("name")), 5f);
+    }
+
+    @Test
+    public void castObjectLongTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 5L);
+        Assert.assertEquals(response.castObject(6L, json.get("name")), 5L);
+    }
+
+    @Test
+    public void castObjectMixedNumberTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 5.0);
+        Assert.assertEquals(response.castObject(6L, json.get("name")), 5L);
+    }
+
+    @Test
+    public void castObjectMixedNumber2Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 5L);
+        Assert.assertEquals(response.castObject(6, json.get("name")), 5);
+    }
+
+    @Test
+    public void castObjectMixedNumber3Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 5L);
+        Assert.assertEquals(response.castObject(6.0, json.get("name")), 5.0);
+    }
+
+    @Test
+    public void castObjectMixedNumber4Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 5L);
+        Assert.assertEquals(response.castObject("Hello", json.get("name")), "5");
+    }
+
+    @Test
+    public void castObjectBooleanTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", true);
+        Assert.assertEquals(response.castObject(false, json.get("name")), true);
+    }
+
+    @Test
+    public void castObjectBooleanMixedTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", true);
+        Assert.assertEquals(response.castObject("Hello", json.get("name")), "true");
+    }
+
+    @Test
+    public void castObjectBooleanMixed2Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", true);
+        Assert.assertEquals(response.castObject(5, json.get("name")), new JsonPrimitive(true));
+    }
+
+    @Test
+    public void castObjectByteTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", (byte) 9);
+        Assert.assertEquals(response.castObject((byte) 0, json.get("name")), (byte) 9);
+    }
+
+    @Test
+    public void castObjectByteMixedTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", (byte) 9);
+        Assert.assertEquals(response.castObject("Hello", json.get("name")), "9");
+    }
+
+    @Test
+    public void castObjectByteMixed2Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", (byte) 9);
+        Assert.assertEquals(response.castObject(3, json.get("name")), 9);
+    }
+
+    @Test
+    public void castObjectCharacterTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 'a');
+        Assert.assertEquals(response.castObject('b', json.get("name")), 'a');
+    }
+
+    @Test
+    public void castObjectCharacterMixedTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 'a');
+        Assert.assertEquals(response.castObject("b", json.get("name")), "a");
+    }
+
+    @Test
+    public void castObjectCharacterMixed2Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", '5');
+        Assert.assertEquals(response.castObject(2, json.get("name")), 5);
+    }
+
+    @Test
+    public void castObjectCharacterMixed3Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", '5');
+        Assert.assertEquals(response.castObject(2.0, json.get("name")), 5.0);
+    }
+
+    @Test
+    public void castObjectJsonObjectTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.add("name", new JsonObject());
+        Assert.assertEquals(response.castObject(new JsonObject(), json.get("name")), new JsonObject());
+    }
+
+    @Test
+    public void castObjectJsonObjectMixedTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.add("name", new JsonObject());
+        Assert.assertEquals(response.castObject(new JsonArray(), json.get("name")), new JsonObject());
+    }
+
+    @Test
+    public void castObjectJsonObjectMixed2Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.add("name", new JsonObject());
+        Assert.assertEquals(response.castObject("Hello", json.get("name")), new JsonObject());
+    }
+
+    @Test
+    public void castObjectJsonArrayTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.add("name", new JsonArray());
+        Assert.assertEquals(response.castObject(new JsonArray(), json.get("name")), new JsonArray());
+    }
+
+    @Test
+    public void castObjectJsonArrayMixedTest() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.add("name", new JsonArray());
+        Assert.assertEquals(response.castObject(new JsonObject(), json.get("name")), new JsonArray());
+    }
+
+    @Test
+    public void castObjectJsonArrayMixed2Test() {
+        Response response = new Response(5, new JsonObject(), null);
+        JsonObject json = new JsonObject();
+        json.add("name", new JsonArray());
+        Assert.assertEquals(response.castObject("Hello", json.get("name")), new JsonArray());
     }
 }

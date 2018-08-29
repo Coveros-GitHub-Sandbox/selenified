@@ -130,8 +130,8 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderVersionTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, null,
-                "My " + "Version", null);
+        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, "My Version",
+                null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -143,7 +143,7 @@ public class OutputFileTest {
     @Test
     public void createOutputHeaderObjectivesTest() throws IOException {
         new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
-                "My " + "Objectives");
+                "My Objectives");
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -304,14 +304,14 @@ public class OutputFileTest {
     public void outputRequestPropertiesNullNullFileTest() {
         Request request = new Request();
         Assert.assertEquals(outputFile.outputRequestProperties(null, new File("Jenkinsfile")),
-                "with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesNullNullBadFileTest() {
         Request request = new Request();
         Assert.assertEquals(outputFile.outputRequestProperties(null, new File("Jenkinsfi")),
-                "with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfi</i>");
+                "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfi</i></div>");
     }
 
     @Test
@@ -408,8 +408,8 @@ public class OutputFileTest {
     public void outputRequestPropertiesEmptyJsonObjectAndFileTest() {
         Request request = new Request().setJsonPayload(new JsonObject());
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
-                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div>with&nbsp;file:&nbsp;<i>" +
-                        System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
@@ -419,15 +419,16 @@ public class OutputFileTest {
         Request request = new Request().setJsonPayload(json);
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i>" +
-                        "</div>with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                        "</div><div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") +
+                        "/Jenkinsfile</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyJsonArrayAndFileTest() {
         Request request = new Request().setJsonPayload(new JsonArray());
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
-                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[]</i></div>with&nbsp;file:&nbsp;<i>" +
-                        System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
@@ -438,16 +439,16 @@ public class OutputFileTest {
         Request request = new Request().setJsonPayload(json);
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
-                        "\"world\"<br/>]</i></div>with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") +
-                        "/Jenkinsfile</i>");
+                        "\"world\"<br/>]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyMultipartAndFileTest() {
         Request request = new Request().setMultipartData(new HashMap<>());
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
-                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>with&nbsp;file:&nbsp;<i>" +
-                        System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
@@ -456,15 +457,15 @@ public class OutputFileTest {
         map.put("hello", "world");
         Request request = new Request().setMultipartData(map);
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
-                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div>with&nbsp;file:&nbsp;<i>" +
-                        System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyParamsAndFileTest() {
         Request request = new Request().setUrlParams(new HashMap<>());
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
-                "with&nbsp;" + "file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
@@ -473,7 +474,7 @@ public class OutputFileTest {
         map.put("hello", "world");
         Request request = new Request().setUrlParams(map);
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
-                "with&nbsp;" + "file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
@@ -485,8 +486,8 @@ public class OutputFileTest {
         json.addProperty("hello", "world");
         request.setJsonPayload(json);
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
-                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>with&nbsp;file:&nbsp;<i>" +
-                        System.getProperty("user.dir") + "/Jenkinsfile</i>");
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
@@ -500,8 +501,8 @@ public class OutputFileTest {
         request.setJsonPayload(json);
         Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
-                        "\"world\"<br/>]</i></div>with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") +
-                        "/Jenkinsfile</i>");
+                        "\"world\"<br/>]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
