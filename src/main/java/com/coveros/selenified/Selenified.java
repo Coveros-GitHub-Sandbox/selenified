@@ -196,7 +196,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String,String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
     protected static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");

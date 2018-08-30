@@ -58,17 +58,16 @@ public class Request {
         return multipartData;
     }
 
-    /**
-     * Sets multipart data in the request. Note that this automatically sets the content-type to multi-part
-     *
-     * @param multipartData
-     * @return
-     */
     public Request setMultipartData(Map<String, Object> multipartData) {
         this.multipartData = multipartData;
         return this;
     }
 
+    /**
+     * Determines if either the jsonPayload or multipart data is set
+     *
+     * @return Boolean: true if either jsonpayload or multipartdata is set
+     */
     public boolean isPayload() {
         return (jsonPayload != null || multipartData != null);
     }

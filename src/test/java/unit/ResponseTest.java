@@ -532,11 +532,11 @@ public class ResponseTest {
     @Test
     public void confirmContainsPairsLongPassTest() throws IOException {
         JsonObject json = new JsonObject();
-        json.addProperty("name", 5l);
+        json.addProperty("name", 5L);
         Response response = new Response(5, json, "");
         response.setOutputFile(outputFile);
         Map<String, Object> pairs = new HashMap<>();
-        pairs.put("name", 5l);
+        pairs.put("name", 5L);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
@@ -549,11 +549,11 @@ public class ResponseTest {
     @Test
     public void confirmContainsPairsLongFailsTest() throws IOException {
         JsonObject json = new JsonObject();
-        json.addProperty("name", 5l);
+        json.addProperty("name", 5L);
         Response response = new Response(5, json, "");
         response.setOutputFile(outputFile);
         Map<String, Object> pairs = new HashMap<>();
-        pairs.put("name1", 5l);
+        pairs.put("name1", 5L);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
@@ -566,11 +566,11 @@ public class ResponseTest {
     @Test
     public void confirmContainsPairsLongFails2Test() throws IOException {
         JsonObject json = new JsonObject();
-        json.addProperty("name", 5l);
+        json.addProperty("name", 5L);
         Response response = new Response(5, json, "");
         response.setOutputFile(outputFile);
         Map<String, Object> pairs = new HashMap<>();
-        pairs.put("name", 6l);
+        pairs.put("name", 6L);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.matches(
@@ -881,7 +881,7 @@ public class ResponseTest {
     @Test
     public void confirmContainsPairsMismatchTest() throws IOException {
         JsonObject json = new JsonObject();
-        json.addProperty("name", 5l);
+        json.addProperty("name", 5L);
         Response response = new Response(5, json, "");
         response.setOutputFile(outputFile);
         Map<String, Object> pairs = new HashMap<>();

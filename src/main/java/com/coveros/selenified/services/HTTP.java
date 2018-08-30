@@ -50,7 +50,6 @@ public class HTTP {
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
     private static final String NEWLINE = "\r\n";
 
-    private static final String PATCH = "PATCH";
     private static final String CONTENT_TYPE = "Content-Type";
 
     private final String serviceBaseUrl;
@@ -197,22 +196,6 @@ public class HTTP {
     }
 
     /**
-     * A basic http patch call
-     *
-     * @param service - the endpoint of the service under test
-     * @param request - the parameters to be passed to the endpoint for the service
-     *                call
-     * @param file    - a file to upload, accompanied with the post
-     * @return Response: the response provided from the http call
-     */
-    public Response patch(String service, Request request, File file) {
-        if (file != null) {
-            this.contentType = MULTIPART + BOUNDARY;
-        }
-        return call(PATCH, service, request, file);
-    }
-
-    /**
      * A basic http delete call
      *
      * @param service - the endpoint of the service under test
@@ -231,8 +214,9 @@ public class HTTP {
     /**
      * Returns a string representation of the parameters, able to be appended to the url
      *
-     * @param request
-     * @return
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
+     * @return String: the string friendly url parameter representation
      */
     public String getRequestParams(Request request) {
         StringBuilder params = new StringBuilder();
@@ -264,12 +248,7 @@ public class HTTP {
         try {
             URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
             connection = (HttpURLConnection) url.openConnection();
-            String method = call;
-            if (PATCH.equals(method)) {
-                connection.setRequestProperty("X-HTTP-Method-Override", PATCH);
-                method = "POST";
-            }
-            connection.setRequestMethod(method);
+            connection.setRequestMethod(call);
             connection.setRequestProperty("Content-length", "0");
             connection.setRequestProperty(CONTENT_TYPE, contentType);
             connection.setRequestProperty("Accept", "application/json");
@@ -398,7 +377,11 @@ public class HTTP {
             rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         } catch (IOException e) {
             log.warn(e);
-            rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+            try {
+                rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+            } catch (NullPointerException ee) {
+                log.warn(ee);
+            }
         } finally {
             StringBuilder sb = new StringBuilder();
             String line;

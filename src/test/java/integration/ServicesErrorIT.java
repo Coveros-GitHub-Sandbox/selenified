@@ -63,17 +63,6 @@ public class ServicesErrorIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httppatch"},
-            description = "An integration test to verify the response code from a patch call")
-    public void comparePatchResponseCode200Test() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("posts/4", new Request()).assertEquals(200);
-        // verify 1 issue
-        finish(1);
-    }
-
     @Test(groups = {"integration", "services", "httpdelete"},
             description = "An integration test to verify the response code from a delete call")
     public void compareDeleteResponseCode200Test() {

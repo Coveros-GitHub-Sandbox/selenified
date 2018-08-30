@@ -1153,7 +1153,7 @@ public class Element {
      * it for use in the logging file. If there is a problem capturing the
      * image, an error message is returned instead.
      *
-     * @return
+     * @return String the location of the screenshot
      */
     private String getScreenshot() {
         WebElement webElement = getWebElement();

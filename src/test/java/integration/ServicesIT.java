@@ -86,6 +86,7 @@ public class ServicesIT extends Selenified {
                 "{\"userId\":1,\"id\":4,\"title\":\"eum et est occaecati\",\"body\":\"ullam et saepe reiciendis voluptatem adipisci\\nsit amet autem assumenda provident rerum culpa\\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\\nquis sunt voluptatem rerum illo velit\"}"));
         mockServer.when(request().withMethod("GET").withPath("/posts/")).respond(response().withBody(
                 "[{\"userId\":1,\"id\":1,\"title\":\"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\"body\":\"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"},{\"userId\":1,\"id\":2,\"title\":\"qui est esse\",\"body\":\"est rerum tempore vitae\\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\\nqui aperiam non debitis possimus qui neque nisi nulla\"},{\"userId\":1,\"id\":3,\"title\":\"ea molestias quasi exercitationem repellat qui ipsa sit aut\",\"body\":\"et iusto sed quo iure\\nvoluptatem occaecati omnis eligendi aut ad\\nvoluptatem doloribus vel accusantium quis pariatur\\nmolestiae porro eius odio et labore et velit aut\"},{\"userId\":1,\"id\":4,\"title\":\"eum et est occaecati\",\"body\":\"ullam et saepe reiciendis voluptatem adipisci\\nsit amet autem assumenda provident rerum culpa\\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\\nquis sunt voluptatem rerum illo velit\"}]"));
+        mockServer.when(request().withMethod("PUT").withPath("/post/4")).respond(response().withStatusCode(200));
         mockServer.when(request().withPath("/post/4")).respond(response().withBody("{\"id\":4}"));
     }
 
@@ -156,9 +157,6 @@ public class ServicesIT extends Selenified {
         // verify 2 issues
         finish(2);
     }
-
-    //TODO - handle empty calls/responses (PUT/PATCH won't have body's returned)
-    // try it by making: `call.post("posts/", new Request(), new File("Jenkins")).assertEquals(200);`
 
     @Test(groups = {"integration", "services", "headers"},
             description = "An integration negative test to verify we can successfully change header values")
@@ -542,238 +540,6 @@ public class ServicesIT extends Selenified {
         finish();
     }
 
-    // for patch calls
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCall() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request()).assertEquals(200);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchParamsCallNoData() {
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", 4);
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setUrlParams(params)).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallNoData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request()).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallJsonObjectData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallJsonArrayData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallEmptyMultipartData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallMultipartData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        Map<String, Object> map = new HashMap<>();
-        map.put("hello", "world");
-        call.patch("post/4", new Request().setMultipartData(map)).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallJsonObjectMultipartData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallJsonArrayMultipartData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallMultipartTrueData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "multipart/form-data;");
-        call.addHeaders(headers);
-        call.patch("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallJsonObjectMultipartTrueData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "multipart/form-data;");
-        call.addHeaders(headers);
-        call.patch("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallJsonArrayMultipartTrueData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "multipart/form-data;");
-        call.addHeaders(headers);
-        call.patch("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallUrlParamsData() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallNoDataWithFile() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request(), new File("Jenkinsfile")).assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallJsonObjectDataWithFile() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallJsonArrayDataWithFile() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallMultipartDataWithFile() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters")
-    public void verifySuccessfulPatchCallUrlParamsDataWithFile() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "services", "httppatch", "response"},
-            description = "An integration test to verify a successful patch call with parameters in url")
-    public void verifySuccessfulBadPatchCall() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.patch("null/", new Request()).assertEquals("We encountered an error, no page was found");
-        // verify no issues
-        finish();
-    }
-
     // for put calls
 
     @Test(groups = {"integration", "services", "httpput", "response"},
@@ -795,7 +561,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setUrlParams(params)).assertEquals(simJson4);
+        call.put("post/4", new Request().setUrlParams(params)).assertEquals("");
         // verify no issues
         finish();
     }
@@ -806,7 +572,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request()).assertEquals(simJson4);
+        call.put("post/4", new Request()).assertEquals("");
         // verify no issues
         finish();
     }
@@ -817,7 +583,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals(simJson4);
+        call.put("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals("");
         // verify no issues
         finish();
     }
@@ -828,7 +594,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals(simJson4);
+        call.put("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals("");
         // verify no issues
         finish();
     }
@@ -839,7 +605,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals("");
         // verify no issues
         finish();
     }
@@ -852,7 +618,7 @@ public class ServicesIT extends Selenified {
         // perform some actions
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
-        call.put("post/4", new Request().setMultipartData(map)).assertEquals(simJson4);
+        call.put("post/4", new Request().setMultipartData(map)).assertEquals("");
         // verify no issues
         finish();
     }
@@ -864,7 +630,7 @@ public class ServicesIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.put("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .assertEquals("");
         // verify no issues
         finish();
     }
@@ -876,7 +642,7 @@ public class ServicesIT extends Selenified {
         Call call = this.calls.get();
         // perform some actions
         call.put("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .assertEquals("");
         // verify no issues
         finish();
     }
@@ -890,7 +656,7 @@ public class ServicesIT extends Selenified {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
-        call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals("");
         // verify no issues
         finish();
     }
@@ -905,7 +671,7 @@ public class ServicesIT extends Selenified {
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.put("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .assertEquals("");
         // verify no issues
         finish();
     }
@@ -920,7 +686,7 @@ public class ServicesIT extends Selenified {
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.put("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .assertEquals("");
         // verify no issues
         finish();
     }
@@ -931,7 +697,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals(simJson4);
+        call.put("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals("");
         // verify no issues
         finish();
     }
@@ -942,7 +708,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request(), new File("Jenkinsfile")).assertEquals(simJson4);
+        call.put("post/4", new Request(), new File("Jenkinsfile")).assertEquals("");
         // verify no issues
         finish();
     }
@@ -953,8 +719,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+        call.put("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile")).assertEquals("");
         // verify no issues
         finish();
     }
@@ -965,8 +730,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+        call.put("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile")).assertEquals("");
         // verify no issues
         finish();
     }
@@ -977,8 +741,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+        call.put("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile")).assertEquals("");
         // verify no issues
         finish();
     }
@@ -989,7 +752,7 @@ public class ServicesIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile")).assertEquals(simJson4);
+        call.put("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile")).assertEquals("");
         // verify no issues
         finish();
     }

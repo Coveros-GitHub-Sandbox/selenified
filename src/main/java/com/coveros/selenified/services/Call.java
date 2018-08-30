@@ -48,7 +48,6 @@ public class Call {
     private static final String GET = "GET";
     private static final String POST = "POST";
     private static final String PUT = "PUT";
-    private static final String PATCH = "PATCH";
     private static final String DELETE = "DELETE";
 
     public Call(HTTP http, OutputFile file, Map<String, String> headers) {
@@ -170,33 +169,6 @@ public class Call {
     }
 
     /**
-     * Performs a patch http call and writes the call and response information
-     * to the output file
-     *
-     * @param endpoint - the endpoint of the service under test
-     * @param params   - the parameters to be passed to the endpoint for the service
-     *                 call
-     * @return Response: the response provided from the http call
-     */
-    public Response patch(String endpoint, Request params) {
-        return call(PATCH, endpoint, params, null);
-    }
-
-    /**
-     * Performs a patch http call and writes the call and response information
-     * to the output file
-     *
-     * @param endpoint - the endpoint of the service under test
-     * @param params   - the parameters to be passed to the endpoint for the service
-     *                 call
-     * @param file     - an input file to be provided with the call
-     * @return Response: the response provided from the http call
-     */
-    public Response patch(String endpoint, Request params, File file) {
-        return call(PATCH, endpoint, params, file);
-    }
-
-    /**
      * Performs a delete http call and writes the call and response information
      * to the output file
      *
@@ -265,9 +237,6 @@ public class Call {
                     break;
                 case PUT:
                     response = http.put(endpoint, params, inputFile);
-                    break;
-                case PATCH:
-                    response = http.patch(endpoint, params, inputFile);
                     break;
                 case DELETE:
                     response = http.delete(endpoint, params, inputFile);

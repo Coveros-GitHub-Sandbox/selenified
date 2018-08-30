@@ -710,7 +710,7 @@ public class OutputFile {
             output.append(END_IDIV);
         }
         if (file != null) {
-            output.append("<div> with file: <i>" + file.getAbsoluteFile() + END_IDIV);
+            output.append("<div> with file: <i>").append(file.getAbsoluteFile()).append(END_IDIV);
         }
         return formatHTML(output.toString());
     }
