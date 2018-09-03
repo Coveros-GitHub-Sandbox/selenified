@@ -267,7 +267,7 @@ public class HTTP {
             connection.connect();
             if ((request != null && request.isPayload()) || file != null) {
                 if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data") ||
-                        request.getMultipartData() != null || file != null) {
+                        (request != null && request.getMultipartData() != null) || file != null) {
                     writeMultipartDataRequest(connection, request, file);
                 } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json")) {
                     writeJsonDataRequest(connection, request);
@@ -319,13 +319,13 @@ public class HTTP {
     private void writeMultipartDataRequest(HttpURLConnection connection, Request request, File file) {
         try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
             wr.writeBytes(NEWLINE);
-            if (request.getJsonPayload() != null) {
+            if (request != null && request.getJsonPayload() != null) {
                 wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
                 wr.writeBytes("Content-Disposition: form-data; name=\"data\"");
                 wr.writeBytes(NEWLINE + NEWLINE);
                 wr.writeBytes(request.getJsonPayload().toString());
             }
-            if (request.getMultipartData() != null) {
+            if (request != null && request.getMultipartData() != null) {
                 for (String param : request.getMultipartData().keySet()) {
                     wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
                     wr.writeBytes("Content-Disposition: form-data; name=\"" + param + "\"");
