@@ -610,9 +610,7 @@ public class OutputFile {
      */
     private void packageTestResults() {
         File f = new File(directory, filename + "_RESULTS.zip");
-        try (// Create new zip file
-             ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
-
+        try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
             // Add html results to zip file
             ZipEntry e = new ZipEntry(filename);
             out.putNextEntry(e);
@@ -630,7 +628,6 @@ public class OutputFile {
                 out.write(screenData, 0, screenData.length);
                 out.closeEntry();
             }
-            out.close();
         } catch (IOException e) {
             log.error(e);
         }

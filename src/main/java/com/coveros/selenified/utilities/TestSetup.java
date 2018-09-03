@@ -37,6 +37,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -306,7 +307,9 @@ public class TestSetup {
                 break;
             case OPERA:
                 OperaDriverManager.getInstance().forceCache().setup();
-                driver = new OperaDriver(capabilities);
+                OperaOptions operaOptions = new OperaOptions();
+                operaOptions = operaOptions.merge(capabilities);
+                driver = new OperaDriver(operaOptions);
                 break;
             case PHANTOMJS:
                 PhantomJsDriverManager.getInstance().forceCache().setup();
