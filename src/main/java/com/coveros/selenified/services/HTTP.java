@@ -233,6 +233,20 @@ public class HTTP {
         return params.toString();
     }
 
+    private HttpURLConnection setupHeaders(HttpURLConnection connection) {
+        connection.setRequestProperty("Content-length", "0");
+        connection.setRequestProperty(CONTENT_TYPE, contentType);
+        connection.setRequestProperty("Accept", "application/json");
+        for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+            connection.setRequestProperty(entry.getKey(), entry.getValue());
+        }
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        connection.setUseCaches(false);
+        connection.setAllowUserInteraction(false);
+        return connection;
+    }
+
     /**
      * A basic generic http call
      *
@@ -249,16 +263,7 @@ public class HTTP {
             URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(call);
-            connection.setRequestProperty("Content-length", "0");
-            connection.setRequestProperty(CONTENT_TYPE, contentType);
-            connection.setRequestProperty("Accept", "application/json");
-            for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-                connection.setRequestProperty(entry.getKey(), entry.getValue());
-            }
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            connection.setUseCaches(false);
-            connection.setAllowUserInteraction(false);
+            connection = setupHeaders(connection);
             if (useCredentials()) {
                 String userpass = user + ":" + pass;
                 String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
@@ -359,6 +364,7 @@ public class HTTP {
      * @param connection - the open connection of the http call
      * @return Response: the response provided from the http call
      */
+    @SuppressWarnings("squid:S3776")    // unable to reduce complexity due to reading inputs
     private Response getResponse(HttpURLConnection connection) {
         int status;
         try {
