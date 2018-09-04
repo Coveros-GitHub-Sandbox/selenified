@@ -263,7 +263,7 @@ public class HTTP {
             URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(call);
-            connection = setupHeaders(connection);
+            setupHeaders(connection);
             if (useCredentials()) {
                 String userpass = user + ":" + pass;
                 String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
@@ -364,7 +364,7 @@ public class HTTP {
      * @param connection - the open connection of the http call
      * @return Response: the response provided from the http call
      */
-    @SuppressWarnings("squid:S3776")    // unable to reduce complexity due to reading inputs
+    @SuppressWarnings("squid:S3776")
     private Response getResponse(HttpURLConnection connection) {
         int status;
         try {

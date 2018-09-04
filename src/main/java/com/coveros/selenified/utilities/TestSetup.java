@@ -125,6 +125,7 @@ public class TestSetup {
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
+    @SuppressWarnings("squid:S3776")
     public static List<Browser> setBrowser() throws InvalidBrowserException {
         List<Browser> browsers = new ArrayList<>();
         // null input check
