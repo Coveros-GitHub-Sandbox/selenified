@@ -939,8 +939,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertEquals(
-                app.newElement(Locator.ID, "disable_click", 0).get().eval("return arguments[0]" + ".innerHTML;"),
+        Assert.assertEquals(app.newElement(Locator.ID, "disable_click", 0).get().eval("return arguments[0].innerHTML;"),
                 "Click me to Disable/Enable a html button");
         // verify no issues
         finish();
@@ -972,7 +971,7 @@ public class ActionGetIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertNull(app.newElement(Locator.ID, "non-existent-name").get().eval("return document" + ".location"));
+        Assert.assertNull(app.newElement(Locator.ID, "non-existent-name").get().eval("return document.location"));
         // verify no issues
         finish();
     }

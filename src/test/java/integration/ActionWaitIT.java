@@ -8,8 +8,6 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-
 public class ActionWaitIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)

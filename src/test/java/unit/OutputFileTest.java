@@ -130,8 +130,8 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderVersionTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, null,
-                "My " + "Version", null);
+        new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, "My Version",
+                null);
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -143,7 +143,7 @@ public class OutputFileTest {
     @Test
     public void createOutputHeaderObjectivesTest() throws IOException {
         new OutputFile("newdirectory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
-                "My " + "Objectives");
+                "My Objectives");
         File file = new File("newdirectory", "fileANDROID.html");
         Assert.assertTrue(file.exists());
         String content = Files.toString(file, Charsets.UTF_8);
@@ -291,59 +291,218 @@ public class OutputFileTest {
 
     @Test
     public void outputRequestPropertiesNullTest() {
-        Assert.assertEquals(outputFile.outputRequestProperties(null), "");
+        Assert.assertEquals(outputFile.outputRequestProperties(null, null), "");
     }
 
     @Test
     public void outputRequestPropertiesNullNullTest() {
-        Request request = new Request(new JsonObject());
-        request.setData(null);
-        Assert.assertEquals(outputFile.outputRequestProperties(request),
-                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>");
+        Request request = new Request();
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null), "");
     }
 
     @Test
-    public void outputRequestPropertiesEmptyDataTest() {
-        Request request = new Request(new JsonObject());
-        Assert.assertEquals(outputFile.outputRequestProperties(request),
+    public void outputRequestPropertiesNullNullFileTest() {
+        Request request = new Request();
+        Assert.assertEquals(outputFile.outputRequestProperties(null, new File("Jenkinsfile")),
+                "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesNullNullBadFileTest() {
+        Request request = new Request();
+        Assert.assertEquals(outputFile.outputRequestProperties(null, new File("Jenkinsfi")),
+                "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfi</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesEmptyJsonObjectTest() {
+        Request request = new Request().setJsonPayload(new JsonObject());
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div>");
     }
 
     @Test
-    public void outputRequestPropertiesDataTest() {
+    public void outputRequestPropertiesJsonObjectTest() {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
-        Request request = new Request(json);
-        Assert.assertEquals(outputFile.outputRequestProperties(request),
+        Request request = new Request().setJsonPayload(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
     @Test
-    public void outputRequestPropertiesEmptyParamsTest() {
-        Request request = new Request(new HashMap<>());
-        Assert.assertEquals(outputFile.outputRequestProperties(request),
+    public void outputRequestPropertiesEmptyJsonArrayTest() {
+        Request request = new Request().setJsonPayload(new JsonArray());
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[]</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesJsonArrayTest() {
+        JsonArray json = new JsonArray();
+        json.add("hello");
+        json.add("world");
+        Request request = new Request().setJsonPayload(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
+                        "\"world\"<br/>]</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesEmptyMultipartTest() {
+        Request request = new Request().setMultipartData(new HashMap<>());
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>");
     }
 
     @Test
-    public void outputRequestPropertiesParamsTest() {
-        Map<String, String> map = new HashMap<>();
+    public void outputRequestPropertiesMultipartTest() {
+        Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
-        Request request = new Request(map);
-        Assert.assertEquals(outputFile.outputRequestProperties(request),
+        Request request = new Request().setMultipartData(map);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div>");
     }
 
     @Test
-    public void outputRequestPropertiesBothTest() {
-        Map<String, String> map = new HashMap<>();
+    public void outputRequestPropertiesEmptyParamsTest() {
+        Request request = new Request().setUrlParams(new HashMap<>());
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null), "");
+    }
+
+    @Test
+    public void outputRequestPropertiesParamsTest() {
+        Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
-        Request request = new Request(map);
+        Request request = new Request().setUrlParams(map);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null), "");
+    }
+
+    @Test
+    public void outputRequestPropertiesBothObjectTest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        Request request = new Request().setUrlParams(map);
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
-        request.setData(json);
-        Assert.assertEquals(outputFile.outputRequestProperties(request),
-                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}<div>hello&nbsp;:&nbsp;world</div></i></div>");
+        request.setJsonPayload(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesBothArrayTest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        Request request = new Request().setUrlParams(map);
+        JsonArray json = new JsonArray();
+        json.add("hello");
+        json.add("world");
+        request.setJsonPayload(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, null),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
+                        "\"world\"<br/>]</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesEmptyJsonObjectAndFileTest() {
+        Request request = new Request().setJsonPayload(new JsonObject());
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesJsonObjectAndFileTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("hello", "world");
+        Request request = new Request().setJsonPayload(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i>" +
+                        "</div><div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") +
+                        "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesEmptyJsonArrayAndFileTest() {
+        Request request = new Request().setJsonPayload(new JsonArray());
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesJsonArrayAndFileTest() {
+        JsonArray json = new JsonArray();
+        json.add("hello");
+        json.add("world");
+        Request request = new Request().setJsonPayload(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
+                        "\"world\"<br/>]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesEmptyMultipartAndFileTest() {
+        Request request = new Request().setMultipartData(new HashMap<>());
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesMultipartAndFileTest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        Request request = new Request().setMultipartData(map);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesEmptyParamsAndFileTest() {
+        Request request = new Request().setUrlParams(new HashMap<>());
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesParamsAndFileTest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        Request request = new Request().setUrlParams(map);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesBothObjectAndFileTest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        Request request = new Request().setUrlParams(map);
+        JsonObject json = new JsonObject();
+        json.addProperty("hello", "world");
+        request.setJsonPayload(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
+    }
+
+    @Test
+    public void outputRequestPropertiesBothArrayAndFileTest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        Request request = new Request().setUrlParams(map);
+        JsonArray json = new JsonArray();
+        json.add("hello");
+        json.add("world");
+        request.setJsonPayload(json);
+        Assert.assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+                "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
+                        "\"world\"<br/>]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
+                        System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test

@@ -929,7 +929,7 @@ public class Element {
             // ensure the option exists
             if (!Arrays.asList(get.selectOptions()).contains(option)) {
                 file.recordAction(action, expected, CANTSELECT + option + " in " + prettyOutput() +
-                        " as that option isn't present. Available options are:<i><br/>" + "&nbsp;&nbsp;&nbsp;" +
+                        " as that option isn't present. Available options are:<i><br/>&nbsp;&nbsp;&nbsp;" +
                         String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>", Result.FAILURE);
                 file.addError();
                 return;
@@ -965,7 +965,7 @@ public class Element {
             // ensure the value exists
             if (!Arrays.asList(get.selectValues()).contains(value)) {
                 file.recordAction(action, expected, CANTSELECT + value + " in " + prettyOutput() +
-                        " as that value isn't present. Available values are:<i><br/>" + "&nbsp;&nbsp;&nbsp;" +
+                        " as that value isn't present. Available values are:<i><br/>&nbsp;&nbsp;&nbsp;" +
                         String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>", Result.FAILURE);
                 file.addError();
                 return;
@@ -1153,7 +1153,7 @@ public class Element {
      * it for use in the logging file. If there is a problem capturing the
      * image, an error message is returned instead.
      *
-     * @return
+     * @return String the location of the screenshot
      */
     private String getScreenshot() {
         WebElement webElement = getWebElement();

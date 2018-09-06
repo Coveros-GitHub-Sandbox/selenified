@@ -216,7 +216,7 @@ public class TestSetupTest {
     @Test
     public void setBrowserMultipleBrowserMultipleDetailsTest() throws InvalidBrowserException {
         System.setProperty("browser",
-                "browserName=CHROME&browserVersion=12," + "browserName=FIREFOX&devicePlatform=Windows 10");
+                "browserName=CHROME&browserVersion=12,browserName=FIREFOX&devicePlatform=Windows 10");
         List<Browser> browsers = TestSetup.setBrowser();
         Assert.assertEquals(browsers.size(), 2);
         Browser chrome = browsers.get(0);
@@ -245,13 +245,13 @@ public class TestSetupTest {
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullBrowserTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupDriver(null, null);
+        TestSetup.setupDriver(null, null);
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullBrowserNameTest() throws InvalidBrowserException {
         TestSetup setup = new TestSetup();
-        setup.setupDriver(new Browser(null), null);
+        TestSetup.setupDriver(new Browser(null), null);
     }
 
     @Test

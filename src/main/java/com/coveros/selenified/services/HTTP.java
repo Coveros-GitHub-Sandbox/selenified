@@ -23,6 +23,7 @@ package com.coveros.selenified.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import org.apache.commons.codec.binary.Base64;
 import org.testng.log4testng.Logger;
 
@@ -45,10 +46,10 @@ import java.util.Map;
 public class HTTP {
 
     private static final Logger log = Logger.getLogger(HTTP.class);
+    private static final String MULTIPART = "multipart/form-data; boundary=";
     private static final String BOUNDARY = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
     private static final String NEWLINE = "\r\n";
 
-    private static final String PATCH = "PATCH";
     private static final String CONTENT_TYPE = "Content-Type";
 
     private final String serviceBaseUrl;
@@ -154,16 +155,6 @@ public class HTTP {
      * A basic http get call
      *
      * @param service - the endpoint of the service under test
-     * @return Response: the response provided from the http call
-     */
-    public Response get(String service) {
-        return call("GET", service, null, null);
-    }
-
-    /**
-     * A basic http get call
-     *
-     * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
      * @return Response: the response provided from the http call
@@ -178,23 +169,13 @@ public class HTTP {
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
-     * @return Response: the response provided from the http call
-     */
-    public Response post(String service, Request request) {
-        return call("POST", service, request, null);
-    }
-
-    /**
-     * A basic http post call
-     *
-     * @param service - the endpoint of the service under test
-     * @param request - the parameters to be passed to the endpoint for the service
-     *                call
      * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
     public Response post(String service, Request request, File file) {
-        this.contentType = "multipart/form-data; boundary=" + BOUNDARY;
+        if (file != null) {
+            this.contentType = MULTIPART + BOUNDARY;
+        }
         return call("POST", service, request, file);
     }
 
@@ -204,32 +185,14 @@ public class HTTP {
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
+     * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response put(String service, Request request) {
-        return call("PUT", service, request, null);
-    }
-
-    /**
-     * A basic http patch call
-     *
-     * @param service - the endpoint of the service under test
-     * @param request - the parameters to be passed to the endpoint for the service
-     *                call
-     * @return Response: the response provided from the http call
-     */
-    public Response patch(String service, Request request) {
-        return call(PATCH, service, request, null);
-    }
-
-    /**
-     * A basic http delete call
-     *
-     * @param service - the endpoint of the service under test
-     * @return Response: the response provided from the http call
-     */
-    public Response delete(String service) {
-        return call("DELETE", service, null, null);
+    public Response put(String service, Request request, File file) {
+        if (file != null) {
+            this.contentType = MULTIPART + BOUNDARY;
+        }
+        return call("PUT", service, request, file);
     }
 
     /**
@@ -238,10 +201,50 @@ public class HTTP {
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
+     * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response delete(String service, Request request) {
-        return call("DELETE", service, request, null);
+    public Response delete(String service, Request request, File file) {
+        if (file != null) {
+            this.contentType = MULTIPART + BOUNDARY;
+        }
+        return call("DELETE", service, request, file);
+    }
+
+    /**
+     * Returns a string representation of the parameters, able to be appended to the url
+     *
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
+     * @return String: the string friendly url parameter representation
+     */
+    public String getRequestParams(Request request) {
+        StringBuilder params = new StringBuilder();
+        if (request != null && request.getUrlParams() != null) {
+            params.append("?");
+            for (String key : request.getUrlParams().keySet()) {
+                params.append(key);
+                params.append("=");
+                params.append(String.valueOf(request.getUrlParams().get(key)));
+                params.append("&");
+            }
+            params.deleteCharAt(params.length() - 1);
+        }
+        return params.toString();
+    }
+
+    private HttpURLConnection setupHeaders(HttpURLConnection connection) {
+        connection.setRequestProperty("Content-length", "0");
+        connection.setRequestProperty(CONTENT_TYPE, contentType);
+        connection.setRequestProperty("Accept", "application/json");
+        for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+            connection.setRequestProperty(entry.getKey(), entry.getValue());
+        }
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        connection.setUseCaches(false);
+        connection.setAllowUserInteraction(false);
+        return connection;
     }
 
     /**
@@ -255,47 +258,24 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     private Response call(String call, String service, Request request, File file) {
-        StringBuilder params = new StringBuilder();
-        if (request != null && request.getParams() != null) {
-            params.append("?");
-            for (String key : request.getParams().keySet()) {
-                params.append(key);
-                params.append("=");
-                params.append(request.getParams().get(key));
-                params.append("&");
-            }
-        }
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(this.serviceBaseUrl + service + params.toString());
+            URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
             connection = (HttpURLConnection) url.openConnection();
-            String method = call;
-            if (PATCH.equals(method)) {
-                connection.setRequestProperty("X-HTTP-Method-Override", PATCH);
-                method = "POST";
-            }
-            connection.setRequestMethod(method);
-            connection.setRequestProperty("Content-length", "0");
-            connection.setRequestProperty(CONTENT_TYPE, contentType);
-            connection.setRequestProperty("Accept", "application/json");
-            for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-                connection.setRequestProperty(entry.getKey(), entry.getValue());
-            }
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            connection.setUseCaches(false);
-            connection.setAllowUserInteraction(false);
+            connection.setRequestMethod(call);
+            setupHeaders(connection);
             if (useCredentials()) {
                 String userpass = user + ":" + pass;
                 String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
                 connection.setRequestProperty("Authorization", "Basic " + encoding);
             }
             connection.connect();
-            if ((request != null && request.getData() != null) || file != null) {
-                if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json;")) {
-                    writeJsonDataRequest(connection, request);
-                } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data;")) {
+            if ((request != null && request.isPayload()) || file != null) {
+                if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data") ||
+                        (request != null && request.getMultipartData() != null) || file != null) {
                     writeMultipartDataRequest(connection, request, file);
+                } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json")) {
+                    writeJsonDataRequest(connection, request);
                 } else {
                     throw new IOException("Content-Type '" + connection.getRequestProperty(CONTENT_TYPE) +
                             "' not currently supported by Selenified. Current supported types are " +
@@ -326,7 +306,7 @@ public class HTTP {
      */
     private void writeJsonDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream())) {
-            wr.write(request.getData().toString());
+            wr.write(request.getJsonPayload().toString());
             wr.flush();
         } catch (IOException e) {
             log.error(e);
@@ -344,20 +324,32 @@ public class HTTP {
     private void writeMultipartDataRequest(HttpURLConnection connection, Request request, File file) {
         try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
             wr.writeBytes(NEWLINE);
-            if (request.getData() != null) {
+            if (request != null && request.getJsonPayload() != null) {
                 wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
                 wr.writeBytes("Content-Disposition: form-data; name=\"data\"");
                 wr.writeBytes(NEWLINE + NEWLINE);
-                wr.writeBytes(request.getData().toString());
+                wr.writeBytes(request.getJsonPayload().toString());
             }
-            if (file != null && file.exists()) {
-                wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
-                wr.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"");
-                wr.writeBytes(NEWLINE);
-                wr.writeBytes("Content-Type: " + Files.probeContentType(file.toPath()));
-                wr.writeBytes(NEWLINE + NEWLINE);
-                byte[] bytes = Files.readAllBytes(file.toPath());
-                wr.write(bytes);
+            if (request != null && request.getMultipartData() != null) {
+                for (String param : request.getMultipartData().keySet()) {
+                    wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
+                    wr.writeBytes("Content-Disposition: form-data; name=\"" + param + "\"");
+                    wr.writeBytes(NEWLINE + NEWLINE);
+                    wr.writeBytes(request.getMultipartData().get(param).toString());
+                }
+            }
+            if (file != null) {
+                if (!file.exists()) {
+                    log.error("Unable to upload file with http call, as file can't be found: " + file.getName());
+                } else {
+                    wr.writeBytes(NEWLINE + "--" + BOUNDARY + NEWLINE);
+                    wr.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"");
+                    wr.writeBytes(NEWLINE);
+                    wr.writeBytes("Content-Type: " + Files.probeContentType(file.toPath()));
+                    wr.writeBytes(NEWLINE + NEWLINE);
+                    byte[] bytes = Files.readAllBytes(file.toPath());
+                    wr.write(bytes);
+                }
             }
             wr.writeBytes(NEWLINE + "--" + BOUNDARY + "--" + NEWLINE);
             wr.flush();
@@ -372,6 +364,7 @@ public class HTTP {
      * @param connection - the open connection of the http call
      * @return Response: the response provided from the http call
      */
+    @SuppressWarnings("squid:S3776")
     private Response getResponse(HttpURLConnection connection) {
         int status;
         try {
@@ -390,7 +383,11 @@ public class HTTP {
             rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         } catch (IOException e) {
             log.warn(e);
-            rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+            try {
+                rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+            } catch (NullPointerException ee) {
+                log.warn(ee);
+            }
         } finally {
             StringBuilder sb = new StringBuilder();
             String line;
@@ -413,10 +410,14 @@ public class HTTP {
                 try {
                     object = (JsonObject) parser.parse(data);
                     response.setObjectData(object);
-                } catch (ClassCastException e) {
+                } catch (JsonSyntaxException | ClassCastException e) {
                     log.debug(e);
-                    array = (JsonArray) parser.parse(data);
-                    response.setArrayData(array);
+                    try {
+                        array = (JsonArray) parser.parse(data);
+                        response.setArrayData(array);
+                    } catch (JsonSyntaxException | ClassCastException ee) {
+                        log.debug(ee);
+                    }
                 }
             }
         }

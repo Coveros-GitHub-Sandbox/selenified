@@ -167,8 +167,8 @@ public class WaitFor {
         try {
             double end = System.currentTimeMillis() + (seconds * 1000);
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
-            wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(element.defineByElement
-                    ())));
+            wait.until(ExpectedConditions
+                    .not(ExpectedConditions.presenceOfAllElementsLocatedBy(element.defineByElement())));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
             timetook = timetook / 1000;
             file.recordAction(action, expected,
@@ -220,7 +220,7 @@ public class WaitFor {
         String expected = element.prettyOutputStart() + " is not displayed";
         if (!element.is().present()) {
             file.recordAction(action, expected,
-                    element.prettyOutputStart() + " is not present, and therefore not " + "displayed", Result.SUCCESS);
+                    element.prettyOutputStart() + " is not present, and therefore not displayed", Result.SUCCESS);
             return;
         }
         try {
@@ -276,17 +276,17 @@ public class WaitFor {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be enabled";
         String expected = element.prettyOutputStart() + " is not enabled";
         if (!element.is().present()) {
-            file.recordAction(action, expected, element.prettyOutputStart() + " is not present, and therefore not " +
-                            "enabled",
-                    Result.SUCCESS);
+            file.recordAction(action, expected,
+                    element.prettyOutputStart() + " is not present, and therefore not enabled", Result.SUCCESS);
             return;
         }
         try {
             double start = System.currentTimeMillis();
             // wait for up to XX seconds
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
-            wait.until(ExpectedConditions.or(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element
-                    .defineByElement())), ExpectedConditions.invisibilityOfElementLocated(element.defineByElement())));
+            wait.until(ExpectedConditions
+                    .or(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.defineByElement())),
+                            ExpectedConditions.invisibilityOfElementLocated(element.defineByElement())));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected,
                     WAITED + timetook + SECONDS_FOR + element.prettyOutput() + " to not be enabled", Result.SUCCESS);

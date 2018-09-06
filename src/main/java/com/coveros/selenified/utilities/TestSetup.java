@@ -37,6 +37,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -124,6 +125,7 @@ public class TestSetup {
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
+    @SuppressWarnings("squid:S3776")
     public static List<Browser> setBrowser() throws InvalidBrowserException {
         List<Browser> browsers = new ArrayList<>();
         // null input check
@@ -306,7 +308,9 @@ public class TestSetup {
                 break;
             case OPERA:
                 OperaDriverManager.getInstance().forceCache().setup();
-                driver = new OperaDriver(capabilities);
+                OperaOptions operaOptions = new OperaOptions();
+                operaOptions = operaOptions.merge(capabilities);
+                driver = new OperaDriver(operaOptions);
                 break;
             case PHANTOMJS:
                 PhantomJsDriverManager.getInstance().forceCache().setup();
@@ -347,13 +351,13 @@ public class TestSetup {
      * @param app - the application to be tested, contains all control elements
      */
     public static void setupScreenSize(App app) {
-        if (System.getProperty(SCREEN_SIZE) != null && !"" .equals(System.getProperty(SCREEN_SIZE))) {
+        if (System.getProperty(SCREEN_SIZE) != null && !"".equals(System.getProperty(SCREEN_SIZE))) {
             String screensize = System.getProperty(SCREEN_SIZE);
             if (screensize.matches("(\\d+)x(\\d+)")) {
                 int width = Integer.parseInt(System.getProperty(SCREEN_SIZE).split("x")[0]);
                 int height = Integer.parseInt(System.getProperty(SCREEN_SIZE).split("x")[1]);
                 app.resize(width, height);
-            } else if ("maximum" .equals(screensize)) {
+            } else if ("maximum".equals(screensize)) {
                 app.maximize();
             } else {
                 log.error("Provided screensize does not match expected pattern");
