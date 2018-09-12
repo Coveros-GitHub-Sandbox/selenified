@@ -6,25 +6,25 @@ public class SelenifiedIT extends WebBase {
 
     @Test
     public void noAnnotationDetailsTest() {
-        // verify 1 issues
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "selenified"})
     public void noDescriptionTest() {
-        // verify 1 issues
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(description = "A test to verify that logs work without any groups")
     public void noGroupsTest() {
-        // verify 1 issues
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = "integration")
     public void oneGroupTest() {
-        // verify 1 issues
-        finish(1);
+        // verify no issues
+        finish();
     }
 }
