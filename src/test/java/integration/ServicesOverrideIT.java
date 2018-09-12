@@ -1,42 +1,25 @@
 package integration;
 
-import com.coveros.selenified.DriverSetup;
-import com.coveros.selenified.Selenified;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
 import com.google.gson.JsonObject;
 import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServicesOverrideIT extends Selenified {
+public class ServicesOverrideIT extends ServicesBase {
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext test) {
-        // set the base URL for the tests here
-        setTestSite(this, test, "https://jsonplaceholder.typicode.com/");
-        // set the author of the tests here
-        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
-        // set the version of the tests or of the software, possibly with a
-        // dynamic check
-        setVersion(this, test, "3.0.2");
+    public void setupHeaders(ITestContext test) {
         // for this test, we want to change the default headers for each call
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/xml");
         addHeaders(this, test, headers);
         // for this particular test, we want to set some bogus credentials
         setCredentials(this, test, "servicesUsername", "servicesPassword");
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-        super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 
     @Test(groups = {"integration", "services", "headers"},
@@ -49,7 +32,7 @@ public class ServicesOverrideIT extends Selenified {
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions
-        call.post("posts/", new Request()).assertEquals(201);
+        call.get("posts/", new Request()).assertEquals(200);
         // verify no issues
         finish();
     }
