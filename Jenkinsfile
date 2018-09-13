@@ -56,7 +56,7 @@ node {
                 }
                 stage('Execute Local Tests') {
                     try {
-                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="" -Dheadless'
+                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="services" -Dheadless'
                     } catch (e) {
                         throw e;
                     } finally {
@@ -74,9 +74,12 @@ node {
                             passwordVariable: 'saucekey'
                     )
             ]) {
+                stage('Update Test Site') {
+                    sh 'scp public/* ec2-user@34.233.135.10:/var/www/noindex/'
+                }
                 stage('Execute Hub Tests') {
                     try {
-                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='services' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e;
                     } finally {
