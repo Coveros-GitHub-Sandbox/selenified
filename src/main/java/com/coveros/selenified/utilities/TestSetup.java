@@ -440,6 +440,7 @@ public class TestSetup {
      *                     providers
      * @return String: a unique name
      */
+    @SuppressWarnings("squid:S2116")
     public static String getTestName(String packageName, String className, String methodName, Object... dataProvider) {
         StringBuilder testName;
         if ("".equals(packageName)) {

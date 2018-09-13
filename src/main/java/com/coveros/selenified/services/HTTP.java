@@ -364,7 +364,7 @@ public class HTTP {
      * @param connection - the open connection of the http call
      * @return Response: the response provided from the http call
      */
-    @SuppressWarnings("squid:S3776")
+    @SuppressWarnings({"squid:S3776", "squid:S2093"})
     private Response getResponse(HttpURLConnection connection) {
         int status;
         try {

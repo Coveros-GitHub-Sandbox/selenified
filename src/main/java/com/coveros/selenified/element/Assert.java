@@ -153,10 +153,11 @@ class Assert {
      * @param expected  - is the attribute expected to be present, or not present
      * @return String[]: the list of all attributes from the element;
      */
+    @SuppressWarnings("squid:S1168")
     String[] getAttributes(String attribute, String expected) {
         // wait for the element
         if (!isPresent()) {
-            return null; // returning an empty array could be confused with no attributes
+            return null;    // returning an empty array could be confused with no attributes
         }
         file.recordExpected(EXPECTED + element.prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>");
         // check our attributes
@@ -164,7 +165,7 @@ class Assert {
         if (attributes == null) {
             file.recordActual("Unable to assess the attributes of " + element.prettyOutputEnd(), Success.FAIL);
             file.addError();
-            return null; // returning an empty array could be confused with no attributes
+            return null;    // returning an empty array could be confused with no attributes
         }
         Set<String> keys = attributes.keySet();
         return keys.toArray(new String[keys.size()]);
