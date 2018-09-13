@@ -156,8 +156,7 @@ class Assert {
     String[] getAttributes(String attribute, String expected) {
         // wait for the element
         if (!isPresent()) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no attributes
+            return null; // returning an empty array could be confused with no attributes
         }
         file.recordExpected(EXPECTED + element.prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>");
         // check our attributes
@@ -165,8 +164,7 @@ class Assert {
         if (attributes == null) {
             file.recordActual("Unable to assess the attributes of " + element.prettyOutputEnd(), Success.FAIL);
             file.addError();
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no attributes
+            return null; // returning an empty array could be confused with no attributes
         }
         Set<String> keys = attributes.keySet();
         return keys.toArray(new String[keys.size()]);

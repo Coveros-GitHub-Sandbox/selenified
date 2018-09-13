@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ActionDoIT extends Selenified {
 
-    private List<Point<Integer, Integer>> points = new ArrayList<>();
+    private final List<Point<Integer, Integer>> points = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {

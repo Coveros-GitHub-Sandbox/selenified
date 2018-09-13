@@ -393,7 +393,7 @@ public class TestSetup {
      */
     public static String removeNonWordCharacters(String value) {
         if (value == null) {
-            return value;
+            return null;
         }
         return value.replaceAll("[^a-zA-Z0-9]+", "");
     }
@@ -459,11 +459,11 @@ public class TestSetup {
             currentName = testName.toString();
             if (currentName.length() > MAXFILENAMELENGTH) {
                 if ("".equals(packageName)) {
-                    currentName = className + "_" + methodName + dataProvider.toString().split(";")[1]; // NOSONAR
+                    currentName = className + "_" + methodName + dataProvider.toString().split(";")[1];
                     // purposefully using toString on object to obtain unique random hash
                 } else {
-                    currentName = packageName + "_" + className + "_" + methodName +
-                            dataProvider.toString().split(";")[1]; // NOSONAR
+                    currentName =
+                            packageName + "_" + className + "_" + methodName + dataProvider.toString().split(";")[1];
                     // purposefully using toString on object to obtain unique random hash
                 }
             }
@@ -479,7 +479,7 @@ public class TestSetup {
      */
     public static String capitalizeFirstLetters(String word) {
         if (word == null) {
-            return word;
+            return null;
         }
         String out = "";
         for (int i = 0; i < word.length(); i++) {

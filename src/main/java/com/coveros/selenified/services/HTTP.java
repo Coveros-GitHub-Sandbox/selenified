@@ -378,8 +378,8 @@ public class HTTP {
         JsonArray array;
         String data;
         BufferedReader rd = null;
-        try { // NOSONAR - unable to use the try-with-resources block, as the rd
-            // needs to be read in the finally, and can't be closed
+        // unable to use the try-with-resources block, as the rd needs to be read in the finally, and can't be closed
+        try {
             rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         } catch (IOException e) {
             log.warn(e);

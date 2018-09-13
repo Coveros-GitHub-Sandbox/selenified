@@ -58,7 +58,7 @@ public class WaitFor {
     private static final String ENABLED = " to be enabled";
 
     private double defaultWait = 5.0;
-    private long defaultPollingInterval = 50;
+    private final long defaultPollingInterval = 50;
 
     public WaitFor(Element element, OutputFile file) {
         this.element = element;

@@ -331,16 +331,11 @@ public class Selenified {
         String extClass = method.getDeclaringClass().getName();
         String description = "";
         String group = "";
+        // get annotation information
         Test annotation = method.getAnnotation(Test.class);
-        // set description from annotation
-        if (annotation.description() != null) {
-            description = annotation.description();
-        }
-        // adding in the group if it exists
-        if (annotation.groups() != null) {
-            group = Arrays.toString(annotation.groups());
-            group = group.substring(1, group.length() - 1);
-        }
+        description = annotation.description();
+        group = Arrays.toString(annotation.groups());
+        group = group.substring(1, group.length() - 1);
 
         while (test.getAttribute(testName + INVOCATION_COUNT) == null) {
             test.setAttribute(testName + INVOCATION_COUNT, 0);
@@ -511,7 +506,7 @@ public class Selenified {
             }
             setupTestParameters();
             wasInvoked = true;
-            //downgrade our logging
+            // downgrade our logging
             java.util.logging.Logger.getLogger("io.github").setLevel(Level.SEVERE);
         }
 
