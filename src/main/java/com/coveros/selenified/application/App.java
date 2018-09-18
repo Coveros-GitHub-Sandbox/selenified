@@ -120,7 +120,11 @@ public class App {
         if (System.getProperty("hub") != null) {
             driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.capabilities);
         } else {
-            this.capabilities.setJavascriptEnabled(true);
+            try {
+                this.capabilities.setJavascriptEnabled(true);
+            } catch (NullPointerException e) {
+                log.error(e);
+            }
             driver = TestSetup.setupDriver(this.browser, this.capabilities);
         }
 
