@@ -22,11 +22,11 @@ import static org.mockserver.model.HttpResponse.response;
 public class ServicesBase extends Selenified {
 
     protected ClientAndServer mockServer;
-    protected JsonObject json1 = new JsonObject();
-    protected JsonObject json2 = new JsonObject();
-    protected JsonObject json3 = new JsonObject();
-    protected JsonObject json4 = new JsonObject();
-    protected JsonObject simJson4 = new JsonObject();
+    protected final JsonObject json1 = new JsonObject();
+    protected final JsonObject json2 = new JsonObject();
+    protected final JsonObject json3 = new JsonObject();
+    protected final JsonObject json4 = new JsonObject();
+    protected final JsonObject simJson4 = new JsonObject();
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
