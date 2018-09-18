@@ -33,7 +33,7 @@ node {
                 try {
                     sh "mvn clean test"
                 } catch (e) {
-                    throw e;
+                    throw e
                 } finally {
                     sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec;"
                     sh "mkdir -p results/unit; mv target results/unit/"
@@ -46,10 +46,10 @@ node {
                     try {
                         sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit -Dheadless'
                     } catch (e) {
-                        throw e;
+                        throw e
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                        sh "mkdir -p results/htmlunit; mv target results/htmlunit/";
+                        sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
                         archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
                         junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
                     }
@@ -58,10 +58,10 @@ node {
                     try {
                         sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="services" -Dheadless'
                     } catch (e) {
-                        throw e;
+                        throw e
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                        sh "mkdir -p results/browserLocal; mv target results/browserLocal/";
+                        sh "mkdir -p results/browserLocal; mv target results/browserLocal/"
                         archiveArtifacts artifacts: 'results/browserLocal/target/failsafe-reports/**'
                         junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
                     }
@@ -81,10 +81,10 @@ node {
                     try {
                         sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='services' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                     } catch (e) {
-                        throw e;
+                        throw e
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                        sh "mkdir -p results/browserRemote; mv target results/browserRemote/";
+                        sh "mkdir -p results/browserRemote; mv target results/browserRemote/"
                         archiveArtifacts artifacts: 'results/browserRemote/target/failsafe-reports/**'
                         junit 'results/browserRemote/target/failsafe-reports/TEST-*.xml'
                     }
