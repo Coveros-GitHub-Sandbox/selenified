@@ -1,12 +1,9 @@
 package sample;
 
 import com.coveros.selenified.Locator;
-import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
 import integration.WebBase;
-import org.testng.ITestContext;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

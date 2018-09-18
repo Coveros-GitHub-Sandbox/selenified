@@ -16,7 +16,7 @@ import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
 public class WebBase extends Selenified {
-    protected ClientAndServer mockServer;
+    private ClientAndServer mockServer;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
