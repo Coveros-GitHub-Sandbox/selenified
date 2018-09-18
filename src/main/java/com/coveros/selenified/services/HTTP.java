@@ -233,7 +233,7 @@ public class HTTP {
         return params.toString();
     }
 
-    private HttpURLConnection setupHeaders(HttpURLConnection connection) {
+    private void setupHeaders(HttpURLConnection connection) {
         connection.setRequestProperty("Content-length", "0");
         connection.setRequestProperty(CONTENT_TYPE, contentType);
         connection.setRequestProperty("Accept", "application/json");
@@ -244,7 +244,6 @@ public class HTTP {
         connection.setDoInput(true);
         connection.setUseCaches(false);
         connection.setAllowUserInteraction(false);
-        return connection;
     }
 
     /**

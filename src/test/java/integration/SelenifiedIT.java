@@ -1,28 +1,15 @@
 package integration;
 
-import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.utilities.TestSetup;
-import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class SelenifiedIT extends Selenified {
+public class SelenifiedIT extends WebBase {
 
     private String setScreensize = null;
-
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext test) {
-        // set the base URL for the tests here
-        setTestSite(this, test, "https://www.google.com/");
-        // set the author of the tests here
-        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
-        // set the version of the tests or of the software, possibly with a
-        // dynamic check
-        setVersion(this, test, "3.0.2");
-    }
 
     @BeforeClass
     public void saveScreensize() {

@@ -329,12 +329,10 @@ public class Selenified {
         String testName = TestSetup.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
-        String description = "";
-        String group = "";
         // get annotation information
         Test annotation = method.getAnnotation(Test.class);
-        description = annotation.description();
-        group = Arrays.toString(annotation.groups());
+        String description = annotation.description();
+        String group = Arrays.toString(annotation.groups());
         group = group.substring(1, group.length() - 1);
 
         while (test.getAttribute(testName + INVOCATION_COUNT) == null) {

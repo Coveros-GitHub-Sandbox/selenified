@@ -358,27 +358,6 @@ public class App {
     }
 
     /**
-     * Sends a key combination both as control and command (PC and Mac
-     * compatible)
-     *
-     * @param action   - the action occurring
-     * @param expected - the expected result
-     * @param fail     - the failed result
-     * @param key      - what key to send along with control and/or command
-     */
-    private void sendControlAndCommand(String action, String expected, String fail, Keys key) {
-        try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, key));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, key));
-        } catch (Exception e) {
-            file.recordAction(action, expected, fail + e.getMessage(), Result.FAILURE);
-            file.addError();
-            log.warn(e);
-        }
-        file.recordAction(action, expected, expected, Result.SUCCESS);
-    }
-
-    /**
      * Go back one page in the current test's browser history
      */
     public void goBack() {
@@ -440,9 +419,19 @@ public class App {
      * new/fresh/clean session
      */
     public void refreshHard() {
-        sendControlAndCommand("Reloading current page while clearing the cache",
-                "Cache is cleared, and the page is refreshed",
-                "There was a problem clearing the cache and reloading the page. ", Keys.F5);
+        String action = "Reloading current page while clearing the cache";
+        String expected = "Cache is cleared, and the page is refreshed";
+        try {
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
+            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
+        } catch (Exception e) {
+            file.recordAction(action, expected,
+                    "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            log.warn(e);
+        }
+        file.recordAction(action, expected, expected, Result.SUCCESS);
+
     }
 
     /**
