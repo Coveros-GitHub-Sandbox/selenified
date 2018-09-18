@@ -90,7 +90,7 @@ node {
             ]) {
                 stage('Execute Hub Tests') {
                     try {
-                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Chrome,browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='screenshot' -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e;
                     } finally {

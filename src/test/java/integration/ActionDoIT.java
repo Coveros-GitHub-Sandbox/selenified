@@ -7,6 +7,7 @@ import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.Point;
+import com.coveros.selenified.utilities.Sauce;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
@@ -21,8 +22,6 @@ import java.util.List;
 
 public class ActionDoIT extends Selenified {
 
-    private List<Point<Integer, Integer>> points = new ArrayList<>();
-
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
@@ -32,10 +31,6 @@ public class ActionDoIT extends Selenified {
         // set the version of the tests or of the software, possibly with a
         // dynamic check
         setVersion(this, test, "3.0.2");
-
-        // setup our drawing points
-        points.add(new Point<>(10, 10));
-        points.add(new Point<>(100, 10));
     }
 
     @DataProvider(name = "car list options", parallel = true)
@@ -594,8 +589,13 @@ public class ActionDoIT extends Selenified {
         // perform some actions
         File file = new File("public/index.html");
         app.newElement(Locator.ID, "transparent_input").type(file.getAbsolutePath());
-        // verify no issues
-        finish();
+        // if on sauce, file won't exist, and an error will be thrown
+        if (Sauce.isSauce()) {
+            finish(1);
+        } else {
+            finish();
+        }
+
     }
 
     @Test(groups = {"integration", "actions", "do", "type"},
@@ -1226,6 +1226,9 @@ public class ActionDoIT extends Selenified {
     @Test(groups = {"integration", "actions", "do", "draw", "browser"},
             description = "An integration negative test to check the draw method")
     public void drawTest() {
+        List<Point<Integer, Integer>> points = new ArrayList<>();
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1237,12 +1240,15 @@ public class ActionDoIT extends Selenified {
     @Test(groups = {"integration", "actions", "do", "draw", "browser"},
             description = "An integration test to check the draw method")
     public void drawTestNotCanvas() {
+        List<Point<Integer, Integer>> points = new ArrayList<>();
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "overlay_span").draw(points);
         // verify no issues
-        finish(0);
+        finish();
     }
 
     @Test(groups = {"integration", "actions", "do", "draw"},
@@ -1259,6 +1265,9 @@ public class ActionDoIT extends Selenified {
     @Test(groups = {"integration", "actions", "do", "draw"},
             description = "An integration negative test to check the draw method")
     public void drawAlertTest() {
+        List<Point<Integer, Integer>> points = new ArrayList<>();
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1271,6 +1280,9 @@ public class ActionDoIT extends Selenified {
     @Test(groups = {"integration", "actions", "draw", "do"},
             description = "An integration negative test to check the draw method")
     public void drawDisabledTest() {
+        List<Point<Integer, Integer>> points = new ArrayList<>();
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1282,6 +1294,9 @@ public class ActionDoIT extends Selenified {
     @Test(groups = {"integration", "actions", "do", "draw"},
             description = "An integration negative test to check the draw method")
     public void drawNotExistTest() {
+        List<Point<Integer, Integer>> points = new ArrayList<>();
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1293,6 +1308,9 @@ public class ActionDoIT extends Selenified {
     @Test(groups = {"integration", "actions", "do", "draw"},
             description = "An integration negative test to check the draw method")
     public void drawHiddenTest() {
+        List<Point<Integer, Integer>> points = new ArrayList<>();
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1301,7 +1319,7 @@ public class ActionDoIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "screenshot", "do"},
+    @Test(groups = {"integration", "actions", "screenshot", "do", "local"},
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotFirefoxLocalTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
@@ -1315,7 +1333,7 @@ public class ActionDoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "screenshot", "do"},
+    @Test(groups = {"integration", "actions", "screenshot", "do", "local"},
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotFirefoxHubTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
@@ -1329,7 +1347,7 @@ public class ActionDoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "screenshot", "do"},
+    @Test(groups = {"integration", "actions", "screenshot", "do", "local"},
             description = "An integration test to check the takeScreenshot method")
     public void takeScreenshotHtmlUnitTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app
@@ -1341,7 +1359,7 @@ public class ActionDoIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "screenshot", "do"},
+    @Test(groups = {"integration", "actions", "screenshot", "do", "local"},
             description = "An integration negative test to check the takeScreenshot method")
     public void takeScreenshotBadDriverTest() throws InvalidBrowserException, MalformedURLException {
         // use this object to manipulate the app

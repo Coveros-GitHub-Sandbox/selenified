@@ -90,7 +90,7 @@ public class ActionWaitIT extends Selenified {
         // perform some actions
         app.waitFor().location(getTestSite(this.getClass().getName(), context));
         // verify no issues
-        finish(0);
+        finish();
     }
 
     @Test(groups = {"integration", "actions", "wait", "location"},
@@ -112,7 +112,7 @@ public class ActionWaitIT extends Selenified {
         // perform some actions
         app.waitFor().title("Selenified Test Page");
         // verify no issues
-        finish(0);
+        finish();
     }
 
     @Test(groups = {"integration", "actions", "wait", "title"},
