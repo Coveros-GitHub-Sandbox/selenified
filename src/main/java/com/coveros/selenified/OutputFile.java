@@ -27,6 +27,7 @@ import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.TestSetup;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import org.testng.log4testng.Logger;
 
 import java.io.*;
@@ -601,6 +602,14 @@ public class OutputFile {
         replaceInFile("TIMEFINISHED", timeNow);
         if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
             packageTestResults();
+        }
+        try (OutputStream os = new FileOutputStream("/Users/grasbergerm/Desktop/out.pdf")) {
+            PdfRendererBuilder builder = new PdfRendererBuilder();
+            builder.withUri("file:///Users/grasbergerm/Desktop/" + filename);
+            builder.toStream(os);
+            builder.run();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

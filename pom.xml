@@ -45,6 +45,7 @@
         <jacoco.maven.plugin.version>0.7.9</jacoco.maven.plugin.version>
         <lint.maven.plugin.version>0.0.11</lint.maven.plugin.version>
         <nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
+        <openhtml.version>0.0.1-RC15</openhtml.version>
 
         <!-- SonarQube properties -->
         <sonar.host.url>http://localhost:9000/sonar</sonar.host.url>
@@ -126,6 +127,20 @@
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+
+        <dependency>
+        <!-- ALWAYS required. -->
+        <groupId>com.openhtmltopdf</groupId>
+        <artifactId>openhtmltopdf-core</artifactId>
+        <version>${openhtml.version}</version>
+    </dependency>
+
+    <dependency>
+        <!-- Required for PDF output. -->
+        <groupId>com.openhtmltopdf</groupId>
+        <artifactId>openhtmltopdf-pdfbox</artifactId>
+        <version>${openhtml.version}</version>
+    </dependency>
     </dependencies>
 
     <distributionManagement>
