@@ -469,6 +469,27 @@ public class ActionIsIT extends Selenified {
         finish();
     }
 
+    @Test(groups = {"integration", "actions", "is"}, description = "An integration test to check the isLocation method")
+    public void isLocationTest(ITestContext test) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertTrue(app.is().location(getTestSite(this.getClass().getName(), test)));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "is"},
+            description = "A negative integration test to check the isLocation method")
+    public void negativeIsLocationTest(ITestContext test) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertFalse(app.is().location("Some Made Up URL"));
+        // verify no issues
+        finish();
+    }
+
     @Test(groups = {"integration", "actions", "is"},
             description = "An integration test to check the isTextPresentInSource method")
     public void isTextPresentInSourceTest() {
