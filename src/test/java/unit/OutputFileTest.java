@@ -302,14 +302,12 @@ public class OutputFileTest {
 
     @Test
     public void outputRequestPropertiesNullNullFileTest() {
-        Request request = new Request();
         Assert.assertEquals(outputFile.outputRequestProperties(null, new File("Jenkinsfile")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesNullNullBadFileTest() {
-        Request request = new Request();
         Assert.assertEquals(outputFile.outputRequestProperties(null, new File("Jenkinsfi")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfi</i></div>");
     }

@@ -103,10 +103,10 @@ public class Get {
      *
      * @return String[]: the options from the select element
      */
+    @SuppressWarnings("squid:S1168")
     public String[] selectedOptions() {
         if (!isPresentSelect()) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no options selected
+            return null;    // returning an empty array could be confused with no options selected
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -140,10 +140,10 @@ public class Get {
      *
      * @return String[]: the options from the select element
      */
+    @SuppressWarnings("squid:S1168")
     public String[] selectedValues() {
         if (!isPresentSelect()) {
-            return null;// NOSONAR - returning an empty array could be confused
-            // with no values selected
+            return null;    // returning an empty array could be confused with no values selected
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -293,10 +293,10 @@ public class Get {
      *
      * @return String[]: the options from the select element
      */
+    @SuppressWarnings("squid:S1168")
     public String[] selectOptions() {
         if (!isPresentSelect()) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no options available
+            return null;    // returning an empty array could be confused with no options available
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -314,10 +314,10 @@ public class Get {
      *
      * @return String[]: the options from the select element
      */
+    @SuppressWarnings("squid:S1168")
     public String[] selectValues() {
         if (!isPresentSelect()) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no options available
+            return null;    // returning an empty array could be confused with no options available
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -349,14 +349,13 @@ public class Get {
      *
      * @return List: a list of the table rows as WebElements
      */
+    @SuppressWarnings("squid:S1168")
     public List<WebElement> tableRows() {
         if (!element.is().present()) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no rows
+            return null;    // returning an empty array could be confused with no rows
         }
         if (!element.is().table()) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no rows
+            return null;    // returning an empty array could be confused with no rows
         }
         WebElement webElement = element.getWebElement();
         // this locator may need to be updated
@@ -383,14 +382,13 @@ public class Get {
      *
      * @return List: a list of the table columns as WebElements
      */
+    @SuppressWarnings("squid:S1168")
     public List<List<WebElement>> tableColumns() {
         if (!element.is().present()) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no rows
+            return null;    // returning an empty array could be confused with no rows
         }
         if (!element.is().table()) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with no columns
+            return null;    // returning an empty array could be confused with no columns
         }
         List<WebElement> rows = tableRows();
         List<WebElement> row = tableRow(1);
@@ -415,11 +413,11 @@ public class Get {
      *               starts at 1, NOT 0
      * @return List: a list of the table cells in the row as WebElements
      */
+    @SuppressWarnings("squid:S1168")
     public List<WebElement> tableRow(int rowNum) {
         List<WebElement> rows = tableRows();
         if (rows == null) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with a row out of range
+            return null;    // returning an empty array could be confused with a row out of range
         }
         if (rows.size() < rowNum) {
             return new ArrayList<>();
@@ -440,11 +438,11 @@ public class Get {
      *               numbering starts at 1, NOT 0
      * @return List: a list of the table cells in the column as WebElements
      */
+    @SuppressWarnings("squid:S1168")
     public List<WebElement> tableColumn(int colNum) {
         List<List<WebElement>> columns = tableColumns();
         if (columns == null) {
-            return null; // NOSONAR - returning an empty array could be confused
-            // with a column out of range
+            return null;    // returning an empty array could be confused with a column out of range
         }
         if (columns.size() < colNum) {
             return new ArrayList<>();

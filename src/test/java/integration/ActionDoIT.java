@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ActionDoIT extends WebBase {
 
-    private List<Point<Integer, Integer>> points = new ArrayList<>();
+    private final List<Point<Integer, Integer>> points = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     private void setupPoint() {
