@@ -57,8 +57,8 @@ public class WaitFor {
     private static final String DISPLAYED = " to be displayed";
     private static final String ENABLED = " to be enabled";
 
+    private static final long DEFAULT_POLLING_INTERVAL = 50;
     private double defaultWait = 5.0;
-    private long defaultPollingInterval = 50;
 
     public WaitFor(Element element, OutputFile file) {
         this.element = element;
@@ -137,7 +137,7 @@ public class WaitFor {
         // wait for up to XX seconds for the error message
         try {
             double end = System.currentTimeMillis() + (seconds * 1000);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(element.defineByElement()));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
             timetook = timetook / 1000;
@@ -166,7 +166,7 @@ public class WaitFor {
         // wait for up to XX seconds for the error message
         try {
             double end = System.currentTimeMillis() + (seconds * 1000);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
             wait.until(ExpectedConditions
                     .not(ExpectedConditions.presenceOfAllElementsLocatedBy(element.defineByElement())));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
@@ -195,7 +195,7 @@ public class WaitFor {
         }
         try {
             double start = System.currentTimeMillis();
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
             wait.until(ExpectedConditions.visibilityOfElementLocated(element.defineByElement()));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() + DISPLAYED,
@@ -225,7 +225,7 @@ public class WaitFor {
         }
         try {
             double start = System.currentTimeMillis();
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(element.defineByElement()));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected,
@@ -252,7 +252,7 @@ public class WaitFor {
         }
         try {
             double start = System.currentTimeMillis();
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
             wait.until(ExpectedConditions.elementToBeClickable(element.defineByElement()));
             double timetook = (System.currentTimeMillis() - start) / 1000;
             file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() + ENABLED,
@@ -283,7 +283,7 @@ public class WaitFor {
         try {
             double start = System.currentTimeMillis();
             // wait for up to XX seconds
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPollingInterval);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
             wait.until(ExpectedConditions
                     .or(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.defineByElement())),
                             ExpectedConditions.invisibilityOfElementLocated(element.defineByElement())));

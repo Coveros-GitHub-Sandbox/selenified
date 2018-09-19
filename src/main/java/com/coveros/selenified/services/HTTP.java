@@ -233,7 +233,7 @@ public class HTTP {
         return params.toString();
     }
 
-    private HttpURLConnection setupHeaders(HttpURLConnection connection) {
+    private void setupHeaders(HttpURLConnection connection) {
         connection.setRequestProperty("Content-length", "0");
         connection.setRequestProperty(CONTENT_TYPE, contentType);
         connection.setRequestProperty("Accept", "application/json");
@@ -244,7 +244,6 @@ public class HTTP {
         connection.setDoInput(true);
         connection.setUseCaches(false);
         connection.setAllowUserInteraction(false);
-        return connection;
     }
 
     /**
@@ -364,7 +363,7 @@ public class HTTP {
      * @param connection - the open connection of the http call
      * @return Response: the response provided from the http call
      */
-    @SuppressWarnings("squid:S3776")
+    @SuppressWarnings({"squid:S3776", "squid:S2093"})
     private Response getResponse(HttpURLConnection connection) {
         int status;
         try {
@@ -378,8 +377,8 @@ public class HTTP {
         JsonArray array;
         String data;
         BufferedReader rd = null;
-        try { // NOSONAR - unable to use the try-with-resources block, as the rd
-            // needs to be read in the finally, and can't be closed
+        // unable to use the try-with-resources block, as the rd needs to be read in the finally, and can't be closed
+        try {
             rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         } catch (IOException e) {
             log.warn(e);

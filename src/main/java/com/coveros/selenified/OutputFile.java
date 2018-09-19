@@ -103,6 +103,7 @@ public class OutputFile {
      *                   test
      * @param objectives - the test objectives, taken from the testng description
      */
+    @SuppressWarnings("squid:S00107")
     public OutputFile(String directory, String test, Browser browser, String url, String suite, String group,
                       String author, String version, String objectives) {
         this.directory = directory;

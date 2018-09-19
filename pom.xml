@@ -18,7 +18,7 @@
         <!-- Test run information -->
         <failsafe.threads>5</failsafe.threads>
         <failsafe.verbosity>0</failsafe.verbosity>
-        <failsafe.groups.include>integration</failsafe.groups.include>
+        <failsafe.groups.include></failsafe.groups.include>
         <failsafe.groups.exclude>browser</failsafe.groups.exclude>
         <failsafe.files.include>**/*IT.java</failsafe.files.include>
         <failsafe.files.exclude></failsafe.files.exclude>
