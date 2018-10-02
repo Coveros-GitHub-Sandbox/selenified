@@ -166,13 +166,12 @@ public class Contains extends Assert {
         String[] allOptions = element.get().selectOptions();
         if (!Arrays.asList(allOptions).contains(option)) {
             file.recordActual(
-                    element.prettyOutputStart() + " is present but does not contain the option " + "<b>" + option +
-                            "</b>", Success.FAIL);
+                    element.prettyOutputStart() + " is present but does not contain the option <b>" + option + "</b>",
+                    Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(
-                element.prettyOutputStart() + " is present and contains the option " + "<b>" + option + "</b>",
+        file.recordActual(element.prettyOutputStart() + " is present and contains the option <b>" + option + "</b>",
                 Success.PASS);
     }
 
@@ -219,12 +218,12 @@ public class Contains extends Assert {
         // check for the object to the present on the page
         int elementValues = element.get().numOfSelectOptions();
         if (elementValues != numOfOptions) {
-            file.recordActual(element.prettyOutputStart() + " has <b>" + numOfOptions + "</b>" + " select options",
+            file.recordActual(element.prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options",
                     Success.FAIL);
             file.addError();
             return;
         }
-        file.recordActual(element.prettyOutputStart() + " has <b>" + numOfOptions + "</b>" + " select options",
+        file.recordActual(element.prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options",
                 Success.PASS);
     }
 

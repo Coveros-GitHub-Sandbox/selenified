@@ -143,7 +143,7 @@ public class Listener extends TestListenerAdapter {
             HTTP http =
                     new HTTP("https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
                             Sauce.getSauceKey());
-            http.put(sessionId, new Request(json));
+            http.put(sessionId, new Request().setJsonPayload(json), null);
         }
     }
 }

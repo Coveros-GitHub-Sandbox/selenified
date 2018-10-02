@@ -85,6 +85,7 @@ public class OutputFile {
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
+    private static final String END_IDIV = "</i></div>";
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
 
@@ -103,6 +104,7 @@ public class OutputFile {
      *                   test
      * @param objectives - the test objectives, taken from the testng description
      */
+    @SuppressWarnings("squid:S00107")
     public OutputFile(String directory, String test, Browser browser, String url, String suite, String group,
                       String author, String version, String objectives) {
         this.directory = directory;
@@ -485,7 +487,7 @@ public class OutputFile {
             out.write("  <table>\n");
             out.write(START_ROW);
             out.write("    <th bgcolor='lightblue'><font size='5'>Test</font></th>\n");
-            out.write("    <td bgcolor='lightblue' colspan=3>" + "<font size='5'>" + test + " </font></td>\n");
+            out.write("    <td bgcolor='lightblue' colspan='3'><font size='5'>" + test + " </font></td>\n");
             out.write(swapRow);
             out.write("    <th>Tester</th>\n");
             out.write("    <td>Automated</td>\n");
@@ -515,10 +517,10 @@ public class OutputFile {
             out.write(START_CELL + suite + END_CELL);
             out.write(swapRow);
             out.write("    <th>Test Objectives</th>\n");
-            out.write("    <td colspan=3>" + objectives + END_CELL);
+            out.write("    <td colspan='3'>" + objectives + END_CELL);
             out.write(swapRow);
             out.write("    <th>Overall Results</th>\n");
-            out.write("    <td colspan=3 style='padding: 0px;'>\n");
+            out.write("    <td colspan='3' style='padding: 0px;'>\n");
             out.write("     <table style='width: 100%;'><tr>\n");
             out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
             out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" +
@@ -529,7 +531,7 @@ public class OutputFile {
             out.write("    </td>\n");
             out.write(swapRow);
             out.write("    <th>View Results</th>\n");
-            out.write("    <td colspan=3>\n");
+            out.write("    <td colspan='3'>\n");
             out.write("     <input type=checkbox name='step' onclick='toggleVis(0,this.checked)' checked>Step\n");
             out.write("     <input type=checkbox name='action' onclick='toggleVis(1,this.checked)' checked>Action \n");
             out.write(
@@ -544,10 +546,10 @@ public class OutputFile {
             out.write("  </table>\n");
             out.write("  <table id='all_results'>\n");
             out.write(START_ROW);
-            out.write("    <th align='center'>Step</th>" + "<th style='text-align:center'>Action</th>" +
+            out.write("    <th align='center'>Step</th><th style='text-align:center'>Action</th>" +
                     "<th style='text-align:center'>Expected Result</th>" +
                     "<th style='text-align:center'>Actual Result</th>" +
-                    "<th style='text-align:center'>Step Times</th>" + "<th style='text-align:center'>Pass/Fail</th>\n");
+                    "<th style='text-align:center'>Step Times</th><th style='text-align:center'>Pass/Fail</th>\n");
             out.write(END_ROW);
         } catch (IOException e) {
             log.error(e);
@@ -618,9 +620,7 @@ public class OutputFile {
      */
     private void packageTestResults() {
         File f = new File(directory, filename + "_RESULTS.zip");
-        try (// Create new zip file
-             ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
-
+        try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f))) {
             // Add html results to zip file
             ZipEntry e = new ZipEntry(filename);
             out.putNextEntry(e);
@@ -638,7 +638,6 @@ public class OutputFile {
                 out.write(screenData, 0, screenData.length);
                 out.closeEntry();
             }
-            out.close();
         } catch (IOException e) {
             log.error(e);
         }
@@ -660,7 +659,7 @@ public class OutputFile {
                     imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
             imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
                     imageName.substring(directory.length() + 1) + "' width='" + EMBEDDED_IMAGE_WIDTH +
-                    "px' style='display:none;'>";
+                    "px' style='display:none;'></img>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
         }
@@ -697,27 +696,29 @@ public class OutputFile {
      *               hashmap
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
-    public String outputRequestProperties(Request params) {
-        if (params == null) {
-            return "";
-        }
+    public String outputRequestProperties(Request params, File file) {
         StringBuilder output = new StringBuilder();
-        output.append("<br/> with parameters: ");
-        output.append("<div><i>");
-        if (params.getData() != null) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            output.append(gson.toJson(params.getData()));
-        }
-        if (params.getParams() != null) {
-            for (Map.Entry<String, String> entry : params.getParams().entrySet()) {
-                output.append("<div>");
-                output.append(entry.getKey());
-                output.append(" : ");
-                output.append(entry.getValue());
-                output.append("</div>");
+        if (params != null && params.isPayload()) {
+            output.append("<br/> with parameters: ");
+            output.append("<div><i>");
+            if (params.getJsonPayload() != null) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                output.append(gson.toJson(params.getJsonPayload()));
             }
+            if (params.getMultipartData() != null) {
+                for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
+                    output.append("<div>");
+                    output.append(String.valueOf(entry.getKey()));
+                    output.append(" : ");
+                    output.append(String.valueOf(entry.getValue()));
+                    output.append("</div>");
+                }
+            }
+            output.append(END_IDIV);
         }
-        output.append("</i></div>");
+        if (file != null) {
+            output.append("<div> with file: <i>").append(file.getAbsoluteFile()).append(END_IDIV);
+        }
         return formatHTML(output.toString());
     }
 
@@ -741,7 +742,7 @@ public class OutputFile {
             if (response.getObjectData() != null) {
                 output.append(gson.toJson(response.getObjectData()));
             }
-            output.append("</i></div>");
+            output.append(END_IDIV);
         }
         return formatHTML(output.toString());
     }

@@ -3,7 +3,6 @@ package integration;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
-import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.Point;
@@ -19,23 +18,14 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionDoIT extends Selenified {
+public class ActionDoIT extends WebBase {
 
-    List<Point<Integer, Integer>> points = new ArrayList<Point<Integer, Integer>>();
+    private final List<Point<Integer, Integer>> points = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext test) {
-        // set the base URL for the tests here
-        setTestSite(this, test, "http://34.233.135.10/");
-        // set the author of the tests here
-        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
-        // set the version of the tests or of the software, possibly with a
-        // dynamic check
-        setVersion(this, test, "3.0.2");
-
-        // setup our drawing points
-        points.add(new Point<Integer, Integer>(10, 10));
-        points.add(new Point<Integer, Integer>(100, 10));
+    private void setupPoint() {
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 10));
     }
 
     @DataProvider(name = "car list options", parallel = true)
@@ -1251,7 +1241,7 @@ public class ActionDoIT extends Selenified {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(new ArrayList<Point<Integer, Integer>>());
+        app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(new ArrayList<>());
         // verify no issues
         finish(1);
     }

@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.services;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 
 import java.util.Map;
 
@@ -32,30 +32,43 @@ import java.util.Map;
  * @lastupdate 8/11/2017
  */
 public class Request {
-    private JsonObject data = null;
-    private Map<String, String> params = null;
+    private Map<String, Object> urlParams = null;
+    private JsonElement jsonPayload = null;
+    private Map<String, Object> multipartData = null;
 
-    public Request(JsonObject data) {
-        this.data = data;
+    public JsonElement getJsonPayload() {
+        return jsonPayload;
     }
 
-    public Request(Map<String, String> params) {
-        this.params = params;
+    public Request setJsonPayload(JsonElement jsonPayload) {
+        this.jsonPayload = jsonPayload;
+        return this;
     }
 
-    public JsonObject getData() {
-        return data;
+    public Map<String, Object> getUrlParams() {
+        return urlParams;
     }
 
-    public void setData(JsonObject data) {
-        this.data = data;
+    public Request setUrlParams(Map<String, Object> urlParams) {
+        this.urlParams = urlParams;
+        return this;
     }
 
-    public Map<String, String> getParams() {
-        return params;
+    public Map<String, Object> getMultipartData() {
+        return multipartData;
     }
 
-    public void setParams(Map<String, String> params) {
-        this.params = params;
+    public Request setMultipartData(Map<String, Object> multipartData) {
+        this.multipartData = multipartData;
+        return this;
+    }
+
+    /**
+     * Determines if either the jsonPayload or multipart data is set
+     *
+     * @return Boolean: true if either jsonpayload or multipartdata is set
+     */
+    public boolean isPayload() {
+        return (jsonPayload != null || multipartData != null);
     }
 }

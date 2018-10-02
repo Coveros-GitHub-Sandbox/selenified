@@ -1,5 +1,3 @@
-package integration;
-
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
@@ -8,7 +6,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class ConflictBIT extends Selenified {
+public class ConflictIT extends Selenified {
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
@@ -24,6 +22,7 @@ public class ConflictBIT extends Selenified {
     @Test(groups = {"integration", "conflict"},
             description = "A sample test to show how to loop through elements with multiple matches")
     public void conflictingTestName() {
+        System.setProperty("packageResults", "true");
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -35,6 +34,6 @@ public class ConflictBIT extends Selenified {
         }
         // close out the test
         finish();
+        System.setProperty("packageResults", "false");
     }
-
 }

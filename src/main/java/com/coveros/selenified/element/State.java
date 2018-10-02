@@ -144,7 +144,7 @@ public class State extends Assert {
      *
      * @param presence - what additional attribute is expected from the element
      */
-    public void editable(String presence) {
+    private void editable(String presence) {
         // check for the object to the editable
         if (!element.is().input()) {
             file.recordActual(element.prettyOutputStart() + IS + presence + " but not an input on the page",
@@ -169,7 +169,7 @@ public class State extends Assert {
      *
      * @param presence - what additional attribute is expected from the element
      */
-    public void notEditable(String presence) {
+    private void notEditable(String presence) {
         // check for the object to the editable
         if (element.is().input() && element.is().enabled()) {
             file.recordActual(element.prettyOutputStart() + IS + presence + " but editable on the page", Success.FAIL);
