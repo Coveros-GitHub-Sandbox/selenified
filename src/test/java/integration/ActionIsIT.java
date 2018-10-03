@@ -1,25 +1,12 @@
 package integration;
 
 import com.coveros.selenified.Locator;
-import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class ActionIsIT extends Selenified {
-
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext test) {
-        // set the base URL for the tests here
-        setTestSite(this, test, "http://34.233.135.10/");
-        // set the author of the tests here
-        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
-        // set the version of the tests or of the software, possibly with a
-        // dynamic check
-        setVersion(this, test, "3.0.2");
-    }
+public class ActionIsIT extends WebBase {
 
     @Test(groups = {"integration", "actions", "is"},
             description = "An integration test to check if an element is present")
@@ -465,6 +452,27 @@ public class ActionIsIT extends Selenified {
         App app = this.apps.get();
         // perform some actions
         Assert.assertFalse(app.is().promptPresent());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "is"}, description = "An integration test to check the isLocation method")
+    public void isLocationTest(ITestContext test) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertTrue(app.is().location(getTestSite(this.getClass().getName(), test)));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "actions", "is"},
+            description = "A negative integration test to check the isLocation method")
+    public void negativeIsLocationTest(ITestContext test) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Assert.assertFalse(app.is().location("Some Made Up URL"));
         // verify no issues
         finish();
     }

@@ -15,10 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TestSetupTest {
 
@@ -166,7 +163,7 @@ public class TestSetupTest {
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setBrowserBadBrowserTest() throws InvalidBrowserException {
         System.setProperty("browser", "browserNaMe=CHROME");
-        List<Browser> browsers = TestSetup.setBrowser();
+        TestSetup.setBrowser();
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
@@ -216,7 +213,7 @@ public class TestSetupTest {
     @Test
     public void setBrowserMultipleBrowserMultipleDetailsTest() throws InvalidBrowserException {
         System.setProperty("browser",
-                "browserName=CHROME&browserVersion=12," + "browserName=FIREFOX&devicePlatform=Windows 10");
+                "browserName=CHROME&browserVersion=12,browserName=FIREFOX&devicePlatform=Windows 10");
         List<Browser> browsers = TestSetup.setBrowser();
         Assert.assertEquals(browsers.size(), 2);
         Browser chrome = browsers.get(0);
@@ -244,14 +241,12 @@ public class TestSetupTest {
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullBrowserTest() throws InvalidBrowserException {
-        TestSetup setup = new TestSetup();
-        setup.setupDriver(null, null);
+        TestSetup.setupDriver(null, null);
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullBrowserNameTest() throws InvalidBrowserException {
-        TestSetup setup = new TestSetup();
-        setup.setupDriver(new Browser(null), null);
+        TestSetup.setupDriver(new Browser(null), null);
     }
 
     @Test
@@ -670,7 +665,7 @@ public class TestSetupTest {
     public void getBrowserOptionsDisableGPUTest() {
         System.setProperty("options", "--disable-gpu");
         Assert.assertEquals(TestSetup.getBrowserOptions(new Browser(BrowserName.FIREFOX)),
-                Arrays.asList("--disable-gpu"));
+                Collections.singletonList("--disable-gpu"));
     }
 
     @Test

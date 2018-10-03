@@ -1,31 +1,16 @@
 package integration;
 
 import com.coveros.selenified.Locator;
-import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
 import org.testng.ITestContext;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-
-public class ActionWaitIT extends Selenified {
-
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext test) {
-        // set the base URL for the tests here
-        setTestSite(this, test, "http://34.233.135.10/");
-        // set the author of the tests here
-        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
-        // set the version of the tests or of the software, possibly with a
-        // dynamic check
-        setVersion(this, test, "3.0.2");
-    }
+public class ActionWaitIT extends WebBase {
 
     @Test(groups = {"integration", "actions", "wait"},
             description = "An integration negative test to check the wait method")
-    public void waitTest() throws IOException, InterruptedException {
+    public void waitTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -62,7 +47,7 @@ public class ActionWaitIT extends Selenified {
 
     @Test(groups = {"integration", "actions", "wait", "browser"},
             description = "An integration negative test to check the wait method")
-    public void negativeWaitTest() throws IOException, InterruptedException {
+    public void negativeWaitTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -74,7 +59,7 @@ public class ActionWaitIT extends Selenified {
 
     @Test(groups = {"integration", "actions", "wait"},
             description = "An integration negative test to check the wait method")
-    public void negativeWaitErrorTest() throws IOException, InterruptedException {
+    public void negativeWaitErrorTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -86,7 +71,7 @@ public class ActionWaitIT extends Selenified {
 
     @Test(groups = {"integration", "actions", "wait", "location"},
             description = "An integration test to check the wait for location method")
-    public void waitLocationTest(ITestContext context) throws IOException, InterruptedException {
+    public void waitLocationTest(ITestContext context) {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -97,11 +82,33 @@ public class ActionWaitIT extends Selenified {
 
     @Test(groups = {"integration", "actions", "wait", "location"},
             description = "An integration negative test to check the wait for location method")
-    public void negativeWaitLocationTest() throws IOException, InterruptedException {
+    public void negativeWaitLocationTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.waitFor().location("http://hellourl.io");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "actions", "wait", "title"},
+            description = "An integration test to check the wait for title method")
+    public void waitTitleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().title("Selenified Test Page");
+        // verify no issues
+        finish(0);
+    }
+
+    @Test(groups = {"integration", "actions", "wait", "title"},
+            description = "An integration negative test to check the wait for title method")
+    public void negativeWaitTitleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().title("Selenium TST pg");
         // verify 1 issue
         finish(1);
     }

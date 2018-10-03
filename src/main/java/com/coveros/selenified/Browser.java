@@ -30,7 +30,7 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
  */
 public class Browser {
     public enum BrowserName {
-        NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS;
+        NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS
     }
 
     private BrowserName name;

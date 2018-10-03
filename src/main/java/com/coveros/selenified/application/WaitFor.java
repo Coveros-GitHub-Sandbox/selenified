@@ -100,6 +100,13 @@ public class WaitFor {
         location(defaultWait, location);
     }
 
+    /**
+     * Wait up to the default time (5 seconds) for a title to show in the app
+     */
+    public void title(String title) {
+        title(defaultWait, title);
+    }
+
     ///////////////////////////////////////////////////
     // Our actual full implementation of the above overloaded methods
     ///////////////////////////////////////////////////
@@ -130,7 +137,8 @@ public class WaitFor {
         String expected = "An alert is present";
         try {
             double timetook = popup(seconds);
-            file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present", Result.SUCCESS);
+            file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present",
+                    Result.SUCCESS);
         } catch (TimeoutException e) {
             file.recordAction(action, expected, WAITING + seconds + " seconds, an alert is not present",
                     Result.FAILURE);
@@ -167,7 +175,8 @@ public class WaitFor {
         String expected = "A prompt is present";
         try {
             double timetook = popup(seconds);
-            file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present", Result.SUCCESS);
+            file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present",
+                    Result.SUCCESS);
         } catch (TimeoutException e) {
             file.recordAction(action, expected, WAITING + seconds + " seconds, a prompt is not present",
                     Result.FAILURE);
@@ -194,7 +203,32 @@ public class WaitFor {
         } catch (TimeoutException e) {
             // No alert found in given time
             file.recordAction(action, expected,
-                    WAITING + seconds + " seconds, the location shows as '" + driver.getCurrentUrl() + "'", Result.FAILURE);
+                    WAITING + seconds + " seconds, the location shows as '" + driver.getCurrentUrl() + "'",
+                    Result.FAILURE);
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for the title to show up in the application
+     *
+     * @param seconds - the number of seconds to wait
+     * @param title   - the title to wait for
+     */
+    public void title(double seconds, String title) {
+        String action = UPTO + seconds + " seconds for title to show " + title;
+        String expected = "Title shows as '" + title + "'";
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+            wait.until(ExpectedConditions.titleIs(title));
+            double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            file.recordAction(action, expected, WAITED + timetook + " seconds for the title to show as '" + title + "'",
+                    Result.SUCCESS);
+        } catch (TimeoutException e) {
+            // No alert found in given time
+            file.recordAction(action, expected,
+                    WAITING + seconds + " seconds, the title shows as '" + driver.getTitle() + "'", Result.FAILURE);
             file.addError();
         }
     }

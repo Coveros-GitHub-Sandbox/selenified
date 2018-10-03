@@ -1,26 +1,13 @@
 package sample;
 
 import com.coveros.selenified.Locator;
-import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
-import org.testng.ITestContext;
-import org.testng.annotations.BeforeClass;
+import integration.WebBase;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class SimpleSampleIT extends Selenified {
-
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext test) {
-        // set the base URL for the tests here
-        setTestSite(this, test, "http://34.233.135.10/");
-        // set the author of the tests here
-        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
-        // set the version of the tests or of the software, possibly with a
-        // dynamic check
-        setVersion(this, test, "3.0.2");
-    }
+public class SimpleSampleIT extends WebBase {
 
     @DataProvider(name = "car list items", parallel = true)
     public Object[][] DataSetOptions() {

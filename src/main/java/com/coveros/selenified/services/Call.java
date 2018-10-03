@@ -24,6 +24,7 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import org.testng.log4testng.Logger;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -47,7 +48,6 @@ public class Call {
     private static final String GET = "GET";
     private static final String POST = "POST";
     private static final String PUT = "PUT";
-    private static final String PATCH = "PATCH";
     private static final String DELETE = "DELETE";
 
     public Call(HTTP http, OutputFile file, Map<String, String> headers) {
@@ -98,7 +98,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint) {
-        return call(GET, endpoint, null);
+        return call(GET, endpoint, null, null);
     }
 
     /**
@@ -111,7 +111,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint, Request params) {
-        return call(GET, endpoint, params);
+        return call(GET, endpoint, params, null);
     }
 
     /**
@@ -124,7 +124,21 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params) {
-        return call(POST, endpoint, params);
+        return call(POST, endpoint, params, null);
+    }
+
+    /**
+     * Performs a post http call and writes the call and response information to
+     * the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
+     * @param file     - an input file to be provided with the call
+     * @return Response: the response provided from the http call
+     */
+    public Response post(String endpoint, Request params, File file) {
+        return call(POST, endpoint, params, file);
     }
 
     /**
@@ -137,20 +151,32 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params) {
-        return call(PUT, endpoint, params);
+        return call(PUT, endpoint, params, null);
     }
 
     /**
-     * Performs a patch http call and writes the call and response information
-     * to the output file
+     * Performs a put http call and writes the call and response information to
+     * the output file
      *
      * @param endpoint - the endpoint of the service under test
      * @param params   - the parameters to be passed to the endpoint for the service
      *                 call
+     * @param file     - an input file to be provided with the call
      * @return Response: the response provided from the http call
      */
-    public Response patch(String endpoint, Request params) {
-        return call(PATCH, endpoint, params);
+    public Response put(String endpoint, Request params, File file) {
+        return call(PUT, endpoint, params, file);
+    }
+
+    /**
+     * Performs a delete http call and writes the call and response information
+     * to the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @return Response: the response provided from the http call
+     */
+    public Response delete(String endpoint) {
+        return call(DELETE, endpoint, null, null);
     }
 
     /**
@@ -163,7 +189,21 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint, Request params) {
-        return call(DELETE, endpoint, params);
+        return call(DELETE, endpoint, params, null);
+    }
+
+    /**
+     * Performs a delete http call and writes the call and response information
+     * to the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
+     * @param file     - an input file to be provided with the call
+     * @return Response: the response provided from the http call
+     */
+    public Response delete(String endpoint, Request params, File file) {
+        return call(DELETE, endpoint, params, file);
     }
 
     /**
@@ -176,15 +216,15 @@ public class Call {
      *                 call
      * @return Response: the response provided from the http call
      */
-    private Response call(String call, String endpoint, Request params) {
+    private Response call(String call, String endpoint, Request params, File inputFile) {
         StringBuilder action = new StringBuilder();
         action.append("Making <i>");
         action.append(call);
         action.append("</i> call to <i>");
-        action.append(http.getServiceBaseUrl());
-        action.append(endpoint).append("</i>");
-        action.append(appendCredentials());
-        action.append(file.outputRequestProperties(params));
+        action.append(http.getServiceBaseUrl()).append(endpoint).append(http.getRequestParams(params));
+        action.append("</i>");
+        action.append(getCredentialString());
+        action.append(file.outputRequestProperties(params, inputFile));
         String expected = "<i>" + call + "</i> call was made successfully";
         Response response = new Response(file);
         try {
@@ -193,16 +233,13 @@ public class Call {
                     response = http.get(endpoint, params);
                     break;
                 case POST:
-                    response = http.post(endpoint, params);
+                    response = http.post(endpoint, params, inputFile);
                     break;
                 case PUT:
-                    response = http.put(endpoint, params);
-                    break;
-                case PATCH:
-                    response = http.patch(endpoint, params);
+                    response = http.put(endpoint, params, inputFile);
                     break;
                 case DELETE:
-                    response = http.delete(endpoint, params);
+                    response = http.delete(endpoint, params, inputFile);
                     break;
                 default:
                     log.error("Unknown method call named");
@@ -229,7 +266,7 @@ public class Call {
      * @return String: an HTML formated string with the username and password -
      * if they are both set
      */
-    private String appendCredentials() {
+    public String getCredentialString() {
         StringBuilder credentials = new StringBuilder();
         if (http.useCredentials()) {
             credentials.append("<br/> with credentials: ");

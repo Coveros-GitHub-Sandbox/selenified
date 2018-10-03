@@ -165,14 +165,14 @@ public class Excludes extends Assert {
         String[] allOptions = element.get().selectOptions();
         if (Arrays.asList(allOptions).contains(option)) {
             file.recordActual(
-                    element.prettyOutputStart() + " is editable and present and contains the option " + "<b>" + option +
+                    element.prettyOutputStart() + " is editable and present and contains the option <b>" + option +
                             "</b>", Success.FAIL);
             file.addError();
             return;
         }
         file.recordActual(
-                element.prettyOutputStart() + " is editable and present but does not contain the option " + "<b>" +
-                        option + "</b>", Success.PASS);
+                element.prettyOutputStart() + " is editable and present but does not contain the option <b>" + option +
+                        "</b>", Success.PASS);
     }
 
     /**

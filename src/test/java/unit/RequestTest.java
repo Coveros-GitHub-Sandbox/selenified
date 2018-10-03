@@ -1,6 +1,7 @@
 package unit;
 
 import com.coveros.selenified.services.Request;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -11,66 +12,127 @@ import java.util.Map;
 public class RequestTest {
 
     @Test
-    public void checkJsonRequestTest() {
-        JsonObject json = new JsonObject();
-        Request request = new Request(json);
-        Assert.assertEquals(request.getData(), json);
-    }
-
-    @Test
-    public void checkJsonParamsRequestTest() {
-        JsonObject json = new JsonObject();
-        Request request = new Request(json);
-        Assert.assertEquals(request.getParams(), null);
-    }
-
-    @Test
     public void checkJsonDataRequestTest() {
         JsonObject json = new JsonObject();
-        json.addProperty("name", "john");
-        Request request = new Request(json);
-        Assert.assertEquals(request.getData(), json);
+        Assert.assertEquals(new Request().setJsonPayload(json).getJsonPayload(), json);
     }
 
     @Test
-    public void checkJsonDataChangeRequestTest() {
+    public void checkJsonDataMultipartRequestTest() {
+        JsonObject json = new JsonObject();
+        Assert.assertEquals(new Request().setJsonPayload(json).getMultipartData(), null);
+    }
+
+    @Test
+    public void checkJsonDataParamsRequestTest() {
+        JsonObject json = new JsonObject();
+        Assert.assertEquals(new Request().setJsonPayload(json).getUrlParams(), null);
+    }
+
+    @Test
+    public void checkJsonDataDataRequestTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Request request = new Request(json);
-        json.addProperty("address", "1234 no where");
-        request.setData(json);
-        Assert.assertEquals(request.getData(), json);
+        Assert.assertEquals(new Request().setJsonPayload(json).getJsonPayload(), json);
+    }
+
+    @Test
+    public void checkJsonArrayRequestTest() {
+        JsonArray json = new JsonArray();
+        Assert.assertEquals(new Request().setJsonPayload(json).getJsonPayload(), json);
+    }
+
+    @Test
+    public void checkJsonArrayMultipartRequestTest() {
+        JsonArray json = new JsonArray();
+        Assert.assertEquals(new Request().setJsonPayload(json).getMultipartData(), null);
+    }
+
+    @Test
+    public void checkJsonArrayParamsRequestTest() {
+        JsonArray json = new JsonArray();
+        Assert.assertEquals(new Request().setJsonPayload(json).getUrlParams(), null);
+    }
+
+    @Test
+    public void checkJsonArrayDataRequestTest() {
+        JsonArray json = new JsonArray();
+        json.add("john");
+        json.add("smith");
+        Assert.assertEquals(new Request().setJsonPayload(json).getJsonPayload(), json);
+    }
+
+    @Test
+    public void checkMultipartRequestTest() {
+        Map<String, Object> params = new HashMap<>();
+        Assert.assertEquals(new Request().setMultipartData(params).getMultipartData(), params);
+    }
+
+    @Test
+    public void checkMultipartParamsRequestTest() {
+        Map<String, Object> params = new HashMap<>();
+        Assert.assertEquals(new Request().setMultipartData(params).getUrlParams(), null);
+    }
+
+    @Test
+    public void checkMultipartJsonRequestTest() {
+        Map<String, Object> params = new HashMap<>();
+        Assert.assertEquals(new Request().setMultipartData(params).getJsonPayload(), null);
+    }
+
+    @Test
+    public void checkMultipartDataRequestTest() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", "john");
+        Assert.assertEquals(new Request().setMultipartData(params).getMultipartData(), params);
     }
 
     @Test
     public void checkParamsRequestTest() {
-        Map<String, String> params = new HashMap<>();
-        Request request = new Request(params);
-        Assert.assertEquals(request.getParams(), params);
+        Map<String, Object> params = new HashMap<>();
+        Assert.assertEquals(new Request().setUrlParams(params).getUrlParams(), params);
     }
 
     @Test
     public void checkParamsJsonRequestTest() {
-        Map<String, String> params = new HashMap<>();
-        Request request = new Request(params);
-        Assert.assertEquals(request.getData(), null);
+        Map<String, Object> params = new HashMap<>();
+        Assert.assertEquals(new Request().setUrlParams(params).getJsonPayload(), null);
+    }
+
+    @Test
+    public void checkParamsMultipartRequestTest() {
+        Map<String, Object> params = new HashMap<>();
+        Assert.assertEquals(new Request().setUrlParams(params).getMultipartData(), null);
     }
 
     @Test
     public void checkParamsDataRequestTest() {
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("name", "john");
-        Request request = new Request(params);
-        Assert.assertEquals(request.getParams(), params);
+        Assert.assertEquals(new Request().setUrlParams(params).getUrlParams(), params);
     }
 
     @Test
-    public void checkParamsDataChangeRequestTest() {
-        Map<String, String> params = new HashMap<>();
-        params.put("name", "john");
-        Request request = new Request(params);
-        params.put("address", "1234 no where");
-        request.setParams(params);
-        Assert.assertEquals(request.getParams(), params);
+    public void checkJsonObjectIsDataTest() {
+        JsonObject json = new JsonObject();
+        Assert.assertTrue(new Request().setJsonPayload(json).isPayload());
+    }
+
+    @Test
+    public void checkJsonArrayIsDataTest() {
+        JsonArray json = new JsonArray();
+        Assert.assertTrue(new Request().setJsonPayload(json).isPayload());
+    }
+
+    @Test
+    public void checkMultipartIsDataTest() {
+        Map<String, Object> params = new HashMap<>();
+        Assert.assertTrue(new Request().setMultipartData(params).isPayload());
+    }
+
+    @Test
+    public void checkParamsIsDataTest() {
+        Map<String, Object> params = new HashMap<>();
+        Assert.assertFalse(new Request().setUrlParams(params).isPayload());
     }
 }

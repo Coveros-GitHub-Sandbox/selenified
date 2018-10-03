@@ -3,29 +3,16 @@ package integration;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.DriverSetup;
-import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-public class NoBrowserIT extends Selenified {
-
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext test) {
-        // set the base URL for the tests here
-        setTestSite(this, test, "http://34.233.135.10/");
-        // set the author of the tests here
-        setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
-        // set the version of the tests or of the software, possibly with a
-        // dynamic check
-        setVersion(this, test, "3.0.2");
-    }
+public class NoBrowserIT extends WebBase {
 
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
