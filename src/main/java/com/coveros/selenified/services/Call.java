@@ -32,8 +32,8 @@ import java.util.Map;
  * to the HTTP class
  *
  * @author Max Saperstone
- * @version 3.0.0
- * @lastupdate 8/13/2017
+ * @version 3.0.3
+ * @lastupdate 8/30/2018
  */
 public class Call {
     private static final Logger log = Logger.getLogger(Call.class);

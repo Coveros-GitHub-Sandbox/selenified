@@ -23,6 +23,10 @@ package com.coveros.selenified;
 /**
  * Select a Locator for the element we are interacting with Available options
  * are: xpath, id, name, classname, css, paritallinktext, linktext, tagname
+ *
+ * @author Max Saperstone
+ * @version 3.0.3
+ * @lastupdate 5/16/2018
  */
 public enum Locator {
     XPATH, ID, NAME, CLASSNAME, CSS, PARTIALLINKTEXT, LINKTEXT, TAGNAME

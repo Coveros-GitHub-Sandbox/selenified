@@ -28,8 +28,8 @@ import java.util.Map;
  * A class designed to hold data needed to provide to the HTTP calls.
  *
  * @author Max Saperstone
- * @version 3.0.0
- * @lastupdate 8/11/2017
+ * @version 3.0.3
+ * @lastupdate 8/30/2018
  */
 public class Request {
     private Map<String, Object> urlParams = null;

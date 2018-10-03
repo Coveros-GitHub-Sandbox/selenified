@@ -60,8 +60,8 @@ import static org.testng.AssertJUnit.assertEquals;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 3.0.0
- * @lastupdate 8/13/2017
+ * @version 3.0.3
+ * @lastupdate 9/18/2017
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {

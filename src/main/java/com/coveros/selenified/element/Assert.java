@@ -34,8 +34,8 @@ import java.util.Set;
  * failing tests.
  *
  * @author Max Saperstone
- * @version 3.0.0
- * @lastupdate 8/13/2017
+ * @version 3.0.3
+ * @lastupdate 5/21/2018
  */
 class Assert {
 
