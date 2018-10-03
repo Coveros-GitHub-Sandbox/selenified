@@ -48,7 +48,7 @@ import java.util.zip.ZipOutputStream;
  * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
- * @version 3.0.3
+ * @version 3.0.4
  * @lastupdate 9/13/2017
  */
 public class OutputFile {

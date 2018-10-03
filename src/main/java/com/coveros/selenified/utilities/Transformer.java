@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
  * Selenified class, and/or in the TestNG xml file.
  *
  * @author Max Saperstone
- * @version 3.0.3
+ * @version 3.0.4
  * @lastupdate 8/29/2018
  */
 public class Transformer implements IAnnotationTransformer {

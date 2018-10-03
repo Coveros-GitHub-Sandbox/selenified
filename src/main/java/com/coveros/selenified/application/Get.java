@@ -33,7 +33,7 @@ import java.util.Date;
  * particular page or element. If an object isn't present, null will be returned
  *
  * @author Max Saperstone
- * @version 3.0.3
+ * @version 3.0.4
  * @lastupdate 5/16/2018
  */
 public class Get {
