@@ -522,7 +522,7 @@ public class OutputFile {
             out.write("    <th>Overall Results</th>\n");
             out.write("    <td colspan='3' style='padding: 0px;'>\n");
             out.write("     <table style='width: 100%;'><tr>\n");
-            out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
+            out.write("      <td font-size='big' rowspan='2'>PASSORFAIL</td>\n");
             out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" +
                     "<td><b>Steps Failed</b></td>\n");
             out.write("     </tr><tr>\n");
@@ -532,15 +532,15 @@ public class OutputFile {
             out.write(swapRow);
             out.write("    <th>View Results</th>\n");
             out.write("    <td colspan='3'>\n");
-            out.write("     <input type=checkbox name='step' onclick='toggleVis(0,this.checked)' checked>Step\n");
-            out.write("     <input type=checkbox name='action' onclick='toggleVis(1,this.checked)' checked>Action \n");
+            out.write("     <input type='checkbox' name='step' onclick='toggleVis(0,this.checked)' checked='checked'>Step</input>\n");
+            out.write("     <input type='checkbox' name='action' onclick='toggleVis(1,this.checked)' checked='checked'>Action</input>\n");
             out.write(
-                    "     <input type=checkbox name='expected' onclick='toggleVis(2,this.checked)' checked>Expected Results \n");
+                    "     <input type='checkbox' name='expected' onclick='toggleVis(2,this.checked)' checked='checked'>Expected Results</input>\n");
             out.write(
-                    "     <input type=checkbox name='actual' onclick='toggleVis(3,this.checked)' checked>Actual Results \n");
+                    "     <input type='checkbox' name='actual' onclick='toggleVis(3,this.checked)' checked='checked'>Actual Results</input>\n");
             out.write(
-                    "     <input type=checkbox name='times' onclick='toggleVis(4,this.checked)' checked>Step Times \n");
-            out.write("     <input type=checkbox name='result' onclick='toggleVis(5,this.checked)' checked>Results\n");
+                    "     <input type='checkbox' name='times' onclick='toggleVis(4,this.checked)' checked='checked'>Step Times</input>\n");
+            out.write("     <input type='checkbox' name='result' onclick='toggleVis(5,this.checked)' checked='checked'>Results</input>\n");
             out.write("    </td>\n");
             out.write(END_ROW);
             out.write("  </table>\n");
@@ -605,9 +605,18 @@ public class OutputFile {
         if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
             packageTestResults();
         }
-        try (OutputStream os = new FileOutputStream("/Users/grasbergerm/Desktop/out.pdf")) {
+        if (System.getProperty("generatePDF") != null && "true".equals(System.getProperty("generatePDF"))) {
+            generatePdf();
+        }
+    }
+
+    private void generatePdf() {
+        try (OutputStream os = new FileOutputStream(directory + "/" + filename + ".pdf")) {
+            replaceInFile("<script type='text\\/javascript'>(?s).*<\\/script>", "");
+            replaceInFile("<tr>\\s*<th>View Results<\\/th>(?s).*?<\\/tr>", "");
+            replaceInFile("<a href='javascript:void(0)'(?s).*?<\\/img>", "");
             PdfRendererBuilder builder = new PdfRendererBuilder();
-            builder.withUri("file:///Users/grasbergerm/Desktop/" + filename);
+            builder.withFile(this.file);
             builder.toStream(os);
             builder.run();
         } catch (Exception e) {

@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 public class AssertExcludesIT extends WebBase {
 
-    @Test(groups = {"integration", "asserts", "excludes1"},
+    @Test(groups = {"integration", "asserts", "excludes"},
             description = "An integration test to check the checkSelectValueNotPresent method")
     public void checkSelectValueNotPresentTest() {
         // use this object to manipulate the app
