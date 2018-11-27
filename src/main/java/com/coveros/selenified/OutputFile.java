@@ -614,7 +614,7 @@ public class OutputFile {
         try (OutputStream os = new FileOutputStream(directory + "/" + filename + ".pdf")) {
             replaceInFile("<script type='text\\/javascript'>(?s).*<\\/script>", "");
             replaceInFile("<tr>\\s*<th>View Results<\\/th>(?s).*?<\\/tr>", "");
-            replaceInFile("<a href='javascript:void(0)'(?s).*?<\\/img>", "");
+            replaceInFile("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*?) style(?s).*?<\\/img>", "$1" + "></img>");
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.withFile(this.file);
             builder.toStream(os);
