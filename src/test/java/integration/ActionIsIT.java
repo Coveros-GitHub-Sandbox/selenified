@@ -386,7 +386,8 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "is"},
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "is", "no-safari"},
             description = "An integration test to check the isAlertPresent method")
     public void isAlertPresentTest() {
         // use this object to manipulate the app
@@ -410,7 +411,8 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "is"},
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "is", "no-safari"},
             description = "An integration test to check the isConfirmationPresent method")
     public void isConfirmationPresentTest() {
         // use this object to manipulate the app
@@ -433,7 +435,8 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "is"},
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "is", "no-safari"},
             description = "An integration test to check the isPromptPresent method")
     public void isPromptPresentTest() {
         // use this object to manipulate the app
@@ -468,7 +471,7 @@ public class ActionIsIT extends WebBase {
 
     @Test(groups = {"integration", "action", "is"},
             description = "A negative integration test to check the isLocation method")
-    public void negativeIsLocationTest(ITestContext test) {
+    public void negativeIsLocationTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
