@@ -431,7 +431,10 @@ public class Selenified {
         if (this.apps.get() != null) {
             this.apps.get().killDriver();
         }
-        int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
+        int invocationCount = 0;
+        if ( test.getAttributeNames().contains(testName + INVOCATION_COUNT)) {
+            invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
+        }
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
     }
 

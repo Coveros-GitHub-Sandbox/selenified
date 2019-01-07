@@ -738,6 +738,10 @@ The zipped results will be placed in the same directory as the test results
 * Safari doesn't properly handle alerts. These exceptions are caught and handled in the code, but will
 cause tests to fail. This is an Apple/Selenium issue, not specific to Selenified.
 https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+* Unable to access, edit, or clear cookies in Edge. These exceptions are caught and handled in the code, 
+but may cause tests to fail, as cookies present are always returned as false. This is a Microsoft Edge
+and EdgeDriver issue, not specific to Selenified.
+https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
 
 ### Skipping Tests
 To handle some of these known issues, the ability to skip a test, based on the browser is provided. For example

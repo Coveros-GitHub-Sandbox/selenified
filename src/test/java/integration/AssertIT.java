@@ -345,7 +345,8 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts"}, description = "An integration test to check the checkCookie method")
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "asserts", "no-edge"}, description = "An integration test to check the checkCookie method")
     public void checkCookieTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -388,7 +389,8 @@ public class AssertIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts"},
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "asserts", "no-edge"},
             description = "An integration negative test to check the checkCookieNotPresent method")
     public void negativeCheckCookieNotPresentTest() {
         // use this object to manipulate the app
@@ -399,7 +401,8 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts"},
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "asserts", "no-edge"},
             description = "An integration test to check the checkCookiePresent method")
     public void checkCookiePresentTest() {
         // use this object to manipulate the app

@@ -113,10 +113,16 @@ public class Is {
      */
     public boolean cookiePresent(String expectedCookieName) {
         boolean isCookiePresent = false;
-        if (driver.manage().getCookieNamed(expectedCookieName) != null) {
-            isCookiePresent = true;
+        try {
+            if (driver.manage().getCookieNamed(expectedCookieName) != null) {
+                isCookiePresent = true;
+            }
+            return isCookiePresent;
+        } catch (Exception e) {
+            log.error(e);
+            return false;
         }
-        return isCookiePresent;
+
     }
 
     /**
