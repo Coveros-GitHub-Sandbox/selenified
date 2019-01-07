@@ -122,7 +122,6 @@ public class Is {
             log.error(e);
             return false;
         }
-
     }
 
     /**

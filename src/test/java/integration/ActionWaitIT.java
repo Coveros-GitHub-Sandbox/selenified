@@ -15,7 +15,7 @@ public class ActionWaitIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.wait(5.0);
-        app.newElement(Locator.ID, "five_second_button").click();
+        app.newElement(Locator.ID, "nocheck").assertState().notPresent();
         // verify no issues
         finish();
     }
@@ -448,7 +448,8 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "wait"},
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "wait", "no-safari"},
             description = "An integration test to check the waitForPromptPresent method")
     public void waitForPromptPresentTest() {
         // use this object to manipulate the app
@@ -471,7 +472,8 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "wait"},
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "wait", "no-safari"},
             description = "An integration test to check the waitForConfirmationPresent method")
     public void waitForConfirmationPresentTest() {
         // use this object to manipulate the app
@@ -494,7 +496,8 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "wait"},
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "wait", "no-safari"},
             description = "An integration test to check the waitForAlertPresent method")
     public void waitForAlertPresentTest() {
         // use this object to manipulate the app
