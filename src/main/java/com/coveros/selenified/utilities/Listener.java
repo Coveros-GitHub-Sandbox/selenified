@@ -45,7 +45,7 @@ import static com.coveros.selenified.Selenified.SESSION_ID;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 8/28/2018
+ * @lastupdate 1/7/2019
  */
 public class Listener extends TestListenerAdapter {
 
@@ -132,7 +132,7 @@ public class Listener extends TestListenerAdapter {
         // finalize our output file
         OutputFile outputFile = (OutputFile) test.getAttribute(OUTPUT_FILE);
         if (outputFile != null) {
-            outputFile.finalizeOutputFile();
+            outputFile.finalizeOutputFile(test.getStatus());
         }
         // update our reporter logger
         String testName = getTestName(test);
