@@ -54,6 +54,7 @@ import java.util.zip.ZipOutputStream;
 public class OutputFile {
 
     private static final Logger log = Logger.getLogger(OutputFile.class);
+    public static final String PASSORFAIL = "PASSORFAIL";
 
     private App app = null;
 
@@ -576,11 +577,11 @@ public class OutputFile {
         replaceInFile("STEPSPASSED", Integer.toString(passes));
         replaceInFile("STEPSFAILED", Integer.toString(fails));
         if (fails == 0 && errors == 0 && testStatus == 1) {
-            replaceInFile("PASSORFAIL", "<font size='+2' class='pass'><b>SUCCESS</b></font>");
+            replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>SUCCESS</b></font>");
         } else if (fails == 0 && errors == 0) {
-            replaceInFile("PASSORFAIL", "<font size='+2' class='warning'><b>" + Result.values()[testStatus] + "</b></font>");
+            replaceInFile(PASSORFAIL, "<font size='+2' class='warning'><b>" + Result.values()[testStatus] + "</b></font>");
         } else {
-            replaceInFile("PASSORFAIL", "<font size='+2' class='fail'><b>FAILURE</b></font>");
+            replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAILURE</b></font>");
         }
         // record the time
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
