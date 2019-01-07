@@ -733,3 +733,18 @@ and set it to true
 mvn clean verify -Dbrowser=Firefox -DpackageResults=true
 ```
 The zipped results will be placed in the same directory as the test results
+
+## Known Issues
+* Safari doesn't properly handle alerts. These exceptions are caught and handled in the code, but will
+cause tests to fail. This is an Apple/Selenium issue, not specific to Selenified.
+https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+
+### Skipping Tests
+To handle some of these known issues, the ability to skip a test, based on the browser is provided. For example
+if a particular test includes html alerts, you might want to indicate to never run this test in Safari, as it will
+always fail. In this case, a standard group can be added to this test case, so that it is always skipped if 
+Safari is the specified browser, but otherwise, always run.
+```java
+    @Test(groups = { "no-safari" }, description = "Verified a pop-up alert is present - won't run properly in Safari")
+```
+All browsers are supported for this feature, simply prepend the browser name with `no-` in the group name.
