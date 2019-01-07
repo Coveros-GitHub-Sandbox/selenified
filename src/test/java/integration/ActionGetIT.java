@@ -19,7 +19,7 @@ import java.util.*;
 
 public class ActionGetIT extends WebBase {
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getBrowser method")
     public void getBrowserTest() {
         // use this object to manipulate the app
@@ -32,7 +32,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getCapabilities method")
     public void getCapabilitiesTest() {
         // use this object to manipulate the app
@@ -45,7 +45,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookie method")
     public void getCookieTest() throws IOException, ParseException {
         // the cookie date
@@ -61,7 +61,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration negative test to check the getCookie method")
     public void negativeGetCookieTest() {
         // use this object to manipulate the app
@@ -73,7 +73,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration negative test to check the getCookie method")
     public void negativeGetCookieNullTest() {
         // use this object to manipulate the app
@@ -86,7 +86,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookieValue method")
     public void getCookieValueTest() throws IOException, ParseException {
         // use this object to manipulate the app
@@ -98,7 +98,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration negative test to check the getCookieValue method")
     public void negativeGetCookieValueTest() {
         // use this object to manipulate the app
@@ -110,7 +110,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookiePath method")
     public void getCookiePathTest() {
         // use this object to manipulate the app
@@ -122,7 +122,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration negative test to check the getCookiePath method")
     public void negativeGetCookiePathTest() {
         // use this object to manipulate the app
@@ -134,7 +134,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookieDomain method")
     public void getCookieDomainTest(ITestContext context) {
         // use this object to manipulate the app
@@ -146,7 +146,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration negative test to check the getCookieDomain method")
     public void negativeGetCookieDomainTest() {
         // use this object to manipulate the app
@@ -158,7 +158,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookieExpiration method")
     public void getCookieExpirationTest() throws IOException, ParseException {
         // the cookie date
@@ -174,7 +174,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get", "cookie"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration negative test to check the getCookieExpiration method")
     public void negativeGetCookieExpirationTest() {
         // use this object to manipulate the app
@@ -186,7 +186,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectOptions method")
     public void getSelectOptionsTest() {
         // use this object to manipulate the app
@@ -198,7 +198,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectOptions method")
     public void getSelectOptionsNotExistTest() {
         // use this object to manipulate the app
@@ -210,7 +210,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectOptions method")
     public void getSelectValuesTest() {
         // use this object to manipulate the app
@@ -222,7 +222,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectOptions method")
     public void getSelectValuesNotExistTest() {
         // use this object to manipulate the app
@@ -234,7 +234,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getNumOfSelectOptions method")
     public void getNumOfSelectOptionsTest() {
         // use this object to manipulate the app
@@ -246,7 +246,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getNumOfSelectOptions method")
     public void getNumOfSelectOptionsNotExistTest() {
         // use this object to manipulate the app
@@ -258,7 +258,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getNumOfTableRows method")
     public void getNumOfTableRowsTest() {
         // use this object to manipulate the app
@@ -270,7 +270,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getNumOfTableRows method")
     public void getNumOfTableRowsNotExistTest() {
         // use this object to manipulate the app
@@ -282,7 +282,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getNumOfTableColumns method")
     public void getNumOfTableColumnsTest() {
         // use this object to manipulate the app
@@ -294,7 +294,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getNumOfTableColumns method")
     public void getNumOfTableColumnsNotExistTest() {
         // use this object to manipulate the app
@@ -306,7 +306,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowTest() {
         // use this object to manipulate the app
@@ -322,7 +322,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowNoRowTest() {
         // use this object to manipulate the app
@@ -334,7 +334,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowNotTableTest() {
         // use this object to manipulate the app
@@ -346,7 +346,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowNotExistTest() {
         // use this object to manipulate the app
@@ -358,7 +358,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowsTest() {
         // use this object to manipulate the app
@@ -373,7 +373,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowsNotExistTest() {
         // use this object to manipulate the app
@@ -385,7 +385,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableColumn method")
     public void getTableColumnTest() {
         // use this object to manipulate the app
@@ -404,7 +404,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableColumn method")
     public void getTableColumnNoColumnTest() {
         // use this object to manipulate the app
@@ -416,7 +416,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableColumn method")
     public void getTableColumnNotExistTest() {
         // use this object to manipulate the app
@@ -428,7 +428,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableColumn method")
     public void getTableColumnNotTableTest() {
         // use this object to manipulate the app
@@ -440,7 +440,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableColumn method")
     public void getTableColumnsTest() {
         // use this object to manipulate the app
@@ -459,7 +459,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableColumn method")
     public void getTableColumnsNotExistTest() {
         // use this object to manipulate the app
@@ -471,7 +471,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellTest() {
         // use this object to manipulate the app
@@ -483,7 +483,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellWideTest() {
         // use this object to manipulate the app
@@ -495,7 +495,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellLongTest() {
         // use this object to manipulate the app
@@ -507,7 +507,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellTest() {
         // use this object to manipulate the app
@@ -519,7 +519,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellNotExistTest() {
         // use this object to manipulate the app
@@ -531,7 +531,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedText method")
     public void getSelectedTextTest() {
         // use this object to manipulate the app
@@ -543,7 +543,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedText method")
     public void getSelectedTextNotExistTest() {
         // use this object to manipulate the app
@@ -555,7 +555,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedText method")
     public void getSelectedTextNotSelectTest() {
         // use this object to manipulate the app
@@ -567,7 +567,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsTest() {
         // use this object to manipulate the app
@@ -579,7 +579,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsNotExistTest() {
         // use this object to manipulate the app
@@ -591,7 +591,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedTexts method")
     public void getSelectedTextsNotSelectTest() {
         // use this object to manipulate the app
@@ -603,7 +603,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueTest() {
         // use this object to manipulate the app
@@ -615,7 +615,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueNotExistTest() {
         // use this object to manipulate the app
@@ -627,7 +627,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedValue method")
     public void getSelectedValueNotSelectTest() {
         // use this object to manipulate the app
@@ -639,7 +639,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesTest() {
         // use this object to manipulate the app
@@ -651,7 +651,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesNotExistTest() {
         // use this object to manipulate the app
@@ -663,7 +663,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getSelectedValues method")
     public void getSelectedValuesNotSelectTest() {
         // use this object to manipulate the app
@@ -675,7 +675,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getText method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getText method")
     public void getTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -686,7 +686,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getText method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getText method")
     public void getTextNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -697,7 +697,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getValue method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getValue method")
     public void getValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -708,7 +708,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getValue method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getValue method")
     public void getValueNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -719,7 +719,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getValue method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getValue method")
     public void getValueNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -730,7 +730,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getCss method")
     public void getCssTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -741,7 +741,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getCss method")
     public void getCssWonkyTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -752,7 +752,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getCss method")
     public void getCssNullTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -763,7 +763,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getCss method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getCss method")
     public void getCssNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -774,7 +774,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getAttribute method")
     public void getAttributeTest() {
         // use this object to manipulate the app
@@ -786,7 +786,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getAttribute method")
     public void getAttributeWonkyTest() {
         // use this object to manipulate the app
@@ -798,7 +798,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getAttribute method")
     public void getAttributeNullTest() {
         // use this object to manipulate the app
@@ -810,7 +810,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getAttribute method")
     public void getAttributeNotExistTest() {
         // use this object to manipulate the app
@@ -822,7 +822,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getAllAttribute method")
     public void getAllAttributeTest() {
         // use this object to manipulate the app
@@ -837,7 +837,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getAllAttribute method")
     public void getAllAttributeNoneTest() {
         // use this object to manipulate the app
@@ -850,7 +850,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "A negative integration test to check the getAllAttribute method")
     public void getAllAttributeNotExistTest() {
         // use this object to manipulate the app
@@ -862,7 +862,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getEval method")
     public void getEvalTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -875,7 +875,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getEval method")
     public void getEvalResultTest(Method method, ITestContext test) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -886,7 +886,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getEval method")
     public void getEvalNullResultTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -896,7 +896,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration negative test to check the getEval method")
     public void getEvalBadDriverTest() {
         // use this object to manipulate the app
@@ -908,7 +908,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getEval method")
     public void getElementEvalTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -921,7 +921,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getEval method")
     public void getElementEvalResultTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -932,7 +932,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getEval method")
     public void getElementEvalNullResultTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -942,7 +942,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getEval method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getEval method")
     public void getElementEvalNullTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -952,7 +952,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "A negative integration test to check the getEval method")
     public void getElementEvalNotExistTest() {
         // use this object to manipulate the app
@@ -963,7 +963,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getPrompt method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getPrompt method")
     public void getPromptTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -975,7 +975,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "A integration negative test to check the getPrompt method")
     public void negativeGetPromptTest() {
         // use this object to manipulate the app
@@ -986,7 +986,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getConfirmation method")
     public void getConfirmationTest() {
         // use this object to manipulate the app
@@ -999,7 +999,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration negative test to check the getConfirmation method")
     public void negativeGetConfirmationTest() {
         // use this object to manipulate the app
@@ -1010,7 +1010,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getAlert method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getAlert method")
     public void getAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -1023,7 +1023,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration negative test to check the getAlert method")
     public void negativeGetAlertTest() {
         // use this object to manipulate the app
@@ -1034,7 +1034,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getHtmlSource method")
     public void getHtmlSourceTest() {
         // use this object to manipulate the app
@@ -1047,7 +1047,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration negative test to check the getHtmlSource method")
     public void getHtmlSourceBadDriverTest() {
         // use this object to manipulate the app
@@ -1059,7 +1059,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountTest() {
         // use this object to manipulate the app
@@ -1070,7 +1070,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the getElementMatchCount method")
     public void getElementMatchCountMultipleTest() {
         // use this object to manipulate the app
@@ -1081,7 +1081,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration negative test to check the getElementMatchCount method")
     public void getElementMatchCountNotExistTest() {
         // use this object to manipulate the app
@@ -1092,7 +1092,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getXPath method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getXPath method")
     public void getElementXPathTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -1102,7 +1102,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the getXPath method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getXPath method")
     public void getElementXPathDivTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -1112,7 +1112,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration negative test to check the getXPath method")
     public void getElementXPathNotExistTest() {
         // use this object to manipulate the app
@@ -1123,7 +1123,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the get location method")
     public void getLocationTest(Method method, ITestContext test) {
         // use this object to manipulate the app
@@ -1134,7 +1134,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration negative test to check the get location method")
     public void getLocationBadDriverTest() {
         // use this object to manipulate the app
@@ -1146,7 +1146,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"}, description = "An integration test to check the get title method")
+    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the get title method")
     public void getTitleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -1156,7 +1156,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "get"},
+    @Test(groups = {"integration", "action", "get"},
             description = "An integration negative test to check the get title method")
     public void getTitleBadDriverTest() {
         // use this object to manipulate the app
