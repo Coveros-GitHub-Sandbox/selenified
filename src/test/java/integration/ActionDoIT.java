@@ -737,7 +737,7 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "do", "clear"},
+    @Test(groups = {"integration", "actions", "do", "clear", "run-me"},
             description = "An integration test to check the clear method")
     public void clearInputTest() {
         // use this object to manipulate the app
@@ -746,6 +746,7 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.ID, "input_box").type("Text");
         app.newElement(Locator.ID, "input_box").assertEquals().value("Text");
         app.newElement(Locator.ID, "input_box").clear();
+        app.acceptAlert();
         app.newElement(Locator.ID, "input_box").assertEquals().value("");
         // verify no issues
         finish();
