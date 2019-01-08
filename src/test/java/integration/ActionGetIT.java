@@ -10,7 +10,6 @@ import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -45,9 +44,10 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get", "cookie"},
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
             description = "An integration test to check the getCookie method")
-    public void getCookieTest() throws IOException, ParseException {
+    public void getCookieTest() throws ParseException {
         // the cookie date
         String dateval = "2019-12-18T12:00:00";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -86,9 +86,10 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get", "cookie"},
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
             description = "An integration test to check the getCookieValue method")
-    public void getCookieValueTest() throws IOException, ParseException {
+    public void getCookieValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -110,7 +111,8 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get", "cookie"},
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
             description = "An integration test to check the getCookiePath method")
     public void getCookiePathTest() {
         // use this object to manipulate the app
@@ -134,7 +136,8 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get", "cookie"},
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
             description = "An integration test to check the getCookieDomain method")
     public void getCookieDomainTest(ITestContext context) {
         // use this object to manipulate the app
@@ -158,9 +161,10 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get", "cookie"},
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
             description = "An integration test to check the getCookieExpiration method")
-    public void getCookieExpirationTest() throws IOException, ParseException {
+    public void getCookieExpirationTest() throws ParseException {
         // the cookie date
         String dateval = "2019-12-18T12:00:00";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -963,7 +967,8 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getPrompt method")
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "get", "no-safari"}, description = "An integration test to check the getPrompt method")
     public void getPromptTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -986,7 +991,8 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "get", "no-safari"},
             description = "An integration test to check the getConfirmation method")
     public void getConfirmationTest() {
         // use this object to manipulate the app
@@ -1010,7 +1016,8 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getAlert method")
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"integration", "action", "get", "no-safari"}, description = "An integration test to check the getAlert method")
     public void getAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

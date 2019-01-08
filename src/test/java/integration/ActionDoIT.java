@@ -10,7 +10,6 @@ import com.coveros.selenified.utilities.Sauce;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
