@@ -737,7 +737,7 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "do", "clear", "run-me"},
+    @Test(groups = {"integration", "actions", "do", "clear"},
             description = "An integration test to check the clear method")
     public void clearInputTest() {
         // use this object to manipulate the app
