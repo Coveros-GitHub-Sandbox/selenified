@@ -790,7 +790,7 @@ public class Element {
     public void type(String text) {
         String action = "Typing text '" + text + IN + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + text + " typed in";
-        Boolean warning = false;
+        boolean warning = false;
         try {
             if (!isPresentEnabledInput(action, expected)) {
                 return;
@@ -826,7 +826,7 @@ public class Element {
     public void type(Keys key) {
         String action = "Typing key '" + key + IN + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + key + " entered";
-        Boolean warning = false;
+        boolean warning = false;
         try {
             if (!isPresentEnabledInput(action, expected)) {
                 return;
@@ -1171,7 +1171,7 @@ public class Element {
             // Crop the entire page screenshot to get only element screenshot
             BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
             ImageIO.write(eleScreenshot, "png", image);
-        } catch (RasterFormatException | IOException e) {
+        } catch (WebDriverException | RasterFormatException | IOException e) {
             log.error(e);
         }
         return imageLink;
