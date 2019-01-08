@@ -968,7 +968,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "get", "no-safari"}, description = "An integration test to check the getPrompt method")
+    @Test(groups = {"integration", "action", "get", "alert", "no-safari"}, description = "An integration test to check the getPrompt method")
     public void getPromptTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -992,7 +992,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "get", "no-safari"},
+    @Test(groups = {"integration", "action", "get", "alert", "no-safari"},
             description = "An integration test to check the getConfirmation method")
     public void getConfirmationTest() {
         // use this object to manipulate the app
@@ -1017,7 +1017,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "get", "no-safari"}, description = "An integration test to check the getAlert method")
+    @Test(groups = {"integration", "action", "get", "alert", "no-safari"}, description = "An integration test to check the getAlert method")
     public void getAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

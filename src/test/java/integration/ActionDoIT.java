@@ -239,7 +239,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "do", "click", "no-safari"},
+    @Test(groups = {"integration", "action", "do", "click", "alert", "no-safari"},
             description = "An integration test to check the click method")
     public void clickTest() {
         // use this object to manipulate the app
@@ -252,7 +252,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "do", "click", "browser", "no-safari"},
+    @Test(groups = {"integration", "action", "do", "click", "browser", "alert", "no-safari"},
             description = "An integration negative test to check the click method")
     public void clickAlertTest() {
         // use this object to manipulate the app
@@ -424,7 +424,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "do", "hover", "browser", "no-safari"},
+    @Test(groups = {"integration", "action", "do", "hover", "browser", "alert", "no-safari"},
             description = "An integration negative test to check the hover method")
     public void hoverAlertTest() {
         // use this object to manipulate the app
@@ -1261,7 +1261,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "do", "draw", "no-safari"},
+    @Test(groups = {"integration", "action", "do", "draw", "alert", "no-safari"},
             description = "An integration negative test to check the draw method")
     public void drawAlertTest() {
         List<Point<Integer, Integer>> points = new ArrayList<>();
