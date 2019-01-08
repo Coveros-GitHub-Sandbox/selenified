@@ -24,6 +24,10 @@ package com.coveros.selenified;
  * determining how to launch/start the browser. Do we even want a browser, and
  * if so do we wait for the initial page to load, or do we need to perform other
  * activities first
+ *
+ * @author Max Saperstone
+ * @version 3.0.4
+ * @lastupdate 8/29/2018
  */
 public enum DriverSetup {
     FALSE, OPEN, LOAD;

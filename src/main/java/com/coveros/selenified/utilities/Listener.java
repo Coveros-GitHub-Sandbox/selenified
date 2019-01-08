@@ -41,6 +41,8 @@ import java.io.File;
  * the TestNG xml file.
  *
  * @author Max Saperstone
+ * @version 3.0.4
+ * @lastupdate 8/28/2018
  */
 public class Listener extends TestListenerAdapter {
 

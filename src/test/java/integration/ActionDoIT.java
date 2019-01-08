@@ -749,10 +749,12 @@ public class ActionDoIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box").type("Text");
-        app.newElement(Locator.ID, "input_box").assertEquals().value("Text");
-        app.newElement(Locator.ID, "input_box").clear();
-        app.newElement(Locator.ID, "input_box").assertEquals().value("");
+        app.newElement(Locator.ID, "delayed_enable_button").click();
+        app.wait(5.0);
+        app.newElement(Locator.ID, "delayed_input").type("Text");
+        app.newElement(Locator.ID, "delayed_input").assertEquals().value("Text");
+        app.newElement(Locator.ID, "delayed_input").clear();
+        app.newElement(Locator.ID, "delayed_input").assertEquals().value("");
         // verify no issues
         finish();
     }

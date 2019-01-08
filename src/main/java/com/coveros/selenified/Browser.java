@@ -27,6 +27,10 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
  * on grid), Firefox, Marionette, Chrome, InternetExplorer, Edge, Android, Ipad
  * (only locally - not on grid), Iphone (only locally, not on grid), Opera,
  * Safari, PhantomJS
+ *
+ * @author Max Saperstone
+ * @version 3.0.4
+ * @lastupdate 5/16/2018
  */
 public class Browser {
     public enum BrowserName {
