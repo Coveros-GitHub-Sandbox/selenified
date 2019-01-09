@@ -39,7 +39,7 @@ public class ActionWaitIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         Element element = app.newElement(Locator.ID, "five_second_button");
-        element.waitFor().changeDefaultWait(2.0);
+        element.waitFor().changeDefaultWait(0.5);
         element.click();
         // verify 1 issue
         finish(1);
