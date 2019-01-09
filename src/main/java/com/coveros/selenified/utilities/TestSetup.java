@@ -82,6 +82,7 @@ public class TestSetup {
      */
     public TestSetup() {
         capabilities = new DesiredCapabilities();
+        capabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
     }
 
     /**
