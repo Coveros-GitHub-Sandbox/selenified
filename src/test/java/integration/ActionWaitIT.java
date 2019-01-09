@@ -14,7 +14,7 @@ public class ActionWaitIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.wait(5.0);
+        app.wait(4.0);
         app.newElement(Locator.ID, "nocheck").assertState().notPresent();
         // verify no issues
         finish();
@@ -26,7 +26,7 @@ public class ActionWaitIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().changeDefaultWait(3.0);
+        app.waitFor().changeDefaultWait(2.0);
         app.newElement(Locator.ID, "five_second_button").click();
         // verify 1 issue
         finish(1);
@@ -39,7 +39,7 @@ public class ActionWaitIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         Element element = app.newElement(Locator.ID, "five_second_button");
-        element.waitFor().changeDefaultWait(3.0);
+        element.waitFor().changeDefaultWait(2.0);
         element.click();
         // verify 1 issue
         finish(1);
