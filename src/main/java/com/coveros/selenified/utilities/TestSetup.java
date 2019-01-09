@@ -82,7 +82,6 @@ public class TestSetup {
      */
     public TestSetup() {
         capabilities = new DesiredCapabilities();
-        capabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
     }
 
     /**
@@ -180,6 +179,7 @@ public class TestSetup {
      * @param browser - the browser object, with details included
      */
     public void setupBrowserDetails(Browser browser) {
+        capabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
         if (browser != null) {
             // determine the browser information
             if (browser.getName() != null &&

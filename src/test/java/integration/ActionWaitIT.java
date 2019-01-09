@@ -22,11 +22,12 @@ public class ActionWaitIT extends WebBase {
 
     @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check changing the default wait method")
+    //TODO - this isn't triggering the app wait, just the element wait - this is a bad test
     public void setDefaultWaitAppTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().changeDefaultWait(2.0);
+        app.waitFor().changeDefaultWait(0.5);
         app.newElement(Locator.ID, "five_second_button").click();
         // verify 1 issue
         finish(1);

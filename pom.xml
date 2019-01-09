@@ -219,6 +219,9 @@
                     <excludes>
                         <exclude>${failsafe.files.exclude}</exclude>
                     </excludes>
+                    <systemPropertyVariables>
+                        <selenium.version>${selenium.version}</selenium.version>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
