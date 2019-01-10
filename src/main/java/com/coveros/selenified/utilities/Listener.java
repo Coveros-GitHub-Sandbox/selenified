@@ -28,7 +28,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+import org.testng.SkipException;
 import org.testng.TestListenerAdapter;
+import org.testng.log4testng.Logger;
 
 import java.io.File;
 
@@ -43,6 +45,7 @@ import java.io.File;
  * @lastupdate 8/28/2018
  */
 public class Listener extends TestListenerAdapter {
+    private static final Logger log = Logger.getLogger(Listener.class);
 
     private static final String BROWSER_INPUT = "browser";
     private static final String OUTPUT_BREAK = " | ";
@@ -80,6 +83,27 @@ public class Listener extends TestListenerAdapter {
             className = test.getTestClass().toString().substring(22, test.getTestClass().toString().length() - 1);
         }
         return TestSetup.getTestName(packageName, className, test.getName(), test.getParameters());
+    }
+
+    /**
+     * Provides ability to skip a test, based on the browser selected
+     * @param result - the testng itestresult object
+     */
+    @Override
+    public void onTestStart(ITestResult result) {
+        super.onTestStart(result);
+        // if a group indicates an invalid browser, skip the test
+        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
+        if (browser != null) {
+            String[] groups = result.getMethod().getGroups();
+            for (String group : groups) {
+                if (group.toLowerCase().equals("no-" + browser.getName().toString().toLowerCase())) {
+                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + browser.getName());
+                    result.setStatus(ITestResult.SKIP);
+                    throw new SkipException("Skipping test case");
+                }
+            }
+        }
     }
 
     /**
