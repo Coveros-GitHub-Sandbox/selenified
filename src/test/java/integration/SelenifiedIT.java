@@ -87,8 +87,9 @@ public class SelenifiedIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "browser", "no-chrome", "no-edge", "no-firefox", "no-safari", "no-internetexplorer"}, description = "A test to verify a skip is thrown")
+    @Test(groups = {"integration", "browser", "no-htmlunit", "no-chrome", "no-edge", "no-firefox", "no-safari", "no-internetexplorer"}, description = "A test to verify a skip is thrown")
     public void skipThisTest() {
+        this.apps.get().getOutputFile().addError();
         finish();
     }
 }

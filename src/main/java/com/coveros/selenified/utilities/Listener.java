@@ -97,7 +97,7 @@ public class Listener extends TestListenerAdapter {
         if (browser != null) {
             String[] groups = result.getMethod().getGroups();
             for (String group : groups) {
-                if (group.toLowerCase().equals("no-" + browser.getName().toString().toLowerCase())) {
+                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
                     log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + browser.getName());
                     result.setStatus(ITestResult.SKIP);
                     throw new SkipException("Skipping test case");
