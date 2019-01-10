@@ -58,31 +58,31 @@ public class Listener extends TestListenerAdapter {
     /**
      * determines the folder name associated with the given tests
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      * @return String: a string version of the folder name
      */
-    private static String getFolderName(ITestResult test) {
-        return new File(test.getTestContext().getOutputDirectory()).getName();
+    private static String getFolderName(ITestResult result) {
+        return new File(result.getTestContext().getOutputDirectory()).getName();
     }
 
     /**
      * determines the test name associated with the given tests
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      * @return String: a string version of the test name
      */
-    private static String getTestName(ITestResult test) {
+    private static String getTestName(ITestResult result) {
         String className;
         String packageName = "";
-        if (test.getTestClass().toString().contains(".")) {
-            packageName = test.getTestClass().toString().substring(22, test.getTestClass().toString().length() - 1)
+        if (result.getTestClass().toString().contains(".")) {
+            packageName = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1)
                     .split("\\.")[0];
-            className = test.getTestClass().toString().substring(22, test.getTestClass().toString().length() - 1)
+            className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1)
                     .split("\\.")[1];
         } else {
-            className = test.getTestClass().toString().substring(22, test.getTestClass().toString().length() - 1);
+            className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1);
         }
-        return TestSetup.getTestName(packageName, className, test.getName(), test.getParameters());
+        return TestSetup.getTestName(packageName, className, result.getName(), result.getParameters());
     }
 
     /**
@@ -110,59 +110,59 @@ public class Listener extends TestListenerAdapter {
      * Runs the default TestNG onTestFailure, and adds additional information
      * into the testng reporter
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      */
     @Override
-    public void onTestFailure(ITestResult test) {
-        super.onTestFailure(test);
-        recordResult(test);
+    public void onTestFailure(ITestResult result) {
+        super.onTestFailure(result);
+        recordResult(result);
     }
 
     /**
      * Runs the default TestNG onTestSkipped, and adds additional information
      * into the testng reporter
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      */
     @Override
-    public void onTestSkipped(ITestResult test) {
-        super.onTestSkipped(test);
-        recordResult(test);
+    public void onTestSkipped(ITestResult result) {
+        super.onTestSkipped(result);
+        recordResult(result);
     }
 
     /**
      * Runs the default TestNG onTestSuccess, and adds additional information
      * into the testng reporter
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      */
     @Override
-    public void onTestSuccess(ITestResult test) {
-        super.onTestSuccess(test);
-        recordResult(test);
+    public void onTestSuccess(ITestResult result) {
+        super.onTestSuccess(result);
+        recordResult(result);
     }
 
     /**
      * Checks to see if the test execution was performed on SauceLabs or not. If it was, this reaches out to Sauce,
      * in order to update the execution results
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      */
-    private void recordResult(ITestResult test) {
-        String testName = getTestName(test);
-        Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
+    private void recordResult(ITestResult result) {
+        String testName = getTestName(result);
+        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
         if (browser != null) {
             Reporter.log(
-                    Result.values()[test.getStatus()] + OUTPUT_BREAK + browser.getName() + OUTPUT_BREAK + LINK_START +
-                            getFolderName(test) + "/" + testName + browser.getName() + LINK_MIDDLE + testName +
-                            LINK_END + OUTPUT_BREAK + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
+                    Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getName() + OUTPUT_BREAK + LINK_START +
+                            getFolderName(result) + "/" + testName + browser.getName() + LINK_MIDDLE + testName +
+                            LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
-        if (Sauce.isSauce() && test.getAttributeNames().contains("SessionId")) {
-            String sessionId = test.getAttribute("SessionId").toString();
+        if (Sauce.isSauce() && result.getAttributeNames().contains("SessionId")) {
+            String sessionId = result.getAttribute("SessionId").toString();
             JsonObject json = new JsonObject();
-            json.addProperty("passed", test.getStatus() == 1);
+            json.addProperty("passed", result.getStatus() == 1);
             JsonArray tags = new JsonArray();
-            for (String tag : test.getMethod().getGroups()) {
+            for (String tag : result.getMethod().getGroups()) {
                 tags.add(tag);
             }
             json.add("tags", tags);
