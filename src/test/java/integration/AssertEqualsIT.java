@@ -1,5 +1,7 @@
 package integration;
 
+import com.coveros.selenified.Browser;
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import org.testng.annotations.Test;
@@ -214,9 +216,13 @@ public class AssertEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "prompt_button").assertEquals().clazz(null);
-        // verify 1 issue
-        finish(0);
+        if( app.getBrowser().getName() == BrowserName.HTMLUNIT) {
+            app.newElement(Locator.ID, "prompt_button").assertEquals().clazz(null);
+        } else {
+            app.newElement(Locator.ID, "prompt_button").assertEquals().clazz("");
+        }
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "assert", "equals"},

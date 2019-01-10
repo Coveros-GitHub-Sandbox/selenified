@@ -535,10 +535,11 @@ public class ActionDoIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
+        //TODO fix conditional logic
         app.newElement(Locator.ID, "this").type(" ");
-        if (app.getBrowser().getName() == BrowserName.CHROME) {  //test only applicable for Chrome
+//        if (app.getBrowser().getName() == BrowserName.CHROME) {  //test only applicable for Chrome
             app.newElement(Locator.ID, "this").assertState().checked();
-        }
+//        }
         // verify no issues
         finish();
     }
@@ -577,6 +578,7 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
+    // TODO fix this to make it useful across everywhere
     @Test(groups = {"integration", "action", "do", "type"},
             description = "An integration negative test to check the type method")
     public void typeNotVisibleTest() {
