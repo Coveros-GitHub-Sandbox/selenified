@@ -20,17 +20,29 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "wait"},
+    @Test(groups = {"integration", "action", "wait", "alert", "no-safari"},
             description = "An integration test to check changing the default wait method")
-    //TODO - this isn't triggering the app wait, just the element wait - this is a bad test
-    public void setDefaultWaitAppTest() {
+    public void setDefaultWaitAppNegativeTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.waitFor().changeDefaultWait(0.5);
-        app.newElement(Locator.ID, "five_second_button").click();
+        app.newElement(Locator.ID, "delayed_alert_button").click();
+        app.waitFor().alertPresent();
         // verify 1 issue
         finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "wait", "alert", "no-safari"},
+            description = "An integration test to check changing the default wait method")
+    public void setDefaultWaitAppTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "delayed_alert_button").click();
+        app.waitFor().alertPresent();
+        // verify 1 issue
+        finish();
     }
 
     @Test(groups = {"integration", "action", "wait"},

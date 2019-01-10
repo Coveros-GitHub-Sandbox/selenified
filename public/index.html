@@ -23,6 +23,7 @@
         var hover_over_me = document.getElementById("hover_over_me");
         var displayed_when_hovered = document.getElementById("displayed_when_hovered");
         var new_window = document.getElementById("new_window");
+        var delayed_alert_button = document.getElementById("delayed_alert_button");
 
         // Disable the button on initial page load
         alert_button.disabled = true;
@@ -107,6 +108,12 @@
         setTimeout(function() {
             five_second_button.disabled = true;
         }, 6100);
+
+        delayed_alert_button.addEventListener('click', function(event) {
+            setTimeout(function() {
+                alert('I alerted!');
+            }, 3000);
+        });
 
         init();
     };
@@ -283,6 +290,8 @@ tr:nth-child(even) {
                      class="hidden_div">You Hovered!
                 </div>
             </div>
+            <input name="delayed_alert_button" id="delayed_alert_button" type="button"
+                   value="Delayed Alert"/>
         </td>
         <td>
             <h2>
