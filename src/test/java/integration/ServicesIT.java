@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ServicesIT extends ServicesBase {
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration test to verify we can successfully set header values")
     public void setHeaderTest() {
         // use this object to verify the app looks as expected
@@ -27,7 +27,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration test to verify we can successfully override standard header values")
     public void overrideAcceptTest() {
         // use this object to verify the app looks as expected
@@ -42,7 +42,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration test to verify we can successfully override standard header values")
     public void setCredentialsTest() {
         // use this object to verify the app looks as expected
@@ -55,7 +55,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration negative test to verify we can successfully change header values")
     public void setUnsupportedHeaderTest() {
         JsonObject request = new JsonObject();
@@ -75,7 +75,7 @@ public class ServicesIT extends ServicesBase {
         finish(2);
     }
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration negative test to verify we can successfully change header values")
     public void setPostMissingFileTest() {
         // use this object to verify the app looks as expected
@@ -88,7 +88,7 @@ public class ServicesIT extends ServicesBase {
 
     // for get calls
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with no parameters")
     public void verifySuccessfulGetCall() {
         // use this object to verify the app looks as expected
@@ -99,7 +99,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with parameters")
     public void verifySuccessfulGetCallParams() {
         // use this object to verify the app looks as expected
@@ -112,7 +112,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with parameters in url")
     public void verifySuccessfulGetCallUrlParams() {
         // use this object to verify the app looks as expected
@@ -123,7 +123,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with no parameters")
     public void verifySuccessfulGetCallData() {
         JsonArray json = new JsonArray();
@@ -139,7 +139,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with no parameters")
     public void verifySuccessfulGetCallMessageData() {
         JsonArray json = new JsonArray();
@@ -155,7 +155,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with parameters")
     public void verifySuccessfulGetCallParamsData() {
         // use this object to verify the app looks as expected
@@ -168,7 +168,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with parameters")
     public void verifySuccessfulGetCallParamsMessageData() {
         // use this object to verify the app looks as expected
@@ -181,7 +181,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with parameters in url")
     public void verifySuccessfulGetCallUrlParamsData() {
         // use this object to verify the app looks as expected
@@ -192,7 +192,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with parameters in url")
     public void verifySuccessfulGetCallUrlParamsMessageData() {
         // use this object to verify the app looks as expected
@@ -203,7 +203,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify a successful get call with parameters in url")
     public void verifySuccessfulBadGetCall() {
         // use this object to verify the app looks as expected
@@ -216,7 +216,7 @@ public class ServicesIT extends ServicesBase {
 
     // for post calls
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCall() {
         // use this object to verify the app looks as expected
@@ -227,7 +227,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostParamsCallNoData() {
         Map<String, Object> params = new HashMap<>();
@@ -240,7 +240,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallNoData() {
         // use this object to verify the app looks as expected
@@ -251,7 +251,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallNullData() {
         // use this object to verify the app looks as expected
@@ -262,7 +262,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonObjectData() {
         // use this object to verify the app looks as expected
@@ -273,7 +273,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonArrayData() {
         // use this object to verify the app looks as expected
@@ -284,7 +284,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallEmptyMultipartData() {
         // use this object to verify the app looks as expected
@@ -295,7 +295,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallMultipartData() {
         // use this object to verify the app looks as expected
@@ -308,7 +308,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonObjectMultipartData() {
         // use this object to verify the app looks as expected
@@ -320,7 +320,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonArrayMultipartData() {
         // use this object to verify the app looks as expected
@@ -332,7 +332,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -346,7 +346,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonObjectMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -361,7 +361,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonArrayMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -376,7 +376,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallUrlParamsData() {
         // use this object to verify the app looks as expected
@@ -387,7 +387,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallNoDataWithFile() {
         // use this object to verify the app looks as expected
@@ -398,7 +398,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonObjectDataWithFile() {
         // use this object to verify the app looks as expected
@@ -410,7 +410,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallJsonArrayDataWithFile() {
         // use this object to verify the app looks as expected
@@ -422,7 +422,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallMultipartDataWithFile() {
         // use this object to verify the app looks as expected
@@ -434,7 +434,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters")
     public void verifySuccessfulPostCallUrlParamsDataWithFile() {
         // use this object to verify the app looks as expected
@@ -446,7 +446,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httppost", "response"},
+    @Test(groups = {"integration", "service", "httppost", "response"},
             description = "An integration test to verify a successful post call with parameters in url")
     public void verifySuccessfulBadPostCall() {
         // use this object to verify the app looks as expected
@@ -459,7 +459,7 @@ public class ServicesIT extends ServicesBase {
 
     // for put calls
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCall() {
         // use this object to verify the app looks as expected
@@ -470,7 +470,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutParamCallNoData() {
         Map<String, Object> params = new HashMap<>();
@@ -483,7 +483,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallNoData() {
         // use this object to verify the app looks as expected
@@ -494,7 +494,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallJsonObjectData() {
         // use this object to verify the app looks as expected
@@ -505,7 +505,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallJsonArrayData() {
         // use this object to verify the app looks as expected
@@ -516,7 +516,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallEmptyMultipartData() {
         // use this object to verify the app looks as expected
@@ -527,7 +527,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallMultipartData() {
         // use this object to verify the app looks as expected
@@ -540,7 +540,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallJsonObjectMultipartData() {
         // use this object to verify the app looks as expected
@@ -552,7 +552,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallJsonArrayMultipartData() {
         // use this object to verify the app looks as expected
@@ -564,7 +564,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -578,7 +578,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallJsonObjectMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -593,7 +593,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallJsonArrayMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -608,7 +608,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallUrlParamsData() {
         // use this object to verify the app looks as expected
@@ -619,7 +619,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallNoDataWithFile() {
         // use this object to verify the app looks as expected
@@ -630,7 +630,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallJsonObjectDataWithFile() {
         // use this object to verify the app looks as expected
@@ -641,7 +641,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallJsonArrayDataWithFile() {
         // use this object to verify the app looks as expected
@@ -652,7 +652,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallMultipartDataWithFile() {
         // use this object to verify the app looks as expected
@@ -663,7 +663,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters")
     public void verifySuccessfulPutCallUrlParamsDataWithFile() {
         // use this object to verify the app looks as expected
@@ -674,7 +674,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpput", "response"},
+    @Test(groups = {"integration", "service", "httpput", "response"},
             description = "An integration test to verify a successful put call with parameters in url")
     public void verifySuccessfulBadPutCall() {
         // use this object to verify the app looks as expected
@@ -687,7 +687,7 @@ public class ServicesIT extends ServicesBase {
 
     // for delete calls
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCall() {
         // use this object to verify the app looks as expected
@@ -698,7 +698,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallNoData() {
         // use this object to verify the app looks as expected
@@ -709,7 +709,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteParamsCallNoData() {
         Map<String, Object> params = new HashMap<>();
@@ -722,7 +722,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallEmptyData() {
         // use this object to verify the app looks as expected
@@ -733,7 +733,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallJsonObjectData() {
         // use this object to verify the app looks as expected
@@ -744,7 +744,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallJsonArrayData() {
         // use this object to verify the app looks as expected
@@ -755,7 +755,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallEmptyMultipartData() {
         // use this object to verify the app looks as expected
@@ -766,7 +766,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallMultipartData() {
         // use this object to verify the app looks as expected
@@ -779,7 +779,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallJsonObjectMultipartData() {
         // use this object to verify the app looks as expected
@@ -791,7 +791,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallJsonArrayMultipartData() {
         // use this object to verify the app looks as expected
@@ -803,7 +803,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -817,7 +817,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallJsonObjectMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -832,7 +832,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallJsonArrayMultipartTrueData() {
         // use this object to verify the app looks as expected
@@ -847,7 +847,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallUrlParamsData() {
         // use this object to verify the app looks as expected
@@ -858,7 +858,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallNoDataWithFile() {
         // use this object to verify the app looks as expected
@@ -869,7 +869,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallJsonObjectDataWithFile() {
         // use this object to verify the app looks as expected
@@ -881,7 +881,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallJsonArrayDataWithFile() {
         // use this object to verify the app looks as expected
@@ -893,7 +893,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallMultipartDataWithFile() {
         // use this object to verify the app looks as expected
@@ -905,7 +905,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters")
     public void verifySuccessfulDeleteCallUrlParamsDataWithFile() {
         // use this object to verify the app looks as expected
@@ -917,7 +917,7 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpdelete", "response"},
+    @Test(groups = {"integration", "service", "httpdelete", "response"},
             description = "An integration test to verify a successful delete call with parameters in url")
     public void verifySuccessfulBadDeleteCall() {
         // use this object to verify the app looks as expected

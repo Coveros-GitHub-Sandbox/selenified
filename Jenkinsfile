@@ -56,7 +56,7 @@ node {
                 }
                 stage('Execute Local Tests') {
                     try {
-                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="services" -Dheadless'
+                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless'
                     } catch (e) {
                         throw e
                     } finally {
@@ -79,7 +79,7 @@ node {
                 }
                 stage('Execute Hub Tests') {
                     try {
-                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Chrome,browserName=Firefox,browserName=Safari,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='services,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Chrome,browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari&browserVersion=12.0&devicePlatform=macOS 10.14' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
@@ -127,8 +127,11 @@ node {
                 stage('Send Notifications') {
                     emailextrecipients([culprits(), developers(), requestor()])
                     // send slack notifications
-                    def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
-                    sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
+                    if (branch == 'develop' || branch == 'master' || pullRequest) {
+                        def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
+                        sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
+                    }
+
                 }
             }
         }

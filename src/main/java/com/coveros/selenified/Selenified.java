@@ -530,6 +530,9 @@ public class Selenified {
                 // are we running remotely on a hub
                 if (System.getProperty("hub") != null) {
                     setup.setupBrowserCapability(browser);
+                    if ( Sauce.isSauce() ) {
+                        setup.setupSauceCapabilities();
+                    }
                 }
                 setup.setupProxy();
                 setup.setupBrowserDetails(browser);
