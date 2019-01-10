@@ -27,6 +27,19 @@ public class ElementIT extends WebBase {
 
     @Test(groups = {"integration", "element"},
             description = "An integration test to check that a child element is properly located")
+    public void checkSingleChildTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element table = app.newElement(Locator.TAGNAME, "body");
+        Element cell = table.findChild(app.newElement(Locator.TAGNAME, "button", 3));
+        cell.assertEquals().text("");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "element"},
+            description = "An integration test to check that a child element is properly located")
     public void checkMultipleChildTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
