@@ -210,6 +210,17 @@ public class AssertEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "assert", "equals"},
             description = "An integration negative test to check the checkElementHasClass method")
+    public void negativeCheckElementHasClassNoClassNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "prompt_button").assertEquals().clazz(null);
+        // verify 1 issue
+        finish(0);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
