@@ -15,7 +15,7 @@ import java.util.TimeZone;
 public class ActionGoIT extends WebBase {
 
     // skipping safari as it doesn't support going forward or back: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
-    @Test(groups = {"integration", "action", "go", "browser", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "go", "browser", "alert"},
             description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageTest() {
         // use this object to manipulate the app
@@ -30,7 +30,7 @@ public class ActionGoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support going forward or back: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
-    @Test(groups = {"integration", "action", "go", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "go", "alert"},
             description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageNoBackTest() {
         // use this object to manipulate the app
@@ -54,7 +54,7 @@ public class ActionGoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support going forward or back: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
-    @Test(groups = {"integration", "action", "go", "browser", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "go", "browser", "alert"},
             description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageTest() {
         // use this object to manipulate the app
@@ -71,7 +71,7 @@ public class ActionGoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support going forward or back: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
-   @Test(groups = {"integration", "action", "go", "alert", "no-safari"},
+   @Test(groups = {"integration", "action", "go", "alert"},
             description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageNoForwardTest() {
         // use this object to manipulate the app
@@ -172,7 +172,7 @@ public class ActionGoIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "action", "go", "no-edge"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the deleteCookie method")
     public void deleteCookieTest() {
         // use this object to manipulate the app

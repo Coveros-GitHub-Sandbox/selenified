@@ -79,6 +79,7 @@ node {
                 }
                 stage('Execute Hub Tests') {
                     try {
+                        // need to keep updating safari, as version is hard coded due to sauce defaulting to old 8.0 version
                         sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Chrome,browserName=Firefox,browserName=InternetExplorer,browserName=Edge&devicePlatform=Windows 10,browserName=Safari&browserVersion=12.0&devicePlatform=macOS 10.14' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
@@ -134,6 +135,40 @@ node {
 
                 }
             }
+        }
+    }
+}
+
+def notify(String email, String project, String rawBranchName, String urlBranch) {
+    withCredentials(
+            [
+                    usernamePassword(credentialsId: VibrentConstants.SLACK_USER_TOKEN, passwordVariable: 'USERSTOKEN', usernameVariable: ''),
+                    usernamePassword(credentialsId: VibrentConstants.SLACK_BOT_TOKEN, passwordVariable: 'BOTTOKEN', usernameVariable: '')
+            ]
+    ) {
+        def channel
+        // Notify the user that broke the build.
+        echo "Notifying ${email} that they broke the build."
+
+        // Get the list of users that currently exist in Slack
+
+        def results = sh script: "curl -XPOST 'https://slack.com/api/users.list?token=${USERSTOKEN}' | tr -d '\n'", returnStdout: true
+        def resultsObject = readJSON text: results
+
+        //Filter the list for users who's emails match the change author
+        def users = resultsObject['members'].findAll {
+            it['profile']['email'] == email
+        }
+
+        // Message users that match. This will usually only be one or zero users.
+        // However, if we don't know which of several users to message,
+        // it's easier to just message all of them than to figure out which one is correct.
+        users.each {
+            results = sh script: "curl -XPOST 'https://slack.com/api/im.open?token=${BOTTOKEN}&user=${it['id']}'", returnStdout: true
+            channel = readJSON(text: results)['channel']['id']
+
+            sh "curl -IL -XPOST 'https://slack.com/api/chat.postMessage?token=${BOTTOKEN}&channel=${channel}&text=Build+Failed+-+${project}+-+${rawBranchName}+-+${env.BUILD_NUMBER}'"
+            sh "curl -IL -XPOST 'https://slack.com/api/chat.postMessage?token=${BOTTOKEN}&channel=${channel}&text=Please+see+the+build+log+for+more+details%3A+${URLEncoder.encode(env.RUN_DISPLAY_URL, "UTF-8")}'"
         }
     }
 }

@@ -45,7 +45,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookie method")
     public void getCookieTest() throws ParseException {
         // the cookie date
@@ -87,7 +87,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookieValue method")
     public void getCookieValueTest() {
         // use this object to manipulate the app
@@ -112,7 +112,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookiePath method")
     public void getCookiePathTest() {
         // use this object to manipulate the app
@@ -137,7 +137,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookieDomain method")
     public void getCookieDomainTest(ITestContext context) {
         // use this object to manipulate the app
@@ -162,7 +162,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
+    @Test(groups = {"integration", "action", "get", "cookie"},
             description = "An integration test to check the getCookieExpiration method")
     public void getCookieExpirationTest() throws ParseException {
         // the cookie date
@@ -968,7 +968,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "get", "alert", "no-safari"}, description = "An integration test to check the getPrompt method")
+    @Test(groups = {"integration", "action", "get", "alert"}, description = "An integration test to check the getPrompt method")
     public void getPromptTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -992,7 +992,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "get", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "get", "alert"},
             description = "An integration test to check the getConfirmation method")
     public void getConfirmationTest() {
         // use this object to manipulate the app
@@ -1017,7 +1017,7 @@ public class ActionGetIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "get", "alert", "no-safari"}, description = "An integration test to check the getAlert method")
+    @Test(groups = {"integration", "action", "get", "alert"}, description = "An integration test to check the getAlert method")
     public void getAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

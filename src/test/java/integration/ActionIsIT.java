@@ -387,7 +387,7 @@ public class ActionIsIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "is", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isAlertPresent method")
     public void isAlertPresentTest() {
         // use this object to manipulate the app
@@ -412,7 +412,7 @@ public class ActionIsIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "is", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isConfirmationPresent method")
     public void isConfirmationPresentTest() {
         // use this object to manipulate the app
@@ -436,7 +436,7 @@ public class ActionIsIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "is", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isPromptPresent method")
     public void isPromptPresentTest() {
         // use this object to manipulate the app

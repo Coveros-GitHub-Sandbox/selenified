@@ -89,7 +89,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "alert", "do", "no-safari"},
+    @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the acceptAlert method")
     public void acceptAlertTest() {
         // use this object to manipulate the app
@@ -115,7 +115,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "alert", "do", "no-safari"},
+    @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the acceptConfirmation method")
     public void acceptConfirmationTest() {
         // use this object to manipulate the app
@@ -140,7 +140,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "alert", "do", "no-safari"},
+    @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the dismissConfirmation method")
     public void dismissConfirmationTest() {
         // use this object to manipulate the app
@@ -165,7 +165,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "alert", "do", "no-safari"},
+    @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the acceptPrompt method")
     public void acceptPromptTest() {
         // use this object to manipulate the app
@@ -190,7 +190,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "alert", "do", "no-safari"},
+    @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the dismissPrompt method")
     public void dismissPromptTest() {
         // use this object to manipulate the app
@@ -215,7 +215,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "alert", "do", "no-safari"},
+    @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the typePrompt method")
     public void typePromptTest() {
         // use this object to manipulate the app
@@ -239,7 +239,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "do", "click", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "do", "click", "alert"},
             description = "An integration test to check the click method")
     public void clickTest() {
         // use this object to manipulate the app
@@ -252,7 +252,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "do", "click", "browser", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "do", "click", "browser", "alert"},
             description = "An integration negative test to check the click method")
     public void clickAlertTest() {
         // use this object to manipulate the app
@@ -424,7 +424,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "do", "hover", "browser", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "do", "hover", "browser", "alert"},
             description = "An integration negative test to check the hover method")
     public void hoverAlertTest() {
         // use this object to manipulate the app
@@ -1263,7 +1263,7 @@ public class ActionDoIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "do", "draw", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "do", "draw", "alert"},
             description = "An integration negative test to check the draw method")
     public void drawAlertTest() {
         List<Point<Integer, Integer>> points = new ArrayList<>();

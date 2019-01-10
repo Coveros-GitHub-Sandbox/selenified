@@ -56,23 +56,6 @@ public class Listener extends TestListenerAdapter {
     private static final String LINK_END = "</a>";
     private static final String TIME_UNIT = " seconds";
 
-//    @Override
-//    public void onTestStart(ITestResult result) {
-//        super.onTestStart(result);
-//        // if a group indicates an invalid browser, skip the test
-//        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
-//        if (browser != null) {
-//            String[] groups = result.getMethod().getGroups();
-//            for (String group : groups) {
-//                if (group.toLowerCase().equals("no-" + browser.getName().toString().toLowerCase())) {
-//                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + browser.getName());
-//                    result.setStatus(ITestResult.SKIP);
-//                    throw new SkipException("Skipping test case");
-//                }
-//            }
-//        }
-//    }
-
     /**
      * determines the folder name associated with the given tests
      *

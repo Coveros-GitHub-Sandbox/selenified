@@ -20,7 +20,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "wait", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check changing the default wait method")
     public void setDefaultWaitAppNegativeTest() {
         // use this object to manipulate the app
@@ -33,7 +33,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "wait", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check changing the default wait method")
     public void setDefaultWaitAppTest() {
         // use this object to manipulate the app
@@ -462,7 +462,7 @@ public class ActionWaitIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "wait", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForPromptPresent method")
     public void waitForPromptPresentTest() {
         // use this object to manipulate the app
@@ -486,7 +486,7 @@ public class ActionWaitIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "wait", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForConfirmationPresent method")
     public void waitForConfirmationPresentTest() {
         // use this object to manipulate the app
@@ -510,7 +510,7 @@ public class ActionWaitIT extends WebBase {
     }
 
     // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
-    @Test(groups = {"integration", "action", "wait", "alert", "no-safari"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForAlertPresent method")
     public void waitForAlertPresentTest() {
         // use this object to manipulate the app
