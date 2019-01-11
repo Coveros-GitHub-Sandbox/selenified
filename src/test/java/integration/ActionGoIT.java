@@ -14,7 +14,6 @@ import java.util.TimeZone;
 
 public class ActionGoIT extends WebBase {
 
-    // skipping safari as it doesn't support going forward or back: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
     @Test(groups = {"integration", "action", "go", "browser", "alert"},
             description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageTest() {
@@ -29,7 +28,6 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support going forward or back: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
     @Test(groups = {"integration", "action", "go", "alert"},
             description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageNoBackTest() {
@@ -53,7 +51,6 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support going forward or back: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
     @Test(groups = {"integration", "action", "go", "browser", "alert"},
             description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageTest() {
@@ -70,8 +67,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support going forward or back: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
-   @Test(groups = {"integration", "action", "go", "alert"},
+    @Test(groups = {"integration", "action", "go", "alert"},
             description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageNoForwardTest() {
         // use this object to manipulate the app
@@ -140,7 +136,8 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "go"}, description = "An integration test to check the setCookie method")
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "cookie", "no-edge"}, description = "An integration test to check the setCookie method")
     public void setCookieTest(ITestContext context) throws ParseException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -155,7 +152,8 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "go"}, description = "An integration test to check the setCookie method")
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "go", "cookie", "no-edge"}, description = "An integration test to check the setCookie method")
     public void setCookieErrorTest(ITestContext context) throws ParseException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
