@@ -422,8 +422,8 @@ public class App {
         String action = "Reloading current page while clearing the cache";
         String expected = "Cache is cleared, and the page is refreshed";
         try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
+            driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
+            driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
         } catch (Exception e) {
             file.recordAction(action, expected,
                     "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Result.FAILURE);
