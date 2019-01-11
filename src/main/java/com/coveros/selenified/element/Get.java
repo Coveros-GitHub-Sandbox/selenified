@@ -424,8 +424,7 @@ public class Get {
         }
         WebElement thisRow = rows.get(rowNum);
         List<WebElement> cells = thisRow.findElements(By.xpath(".//th|.//td"));
-        List<WebElement> row = new ArrayList<>();
-        row.addAll(cells);
+        List<WebElement> row = new ArrayList<>(cells);
         return row;
     }
 

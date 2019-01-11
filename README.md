@@ -735,13 +735,13 @@ mvn clean verify -Dbrowser=Firefox -DpackageResults=true
 The zipped results will be placed in the same directory as the test results
 
 ## Known Issues
-* Safari doesn't properly handle alerts. These exceptions are caught and handled in the code, but will
+* Safari 8 doesn't properly handle alerts. These exceptions are caught and handled in the code, but will
 cause tests to fail. This is an Apple/Selenium issue, not specific to Selenified.
 https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
 * Safari can't navigate using forward or backward history functionality. These exceptions are caught and handled 
 in the code, but will cause tests to fail. This is an Apple/Selenium issue, not specific to Selenified.
 https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
-* Unable to access, edit, or clear cookies in Edge. These exceptions are caught and handled in the code, 
+* Unable to access, edit, or clear cookies in Edge 18. These exceptions are caught and handled in the code, 
 but may cause tests to fail, as cookies present are always returned as false. This is a Microsoft Edge
 and EdgeDriver issue, not specific to Selenified.
 https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/

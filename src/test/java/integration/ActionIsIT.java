@@ -386,7 +386,6 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isAlertPresent method")
     public void isAlertPresentTest() {
@@ -411,7 +410,6 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isConfirmationPresent method")
     public void isConfirmationPresentTest() {
@@ -435,7 +433,6 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isPromptPresent method")
     public void isPromptPresentTest() {

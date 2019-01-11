@@ -461,7 +461,6 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForPromptPresent method")
     public void waitForPromptPresentTest() {
@@ -485,7 +484,6 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForConfirmationPresent method")
     public void waitForConfirmationPresentTest() {
@@ -509,7 +507,6 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForAlertPresent method")
     public void waitForAlertPresentTest() {

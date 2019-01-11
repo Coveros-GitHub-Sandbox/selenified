@@ -172,7 +172,7 @@ public class ActionGoIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "action", "go"},
+    @Test(groups = {"integration", "action", "go", "cookie", "no-edge"},
             description = "An integration test to check the deleteCookie method")
     public void deleteCookieTest() {
         // use this object to manipulate the app

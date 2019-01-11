@@ -523,8 +523,19 @@ public class TestSetup {
      * Sauce labs has specific capabilities to manage the selenium version used. The version is obtained from the
      * POM (or could be passed in via CMD to override) and then set so that Sauce sets the specific selenium version,
      * instead of their default: https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options#TestConfigurationOptions-SeleniumVersion
+     * Additionally, the iedriverVersion is set to match the selenium version as suggested, if ie is the chosen browser
+     * Finally, the default platform for edge is set to windows 10
      */
     public void setupSauceCapabilities() {
+        // set the selenium version
         capabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
+        // set the ie driver if needed
+        if( capabilities.getBrowserName().equals("internet explorer") ) {
+            capabilities.setCapability("iedriverVersion", System.getProperty("selenium.version"));
+        }
+        // if edge, by default, use windows 10, can be overridden in setupBrowserDetails
+        if( capabilities.getBrowserName().equals("MicrosoftEdge") ) {
+            capabilities.setCapability(CapabilityType.PLATFORM, "Windows 10");
+        }
     }
 }

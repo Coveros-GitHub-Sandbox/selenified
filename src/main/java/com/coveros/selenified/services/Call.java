@@ -263,7 +263,7 @@ public class Call {
      * they are both set, turns that into a string which will be formatted for
      * HTML to be printed into the output file
      *
-     * @return String: an HTML formated string with the username and password -
+     * @return String: an HTML formatted string with the username and password -
      * if they are both set
      */
     public String getCredentialString() {

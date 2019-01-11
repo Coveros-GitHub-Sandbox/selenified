@@ -133,7 +133,8 @@ public class Is {
     public boolean enabled() {
         boolean isEnabled = false;
         try {
-            isEnabled = element.getWebElement().isEnabled();
+            // adding additional check for disabled attribute, due to issues with safari
+            isEnabled = (element.getWebElement().isEnabled() && !element.get().allAttributes().containsKey("disabled"));
         } catch (NoSuchElementException e) {
             log.info(e);
         }

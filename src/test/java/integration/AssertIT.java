@@ -26,7 +26,6 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"},
             description = "An integration test to check the checkAlertPresent method")
     public void checkAlertPresentTest() {
@@ -51,7 +50,6 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"},
             description = "An integration test to check the checkAlertPresent method")
     public void checkConfirmationPresentTest() {
@@ -100,7 +98,6 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"}, description = "An integration test to check the checkAlert method")
     public void checkAlertTest() {
         // use this object to manipulate the app
@@ -113,7 +110,6 @@ public class AssertIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"}, description = "An integration test to check the checkAlert method")
     public void checkAlertRegexTest() {
         // use this object to manipulate the app
@@ -137,7 +133,6 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"},
             description = "An integration negative test to check the checkAlert method")
     public void negativeCheckAlertTest() {
@@ -151,7 +146,6 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"},
             description = "An integration test to check the checkConfirmation method")
     public void checkConfirmationTest() {
@@ -165,7 +159,6 @@ public class AssertIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"},
             description = "An integration negative test to check the checkConfirmation method")
     public void negativeCheckConfirmationTest() {
@@ -201,7 +194,6 @@ public class AssertIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"},
             description = "An integration negative test to check the checkConfirmationNotPresent method")
     public void negativeCheckConfirmationNotPresentTest() {
@@ -215,7 +207,6 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"}, description = "An integration test to check the checkPrompt method")
     public void checkPromptTest() {
         // use this object to manipulate the app
@@ -239,7 +230,6 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"},
             description = "An integration negative test to check the checkPrompt method")
     public void negativeCheckPromptTest() {
@@ -253,7 +243,6 @@ public class AssertIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "assert", "alert"},
             description = "An integration test to check the checkPromptNotPresent method")
     public void checkPromptPresentTest() {
@@ -346,7 +335,7 @@ public class AssertIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "assert"}, description = "An integration test to check the checkCookie method")
+    @Test(groups = {"integration", "assert", "cookie", "no-edge"}, description = "An integration test to check the checkCookie method")
     public void checkCookieTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -390,7 +379,7 @@ public class AssertIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "assert"},
+    @Test(groups = {"integration", "assert", "cookie", "no-edge"},
             description = "An integration negative test to check the checkCookieNotPresent method")
     public void negativeCheckCookieNotPresentTest() {
         // use this object to manipulate the app
@@ -402,7 +391,7 @@ public class AssertIT extends WebBase {
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "assert"},
+    @Test(groups = {"integration", "assert", "cookie", "no-edge"},
             description = "An integration test to check the checkCookiePresent method")
     public void checkCookiePresentTest() {
         // use this object to manipulate the app

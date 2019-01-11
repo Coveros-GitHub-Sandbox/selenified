@@ -88,7 +88,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the acceptAlert method")
     public void acceptAlertTest() {
@@ -114,7 +113,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the acceptConfirmation method")
     public void acceptConfirmationTest() {
@@ -139,7 +137,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the dismissConfirmation method")
     public void dismissConfirmationTest() {
@@ -164,7 +161,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the acceptPrompt method")
     public void acceptPromptTest() {
@@ -189,7 +185,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the dismissPrompt method")
     public void dismissPromptTest() {
@@ -214,7 +209,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "alert", "do"},
             description = "An integration test to check the typePrompt method")
     public void typePromptTest() {
@@ -238,7 +232,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "do", "click", "alert"},
             description = "An integration test to check the click method")
     public void clickTest() {
@@ -251,7 +244,6 @@ public class ActionDoIT extends WebBase {
         finish();
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "do", "click", "browser", "alert"},
             description = "An integration negative test to check the click method")
     public void clickAlertTest() {
@@ -423,7 +415,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "do", "hover", "browser", "alert"},
             description = "An integration negative test to check the hover method")
     public void hoverAlertTest() {
@@ -1262,7 +1253,6 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
     @Test(groups = {"integration", "action", "do", "draw", "alert"},
             description = "An integration negative test to check the draw method")
     public void drawAlertTest() {
