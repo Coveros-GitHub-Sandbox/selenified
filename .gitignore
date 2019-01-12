@@ -11,6 +11,7 @@ test-output/
 target/
 doc/
 docs/
+results/
 
 # unit test generated folder
 directory/
