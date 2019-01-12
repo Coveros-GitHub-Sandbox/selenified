@@ -1,20 +1,20 @@
 /*
  * Copyright 2018 Coveros, Inc.
- * 
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -61,7 +61,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 9/18/2017
+ * @lastupdate 1/7/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -85,8 +85,10 @@ public class Selenified {
     protected final ThreadLocal<Call> calls = new ThreadLocal<>();
 
     // constants
+    public static final String BROWSER_INPUT = "browser";
+    public static final String SESSION_ID = "SessionId";
+    public static final String OUTPUT_FILE = "outputFile";
     private static final String APP_INPUT = "appURL";
-    private static final String BROWSER_INPUT = "browser";
     private static final String INVOCATION_COUNT = "InvocationCount";
     private static final String ERRORS_CHECK = " errors";
 
@@ -196,7 +198,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
      */
     protected static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -348,36 +350,37 @@ public class Selenified {
         myCapability.setCapability("name", testName);
         this.capability.set(myCapability);
 
-        OutputFile myFile =
+        OutputFile outputFile =
                 new OutputFile(outputDir, testName, myBrowser, getTestSite(extClass, test), test.getName(), group,
                         getAuthor(extClass, test), getVersion(extClass, test), description);
         if (selenium.useBrowser()) {
             App app = null;
             try {
-                app = new App(myBrowser, myCapability, myFile);
+                app = new App(myBrowser, myCapability, outputFile);
             } catch (InvalidBrowserException | MalformedURLException e) {
                 log.error(e);
             }
             this.apps.set(app);
             this.calls.set(null);
-            myFile.setApp(app);
+            outputFile.setApp(app);
             TestSetup.setupScreenSize(app);
             if (selenium.loadPage()) {
-                loadInitialPage(app, getTestSite(extClass, test), myFile);
+                loadInitialPage(app, getTestSite(extClass, test), outputFile);
             }
             if (Sauce.isSauce() && app != null) {
-                result.setAttribute("SessionId", ((RemoteWebDriver) app.getDriver()).getSessionId());
+                result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
             }
         } else {
             HTTP http = new HTTP(getTestSite(extClass, test), getServiceUserCredential(extClass, test),
                     getServicePassCredential(extClass, test));
-            Call call = new Call(http, myFile, getExtraHeaders(extClass, test));
+            Call call = new Call(http, outputFile, getExtraHeaders(extClass, test));
             this.apps.set(null);
             this.calls.set(call);
         }
         this.browser.set(myBrowser);
         result.setAttribute(BROWSER_INPUT, myBrowser);
-        this.files.set(myFile);
+        this.files.set(outputFile);
+        result.setAttribute(OUTPUT_FILE, outputFile);
     }
 
     /**
@@ -446,7 +449,6 @@ public class Selenified {
      */
     protected void finish() {
         OutputFile myFile = this.files.get();
-        myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), "0 errors",
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
     }
@@ -461,7 +463,6 @@ public class Selenified {
      */
     protected void finish(int errors) {
         OutputFile myFile = this.files.get();
-        myFile.finalizeOutputFile();
         assertEquals("Detailed results found at: " + myFile.getFileName(), errors + ERRORS_CHECK,
                 Integer.toString(myFile.getErrors()) + ERRORS_CHECK);
     }
