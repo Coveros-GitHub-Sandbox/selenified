@@ -29,7 +29,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+import org.testng.SkipException;
 import org.testng.TestListenerAdapter;
+import org.testng.log4testng.Logger;
 
 import java.io.File;
 
@@ -48,6 +50,7 @@ import static com.coveros.selenified.Selenified.SESSION_ID;
  * @lastupdate 1/7/2019
  */
 public class Listener extends TestListenerAdapter {
+    private static final Logger log = Logger.getLogger(Listener.class);
 
     private static final String OUTPUT_BREAK = " | ";
     private static final String FILE_EXTENTION = "html";
@@ -59,97 +62,119 @@ public class Listener extends TestListenerAdapter {
     /**
      * determines the folder name associated with the given tests
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      * @return String: a string version of the folder name
      */
-    private static String getFolderName(ITestResult test) {
-        return new File(test.getTestContext().getOutputDirectory()).getName();
+    private static String getFolderName(ITestResult result) {
+        return new File(result.getTestContext().getOutputDirectory()).getName();
     }
 
     /**
      * determines the test name associated with the given tests
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      * @return String: a string version of the test name
      */
-    private static String getTestName(ITestResult test) {
+    private static String getTestName(ITestResult result) {
         String className;
         String packageName = "";
-        if (test.getTestClass().toString().contains(".")) {
-            packageName = test.getTestClass().toString().substring(22, test.getTestClass().toString().length() - 1)
+        if (result.getTestClass().toString().contains(".")) {
+            packageName = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1)
                     .split("\\.")[0];
-            className = test.getTestClass().toString().substring(22, test.getTestClass().toString().length() - 1)
+            className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1)
                     .split("\\.")[1];
         } else {
-            className = test.getTestClass().toString().substring(22, test.getTestClass().toString().length() - 1);
+            className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1);
         }
-        return TestSetup.getTestName(packageName, className, test.getName(), test.getParameters());
+        return TestSetup.getTestName(packageName, className, result.getName(), result.getParameters());
+    }
+
+    /**
+     * Provides ability to skip a test, based on the browser selected
+     * @param result - the testng itestresult object
+     */
+    @Override
+    public void onTestStart(ITestResult result) {
+        super.onTestStart(result);
+        // if a group indicates an invalid browser, skip the test
+        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
+        if (browser != null) {
+            String[] groups = result.getMethod().getGroups();
+            for (String group : groups) {
+                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
+                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + browser.getName());
+                    result.setStatus(ITestResult.SKIP);
+                    throw new SkipException("Skipping test case");
+                }
+            }
+        }
     }
 
     /**
      * Runs the default TestNG onTestFailure, and adds additional information
      * into the testng reporter
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      */
     @Override
-    public void onTestFailure(ITestResult test) {
-        super.onTestFailure(test);
-        recordResult(test);
+    public void onTestFailure(ITestResult result) {
+        super.onTestFailure(result);
+        recordResult(result);
     }
 
     /**
      * Runs the default TestNG onTestSkipped, and adds additional information
      * into the testng reporter
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      */
     @Override
-    public void onTestSkipped(ITestResult test) {
-        super.onTestSkipped(test);
-        recordResult(test);
+    public void onTestSkipped(ITestResult result) {
+        super.onTestSkipped(result);
+        recordResult(result);
     }
 
     /**
      * Runs the default TestNG onTestSuccess, and adds additional information
      * into the testng reporter
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      */
     @Override
-    public void onTestSuccess(ITestResult test) {
-        super.onTestSuccess(test);
-        recordResult(test);
+    public void onTestSuccess(ITestResult result) {
+        super.onTestSuccess(result);
+        recordResult(result);
     }
 
     /**
      * Checks to see if the test execution was performed on SauceLabs or not. If it was, this reaches out to Sauce,
      * in order to update the execution results
      *
-     * @param test - the testng itestresult object
+     * @param result - the testng itestresult object
      */
-    private void recordResult(ITestResult test) {
+    private void recordResult(ITestResult result) {
         // finalize our output file
-        OutputFile outputFile = (OutputFile) test.getAttribute(OUTPUT_FILE);
+        OutputFile outputFile = (OutputFile) result.getAttribute(OUTPUT_FILE);
         if (outputFile != null) {
-            outputFile.finalizeOutputFile(test.getStatus());
+            outputFile.finalizeOutputFile(result.getStatus());
         }
         // update our reporter logger
-        String testName = getTestName(test);
-        Browser browser = (Browser) test.getAttribute(BROWSER_INPUT);
+        String testName = getTestName(result);
+        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
         if (browser != null) {
             Reporter.log(
-                    Result.values()[test.getStatus()] + OUTPUT_BREAK + browser.getName() + OUTPUT_BREAK + LINK_START +
-                            getFolderName(test) + "/" + testName + browser.getName() + LINK_MIDDLE + testName +
-                            LINK_END + OUTPUT_BREAK + (test.getEndMillis() - test.getStartMillis()) / 1000 + TIME_UNIT);
+                    Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getName() + OUTPUT_BREAK + LINK_START +
+                            getFolderName(result) + "/" + testName + browser.getName() + LINK_MIDDLE + testName +
+                            LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
+
         // update sauce labs
-        if (Sauce.isSauce() && test.getAttributeNames().contains(SESSION_ID)) {
-            String sessionId = test.getAttribute(SESSION_ID).toString();
+        if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
+            String sessionId = result.getAttribute(SESSION_ID).toString();
             JsonObject json = new JsonObject();
-            json.addProperty("passed", test.getStatus() == 1);
+            json.addProperty("passed", result.getStatus() == 1);
             JsonArray tags = new JsonArray();
-            for (String tag : test.getMethod().getGroups()) {
+            for (String tag : result.getMethod().getGroups()) {
                 tags.add(tag);
             }
             json.add("tags", tags);
