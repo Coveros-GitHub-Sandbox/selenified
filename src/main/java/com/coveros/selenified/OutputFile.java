@@ -274,11 +274,14 @@ public class OutputFile {
         }
 
         // replace all non convertible elements with empty text or modify for conversion
-        return oldContent.toString()
-                    .replaceAll("<script type='text\\/javascript'>(?s).*<\\/script>", "")
-                    .replaceAll("<tr>\\s*<th>View Results<\\/th>(?s).*?<\\/tr>", "")
-                    .replaceAll("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*?) style(?s).*?<\\/img>",
-                            "$1" + "></img>");
+        String str = oldContent.toString()
+                .replaceAll("<script type='text\\/javascript'>(?s).*<\\/script>", "")
+                .replaceAll("<tr>\\s*<th>View Results<\\/th>(?s).*?<\\/tr>", "")
+                .replaceAll("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*? src='(.*?)'(?s).*?) style(?s)" +
+                                ".*?<\\/img>",
+                        "<a href=\"$2\" target=\"_blank\">$1" + "></img></a>");
+        System.out.println(str);
+        return str;
     }
 
     /**
