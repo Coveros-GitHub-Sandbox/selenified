@@ -319,7 +319,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait1"},
+    @Test(groups = {"integration", "actions", "wait"},
             description = "An integration negative test to check the WaitForElementNotDisplayed method")
     public void negativeWaitForElementNotDisplayedTest() {
         // use this object to manipulate the app

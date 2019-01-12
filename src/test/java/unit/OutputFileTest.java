@@ -65,7 +65,7 @@ public class OutputFileTest {
 
     @Test
     public void fileNameTest() {
-        Assert.assertEquals(outputFile.getFileName(), "fileANDROID.html");
+        Assert.assertEquals(outputFile.getFileName(), "fileANDROID");
     }
 
     @Test
@@ -268,7 +268,7 @@ public class OutputFileTest {
         OutputFile outputFile =
                 new OutputFile("results", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null, null);
         File directory = new File("results");
-        File file = new File("results", "fileANDROID.html");
+        File file = new File("results", "fileANDROID");
 
         System.setProperty("packageResults", "true");
         outputFile.finalizeOutputFile();

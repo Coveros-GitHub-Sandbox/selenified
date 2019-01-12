@@ -116,8 +116,8 @@ public class OutputFile {
         this.author = author;
         this.version = version;
         this.objectives = objectives;
-        filename = test + browser.getName() + ".html";
-        file = new File(directory, filename);
+        filename = test + browser.getName();
+        file = new File(directory, filename + ".html");
         setupFile();
         setStartTime();
         createOutputHeader();
@@ -253,6 +253,32 @@ public class OutputFile {
         } catch (IOException ioe) {
             log.error(ioe);
         }
+    }
+
+    /**
+     * Removes all elements that cannot be converted to pdf, this method is to be used
+     * before converting the html file to pdf with openhtmltopdf.pdfboxout.PdfRendererBuilder
+     *
+     */
+    private String getHtmlForPDFConversion() {
+        StringBuilder oldContent = new StringBuilder();
+
+        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                oldContent.append(line);
+                oldContent.append("\r\n");
+            }
+        } catch (IOException e) {
+            log.error(e);
+        }
+
+        // replace all non convertible elements with empty text or modify for conversion
+        return oldContent.toString()
+                    .replaceAll("<script type='text\\/javascript'>(?s).*<\\/script>", "")
+                    .replaceAll("<tr>\\s*<th>View Results<\\/th>(?s).*?<\\/tr>", "")
+                    .replaceAll("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*?) style(?s).*?<\\/img>",
+                            "$1" + "></img>");
     }
 
     /**
@@ -610,13 +636,14 @@ public class OutputFile {
         }
     }
 
+    /**
+     * Generates a pdf report in the same directory as the html report
+     */
     private void generatePdf() {
-        try (OutputStream os = new FileOutputStream(directory + "/" + filename + ".pdf")) {
-            replaceInFile("<script type='text\\/javascript'>(?s).*<\\/script>", "");
-            replaceInFile("<tr>\\s*<th>View Results<\\/th>(?s).*?<\\/tr>", "");
-            replaceInFile("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*?) style(?s).*?<\\/img>", "$1" + "></img>");
+        String pdfFilename = directory + "/" + filename + ".pdf";
+        try (OutputStream os = new FileOutputStream(pdfFilename)) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
-            builder.withFile(this.file);
+            builder.withHtmlContent(getHtmlForPDFConversion(), "file://" + pdfFilename.replaceAll(" ", "%20"));
             builder.toStream(os);
             builder.run();
         } catch (Exception e) {
