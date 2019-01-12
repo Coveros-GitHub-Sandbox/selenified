@@ -251,15 +251,92 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileTest() throws IOException {
-        outputFile.finalizeOutputFile();
+        outputFile.finalizeOutputFile(1);
         Assert.assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         Assert.assertTrue(content.contains("  </table>\r\n </body>\r\n</html>\r\n"));
     }
 
     @Test
+    public void endTestTemplateOutputFileNoErrorsPassTest() throws IOException {
+        outputFile.finalizeOutputFile(1);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='pass'><b>SUCCESS</b></font>"));
+    }
+
+    @Test
+    public void endTestTemplateOutputFileNoErrorsWarningTest() throws IOException {
+        outputFile.finalizeOutputFile(0);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='warning'><b>WARNING</b></font>"));
+    }
+
+    @Test
+    public void endTestTemplateOutputFileNoErrorsFailureTest() throws IOException {
+        outputFile.finalizeOutputFile(2);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='warning'><b>FAILURE</b></font>"));
+    }
+
+    @Test
+    public void endTestTemplateOutputFileNoErrorsSkipTest() throws IOException {
+        outputFile.finalizeOutputFile(3);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='warning'><b>SKIPPED</b></font>"));
+    }
+
+    @Test
+    public void endTestTemplateOutputFileErrorsTest() throws IOException {
+        outputFile.addError();
+        outputFile.finalizeOutputFile(0);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='fail'><b>FAILURE</b></font>"));
+    }
+
+    @Test
+    public void endTestTemplateOutputFileLoggedTest() throws IOException {
+        outputFile.recordActual("Something", Success.FAIL);
+        outputFile.finalizeOutputFile(1);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='fail'><b>FAILURE</b></font>"));
+    }
+
+    @Test
+    public void endTestTemplateOutputFileActualNotLoggedTest() throws IOException {
+        outputFile.recordActual("Something", Success.PASS);
+        outputFile.finalizeOutputFile(1);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='pass'><b>SUCCESS</b></font>"));
+    }
+
+    @Test
+    public void endTestTemplateOutputFileActionNotLoggedTest() throws IOException {
+        outputFile.recordAction("Something", "Something", "Something", Result.SUCCESS);
+        outputFile.finalizeOutputFile(1);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='pass'><b>SUCCESS</b></font>"));
+    }
+
+    @Test
+    public void endTestTemplateOutputFileActionNotLoggedWarningTest() throws IOException {
+        outputFile.recordAction("Something", "Something", "Something", Result.WARNING);
+        outputFile.finalizeOutputFile(1);
+        Assert.assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        Assert.assertTrue(content.contains("<font size='+2' class='pass'><b>SUCCESS</b></font>"));
+    }
+
+    @Test
     public void packageResultsTest() throws IOException {
-        outputFile.finalizeOutputFile();
+        outputFile.finalizeOutputFile(1);
         Assert.assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
     }
 
@@ -271,7 +348,7 @@ public class OutputFileTest {
         File file = new File("results", "fileANDROID.html");
 
         System.setProperty("packageResults", "true");
-        outputFile.finalizeOutputFile();
+        outputFile.finalizeOutputFile(1);
         System.clearProperty("packageResults");
         File results = new File("results", file.getName() + "_RESULTS.zip");
         Assert.assertTrue(results.exists());
@@ -284,7 +361,7 @@ public class OutputFileTest {
     @Test
     public void packageResultsNegativeTest() throws IOException {
         System.setProperty("packageResults", "false");
-        outputFile.finalizeOutputFile();
+        outputFile.finalizeOutputFile(1);
         System.clearProperty("packageResults");
         Assert.assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
     }
