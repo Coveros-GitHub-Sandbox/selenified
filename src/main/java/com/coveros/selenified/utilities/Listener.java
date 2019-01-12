@@ -1,26 +1,27 @@
 /*
  * Copyright 2018 Coveros, Inc.
- * 
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
@@ -34,6 +35,10 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 
+import static com.coveros.selenified.Selenified.BROWSER_INPUT;
+import static com.coveros.selenified.Selenified.OUTPUT_FILE;
+import static com.coveros.selenified.Selenified.SESSION_ID;
+
 /**
  * Appends additional test links and information into the TestNG report file,
  * for easier tracking and viewing of detailed custom test reports. This class
@@ -42,12 +47,11 @@ import java.io.File;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 8/28/2018
+ * @lastupdate 1/7/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
 
-    private static final String BROWSER_INPUT = "browser";
     private static final String OUTPUT_BREAK = " | ";
     private static final String FILE_EXTENTION = "html";
     private static final String LINK_START = "<a target='_blank' href='";
@@ -149,6 +153,12 @@ public class Listener extends TestListenerAdapter {
      * @param result - the testng itestresult object
      */
     private void recordResult(ITestResult result) {
+        // finalize our output file
+        OutputFile outputFile = (OutputFile) result.getAttribute(OUTPUT_FILE);
+        if (outputFile != null) {
+            outputFile.finalizeOutputFile(result.getStatus());
+        }
+        // update our reporter logger
         String testName = getTestName(result);
         Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
         if (browser != null) {
@@ -157,8 +167,10 @@ public class Listener extends TestListenerAdapter {
                             getFolderName(result) + "/" + testName + browser.getName() + LINK_MIDDLE + testName +
                             LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
-        if (Sauce.isSauce() && result.getAttributeNames().contains("SessionId")) {
-            String sessionId = result.getAttribute("SessionId").toString();
+
+        // update sauce labs
+        if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
+            String sessionId = result.getAttribute(SESSION_ID).toString();
             JsonObject json = new JsonObject();
             json.addProperty("passed", result.getStatus() == 1);
             JsonArray tags = new JsonArray();
