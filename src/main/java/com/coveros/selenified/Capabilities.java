@@ -53,7 +53,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 9/13/2018
+ * @lastupdate 1/12/2019
  */
 public class Capabilities {
 

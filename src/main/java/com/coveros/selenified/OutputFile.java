@@ -49,7 +49,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 1/7/2019
+ * @lastupdate 1/12/2019
  */
 public class OutputFile {
 

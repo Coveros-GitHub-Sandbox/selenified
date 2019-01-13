@@ -42,7 +42,7 @@ import java.util.Date;
 
 /**
  * App is an instance of the browser based application that is under test.
- * <p>
+ *
  * Pages should be build out of this object (if using the page object model
  * (POM)), so that several pages make up an app. Within each page, multiple
  * elements should be created. In this way, we can act on our app, page, or
@@ -51,7 +51,7 @@ import java.util.Date;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 9/18/2018
+ * @lastupdate 1/12/2019
  */
 public class App {
 
