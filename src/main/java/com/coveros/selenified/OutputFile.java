@@ -205,7 +205,7 @@ public class OutputFile {
      */
     private void setupFile() {
         if (!new File(directory).exists()) {
-            if(!new File(directory).mkdirs()) {
+            if (!new File(directory).mkdirs()) {
                 try {
                     throw new IOException("Unable to create output file");
                 } catch (IOException e) {

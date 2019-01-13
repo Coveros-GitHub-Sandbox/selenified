@@ -2,7 +2,6 @@ package unit;
 
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;

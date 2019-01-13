@@ -1,7 +1,6 @@
 package unit;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
@@ -11,7 +10,6 @@ import com.google.common.io.Files;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,9 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class ResponseTest {
 

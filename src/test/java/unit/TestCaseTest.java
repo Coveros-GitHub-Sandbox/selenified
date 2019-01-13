@@ -1,7 +1,6 @@
 package unit;
 
 import com.coveros.selenified.utilities.TestCase;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;

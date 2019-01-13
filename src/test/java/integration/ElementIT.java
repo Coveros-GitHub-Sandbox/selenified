@@ -5,7 +5,6 @@ import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;

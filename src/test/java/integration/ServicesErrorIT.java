@@ -1,6 +1,5 @@
 package integration;
 
-import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
@@ -13,7 +12,7 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-import static com.coveros.selenified.DriverSetup.*;
+import static com.coveros.selenified.DriverSetup.FALSE;
 
 public class ServicesErrorIT extends Selenified {
 

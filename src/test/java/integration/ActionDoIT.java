@@ -2,10 +2,10 @@ package integration;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.utilities.Point;
 import org.openqa.selenium.Keys;
 import org.testng.ITestContext;

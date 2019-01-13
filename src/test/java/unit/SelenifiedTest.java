@@ -1,10 +1,9 @@
 package unit;
 
+import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;

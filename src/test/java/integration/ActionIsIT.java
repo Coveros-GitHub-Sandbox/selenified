@@ -2,7 +2,6 @@ package integration;
 
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
-import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 

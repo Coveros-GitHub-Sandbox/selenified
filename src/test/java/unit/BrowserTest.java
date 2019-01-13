@@ -1,15 +1,10 @@
 package unit;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import sun.security.krb5.internal.crypto.Des;
-
-import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
@@ -97,7 +92,7 @@ public class BrowserTest {
         assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
         assertNull(browser.getVersion());
         assertNull(browser.getPlatform());
-        assertEquals(browser.getScreensize(),"100x200");
+        assertEquals(browser.getScreensize(), "100x200");
     }
 
     @Test
@@ -106,7 +101,7 @@ public class BrowserTest {
         assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
         assertNull(browser.getVersion());
         assertNull(browser.getPlatform());
-        assertEquals(browser.getScreensize(),"maximum");
+        assertEquals(browser.getScreensize(), "maximum");
     }
 
     @Test
@@ -115,7 +110,7 @@ public class BrowserTest {
         assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
         assertNull(browser.getVersion());
         assertNull(browser.getPlatform());
-        assertEquals(browser.getScreensize(),"maxImum");
+        assertEquals(browser.getScreensize(), "maxImum");
     }
 
     @Test

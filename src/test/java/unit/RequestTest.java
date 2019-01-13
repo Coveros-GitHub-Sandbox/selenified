@@ -3,15 +3,12 @@ package unit;
 import com.coveros.selenified.services.Request;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class RequestTest {
 

@@ -1,7 +1,6 @@
 package unit;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
@@ -13,7 +12,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

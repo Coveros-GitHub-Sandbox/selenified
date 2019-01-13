@@ -1,9 +1,9 @@
 package unit;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

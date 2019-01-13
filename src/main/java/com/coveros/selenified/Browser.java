@@ -21,7 +21,6 @@
 package com.coveros.selenified;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-
 import com.coveros.selenified.utilities.TestCase;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -107,13 +106,13 @@ public class Browser {
 
     public String getDetails() {
         StringBuilder stringBuilder = new StringBuilder(TestCase.capitalizeFirstLetters(getName().toString().toLowerCase()));
-        if( getVersion() != null) {
+        if (getVersion() != null) {
             stringBuilder.append(" ").append(getVersion());
         }
-        if( getPlatform() != null) {
+        if (getPlatform() != null) {
             stringBuilder.append(" ").append(getPlatform());
         }
-        if( getScreensize() != null) {
+        if (getScreensize() != null) {
             stringBuilder.append(" ").append(getScreensize());
         }
         return stringBuilder.toString();
@@ -144,7 +143,7 @@ public class Browser {
      */
     public DesiredCapabilities setBrowserCapabilities(DesiredCapabilities capabilities) {
         // null check
-        if( capabilities == null) {
+        if (capabilities == null) {
             capabilities = new DesiredCapabilities();
         }
         // determine the browser information

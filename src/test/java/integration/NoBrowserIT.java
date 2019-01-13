@@ -2,10 +2,8 @@ package integration;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
-import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
