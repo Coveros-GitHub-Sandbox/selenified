@@ -64,7 +64,7 @@ public class App {
     // this is the driver that will be used for all selenium actions
     private WebDriver driver;
 
-    // what browsers are we interested in implementing
+    // what browser are we interested in implementing
     // this is the browser that we are using
     private final Browser browser;
     private final DesiredCapabilities desiredCapabilities;
@@ -102,19 +102,12 @@ public class App {
      */
     public App(Capabilities capabilities,
                OutputFile file) throws InvalidBrowserException, MalformedURLException {
-        if (capabilities == null || capabilities.getBrowser() == null) {
-            this.browser = new Browser("None");
-        } else {
-            this.browser = capabilities.getBrowser();
+        if( capabilities == null) {
+            capabilities = new Capabilities(new Browser("None"));
         }
-
-        if (capabilities == null || capabilities.getDesiredCapabilities() == null) {
-            this.desiredCapabilities = new DesiredCapabilities();
-        } else {
-            this.desiredCapabilities = capabilities.getDesiredCapabilities();
-        }
+        this.browser = capabilities.getBrowser();
+        this.desiredCapabilities = capabilities.getDesiredCapabilities();
         this.file = file;
-
         // if we want to test remotely
         if (System.getProperty("hub") != null) {
             driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.desiredCapabilities);
@@ -126,7 +119,6 @@ public class App {
             }
             driver = capabilities.setupDriver();
         }
-
         is = new Is(driver);
         waitFor = new WaitFor(driver, file);
         get = new Get(driver);
@@ -530,7 +522,7 @@ public class App {
     /**
      * Resizes the current window to the specified size
      *
-     * @param width  - the  desired width of the browser
+     * @param width  - the desired width of the browser
      * @param height - the desired height of the browser
      */
     public void resize(int width, int height) {

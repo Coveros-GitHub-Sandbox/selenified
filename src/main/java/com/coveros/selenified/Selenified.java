@@ -78,9 +78,9 @@ public class Selenified {
     protected static final List<Capabilities> capabilities = new ArrayList<>();
 
     // for individual tests
-    protected final ThreadLocal<Browser> browser = new ThreadLocal<>();
-    private final ThreadLocal<DesiredCapabilities> capability = new ThreadLocal<>();
-    private final ThreadLocal<OutputFile> files = new ThreadLocal<>();
+    private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<DesiredCapabilities> desiredCapabilitiesThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<OutputFile> outputFileThreadLocal = new ThreadLocal<>();
     protected final ThreadLocal<App> apps = new ThreadLocal<>();
     protected final ThreadLocal<Call> calls = new ThreadLocal<>();
 
@@ -306,7 +306,7 @@ public class Selenified {
      *                     be kept here
      */
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
         startTest(dataProvider, method, test, result, DriverSetup.LOAD);
     }
 
@@ -326,7 +326,7 @@ public class Selenified {
      *                     be setup
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-                             DriverSetup selenium) throws InvalidBrowserException {
+                             DriverSetup selenium) throws InvalidBrowserException, MalformedURLException {
         String testName = TestCase.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
@@ -349,18 +349,13 @@ public class Selenified {
         }
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
-        this.capability.set(desiredCapabilities);
+        this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
 
         OutputFile outputFile =
                 new OutputFile(outputDir, testName, capabilities, getTestSite(extClass, test), test.getName(), group,
                         getAuthor(extClass, test), getVersion(extClass, test), description);
         if (selenium.useBrowser()) {
-            App app = null;
-            try {
-                app = new App(capabilities, outputFile);
-            } catch (InvalidBrowserException | MalformedURLException e) {
-                log.error(e);
-            }
+            App app = new App(capabilities, outputFile);
             this.apps.set(app);
             this.calls.set(null);
             outputFile.setApp(app);
@@ -368,7 +363,7 @@ public class Selenified {
             if (selenium.loadPage()) {
                 loadInitialPage(app, getTestSite(extClass, test), outputFile);
             }
-            if (Sauce.isSauce() && app != null) {
+            if (Sauce.isSauce()) {
                 result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
             }
         } else {
@@ -378,9 +373,9 @@ public class Selenified {
             this.apps.set(null);
             this.calls.set(call);
         }
-        this.browser.set(browser);
+        this.browserThreadLocal.set(browser);
         result.setAttribute(BROWSER, browser);
-        this.files.set(outputFile);
+        this.outputFileThreadLocal.set(outputFile);
         result.setAttribute(OUTPUT_FILE, outputFile);
     }
 
@@ -449,7 +444,7 @@ public class Selenified {
      * errors were encountered
      */
     protected void finish() {
-        OutputFile outputFile = this.files.get();
+        OutputFile outputFile = this.outputFileThreadLocal.get();
         assertEquals("Detailed results found at: " + outputFile.getFileName(), "0 errors",
                 Integer.toString(outputFile.getErrors()) + ERRORS_CHECK);
     }
@@ -463,7 +458,7 @@ public class Selenified {
      * @param errors - number of expected errors from the test
      */
     protected void finish(int errors) {
-        OutputFile outputFile = this.files.get();
+        OutputFile outputFile = this.outputFileThreadLocal.get();
         assertEquals("Detailed results found at: " + outputFile.getFileName(), errors + ERRORS_CHECK,
                 Integer.toString(outputFile.getErrors()) + ERRORS_CHECK);
     }
@@ -561,7 +556,7 @@ public class Selenified {
          * looks at the browser information passed in, and loads that data into a
          * list
          *
-         * @return List: a list of all browsers
+         * @return List: a list of all browser
          * @throws InvalidBrowserException If a browser that is not one specified in the
          *                                 Selenium.Browser class is used, this exception will be thrown
          */

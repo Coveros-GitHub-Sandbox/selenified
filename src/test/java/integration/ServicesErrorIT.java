@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 
 import static com.coveros.selenified.DriverSetup.FALSE;
 
@@ -28,7 +29,7 @@ public class ServicesErrorIT extends Selenified {
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
         super.startTest(dataProvider, method, test, result, FALSE);
     }
 

@@ -32,6 +32,8 @@ import java.util.Random;
  */
 public class TestCase {
 
+    private TestCase() {}
+
     //constants
     private static final int MAXFILENAMELENGTH = 200;
     private static final String PUBLIC = "public";

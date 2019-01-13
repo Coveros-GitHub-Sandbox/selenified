@@ -155,8 +155,10 @@ public class Listener extends TestListenerAdapter {
     private void recordResult(ITestResult result) {
         // finalize our output file
         OutputFile outputFile = (OutputFile) result.getAttribute(OUTPUT_FILE);
+        String filename = "";
         if (outputFile != null) {
             outputFile.finalizeOutputFile(result.getStatus());
+            filename = outputFile.getFileName();
         }
         // update our reporter logger
         String testName = getTestName(result);
@@ -164,7 +166,7 @@ public class Listener extends TestListenerAdapter {
         if (browser != null) {
             Reporter.log(
                     Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
-                            getFolderName(result) + "/" + outputFile.getFileName() + LINK_MIDDLE + testName +
+                            getFolderName(result) + "/" + filename + LINK_MIDDLE + testName +
                             LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
 

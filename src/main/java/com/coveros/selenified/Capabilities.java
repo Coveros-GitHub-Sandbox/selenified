@@ -41,7 +41,6 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
-import org.testng.log4testng.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,8 +56,6 @@ import java.util.logging.Level;
  */
 public class Capabilities {
 
-    private static final Logger log = Logger.getLogger(Capabilities.class);
-
     // constants
     private static final String PROXY_INPUT = "proxy";
     private static final String OPTIONS_INPUT = "options";
@@ -66,23 +63,23 @@ public class Capabilities {
 
     private Browser browser;
     private int instance;
-    private DesiredCapabilities capabilities;
+    private DesiredCapabilities desiredCapabilities;
 
     /**
-     * A constructor which sets up the default empty desired capabilities
+     * A constructor which sets up the default empty desired desiredCapabilities
      */
     public Capabilities(Browser browser) {
         this.browser = browser;
-        this.capabilities = new DesiredCapabilities();
+        this.desiredCapabilities = new DesiredCapabilities();
     }
 
     /**
-     * returns the classes defined desired capabilities
+     * returns the classes defined desired desiredCapabilities
      *
      * @return DesiredCapabilities
      */
     public DesiredCapabilities getDesiredCapabilities() {
-        return capabilities;
+        return desiredCapabilities;
     }
 
     /**
@@ -110,7 +107,7 @@ public class Capabilities {
 
     /**
      * Obtains the set system values for the proxy, and adds them to the desired
-     * capabilities
+     * desiredCapabilities
      */
 
     public void setupProxy() {
@@ -119,12 +116,12 @@ public class Capabilities {
             // set the proxy information
             Proxy proxy = new Proxy();
             proxy.setHttpProxy(System.getProperty(PROXY_INPUT));
-            capabilities.setCapability(CapabilityType.PROXY, proxy);
+            desiredCapabilities.setCapability(CapabilityType.PROXY, proxy);
         }
     }
 
     /**
-     * Sets the device capabilities based on the browser selection
+     * Sets the device desiredCapabilities based on the browser selection
      *
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
@@ -133,44 +130,44 @@ public class Capabilities {
         if (System.getProperty("hub") != null) {
             switch (browser.getName()) { // check the browser
                 case HTMLUNIT:
-                    capabilities = DesiredCapabilities.htmlUnit();
+                    desiredCapabilities = DesiredCapabilities.htmlUnit();
                     break;
                 case FIREFOX:
-                    capabilities = DesiredCapabilities.firefox();
+                    desiredCapabilities = DesiredCapabilities.firefox();
                     break;
                 case CHROME:
-                    capabilities = DesiredCapabilities.chrome();
+                    desiredCapabilities = DesiredCapabilities.chrome();
                     break;
                 case INTERNETEXPLORER:
-                    capabilities = DesiredCapabilities.internetExplorer();
+                    desiredCapabilities = DesiredCapabilities.internetExplorer();
                     break;
                 case EDGE:
-                    capabilities = DesiredCapabilities.edge();
+                    desiredCapabilities = DesiredCapabilities.edge();
                     break;
                 case ANDROID:
-                    capabilities = DesiredCapabilities.android();
+                    desiredCapabilities = DesiredCapabilities.android();
                     break;
                 case IPHONE:
-                    capabilities = DesiredCapabilities.iphone();
+                    desiredCapabilities = DesiredCapabilities.iphone();
                     break;
                 case IPAD:
-                    capabilities = DesiredCapabilities.ipad();
+                    desiredCapabilities = DesiredCapabilities.ipad();
                     break;
                 case SAFARI:
-                    capabilities = DesiredCapabilities.safari();
+                    desiredCapabilities = DesiredCapabilities.safari();
                     break;
                 case OPERA:
-                    capabilities = DesiredCapabilities.operaBlink();
+                    desiredCapabilities = DesiredCapabilities.operaBlink();
                     break;
                 case PHANTOMJS:
-                    capabilities = DesiredCapabilities.phantomjs();
+                    desiredCapabilities = DesiredCapabilities.phantomjs();
                     break;
                 // if the browser is not listed, throw an error
                 default:
                     throw new InvalidBrowserException("The selected browser " + browser);
             }
         }
-        capabilities = browser.setBrowserCapabilities(capabilities);
+        desiredCapabilities = browser.setBrowserCapabilities(desiredCapabilities);
     }
 
     /**
@@ -189,16 +186,16 @@ public class Capabilities {
         // check the browser
         switch (browser.getName()) {
             case HTMLUNIT:
-                capabilities.setBrowserName("htmlunit");
-                capabilities.setJavascriptEnabled(true);
+                desiredCapabilities.setBrowserName("htmlunit");
+                desiredCapabilities.setJavascriptEnabled(true);
                 System.getProperties().put("org.apache.commons.logging.simplelog.defaultlog", "fatal");
                 java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
                 java.util.logging.Logger.getLogger("org.apache.http").setLevel(Level.OFF);
-                driver = new HtmlUnitDriver(capabilities);
+                driver = new HtmlUnitDriver(desiredCapabilities);
                 break;
             case FIREFOX:
                 FirefoxDriverManager.getInstance().forceCache().setup();
-                FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
+                FirefoxOptions firefoxOptions = new FirefoxOptions(desiredCapabilities);
                 firefoxOptions.addArguments(getBrowserOptions());
                 if (runHeadless()) {
                     firefoxOptions.setHeadless(true);
@@ -208,7 +205,7 @@ public class Capabilities {
             case CHROME:
                 ChromeDriverManager.getInstance().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions = chromeOptions.merge(capabilities);
+                chromeOptions = chromeOptions.merge(desiredCapabilities);
                 chromeOptions.addArguments(getBrowserOptions());
                 if (runHeadless()) {
                     chromeOptions.setHeadless(true);
@@ -217,28 +214,28 @@ public class Capabilities {
                 break;
             case INTERNETEXPLORER:
                 InternetExplorerDriverManager.getInstance().forceCache().setup();
-                InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions(capabilities);
+                InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions(desiredCapabilities);
                 driver = new InternetExplorerDriver(internetExplorerOptions);
                 break;
             case EDGE:
                 EdgeDriverManager.getInstance().forceCache().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions = edgeOptions.merge(capabilities);
+                edgeOptions = edgeOptions.merge(desiredCapabilities);
                 driver = new EdgeDriver(edgeOptions);
                 break;
             case SAFARI:
-                SafariOptions safariOptions = new SafariOptions(capabilities);
+                SafariOptions safariOptions = new SafariOptions(desiredCapabilities);
                 driver = new SafariDriver(safariOptions);
                 break;
             case OPERA:
                 OperaDriverManager.getInstance().forceCache().setup();
                 OperaOptions operaOptions = new OperaOptions();
-                operaOptions = operaOptions.merge(capabilities);
+                operaOptions = operaOptions.merge(desiredCapabilities);
                 driver = new OperaDriver(operaOptions);
                 break;
             case PHANTOMJS:
                 PhantomJsDriverManager.getInstance().forceCache().setup();
-                driver = new PhantomJSDriver(capabilities);
+                driver = new PhantomJSDriver(desiredCapabilities);
                 break;
             // if the browser is not listed, throw an error
             default:
@@ -270,7 +267,7 @@ public class Capabilities {
 
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
         if (extraCapabilities != null) {
-            capabilities = capabilities.merge(extraCapabilities);
+            desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
         }
     }
 }

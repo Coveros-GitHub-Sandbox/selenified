@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 
 import static com.coveros.selenified.DriverSetup.FALSE;
 import static org.testng.Assert.assertEquals;
@@ -18,7 +19,7 @@ import static org.testng.Assert.assertNull;
 public class NoBrowserIT extends WebBase {
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
         super.startTest(dataProvider, method, test, result, FALSE);
     }
 
@@ -35,7 +36,7 @@ public class NoBrowserIT extends WebBase {
     @Test(groups = {"integration"}, description = "An integration test to verify we can start a test without a browser")
     public void verifyNoBrowserActions() {
         // use this object to manipulate the app
-        Browser browser = this.browser.get();
+        Browser browser = this.apps.get().getBrowser();
         // verify no selenium actions class was setup
         assertEquals(browser.getName(), BrowserName.NONE);
         // verify no issues

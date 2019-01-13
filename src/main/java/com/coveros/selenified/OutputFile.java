@@ -204,13 +204,11 @@ public class OutputFile {
      * Creates the directory and file to hold the test output file
      */
     private void setupFile() {
-        if (!new File(directory).exists()) {
-            if (!new File(directory).mkdirs()) {
-                try {
-                    throw new IOException("Unable to create output directory");
-                } catch (IOException e) {
-                    log.error(e);
-                }
+        if (!new File(directory).exists() && !new File(directory).mkdirs()) {
+            try {
+                throw new IOException("Unable to create output directory");
+            } catch (IOException e) {
+                log.error(e);
             }
         }
         if (!file.exists()) {
