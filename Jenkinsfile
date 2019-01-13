@@ -66,6 +66,29 @@ node {
                         junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
                     }
                 }
+                withCredentials([
+                        usernamePassword(
+                                credentialsId: 'saucelabs',
+                                usernameVariable: 'sauceusername',
+                                passwordVariable: 'saucekey'
+                        )
+                ]) {
+                    stage('Update Test Site') {
+                        sh 'scp public/* ec2-user@34.233.135.10:/var/www/noindex/'
+                    }
+                    stage('Execute Hub Tests') {
+                        try {
+                            sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows 10&screensize=maximum,name=Chrome&platform=macOS X 10.14&name=Firefox&platform=Windows 10,name=Firefox&platform=macOS X 10.14&screensize=1366x768' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        } catch (e) {
+                            throw e
+                        } finally {
+                            sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                            sh "mkdir -p results/browserRemote; mv target results/browserRemote/"
+                            archiveArtifacts artifacts: 'results/browserRemote/target/failsafe-reports/**'
+                            junit 'results/browserRemote/target/failsafe-reports/TEST-*.xml'
+                        }
+                    }
+                }
             }
         } finally {
             withCredentials([
