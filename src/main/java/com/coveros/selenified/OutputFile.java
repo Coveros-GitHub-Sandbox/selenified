@@ -207,7 +207,7 @@ public class OutputFile {
         if (!new File(directory).exists()) {
             if (!new File(directory).mkdirs()) {
                 try {
-                    throw new IOException("Unable to create output file");
+                    throw new IOException("Unable to create output directory");
                 } catch (IOException e) {
                     log.error(e);
                 }
