@@ -410,7 +410,6 @@ public class OutputFile {
      * case
      */
     private void createOutputHeader() {
-        Browser browser = capabilities.getBrowser();
         // setup some constants
         String endBracket3 = "   }\n";
         String endBracket4 = "    }\n";
@@ -530,7 +529,7 @@ public class OutputFile {
             out.write("    <th>URL Under Test</th>\n");
             out.write(START_CELL + "<a href='" + url + "'>" + url + "</a>" + END_CELL);
             out.write("    <th>Browser</th>\n");
-            out.write(START_CELL + browser.getDetails() + END_CELL);
+            out.write(START_CELL + capabilities.getBrowser().getDetails() + END_CELL);
             out.write(swapRow);
             out.write("    <th>Testing Group</th>\n");
             out.write(START_CELL + group + END_CELL);
