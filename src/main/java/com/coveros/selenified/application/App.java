@@ -1,20 +1,20 @@
 /*
  * Copyright 2018 Coveros, Inc.
- * 
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -22,12 +22,12 @@ package com.coveros.selenified.application;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.utilities.TestSetup;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;
@@ -42,7 +42,7 @@ import java.util.Date;
 
 /**
  * App is an instance of the browser based application that is under test.
- * <p>
+ *
  * Pages should be build out of this object (if using the page object model
  * (POM)), so that several pages make up an app. Within each page, multiple
  * elements should be created. In this way, we can act on our app, page, or
@@ -51,11 +51,11 @@ import java.util.Date;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 9/18/2018
+ * @lastupdate 1/12/2019
  */
 public class App {
 
-    private static final Logger log = Logger.getLogger(TestSetup.class);
+    private static final Logger log = Logger.getLogger(Capabilities.class);
 
     // this will be the name of the file we write all commands out to
     private final OutputFile file;
@@ -67,7 +67,7 @@ public class App {
     // what browsers are we interested in implementing
     // this is the browser that we are using
     private final Browser browser;
-    private final DesiredCapabilities capabilities;
+    private final DesiredCapabilities desiredCapabilities;
 
     // keeps track of the initial window open
     private String parentWindow;
@@ -92,7 +92,6 @@ public class App {
      * Sets up the app object. Browser, and Output are defined here, which will
      * control actions and all logging and records
      *
-     * @param browser      - the Browser we are running the test on
      * @param capabilities - what browser capabilities are desired
      * @param file         - the TestOutput file. This is provided by the
      *                     SeleniumTestBase functionality
@@ -101,31 +100,31 @@ public class App {
      * @throws MalformedURLException   If the provided hub address isn't a URL, this exception will
      *                                 be thrown
      */
-    public App(Browser browser, DesiredCapabilities capabilities,
+    public App(Capabilities capabilities,
                OutputFile file) throws InvalidBrowserException, MalformedURLException {
-        if (browser == null) {
-            this.browser = new Browser(BrowserName.NONE);
+        if (capabilities == null || capabilities.getBrowser() == null) {
+            this.browser = new Browser("None");
         } else {
-            this.browser = browser;
+            this.browser = capabilities.getBrowser();
         }
 
-        if (capabilities == null) {
-            this.capabilities = new DesiredCapabilities();
+        if (capabilities == null || capabilities.getDesiredCapabilities() == null) {
+            this.desiredCapabilities = new DesiredCapabilities();
         } else {
-            this.capabilities = capabilities;
+            this.desiredCapabilities = capabilities.getDesiredCapabilities();
         }
         this.file = file;
 
         // if we want to test remotely
         if (System.getProperty("hub") != null) {
-            driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.capabilities);
+            driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.desiredCapabilities);
         } else {
             try {
-                this.capabilities.setJavascriptEnabled(true);
+                this.desiredCapabilities.setJavascriptEnabled(true);
             } catch (NullPointerException e) {
                 log.error(e);
             }
-            driver = TestSetup.setupDriver(this.browser, this.capabilities);
+            driver = capabilities.setupDriver();
         }
 
         is = new Is(driver);
@@ -220,7 +219,7 @@ public class App {
     /**
      * Will handle all verifications performed on the actual application itself.
      * These asserts are custom to the framework, and in addition to providing
-     * easy object oriented capabilities, they take screenshots with each
+     * easy object oriented desiredCapabilities, they take screenshots with each
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
@@ -262,13 +261,13 @@ public class App {
     }
 
     /**
-     * Retrieves the browser (and potentially device) capabilities setup for
+     * Retrieves the browser (and potentially device) desiredCapabilities setup for
      * this particular test
      *
-     * @return capabilities: the listing of set capabilities
+     * @return desiredCapabilities: the listing of set desiredCapabilities
      */
-    public DesiredCapabilities getCapabilities() {
-        return capabilities;
+    public DesiredCapabilities getDesiredCapabilities() {
+        return desiredCapabilities;
     }
 
     /**
