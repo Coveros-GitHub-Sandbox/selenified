@@ -84,13 +84,6 @@ public class SelenifiedTest extends Selenified {
     }
 
     @Test
-    public void extraCapabilitiesTest() {
-        Capabilities capability = capabilities.get(0);
-        assertTrue((boolean) capability.getDesiredCapabilities().getCapability("ignoreProtectedModeSettings"));
-        assertEquals(capability.getDesiredCapabilities().getCapability("unexpectedAlertBehaviour"), "ignore");
-    }
-
-    @Test
     public void siteTest(ITestContext context) {
         setTestSite(this, context, "yahoo");
         assertEquals(getTestSite(this.getClass().getName(), context), "yahoo");

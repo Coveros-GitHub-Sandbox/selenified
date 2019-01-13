@@ -75,7 +75,7 @@ public class Selenified {
     protected static DesiredCapabilities extraCapabilities = null;
 
     // some passed in system params
-    protected static final List<Capabilities> capabilities = new ArrayList<>();
+    private static final List<Capabilities> CAPABILITIES = new ArrayList<>();
 
     // for individual tests
     private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
@@ -341,7 +341,7 @@ public class Selenified {
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
-        Capabilities capabilities = Selenified.capabilities.get(invocationCount);
+        Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
         capabilities.setInstance(invocationCount);
         Browser browser = capabilities.getBrowser();
         if (!selenium.useBrowser()) {
@@ -548,7 +548,7 @@ public class Selenified {
                 capabilities.setupBrowserCapability();
                 capabilities.setupProxy();
                 capabilities.addExtraCapabilities(extraCapabilities);
-                Selenified.capabilities.add(capabilities);
+                Selenified.CAPABILITIES.add(capabilities);
             }
         }
 

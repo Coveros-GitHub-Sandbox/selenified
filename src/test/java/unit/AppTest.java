@@ -49,7 +49,7 @@ public class AppTest {
         System.clearProperty("hub");
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test(expectedExceptions = InvalidBrowserException.class)
     public void nullCapabilitiesTest() throws InvalidBrowserException, MalformedURLException {
         new App(null, null);
     }

@@ -24,7 +24,6 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.TestCase;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.log4testng.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,8 +40,6 @@ import java.util.Map;
  */
 public class Browser {
 
-    private static final Logger log = Logger.getLogger(Browser.class);
-
     public enum BrowserName {
         NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS
     }
@@ -57,10 +54,10 @@ public class Browser {
     private BrowserName name;
     private String version = null;
     private String platform = null;
-    private String screensize = null;
+    private String resolution = null;
 
     /**
-     * TODO
+     * Parses the passed in browser information (obtained from command line inputs), and saves off the information
      *
      * @param browserInput
      * @throws InvalidBrowserException
@@ -83,7 +80,7 @@ public class Browser {
             }
             if (browserDetails.containsKey(SCREENSIZE) && (browserDetails.get(SCREENSIZE).matches("(\\d+)x(\\d+)")
                     || browserDetails.get(SCREENSIZE).equalsIgnoreCase("maximum"))) {
-                this.screensize = browserDetails.get(SCREENSIZE);
+                this.resolution = browserDetails.get(SCREENSIZE);
             }
         }
     }
@@ -101,7 +98,7 @@ public class Browser {
     }
 
     public String getScreensize() {
-        return screensize;
+        return resolution;
     }
 
     public String getDetails() {
