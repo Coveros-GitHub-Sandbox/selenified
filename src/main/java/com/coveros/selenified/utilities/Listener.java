@@ -53,9 +53,8 @@ public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
 
     private static final String OUTPUT_BREAK = " | ";
-    private static final String FILE_EXTENTION = "html";
     private static final String LINK_START = "<a target='_blank' href='";
-    private static final String LINK_MIDDLE = "." + FILE_EXTENTION + "'>";
+    private static final String LINK_MIDDLE = "'>";
     private static final String LINK_END = "</a>";
     private static final String TIME_UNIT = " seconds";
 
@@ -163,8 +162,8 @@ public class Listener extends TestListenerAdapter {
         Browser browser = (Browser) result.getAttribute(BROWSER);
         if (browser != null) {
             Reporter.log(
-                    Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getName() + OUTPUT_BREAK + LINK_START +
-                            getFolderName(result) + "/" + testName + browser.getName() + LINK_MIDDLE + testName +
+                    Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
+                            getFolderName(result) + "/" + outputFile.getFileName() + LINK_MIDDLE + testName +
                             LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
 

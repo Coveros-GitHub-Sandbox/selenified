@@ -43,7 +43,9 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
 import org.testng.log4testng.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -63,6 +65,7 @@ public class Capabilities {
     private static final String HEADLESS_INPUT = "headless";
 
     private Browser browser;
+    private int instance;
     private DesiredCapabilities capabilities;
 
     /**
@@ -84,10 +87,25 @@ public class Capabilities {
 
     /**
      * returns the classes defined all browser details
-     * @return
+     *
+     * @return Browser
      */
     public Browser getBrowser() {
         return browser;
+    }
+
+    public void setInstance(int instance) {
+        this.instance = instance;
+    }
+
+    /**
+     * Retrieves the instance of the test running. This references the invocation count from TestNG, allowing looping,
+     * and specifies which test run this is
+     *
+     * @return Integer
+     */
+    public int getInstance() {
+        return instance;
     }
 
     /**

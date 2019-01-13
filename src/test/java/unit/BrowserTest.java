@@ -224,4 +224,40 @@ public class BrowserTest {
         desiredCapabilities.setCapability("screenResolution", "100x200");
         assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
     }
+
+    @Test
+    public void checkBrowserDetailsNameTest() throws InvalidBrowserException {
+        Browser browser = new Browser("FIREFOX");
+        assertEquals(browser.getDetails(), "Firefox");
+    }
+
+    @Test
+    public void checkBrowserDetailsVersionTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&version=1.0.5");
+        assertEquals(browser.getDetails(), "Firefox 1.0.5");
+    }
+
+    @Test
+    public void checkBrowserDetailsPlatformTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&platform=Windows 10");
+        assertEquals(browser.getDetails(), "Firefox Windows 10");
+    }
+
+    @Test
+    public void checkBrowserDetailsScreensizeTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&screensize=100x200");
+        assertEquals(browser.getDetails(), "Firefox 100x200");
+    }
+
+    @Test
+    public void checkBrowserDetailsScreensizeMaximumTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&screensize=maximum");
+        assertEquals(browser.getDetails(), "Firefox maximum");
+    }
+
+    @Test
+    public void checkBrowserDetailsAllDetailsTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&version=1.0.5&platform=Windows 10&screensize=100x200");
+        assertEquals(browser.getDetails(), "Firefox 1.0.5 Windows 10 100x200");
+    }
 }

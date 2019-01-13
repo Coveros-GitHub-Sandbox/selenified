@@ -342,6 +342,7 @@ public class Selenified {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Capabilities capabilities = Selenified.capabilities.get(invocationCount);
+        capabilities.setInstance(invocationCount);
         Browser browser = capabilities.getBrowser();
         if (!selenium.useBrowser()) {
             browser = new Browser("None");
@@ -351,7 +352,7 @@ public class Selenified {
         this.capability.set(desiredCapabilities);
 
         OutputFile outputFile =
-                new OutputFile(outputDir, testName, browser, getTestSite(extClass, test), test.getName(), group,
+                new OutputFile(outputDir, testName, capabilities, getTestSite(extClass, test), test.getName(), group,
                         getAuthor(extClass, test), getVersion(extClass, test), description);
         if (selenium.useBrowser()) {
             App app = null;

@@ -2,6 +2,7 @@ package unit;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Response;
@@ -33,9 +34,9 @@ public class ResponseTest {
     @BeforeMethod
     public void createFile() throws InvalidBrowserException {
         outputFile =
-                new OutputFile("directory", "file", new Browser("none"), null, null, null, null, null, null);
+                new OutputFile("directory", "file", new Capabilities(new Browser("None")), null, null, null, null, null, null);
         directory = new File("directory");
-        file = new File("directory", "fileNONE.html");
+        file = new File("directory", "file.html");
     }
 
     @AfterMethod
@@ -65,7 +66,7 @@ public class ResponseTest {
     @Test
     public void checkNewResponseFileMessageTest() throws InvalidBrowserException {
         Response response = new Response(
-                new OutputFile("directory", "file", new Browser("android"), null, null, null, null, null,
+                new OutputFile("directory", "file", new Capabilities(new Browser("Android")), null, null, null, null, null,
                         null));
         assertNull(response.getMessage());
     }

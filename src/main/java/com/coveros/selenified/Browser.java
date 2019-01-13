@@ -22,6 +22,7 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 
+import com.coveros.selenified.utilities.TestCase;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.log4testng.Logger;
@@ -102,6 +103,20 @@ public class Browser {
 
     public String getScreensize() {
         return screensize;
+    }
+
+    public String getDetails() {
+        StringBuilder stringBuilder = new StringBuilder(TestCase.capitalizeFirstLetters(getName().toString().toLowerCase()));
+        if( getVersion() != null) {
+            stringBuilder.append(" ").append(getVersion());
+        }
+        if( getPlatform() != null) {
+            stringBuilder.append(" ").append(getPlatform());
+        }
+        if( getScreensize() != null) {
+            stringBuilder.append(" ").append(getScreensize());
+        }
+        return stringBuilder.toString();
     }
 
     /**
