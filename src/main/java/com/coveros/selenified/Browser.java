@@ -68,12 +68,7 @@ public class Browser {
     public Browser(String browserInput) throws InvalidBrowserException {
         this.browserInput = browserInput;
         if (!areBrowserDetailsSet()) {
-            try {
-                this.name = lookup(browserInput);
-            } catch (InvalidBrowserException e) {
-                log.error(e);
-                throw new InvalidBrowserException(e.getMessage());
-            }
+            this.name = lookup(browserInput);
         } else {
             Map<String, String> browserDetails = parseMap();
             if (!browserDetails.containsKey(NAME)) {
@@ -133,9 +128,12 @@ public class Browser {
      * @param capabilities - the DesiredCapabilities object, which will get set with all browser capabilities
      */
     public DesiredCapabilities setBrowserCapabilities(DesiredCapabilities capabilities) {
+        // null check
+        if( capabilities == null) {
+            capabilities = new DesiredCapabilities();
+        }
         // determine the browser information
-        if (getName() != null &&
-                (capabilities.getBrowserName() == null || "".equals(capabilities.getBrowserName()))) {
+        if (capabilities.getBrowserName() == null || "".equals(capabilities.getBrowserName())) {
             capabilities.setCapability(CapabilityType.BROWSER_NAME, getName().toString().toLowerCase());
         }
         if (getVersion() != null) {

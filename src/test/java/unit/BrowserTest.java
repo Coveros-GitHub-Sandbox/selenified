@@ -45,6 +45,11 @@ public class BrowserTest {
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
+    public void checkNullBrowserTest() throws InvalidBrowserException {
+        new Browser(null);
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
     public void checkInvalidBrowserTest() throws InvalidBrowserException {
         new Browser("HELLOWORLD");
     }
@@ -131,7 +136,32 @@ public class BrowserTest {
         assertEquals(browser.getScreensize(), "maximum");
     }
 
-    //TODO - setBrowserCapabilities
+    @Test
+    public void checkBrowserCapabilitiesNullTest() throws InvalidBrowserException {
+        Browser browser = new Browser("FIREFOX");
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        desiredCapabilities.setBrowserName("firefox");
+        assertEquals(browser.setBrowserCapabilities(null), desiredCapabilities);
+    }
+
+    @Test
+    public void checkBrowserCapabilitiesNullNameTest() throws InvalidBrowserException {
+        Browser browser = new Browser("FIREFOX");
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        desiredCapabilities.setBrowserName("firefox");
+        DesiredCapabilities desiredCapabilities1 = new DesiredCapabilities();
+        desiredCapabilities1.setBrowserName(null);
+        assertEquals(browser.setBrowserCapabilities(desiredCapabilities1), desiredCapabilities);
+    }
+
+    @Test
+    public void checkBrowserCapabilitiesNameNoneTest() throws InvalidBrowserException {
+        Browser browser = new Browser("NONE");
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        String tmp = desiredCapabilities.getBrowserName();
+        desiredCapabilities.setBrowserName("none");
+        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
+    }
 
     @Test
     public void checkBrowserCapabilitiesNameTest() throws InvalidBrowserException {

@@ -215,8 +215,4 @@ public class CapabilitiesTest {
         capabilities.addExtraCapabilities(extraCapabilities);
         assertEquals(capabilities.getDesiredCapabilities(), extraCapabilities.merge(DesiredCapabilities.android()));
     }
-
-    //TODO - run headless
-    //TODO - get browser options
-
 }
