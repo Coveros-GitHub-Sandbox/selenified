@@ -81,6 +81,8 @@ node {
                     try {
                         // need to keep updating safari, as version is hard coded due to sauce defaulting to old 8.0 version
                         sh "mvn clean verify -Dskip.unit.tests -Dbrowser='browserName=Chrome,browserName=Firefox,browserName=InternetExplorer,browserName=Edge,browserName=Safari&browserVersion=12.0&devicePlatform=macOS 10.14' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        // once alternate PR is in, we need screensizes and extra browsers run for firefox and chrome
+                        // name=Chrome&screensize=maximum,name=Chrome&platform=macOS 10.14,name=Firefox,name=Firefox&platform=macOS 10.14&screensize=1920x1440
                     } catch (e) {
                         throw e
                     } finally {
