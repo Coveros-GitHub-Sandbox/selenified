@@ -521,7 +521,7 @@ before even loading the initial URL.
 -Dbrowser=Chrome
 -Dbrowser=Firefox,Edge
 -Dbrowser="name=InternetExplorer&version=50.1&platform=Windows 10&screensize=100x200"
--Dbrowser="name=Chrome,name=Safari&browserVersion=12.0&devicePlatform=macOS 10.14&screensize=maximum"
+-Dbrowser="name=Chrome,name=Safari&version=12.0&platform=macOS 10.14&screensize=maximum"
 ```
 #### Hub
 If unspecified the tests will run in standalone mode. If a hub address is specified, then tests will run on a remove 
