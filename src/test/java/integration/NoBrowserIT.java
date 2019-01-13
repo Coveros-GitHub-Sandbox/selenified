@@ -4,6 +4,7 @@ import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -12,11 +13,15 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
+import static com.coveros.selenified.DriverSetup.FALSE;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
+
 public class NoBrowserIT extends WebBase {
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-        super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException {
+        super.startTest(dataProvider, method, test, result, FALSE);
     }
 
     @Test(groups = {"integration"}, description = "An integration test to verify we can start a test without a browser")
@@ -24,7 +29,7 @@ public class NoBrowserIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // verify no selenium actions class was setup
-        Assert.assertNull(app);
+        assertNull(app);
         // verify no issues
         finish();
     }
@@ -34,7 +39,7 @@ public class NoBrowserIT extends WebBase {
         // use this object to manipulate the app
         Browser browser = this.browser.get();
         // verify no selenium actions class was setup
-        Assert.assertEquals(browser.getName(), BrowserName.NONE);
+        assertEquals(browser.getName(), BrowserName.NONE);
         // verify no issues
         finish();
     }

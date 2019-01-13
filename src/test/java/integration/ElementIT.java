@@ -10,6 +10,9 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 public class ElementIT extends WebBase {
 
     @Test(groups = {"integration", "element"},
@@ -84,8 +87,8 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(Locator.ID, "table");
         List<WebElement> webElements = table.getWebElements();
-        Assert.assertEquals(webElements.size(), 1);
-        Assert.assertTrue(webElements.get(0).isDisplayed());
+        assertEquals(webElements.size(), 1);
+        assertTrue(webElements.get(0).isDisplayed());
         // verify no issues
         finish();
     }
@@ -98,7 +101,7 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(Locator.ID, "no-such-table");
         List<WebElement> webElements = table.getWebElements();
-        Assert.assertTrue(webElements.isEmpty());
+        assertTrue(webElements.isEmpty());
         // verify no issues
         finish();
     }
@@ -111,10 +114,10 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(Locator.TAGNAME, "th");
         List<WebElement> webElements = table.getWebElements();
-        Assert.assertEquals(webElements.size(), 12);
-        Assert.assertEquals(webElements.get(0).getText(), "");
-        Assert.assertEquals(webElements.get(1).getText(), "Company");
-        Assert.assertEquals(webElements.get(2).getText(), "Contact");
+        assertEquals(webElements.size(), 12);
+        assertEquals(webElements.get(0).getText(), "");
+        assertEquals(webElements.get(1).getText(), "Company");
+        assertEquals(webElements.get(2).getText(), "Contact");
         // verify no issues
         finish();
     }
@@ -128,10 +131,10 @@ public class ElementIT extends WebBase {
         Element table = app.newElement(Locator.ID, "table");
         Element cell = app.newElement(Locator.TAGNAME, "th", table);
         List<WebElement> webElements = cell.getWebElements();
-        Assert.assertEquals(webElements.size(), 10);
-        Assert.assertEquals(webElements.get(0).getText(), "");
-        Assert.assertEquals(webElements.get(1).getText(), "Company");
-        Assert.assertEquals(webElements.get(2).getText(), "Contact");
+        assertEquals(webElements.size(), 10);
+        assertEquals(webElements.get(0).getText(), "");
+        assertEquals(webElements.get(1).getText(), "Company");
+        assertEquals(webElements.get(2).getText(), "Contact");
         // verify no issues
         finish();
     }
@@ -144,7 +147,7 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(Locator.ID, "table");
         WebElement webElement = table.getWebElement();
-        Assert.assertTrue(webElement.isDisplayed());
+        assertTrue(webElement.isDisplayed());
         // verify no issues
         finish();
     }
@@ -170,7 +173,7 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(Locator.TAGNAME, "th");
         WebElement webElement = table.getWebElement();
-        Assert.assertEquals(webElement.getText(), "");
+        assertEquals(webElement.getText(), "");
         // verify no issues
         finish();
     }
@@ -184,7 +187,7 @@ public class ElementIT extends WebBase {
         Element table = app.newElement(Locator.ID, "table");
         Element cell = app.newElement(Locator.TAGNAME, "th", table);
         WebElement webElement = cell.getWebElement();
-        Assert.assertEquals(webElement.getText(), "");
+        assertEquals(webElement.getText(), "");
         // verify no issues
         finish();
     }

@@ -2,6 +2,7 @@ package integration;
 
 import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.google.gson.JsonObject;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Parameter;
@@ -79,7 +80,7 @@ public class ServicesBase extends Selenified {
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
 

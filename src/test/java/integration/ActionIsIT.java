@@ -6,6 +6,9 @@ import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 public class ActionIsIT extends WebBase {
 
     @Test(groups = {"integration", "actions", "is"},
@@ -14,7 +17,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "submit_button").is().present());
+        assertTrue(app.newElement(Locator.ID, "submit_button").is().present());
         // verify no issues
         finish();
     }
@@ -25,7 +28,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "submit_button", 0).is().present());
+        assertTrue(app.newElement(Locator.ID, "submit_button", 0).is().present());
         // verify no issues
         finish();
     }
@@ -36,7 +39,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().present());
+        assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().present());
         // verify no issues
         finish();
     }
@@ -47,7 +50,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "input_box").is().input());
+        assertTrue(app.newElement(Locator.ID, "input_box").is().input());
         // verify no issues
         finish();
     }
@@ -58,7 +61,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "car_list", 0).is().input());
+        assertTrue(app.newElement(Locator.ID, "car_list", 0).is().input());
         // verify no issues
         finish();
     }
@@ -69,7 +72,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "textarea_input").is().input());
+        assertTrue(app.newElement(Locator.ID, "textarea_input").is().input());
         // verify no issues
         finish();
     }
@@ -80,7 +83,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "disable_click", 0).is().input());
+        assertFalse(app.newElement(Locator.ID, "disable_click", 0).is().input());
         // verify no issues
         finish();
     }
@@ -91,7 +94,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().input());
+        assertFalse(app.newElement(Locator.ID, "non-existent-name").is().input());
         // verify no issues
         finish();
     }
@@ -102,7 +105,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "input_box").is().select());
+        assertFalse(app.newElement(Locator.ID, "input_box").is().select());
         // verify no issues
         finish();
     }
@@ -113,7 +116,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "car_list", 0).is().select());
+        assertTrue(app.newElement(Locator.ID, "car_list", 0).is().select());
         // verify no issues
         finish();
     }
@@ -124,7 +127,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "textarea_input").is().select());
+        assertFalse(app.newElement(Locator.ID, "textarea_input").is().select());
         // verify no issues
         finish();
     }
@@ -135,7 +138,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "disable_click", 0).is().select());
+        assertFalse(app.newElement(Locator.ID, "disable_click", 0).is().select());
         // verify no issues
         finish();
     }
@@ -146,7 +149,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().select());
+        assertFalse(app.newElement(Locator.ID, "non-existent-name").is().select());
         // verify no issues
         finish();
     }
@@ -158,7 +161,7 @@ public class ActionIsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "that").click();
-        Assert.assertTrue(app.newElement(Locator.ID, "table").is().table());
+        assertTrue(app.newElement(Locator.ID, "table").is().table());
         // verify no issues
         finish();
     }
@@ -169,7 +172,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "that", 0).is().table());
+        assertFalse(app.newElement(Locator.ID, "that", 0).is().table());
         // verify no issues
         finish();
     }
@@ -180,7 +183,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "that", 0).is().table());
+        assertFalse(app.newElement(Locator.ID, "that", 0).is().table());
         // verify no issues
         finish();
     }
@@ -191,7 +194,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().table());
+        assertFalse(app.newElement(Locator.ID, "non-existent-name").is().table());
         // verify no issues
         finish();
     }
@@ -202,7 +205,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "scroll_button").is().enabled());
+        assertTrue(app.newElement(Locator.ID, "scroll_button").is().enabled());
         // verify no issues
         finish();
     }
@@ -213,7 +216,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "scroll_button", 0).is().enabled());
+        assertTrue(app.newElement(Locator.ID, "scroll_button", 0).is().enabled());
         // verify no issues
         finish();
     }
@@ -224,7 +227,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().enabled());
+        assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().enabled());
         // verify no issues
         finish();
     }
@@ -236,7 +239,7 @@ public class ActionIsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "that").click();
-        Assert.assertTrue(app.newElement(Locator.ID, "that").is().checked());
+        assertTrue(app.newElement(Locator.ID, "that").is().checked());
         // verify no issues
         finish();
     }
@@ -247,7 +250,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "that", 0).is().checked());
+        assertFalse(app.newElement(Locator.ID, "that", 0).is().checked());
         // verify no issues
         finish();
     }
@@ -258,7 +261,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().checked());
+        assertFalse(app.newElement(Locator.ID, "non-existent-name").is().checked());
         // verify no issues
         finish();
     }
@@ -269,7 +272,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "that").is().displayed());
+        assertTrue(app.newElement(Locator.ID, "that").is().displayed());
         // verify no issues
         finish();
     }
@@ -280,7 +283,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "that", 0).is().displayed());
+        assertTrue(app.newElement(Locator.ID, "that", 0).is().displayed());
         // verify no issues
         finish();
     }
@@ -291,7 +294,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().displayed());
+        assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().displayed());
         // verify no issues
         finish();
     }
@@ -302,7 +305,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.newElement(Locator.ID, "car_list").is().somethingSelected());
+        assertTrue(app.newElement(Locator.ID, "car_list").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -314,7 +317,7 @@ public class ActionIsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "car_list_multiple").select(1);
-        Assert.assertTrue(app.newElement(Locator.ID, "car_list_multiple", 0).is().somethingSelected());
+        assertTrue(app.newElement(Locator.ID, "car_list_multiple", 0).is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -325,7 +328,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "car_list_multiple").is().somethingSelected());
+        assertFalse(app.newElement(Locator.ID, "car_list_multiple").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -337,7 +340,7 @@ public class ActionIsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "that").click();
-        Assert.assertTrue(app.newElement(Locator.ID, "that", 0).is().somethingSelected());
+        assertTrue(app.newElement(Locator.ID, "that", 0).is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -348,7 +351,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "that").is().somethingSelected());
+        assertFalse(app.newElement(Locator.ID, "that").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -359,7 +362,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "non-existent-name").is().somethingSelected());
+        assertFalse(app.newElement(Locator.ID, "non-existent-name").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -370,7 +373,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "textarea_input").is().somethingSelected());
+        assertFalse(app.newElement(Locator.ID, "textarea_input").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -381,7 +384,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.newElement(Locator.ID, "disable_click").is().somethingSelected());
+        assertFalse(app.newElement(Locator.ID, "disable_click").is().somethingSelected());
         // verify no issues
         finish();
     }
@@ -394,7 +397,7 @@ public class ActionIsIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        Assert.assertTrue(app.is().alertPresent());
+        assertTrue(app.is().alertPresent());
         // verify no issues
         finish();
     }
@@ -405,7 +408,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.is().alertPresent());
+        assertFalse(app.is().alertPresent());
         // verify no issues
         finish();
     }
@@ -417,7 +420,7 @@ public class ActionIsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "confirm_button").click();
-        Assert.assertTrue(app.is().confirmationPresent());
+        assertTrue(app.is().confirmationPresent());
         // verify no issues
         finish();
     }
@@ -428,7 +431,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.is().confirmationPresent());
+        assertFalse(app.is().confirmationPresent());
         // verify no issues
         finish();
     }
@@ -440,7 +443,7 @@ public class ActionIsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "prompt_button").click();
-        Assert.assertTrue(app.is().promptPresent());
+        assertTrue(app.is().promptPresent());
         // verify no issues
         finish();
     }
@@ -451,7 +454,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.is().promptPresent());
+        assertFalse(app.is().promptPresent());
         // verify no issues
         finish();
     }
@@ -461,7 +464,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertTrue(app.is().location(getTestSite(this.getClass().getName(), test)));
+        assertTrue(app.is().location(getTestSite(this.getClass().getName(), test)));
         // verify no issues
         finish();
     }
@@ -472,7 +475,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Assert.assertFalse(app.is().location("Some Made Up URL"));
+        assertFalse(app.is().location("Some Made Up URL"));
         // verify no issues
         finish();
     }
@@ -484,7 +487,7 @@ public class ActionIsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "submit_button").click();
-        Assert.assertTrue(app.is().textPresentInSource("You're on the next page"));
+        assertTrue(app.is().textPresentInSource("You're on the next page"));
         // verify no issues
         finish();
     }
@@ -496,7 +499,7 @@ public class ActionIsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "submit_button").click();
-        Assert.assertFalse(app.is().textPresentInSource("Hello World"));
+        assertFalse(app.is().textPresentInSource("Hello World"));
         // verify no issues
         finish();
     }

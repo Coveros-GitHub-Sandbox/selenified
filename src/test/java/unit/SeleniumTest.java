@@ -5,26 +5,30 @@ import com.coveros.selenified.OutputFile.Success;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 public class SeleniumTest {
 
     @Test
     public void driverSetupTest() {
-        Assert.assertFalse(DriverSetup.FALSE.useBrowser());
-        Assert.assertTrue(DriverSetup.OPEN.useBrowser());
-        Assert.assertTrue(DriverSetup.LOAD.useBrowser());
+        assertFalse(DriverSetup.FALSE.useBrowser());
+        assertTrue(DriverSetup.OPEN.useBrowser());
+        assertTrue(DriverSetup.LOAD.useBrowser());
 
-        Assert.assertFalse(DriverSetup.FALSE.loadPage());
-        Assert.assertFalse(DriverSetup.OPEN.loadPage());
-        Assert.assertTrue(DriverSetup.LOAD.loadPage());
+        assertFalse(DriverSetup.FALSE.loadPage());
+        assertFalse(DriverSetup.OPEN.loadPage());
+        assertTrue(DriverSetup.LOAD.loadPage());
     }
 
     @Test
     public void errorsForPassTest() {
-        Assert.assertEquals(Success.PASS.getErrors(), 0);
+        assertEquals(Success.PASS.getErrors(), 0);
     }
 
     @Test
     public void errorsForFailTest() {
-        Assert.assertEquals(Success.FAIL.getErrors(), 1);
+        assertEquals(Success.FAIL.getErrors(), 1);
     }
 }

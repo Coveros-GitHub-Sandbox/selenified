@@ -2,6 +2,7 @@ package integration;
 
 import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.Selenified;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
 import org.testng.ITestContext;
@@ -11,6 +12,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+
+import static com.coveros.selenified.DriverSetup.*;
 
 public class ServicesErrorIT extends Selenified {
 
@@ -26,8 +29,8 @@ public class ServicesErrorIT extends Selenified {
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
-        super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException {
+        super.startTest(dataProvider, method, test, result, FALSE);
     }
 
     @Test(groups = {"integration", "services", "httpget"},

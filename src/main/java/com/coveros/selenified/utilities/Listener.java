@@ -35,7 +35,7 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 
-import static com.coveros.selenified.Selenified.BROWSER_INPUT;
+import static com.coveros.selenified.Browser.BROWSER;
 import static com.coveros.selenified.Selenified.OUTPUT_FILE;
 import static com.coveros.selenified.Selenified.SESSION_ID;
 
@@ -86,7 +86,7 @@ public class Listener extends TestListenerAdapter {
         } else {
             className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1);
         }
-        return TestSetup.getTestName(packageName, className, result.getName(), result.getParameters());
+        return TestCase.getTestName(packageName, className, result.getName(), result.getParameters());
     }
 
     /**
@@ -97,7 +97,7 @@ public class Listener extends TestListenerAdapter {
     public void onTestStart(ITestResult result) {
         super.onTestStart(result);
         // if a group indicates an invalid browser, skip the test
-        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
+        Browser browser = (Browser) result.getAttribute(BROWSER);
         if (browser != null) {
             String[] groups = result.getMethod().getGroups();
             for (String group : groups) {
@@ -160,7 +160,7 @@ public class Listener extends TestListenerAdapter {
         }
         // update our reporter logger
         String testName = getTestName(result);
-        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
+        Browser browser = (Browser) result.getAttribute(BROWSER);
         if (browser != null) {
             Reporter.log(
                     Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getName() + OUTPUT_BREAK + LINK_START +

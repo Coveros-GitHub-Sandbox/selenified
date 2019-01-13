@@ -24,7 +24,7 @@ import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
-import com.coveros.selenified.utilities.TestSetup;
+import com.coveros.selenified.utilities.TestCase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.testng.log4testng.Logger;
@@ -667,7 +667,7 @@ public class OutputFile {
      */
     private String generateImageName() {
         long timeInSeconds = new Date().getTime();
-        String randomChars = TestSetup.getRandomString(10);
+        String randomChars = TestCase.getRandomString(10);
         return directory + "/" + timeInSeconds + "_" + randomChars + ".png";
     }
 

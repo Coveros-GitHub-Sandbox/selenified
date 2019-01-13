@@ -2,6 +2,7 @@ package unit;
 
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -12,6 +13,9 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class SelenifiedTest extends Selenified {
 
@@ -82,29 +86,29 @@ public class SelenifiedTest extends Selenified {
 
     @Test
     public void extraCapabilitiesTest() {
-        DesiredCapabilities capability = capabilities.get(0);
-        Assert.assertTrue((boolean) capability.getCapability("ignoreProtectedModeSettings"));
-        Assert.assertEquals(capability.getCapability("unexpectedAlertBehaviour"), "ignore");
+        Capabilities capability = capabilities.get(0);
+        assertTrue((boolean) capability.getDesiredCapabilities().getCapability("ignoreProtectedModeSettings"));
+        assertEquals(capability.getDesiredCapabilities().getCapability("unexpectedAlertBehaviour"), "ignore");
     }
 
     @Test
     public void siteTest(ITestContext context) {
         setTestSite(this, context, "yahoo");
-        Assert.assertEquals(getTestSite(this.getClass().getName(), context), "yahoo");
+        assertEquals(getTestSite(this.getClass().getName(), context), "yahoo");
         System.setProperty("appURL", "http://www.yahoo.com");
         setTestSite(this, context, "google");
-        Assert.assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
+        assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
     }
 
     @Test
     public void versionTest(ITestContext context) {
         setVersion(this, context, "1.0.0");
-        Assert.assertEquals(getVersion(this.getClass().getName(), context), "1.0.0");
+        assertEquals(getVersion(this.getClass().getName(), context), "1.0.0");
     }
 
     @Test
     public void authorTest(ITestContext context) {
         setAuthor(this, context, "Max");
-        Assert.assertEquals(getAuthor(this.getClass().getName(), context), "Max");
+        assertEquals(getAuthor(this.getClass().getName(), context), "Max");
     }
 }
