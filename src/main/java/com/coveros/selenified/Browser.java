@@ -44,11 +44,11 @@ public class Browser {
         NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS
     }
 
-    public static final String SCREENSIZE = "screensize";
-    public static final String BROWSER = "browser";
-    public static final String NAME = "name";
-    public static final String VERSION = "version";
-    public static final String PLATFORM = "platform";
+    public static final String SCREENSIZE_INPUT = "screensize";
+    public static final String BROWSER_INPUT = "browser";
+    public static final String NAME_INPUT = "name";
+    public static final String VERSION_INPUT = "version";
+    public static final String PLATFORM_INPUT = "platform";
 
     private String browserInput;
     private BrowserName name;
@@ -68,19 +68,19 @@ public class Browser {
             this.name = lookup(browserInput);
         } else {
             Map<String, String> browserDetails = parseMap();
-            if (!browserDetails.containsKey(NAME)) {
+            if (!browserDetails.containsKey(NAME_INPUT)) {
                 throw new InvalidBrowserException("name must be included in browser details");
             }
-            this.name = lookup(browserDetails.get(NAME));
-            if (browserDetails.containsKey(VERSION)) {
-                this.version = browserDetails.get(VERSION);
+            this.name = lookup(browserDetails.get(NAME_INPUT));
+            if (browserDetails.containsKey(VERSION_INPUT)) {
+                this.version = browserDetails.get(VERSION_INPUT);
             }
-            if (browserDetails.containsKey(PLATFORM)) {
-                this.platform = browserDetails.get(PLATFORM);
+            if (browserDetails.containsKey(PLATFORM_INPUT)) {
+                this.platform = browserDetails.get(PLATFORM_INPUT);
             }
-            if (browserDetails.containsKey(SCREENSIZE) && (browserDetails.get(SCREENSIZE).matches("(\\d+)x(\\d+)")
-                    || browserDetails.get(SCREENSIZE).equalsIgnoreCase("maximum"))) {
-                this.resolution = browserDetails.get(SCREENSIZE);
+            if (browserDetails.containsKey(SCREENSIZE_INPUT) && (browserDetails.get(SCREENSIZE_INPUT).matches("(\\d+)x(\\d+)")
+                    || browserDetails.get(SCREENSIZE_INPUT).equalsIgnoreCase("maximum"))) {
+                this.resolution = browserDetails.get(SCREENSIZE_INPUT);
             }
         }
     }

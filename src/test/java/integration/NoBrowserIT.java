@@ -1,7 +1,5 @@
 package integration;
 
-import com.coveros.selenified.Browser;
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.testng.ITestContext;
@@ -29,16 +27,6 @@ public class NoBrowserIT extends WebBase {
         App app = this.apps.get();
         // verify no selenium actions class was setup
         assertNull(app);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration"}, description = "An integration test to verify we can start a test without a browser")
-    public void verifyNoBrowserActions() {
-        // use this object to manipulate the app
-        Browser browser = this.apps.get().getBrowser();
-        // verify no selenium actions class was setup
-        assertEquals(browser.getName(), BrowserName.NONE);
         // verify no issues
         finish();
     }

@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static com.coveros.selenified.Browser.BROWSER;
+import static com.coveros.selenified.Browser.BROWSER_INPUT;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
@@ -374,7 +374,7 @@ public class Selenified {
             this.calls.set(call);
         }
         this.browserThreadLocal.set(browser);
-        result.setAttribute(BROWSER, browser);
+        result.setAttribute(BROWSER_INPUT, browser);
         this.outputFileThreadLocal.set(outputFile);
         result.setAttribute(OUTPUT_FILE, outputFile);
     }
@@ -538,8 +538,8 @@ public class Selenified {
          *                                 thrown
          */
         private static void setupTestParameters() throws InvalidBrowserException {
-            if (System.getProperty(BROWSER) == null) {
-                System.setProperty(BROWSER, BrowserName.HTMLUNIT.toString());
+            if (System.getProperty(BROWSER_INPUT) == null) {
+                System.setProperty(BROWSER_INPUT, BrowserName.HTMLUNIT.toString());
             }
             List<Browser> browsers = getBrowserInput();
 
@@ -564,10 +564,10 @@ public class Selenified {
         private static List<Browser> getBrowserInput() throws InvalidBrowserException {
             List<Browser> browsers = new ArrayList<>();
             // null input check
-            if (System.getProperty(BROWSER) == null) {
+            if (System.getProperty(BROWSER_INPUT) == null) {
                 return browsers;
             }
-            String[] browserInput = System.getProperty(BROWSER).split(",");
+            String[] browserInput = System.getProperty(BROWSER_INPUT).split(",");
             for (String singleBrowserInput : browserInput) {
                 browsers.add(new Browser(singleBrowserInput));
             }
