@@ -78,7 +78,7 @@ node {
                     }
                     stage('Execute Hub Tests') {
                         try {
-                            sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&screensize=maximum,name=Chrome&platform=macOS 10.14' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                            sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&screensize=1600x1200,name=Chrome&platform=macOS 10.14&screensize=maximum' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                         } catch (e) {
                             throw e
                         } finally {
