@@ -75,7 +75,7 @@ public class CapabilitiesTest {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("MicrosoftEdge");
-        expectedDesiredCapabilities.setPlatform(Platform.WINDOWS);
+        expectedDesiredCapabilities.setPlatform(Platform.WIN10);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
         expectedDesiredCapabilities.setAcceptInsecureCerts(true);
@@ -150,7 +150,7 @@ public class CapabilitiesTest {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("safari");
-        expectedDesiredCapabilities.setPlatform(Platform.MAC);
+        expectedDesiredCapabilities.setPlatform(Platform.SIERRA);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
         expectedDesiredCapabilities.setAcceptInsecureCerts(true);

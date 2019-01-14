@@ -95,10 +95,10 @@ public class Capabilities {
                 break;
             case EDGE:
                 this.desiredCapabilities.setBrowserName("MicrosoftEdge");
-                this.desiredCapabilities.setPlatform(Platform.WINDOWS);
+                this.desiredCapabilities.setPlatform(Platform.WIN10);
                 break;
             case SAFARI:
-                this.desiredCapabilities.setPlatform(Platform.MAC);
+                this.desiredCapabilities.setPlatform(Platform.SIERRA);
         }
         if (browser.getPlatform() != null) {
             this.desiredCapabilities.setPlatform(browser.getPlatform());
