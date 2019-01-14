@@ -87,7 +87,6 @@ public class Capabilities {
         // setup our browser name based on the enum provided - there are a few special cases
         this.desiredCapabilities.setBrowserName(browser.getName().toString().toLowerCase());
         // the default platform is any, unless the browser is platform specific - this can be overridden
-        this.desiredCapabilities.setPlatform(Platform.ANY);
         switch (browser.getName()) {
             case INTERNETEXPLORER:
                 this.desiredCapabilities.setBrowserName("internet explorer");
@@ -99,6 +98,9 @@ public class Capabilities {
                 break;
             case SAFARI:
                 this.desiredCapabilities.setPlatform(Platform.SIERRA);
+                break;
+            default:
+                this.desiredCapabilities.setPlatform(Platform.ANY);
         }
         if (browser.getPlatform() != null) {
             this.desiredCapabilities.setPlatform(browser.getPlatform());
