@@ -117,7 +117,7 @@ public class Capabilities {
         }
         // always enable javascript, accept certs, and start with a clean session
         this.desiredCapabilities.setJavascriptEnabled(true);
-//        this.desiredCapabilities.setAcceptInsecureCerts(true); TODO - fix this...(fails in IE and Safari currently)
+//        this.desiredCapabilities.setAcceptInsecureCerts(true); TODO - fix this...(fails in IE and Safari in Sauce currently: https://app.saucelabs.com/tests/bfbb74c717f540ff87b4a689d9974434, https://app.saucelabs.com/tests/a137ad19465a483c98a4b15e91ff1744)
         this.desiredCapabilities.setCapability("ensureCleanSession", true);
     }
 
