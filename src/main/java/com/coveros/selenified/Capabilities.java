@@ -117,7 +117,7 @@ public class Capabilities {
         }
         // always enable javascript, accept certs, and start with a clean session
         this.desiredCapabilities.setJavascriptEnabled(true);
-        this.desiredCapabilities.setAcceptInsecureCerts(true);
+//        this.desiredCapabilities.setAcceptInsecureCerts(true); TODO - fix this...(fails in IE and Safari currently)
         this.desiredCapabilities.setCapability("ensureCleanSession", true);
     }
 
