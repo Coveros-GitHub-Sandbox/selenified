@@ -23,6 +23,7 @@ package com.coveros.selenified;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import io.github.bonigarcia.wdm.*;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -66,11 +67,55 @@ public class Capabilities {
     private DesiredCapabilities desiredCapabilities;
 
     /**
-     * A constructor which sets up the default empty desired desiredCapabilities
+     * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
+     * passed in from the command line
      */
-    public Capabilities(Browser browser) {
+    public Capabilities(Browser browser) throws InvalidBrowserException {
+        if (browser == null) {
+            throw new InvalidBrowserException("A valid browser was not provided");
+        }
         this.browser = browser;
         this.desiredCapabilities = new DesiredCapabilities();
+        setDesiredCapabilities();
+    }
+
+    private void setDesiredCapabilities() {
+        if (browser.getName() == BrowserName.NONE) {
+            this.desiredCapabilities = null;
+            return;
+        }
+        // setup our browser name based on the enum provided - there are a few special cases
+        this.desiredCapabilities.setBrowserName(browser.getName().toString().toLowerCase());
+        // the default platform is any, unless the browser is platform specific - this can be overridden
+        this.desiredCapabilities.setPlatform(Platform.ANY);
+        switch (browser.getName()) {
+            case INTERNETEXPLORER:
+                this.desiredCapabilities.setBrowserName("internet explorer");
+                this.desiredCapabilities.setPlatform(Platform.WINDOWS);
+                break;
+            case EDGE:
+                this.desiredCapabilities.setBrowserName("MicrosoftEdge");
+                this.desiredCapabilities.setPlatform(Platform.WINDOWS);
+                break;
+            case SAFARI:
+                this.desiredCapabilities.setPlatform(Platform.MAC);
+        }
+        if (browser.getPlatform() != null) {
+            this.desiredCapabilities.setPlatform(browser.getPlatform());
+        }
+        // the default version is empty - this can be overridden
+        this.desiredCapabilities.setVersion("");
+        if (browser.getVersion() != null) {
+            this.desiredCapabilities.setVersion(browser.getVersion());
+        }
+        // only include the screen resolution is in width x height format
+        if (browser.getScreensize() != null && browser.getScreensize().matches("(\\d+)x(\\d+)")) {
+            this.desiredCapabilities.setCapability("screenResolution", browser.getScreensize());
+        }
+        // always enable javascript, accept certs, and start with a clean session
+        this.desiredCapabilities.setJavascriptEnabled(true);
+        this.desiredCapabilities.setAcceptInsecureCerts(true);
+        this.desiredCapabilities.setCapability("ensureCleanSession", true);
     }
 
     /**
@@ -91,6 +136,12 @@ public class Capabilities {
         return browser;
     }
 
+    /**
+     * Sets the instances of the test running. This references the invocation count from TestNG, allowing looping, and
+     * specifies which test run this is
+     *
+     * @param instance
+     */
     public void setInstance(int instance) {
         this.instance = instance;
     }
@@ -121,73 +172,16 @@ public class Capabilities {
     }
 
     /**
-     * Sets the device desiredCapabilities based on the browser selection
-     *
-     * @throws InvalidBrowserException If a browser that is not one specified in the
-     *                                 Selenium.Browser class is used, this exception will be thrown
-     */
-    public void setupBrowserCapability() throws InvalidBrowserException {
-        if (System.getProperty("hub") != null) {
-            switch (browser.getName()) { // check the browser
-                case HTMLUNIT:
-                    desiredCapabilities = DesiredCapabilities.htmlUnit();
-                    break;
-                case FIREFOX:
-                    desiredCapabilities = DesiredCapabilities.firefox();
-                    break;
-                case CHROME:
-                    desiredCapabilities = DesiredCapabilities.chrome();
-                    break;
-                case INTERNETEXPLORER:
-                    desiredCapabilities = DesiredCapabilities.internetExplorer();
-                    break;
-                case EDGE:
-                    desiredCapabilities = DesiredCapabilities.edge();
-                    break;
-                case ANDROID:
-                    desiredCapabilities = DesiredCapabilities.android();
-                    break;
-                case IPHONE:
-                    desiredCapabilities = DesiredCapabilities.iphone();
-                    break;
-                case IPAD:
-                    desiredCapabilities = DesiredCapabilities.ipad();
-                    break;
-                case SAFARI:
-                    desiredCapabilities = DesiredCapabilities.safari();
-                    break;
-                case OPERA:
-                    desiredCapabilities = DesiredCapabilities.operaBlink();
-                    break;
-                case PHANTOMJS:
-                    desiredCapabilities = DesiredCapabilities.phantomjs();
-                    break;
-                // if the browser is not listed, throw an error
-                default:
-                    throw new InvalidBrowserException("The selected browser " + browser);
-            }
-        }
-        desiredCapabilities = browser.setBrowserCapabilities(desiredCapabilities);
-    }
-
-    /**
      * this creates the webdriver object, which will be used to interact with
      * for all browser web tests
      *
      * @return WebDriver: the driver to interact with for the test
-     * @throws InvalidBrowserException If a browser that is not one specified in the
-     *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public WebDriver setupDriver() throws InvalidBrowserException {
         WebDriver driver;
-        if (browser == null) {
-            throw new InvalidBrowserException("No browser was selected");
-        }
         // check the browser
         switch (browser.getName()) {
             case HTMLUNIT:
-                desiredCapabilities.setBrowserName("htmlunit");
-                desiredCapabilities.setJavascriptEnabled(true);
                 System.getProperties().put("org.apache.commons.logging.simplelog.defaultlog", "fatal");
                 java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
                 java.util.logging.Logger.getLogger("org.apache.http").setLevel(Level.OFF);
@@ -265,8 +259,13 @@ public class Capabilities {
         return browserOptions;
     }
 
+    /**
+     * If additional capabilities are provided in the test case, add them in
+     *
+     * @param extraCapabilities any additional parameters to set for selenium
+     */
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
-        if (extraCapabilities != null) {
+        if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
         }
     }

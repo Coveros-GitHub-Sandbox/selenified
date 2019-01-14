@@ -12,6 +12,8 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 
+import static org.testng.Assert.fail;
+
 public class AppTest {
 
     private String setHub = null;
@@ -45,12 +47,13 @@ public class AppTest {
     @Test(expectedExceptions = MalformedURLException.class)
     public void checkElementTypeBadURLTest() throws InvalidBrowserException, MalformedURLException {
         System.setProperty("hub", "myurl");
-        new App(new Capabilities(new Browser("andrOID")), null);
+        new App(new Capabilities(new Browser("htmlunit")), null);
         System.clearProperty("hub");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void nullCapabilitiesTest() throws InvalidBrowserException, MalformedURLException {
         new App(null, null);
+        fail("Expected an InvalidBrowserException");
     }
 }

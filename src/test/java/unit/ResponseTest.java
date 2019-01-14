@@ -62,7 +62,7 @@ public class ResponseTest {
     @Test
     public void checkNewResponseFileMessageTest() throws InvalidBrowserException {
         Response response = new Response(
-                new OutputFile("directory", "file", new Capabilities(new Browser("Android")), null, null, null, null, null,
+                new OutputFile("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null));
         assertNull(response.getMessage());
     }

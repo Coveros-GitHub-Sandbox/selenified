@@ -508,8 +508,7 @@ even suite (see below).
 ```
 #### Browser
 If unspecified the default browser of HTMLUnit will be used. Other supported browsers are Firefox (specified via 
-Firefox or Marionette), Chrome, InternetExplorer, Edge, Android (not on grid), Ipad (not on grid), Iphone (not on 
-grid), Opera, and Safari, PhantomJS (not on grid). To run most other browsers additional drivers may need to be added 
+Firefox or Marionette), Chrome, InternetExplorer, Edge, Opera, and Safari, PhantomJS (not on grid). To run most other browsers additional drivers may need to be added 
 to the browser install directory. These drivers are all managed via the selenified jar. Browsers can be specified 
 in two ways, either just noting the browser, or indicating the browser name and additional details. These additional
 details must include a name, and have optional parameters of version, platform and screensize. These should be specified

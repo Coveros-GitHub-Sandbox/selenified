@@ -6,18 +6,13 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 public class ExceptionTest {
 
-    @Test
-    public void invalidBrowserExceptionTest() {
-        try {
-            Capabilities capabilities = new Capabilities(new Browser("Android"));
-            capabilities.setupDriver();
-            Assert.fail("Expected an InvalidBrowserException");
-        } catch (InvalidBrowserException e) {
-            assertEquals(e.getMessage(), "The selected browser ANDROID is not an applicable choice");
-        }
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void invalidBrowserExceptionTest() throws InvalidBrowserException {
+        new Capabilities(new Browser("Android"));
+        fail("Expected an InvalidBrowserException");
     }
 }

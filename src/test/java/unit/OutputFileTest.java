@@ -31,7 +31,7 @@ public class OutputFileTest {
 
     @BeforeMethod
     public void createFile() throws InvalidBrowserException {
-        outputFile = new OutputFile("directory", "file", new Capabilities(new Browser("Android")), null, null, null, null, null,
+        outputFile = new OutputFile("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                 null);
         directory = new File("directory");
         file = new File("directory", "file.html");
@@ -45,7 +45,7 @@ public class OutputFileTest {
 
     @Test
     public void setupFileFreshTest() throws InvalidBrowserException {
-        new OutputFile("somenewdir", "file", new Capabilities(new Browser("Android")), null, null, null, null, null, null);
+        new OutputFile("somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File file = new File("somenewdir", "file.html");
         assertTrue(file.exists());
         file.delete();
@@ -59,7 +59,7 @@ public class OutputFileTest {
         assertTrue(file.exists());
 
         // do it again, ensure nothing breaks when it already exists
-        new OutputFile("directory", "file", new Capabilities(new Browser("Android")), null, null, null, null, null, null);
+        new OutputFile("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         assertNotEquals(file.length(), 0);
         assertTrue(directory.exists());
         assertTrue(file.exists());
@@ -96,7 +96,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderSuiteTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Android")), null, "My Suite", null, null, null,
+        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, "My Suite", null, null, null,
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -108,7 +108,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderGroupTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Android")), null, null, "My Group", null, null,
+        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, "My Group", null, null,
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -120,7 +120,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderAuthorTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Android")), null, null, null, "My Author", null,
+        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, "My Author", null,
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -132,7 +132,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderVersionTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Android")), null, null, null, null, "My Version",
+        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, "My Version",
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -144,7 +144,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderObjectivesTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Android")), null, null, null, null, null,
+        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                 "My Objectives");
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -200,7 +200,7 @@ public class OutputFileTest {
     @Test
     public void recordActionBadFile() throws InvalidBrowserException {
         OutputFile file =
-                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Android")), null, null, null, null, null,
+                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
         file.recordAction("my action", "expected", "actual", Result.WARNING);
         // we are just verifying that no errors were thrown
@@ -218,7 +218,7 @@ public class OutputFileTest {
     @Test
     public void recordExpectedBadFile() throws InvalidBrowserException {
         OutputFile file =
-                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Android")), null, null, null, null, null,
+                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
         file.recordExpected("expected");
         // we are just verifying that no errors were thrown
@@ -245,7 +245,7 @@ public class OutputFileTest {
     @Test
     public void recordActualBadFile() throws InvalidBrowserException {
         OutputFile file =
-                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Android")), null, null, null, null, null,
+                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
         file.recordActual("actual", Success.FAIL);
         // we are just verifying that no errors were thrown
@@ -345,7 +345,7 @@ public class OutputFileTest {
     @Test
     public void packageResultsPositiveTest() throws IOException {
         OutputFile outputFile =
-                new OutputFile("results", "file", new Capabilities(new Browser("Android")), null, null, null, null, null, null);
+                new OutputFile("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");
         File file = new File("results", "file.html");
 

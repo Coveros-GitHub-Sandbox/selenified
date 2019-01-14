@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.fail;
 
 public class BrowserTest {
 
@@ -26,9 +27,6 @@ public class BrowserTest {
         assertEquals(Browser.lookup("CHROME"), Browser.BrowserName.CHROME);
         assertEquals(Browser.lookup("INTERNETEXPLORER"), Browser.BrowserName.INTERNETEXPLORER);
         assertEquals(Browser.lookup("EDGE"), Browser.BrowserName.EDGE);
-        assertEquals(Browser.lookup("ANDROID"), Browser.BrowserName.ANDROID);
-        assertEquals(Browser.lookup("IPAD"), Browser.BrowserName.IPAD);
-        assertEquals(Browser.lookup("IPHONE"), Browser.BrowserName.IPHONE);
         assertEquals(Browser.lookup("OPERA"), Browser.BrowserName.OPERA);
         assertEquals(Browser.lookup("SAFARI"), Browser.BrowserName.SAFARI);
         assertEquals(Browser.lookup("PHANTOMJS"), Browser.BrowserName.PHANTOMJS);
@@ -37,16 +35,19 @@ public class BrowserTest {
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void browsersInvalidTest() throws InvalidBrowserException {
         Browser.lookup("HELLOWORLD");
+        fail("Expected an InvalidBrowserException");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void checkNullBrowserTest() throws InvalidBrowserException {
         new Browser(null);
+        fail("Expected an InvalidBrowserException");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void checkInvalidBrowserTest() throws InvalidBrowserException {
         new Browser("HELLOWORLD");
+        fail("Expected an InvalidBrowserException");
     }
 
     @Test
@@ -61,11 +62,13 @@ public class BrowserTest {
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void checkBrowserDetailsBadNameTest() throws InvalidBrowserException {
         new Browser("name=HELLOWORLD");
+        fail("Expected an InvalidBrowserException");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void checkBrowserDeviceNoNameTest() throws InvalidBrowserException {
         new Browser("version=1.0.5");
+        fail("Expected an InvalidBrowserException");
     }
 
     @Test
@@ -82,7 +85,7 @@ public class BrowserTest {
         Browser browser = new Browser("name=Firefox&platform=Windows 10");
         assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
         assertNull(browser.getVersion());
-        assertEquals(browser.getPlatform(), "Windows 10");
+        assertEquals(browser.getPlatform(), Platform.WIN10);
         assertNull(browser.getScreensize());
     }
 
@@ -127,97 +130,8 @@ public class BrowserTest {
         Browser browser = new Browser("name=Firefox&version=1.0.5&platform=Windows 10&screensize=maximum");
         assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
         assertEquals(browser.getVersion(), "1.0.5");
-        assertEquals(browser.getPlatform(), "Windows 10");
+        assertEquals(browser.getPlatform(), Platform.WIN10);
         assertEquals(browser.getScreensize(), "maximum");
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesNullTest() throws InvalidBrowserException {
-        Browser browser = new Browser("FIREFOX");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        assertEquals(browser.setBrowserCapabilities(null), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesNullNameTest() throws InvalidBrowserException {
-        Browser browser = new Browser("FIREFOX");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        DesiredCapabilities desiredCapabilities1 = new DesiredCapabilities();
-        desiredCapabilities1.setBrowserName(null);
-        assertEquals(browser.setBrowserCapabilities(desiredCapabilities1), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesNameNoneTest() throws InvalidBrowserException {
-        Browser browser = new Browser("NONE");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        String tmp = desiredCapabilities.getBrowserName();
-        desiredCapabilities.setBrowserName("none");
-        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesNameTest() throws InvalidBrowserException {
-        Browser browser = new Browser("FIREFOX");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesVersionTest() throws InvalidBrowserException {
-        Browser browser = new Browser("name=Firefox&version=1.0.5");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        desiredCapabilities.setVersion("1.0.5");
-        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesPlatformTest() throws InvalidBrowserException {
-        Browser browser = new Browser("name=Firefox&platform=Windows 10");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        desiredCapabilities.setPlatform(Platform.WIN10);
-        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesScreensizeTest() throws InvalidBrowserException {
-        Browser browser = new Browser("name=Firefox&screensize=100x200");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        desiredCapabilities.setCapability("screenResolution", "100x200");
-        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesScreensizeMaximumTest() throws InvalidBrowserException {
-        Browser browser = new Browser("name=Firefox&screensize=maximum");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesScreensizeBadTest() throws InvalidBrowserException {
-        Browser browser = new Browser("name=Firefox&screensize=large");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
-    }
-
-    @Test
-    public void checkBrowserCapabilitiesAllDetailsTest() throws InvalidBrowserException {
-        Browser browser = new Browser("name=Firefox&version=1.0.5&platform=Windows 10&screensize=100x200");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setBrowserName("firefox");
-        desiredCapabilities.setVersion("1.0.5");
-        desiredCapabilities.setPlatform(Platform.WIN10);
-        desiredCapabilities.setCapability("screenResolution", "100x200");
-        assertEquals(browser.setBrowserCapabilities(new DesiredCapabilities()), desiredCapabilities);
     }
 
     @Test
@@ -235,7 +149,7 @@ public class BrowserTest {
     @Test
     public void checkBrowserDetailsPlatformTest() throws InvalidBrowserException {
         Browser browser = new Browser("name=Firefox&platform=Windows 10");
-        assertEquals(browser.getDetails(), "Firefox Windows 10");
+        assertEquals(browser.getDetails(), "Firefox WIN10");
     }
 
     @Test
@@ -253,6 +167,6 @@ public class BrowserTest {
     @Test
     public void checkBrowserDetailsAllDetailsTest() throws InvalidBrowserException {
         Browser browser = new Browser("name=Firefox&version=1.0.5&platform=Windows 10&screensize=100x200");
-        assertEquals(browser.getDetails(), "Firefox 1.0.5 Windows 10 100x200");
+        assertEquals(browser.getDetails(), "Firefox 1.0.5 WIN10 100x200");
     }
 }

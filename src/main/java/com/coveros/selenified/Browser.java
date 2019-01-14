@@ -22,16 +22,13 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.TestCase;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.Platform;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Select a browser to run Available options are: HtmlUnit (only locally - not
- * on grid), Firefox, Marionette, Chrome, InternetExplorer, Edge, Android, Ipad
- * (only locally - not on grid), Iphone (only locally, not on grid), Opera,
+ * Select a browser to run Available options are: HtmlUnit, Firefox, Chrome, InternetExplorer, Edge, Opera,
  * Safari, PhantomJS
  *
  * @author Max Saperstone
@@ -41,7 +38,7 @@ import java.util.Map;
 public class Browser {
 
     public enum BrowserName {
-        NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, ANDROID, IPAD, IPHONE, OPERA, SAFARI, PHANTOMJS
+        NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, OPERA, SAFARI, PHANTOMJS
     }
 
     public static final String SCREENSIZE_INPUT = "screensize";
@@ -53,7 +50,7 @@ public class Browser {
     private String browserInput;
     private BrowserName name;
     private String version = null;
-    private String platform = null;
+    private Platform platform = null;
     private String resolution = null;
 
     /**
@@ -76,7 +73,7 @@ public class Browser {
                 this.version = browserDetails.get(VERSION_INPUT);
             }
             if (browserDetails.containsKey(PLATFORM_INPUT)) {
-                this.platform = browserDetails.get(PLATFORM_INPUT);
+                this.platform = Platform.fromString(browserDetails.get(PLATFORM_INPUT));
             }
             if (browserDetails.containsKey(SCREENSIZE_INPUT) && (browserDetails.get(SCREENSIZE_INPUT).matches("(\\d+)x(\\d+)")
                     || browserDetails.get(SCREENSIZE_INPUT).equalsIgnoreCase("maximum"))) {
@@ -93,7 +90,7 @@ public class Browser {
         return version;
     }
 
-    public String getPlatform() {
+    public Platform getPlatform() {
         return platform;
     }
 
@@ -130,33 +127,6 @@ public class Browser {
             }
         }
         throw new InvalidBrowserException("The selected browser " + b + " is not an applicable choice");
-    }
-
-    /**
-     * sets the browser details (name, version, device, orientation, os) into
-     * the device capabilities
-     *
-     * @param capabilities - the DesiredCapabilities object, which will get set with all browser capabilities
-     */
-    public DesiredCapabilities setBrowserCapabilities(DesiredCapabilities capabilities) {
-        // null check
-        if (capabilities == null) {
-            capabilities = new DesiredCapabilities();
-        }
-        // determine the browser information
-        if (capabilities.getBrowserName() == null || "".equals(capabilities.getBrowserName())) {
-            capabilities.setCapability(CapabilityType.BROWSER_NAME, getName().toString().toLowerCase());
-        }
-        if (getVersion() != null) {
-            capabilities.setCapability(CapabilityType.VERSION, getVersion());
-        }
-        if (getPlatform() != null) {
-            capabilities.setCapability(CapabilityType.PLATFORM, getPlatform());
-        }
-        if (getScreensize() != null && getScreensize().matches("(\\d+)x(\\d+)")) {
-            capabilities.setCapability("screenResolution", getScreensize());
-        }
-        return capabilities;
     }
 
     /**

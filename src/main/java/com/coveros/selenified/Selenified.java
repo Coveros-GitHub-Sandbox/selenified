@@ -545,7 +545,6 @@ public class Selenified {
 
             for (Browser browser : browsers) {
                 Capabilities capabilities = new Capabilities(browser);
-                capabilities.setupBrowserCapability();
                 capabilities.setupProxy();
                 capabilities.addExtraCapabilities(extraCapabilities);
                 Selenified.CAPABILITIES.add(capabilities);
