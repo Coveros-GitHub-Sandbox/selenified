@@ -559,7 +559,6 @@ public class Selenified {
          * @throws InvalidBrowserException If a browser that is not one specified in the
          *                                 Selenium.Browser class is used, this exception will be thrown
          */
-        @SuppressWarnings("squid:S3776")
         private static List<Browser> getBrowserInput() throws InvalidBrowserException {
             List<Browser> browsers = new ArrayList<>();
             // null input check
