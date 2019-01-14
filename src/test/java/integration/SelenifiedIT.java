@@ -1,7 +1,5 @@
 package integration;
 
-import com.coveros.selenified.application.App;
-import com.coveros.selenified.utilities.TestSetup;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -50,39 +48,6 @@ public class SelenifiedIT extends WebBase {
 
     @Test(groups = "integration")
     public void oneGroupTest() {
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "browser"},
-            description = "A test to verify that resizing the application works from passed in paramters")
-    public void resizeValidSizeTest() {
-        System.setProperty("screensize", "600x800");
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        TestSetup.setupScreenSize(app);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "browser"},
-            description = "A test to verify that resizing the application works from passed in paramters")
-    public void resizeMaximizeTest() {
-        System.setProperty("screensize", "maximum");
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        TestSetup.setupScreenSize(app);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "browser"},
-            description = "A test to verify that resizing the application works from passed in paramters")
-    public void resizeInvalidTest() {
-        System.setProperty("screensize", "large");
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        TestSetup.setupScreenSize(app);
         // verify no issues
         finish();
     }
