@@ -98,7 +98,7 @@ public class Capabilities {
                 this.desiredCapabilities.setPlatform(Platform.WIN10);
                 break;
             case SAFARI:
-                this.desiredCapabilities.setPlatform(Platform.SIERRA);
+                this.desiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
                 break;
             default:
                 this.desiredCapabilities.setPlatform(Platform.ANY);

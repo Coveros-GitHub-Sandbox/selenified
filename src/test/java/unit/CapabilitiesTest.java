@@ -17,24 +17,34 @@ import static org.testng.Assert.*;
 public class CapabilitiesTest {
 
     private String setProxy = null;
+    private String setHub = null;
 
-    @BeforeClass
+    @BeforeClass (alwaysRun = true)
     public void saveBrowser() {
         if (System.getProperty("proxy") != null) {
             setProxy = System.getProperty("proxy");
         }
-    }
-
-    @AfterClass
-    public void restoreBrowser() {
-        if (setProxy != null) {
-            System.setProperty("proxy", setProxy);
+        if (System.getProperty("hub") != null) {
+            setHub = System.getProperty("hub");
         }
     }
 
-    @BeforeMethod
+    @AfterClass (alwaysRun = true)
+    public void restoreBrowser() {
+        System.clearProperty("proxy");
+        if (setProxy != null) {
+            System.setProperty("proxy", setProxy);
+        }
+        System.clearProperty("hub");
+        if (setHub != null) {
+            System.setProperty("hub", setHub);
+        }
+    }
+
+    @BeforeMethod (alwaysRun = true)
     public void clearBrowser() {
         System.clearProperty("proxy");
+        System.clearProperty("hub");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
@@ -150,7 +160,7 @@ public class CapabilitiesTest {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("safari");
-        expectedDesiredCapabilities.setPlatform(Platform.SIERRA);
+        expectedDesiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
         expectedDesiredCapabilities.setAcceptInsecureCerts(true);
@@ -187,6 +197,59 @@ public class CapabilitiesTest {
         capability = capabilities.getDesiredCapabilities();
         Proxy export = (Proxy) capability.getCapability(CapabilityType.PROXY);
         assertEquals(export.getHttpProxy(), "localhost");
+    }
+
+    @Test
+    public void setupSauceCapabilitiesNoSauceTest() throws InvalidBrowserException {
+        // what we expect
+        DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
+        expectedDesiredCapabilities.setBrowserName("chrome");
+        expectedDesiredCapabilities.setPlatform(Platform.ANY);
+        expectedDesiredCapabilities.setVersion("");
+        expectedDesiredCapabilities.setJavascriptEnabled(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
+        // what we're getting
+        Capabilities capabilities = new Capabilities(new Browser("Chrome"));
+        capabilities.setupSauceCapabilities();
+        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
+    }
+
+    @Test
+    public void setupSauceCapabilitiesChromeTest() throws InvalidBrowserException {
+        System.setProperty("hub", "ondemand.saucelabs.com");
+        // what we expect
+        DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
+        expectedDesiredCapabilities.setBrowserName("chrome");
+        expectedDesiredCapabilities.setPlatform(Platform.ANY);
+        expectedDesiredCapabilities.setVersion("");
+        expectedDesiredCapabilities.setJavascriptEnabled(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
+        expectedDesiredCapabilities.setCapability("seleniumVersion", "3.14.0");
+        // what we're getting
+        Capabilities capabilities = new Capabilities(new Browser("Chrome"));
+        capabilities.setupSauceCapabilities();
+        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
+    }
+
+    @Test
+    public void setupSauceCapabilitiesIETest() throws InvalidBrowserException {
+        System.setProperty("hub", "ondemand.saucelabs.com");
+        // what we expect
+        DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
+        expectedDesiredCapabilities.setBrowserName("internet explorer");
+        expectedDesiredCapabilities.setPlatform(Platform.WINDOWS);
+        expectedDesiredCapabilities.setVersion("");
+        expectedDesiredCapabilities.setJavascriptEnabled(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
+        expectedDesiredCapabilities.setCapability("seleniumVersion", "3.14.0");
+        expectedDesiredCapabilities.setCapability("iedriverVersion", "3.14.0");
+        // what we're getting
+        Capabilities capabilities = new Capabilities(new Browser("internetExplorer"));
+        capabilities.setupSauceCapabilities();
+        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
     }
 
     @Test

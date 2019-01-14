@@ -10,23 +10,24 @@ import static org.testng.Assert.*;
 
 public class SauceTest {
 
-    private String hub;
+    private String hub = null;
 
-    @BeforeClass
+    @BeforeClass (alwaysRun = true)
     public void setupArrays() {
         if (System.getProperty("hub") != null) {
             hub = System.getProperty("hub");
         }
     }
 
-    @AfterClass
+    @AfterClass (alwaysRun = true)
     public void restoreBrowser() {
+        System.clearProperty("hub");
         if (hub != null) {
             System.setProperty("hub", hub);
         }
     }
 
-    @BeforeMethod
+    @BeforeMethod (alwaysRun = true)
     public void clearBrowser() {
         System.clearProperty("hub");
     }

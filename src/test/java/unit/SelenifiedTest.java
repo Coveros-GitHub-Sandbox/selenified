@@ -18,61 +18,6 @@ import static org.testng.Assert.assertTrue;
 
 public class SelenifiedTest extends Selenified {
 
-    private String setAppURL = null;
-    private String setBrowser = null;
-    private String setHub = null;
-    private String setProxy = null;
-
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() throws InvalidBrowserException {
-        // add some extra capabilities
-        extraCapabilities = new DesiredCapabilities();
-        extraCapabilities.setCapability("ignoreProtectedModeSettings", true);
-        extraCapabilities.setCapability("unexpectedAlertBehaviour", "ignore");
-        // save the passed in information
-        if (System.getProperty("appURL") != null) {
-            setAppURL = System.getProperty("appURL");
-            System.clearProperty("appURL");
-        }
-        if (System.getProperty("browser") != null) {
-            setBrowser = System.getProperty("browser");
-            System.clearProperty("browser");
-        }
-        if (System.getProperty("hub") != null) {
-            setHub = System.getProperty("hub");
-            System.clearProperty("hub");
-        }
-        if (System.getProperty("proxy") != null) {
-            setProxy = System.getProperty("proxy");
-            System.clearProperty("proxy");
-        }
-        super.beforeSuite();
-    }
-
-    @AfterClass
-    public void restoreBrowser() {
-        if (setAppURL != null) {
-            System.setProperty("appURL", setAppURL);
-        }
-        if (setBrowser != null) {
-            System.setProperty("browser", setBrowser);
-        }
-        if (setHub != null) {
-            System.setProperty("hub", setHub);
-        }
-        if (setProxy != null) {
-            System.setProperty("proxy", setProxy);
-        }
-    }
-
-    @BeforeMethod
-    public void clearBrowser() {
-        System.clearProperty("appURL");
-        System.clearProperty("browser");
-        System.clearProperty("hub");
-        System.clearProperty("proxy");
-    }
-
     @Override
     public void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         // do nothing

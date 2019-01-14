@@ -27,7 +27,7 @@
         <skip.integration.tests>false</skip.integration.tests>
 
         <!-- General Selenium run versions -->
-        <selenium.version>3.12.0</selenium.version>
+        <selenium.version>3.14.0</selenium.version>
         <webdrivermanager.version>2.2.1</webdrivermanager.version>
         <phantomjsdriver.version>2.0.0</phantomjsdriver.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -162,6 +162,9 @@
                     <excludes>
                         <exclude>**/*IT.java</exclude>
                     </excludes>
+                    <systemPropertyVariables>
+                        <selenium.version>${selenium.version}</selenium.version>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
