@@ -51,7 +51,7 @@ public class Browser {
     private BrowserName name;
     private String version = null;
     private Platform platform = null;
-    private String resolution = null;
+    private String screensize = null;
 
     /**
      * Parses the passed in browser information (obtained from command line inputs), and saves off the information
@@ -77,7 +77,7 @@ public class Browser {
             }
             if (browserDetails.containsKey(SCREENSIZE_INPUT) && (browserDetails.get(SCREENSIZE_INPUT).matches("(\\d+)x(\\d+)")
                     || browserDetails.get(SCREENSIZE_INPUT).equalsIgnoreCase("maximum"))) {
-                this.resolution = browserDetails.get(SCREENSIZE_INPUT);
+                this.screensize = browserDetails.get(SCREENSIZE_INPUT);
             }
         }
     }
@@ -95,7 +95,7 @@ public class Browser {
     }
 
     public String getScreensize() {
-        return resolution;
+        return screensize;
     }
 
     public String getDetails() {
