@@ -42,7 +42,7 @@ import java.util.Date;
 
 /**
  * App is an instance of the browser based application that is under test.
- *
+ * <p>
  * Pages should be build out of this object (if using the page object model
  * (POM)), so that several pages make up an app. Within each page, multiple
  * elements should be created. In this way, we can act on our app, page, or
@@ -102,7 +102,7 @@ public class App {
      */
     public App(Capabilities capabilities,
                OutputFile file) throws InvalidBrowserException, MalformedURLException {
-        if( capabilities == null) {
+        if (capabilities == null) {
             capabilities = new Capabilities(new Browser("None"));
         }
         this.browser = capabilities.getBrowser();
@@ -320,6 +320,7 @@ public class App {
         double timetook = System.currentTimeMillis() - start;
         timetook = timetook / 1000;
         file.recordAction(action, expected, "Loaded " + url + " in " + timetook + SECONDS, Result.SUCCESS);
+        acceptCertificate();
     }
 
     /**
@@ -601,6 +602,7 @@ public class App {
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
+        acceptCertificate();
     }
 
     /**
@@ -747,6 +749,35 @@ public class App {
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
+    }
+
+    /**
+     * Safari, Edge and IE don't recognize the allowInsecureCert capability. As a result, an alternative method is
+     * provided in order to 'manually' accept the problematic certificate
+     */
+    public void acceptCertificate() {
+        String action = "Clicking override link to accept ssl certificate";
+        String result = "Override link clicked";
+        //for IE and Edge
+        if (browser.getName() == BrowserName.INTERNETEXPLORER || browser.getName() == BrowserName.EDGE) {
+            Element overrideLink = newElement(Locator.ID, "overridelink");
+            if (overrideLink.is().present()) {
+                try {
+                    if (browser.getName() == BrowserName.EDGE) {
+                        newElement(Locator.ID, "moreInformationDropdownSpan").getWebElement().click();
+                    }
+                    overrideLink.getWebElement().click();
+                    file.recordAction(action, result, result, Result.SUCCESS);
+                } catch (Exception e) {
+                    file.recordAction(action, result, "Unable to click override link. "
+                            + e.getMessage(), Result.FAILURE);
+                    file.addError();
+                    log.warn(e);
+                }
+            }
+        }
+        //for Safari
+        //TODO, pending sauce ticket #63099
     }
 
     //////////////////////////

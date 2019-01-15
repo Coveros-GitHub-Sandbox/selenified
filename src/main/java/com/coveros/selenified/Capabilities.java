@@ -85,6 +85,8 @@ public class Capabilities {
             this.desiredCapabilities = null;
             return;
         }
+        // by default, accept insecure sites - there are some exceptions for browsers
+        this.desiredCapabilities.setAcceptInsecureCerts(true);
         // setup our browser name based on the enum provided - there are a few special cases
         this.desiredCapabilities.setBrowserName(browser.getName().toString().toLowerCase());
         // the default platform is any, unless the browser is platform specific - this can be overridden
@@ -92,6 +94,7 @@ public class Capabilities {
             case INTERNETEXPLORER:
                 this.desiredCapabilities.setBrowserName("internet explorer");
                 this.desiredCapabilities.setPlatform(Platform.WINDOWS);
+                this.desiredCapabilities.setAcceptInsecureCerts(false);
                 break;
             case EDGE:
                 this.desiredCapabilities.setBrowserName("MicrosoftEdge");
@@ -99,6 +102,7 @@ public class Capabilities {
                 break;
             case SAFARI:
                 this.desiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
+                this.desiredCapabilities.setAcceptInsecureCerts(false);
                 break;
             default:
                 this.desiredCapabilities.setPlatform(Platform.ANY);
@@ -117,7 +121,6 @@ public class Capabilities {
         }
         // always enable javascript, accept certs, and start with a clean session
         this.desiredCapabilities.setJavascriptEnabled(true);
-//        this.desiredCapabilities.setAcceptInsecureCerts(true); TODO - fix this...(fails in IE and Safari in Sauce currently: https://app.saucelabs.com/tests/bfbb74c717f540ff87b4a689d9974434, https://app.saucelabs.com/tests/a137ad19465a483c98a4b15e91ff1744)
         this.desiredCapabilities.setCapability("ensureCleanSession", true);
     }
 

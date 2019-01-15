@@ -1,7 +1,6 @@
 package integration;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
@@ -529,7 +528,7 @@ public class ActionDoIT extends WebBase {
         //TODO fix conditional logic
         app.newElement(Locator.ID, "this").type(" ");
 //        if (app.getBrowser().getName() == BrowserName.CHROME) {  //test only applicable for Chrome
-            app.newElement(Locator.ID, "this").assertState().checked();
+        app.newElement(Locator.ID, "this").assertState().checked();
 //        }
         // verify no issues
         finish();
@@ -1360,5 +1359,17 @@ public class ActionDoIT extends WebBase {
         app.takeScreenshot("somefile");
         // verify no issues
         finish();
+    }
+
+    @Test(groups = {"integration", "action", "do", "cert"},
+            description = "An integration test to ensure a site with an invalid certificate can be properly handled")
+    public void badSslCertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.goToURL("https://expired.badssl.com/");
+        app.newElement(Locator.ID, "content").assertEquals().text("expired.\nbadssl.com");
+        // verify 1 issue
+        finish(0);
     }
 }
