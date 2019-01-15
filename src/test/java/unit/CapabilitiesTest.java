@@ -73,7 +73,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("CHROME"));
@@ -88,7 +88,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.WIN10);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("edGE"));
@@ -103,7 +103,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("firefox"));
@@ -118,7 +118,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("HtmlUnit"));
@@ -133,7 +133,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.WINDOWS);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(false);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("InternetEXPLORER"));
@@ -148,7 +148,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("opera"));
@@ -163,7 +163,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(false);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("sAFARi"));
@@ -178,7 +178,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("PHANTOMJS"));
@@ -207,7 +207,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("Chrome"));
@@ -224,7 +224,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         expectedDesiredCapabilities.setCapability("seleniumVersion", "3.14.0");
         // what we're getting
@@ -242,7 +242,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.WINDOWS);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(false);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         expectedDesiredCapabilities.setCapability("seleniumVersion", "3.14.0");
         expectedDesiredCapabilities.setCapability("iedriverVersion", "3.14.0");
@@ -260,7 +260,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("Chrome"));
@@ -277,7 +277,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("Chrome"));
@@ -300,7 +300,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("Chrome"));
@@ -316,7 +316,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setPlatform(Platform.ANY);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
-        // expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("Chrome"));
