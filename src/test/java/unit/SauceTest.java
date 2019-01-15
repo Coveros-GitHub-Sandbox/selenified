@@ -21,6 +21,7 @@ public class SauceTest {
 
     @AfterClass
     public void restoreBrowser() {
+        System.clearProperty("hub");
         if (hub != null) {
             System.setProperty("hub", hub);
         }

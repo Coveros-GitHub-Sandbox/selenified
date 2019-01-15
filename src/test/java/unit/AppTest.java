@@ -27,6 +27,7 @@ public class AppTest {
 
     @AfterClass
     public void restoreBrowser() {
+        System.clearProperty("hub");
         if (setHub != null) {
             System.setProperty("hub", setHub);
         }

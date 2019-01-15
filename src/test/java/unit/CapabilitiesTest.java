@@ -27,6 +27,7 @@ public class CapabilitiesTest {
 
     @AfterClass
     public void restoreBrowser() {
+        System.clearProperty("proxy");
         if (setProxy != null) {
             System.setProperty("proxy", setProxy);
         }
