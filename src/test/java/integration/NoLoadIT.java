@@ -2,6 +2,7 @@ package integration;
 
 import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -11,11 +12,15 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 
 public class NoLoadIT extends WebBase {
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
         super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
 
@@ -26,10 +31,10 @@ public class NoLoadIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // verify a selenium actions class was setup
-        org.testng.Assert.assertNotNull(app);
+        assertNotNull(app);
         String directory = context.getOutputDirectory();
         String file = app.getOutputFile().getFileName();
-        org.testng.Assert.assertFalse(FileUtils.readFileToString(new File(directory, file))
+        assertFalse(FileUtils.readFileToString(new File(directory, file))
                 .contains("Opening new browser and loading up starting app"));
         // verify the app wasn't attempted to load
         app.azzert().urlEquals(getTestSite(this.getClass().getName(), context));

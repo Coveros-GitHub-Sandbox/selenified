@@ -35,7 +35,7 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 
-import static com.coveros.selenified.Selenified.BROWSER_INPUT;
+import static com.coveros.selenified.Browser.BROWSER_INPUT;
 import static com.coveros.selenified.Selenified.OUTPUT_FILE;
 import static com.coveros.selenified.Selenified.SESSION_ID;
 
@@ -47,15 +47,14 @@ import static com.coveros.selenified.Selenified.SESSION_ID;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 1/7/2019
+ * @lastupdate 1/12/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
 
     private static final String OUTPUT_BREAK = " | ";
-    private static final String FILE_EXTENTION = "html";
     private static final String LINK_START = "<a target='_blank' href='";
-    private static final String LINK_MIDDLE = "." + FILE_EXTENTION + "'>";
+    private static final String LINK_MIDDLE = "'>";
     private static final String LINK_END = "</a>";
     private static final String TIME_UNIT = " seconds";
 
@@ -86,11 +85,12 @@ public class Listener extends TestListenerAdapter {
         } else {
             className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1);
         }
-        return TestSetup.getTestName(packageName, className, result.getName(), result.getParameters());
+        return TestCase.getTestName(packageName, className, result.getName(), result.getParameters());
     }
 
     /**
      * Provides ability to skip a test, based on the browser selected
+     *
      * @param result - the testng itestresult object
      */
     @Override
@@ -155,16 +155,18 @@ public class Listener extends TestListenerAdapter {
     private void recordResult(ITestResult result) {
         // finalize our output file
         OutputFile outputFile = (OutputFile) result.getAttribute(OUTPUT_FILE);
+        String filename = "";
         if (outputFile != null) {
             outputFile.finalizeOutputFile(result.getStatus());
+            filename = outputFile.getFileName();
         }
         // update our reporter logger
         String testName = getTestName(result);
         Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
         if (browser != null) {
             Reporter.log(
-                    Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getName() + OUTPUT_BREAK + LINK_START +
-                            getFolderName(result) + "/" + testName + browser.getName() + LINK_MIDDLE + testName +
+                    Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
+                            getFolderName(result) + "/" + filename + LINK_MIDDLE + testName +
                             LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
 

@@ -508,16 +508,19 @@ even suite (see below).
 ```
 #### Browser
 If unspecified the default browser of HTMLUnit will be used. Other supported browsers are Firefox (specified via 
-Firefox or Marionette), Chrome, InternetExplorer, Edge, Android (not on grid), Ipad (not on grid), Iphone (not on 
-grid), Opera, and Safari, PhantomJS (not on grid). To run most other browsers additional drivers may need to be added 
+Firefox or Marionette), Chrome, InternetExplorer, Edge, Opera, and Safari, PhantomJS (not on grid). To run most other browsers additional drivers may need to be added 
 to the browser install directory. These drivers are all managed via the selenified jar. Browsers can be specified 
-in two ways, either just noting the browser, or indicating the browser name, and additional details, 
-following [grid](http://www.seleniumhq.org/docs/07_selenium_grid.jsp#node-configuration) notation.
+in two ways, either just noting the browser, or indicating the browser name and additional details. These additional
+details must include a name, and have optional parameters of version, platform and screensize. These should be specified
+like url parameters (`key1=value1&key2=value2`), and comma separated for multiple.
+Screensize can be provided in one of two ways, either as `widthxheight` or by specifying `maximum` implying you want 
+the browser to be maximized. These make use of the Selenified calls resize and maximize respectively on browser start-up, 
+before even loading the initial URL. 
 ```
 -Dbrowser=Chrome
--Dbrowser=Edge
--Dbrowser="browserName=InternetExplorer&browserVersion=50.1&devicePlatform=Windows 10"
--Dbrowser="browserName=Firefox&browserVersion=47.0&devicePlatform=Linux"
+-Dbrowser=Firefox,Edge
+-Dbrowser="name=InternetExplorer&version=50.1&platform=Windows 10&screensize=100x200"
+-Dbrowser="name=Chrome,name=Safari&version=12.0&platform=macOS 10.14&screensize=maximum"
 ```
 #### Hub
 If unspecified the tests will run in standalone mode. If a hub address is specified, then tests will run on a remove 
@@ -531,16 +534,6 @@ If this is specified, then the tests will be run through a proxy server at the s
 address and port in the parameter
 ```
 -Dproxy=localhost:5013
-```
-
-#### Screensize
-If specified, then the launched browsers, will be at the specified size. This can be provided in one of two ways,
-either as `width`x`height` or by specifying `maximum` implying you want the browser to be maximized. These make use 
-of the Selenified calls `resize` and `maximize` respectively on browser start-up, before even loading the initial 
-URL.
-```
--Dscreensize=600x400
--Dscreensize=maximum
 ```
 
 #### Headless

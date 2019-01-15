@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import static org.testng.Assert.assertNull;
+
 public class ActionGoIT extends WebBase {
 
     @Test(groups = {"integration", "actions", "go", "browser"},
@@ -175,7 +177,7 @@ public class ActionGoIT extends WebBase {
         // perform some actions
         app.deleteCookie("cookie");
         Cookie cookie = app.get().cookie("cookie");
-        org.testng.Assert.assertNull(cookie);
+        assertNull(cookie);
         // verify no issues
         finish();
     }
@@ -211,7 +213,7 @@ public class ActionGoIT extends WebBase {
         // perform some actions
         app.deleteAllCookies();
         Cookie cookie = app.get().cookie("cookie");
-        org.testng.Assert.assertNull(cookie);
+        assertNull(cookie);
         // verify no issues
         finish();
     }
@@ -225,7 +227,7 @@ public class ActionGoIT extends WebBase {
         app.deleteAllCookies();
         app.deleteAllCookies();
         Cookie cookie = app.get().cookie("cookie");
-        org.testng.Assert.assertNull(cookie);
+        assertNull(cookie);
         // verify no issues
         finish();
     }

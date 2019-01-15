@@ -76,9 +76,7 @@ class Assert {
     boolean isPresent() {
         if (!element.is().present()) {
             element.waitFor().present();
-            if (!element.is().present()) {
-                return false;
-            }
+            return element.is().present();
         }
         return true;
     }

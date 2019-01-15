@@ -1,22 +1,18 @@
 package unit;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.utilities.TestSetup;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.fail;
+
 public class ExceptionTest {
 
-    @Test
-    public void invalidBrowserExceptionTest() {
-        try {
-            TestSetup.setupDriver(new Browser(BrowserName.ANDROID), new DesiredCapabilities());
-            Assert.fail("Expected an InvalidBrowserException");
-        } catch (InvalidBrowserException e) {
-            Assert.assertEquals(e.getMessage(), "The selected browser ANDROID is not an applicable choice");
-        }
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void invalidBrowserExceptionTest() throws InvalidBrowserException {
+        new Capabilities(new Browser("Android"));
+        fail("Expected an InvalidBrowserException");
     }
 }

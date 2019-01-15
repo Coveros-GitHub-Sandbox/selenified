@@ -1,15 +1,15 @@
 package unit;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Response;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.testng.Assert.*;
+
 public class ResponseTest {
 
     private OutputFile outputFile;
@@ -26,11 +28,11 @@ public class ResponseTest {
     private File file;
 
     @BeforeMethod
-    public void createFile() {
+    public void createFile() throws InvalidBrowserException {
         outputFile =
-                new OutputFile("directory", "file", new Browser(BrowserName.NONE), null, null, null, null, null, null);
+                new OutputFile("directory", "file", new Capabilities(new Browser("None")), null, null, null, null, null, null);
         directory = new File("directory");
-        file = new File("directory", "fileNONE.html");
+        file = new File("directory", "file.html");
     }
 
     @AfterMethod
@@ -42,127 +44,127 @@ public class ResponseTest {
     @Test
     public void checkNewResponseFileCodeTest() {
         Response response = new Response(outputFile);
-        Assert.assertEquals(response.getCode(), 0);
+        assertEquals(response.getCode(), 0);
     }
 
     @Test
     public void checkNewResponseFileObjectTest() {
         Response response = new Response(outputFile);
-        Assert.assertNull(response.getObjectData());
+        assertNull(response.getObjectData());
     }
 
     @Test
     public void checkNewResponseFileArrayTest() {
         Response response = new Response(outputFile);
-        Assert.assertNull(response.getArrayData());
+        assertNull(response.getArrayData());
     }
 
     @Test
-    public void checkNewResponseFileMessageTest() {
+    public void checkNewResponseFileMessageTest() throws InvalidBrowserException {
         Response response = new Response(
-                new OutputFile("directory", "file", new Browser(BrowserName.ANDROID), null, null, null, null, null,
+                new OutputFile("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null));
-        Assert.assertNull(response.getMessage());
+        assertNull(response.getMessage());
     }
 
     @Test
     public void checkNewResponseCodeCodeTest() {
         Response response = new Response(5);
-        Assert.assertEquals(response.getCode(), 5);
+        assertEquals(response.getCode(), 5);
     }
 
     @Test
     public void checkNewResponseCodeObjectTest() {
         Response response = new Response(5);
-        Assert.assertNull(response.getObjectData());
+        assertNull(response.getObjectData());
     }
 
     @Test
     public void checkNewResponseCodeArrayTest() {
         Response response = new Response(5);
-        Assert.assertNull(response.getArrayData());
+        assertNull(response.getArrayData());
     }
 
     @Test
     public void checkNewResponseCodeMessageTest() {
         Response response = new Response(5);
-        Assert.assertNull(response.getMessage());
+        assertNull(response.getMessage());
     }
 
     @Test
     public void checkNewResponseObjectCodeTest() {
         JsonObject json = new JsonObject();
         Response response = new Response(5, json, "");
-        Assert.assertEquals(response.getCode(), 5);
+        assertEquals(response.getCode(), 5);
     }
 
     @Test
     public void checkNewResponseObjectObjectTest() {
         JsonObject json = new JsonObject();
         Response response = new Response(5, json, "");
-        Assert.assertEquals(response.getObjectData(), json);
+        assertEquals(response.getObjectData(), json);
     }
 
     @Test
     public void checkNewResponseObjectArrayTest() {
         JsonObject json = new JsonObject();
         Response response = new Response(5, json, "");
-        Assert.assertNull(response.getArrayData());
+        assertNull(response.getArrayData());
     }
 
     @Test
     public void checkNewResponseObjectMessageTest() {
         JsonObject json = new JsonObject();
         Response response = new Response(5, json, "");
-        Assert.assertEquals(response.getMessage(), "");
+        assertEquals(response.getMessage(), "");
     }
 
     @Test
     public void checkNewResponseArrayCodeTest() {
         JsonArray json = new JsonArray();
         Response response = new Response(5, json, "");
-        Assert.assertEquals(response.getCode(), 5);
+        assertEquals(response.getCode(), 5);
     }
 
     @Test
     public void checkNewResponseArrayObjectTest() {
         JsonArray json = new JsonArray();
         Response response = new Response(5, json, "");
-        Assert.assertNull(response.getObjectData());
+        assertNull(response.getObjectData());
     }
 
     @Test
     public void checkNewResponseArrayArrayTest() {
         JsonArray json = new JsonArray();
         Response response = new Response(5, json, "");
-        Assert.assertEquals(response.getArrayData(), json);
+        assertEquals(response.getArrayData(), json);
     }
 
     @Test
     public void checkNewResponseArrayMessageTest() {
         JsonArray json = new JsonArray();
         Response response = new Response(5, json, "");
-        Assert.assertEquals(response.getMessage(), "");
+        assertEquals(response.getMessage(), "");
     }
 
     @Test
     public void checkSetObjectTest() {
         JsonObject json = new JsonObject();
         Response response = new Response(5, json, "");
-        Assert.assertEquals(response.getObjectData(), json);
+        assertEquals(response.getObjectData(), json);
         json.addProperty("name", "john");
         response.setObjectData(json);
-        Assert.assertEquals(response.getObjectData(), json);
+        assertEquals(response.getObjectData(), json);
     }
 
     @Test
     public void checkSetArrayTest() {
         JsonArray json = new JsonArray();
         Response response = new Response(5, json, "");
-        Assert.assertEquals(response.getArrayData(), json);
+        assertEquals(response.getArrayData(), json);
         json.add("name");
         response.setArrayData(json);
-        Assert.assertEquals(response.getArrayData(), json);
+        assertEquals(response.getArrayData(), json);
     }
 
     @Test
@@ -170,10 +172,10 @@ public class ResponseTest {
         JsonArray json = new JsonArray();
         String message = "";
         Response response = new Response(5, json, message);
-        Assert.assertEquals(response.getMessage(), message);
+        assertEquals(response.getMessage(), message);
         String newMessage = "hello world";
         response.setMessage(newMessage);
-        Assert.assertEquals(response.getMessage(), newMessage);
+        assertEquals(response.getMessage(), newMessage);
     }
 
     @Test
@@ -191,7 +193,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals(5);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a response code of <b>5</b></td>\n    <td>Found a response code of <b>5</b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
     }
 
@@ -203,7 +205,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals(6);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a response code of <b>6</b></td>\n    <td>Found a response code of <b>5</b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
     }
 
@@ -215,7 +217,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals(json);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;" +
                         "\"john\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
@@ -229,7 +231,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals(new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\{\\}</i></div></td>\n    <td>Found a response of: " +
                         "<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
@@ -243,7 +245,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals(new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\{\\}</i></div></td>\n    <td>Found a response of: " +
                         "<div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
@@ -257,7 +259,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals(json);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>Found " +
                         "a response of: <div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
@@ -271,7 +273,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals(new JsonArray());
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\[\\]</i></div></td>\n    <td>Found a response of: " +
                         "<div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
@@ -285,7 +287,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals(new JsonArray());
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\[\\]</i></div></td>\n    <td>Found a response of: " +
                         "<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
@@ -297,7 +299,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals("Some message");
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: '<i>Some message</i>'</td>\n    <td>Found " +
                         "a response of: '<i>Some message</i>'</td>\n    <td>[0-9]+ms" +
@@ -310,7 +312,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals("Some message");
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: '<i>Some message</i>'</td>\n    <td>Found " +
                         "a response of: '<i>SOME MESSAGE</i>'</td>\n    <td>[0-9]+ms" +
@@ -323,7 +325,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertEquals("");
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response of: '<i></i>'</td>\n    <td>Found " +
                         "a response of: '<i>null</i>'</td>\n    <td>[0-9]+ms" +
@@ -340,7 +342,7 @@ public class ResponseTest {
         pairs.put("name", "john");
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
     }
@@ -355,7 +357,7 @@ public class ResponseTest {
         pairs.put("name1", "john");
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
     }
@@ -370,7 +372,7 @@ public class ResponseTest {
         pairs.put("name", "john1");
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : john1</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
@@ -386,7 +388,7 @@ public class ResponseTest {
         pairs.put("name", 5);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
@@ -403,7 +405,7 @@ public class ResponseTest {
         pairs.put("name1", 5);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
@@ -420,7 +422,7 @@ public class ResponseTest {
         pairs.put("name", 6);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 6</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
@@ -437,7 +439,7 @@ public class ResponseTest {
         pairs.put("name", 5.5);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 5.5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
@@ -454,7 +456,7 @@ public class ResponseTest {
         pairs.put("name1", 5.5);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 5.5</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
@@ -471,7 +473,7 @@ public class ResponseTest {
         pairs.put("name", 6.5);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 6.5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
@@ -488,7 +490,7 @@ public class ResponseTest {
         pairs.put("name", 5.5f);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 5.5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
@@ -505,7 +507,7 @@ public class ResponseTest {
         pairs.put("name1", 5.5f);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 5.5</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
@@ -522,7 +524,7 @@ public class ResponseTest {
         pairs.put("name", 6.5f);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 6.5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
@@ -539,7 +541,7 @@ public class ResponseTest {
         pairs.put("name", 5L);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
@@ -556,7 +558,7 @@ public class ResponseTest {
         pairs.put("name1", 5L);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 5</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
@@ -573,7 +575,7 @@ public class ResponseTest {
         pairs.put("name", 6L);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 6</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
@@ -590,7 +592,7 @@ public class ResponseTest {
         pairs.put("name", true);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : true</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;true<br/>\\}</i></div></td>\n    " +
@@ -607,7 +609,7 @@ public class ResponseTest {
         pairs.put("name1", true);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : true</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;true<br/>\\}</i></div></td>\n " +
@@ -624,7 +626,7 @@ public class ResponseTest {
         pairs.put("name", false);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : false</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;true<br/>\\}</i></div></td>\n " +
@@ -641,7 +643,7 @@ public class ResponseTest {
         pairs.put("name", (byte) 0);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 0</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;0<br/>\\}</i></div></td>\n    " +
@@ -658,7 +660,7 @@ public class ResponseTest {
         pairs.put("name1", (byte) 0);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 0</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;0<br/>\\}</i></div></td>\n    " +
@@ -675,7 +677,7 @@ public class ResponseTest {
         pairs.put("name", (byte) 1);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 1</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;0<br/>\\}</i></div></td>\n    " +
@@ -692,7 +694,7 @@ public class ResponseTest {
         pairs.put("name", 'a');
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : a</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"a\"<br/>\\}</i></div></td>\n    " +
@@ -709,7 +711,7 @@ public class ResponseTest {
         pairs.put("name1", 'a');
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : a</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"a\"<br/>\\}</i></div></td>\n" +
@@ -726,7 +728,7 @@ public class ResponseTest {
         pairs.put("name", 'b');
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : b</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"a\"<br/>\\}</i></div></td>\n" +
@@ -746,7 +748,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertContains(map);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : \\{\"first\":\"john\"," +
                         "\"last\":\"smith\"\\}</div></i></div></td>\n    <td>Found a response " +
@@ -769,7 +771,7 @@ public class ResponseTest {
         map.put("name", badChild);
         response.assertContains(map);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : \\{\"first\":\"john\"\\}</div></i></div></td>\n    " +
                         "<td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
@@ -788,7 +790,7 @@ public class ResponseTest {
         map.put("name1", child);
         response.assertContains(map);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : \\{\"first\":\"john\"," +
                         "\"last\":\"smith\"\\}</div></i></div></td>\n    <td>Found a response of: " +
@@ -808,7 +810,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertContains(map);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : \\[\"john\",\"smith\"\\]</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\[<br/>\\&nbsp;\\&nbsp;\\&nbsp;" +
@@ -831,7 +833,7 @@ public class ResponseTest {
         map.put("name", badChild);
         response.assertContains(map);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : \\[\"john\"\\]</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\[<br/>\\&nbsp;\\&nbsp;\\&nbsp;" +
@@ -853,7 +855,7 @@ public class ResponseTest {
         map.put("name1", child);
         response.assertContains(map);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : \\[\"john\",\"smith\"\\]</div></i></div></td>\n   " +
                         " <td>Found a response " +
@@ -873,7 +875,7 @@ public class ResponseTest {
         pairs.put("name1", "john");
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
     }
@@ -888,7 +890,7 @@ public class ResponseTest {
         pairs.put("name", 5);
         response.assertContains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches("[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n" +
+        assertTrue(content.matches("[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n" +
                 "    <td>Expected to find a response containing: <div><i><div>name : 5</div></i></div></td>\n" +
                 "    <td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;" +
                 "5<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n" +
@@ -906,7 +908,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertContains(child);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
     }
@@ -924,7 +926,7 @@ public class ResponseTest {
         badChild.addProperty("first", "john");
         response.assertContains(badChild);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
     }
@@ -938,7 +940,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertContains(json);
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
     }
@@ -949,7 +951,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertContains("message");
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: '<i>message</i>'</td>\n    <td>Found a response of: " +
                         "'<i>Some message</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
@@ -962,7 +964,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertContains("message ");
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: '<i>message </i>'</td>\n    <td>Found a response of: " +
                         "'<i>Some message</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
@@ -975,7 +977,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertContains("");
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: '<i></i>'</td>\n    <td>Found a response of: " +
                         "'<i>null</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
@@ -988,7 +990,7 @@ public class ResponseTest {
         response.setOutputFile(outputFile);
         response.assertContains("null");
         String content = Files.toString(file, Charsets.UTF_8);
-        Assert.assertTrue(content.matches(
+        assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>Expected to find a " +
                         "response containing: '<i>null</i>'</td>\n    <td>Found a response of: " +
                         "'<i>null</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
@@ -998,19 +1000,19 @@ public class ResponseTest {
     @Test
     public void castObjectNullNullTest() {
         Response response = new Response(5, new JsonObject(), null);
-        Assert.assertNull(response.castObject(null, null));
+        assertNull(response.castObject(null, null));
     }
 
     @Test
     public void castObjectNullTest() {
         Response response = new Response(5, new JsonObject(), null);
-        Assert.assertEquals(response.castObject(null, new JsonObject()), new JsonObject());
+        assertEquals(response.castObject(null, new JsonObject()), new JsonObject());
     }
 
     @Test
     public void castObjectMismatchTest() {
         Response response = new Response(5, new JsonObject(), null);
-        Assert.assertEquals(response.castObject("Hello", new JsonObject()), new JsonObject());
+        assertEquals(response.castObject("Hello", new JsonObject()), new JsonObject());
     }
 
     @Test
@@ -1018,7 +1020,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", "World");
-        Assert.assertEquals(response.castObject("Hello", json.get("name")), "World");
+        assertEquals(response.castObject("Hello", json.get("name")), "World");
     }
 
     @Test
@@ -1026,7 +1028,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
-        Assert.assertEquals(response.castObject(6, json.get("name")), 5);
+        assertEquals(response.castObject(6, json.get("name")), 5);
     }
 
     @Test
@@ -1034,7 +1036,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5d);
-        Assert.assertEquals(response.castObject(6d, json.get("name")), 5d);
+        assertEquals(response.castObject(6d, json.get("name")), 5d);
     }
 
     @Test
@@ -1042,7 +1044,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5f);
-        Assert.assertEquals(response.castObject(6f, json.get("name")), 5f);
+        assertEquals(response.castObject(6f, json.get("name")), 5f);
     }
 
     @Test
@@ -1050,7 +1052,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Assert.assertEquals(response.castObject(6L, json.get("name")), 5L);
+        assertEquals(response.castObject(6L, json.get("name")), 5L);
     }
 
     @Test
@@ -1058,7 +1060,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.0);
-        Assert.assertEquals(response.castObject(6L, json.get("name")), 5L);
+        assertEquals(response.castObject(6L, json.get("name")), 5L);
     }
 
     @Test
@@ -1066,7 +1068,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Assert.assertEquals(response.castObject(6, json.get("name")), 5);
+        assertEquals(response.castObject(6, json.get("name")), 5);
     }
 
     @Test
@@ -1074,7 +1076,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Assert.assertEquals(response.castObject(6.0, json.get("name")), 5.0);
+        assertEquals(response.castObject(6.0, json.get("name")), 5.0);
     }
 
     @Test
@@ -1082,7 +1084,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Assert.assertEquals(response.castObject("Hello", json.get("name")), "5");
+        assertEquals(response.castObject("Hello", json.get("name")), "5");
     }
 
     @Test
@@ -1090,7 +1092,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Assert.assertEquals(response.castObject(false, json.get("name")), true);
+        assertEquals(response.castObject(false, json.get("name")), true);
     }
 
     @Test
@@ -1098,7 +1100,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Assert.assertEquals(response.castObject("Hello", json.get("name")), "true");
+        assertEquals(response.castObject("Hello", json.get("name")), "true");
     }
 
     @Test
@@ -1106,7 +1108,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Assert.assertEquals(response.castObject(5, json.get("name")), new JsonPrimitive(true));
+        assertEquals(response.castObject(5, json.get("name")), new JsonPrimitive(true));
     }
 
     @Test
@@ -1114,7 +1116,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
-        Assert.assertEquals(response.castObject((byte) 0, json.get("name")), (byte) 9);
+        assertEquals(response.castObject((byte) 0, json.get("name")), (byte) 9);
     }
 
     @Test
@@ -1122,7 +1124,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
-        Assert.assertEquals(response.castObject("Hello", json.get("name")), "9");
+        assertEquals(response.castObject("Hello", json.get("name")), "9");
     }
 
     @Test
@@ -1130,7 +1132,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
-        Assert.assertEquals(response.castObject(3, json.get("name")), 9);
+        assertEquals(response.castObject(3, json.get("name")), 9);
     }
 
     @Test
@@ -1138,7 +1140,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        Assert.assertEquals(response.castObject('b', json.get("name")), 'a');
+        assertEquals(response.castObject('b', json.get("name")), 'a');
     }
 
     @Test
@@ -1146,7 +1148,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        Assert.assertEquals(response.castObject("b", json.get("name")), "a");
+        assertEquals(response.castObject("b", json.get("name")), "a");
     }
 
     @Test
@@ -1154,7 +1156,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", '5');
-        Assert.assertEquals(response.castObject(2, json.get("name")), 5);
+        assertEquals(response.castObject(2, json.get("name")), 5);
     }
 
     @Test
@@ -1162,7 +1164,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.addProperty("name", '5');
-        Assert.assertEquals(response.castObject(2.0, json.get("name")), 5.0);
+        assertEquals(response.castObject(2.0, json.get("name")), 5.0);
     }
 
     @Test
@@ -1170,7 +1172,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
-        Assert.assertEquals(response.castObject(new JsonObject(), json.get("name")), new JsonObject());
+        assertEquals(response.castObject(new JsonObject(), json.get("name")), new JsonObject());
     }
 
     @Test
@@ -1178,7 +1180,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
-        Assert.assertEquals(response.castObject(new JsonArray(), json.get("name")), new JsonObject());
+        assertEquals(response.castObject(new JsonArray(), json.get("name")), new JsonObject());
     }
 
     @Test
@@ -1186,7 +1188,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
-        Assert.assertEquals(response.castObject("Hello", json.get("name")), new JsonObject());
+        assertEquals(response.castObject("Hello", json.get("name")), new JsonObject());
     }
 
     @Test
@@ -1194,7 +1196,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
-        Assert.assertEquals(response.castObject(new JsonArray(), json.get("name")), new JsonArray());
+        assertEquals(response.castObject(new JsonArray(), json.get("name")), new JsonArray());
     }
 
     @Test
@@ -1202,7 +1204,7 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
-        Assert.assertEquals(response.castObject(new JsonObject(), json.get("name")), new JsonArray());
+        assertEquals(response.castObject(new JsonObject(), json.get("name")), new JsonArray());
     }
 
     @Test
@@ -1210,6 +1212,6 @@ public class ResponseTest {
         Response response = new Response(5, new JsonObject(), null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
-        Assert.assertEquals(response.castObject("Hello", json.get("name")), new JsonArray());
+        assertEquals(response.castObject("Hello", json.get("name")), new JsonArray());
     }
 }
