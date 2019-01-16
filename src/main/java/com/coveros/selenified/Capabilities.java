@@ -102,7 +102,7 @@ public class Capabilities {
                 break;
             case SAFARI:
                 this.desiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
-                this.desiredCapabilities.setAcceptInsecureCerts(false);
+//                this.desiredCapabilities.setAcceptInsecureCerts(false);
                 break;
             default:
                 this.desiredCapabilities.setPlatform(Platform.ANY);
