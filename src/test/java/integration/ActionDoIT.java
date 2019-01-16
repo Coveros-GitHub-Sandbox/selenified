@@ -1358,7 +1358,7 @@ public class ActionDoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "do", "cert"},
+    @Test(groups = {"integration", "action", "do", "cert", "no-safari"},
             description = "An integration test to ensure a site with an invalid certificate can be properly handled")
     public void badSslCertTest() {
         // use this object to manipulate the app

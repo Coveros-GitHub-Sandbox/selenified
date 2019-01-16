@@ -29,8 +29,9 @@ public class ActionWaitIT extends WebBase {
         app.waitFor().changeDefaultWait(0.5);
         app.newElement(Locator.ID, "delayed_alert_button").click();
         app.waitFor().alertPresent();
-        // verify 1 issue
-        finish(1);
+        app.azzert().alertPresent();
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "wait", "alert"},
@@ -41,7 +42,8 @@ public class ActionWaitIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "delayed_alert_button").click();
         app.waitFor().alertPresent();
-        // verify 1 issue
+        app.azzert().alertPresent();
+        // verify no issues
         finish();
     }
 
