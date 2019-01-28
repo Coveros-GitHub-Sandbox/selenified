@@ -79,9 +79,8 @@ node {
                 }
                 stage('Execute Hub Tests') {
                     try {
-                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-                        // once alternate PR is in, we need screensizes and extra browsers run for firefox and chrome
-                        // name=Chrome&screensize=maximum,name=Chrome&platform=macOS 10.14,name=Firefox,name=Firefox&platform=macOS 10.14&screensize=1920x1440
+//                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
