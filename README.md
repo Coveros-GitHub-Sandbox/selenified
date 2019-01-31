@@ -5,8 +5,7 @@ both web and API testing, wraps and extends Selenium calls to more appropriately
 and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in 
 parallel. It can be a great starting point for building or improving test automation in your organization.
 
-## Test Examples
-### Getting Started
+## Getting Started
 One of Selenified's goals is to be a framework that is easy to drop in to an existing project. You can 
 easily have Selenified running within minutes using only a Maven POM, Java test class and a TestNG XML Suite.
 
@@ -43,6 +42,7 @@ dependencies {
 }
 ```
 
+### Sample File
 Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
 
 ```java
@@ -120,10 +120,25 @@ In the next test, sampleTestWDataProvider, the App class is used to generate ele
 to interact with; type a search term, submit the search term and the wait for the page to load. 
 We then use that same element in order to verify the title contains the same search term. The 
 'google search terms' dataProvider provides a search term to the test. In the third test, a call 
-is made to the google maps api to retrieve the GPS coordinates of the city of Chicago, then verify
-the response code.
+is made directly to the search api, then only the response code is verified.
 For more information on the App and Call class plus all the other classes used by Selenified, check out the
 documentation [here](https://coveros.github.io/selenified).
+
+### Test Execution
+To execute these tests, either do that directly from your IDE, or you can execute the below commands. More 
+details on test execution is located [here](##Running_Tests) 
+#### Maven
+```bash
+mvn verfiy
+```
+#### Ant
+```bash
+ant test
+```
+#### Gradle
+```bash
+gradle seleniumTest 
+```
 
 ## Writing Tests
 ### Create A New Test Suite
@@ -660,7 +675,7 @@ ant -DappURL=http://google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=
 ```
 The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
+ant test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
 #### Maven
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
