@@ -17,84 +17,96 @@ writing your test cases. If you’re using a build tool, simply add the jar as a
 #### Maven
 Update your pom.xml file to include
 ```xml
-    <dependency>
+<dependency>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
     <version>3.0.3</version>
     <scope>test</scope>
-    </dependency>
+</dependency>
 ```
 
 #### Ant
 Update your ivy.xml file to include
 ```xml
-    <ivy-module>
-        <dependencies>
-            <dependency org="com.coveros" name="selenified" rev="3.0.3"/>
-        </dependencies>
-    </ivy-module>
+<ivy-module>
+    <dependencies>
+        <dependency org="com.coveros" name="selenified" rev="3.0.3"/>
+    </dependencies>
+</ivy-module>
 ```
 
 #### Gradle
 Update your build.gradle file to include
 ```groovy
-    dependencies {
-        testCompile 'com.coveros:selenified:3.0.3'
-    }
+dependencies {
+    testCompile 'com.coveros:selenified:3.0.3'
+}
 ```
 
 Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
 
 ```java
-    public class SampleTests extends Selenified {
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
+import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.Request;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-        @DataProvider(name = "google search terms", parallel = true)
-        public Object[][] DataSetOptions() {
-            return new Object[][] { new Object[] { "python" }, 
-                new Object[] { "perl" }, new Object[] { "bash" }, };
-        }
+import java.util.HashMap;
+import java.util.Map;
 
-        @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
-        public void sampleTest() {
-            // use this object to manipulate the app
-            App app = this.apps.get();
-            // verify the correct page title
-            app.azzert().titleEquals("Google");
-            // verify no issues
-            finish();
-        }
+public class SampleTests extends Selenified {
 
-         @Test(dataProvider = "google search terms", groups = { "sample"},
-                         description = "A sample selenium test using a data provider to perform a google search")
-         public void sampleTestWDataProvider(String searchTerm) {
-             // use this object to manipulate the app
-             App app = this.apps.get();
-             // find the search box element and create the object
-             Element searchBox = app.newElement(Locator.NAME, "q");
-             //perform the search and submit
-             searchBox.type(searchTerm);
-             searchBox.submit();
-             //wait for the page to return the results
-             app.newElement(Locator.ID, "resultStats").waitFor().present();
-             // verify the correct page title
-             app.azzert().titleEquals(searchTerm + " - Google Search");
-             // verify no issues
-             finish();
-         }
-
-         @Test(groups = { "sampleServices" }, description = "A sample web services test to verify the response code")
-             public void sampleServicesCityTest() {
-             Map<String, String> params = new HashMap<>();
-             params.put("address", "chicago");
-             // use this object to verify the app looks as expected
-             Call call = this.calls.get();
-             // retrieve the zip code and verify the return code
-             call.get("", new Request(params)).assertEquals(200);
-             // verify no issues
-             finish();
-         }
-
+    @DataProvider(name = "google search terms", parallel = true)
+    public Object[][] DataSetOptions() {
+        return new Object[][] { new Object[] { "python" }, 
+            new Object[] { "perl" }, new Object[] { "bash" }, };
     }
+
+    @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
+    public void sampleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // verify the correct page title
+        app.azzert().titleEquals("Google");
+        // verify no issues
+        finish();
+    }
+
+     @Test(dataProvider = "google search terms", groups = { "sample"},
+                     description = "A sample selenium test using a data provider to perform a google search")
+     public void sampleTestWDataProvider(String searchTerm) {
+         // use this object to manipulate the app
+         App app = this.apps.get();
+         // find the search box element and create the object
+         Element searchBox = app.newElement(Locator.NAME, "q");
+         //perform the search and submit
+         searchBox.type(searchTerm);
+         searchBox.submit();
+         //wait for the page to return the results
+         app.newElement(Locator.ID, "resultStats").waitFor().present();
+         // verify the correct page title
+         app.azzert().titleEquals(searchTerm + " - Google Search");
+         // verify no issues
+         finish();
+     }
+
+     @Test(groups = { "sampleServices" }, description = "A sample web services test to verify the response code")
+         public void sampleServicesCityTest() {
+         Map<String, String> params = new HashMap<>();
+         params.put("address", "chicago");
+         // use this object to verify the app looks as expected
+         Call call = this.calls.get();
+         // retrieve the zip code and verify the return code
+         call.get("", new Request(params)).assertEquals(200);
+         // verify no issues
+         finish();
+     }
+
+}
 ```
 
 In the first test, sampleTest, the App class is used to check the title of the page. 
