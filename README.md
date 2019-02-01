@@ -14,37 +14,39 @@ It’s very simple to get started using Selenified. Just add selenified.jar to y
 writing your test cases. If you’re using a build tool, simply add the jar as a dependency.
 
 #### Maven
-Update your pom.xml file to include
+Update your `pom.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
-<dependency>
-    <groupId>com.coveros</groupId>
-    <artifactId>selenified</artifactId>
-    <version>3.0.3</version>
-    <scope>test</scope>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>com.coveros</groupId>
+        <artifactId>selenified</artifactId>
+        <version>3.0.3</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+
 ```
 
 #### Ant
-Update your ivy.xml file to include
+Update your `ivy.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
-<ivy-module>
-    <dependencies>
-        <dependency org="com.coveros" name="selenified" rev="3.0.3"/>
-    </dependencies>
-</ivy-module>
+<dependencies>
+    <dependency org="com.coveros" name="selenified" rev="3.0.3" />
+</dependencies>
 ```
 
 #### Gradle
-Update your build.gradle file to include
+Update your `build.gradle` file to include (or add the `testCompile` line to your current dependencies)
 ```groovy
 dependencies {
-    testCompile 'com.coveros:selenified:3.0.3'
+    testCompile group: 'com.coveros', name: 'selenified', version: '3.0.3'
 }
 ```
 
 ### Sample File
-Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
-
+It is suggested to setup your funcctional Selenified tests as integration tests, following typical java structure, 
+in the `src/test/java` folder, in packages if desired. A sample file is included below, which will compile and run
+if you create the file `src/test/javaReadmeSampleIT.java`, and paste in the contents  
 ```java
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
@@ -103,7 +105,7 @@ public class ReadmeSampleIT extends Selenified {
 
     @Test(groups = {"sampleServices"}, description = "A sample web services test to verify the response code")
     public void sampleServicesSearchTest() {
-        HashMap<String, Object> params = new HashMap<>();
+        HashMap<String, Object> params = new HashMap();
         params.put("s", "Max+Saperstone");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -114,7 +116,6 @@ public class ReadmeSampleIT extends Selenified {
     }
 }
 ```
-
 In the first test, sampleTest, the App class is used to check the title of the page. 
 In the next test, sampleTestWDataProvider, the App class is used to generate elements we want
 to interact with; type a search term, submit the search term and the wait for the page to load. 
@@ -126,18 +127,63 @@ documentation [here](https://coveros.github.io/selenified).
 
 ### Test Execution
 To execute these tests, either do that directly from your IDE, or you can execute the below commands. More 
-details on test execution is located [here](##Running_Tests) 
+details on test execution and setup is located [here](##Running_Tests).
 #### Maven
+If following the setup indicated, you'll need to use the failsafe plugin in order to execute the tests.
+Update your `pom.xml` file to include
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>3.0.0-M3</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+Then from the command line run
 ```bash
 mvn verfiy
 ```
 #### Ant
+If following the setup indicated, you'll need to setup your test files in a testng block. Update your `build.xml`
+file to include
+```xml
+<taskdef name="testng" classname="org.testng.TestNGAntTask">
+    <classpath location="lib/testng-6.14.3.jar" />
+</taskdef>
+<target name="testng" depends="compile">    
+    <testng classpathref="classpath" outputDir="./target" haltOnFailure="true" verbose="2">
+        <classfileset dir="./target/classes" includes="**/*IT.class" />
+    </testng>
+</target>
+```
+Additionally, you'll need to add a target to execute your tests. Update your `build.xml` file to include
+```xml
+<target name="test" depends="testng" description="Run integration tests in parallel">
+    <java classpathref="classpath" classname="org.testng.TestNG" failonerror="true" />
+</target>
+```
+Then from the command line run
 ```bash
 ant test
 ```
 #### Gradle
+If following the setup indicated, you'll need to add a task to execute your tests. Update your `build.gradle`
+file to include
+```groovy
+task selenified(type:Test) {
+    useTestNG() {}
+}
+```
+Then from the command line run
 ```bash
-gradle seleniumTest 
+gradle selenified 
 ```
 
 ## Writing Tests
@@ -700,12 +746,12 @@ gradle clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-gradle seleniumTest -DappURL=google.com -Dbrowser=Firefox
+gradle selenified -DappURL=google.com -Dbrowser=Firefox
 ```
 To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
 additional parameter, groups with the desired group to test
 ```
-gradle seleniumTest -Pgroups=virtual
+gradle selenified -Pgroups=virtual
 ```
 ## Viewing Results
 To view test results, navigate to the newly created target-output folder within the framework directory. Within 
