@@ -33,8 +33,8 @@ import java.util.Date;
  * particular page or element. If an object isn't present, null will be returned
  *
  * @author Max Saperstone
- * @version 3.0.0
- * @lastupdate 8/13/2017
+ * @version 3.0.4
+ * @lastupdate 5/16/2018
  */
 public class Get {
     private static final Logger log = Logger.getLogger(Get.class);

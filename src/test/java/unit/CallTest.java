@@ -2,10 +2,11 @@ package unit;
 
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
+
+import static org.testng.Assert.assertEquals;
 
 public class CallTest {
 
@@ -25,14 +26,14 @@ public class CallTest {
     public void appendCredentialsNull() {
         HTTP http = new HTTP("SomeURL");
         Call call = new Call(http, null, new HashMap<>());
-        Assert.assertEquals(call.getCredentialString(), "");
+        assertEquals(call.getCredentialString(), "");
     }
 
     @Test
     public void appendCredentials() {
         HTTP http = new HTTP("SomeURL", "User", "Pass");
         Call call = new Call(http, null, new HashMap<>());
-        Assert.assertEquals(call.getCredentialString(),
+        assertEquals(call.getCredentialString(),
                 "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");
     }
 
@@ -41,7 +42,7 @@ public class CallTest {
         HTTP http = new HTTP("SomeURL");
         Call call = new Call(http, null, new HashMap<>());
         call.addCredentials("User", "Pass");
-        Assert.assertEquals(call.getCredentialString(),
+        assertEquals(call.getCredentialString(),
                 "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");
     }
 }
