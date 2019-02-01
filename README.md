@@ -44,9 +44,9 @@ dependencies {
 ```
 
 ### Sample File
-It is suggested to setup your funcctional Selenified tests as integration tests, following typical java structure, 
+It is suggested to setup your funcno rushtional Selenified tests as integration tests, following typical java structure, 
 in the `src/test/java` folder, in packages if desired. A sample file is included below, which will compile and run
-if you create the file `src/test/javaReadmeSampleIT.java`, and paste in the contents  
+if you create the file `src/test/java/ReadmeSampleIT.java`, and paste in the contents  
 ```java
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
