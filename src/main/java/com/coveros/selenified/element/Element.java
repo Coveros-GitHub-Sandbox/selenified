@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * Element an object representative of a web element on a particular page that
  * is under test.
- * <p>
+ *
  * Elements should be directly interacted with, with actions performed on them,
  * and assertions make about their current state
  *
