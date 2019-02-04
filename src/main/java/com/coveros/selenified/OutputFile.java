@@ -309,7 +309,6 @@ public class OutputFile {
             str = str.replaceAll("</body>", "<p style='page-break-before: always' id='image-" + imageCount++ + "'></p>" +
                     m.group().replaceAll("width='300px' style(?s).*?'>", "height='600px' width='1000px'>") + "</body>");
         }
-        System.out.println(str);
         return str;
     }
 
