@@ -34,8 +34,8 @@ import java.util.Set;
  * failing tests.
  *
  * @author Max Saperstone
- * @version 3.0.3
- * @lastupdate 5/21/2018
+ * @version 3.0.4
+ * @lastupdate 1/13/2019
  */
 class Assert {
 
@@ -76,9 +76,7 @@ class Assert {
     boolean isPresent() {
         if (!element.is().present()) {
             element.waitFor().present();
-            if (!element.is().present()) {
-                return false;
-            }
+            return element.is().present();
         }
         return true;
     }

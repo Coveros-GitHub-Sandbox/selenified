@@ -1,20 +1,20 @@
 /*
  * Copyright 2018 Coveros, Inc.
- * 
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -24,7 +24,7 @@ import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
-import com.coveros.selenified.utilities.TestSetup;
+import com.coveros.selenified.utilities.TestCase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.testng.log4testng.Logger;
@@ -48,12 +48,13 @@ import java.util.zip.ZipOutputStream;
  * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
- * @version 3.0.3
- * @lastupdate 9/13/2017
+ * @version 3.0.4
+ * @lastupdate 1/12/2019
  */
 public class OutputFile {
 
     private static final Logger log = Logger.getLogger(OutputFile.class);
+    public static final String PASSORFAIL = "PASSORFAIL";
 
     private App app = null;
 
@@ -68,7 +69,7 @@ public class OutputFile {
     private final String directory;
     private final File file;
     private final String filename;
-    private Browser browser = new Browser(BrowserName.NONE);
+    private Capabilities capabilities;
     private final List<String> screenshots = new ArrayList<>();
 
     // timing of the test
@@ -92,30 +93,30 @@ public class OutputFile {
      * Creates a new instance of the OutputFile, which will serve as the
      * detailed log
      *
-     * @param directory  - a string of the directory holding the files
-     * @param test       - a string value of the test name, typically the method name
-     * @param browser    - the browser the tests are running on
-     * @param url        - the url all of the tests are running against
-     * @param suite      - the test suite associated with the particular test
-     * @param group      - any testng groups associated with the particular test
-     * @param author     - the author associated with the particular test
-     * @param version    - the version of the test suite associated with the particular
-     *                   test
-     * @param objectives - the test objectives, taken from the testng description
+     * @param directory    - a string of the directory holding the files
+     * @param test         - a string value of the test name, typically the method name
+     * @param capabilities - the capabilities of the tests that are running
+     * @param url          - the url all of the tests are running against
+     * @param suite        - the test suite associated with the particular test
+     * @param group        - any testng groups associated with the particular test
+     * @param author       - the author associated with the particular test
+     * @param version      - the version of the test suite associated with the particular
+     *                     test
+     * @param objectives   - the test objectives, taken from the testng description
      */
     @SuppressWarnings("squid:S00107")
-    public OutputFile(String directory, String test, Browser browser, String url, String suite, String group,
+    public OutputFile(String directory, String test, Capabilities capabilities, String url, String suite, String group,
                       String author, String version, String objectives) {
         this.directory = directory;
         this.test = test;
-        this.browser = browser;
+        this.capabilities = capabilities;
         this.url = url;
         this.suite = suite;
         this.group = group;
         this.author = author;
         this.version = version;
         this.objectives = objectives;
-        filename = test + browser.getName() + ".html";
+        filename = generateFilename();
         file = new File(directory, filename);
         setupFile();
         setStartTime();
@@ -173,6 +174,7 @@ public class OutputFile {
      * @return Boolean: is the browser a 'real' browser
      */
     private boolean isRealBrowser() {
+        Browser browser = capabilities.getBrowser();
         return browser.getName() != BrowserName.NONE && browser.getName() != BrowserName.HTMLUNIT;
     }
 
@@ -186,11 +188,28 @@ public class OutputFile {
     }
 
     /**
+     * Generates a unique filename, based on the package, class, method name, and invocation count
+     *
+     * @return String: the filename
+     */
+    private String generateFilename() {
+        String counter = "";
+        if (capabilities.getInstance() > 0) {
+            counter = "_" + capabilities.getInstance();
+        }
+        return test + counter + ".html";
+    }
+
+    /**
      * Creates the directory and file to hold the test output file
      */
     private void setupFile() {
-        if (!new File(directory).exists()) {
-            new File(directory).mkdirs();
+        if (!new File(directory).exists() && !new File(directory).mkdirs()) {
+            try {
+                throw new IOException("Unable to create output directory");
+            } catch (IOException e) {
+                log.error(e);
+            }
         }
         if (!file.exists()) {
             try {
@@ -508,7 +527,7 @@ public class OutputFile {
             out.write("    <th>URL Under Test</th>\n");
             out.write(START_CELL + "<a href='" + url + "'>" + url + "</a>" + END_CELL);
             out.write("    <th>Browser</th>\n");
-            out.write(START_CELL + browser.getName() + END_CELL);
+            out.write(START_CELL + capabilities.getBrowser().getDetails() + END_CELL);
             out.write(swapRow);
             out.write("    <th>Testing Group</th>\n");
             out.write(START_CELL + group + END_CELL);
@@ -560,7 +579,7 @@ public class OutputFile {
      * file is analyzed to determine if the test passed or failed, and that
      * information is updated, along with the overall timing of the test
      */
-    public void finalizeOutputFile() {
+    public void finalizeOutputFile(int testStatus) {
         // reopen the file
         try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             out.write("  </table>\n");
@@ -575,10 +594,12 @@ public class OutputFile {
         replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes));
         replaceInFile("STEPSPASSED", Integer.toString(passes));
         replaceInFile("STEPSFAILED", Integer.toString(fails));
-        if (fails == 0) {
-            replaceInFile("PASSORFAIL", "<font size='+2' class='pass'><b>PASS</b></font>");
+        if (fails == 0 && errors == 0 && testStatus == 1) {
+            replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>SUCCESS</b></font>");
+        } else if (fails == 0 && errors == 0) {
+            replaceInFile(PASSORFAIL, "<font size='+2' class='warning'><b>" + Result.values()[testStatus] + "</b></font>");
         } else {
-            replaceInFile("PASSORFAIL", "<font size='+2' class='fail'><b>FAIL</b></font>");
+            replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAILURE</b></font>");
         }
         // record the time
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
@@ -664,7 +685,7 @@ public class OutputFile {
      */
     private String generateImageName() {
         long timeInSeconds = new Date().getTime();
-        String randomChars = TestSetup.getRandomString(10);
+        String randomChars = TestCase.getRandomString(10);
         return directory + "/" + timeInSeconds + "_" + randomChars + ".png";
     }
 

@@ -2,101 +2,171 @@ package unit;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import org.testng.Assert;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.fail;
 
 public class BrowserTest {
 
     @Test
     public void browsersTest() throws InvalidBrowserException {
-        Assert.assertEquals(Browser.lookup("CHROME"), Browser.BrowserName.CHROME);
-        Assert.assertEquals(Browser.lookup("chrome"), Browser.BrowserName.CHROME);
-        Assert.assertEquals(Browser.lookup("cHroMe"), Browser.BrowserName.CHROME);
+        assertEquals(Browser.lookup("CHROME"), Browser.BrowserName.CHROME);
+        assertEquals(Browser.lookup("chrome"), Browser.BrowserName.CHROME);
+        assertEquals(Browser.lookup("cHroMe"), Browser.BrowserName.CHROME);
     }
 
     @Test
     public void eachBrowsersTest() throws InvalidBrowserException {
-        Assert.assertEquals(Browser.lookup("NONE"), Browser.BrowserName.NONE);
-        Assert.assertEquals(Browser.lookup("HTMLUNIT"), Browser.BrowserName.HTMLUNIT);
-        Assert.assertEquals(Browser.lookup("FIREFOX"), Browser.BrowserName.FIREFOX);
-        Assert.assertEquals(Browser.lookup("CHROME"), Browser.BrowserName.CHROME);
-        Assert.assertEquals(Browser.lookup("INTERNETEXPLORER"), Browser.BrowserName.INTERNETEXPLORER);
-        Assert.assertEquals(Browser.lookup("EDGE"), Browser.BrowserName.EDGE);
-        Assert.assertEquals(Browser.lookup("ANDROID"), Browser.BrowserName.ANDROID);
-        Assert.assertEquals(Browser.lookup("IPAD"), Browser.BrowserName.IPAD);
-        Assert.assertEquals(Browser.lookup("IPHONE"), Browser.BrowserName.IPHONE);
-        Assert.assertEquals(Browser.lookup("OPERA"), Browser.BrowserName.OPERA);
-        Assert.assertEquals(Browser.lookup("SAFARI"), Browser.BrowserName.SAFARI);
-        Assert.assertEquals(Browser.lookup("PHANTOMJS"), Browser.BrowserName.PHANTOMJS);
+        assertEquals(Browser.lookup("NONE"), Browser.BrowserName.NONE);
+        assertEquals(Browser.lookup("HTMLUNIT"), Browser.BrowserName.HTMLUNIT);
+        assertEquals(Browser.lookup("FIREFOX"), Browser.BrowserName.FIREFOX);
+        assertEquals(Browser.lookup("CHROME"), Browser.BrowserName.CHROME);
+        assertEquals(Browser.lookup("INTERNETEXPLORER"), Browser.BrowserName.INTERNETEXPLORER);
+        assertEquals(Browser.lookup("EDGE"), Browser.BrowserName.EDGE);
+        assertEquals(Browser.lookup("OPERA"), Browser.BrowserName.OPERA);
+        assertEquals(Browser.lookup("SAFARI"), Browser.BrowserName.SAFARI);
+        assertEquals(Browser.lookup("PHANTOMJS"), Browser.BrowserName.PHANTOMJS);
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void browsersInvalidTest() throws InvalidBrowserException {
         Browser.lookup("HELLOWORLD");
+        fail("Expected an InvalidBrowserException");
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void checkNullBrowserTest() throws InvalidBrowserException {
+        new Browser(null);
+        fail("Expected an InvalidBrowserException");
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void checkInvalidBrowserTest() throws InvalidBrowserException {
+        new Browser("HELLOWORLD");
+        fail("Expected an InvalidBrowserException");
     }
 
     @Test
-    public void checkDefaultBrowserTest() {
-        Browser browser = new Browser(Browser.BrowserName.FIREFOX);
-        Assert.assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
-        Assert.assertNull(browser.getVersion());
-        Assert.assertNull(browser.getDevice());
-        Assert.assertNull(browser.getOrientation());
-        Assert.assertNull(browser.getPlatform());
+    public void checkBrowserNameTest() throws InvalidBrowserException {
+        Browser browser = new Browser("FIREFOX");
+        assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
+        assertNull(browser.getVersion());
+        assertNull(browser.getPlatform());
+        assertNull(browser.getScreensize());
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void checkBrowserDetailsBadNameTest() throws InvalidBrowserException {
+        new Browser("name=HELLOWORLD");
+        fail("Expected an InvalidBrowserException");
+    }
+
+    @Test(expectedExceptions = InvalidBrowserException.class)
+    public void checkBrowserDeviceNoNameTest() throws InvalidBrowserException {
+        new Browser("version=1.0.5");
+        fail("Expected an InvalidBrowserException");
     }
 
     @Test
-    public void checkBrowserNameTest() {
-        Browser browser = new Browser(Browser.BrowserName.FIREFOX);
-        browser.setName(Browser.BrowserName.CHROME);
-        Assert.assertEquals(browser.getName(), Browser.BrowserName.CHROME);
-        Assert.assertNull(browser.getVersion());
-        Assert.assertNull(browser.getDevice());
-        Assert.assertNull(browser.getOrientation());
-        Assert.assertNull(browser.getPlatform());
+    public void checkBrowserVersionTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&version=1.0.5");
+        assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
+        assertEquals(browser.getVersion(), "1.0.5");
+        assertNull(browser.getPlatform());
+        assertNull(browser.getScreensize());
     }
 
     @Test
-    public void checkBrowserVersionTest() {
-        Browser browser = new Browser(Browser.BrowserName.FIREFOX);
-        browser.setVersion("1.0.5");
-        Assert.assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
-        Assert.assertEquals(browser.getVersion(), "1.0.5");
-        Assert.assertNull(browser.getDevice());
-        Assert.assertNull(browser.getOrientation());
-        Assert.assertNull(browser.getPlatform());
+    public void checkBrowserPlatformTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&platform=Windows 10");
+        assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
+        assertNull(browser.getVersion());
+        assertEquals(browser.getPlatform(), Platform.WIN10);
+        assertNull(browser.getScreensize());
     }
 
     @Test
-    public void checkBrowserDeviceTest() {
-        Browser browser = new Browser(Browser.BrowserName.FIREFOX);
-        browser.setDevice("1.0.5");
-        Assert.assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
-        Assert.assertNull(browser.getVersion());
-        Assert.assertEquals(browser.getDevice(), "1.0.5");
-        Assert.assertNull(browser.getOrientation());
-        Assert.assertNull(browser.getPlatform());
+    public void checkBrowserScreensizeTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&screensize=100x200");
+        assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
+        assertNull(browser.getVersion());
+        assertNull(browser.getPlatform());
+        assertEquals(browser.getScreensize(), "100x200");
     }
 
     @Test
-    public void checkBrowserOrientationTest() {
-        Browser browser = new Browser(Browser.BrowserName.FIREFOX);
-        browser.setOrientation("1.0.5");
-        Assert.assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
-        Assert.assertNull(browser.getVersion());
-        Assert.assertNull(browser.getDevice());
-        Assert.assertEquals(browser.getOrientation(), "1.0.5");
-        Assert.assertNull(browser.getPlatform());
+    public void checkBrowserScreensizeMaximumTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&screensize=maximum");
+        assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
+        assertNull(browser.getVersion());
+        assertNull(browser.getPlatform());
+        assertEquals(browser.getScreensize(), "maximum");
     }
 
     @Test
-    public void checkBrowserPlatformTest() {
-        Browser browser = new Browser(Browser.BrowserName.FIREFOX);
-        browser.setPlatform("1.0.5");
-        Assert.assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
-        Assert.assertNull(browser.getVersion());
-        Assert.assertNull(browser.getDevice());
-        Assert.assertNull(browser.getOrientation());
-        Assert.assertEquals(browser.getPlatform(), "1.0.5");
+    public void checkBrowserScreensizeMaximumCaseTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&screensize=maxImum");
+        assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
+        assertNull(browser.getVersion());
+        assertNull(browser.getPlatform());
+        assertEquals(browser.getScreensize(), "maxImum");
+    }
+
+    @Test
+    public void checkBrowserScreensizeBadTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&screensize=large");
+        assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
+        assertNull(browser.getVersion());
+        assertNull(browser.getPlatform());
+        assertNull(browser.getScreensize());
+    }
+
+    @Test
+    public void checkBrowserAllDetailsTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&version=1.0.5&platform=Windows 10&screensize=maximum");
+        assertEquals(browser.getName(), Browser.BrowserName.FIREFOX);
+        assertEquals(browser.getVersion(), "1.0.5");
+        assertEquals(browser.getPlatform(), Platform.WIN10);
+        assertEquals(browser.getScreensize(), "maximum");
+    }
+
+    @Test
+    public void checkBrowserDetailsNameTest() throws InvalidBrowserException {
+        Browser browser = new Browser("FIREFOX");
+        assertEquals(browser.getDetails(), "Firefox");
+    }
+
+    @Test
+    public void checkBrowserDetailsVersionTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&version=1.0.5");
+        assertEquals(browser.getDetails(), "Firefox 1.0.5");
+    }
+
+    @Test
+    public void checkBrowserDetailsPlatformTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&platform=Windows 10");
+        assertEquals(browser.getDetails(), "Firefox WIN10");
+    }
+
+    @Test
+    public void checkBrowserDetailsScreensizeTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&screensize=100x200");
+        assertEquals(browser.getDetails(), "Firefox 100x200");
+    }
+
+    @Test
+    public void checkBrowserDetailsScreensizeMaximumTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&screensize=maximum");
+        assertEquals(browser.getDetails(), "Firefox maximum");
+    }
+
+    @Test
+    public void checkBrowserDetailsAllDetailsTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&version=1.0.5&platform=Windows 10&screensize=100x200");
+        assertEquals(browser.getDetails(), "Firefox 1.0.5 WIN10 100x200");
     }
 }

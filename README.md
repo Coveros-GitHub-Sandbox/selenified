@@ -5,8 +5,7 @@ both web and API testing, wraps and extends Selenium calls to more appropriately
 and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in 
 parallel. It can be a great starting point for building or improving test automation in your organization.
 
-## Test Examples
-### Getting Started
+## Getting Started
 One of Selenified's goals is to be a framework that is easy to drop in to an existing project. You can 
 easily have Selenified running within minutes using only a Maven POM, Java test class and a TestNG XML Suite.
 
@@ -15,97 +14,177 @@ It’s very simple to get started using Selenified. Just add selenified.jar to y
 writing your test cases. If you’re using a build tool, simply add the jar as a dependency.
 
 #### Maven
-Update your pom.xml file to include
+Update your `pom.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
+<dependencies>
     <dependency>
-    <groupId>com.coveros</groupId>
-    <artifactId>selenified</artifactId>
-    <version>3.0.3</version>
-    <scope>test</scope>
+        <groupId>com.coveros</groupId>
+        <artifactId>selenified</artifactId>
+        <version>3.0.4</version>
+        <scope>test</scope>
     </dependency>
+</dependencies>
+
 ```
 
 #### Ant
-Update your ivy.xml file to include
+Update your `ivy.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
-    <ivy-module>
-        <dependencies>
-            <dependency org="com.coveros" name="selenified" rev="3.0.3"/>
-        </dependencies>
-    </ivy-module>
+<dependencies>
+    <dependency org="com.coveros" name="selenified" rev="3.0.4" />
+</dependencies>
 ```
 
 #### Gradle
-Update your build.gradle file to include
+Update your `build.gradle` file to include (or add the `testCompile` line to your current dependencies)
 ```groovy
-    dependencies {
-        testCompile 'com.coveros:selenified:3.0.3'
-    }
+dependencies {
+    testCompile group: 'com.coveros', name: 'selenified', version: '3.0.4'
+}
 ```
 
-Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
-
+### Sample File
+It is suggested to setup your functional Selenified tests as integration tests, following typical java structure, 
+in the `src/test/java` folder, in packages if desired. A sample file is included below, which will compile and run
+if you create the file `src/test/java/ReadmeSampleIT.java`, and paste in the contents  
 ```java
-    public class SampleTests extends Selenified {
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
+import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.Request;
+import org.testng.ITestContext;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-        @DataProvider(name = "google search terms", parallel = true)
-        public Object[][] DataSetOptions() {
-            return new Object[][] { new Object[] { "python" }, 
-                new Object[] { "perl" }, new Object[] { "bash" }, };
-        }
+import java.util.HashMap;
 
-        @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
-        public void sampleTest() {
-            // use this object to manipulate the app
-            App app = this.apps.get();
-            // verify the correct page title
-            app.azzert().titleEquals("Google");
-            // verify no issues
-            finish();
-        }
+public class ReadmeSampleIT extends Selenified {
 
-         @Test(dataProvider = "google search terms", groups = { "sample"},
-                         description = "A sample selenium test using a data provider to perform a google search")
-         public void sampleTestWDataProvider(String searchTerm) {
-             // use this object to manipulate the app
-             App app = this.apps.get();
-             // find the search box element and create the object
-             Element searchBox = app.newElement(Locator.NAME, "q");
-             //perform the search and submit
-             searchBox.type(searchTerm);
-             searchBox.submit();
-             //wait for the page to return the results
-             app.newElement(Locator.ID, "resultStats").waitFor().present();
-             // verify the correct page title
-             app.azzert().titleEquals(searchTerm + " - Google Search");
-             // verify no issues
-             finish();
-         }
-
-         @Test(groups = { "sampleServices" }, description = "A sample web services test to verify the response code")
-             public void sampleServicesCityTest() {
-             Map<String, String> params = new HashMap<>();
-             params.put("address", "chicago");
-             // use this object to verify the app looks as expected
-             Call call = this.calls.get();
-             // retrieve the zip code and verify the return code
-             call.get("", new Request(params)).assertEquals(200);
-             // verify no issues
-             finish();
-         }
-
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass(ITestContext test) {
+        // set the base URL for the tests here
+        setTestSite(this, test, "https://www.coveros.com/");
     }
-```
 
+    @DataProvider(name = "google search terms", parallel = true)
+    public Object[][] DataSetOptions() {
+        return new Object[][]{new Object[]{"python"},
+                new Object[]{"perl"}, new Object[]{"bash"},};
+    }
+
+    @Test(groups = {"sample"}, description = "A sample selenium test to check a title")
+    public void sampleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // verify the correct page title
+        app.azzert().titleEquals("Coveros | Bringing together agile and security to deliver superior software");
+        // verify no issues
+        finish();
+    }
+
+    @Test(dataProvider = "google search terms", groups = {"sample"},
+            description = "A sample selenium test using a data provider to perform a google search")
+    public void sampleTestWDataProvider(String searchTerm) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // find the search box element and create the object
+        Element searchBox = app.newElement(Locator.NAME, "s");
+        //perform the search and submit
+        searchBox.type(searchTerm);
+        searchBox.submit();
+        //wait for the page to return the results
+        app.newElement(Locator.ID, "recent-posts-4").waitFor().present();
+        // verify the correct page title
+        app.azzert().titleEquals("You searched for " + searchTerm + " - Coveros");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"sampleServices"}, description = "A sample web services test to verify the response code")
+    public void sampleServicesSearchTest() {
+        HashMap<String, Object> params = new HashMap();
+        params.put("s", "Max+Saperstone");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // retrieve the zip code and verify the return code
+        call.get("", new Request().setUrlParams(params)).assertEquals(403);
+        // verify no issues
+        finish();
+    }
+}
+```
 In the first test, sampleTest, the App class is used to check the title of the page. 
 In the next test, sampleTestWDataProvider, the App class is used to generate elements we want
 to interact with; type a search term, submit the search term and the wait for the page to load. 
 We then use that same element in order to verify the title contains the same search term. The 
 'google search terms' dataProvider provides a search term to the test. In the third test, a call 
-is made to the google maps api to retrieve the GPS coordinates of the city of Chicago, then verify
-the response code.
+is made directly to the search api, then only the response code is verified.
 For more information on the App and Call class plus all the other classes used by Selenified, check out the
 documentation [here](https://coveros.github.io/selenified).
+
+### Test Execution
+To execute these tests, either do that directly from your IDE, or you can execute the below commands. More 
+details on test execution and setup is located [here](##Running_Tests).
+#### Maven
+If following the setup indicated, you'll need to use the failsafe plugin in order to execute the tests.
+Update your `pom.xml` file to include
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>3.0.0-M3</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+Then from the command line run
+```bash
+mvn verfiy
+```
+#### Ant
+If following the setup indicated, you'll need to setup your test files in a testng block. Update your `build.xml`
+file to include
+```xml
+<taskdef name="testng" classname="org.testng.TestNGAntTask">
+    <classpath location="lib/testng-6.14.3.jar" />
+</taskdef>
+<target name="testng" depends="compile">    
+    <testng classpathref="classpath" outputDir="./target" haltOnFailure="true" verbose="2">
+        <classfileset dir="./target/classes" includes="**/*IT.class" />
+    </testng>
+</target>
+```
+Additionally, you'll need to add a target to execute your tests. Update your `build.xml` file to include
+```xml
+<target name="test" depends="testng" description="Run integration tests in parallel">
+    <java classpathref="classpath" classname="org.testng.TestNG" failonerror="true" />
+</target>
+```
+Then from the command line run
+```bash
+ant test
+```
+#### Gradle
+If following the setup indicated, you'll need to add a task to execute your tests. Update your `build.gradle`
+file to include
+```groovy
+task selenified(type:Test) {
+    useTestNG() {}
+}
+```
+Then from the command line run
+```bash
+gradle selenified 
+```
 
 ## Writing Tests
 ### Create A New Test Suite
@@ -129,7 +208,7 @@ See below for an example:
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "3.0.3");
+        setVersion(this, test, "3.0.4");
     }
 ```
 
@@ -508,16 +587,19 @@ even suite (see below).
 ```
 #### Browser
 If unspecified the default browser of HTMLUnit will be used. Other supported browsers are Firefox (specified via 
-Firefox or Marionette), Chrome, InternetExplorer, Edge, Android (not on grid), Ipad (not on grid), Iphone (not on 
-grid), Opera, and Safari, PhantomJS (not on grid). To run most other browsers additional drivers may need to be added 
+Firefox or Marionette), Chrome, InternetExplorer, Edge, Opera, and Safari, PhantomJS (not on grid). To run most other browsers additional drivers may need to be added 
 to the browser install directory. These drivers are all managed via the selenified jar. Browsers can be specified 
-in two ways, either just noting the browser, or indicating the browser name, and additional details, 
-following [grid](http://www.seleniumhq.org/docs/07_selenium_grid.jsp#node-configuration) notation.
+in two ways, either just noting the browser, or indicating the browser name and additional details. These additional
+details must include a name, and have optional parameters of version, platform and screensize. These should be specified
+like url parameters (`key1=value1&key2=value2`), and comma separated for multiple.
+Screensize can be provided in one of two ways, either as `widthxheight` or by specifying `maximum` implying you want 
+the browser to be maximized. These make use of the Selenified calls resize and maximize respectively on browser start-up, 
+before even loading the initial URL. 
 ```
 -Dbrowser=Chrome
--Dbrowser=Edge
--Dbrowser="browserName=InternetExplorer&browserVersion=50.1&devicePlatform=Windows 10"
--Dbrowser="browserName=Firefox&browserVersion=47.0&devicePlatform=Linux"
+-Dbrowser=Firefox,Edge
+-Dbrowser="name=InternetExplorer&version=50.1&platform=Windows 10&screensize=100x200"
+-Dbrowser="name=Chrome,name=Safari&version=12.0&platform=macOS 10.14&screensize=maximum"
 ```
 #### Hub
 If unspecified the tests will run in standalone mode. If a hub address is specified, then tests will run on a remove 
@@ -531,16 +613,6 @@ If this is specified, then the tests will be run through a proxy server at the s
 address and port in the parameter
 ```
 -Dproxy=localhost:5013
-```
-
-#### Screensize
-If specified, then the launched browsers, will be at the specified size. This can be provided in one of two ways,
-either as `width`x`height` or by specifying `maximum` implying you want the browser to be maximized. These make use 
-of the Selenified calls `resize` and `maximize` respectively on browser start-up, before even loading the initial 
-URL.
-```
--Dscreensize=600x400
--Dscreensize=maximum
 ```
 
 #### Headless
@@ -649,7 +721,7 @@ ant -DappURL=http://google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=
 ```
 The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
+ant test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
 #### Maven
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
@@ -674,12 +746,12 @@ gradle clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-gradle seleniumTest -DappURL=google.com -Dbrowser=Firefox
+gradle selenified -DappURL=google.com -Dbrowser=Firefox
 ```
 To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
 additional parameter, groups with the desired group to test
 ```
-gradle seleniumTest -Pgroups=virtual
+gradle selenified -Pgroups=virtual
 ```
 ## Viewing Results
 To view test results, navigate to the newly created target-output folder within the framework directory. Within 

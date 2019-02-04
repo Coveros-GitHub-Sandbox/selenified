@@ -40,7 +40,7 @@ import java.util.Map;
  * accessed
  *
  * @author Max Saperstone
- * @version 3.0.3
+ * @version 3.0.4
  * @lastupdate 9/18/2018
  */
 public class HTTP {
