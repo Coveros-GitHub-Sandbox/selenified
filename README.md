@@ -20,7 +20,7 @@ Update your `pom.xml` file to include (or add the `dependency` block to your cur
     <dependency>
         <groupId>com.coveros</groupId>
         <artifactId>selenified</artifactId>
-        <version>3.0.3</version>
+        <version>3.0.4</version>
         <scope>test</scope>
     </dependency>
 </dependencies>
@@ -31,7 +31,7 @@ Update your `pom.xml` file to include (or add the `dependency` block to your cur
 Update your `ivy.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
 <dependencies>
-    <dependency org="com.coveros" name="selenified" rev="3.0.3" />
+    <dependency org="com.coveros" name="selenified" rev="3.0.4" />
 </dependencies>
 ```
 
@@ -39,7 +39,7 @@ Update your `ivy.xml` file to include (or add the `dependency` block to your cur
 Update your `build.gradle` file to include (or add the `testCompile` line to your current dependencies)
 ```groovy
 dependencies {
-    testCompile group: 'com.coveros', name: 'selenified', version: '3.0.3'
+    testCompile group: 'com.coveros', name: 'selenified', version: '3.0.4'
 }
 ```
 
