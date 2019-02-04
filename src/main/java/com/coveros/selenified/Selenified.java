@@ -61,7 +61,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.0.5
  * @lastupdate 1/30/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})

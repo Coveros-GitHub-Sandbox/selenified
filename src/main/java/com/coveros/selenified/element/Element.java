@@ -48,7 +48,7 @@ import java.util.List;
  * and assertions make about their current state
  *
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.0.5
  * @lastupdate 9/13/2018
  */
 public class Element {
