@@ -35,7 +35,7 @@ import java.util.Set;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 5/21/2018
+ * @lastupdate 1/13/2019
  */
 class Assert {
 
