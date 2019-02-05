@@ -662,4 +662,22 @@ public class OutputFileTest {
     public void formatHTMLFullTest() {
         assertEquals(outputFile.formatHTML("hello world\nhello world"), "hello&nbsp;world<br/>hello&nbsp;world");
     }
+
+    @Test
+    public void generatePDFTest() throws InvalidBrowserException {
+        OutputFile outputFile =
+                new OutputFile("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
+        File directory = new File("results");
+        File file = new File("results", "file");
+
+        System.setProperty("generatePDF", "true");
+        outputFile.finalizeOutputFile(1);
+        System.clearProperty("generatePDF");
+        File results = new File("results", file.getName() + ".pdf");
+        assertTrue(results.exists());
+
+        file.delete();
+        results.delete();
+        directory.delete();
+    }
 }
