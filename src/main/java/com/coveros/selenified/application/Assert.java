@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.0.5
  * @lastupdate 5/4/2018
  */
 public class Assert {

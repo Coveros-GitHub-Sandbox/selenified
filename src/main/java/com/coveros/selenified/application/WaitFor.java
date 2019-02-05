@@ -35,7 +35,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * is returned, but an error is logged
  *
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.0.5
  * @lastupdate 8/7/2018
  */
 public class WaitFor {
