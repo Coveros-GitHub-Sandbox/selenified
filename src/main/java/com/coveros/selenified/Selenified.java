@@ -62,7 +62,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.0.4
- * @lastupdate 1/12/2019
+ * @lastupdate 1/30/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -357,7 +357,6 @@ public class Selenified {
         if (selenium.useBrowser()) {
             App app = new App(capabilities, outputFile);
             this.apps.set(app);
-            this.calls.set(null);
             outputFile.setApp(app);
             setupScreenSize(app);
             if (selenium.loadPage()) {
@@ -367,12 +366,13 @@ public class Selenified {
                 result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
             }
         } else {
-            HTTP http = new HTTP(getTestSite(extClass, test), getServiceUserCredential(extClass, test),
-                    getServicePassCredential(extClass, test));
-            Call call = new Call(http, outputFile, getExtraHeaders(extClass, test));
             this.apps.set(null);
-            this.calls.set(call);
         }
+        HTTP http = new HTTP(getTestSite(extClass, test), getServiceUserCredential(extClass, test),
+                getServicePassCredential(extClass, test));
+        Call call = new Call(http, outputFile, getExtraHeaders(extClass, test));
+        this.calls.set(call);
+
         this.browserThreadLocal.set(browser);
         result.setAttribute(BROWSER_INPUT, browser);
         this.outputFileThreadLocal.set(outputFile);
