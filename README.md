@@ -5,11 +5,11 @@ both web and API testing, wraps and extends Selenium calls to more appropriately
 and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in 
 parallel. It can be a great starting point for building or improving test automation in your organization.
 
-_Note Selenified runs outof the box with Java 8, and modifications are required for alterrnate versions._
-
 ## Getting Started
-One of Selenified’s goals is to be a framework that is easy to drop in to an existing java project. You 
+One of Selenified’s goals is to be a framework that is easy to drop in to an existing Java project. You 
 can easily have Selenified running within minutes using an existing project, or a new one.
+
+_Note Selenified runs out of the box with Java 8, and modifications are required for alterrnate versions._
 
 ### Adding the Selenified Dependency
 Just add selenified.jar to your project, and you can start writing your test cases. If you’re using a build tool, 
