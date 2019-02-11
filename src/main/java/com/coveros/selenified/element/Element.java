@@ -1,20 +1,20 @@
 /*
  * Copyright 2018 Coveros, Inc.
- * 
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -23,7 +23,6 @@ package com.coveros.selenified.element;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
-import com.coveros.selenified.exceptions.InvalidLocatorTypeException;
 import com.coveros.selenified.utilities.Point;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
@@ -36,14 +35,13 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RasterFormatException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Element an object representative of a web element on a particular page that
  * is under test.
- *
+ * 
  * Elements should be directly interacted with, with actions performed on them,
  * and assertions make about their current state
  *
@@ -387,12 +385,10 @@ public class Element {
      * Determines Selenium's 'By' object using Webdriver
      *
      * @return By: the Selenium object
-     * @throws InvalidLocatorTypeException: if a bad locator type is passed, an invalid locator type exception will
-     *                                      be thrown
      */
-    By defineByElement() throws InvalidLocatorTypeException {
+    By defineByElement() {
         // consider adding strengthening
-        By byElement;
+        By byElement = null;
         switch (type) { // determine which locator type we are interested in
             case XPATH:
                 byElement = By.xpath(locator);
@@ -418,8 +414,6 @@ public class Element {
             case TAGNAME:
                 byElement = By.tagName(locator);
                 break;
-            default:
-                throw new InvalidLocatorTypeException();
         }
         return byElement;
     }
@@ -437,15 +431,10 @@ public class Element {
         if (elements.size() > match) {
             return elements.get(match);
         }
-        try {
-            if (parent != null) {
-                return parent.getWebElement().findElement(defineByElement());
-            }
-            return driver.findElement(defineByElement());
-        } catch (InvalidLocatorTypeException e) {
-            log.warn(e);
-            return null;
+        if (parent != null) {
+            return parent.getWebElement().findElement(defineByElement());
         }
+        return driver.findElement(defineByElement());
     }
 
     /**
@@ -457,15 +446,10 @@ public class Element {
      * with them
      */
     public List<WebElement> getWebElements() {
-        try {
-            if (parent != null) {
-                return parent.getWebElement().findElements(defineByElement());
-            }
-            return driver.findElements(defineByElement());
-        } catch (InvalidLocatorTypeException e) {
-            log.warn(e);
-            return new ArrayList<>();
+        if (parent != null) {
+            return parent.getWebElement().findElements(defineByElement());
         }
+        return driver.findElements(defineByElement());
     }
 
     /**
@@ -492,7 +476,7 @@ public class Element {
      * @param extra    - what actually is occurring
      * @return Boolean: is the element present?
      */
-    private boolean isPresent(String action, String expected, String extra) {
+    private boolean isNotPresent(String action, String expected, String extra) {
         // wait for element to be present
         if (!is.present()) {
             waitFor.present();
@@ -500,9 +484,9 @@ public class Element {
         if (!is.present()) {
             file.recordAction(action, expected, extra + prettyOutput() + NOTPRESENT, Result.FAILURE);
             // indicates element not present
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -514,7 +498,7 @@ public class Element {
      * @param extra    - what actually is occurring
      * @return Boolean: is the element displayed?
      */
-    private boolean isDisplayed(String action, String expected, String extra) {
+    private boolean isNotDisplayed(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.displayed()) {
             waitFor.displayed();
@@ -522,9 +506,9 @@ public class Element {
         if (!is.displayed()) {
             file.recordAction(action, expected, extra + prettyOutput() + NOTDISPLAYED, Result.FAILURE);
             // indicates element not displayed
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -536,7 +520,7 @@ public class Element {
      * @param extra    - what actually is occurring
      * @return Boolean: is the element enabled?
      */
-    private boolean isEnabled(String action, String expected, String extra) {
+    private boolean isNotEnabled(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.enabled()) {
             waitFor.enabled();
@@ -544,9 +528,9 @@ public class Element {
         if (!is.enabled()) {
             file.recordAction(action, expected, extra + prettyOutput() + NOTENABLED, Result.FAILURE);
             // indicates element not enabled
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -557,15 +541,15 @@ public class Element {
      * @param extra    - what actually is occurring
      * @return Boolean: is the element enabled?
      */
-    private boolean isInput(String action, String expected, String extra) {
+    private boolean isNotInput(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.input()) {
             file.recordAction(action, expected, extra + prettyOutput() + NOTINPUT, Result.FAILURE);
             file.addError();
             // indicates element not an input
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -595,17 +579,17 @@ public class Element {
      * @param extra    - what actually is occurring
      * @return Boolean: is the element present, displayed, and enabled?
      */
-    private boolean isPresentDisplayedEnabled(String action, String expected, String extra) {
+    private boolean isNotPresentDisplayedEnabled(String action, String expected, String extra) {
         // wait for element to be present
-        if (!isPresent(action, expected, extra)) {
-            return false;
+        if (isNotPresent(action, expected, extra)) {
+            return true;
         }
         // wait for element to be displayed
-        if (!isDisplayed(action, expected, extra)) {
-            return false;
+        if (isNotDisplayed(action, expected, extra)) {
+            return true;
         }
         // wait for element to be enabled
-        return isEnabled(action, expected, extra);
+        return isNotEnabled(action, expected, extra);
     }
 
     /**
@@ -616,13 +600,13 @@ public class Element {
      * @param expected - what is the expected result
      * @return Boolean: is the element present, enabled, and an input?
      */
-    private boolean isPresentEnabledInput(String action, String expected) {
+    private boolean isNotPresentEnabledInput(String action, String expected) {
         // wait for element to be present
-        if (!isPresent(action, expected, Element.CANTTYPE)) {
-            return false;
+        if (isNotPresent(action, expected, Element.CANTTYPE)) {
+            return true;
         }
         // wait for element to be enabled
-        return isEnabled(action, expected, Element.CANTTYPE) && isInput(action, expected, Element.CANTTYPE);
+        return isNotEnabled(action, expected, Element.CANTTYPE) || isNotInput(action, expected, Element.CANTTYPE);
     }
 
     /**
@@ -635,17 +619,17 @@ public class Element {
      * @return Boolean: is the element present, displayed, enabled, and an
      * input?
      */
-    private boolean isPresentDisplayedEnabledInput(String action, String expected, String extra) {
+    private boolean isNotPresentDisplayedEnabledInput(String action, String expected, String extra) {
         // wait for element to be present
-        if (!isPresent(action, expected, extra)) {
-            return false;
+        if (isNotPresent(action, expected, extra)) {
+            return true;
         }
         // wait for element to be displayed
-        if (!isDisplayed(action, expected, extra)) {
-            return false;
+        if (isNotDisplayed(action, expected, extra)) {
+            return true;
         }
         // wait for element to be enabled
-        return isEnabled(action, expected, extra) && isInput(action, expected, extra);
+        return isNotEnabled(action, expected, extra) || isNotInput(action, expected, extra);
     }
 
     /**
@@ -657,17 +641,17 @@ public class Element {
      * @return Boolean: is the element present, displayed, enabled, and an
      * input?
      */
-    private boolean isPresentDisplayedEnabledSelect(String action, String expected) {
+    private boolean isNotPresentDisplayedEnabledSelect(String action, String expected) {
         // wait for element to be present
-        if (!isPresent(action, expected, Element.CANTSELECT)) {
-            return false;
+        if (isNotPresent(action, expected, Element.CANTSELECT)) {
+            return true;
         }
         // wait for element to be displayed
-        if (!isDisplayed(action, expected, Element.CANTSELECT)) {
-            return false;
+        if (isNotDisplayed(action, expected, Element.CANTSELECT)) {
+            return true;
         }
         // wait for element to be enabled
-        return isEnabled(action, expected, Element.CANTSELECT) && isSelect(action, expected);
+        return isNotEnabled(action, expected, Element.CANTSELECT) || !isSelect(action, expected);
     }
 
     // ///////////////////////////////////
@@ -684,7 +668,7 @@ public class Element {
         String action = "Clicking " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be clicked";
         try {
-            if (!isPresentDisplayedEnabled(action, expected, cantClick)) {
+            if (isNotPresentDisplayedEnabled(action, expected, cantClick)) {
                 return;
             }
             WebElement webElement = getWebElement();
@@ -708,7 +692,7 @@ public class Element {
         String action = "Submitting " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be submitted    ";
         try {
-            if (!isPresentDisplayedEnabled(action, expected, cantSubmit)) {
+            if (isNotPresentDisplayedEnabled(action, expected, cantSubmit)) {
                 return;
             }
             WebElement webElement = getWebElement();
@@ -733,11 +717,11 @@ public class Element {
         String expected = prettyOutput() + " is present, and displayed to be hovered over";
         try {
             // wait for element to be present
-            if (!isPresent(action, expected, cantHover)) {
+            if (isNotPresent(action, expected, cantHover)) {
                 return;
             }
             // wait for element to be displayed
-            if (!isDisplayed(action, expected, cantHover)) {
+            if (isNotDisplayed(action, expected, cantHover)) {
                 return;
             }
             Actions selAction = new Actions(driver);
@@ -763,7 +747,7 @@ public class Element {
         String action = "Focusing, then unfocusing (blurring) on " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to be blurred";
         try {
-            if (!isPresentDisplayedEnabledInput(action, expected, cantFocus)) {
+            if (isNotPresentDisplayedEnabledInput(action, expected, cantFocus)) {
                 return;
             }
             WebElement webElement = getWebElement();
@@ -790,9 +774,9 @@ public class Element {
     public void type(String text) {
         String action = "Typing text '" + text + IN + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + text + " typed in";
-        Boolean warning = false;
+        boolean warning = false;
         try {
-            if (!isPresentEnabledInput(action, expected)) {
+            if (isNotPresentEnabledInput(action, expected)) {
                 return;
             }
             if (!is.displayed()) {
@@ -826,9 +810,9 @@ public class Element {
     public void type(Keys key) {
         String action = "Typing key '" + key + IN + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text " + key + " entered";
-        Boolean warning = false;
+        boolean warning = false;
         try {
-            if (!isPresentEnabledInput(action, expected)) {
+            if (isNotPresentEnabledInput(action, expected)) {
                 return;
             }
             if (!is.displayed()) {
@@ -860,7 +844,7 @@ public class Element {
         String action = "Clearing text in " + prettyOutput();
         String expected = prettyOutput() + " is present, displayed, and enabled to have text cleared";
         try {
-            if (!isPresentDisplayedEnabledInput(action, expected, cantClear)) {
+            if (isNotPresentDisplayedEnabledInput(action, expected, cantClear)) {
                 return;
             }
             WebElement webElement = getWebElement();
@@ -887,7 +871,7 @@ public class Element {
         String action = SELECTING + index + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + index + SELECTED;
         try {
-            if (!isPresentDisplayedEnabledSelect(action, expected)) {
+            if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
             }
             String[] options = get.selectOptions();
@@ -923,7 +907,7 @@ public class Element {
         String action = SELECTING + option + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + option + SELECTED;
         try {
-            if (!isPresentDisplayedEnabledSelect(action, expected)) {
+            if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
             }
             // ensure the option exists
@@ -959,7 +943,7 @@ public class Element {
         String action = SELECTING + value + " in " + prettyOutput();
         String expected = prettyOutput() + PRESDISEN + value + SELECTED;
         try {
-            if (!isPresentDisplayedEnabledSelect(action, expected)) {
+            if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
             }
             // ensure the value exists
@@ -1026,7 +1010,7 @@ public class Element {
         String expected = prettyOutput() + " is now displayed within the current viewport";
         try {
             // wait for element to be present
-            if (!isPresent(action, expected, CANTMOVE)) {
+            if (isNotPresent(action, expected, CANTMOVE)) {
                 return;
             }
             // perform the move action
@@ -1053,7 +1037,7 @@ public class Element {
         String expected = prettyOutput() + " is now displayed within the current viewport";
         try {
             // wait for element to be present
-            if (!isPresent(action, expected, CANTMOVE)) {
+            if (isNotPresent(action, expected, CANTMOVE)) {
                 return;
             }
             // perform the move action
@@ -1094,7 +1078,7 @@ public class Element {
         String expected = prettyOutput() + " now has object drawn on it from " + pointString.toString();
         try {
             // wait for element to be present, displayed, and enabled
-            if (!isPresentDisplayedEnabled(action, expected, "Unable to drawn in ")) {
+            if (isNotPresentDisplayedEnabled(action, expected, "Unable to drawn in ")) {
                 return;
             }
             WebElement webElement = getWebElement();
@@ -1129,11 +1113,11 @@ public class Element {
         String expected = "Frame " + prettyOutput() + " is present, displayed, and focused";
         try {
             // wait for element to be present
-            if (!isPresent(action, expected, cantSelect)) {
+            if (isNotPresent(action, expected, cantSelect)) {
                 return;
             }
             // wait for element to be displayed
-            if (!isDisplayed(action, expected, cantSelect)) {
+            if (isNotDisplayed(action, expected, cantSelect)) {
                 return;
             }
             // select the actual frame
