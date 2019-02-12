@@ -5,10 +5,7 @@ import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.WebDriverException;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.net.MalformedURLException;
 
@@ -27,13 +24,13 @@ public class AppTest {
 
     @AfterClass
     public void restoreBrowser() {
-        System.clearProperty("hub");
         if (setHub != null) {
             System.setProperty("hub", setHub);
         }
     }
 
     @BeforeMethod
+    @AfterMethod
     public void clearBrowser() {
         System.clearProperty("hub");
     }

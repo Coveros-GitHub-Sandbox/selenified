@@ -7,10 +7,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
 
@@ -27,13 +24,13 @@ public class CapabilitiesTest {
 
     @AfterClass
     public void restoreBrowser() {
-        System.clearProperty("proxy");
         if (setProxy != null) {
             System.setProperty("proxy", setProxy);
         }
     }
 
     @BeforeMethod
+    @AfterMethod
     public void clearBrowser() {
         System.clearProperty("proxy");
     }

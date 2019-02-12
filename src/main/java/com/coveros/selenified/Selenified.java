@@ -139,7 +139,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the version of the current test being executed
      */
-    protected String getVersion(String clazz, ITestContext context) {
+    private String getVersion(String clazz, ITestContext context) {
         return (String) context.getAttribute(clazz + "Version");
     }
 
@@ -168,7 +168,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the author of the current test being executed
      */
-    protected String getAuthor(String clazz, ITestContext context) {
+    private String getAuthor(String clazz, ITestContext context) {
         return (String) context.getAttribute(clazz + "Author");
     }
 
@@ -197,7 +197,7 @@ public class Selenified {
      *                storing app url information
      * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
-    protected static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
+    private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
     }
 
@@ -246,7 +246,7 @@ public class Selenified {
      *                storing app url information
      * @return DesiredCapabilities
      */
-    protected static DesiredCapabilities getAdditionalDesiredCapabilities(String clazz, ITestContext context) {
+    private static DesiredCapabilities getAdditionalDesiredCapabilities(String clazz, ITestContext context) {
         return (DesiredCapabilities) context.getAttribute(clazz + DESIRED_CAPABILITIES);
     }
 
@@ -262,7 +262,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the web services username to use for authentication
      */
-    protected static String getServiceUserCredential(String clazz, ITestContext context) {
+    private static String getServiceUserCredential(String clazz, ITestContext context) {
         if (System.getenv("SERVICES_USER") != null) {
             return System.getenv("SERVICES_USER");
         }
@@ -285,7 +285,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the web services password to use for authentication
      */
-    protected static String getServicePassCredential(String clazz, ITestContext context) {
+    private static String getServicePassCredential(String clazz, ITestContext context) {
         if (System.getenv("SERVICES_PASS") != null) {
             return System.getenv("SERVICES_PASS");
         }

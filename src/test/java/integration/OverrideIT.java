@@ -45,5 +45,7 @@ public class OverrideIT extends WebBase {
         // perform some actions
         DesiredCapabilities desiredCapabilities = app.getDesiredCapabilities();
         assertFalse(app.getDesiredCapabilities().isJavascriptEnabled());
+        // verify no issues
+        finish();
     }
 }

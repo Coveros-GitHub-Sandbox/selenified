@@ -1,10 +1,7 @@
 package unit;
 
 import com.coveros.selenified.utilities.Sauce;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
 
@@ -21,13 +18,13 @@ public class SauceTest {
 
     @AfterClass
     public void restoreBrowser() {
-        System.clearProperty("hub");
         if (hub != null) {
             System.setProperty("hub", hub);
         }
     }
 
     @BeforeMethod
+    @AfterMethod
     public void clearBrowser() {
         System.clearProperty("hub");
     }
