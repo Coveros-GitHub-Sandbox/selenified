@@ -47,7 +47,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 9/13/2018
+ * @lastupdate 2/11/2019
  */
 public class Element {
 
