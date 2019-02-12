@@ -71,11 +71,9 @@ public class Selenified {
     private static final String SERVICES_USER = "ServicesUser";
     private static final String SERVICES_PASS = "ServicesPass";
 
-    // any additional browser capabilities that might be necessary
-    protected static DesiredCapabilities extraCapabilities = null;
-
-    // some passed in system params
+    // some passed in system browser capabilities
     private static final List<Capabilities> CAPABILITIES = new ArrayList<>();
+    private static final String DESIRED_CAPABILITIES = "DesiredCapabilities";
 
     // for individual tests
     private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
@@ -218,6 +216,41 @@ public class Selenified {
     }
 
     /**
+     * Sets any additional capabilities desired for the browsers. Things like enabling javascript, accepting insecure certs. etc
+     * can all be added here on a per test class basis.
+     *
+     * @param clazz           - the test suite class, used for making threadsafe storage of
+     *                        application, allowing suites to have independent applications
+     *                        under test, run at the same time
+     * @param context         - the TestNG context associated with the test suite, used for
+     *                        storing app url information
+     * @param capabilityName  - the capability name to be added
+     * @param capabilityValue - the capability value to be set
+     */
+    protected static void addAdditionalDesiredCapabilities(Selenified clazz, ITestContext context, String capabilityName, Object capabilityValue) {
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        if (context.getAttributeNames().contains(clazz.getClass().getName() + DESIRED_CAPABILITIES)) {
+            desiredCapabilities = (DesiredCapabilities) context.getAttribute(clazz.getClass().getName() + DESIRED_CAPABILITIES);
+        }
+        desiredCapabilities.setCapability(capabilityName, capabilityValue);
+        context.setAttribute(clazz.getClass().getName() + DESIRED_CAPABILITIES, desiredCapabilities);
+    }
+
+    /**
+     * Retrieves the additional desired capabilities set by the current class for the browsers
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @return DesiredCapabilities
+     */
+    protected static DesiredCapabilities getAdditionalDesiredCapabilities(String clazz, ITestContext context) {
+        return (DesiredCapabilities) context.getAttribute(clazz + DESIRED_CAPABILITIES);
+    }
+
+    /**
      * Obtains the web services username provided for the current test suite being executed. Anything passed in from
      * the command line will first be taken, to override any other values. Next, values being set in the classes will
      * be checked for. If neither of these are set, an empty string will be returned
@@ -342,6 +375,7 @@ public class Selenified {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
+        capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         capabilities.setInstance(invocationCount);
         Browser browser = capabilities.getBrowser();
         if (!selenium.useBrowser()) {
@@ -546,7 +580,6 @@ public class Selenified {
             for (Browser browser : browsers) {
                 Capabilities capabilities = new Capabilities(browser);
                 capabilities.setupProxy();
-                capabilities.addExtraCapabilities(extraCapabilities);
                 Selenified.CAPABILITIES.add(capabilities);
             }
         }
