@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import static com.coveros.selenified.Browser.BROWSER_INPUT;
-import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
 /**
  * Selenified contains all of the elements to setup the test suite, and to start
