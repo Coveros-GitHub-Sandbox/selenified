@@ -271,12 +271,8 @@ public class Capabilities {
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
             // look for specifics
-            if(!extraCapabilities.isJavascriptEnabled()) {
-                desiredCapabilities.setJavascriptEnabled(false);
-            }
-            if(!extraCapabilities.acceptInsecureCerts()) {
-                desiredCapabilities.setAcceptInsecureCerts(false);
-            }
+            desiredCapabilities.setJavascriptEnabled(extraCapabilities.is("javascriptEnabled"));
+            desiredCapabilities.setAcceptInsecureCerts(extraCapabilities.is("acceptInsecureCerts"));
         }
     }
 }
