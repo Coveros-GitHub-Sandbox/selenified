@@ -53,7 +53,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 1/12/2019
+ * @lastupdate 2/11/2019
  */
 public class Capabilities {
 
@@ -75,11 +75,11 @@ public class Capabilities {
             throw new InvalidBrowserException("A valid browser was not provided");
         }
         this.browser = browser;
-        this.desiredCapabilities = new DesiredCapabilities();
         setDesiredCapabilities();
     }
 
     private void setDesiredCapabilities() {
+        this.desiredCapabilities = new DesiredCapabilities();
         if (browser.getName() == BrowserName.NONE) {
             this.desiredCapabilities = null;
             return;
@@ -267,6 +267,7 @@ public class Capabilities {
      * @param extraCapabilities any additional parameters to set for selenium
      */
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
+        setDesiredCapabilities();
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
         }

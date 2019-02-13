@@ -7,10 +7,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
 
@@ -27,13 +24,13 @@ public class CapabilitiesTest {
 
     @AfterClass
     public void restoreBrowser() {
-        System.clearProperty("proxy");
         if (setProxy != null) {
             System.setProperty("proxy", setProxy);
         }
     }
 
     @BeforeMethod
+    @AfterMethod
     public void clearBrowser() {
         System.clearProperty("proxy");
     }
@@ -263,6 +260,24 @@ public class CapabilitiesTest {
         extraCapabilities.setCapability("unexpectedAlertBehaviour", "ignore");
         capabilities.addExtraCapabilities(extraCapabilities);
         assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities.merge(extraCapabilities));
+    }
+
+    @Test
+    public void addExtraCapabilitiesJSTest() throws InvalidBrowserException {
+        // what we expect
+        DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
+        expectedDesiredCapabilities.setBrowserName("chrome");
+        expectedDesiredCapabilities.setPlatform(Platform.ANY);
+        expectedDesiredCapabilities.setVersion("");
+        expectedDesiredCapabilities.setJavascriptEnabled(false);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
+        // what we're getting
+        Capabilities capabilities = new Capabilities(new Browser("Chrome"));
+        DesiredCapabilities extraCapabilities = new DesiredCapabilities();
+        extraCapabilities.setJavascriptEnabled(false);
+        capabilities.addExtraCapabilities(extraCapabilities);
+        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)

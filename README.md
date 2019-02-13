@@ -246,17 +246,15 @@ See below for an example:
 
 While proxy and remote running capability configuration settings are handled by the framework (see below
 sections on parameters), sometimes additional custom capabilities need to be setup for the test execution.
-If needed additional capabilites can be set by overriding the default beforeSuite method. Add whatever desired
-capabilities are required to the `extraCapabilities` object, and then call the parent method. An example is
+If needed, additional capabilites can be set by adding them in a beforeClass method, similar to the author, 
+version, and test site. Add whatever desired capabilities are desired, using the available `addAdditionalDesiredCapabilities`
+method. An example is
 shown below
 
 ```java
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() throws InvalidBrowserException {
-        extraCapabilities = new DesiredCapabilities();
-        extraCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-        extraCapabilities.setCapability("ignoreProtectedModeSettings", true);
-        super.beforeSuite();
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass(ITestContext test) {
+        addAdditionalDesiredCapabilities(this, test, "javascriptEnabled", false);
     }
 ```
 
