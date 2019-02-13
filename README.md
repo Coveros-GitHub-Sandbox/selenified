@@ -6,12 +6,14 @@ and supports testing over multiple browsers locally, or in the cloud (Selenium G
 parallel. It can be a great starting point for building or improving test automation in your organization.
 
 ## Getting Started
-One of Selenified's goals is to be a framework that is easy to drop in to an existing project. You can 
-easily have Selenified running within minutes using only a Maven POM, Java test class and a TestNG XML Suite.
+One of Selenified’s goals is to be a framework that is easy to drop in to an existing Java project. You 
+can easily have Selenified running within minutes using an existing project, or a new one.
+
+_Note Selenified runs out of the box with Java 8, and modifications are required for alterrnate versions._
 
 ### Adding the Selenified Dependency
-It’s very simple to get started using Selenified. Just add selenified.jar to your project, and you can start 
-writing your test cases. If you’re using a build tool, simply add the jar as a dependency.
+Just add selenified.jar to your project, and you can start writing your test cases. If you’re using a build tool, 
+simply add the jar as a dependency.
 
 #### Maven
 Update your `pom.xml` file to include (or add the `dependency` block to your current dependencies)
@@ -24,7 +26,6 @@ Update your `pom.xml` file to include (or add the `dependency` block to your cur
         <scope>test</scope>
     </dependency>
 </dependencies>
-
 ```
 
 #### Ant
@@ -69,7 +70,7 @@ public class ReadmeSampleIT extends Selenified {
         setTestSite(this, test, "https://www.coveros.com/");
     }
 
-    @DataProvider(name = "google search terms", parallel = true)
+    @DataProvider(name = "coveros search terms", parallel = true)
     public Object[][] DataSetOptions() {
         return new Object[][]{new Object[]{"python"},
                 new Object[]{"perl"}, new Object[]{"bash"},};
@@ -85,8 +86,8 @@ public class ReadmeSampleIT extends Selenified {
         finish();
     }
 
-    @Test(dataProvider = "google search terms", groups = {"sample"},
-            description = "A sample selenium test using a data provider to perform a google search")
+    @Test(dataProvider = "coveros search terms", groups = {"sample"},
+            description = "A sample selenium test using a data provider to perform a search")
     public void sampleTestWDataProvider(String searchTerm) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -103,9 +104,9 @@ public class ReadmeSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"sampleServices"}, description = "A sample web services test to verify the response code")
+    @Test(groups = {"sample", "services"}, description = "A sample web services test to verify the response code")
     public void sampleServicesSearchTest() {
-        HashMap<String, Object> params = new HashMap();
+        HashMap<String, Object> params = new HashMap<>();
         params.put("s", "Max+Saperstone");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -150,6 +151,8 @@ Then from the command line run
 ```bash
 mvn verfiy
 ```
+More details can be found on the [Selenified Maven Wiki](https://github.com/Coveros/selenified/wiki/Maven)
+
 #### Ant
 If following the setup indicated, you'll need to setup your test files in a testng block. Update your `build.xml`
 file to include
@@ -173,6 +176,8 @@ Then from the command line run
 ```bash
 ant test
 ```
+More details can be found on the [Selenified Ant Wiki](https://github.com/Coveros/selenified/wiki/Ant)
+
 #### Gradle
 If following the setup indicated, you'll need to add a task to execute your tests. Update your `build.gradle`
 file to include
@@ -185,6 +190,7 @@ Then from the command line run
 ```bash
 gradle selenified 
 ```
+More details can be found on the [Selenified Gradle Wiki](https://github.com/Coveros/selenified/wiki/Gradle)
 
 ## Writing Tests
 ### Create A New Test Suite
@@ -626,60 +632,12 @@ be passed in via the above `headless` parameter, or in this method. For multiple
 ```
 -Doptions='--disable-gpu,--headless'
 ```
-#### Failsafe
-The pom included in this project works as an example for specifying which tests to run, and how to execute them. Tests 
-should be executed using the failsafe plugin, if using Maven, following standard Java practices. Several variables can 
-be easily set to specify which tests to run, and how to run them, all from the failsafe plugin itself.
-```xml
-<maven.failsafe.plugin.version>2.21.0</maven.failsafe.plugin.version>
-<!-- Test run information -->
-<failsafe.threads>5</failsafe.threads>
-<failsafe.verbosity>0</failsafe.verbosity>
-<failsafe.groups.include>integration</failsafe.groups.include>
-<failsafe.groups.exclude>browser</failsafe.groups.exclude>
-<failsafe.files.include>**/*IT.java</failsafe.files.include>
-<failsafe.files.exclude></failsafe.files.exclude>
-
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-failsafe-plugin</artifactId>
-    <version>${maven.failsafe.plugin.version}</version>
-    <configuration>
-        <parallel>methods</parallel>
-        <threadCount>${failsafe.threads}</threadCount>
-        <properties>
-            <property>
-                <name>surefire.testng.verbose</name>
-                <value>${failsafe.verbosity}</value>
-            </property>
-            <property>
-                <name>listener</name>
-                <value>com.coveros.selenified.utilities.Transformer</value>
-            </property>
-        </properties>
-        <groups>${failsafe.groups.include}</groups>
-        <excludedGroups>${failsafe.groups.exclude}</excludedGroups>
-        <includes>
-            <include>${failsafe.files.include}</include>
-        </includes>
-        <excludes>
-            <exclude>${failsafe.files.exclude}</exclude>
-        </excludes>
-    </configuration>
-    <executions>
-        <execution>
-            <id>verify</id>
-            <goals>
-                <goal>verify</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-``` 
-Several options exist to change how your tests are run, including `threads` (how many to run in parallel), `verbosity` 
-(how much logging is desired), `groups` (both included and excluded), and `files` (both included and excluded). Be sure 
-to set some standard values like in the above, and these can then be simply overridden from the commandline. More 
-options can he found [here](https://maven.apache.org/surefire/maven-failsafe-plugin/examples/testng.html)
+#### Run Configuration
+Each build tool has specific instructions for modifying what and how tests are run. Checkout the 
+[wiki](https://github.com/Coveros/selenified/wiki) to instructions for each build tool:
+ * [Maven](https://github.com/Coveros/selenified/wiki/Maven)
+ * [Ant](https://github.com/Coveros/selenified/wiki/Ant)
+ * [Gradle](https://github.com/Coveros/selenified/wiki/Gradle)
 
 ### Eclipse
 Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
@@ -791,10 +749,6 @@ entire set with a browser, or a subset using HtmlUnit
 mvn clean verify -Dbrowser=Firefox
 mvn clean verify -Dfailsafe.groups.include=virtual
 ```
-
-### Adding the jar to your project
-See the below sections on executing tests to see the proper way to source the jar, and add them to your 
-classpath
 
 ### Packaging Results
 If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
