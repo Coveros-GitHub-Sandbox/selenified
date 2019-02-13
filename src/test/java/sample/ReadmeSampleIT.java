@@ -21,7 +21,7 @@ public class ReadmeSampleIT extends Selenified {
         setTestSite(this, test, "https://www.coveros.com/");
     }
 
-    @DataProvider(name = "google search terms", parallel = true)
+    @DataProvider(name = "coveros search terms", parallel = true)
     public Object[][] DataSetOptions() {
         return new Object[][]{new Object[]{"python"},
                 new Object[]{"perl"}, new Object[]{"bash"},};
@@ -37,8 +37,8 @@ public class ReadmeSampleIT extends Selenified {
         finish();
     }
 
-    @Test(dataProvider = "google search terms", groups = {"sample"},
-            description = "A sample selenium test using a data provider to perform a google search")
+    @Test(dataProvider = "coveros search terms", groups = {"sample"},
+            description = "A sample selenium test using a data provider to perform a search")
     public void sampleTestWDataProvider(String searchTerm) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -55,7 +55,7 @@ public class ReadmeSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"sampleServices"}, description = "A sample web services test to verify the response code")
+    @Test(groups = {"sample", "services"}, description = "A sample web services test to verify the response code")
     public void sampleServicesSearchTest() {
         HashMap<String, Object> params = new HashMap<>();
         params.put("s", "Max+Saperstone");
