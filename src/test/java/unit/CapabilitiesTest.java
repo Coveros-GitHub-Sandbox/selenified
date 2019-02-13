@@ -262,6 +262,24 @@ public class CapabilitiesTest {
         assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities.merge(extraCapabilities));
     }
 
+    @Test
+    public void addExtraCapabilitiesJSTest() throws InvalidBrowserException {
+        // what we expect
+        DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
+        expectedDesiredCapabilities.setBrowserName("chrome");
+        expectedDesiredCapabilities.setPlatform(Platform.ANY);
+        expectedDesiredCapabilities.setVersion("");
+        expectedDesiredCapabilities.setJavascriptEnabled(false);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
+        // what we're getting
+        Capabilities capabilities = new Capabilities(new Browser("Chrome"));
+        DesiredCapabilities extraCapabilities = new DesiredCapabilities();
+        extraCapabilities.setJavascriptEnabled(false);
+        capabilities.addExtraCapabilities(extraCapabilities);
+        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
+    }
+
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNoneTest() throws InvalidBrowserException {
         new Capabilities(new Browser("None")).setupDriver();
