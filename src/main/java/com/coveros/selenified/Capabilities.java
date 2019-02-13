@@ -272,7 +272,6 @@ public class Capabilities {
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
             // look for specifics
             desiredCapabilities.setJavascriptEnabled(extraCapabilities.is("javascriptEnabled"));
-            desiredCapabilities.setAcceptInsecureCerts(extraCapabilities.is("acceptInsecureCerts"));
         }
     }
 }
