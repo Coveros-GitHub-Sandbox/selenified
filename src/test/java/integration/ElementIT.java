@@ -3,16 +3,35 @@ package integration;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class ElementIT extends WebBase {
+
+    @Test(groups = {"integration", "element"}, description = "A negative integration test to try to crash defineByElement",
+            expectedExceptions = NullPointerException.class)
+    public void checkNullLocatorTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element table = app.newElement(null, "table");
+        table.getWebElement();
+    }
 
     @Test(groups = {"integration", "element"},
             description = "An integration test to check that a child element is properly located")

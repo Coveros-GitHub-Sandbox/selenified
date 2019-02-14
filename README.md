@@ -5,107 +5,192 @@ both web and API testing, wraps and extends Selenium calls to more appropriately
 and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in 
 parallel. It can be a great starting point for building or improving test automation in your organization.
 
-## Test Examples
-### Getting Started
-One of Selenified's goals is to be a framework that is easy to drop in to an existing project. You can 
-easily have Selenified running within minutes using only a Maven POM, Java test class and a TestNG XML Suite.
+## Getting Started
+One of Selenified’s goals is to be a framework that is easy to drop in to an existing Java project. You 
+can easily have Selenified running within minutes using an existing project, or a new one.
+
+_Note Selenified runs out of the box with Java 8, and modifications are required for alterrnate versions._
 
 ### Adding the Selenified Dependency
-It’s very simple to get started using Selenified. Just add selenified.jar to your project, and you can start 
-writing your test cases. If you’re using a build tool, simply add the jar as a dependency.
+Just add selenified.jar to your project, and you can start writing your test cases. If you’re using a build tool, 
+simply add the jar as a dependency.
 
 #### Maven
-Update your pom.xml file to include
+Update your `pom.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
+<dependencies>
     <dependency>
-    <groupId>com.coveros</groupId>
-    <artifactId>selenified</artifactId>
-    <version>3.0.3</version>
-    <scope>test</scope>
+        <groupId>com.coveros</groupId>
+        <artifactId>selenified</artifactId>
+        <version>3.0.4</version>
+        <scope>test</scope>
     </dependency>
+</dependencies>
 ```
 
 #### Ant
-Update your ivy.xml file to include
+Update your `ivy.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
-    <ivy-module>
-        <dependencies>
-            <dependency org="com.coveros" name="selenified" rev="3.0.3"/>
-        </dependencies>
-    </ivy-module>
+<dependencies>
+    <dependency org="com.coveros" name="selenified" rev="3.0.4" />
+</dependencies>
 ```
 
 #### Gradle
-Update your build.gradle file to include
+Update your `build.gradle` file to include (or add the `testCompile` line to your current dependencies)
 ```groovy
-    dependencies {
-        testCompile 'com.coveros:selenified:3.0.3'
-    }
+dependencies {
+    testCompile group: 'com.coveros', name: 'selenified', version: '3.0.4'
+}
 ```
 
-Have a look at this example test class to get an idea of what you'll actually be adding into your codebase.
-
+### Sample File
+It is suggested to setup your functional Selenified tests as integration tests, following typical java structure, 
+in the `src/test/java` folder, in packages if desired. A sample file is included below, which will compile and run
+if you create the file `src/test/java/ReadmeSampleIT.java`, and paste in the contents  
 ```java
-    public class SampleTests extends Selenified {
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.Selenified;
+import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
+import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.Request;
+import org.testng.ITestContext;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-        @DataProvider(name = "google search terms", parallel = true)
-        public Object[][] DataSetOptions() {
-            return new Object[][] { new Object[] { "python" }, 
-                new Object[] { "perl" }, new Object[] { "bash" }, };
-        }
+import java.util.HashMap;
 
-        @Test(groups = { "sample" }, description = "A sample selenium test to check a title")
-        public void sampleTest() {
-            // use this object to manipulate the app
-            App app = this.apps.get();
-            // verify the correct page title
-            app.azzert().titleEquals("Google");
-            // verify no issues
-            finish();
-        }
+public class ReadmeSampleIT extends Selenified {
 
-         @Test(dataProvider = "google search terms", groups = { "sample"},
-                         description = "A sample selenium test using a data provider to perform a google search")
-         public void sampleTestWDataProvider(String searchTerm) {
-             // use this object to manipulate the app
-             App app = this.apps.get();
-             // find the search box element and create the object
-             Element searchBox = app.newElement(Locator.NAME, "q");
-             //perform the search and submit
-             searchBox.type(searchTerm);
-             searchBox.submit();
-             //wait for the page to return the results
-             app.newElement(Locator.ID, "resultStats").waitFor().present();
-             // verify the correct page title
-             app.azzert().titleEquals(searchTerm + " - Google Search");
-             // verify no issues
-             finish();
-         }
-
-         @Test(groups = { "sampleServices" }, description = "A sample web services test to verify the response code")
-             public void sampleServicesCityTest() {
-             Map<String, String> params = new HashMap<>();
-             params.put("address", "chicago");
-             // use this object to verify the app looks as expected
-             Call call = this.calls.get();
-             // retrieve the zip code and verify the return code
-             call.get("", new Request(params)).assertEquals(200);
-             // verify no issues
-             finish();
-         }
-
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass(ITestContext test) {
+        // set the base URL for the tests here
+        setTestSite(this, test, "https://www.coveros.com/");
     }
-```
 
+    @DataProvider(name = "coveros search terms", parallel = true)
+    public Object[][] DataSetOptions() {
+        return new Object[][]{new Object[]{"python"},
+                new Object[]{"perl"}, new Object[]{"bash"},};
+    }
+
+    @Test(groups = {"sample"}, description = "A sample selenium test to check a title")
+    public void sampleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // verify the correct page title
+        app.azzert().titleEquals("Coveros | Bringing together agile and security to deliver superior software");
+        // verify no issues
+        finish();
+    }
+
+    @Test(dataProvider = "coveros search terms", groups = {"sample"},
+            description = "A sample selenium test using a data provider to perform a search")
+    public void sampleTestWDataProvider(String searchTerm) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // find the search box element and create the object
+        Element searchBox = app.newElement(Locator.NAME, "s");
+        //perform the search and submit
+        searchBox.type(searchTerm);
+        searchBox.submit();
+        //wait for the page to return the results
+        app.newElement(Locator.ID, "recent-posts-4").waitFor().present();
+        // verify the correct page title
+        app.azzert().titleEquals("You searched for " + searchTerm + " - Coveros");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"sample", "services"}, description = "A sample web services test to verify the response code")
+    public void sampleServicesSearchTest() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("s", "Max+Saperstone");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // retrieve the zip code and verify the return code
+        call.get("", new Request().setUrlParams(params)).assertEquals(403);
+        // verify no issues
+        finish();
+    }
+}
+```
 In the first test, sampleTest, the App class is used to check the title of the page. 
 In the next test, sampleTestWDataProvider, the App class is used to generate elements we want
 to interact with; type a search term, submit the search term and the wait for the page to load. 
 We then use that same element in order to verify the title contains the same search term. The 
 'google search terms' dataProvider provides a search term to the test. In the third test, a call 
-is made to the google maps api to retrieve the GPS coordinates of the city of Chicago, then verify
-the response code.
+is made directly to the search api, then only the response code is verified.
 For more information on the App and Call class plus all the other classes used by Selenified, check out the
 documentation [here](https://coveros.github.io/selenified).
+
+### Test Execution
+To execute these tests, either do that directly from your IDE, or you can execute the below commands. More 
+details on test execution and setup is located [here](##Running_Tests).
+#### Maven
+If following the setup indicated, you'll need to use the failsafe plugin in order to execute the tests.
+Update your `pom.xml` file to include
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>3.0.0-M3</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+Then from the command line run
+```bash
+mvn verfiy
+```
+More details can be found on the [Selenified Maven Wiki](https://github.com/Coveros/selenified/wiki/Maven)
+
+#### Ant
+If following the setup indicated, you'll need to setup your test files in a testng block. Update your `build.xml`
+file to include
+```xml
+<taskdef name="testng" classname="org.testng.TestNGAntTask">
+    <classpath location="lib/testng-6.14.3.jar" />
+</taskdef>
+<target name="testng" depends="compile">    
+    <testng classpathref="classpath" outputDir="./target" haltOnFailure="true" verbose="2">
+        <classfileset dir="./target/classes" includes="**/*IT.class" />
+    </testng>
+</target>
+```
+Additionally, you'll need to add a target to execute your tests. Update your `build.xml` file to include
+```xml
+<target name="test" depends="testng" description="Run integration tests in parallel">
+    <java classpathref="classpath" classname="org.testng.TestNG" failonerror="true" />
+</target>
+```
+Then from the command line run
+```bash
+ant test
+```
+More details can be found on the [Selenified Ant Wiki](https://github.com/Coveros/selenified/wiki/Ant)
+
+#### Gradle
+If following the setup indicated, you'll need to add a task to execute your tests. Update your `build.gradle`
+file to include
+```groovy
+task selenified(type:Test) {
+    useTestNG() {}
+}
+```
+Then from the command line run
+```bash
+gradle selenified 
+```
+More details can be found on the [Selenified Gradle Wiki](https://github.com/Coveros/selenified/wiki/Gradle)
 
 ## Writing Tests
 ### Create A New Test Suite
@@ -161,17 +246,15 @@ See below for an example:
 
 While proxy and remote running capability configuration settings are handled by the framework (see below
 sections on parameters), sometimes additional custom capabilities need to be setup for the test execution.
-If needed additional capabilites can be set by overriding the default beforeSuite method. Add whatever desired
-capabilities are required to the `extraCapabilities` object, and then call the parent method. An example is
+If needed, additional capabilites can be set by adding them in a beforeClass method, similar to the author, 
+version, and test site. Add whatever desired capabilities are desired, using the available `addAdditionalDesiredCapabilities`
+method. An example is
 shown below
 
 ```java
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() throws InvalidBrowserException {
-        extraCapabilities = new DesiredCapabilities();
-        extraCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-        extraCapabilities.setCapability("ignoreProtectedModeSettings", true);
-        super.beforeSuite();
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass(ITestContext test) {
+        addAdditionalDesiredCapabilities(this, test, "javascriptEnabled", false);
     }
 ```
 
@@ -549,60 +632,12 @@ be passed in via the above `headless` parameter, or in this method. For multiple
 ```
 -Doptions='--disable-gpu,--headless'
 ```
-#### Failsafe
-The pom included in this project works as an example for specifying which tests to run, and how to execute them. Tests 
-should be executed using the failsafe plugin, if using Maven, following standard Java practices. Several variables can 
-be easily set to specify which tests to run, and how to run them, all from the failsafe plugin itself.
-```xml
-<maven.failsafe.plugin.version>2.21.0</maven.failsafe.plugin.version>
-<!-- Test run information -->
-<failsafe.threads>5</failsafe.threads>
-<failsafe.verbosity>0</failsafe.verbosity>
-<failsafe.groups.include>integration</failsafe.groups.include>
-<failsafe.groups.exclude>browser</failsafe.groups.exclude>
-<failsafe.files.include>**/*IT.java</failsafe.files.include>
-<failsafe.files.exclude></failsafe.files.exclude>
-
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-failsafe-plugin</artifactId>
-    <version>${maven.failsafe.plugin.version}</version>
-    <configuration>
-        <parallel>methods</parallel>
-        <threadCount>${failsafe.threads}</threadCount>
-        <properties>
-            <property>
-                <name>surefire.testng.verbose</name>
-                <value>${failsafe.verbosity}</value>
-            </property>
-            <property>
-                <name>listener</name>
-                <value>com.coveros.selenified.utilities.Transformer</value>
-            </property>
-        </properties>
-        <groups>${failsafe.groups.include}</groups>
-        <excludedGroups>${failsafe.groups.exclude}</excludedGroups>
-        <includes>
-            <include>${failsafe.files.include}</include>
-        </includes>
-        <excludes>
-            <exclude>${failsafe.files.exclude}</exclude>
-        </excludes>
-    </configuration>
-    <executions>
-        <execution>
-            <id>verify</id>
-            <goals>
-                <goal>verify</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-``` 
-Several options exist to change how your tests are run, including `threads` (how many to run in parallel), `verbosity` 
-(how much logging is desired), `groups` (both included and excluded), and `files` (both included and excluded). Be sure 
-to set some standard values like in the above, and these can then be simply overridden from the commandline. More 
-options can he found [here](https://maven.apache.org/surefire/maven-failsafe-plugin/examples/testng.html)
+#### Run Configuration
+Each build tool has specific instructions for modifying what and how tests are run. Checkout the 
+[wiki](https://github.com/Coveros/selenified/wiki) to instructions for each build tool:
+ * [Maven](https://github.com/Coveros/selenified/wiki/Maven)
+ * [Ant](https://github.com/Coveros/selenified/wiki/Ant)
+ * [Gradle](https://github.com/Coveros/selenified/wiki/Gradle)
 
 ### Eclipse
 Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
@@ -642,7 +677,7 @@ ant -DappURL=http://google.com -Dbrowser=Firefox -Dhub=http://localhost -Dproxy=
 ```
 The default task is 'test', which can alternatively be executed, or could be chained with other commands.
 ```
-ant clean test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
+ant test -DappURL=http://google.com -Dbrowser=Android -Dproxy=172.16.3.12:8080
 ```
 #### Maven
 Open up the command prompt. Navigate to the folder where the Test Automation project is checked out using the `cd` 
@@ -667,12 +702,12 @@ gradle clean
 ```
 Once that completes, run the following command to execute the tests:
 ```
-gradle seleniumTest -DappURL=google.com -Dbrowser=Firefox
+gradle selenified -DappURL=google.com -Dbrowser=Firefox
 ```
 To specify different groups of tests to run, instead of manipulating the TestNG xml file, you can provide an 
 additional parameter, groups with the desired group to test
 ```
-gradle seleniumTest -Pgroups=virtual
+gradle selenified -Pgroups=virtual
 ```
 ## Viewing Results
 To view test results, navigate to the newly created target-output folder within the framework directory. Within 
@@ -714,10 +749,6 @@ entire set with a browser, or a subset using HtmlUnit
 mvn clean verify -Dbrowser=Firefox
 mvn clean verify -Dfailsafe.groups.include=virtual
 ```
-
-### Adding the jar to your project
-See the below sections on executing tests to see the proper way to source the jar, and add them to your 
-classpath
 
 ### Packaging Results
 If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property

@@ -7,10 +7,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
 
@@ -20,7 +17,7 @@ public class CapabilitiesTest {
     private String setHub = null;
 
     @BeforeClass (alwaysRun = true)
-    public void saveBrowser() {
+    public void saveHubProxy() {
         if (System.getProperty("proxy") != null) {
             setProxy = System.getProperty("proxy");
         }
@@ -30,19 +27,18 @@ public class CapabilitiesTest {
     }
 
     @AfterClass (alwaysRun = true)
-    public void restoreBrowser() {
-        System.clearProperty("proxy");
+    public void restoreHubProxy() {
         if (setProxy != null) {
             System.setProperty("proxy", setProxy);
         }
-        System.clearProperty("hub");
         if (setHub != null) {
             System.setProperty("hub", setHub);
         }
     }
 
     @BeforeMethod (alwaysRun = true)
-    public void clearBrowser() {
+    @AfterMethod (alwaysRun = true)
+    public void clearHubProxy() {
         System.clearProperty("proxy");
         System.clearProperty("hub");
     }
@@ -325,6 +321,24 @@ public class CapabilitiesTest {
         extraCapabilities.setCapability("unexpectedAlertBehaviour", "ignore");
         capabilities.addExtraCapabilities(extraCapabilities);
         assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities.merge(extraCapabilities));
+    }
+
+    @Test
+    public void addExtraCapabilitiesJSTest() throws InvalidBrowserException {
+        // what we expect
+        DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
+        expectedDesiredCapabilities.setBrowserName("chrome");
+        expectedDesiredCapabilities.setPlatform(Platform.ANY);
+        expectedDesiredCapabilities.setVersion("");
+        expectedDesiredCapabilities.setJavascriptEnabled(false);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
+        // what we're getting
+        Capabilities capabilities = new Capabilities(new Browser("Chrome"));
+        DesiredCapabilities extraCapabilities = new DesiredCapabilities();
+        extraCapabilities.setJavascriptEnabled(false);
+        capabilities.addExtraCapabilities(extraCapabilities);
+        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)

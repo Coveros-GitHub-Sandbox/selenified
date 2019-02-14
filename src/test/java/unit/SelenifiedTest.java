@@ -9,6 +9,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 
@@ -16,25 +17,25 @@ import static org.testng.Assert.*;
 
 public class SelenifiedTest extends Selenified {
 
-    private String setAppURL = null;
+    private String appURL;
 
-    @BeforeClass(alwaysRun = true)
-    public void saveBrowser() {
+    @BeforeClass (alwaysRun = true)
+    public void saveAppURL() {
         if (System.getProperty("appURL") != null) {
-            setAppURL = System.getProperty("appURL");
+            appURL = System.getProperty("appURL");
         }
     }
 
-    @AfterClass
-    public void restoreBrowser() {
-        System.clearProperty("appURL");
-        if (setAppURL != null) {
-            System.setProperty("appURL", setAppURL);
+    @AfterClass (alwaysRun = true)
+    public void restoreAppURL() {
+        if (appURL != null) {
+            System.setProperty("appURL", appURL);
         }
     }
 
-    @BeforeMethod(alwaysRun = true)
-    public void clearBrowser() {
+    @BeforeMethod (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
+    public void clearAppURL() {
         System.clearProperty("appURL");
     }
 
@@ -55,18 +56,6 @@ public class SelenifiedTest extends Selenified {
         System.setProperty("appURL", "http://www.yahoo.com");
         setTestSite(this, context, "google");
         assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
-    }
-
-    @Test
-    public void versionTest(ITestContext context) {
-        setVersion(this, context, "1.0.0");
-        assertEquals(getVersion(this.getClass().getName(), context), "1.0.0");
-    }
-
-    @Test
-    public void authorTest(ITestContext context) {
-        setAuthor(this, context, "Max");
-        assertEquals(getAuthor(this.getClass().getName(), context), "Max");
     }
 
     @Test

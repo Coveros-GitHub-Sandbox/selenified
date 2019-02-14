@@ -50,8 +50,8 @@ import java.util.Date;
  * elements directly out of your app.
  *
  * @author Max Saperstone
- * @version 3.0.4
- * @lastupdate 1/12/2019
+ * @version 3.0.5
+ * @lastupdate 2/11/2019
  */
 public class App {
 
@@ -112,11 +112,6 @@ public class App {
         if (System.getProperty("hub") != null) {
             driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.desiredCapabilities);
         } else {
-            try {
-                this.desiredCapabilities.setJavascriptEnabled(true);
-            } catch (NullPointerException e) {
-                log.error(e);
-            }
             driver = capabilities.setupDriver();
         }
         is = new Is(driver);
