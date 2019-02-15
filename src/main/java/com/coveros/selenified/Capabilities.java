@@ -103,7 +103,7 @@ public class Capabilities {
             case SAFARI:
                 this.desiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
                 // Safari 12 doesn't support setAcceptInsecureCerts, and there is no current workaround
-                if (browser.getVersion().equals("12")) {
+                if ("12".equals(browser.getVersion()) || browser.getVersion() == null) {
                     this.desiredCapabilities.setAcceptInsecureCerts(false);
                 }
                 break;

@@ -167,6 +167,36 @@ public class CapabilitiesTest {
     }
 
     @Test
+    public void setupBrowserCapabilitySafari12() throws InvalidBrowserException {
+        // what we expect
+        DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
+        expectedDesiredCapabilities.setBrowserName("safari");
+        expectedDesiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
+        expectedDesiredCapabilities.setVersion("12");
+        expectedDesiredCapabilities.setJavascriptEnabled(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(false);
+        expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
+        // what we're getting
+        Capabilities capabilities = new Capabilities(new Browser("name=sAFARi&version=12"));
+        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
+    }
+
+    @Test
+    public void setupBrowserCapabilitySafari10() throws InvalidBrowserException {
+        // what we expect
+        DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
+        expectedDesiredCapabilities.setBrowserName("safari");
+        expectedDesiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
+        expectedDesiredCapabilities.setVersion("10");
+        expectedDesiredCapabilities.setJavascriptEnabled(true);
+        expectedDesiredCapabilities.setAcceptInsecureCerts(true);
+        expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
+        // what we're getting
+        Capabilities capabilities = new Capabilities(new Browser("name=sAFARi&version=10"));
+        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
+    }
+
+    @Test
     public void setupBrowserCapabilityPhantom() throws InvalidBrowserException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
