@@ -22,7 +22,7 @@ public class ServicesOverrideIT extends ServicesBase {
         setCredentials(this, test, "servicesUsername", "servicesPassword");
     }
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration test to verify we can successfully set header values")
     public void addHeaderTest() {
         // use this object to verify the app looks as expected
@@ -37,7 +37,7 @@ public class ServicesOverrideIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration test to verify we can successfully set header values")
     public void addHeaderDataTest() {
         // use this object to verify the app looks as expected
@@ -52,7 +52,7 @@ public class ServicesOverrideIT extends ServicesBase {
         finish(2);
     }
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration test to verify we can successfully override standard header values")
     public void overrideAcceptTest() {
         // use this object to verify the app looks as expected
@@ -68,7 +68,7 @@ public class ServicesOverrideIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "headers"},
+    @Test(groups = {"integration", "service", "headers"},
             description = "An integration test to verify we can successfully override standard header values")
     public void overrideCredentialsTest() {
         // use this object to verify the app looks as expected

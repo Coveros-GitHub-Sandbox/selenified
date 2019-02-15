@@ -7,25 +7,25 @@ import static org.testng.Assert.*;
 
 public class SauceTest {
 
-    private String hub;
+    private String hub = null;
 
-    @BeforeClass
-    public void setupArrays() {
+    @BeforeClass (alwaysRun = true)
+    public void saveHub() {
         if (System.getProperty("hub") != null) {
             hub = System.getProperty("hub");
         }
     }
 
-    @AfterClass
-    public void restoreBrowser() {
+    @AfterClass (alwaysRun = true)
+    public void restoreHub() {
         if (hub != null) {
             System.setProperty("hub", hub);
         }
     }
 
-    @BeforeMethod
-    @AfterMethod
-    public void clearBrowser() {
+    @BeforeMethod (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
+    public void clearHub() {
         System.clearProperty("hub");
     }
 

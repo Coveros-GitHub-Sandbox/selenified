@@ -15,7 +15,7 @@ import static org.testng.Assert.assertTrue;
 
 public class ServicesResponseIT extends ServicesBase {
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json array response for data check")
     public void verifyJsonArrayDataCheckGetCall() {
         // use this object to verify the app looks as expected
@@ -26,7 +26,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json object response for data check")
     public void verifyJsonObjectDataCheckGetCall() {
         // use this object to verify the app looks as expected
@@ -39,7 +39,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify message response for data check")
     public void verifyMessageDataCheckGetCall() {
         // use this object to verify the app looks as expected
@@ -52,7 +52,7 @@ public class ServicesResponseIT extends ServicesBase {
 
     //negative checks for assert equals
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify response code negative responses")
     public void negativeSuccessfulGetCall() {
         // use this object to verify the app looks as expected
@@ -63,7 +63,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonArrayIsntObject() {
         // use this object to verify the app looks as expected
@@ -74,7 +74,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectMismatch() {
         // use this object to verify the app looks as expected
@@ -85,7 +85,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonMessageIsntObject() {
         // use this object to verify the app looks as expected
@@ -96,7 +96,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonArrayMismatch() {
         JsonArray json = new JsonArray();
@@ -111,7 +111,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectIsntArray() {
         JsonArray json = new JsonArray();
@@ -124,7 +124,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonMessageIsntArray() {
         JsonArray json = new JsonArray();
@@ -137,7 +137,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonArrayMessageMismatch() {
         JsonArray json = new JsonArray();
@@ -152,7 +152,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectMessageMismatch() {
         JsonArray json = new JsonArray();
@@ -165,7 +165,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonMessageMessageMismatch() {
         // use this object to verify the app looks as expected
@@ -180,7 +180,7 @@ public class ServicesResponseIT extends ServicesBase {
 
     // checks for assert contains
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonArrayContains() {
         // use this object to verify the app looks as expected
@@ -191,7 +191,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectContainsInteger() {
         Map<String, Object> values = new HashMap<>();
@@ -204,7 +204,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectContainsString() {
         Map<String, Object> values = new HashMap<>();
@@ -217,7 +217,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectContainsMultiple() {
         Map<String, Object> values = new HashMap<>();
@@ -231,7 +231,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonMessageContains() {
         // use this object to verify the app looks as expected
@@ -242,7 +242,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish();
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonArrayDoesntContain() {
         JsonObject json = new JsonObject();
@@ -258,7 +258,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectDoesntContain() {
         Map<String, Object> values = new HashMap<>();
@@ -271,7 +271,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonMessageDoesntContain() {
         // use this object to verify the app looks as expected
@@ -282,7 +282,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonArrayDoesntContainMismatch() {
         Map<String, Object> values = new HashMap<>();
@@ -295,7 +295,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonObjectDoesntContainMismatch() {
         JsonObject json = new JsonObject();
@@ -311,7 +311,7 @@ public class ServicesResponseIT extends ServicesBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpget", "response"},
+    @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonMessageDoesntContainMismatch() {
         // use this object to verify the app looks as expected

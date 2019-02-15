@@ -51,7 +51,7 @@ import java.util.Date;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/11/2019
+ * @lastupdate 2/14/2019
  */
 public class App {
 
@@ -102,7 +102,7 @@ public class App {
      */
     public App(Capabilities capabilities,
                OutputFile file) throws InvalidBrowserException, MalformedURLException {
-        if( capabilities == null) {
+        if (capabilities == null) {
             capabilities = new Capabilities(new Browser("None"));
         }
         this.browser = capabilities.getBrowser();
@@ -315,6 +315,7 @@ public class App {
         double timetook = System.currentTimeMillis() - start;
         timetook = timetook / 1000;
         file.recordAction(action, expected, "Loaded " + url + " in " + timetook + SECONDS, Result.SUCCESS);
+        acceptCertificate();
     }
 
     /**
@@ -408,8 +409,8 @@ public class App {
         String action = "Reloading current page while clearing the cache";
         String expected = "Cache is cleared, and the page is refreshed";
         try {
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
-            driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
+            driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
+            driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
         } catch (Exception e) {
             file.recordAction(action, expected,
                     "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Result.FAILURE);
@@ -596,6 +597,7 @@ public class App {
             return;
         }
         file.recordAction(action, expected, expected, Result.SUCCESS);
+        acceptCertificate();
     }
 
     /**
@@ -744,6 +746,33 @@ public class App {
         file.recordAction(action, expected, expected, Result.SUCCESS);
     }
 
+    /**
+     * Safari, Edge and IE don't recognize the allowInsecureCert capability. As a result, an alternative method is
+     * provided in order to 'manually' accept the problematic certificate
+     */
+    public void acceptCertificate() {
+        String action = "Clicking override link to accept ssl certificate";
+        String result = "Override link clicked";
+        //for IE and Edge
+        if (browser.getName() == BrowserName.INTERNETEXPLORER || browser.getName() == BrowserName.EDGE) {
+            Element overrideLink = newElement(Locator.ID, "overridelink");
+            if (overrideLink.is().present()) {
+                try {
+                    if (browser.getName() == BrowserName.EDGE) {
+                        newElement(Locator.ID, "moreInformationDropdownSpan").getWebElement().click();
+                    }
+                    overrideLink.getWebElement().click();
+                    file.recordAction(action, result, result, Result.SUCCESS);
+                } catch (Exception e) {
+                    file.recordAction(action, result, "Unable to click override link. "
+                            + e.getMessage(), Result.FAILURE);
+                    file.addError();
+                    log.warn(e);
+                }
+            }
+        }
+    }
+
     //////////////////////////
     // pop-up interactions
     /////////////////////////
@@ -799,16 +828,16 @@ public class App {
      * @param expected - the expected result
      * @return Boolean: is a confirmation actually present or not.
      */
-    private boolean isConfirmation(String action, String expected) {
+    private boolean isNotConfirmation(String action, String expected) {
         // wait for element to be present
         if (!is.confirmationPresent()) {
             waitFor.confirmationPresent();
         }
         if (!is.confirmationPresent()) {
             file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
-            return false; // indicates element not present
+            return true; // indicates element not present
         }
-        return true;
+        return false;
     }
 
     /**
@@ -821,7 +850,7 @@ public class App {
      * @param perform  - the action occurring to the prompt
      * @return Boolean: is a prompt actually present or not.
      */
-    private boolean isPrompt(String action, String expected, String perform) {
+    private boolean isNotPrompt(String action, String expected, String perform) {
         // wait for element to be present
         if (!is.promptPresent()) {
             waitFor.promptPresent();
@@ -829,9 +858,9 @@ public class App {
         if (!is.promptPresent()) {
             file.recordAction(action, expected, "Unable to " + perform + " prompt as it is not present",
                     Result.FAILURE);
-            return false; // indicates element not present
+            return true; // indicates element not present
         }
-        return true;
+        return false;
     }
 
     /**
@@ -857,7 +886,7 @@ public class App {
     public void acceptConfirmation() {
         String action = "Clicking 'OK' on a confirmation";
         String expected = "Confirmation is present to be clicked";
-        if (!isConfirmation(action, expected)) {
+        if (isNotConfirmation(action, expected)) {
             return;
         }
         accept(action, expected, "confirmation");
@@ -869,7 +898,7 @@ public class App {
     public void dismissConfirmation() {
         String action = "Clicking 'Cancel' on a confirmation";
         String expected = "Confirmation is present to be clicked";
-        if (!isConfirmation(action, expected)) {
+        if (isNotConfirmation(action, expected)) {
             return;
         }
         dismiss(action, expected, "confirmation");
@@ -881,7 +910,7 @@ public class App {
     public void acceptPrompt() {
         String action = "Clicking 'OK' on a prompt";
         String expected = "Prompt is present to be clicked";
-        if (!isPrompt(action, expected, "click")) {
+        if (isNotPrompt(action, expected, "click")) {
             return;
         }
         accept(action, expected, "prompt");
@@ -893,7 +922,7 @@ public class App {
     public void dismissPrompt() {
         String action = "Clicking 'Cancel' on a prompt";
         String expected = "Prompt is present to be clicked";
-        if (!isPrompt(action, expected, "click")) {
+        if (isNotPrompt(action, expected, "click")) {
             return;
         }
         dismiss(action, expected, "prompt");
@@ -907,7 +936,7 @@ public class App {
     public void typeIntoPrompt(String text) {
         String action = "Typing text '" + text + "' into prompt";
         String expected = "Prompt is present and enabled to have text " + text + " typed in";
-        if (!isPrompt(action, expected, "type into")) {
+        if (isNotPrompt(action, expected, "type into")) {
             return;
         }
         try {

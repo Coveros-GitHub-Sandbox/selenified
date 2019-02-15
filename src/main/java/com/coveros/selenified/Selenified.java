@@ -62,7 +62,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/11/2019
+ * @lastupdate 2/14/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -195,7 +195,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -442,6 +442,7 @@ public class Selenified {
                 file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
                 file.addError();
             }
+            app.acceptCertificate();
         }
     }
 
@@ -580,6 +581,7 @@ public class Selenified {
             for (Browser browser : browsers) {
                 Capabilities capabilities = new Capabilities(browser);
                 capabilities.setupProxy();
+                capabilities.setupSauceCapabilities();
                 Selenified.CAPABILITIES.add(capabilities);
             }
         }

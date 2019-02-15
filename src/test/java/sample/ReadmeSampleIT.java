@@ -27,7 +27,7 @@ public class ReadmeSampleIT extends Selenified {
                 new Object[]{"perl"}, new Object[]{"bash"},};
     }
 
-    @Test(groups = {"sample"}, description = "A sample selenium test to check a title")
+    @Test(groups = {"sample", "coveros"}, description = "A sample selenium test to check a title")
     public void sampleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -37,7 +37,7 @@ public class ReadmeSampleIT extends Selenified {
         finish();
     }
 
-    @Test(dataProvider = "coveros search terms", groups = {"sample"},
+    @Test(dataProvider = "coveros search terms", groups = {"sample", "coveros"},
             description = "A sample selenium test using a data provider to perform a search")
     public void sampleTestWDataProvider(String searchTerm) {
         // use this object to manipulate the app
@@ -55,7 +55,7 @@ public class ReadmeSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"sample", "services"}, description = "A sample web services test to verify the response code")
+    @Test(groups = {"sample", "service", "coveros"}, description = "A sample web services test to verify the response code")
     public void sampleServicesSearchTest() {
         HashMap<String, Object> params = new HashMap<>();
         params.put("s", "Max+Saperstone");

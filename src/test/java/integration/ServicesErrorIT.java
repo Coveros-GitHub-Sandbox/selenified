@@ -33,7 +33,7 @@ public class ServicesErrorIT extends Selenified {
         super.startTest(dataProvider, method, test, result, FALSE);
     }
 
-    @Test(groups = {"integration", "services", "httpget"},
+    @Test(groups = {"integration", "service", "httpget"},
             description = "An integration test to verify the response code from a get call")
     public void compareGetResponseCode200Test() {
         // use this object to make calls
@@ -44,7 +44,7 @@ public class ServicesErrorIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httppost"},
+    @Test(groups = {"integration", "service", "httppost"},
             description = "An integration test to verify the response code from a post call")
     public void comparePostResponseCode201Test() {
         // use this object to verify the app looks as expected
@@ -55,7 +55,7 @@ public class ServicesErrorIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpput"},
+    @Test(groups = {"integration", "service", "httpput"},
             description = "An integration test to verify the response code from a put call")
     public void comparePutResponseCode200Test() {
         // use this object to verify the app looks as expected
@@ -66,7 +66,7 @@ public class ServicesErrorIT extends Selenified {
         finish(1);
     }
 
-    @Test(groups = {"integration", "services", "httpdelete"},
+    @Test(groups = {"integration", "service", "httpdelete"},
             description = "An integration test to verify the response code from a delete call")
     public void compareDeleteResponseCode200Test() {
         // use this object to verify the app looks as expected

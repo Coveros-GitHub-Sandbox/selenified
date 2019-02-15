@@ -757,3 +757,30 @@ and set it to true
 mvn clean verify -Dbrowser=Firefox -DpackageResults=true
 ```
 The zipped results will be placed in the same directory as the test results
+
+## Known Issues
+* Safari through 10 doesn't properly handle alerts. These exceptions are caught and handled in the code, but will
+cause tests to fail. This is an Apple/Selenium issue, not specific to Selenified. Using version 11.0 onwards of Safari 
+will alleviate this problem.
+https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+* Safari through 10 can't navigate using forward or backward history functionality. These exceptions are caught and handled 
+in the code, but will cause tests to fail. This is an Apple/Selenium issue, not specific to Selenified.  Using version 
+11.0 onwards of Safari will alleviate this problem.
+https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
+* Unable to access, edit, or clear cookies in Edge as of version 18. These exceptions are caught and handled in the code, 
+but may cause tests to fail, as cookies present are always returned as false. This is a Microsoft Edge
+and EdgeDriver issue, not specific to Selenified.
+https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+* Safari 12 doesn't properly handle insecure (expired, invalid, bad, etc) ssl certificates. As a result, Safari gets stuck
+on the page indicating the certificate is invalid. There is currently no work around for this issue, other than installing
+a valid certificate for the site.
+
+### Skipping Tests
+To handle some of these known issues, the ability to skip a test, based on the browser is provided. For example
+if a particular test includes html alerts, you might want to indicate to never run this test in Safari, as it will
+always fail. In this case, a standard group can be added to this test case, so that it is always skipped if 
+Safari is the specified browser, but otherwise, always run.
+```java
+    @Test(groups = { "no-safari" }, description = "Verified a pop-up alert is present - won't run properly in Safari")
+```
+All browsers are supported for this feature, simply prepend the browser name with `no-` in the group name.

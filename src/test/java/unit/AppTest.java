@@ -15,23 +15,23 @@ public class AppTest {
 
     private String setHub = null;
 
-    @BeforeClass
-    public void saveBrowser() {
+    @BeforeClass (alwaysRun = true)
+    public void saveHub() {
         if (System.getProperty("hub") != null) {
             setHub = System.getProperty("hub");
         }
     }
 
-    @AfterClass
-    public void restoreBrowser() {
+    @AfterClass (alwaysRun = true)
+    public void restoreHub() {
         if (setHub != null) {
             System.setProperty("hub", setHub);
         }
     }
 
-    @BeforeMethod
-    @AfterMethod
-    public void clearBrowser() {
+    @BeforeMethod (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
+    public void clearHub() {
         System.clearProperty("hub");
     }
 
@@ -39,14 +39,12 @@ public class AppTest {
     public void checkElementTypeTest() throws InvalidBrowserException, MalformedURLException {
         System.setProperty("hub", "http://myurl");
         new App(new Capabilities(new Browser("htmlunIT")), null);
-        System.clearProperty("hub");
     }
 
     @Test(expectedExceptions = MalformedURLException.class)
     public void checkElementTypeBadURLTest() throws InvalidBrowserException, MalformedURLException {
         System.setProperty("hub", "myurl");
         new App(new Capabilities(new Browser("htmlunit")), null);
-        System.clearProperty("hub");
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)

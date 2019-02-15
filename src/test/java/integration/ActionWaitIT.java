@@ -8,44 +8,59 @@ import org.testng.annotations.Test;
 
 public class ActionWaitIT extends WebBase {
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the wait method")
     public void waitTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.wait(5.0);
-        app.newElement(Locator.ID, "five_second_button").click();
+        app.wait(4.0);
+        app.newElement(Locator.ID, "nocheck").assertState().notPresent();
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
+            description = "An integration test to check changing the default wait method")
+    public void setDefaultWaitAppNegativeTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().changeDefaultWait(0.5);
+        app.newElement(Locator.ID, "delayed_alert_button").click();
+        app.waitFor().alertPresent();
+        app.azzert().alertPresent();
+        // verify 2 issues
+        finish(2);
+    }
+
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check changing the default wait method")
     public void setDefaultWaitAppTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().changeDefaultWait(3.0);
-        app.newElement(Locator.ID, "five_second_button").click();
-        // verify 1 issue
-        finish(1);
+        app.newElement(Locator.ID, "delayed_alert_button").click();
+        app.waitFor().alertPresent();
+        app.azzert().alertPresent();
+        // verify no issues
+        finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check changing the default wait method")
     public void setDefaultWaitElementTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         Element element = app.newElement(Locator.ID, "five_second_button");
-        element.waitFor().changeDefaultWait(3.0);
+        element.waitFor().changeDefaultWait(0.5);
         element.click();
         // verify 1 issue
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait", "browser"},
+    @Test(groups = {"integration", "action", "wait", "browser"},
             description = "An integration negative test to check the wait method")
     public void negativeWaitTest() {
         // use this object to manipulate the app
@@ -57,7 +72,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the wait method")
     public void negativeWaitErrorTest() {
         // use this object to manipulate the app
@@ -69,7 +84,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait", "location"},
+    @Test(groups = {"integration", "action", "wait", "location"},
             description = "An integration test to check the wait for location method")
     public void waitLocationTest(ITestContext context) {
         // use this object to manipulate the app
@@ -77,10 +92,10 @@ public class ActionWaitIT extends WebBase {
         // perform some actions
         app.waitFor().location(getTestSite(this.getClass().getName(), context));
         // verify no issues
-        finish(0);
+        finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait", "location"},
+    @Test(groups = {"integration", "action", "wait", "location"},
             description = "An integration negative test to check the wait for location method")
     public void negativeWaitLocationTest() {
         // use this object to manipulate the app
@@ -91,7 +106,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait", "title"},
+    @Test(groups = {"integration", "action", "wait", "title"},
             description = "An integration test to check the wait for title method")
     public void waitTitleTest() {
         // use this object to manipulate the app
@@ -99,10 +114,10 @@ public class ActionWaitIT extends WebBase {
         // perform some actions
         app.waitFor().title("Selenified Test Page");
         // verify no issues
-        finish(0);
+        finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait", "title"},
+    @Test(groups = {"integration", "action", "wait", "title"},
             description = "An integration negative test to check the wait for title method")
     public void negativeWaitTitleTest() {
         // use this object to manipulate the app
@@ -113,7 +128,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresentTest() {
         // use this object to manipulate the app
@@ -124,7 +139,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresent2Test() {
         // use this object to manipulate the app
@@ -135,7 +150,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementPresent method")
     public void waitForElementPresent3Test() {
         // use this object to manipulate the app
@@ -146,7 +161,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the waitForElementPresent method")
     public void negativeWaitForElementPresentTest() {
         // use this object to manipulate the app
@@ -157,7 +172,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresentTest() {
         // use this object to manipulate the app
@@ -168,7 +183,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent2Test() {
         // use this object to manipulate the app
@@ -179,7 +194,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent3Test() {
         // use this object to manipulate the app
@@ -190,7 +205,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementNotPresent method")
     public void waitForElementNotPresent4Test() {
         // use this object to manipulate the app
@@ -201,7 +216,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the waitForElementNotPresent method")
     public void negativeWaitForElementNotPresentTest() {
         // use this object to manipulate the app
@@ -212,7 +227,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedTest() {
         // use this object to manipulate the app
@@ -223,7 +238,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedDelayedPresenceTest() {
         // use this object to manipulate the app
@@ -235,7 +250,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the waitForElementDisplayed method")
     public void waitForElementDisplayedDelayedDisplayTest() {
         // use this object to manipulate the app
@@ -247,7 +262,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the waitForElementDisplayed method")
     public void negativeWaitForElementDisplayedTest() {
         // use this object to manipulate the app
@@ -258,7 +273,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the waitForElementDisplayed method")
     public void negativeWaitForElementDisplayedHiddenTest() {
         // use this object to manipulate the app
@@ -269,7 +284,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedTest() {
         // use this object to manipulate the app
@@ -280,7 +295,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedNotPresentTest() {
         // use this object to manipulate the app
@@ -291,7 +306,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedDelayedTest() {
         // use this object to manipulate the app
@@ -305,7 +320,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotDisplayed method")
     public void waitForElementNotDisplayedDeletedTest() {
         // use this object to manipulate the app
@@ -319,7 +334,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the WaitForElementNotDisplayed method")
     public void negativeWaitForElementNotDisplayedTest() {
         // use this object to manipulate the app
@@ -330,7 +345,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledTest() {
         // use this object to manipulate the app
@@ -341,7 +356,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledDelayedPresenceTest() {
         // use this object to manipulate the app
@@ -353,7 +368,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementEnabled method")
     public void waitForElementEnabledDelayedEnabledTest() {
         // use this object to manipulate the app
@@ -365,7 +380,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the WaitForElementEnabled method")
     public void negativeWaitForElementEnabledTest() {
         // use this object to manipulate the app
@@ -376,7 +391,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledTest() {
         // use this object to manipulate the app
@@ -387,7 +402,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabled2Test() {
         // use this object to manipulate the app
@@ -398,7 +413,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledNotExistTest() {
         // use this object to manipulate the app
@@ -409,7 +424,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledDelayedTest() {
         // use this object to manipulate the app
@@ -423,7 +438,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration test to check the WaitForElementNotEnabled method")
     public void waitForElementNotEnabledDeletedTest() {
         // use this object to manipulate the app
@@ -437,7 +452,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the WaitForElementNotEnabled method")
     public void negativeWaitForNotElementEnabledTest() {
         // use this object to manipulate the app
@@ -448,7 +463,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForPromptPresent method")
     public void waitForPromptPresentTest() {
         // use this object to manipulate the app
@@ -460,7 +475,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "A integration negative test to check the waitForPromptPresent method")
     public void negativeWaitForPromptPresentTest() {
         // use this object to manipulate the app
@@ -471,7 +486,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForConfirmationPresent method")
     public void waitForConfirmationPresentTest() {
         // use this object to manipulate the app
@@ -483,7 +498,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the waitForConfirmationPresent method")
     public void negativeWaitForConfirmationPresentTest() {
         // use this object to manipulate the app
@@ -494,7 +509,7 @@ public class ActionWaitIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait", "alert"},
             description = "An integration test to check the waitForAlertPresent method")
     public void waitForAlertPresentTest() {
         // use this object to manipulate the app
@@ -507,7 +522,7 @@ public class ActionWaitIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "wait"},
+    @Test(groups = {"integration", "action", "wait"},
             description = "An integration negative test to check the waitForAlertPresent method")
     public void negativeWaitForAlertPresentTest() {
         // use this object to manipulate the app

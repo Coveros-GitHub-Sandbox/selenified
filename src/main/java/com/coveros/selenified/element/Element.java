@@ -47,7 +47,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/11/2019
+ * @lastupdate 2/14/2019
  */
 public class Element {
 
@@ -1155,7 +1155,7 @@ public class Element {
             // Crop the entire page screenshot to get only element screenshot
             BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
             ImageIO.write(eleScreenshot, "png", image);
-        } catch (RasterFormatException | IOException e) {
+        } catch (WebDriverException | RasterFormatException | IOException e) {
             log.error(e);
         }
         return imageLink;

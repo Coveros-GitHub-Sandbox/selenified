@@ -9,6 +9,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class TestCaseTest {
+
     @Test
     public void getRandomStringLengthTest() {
         assertEquals(TestCase.getRandomString(0).length(), 0);

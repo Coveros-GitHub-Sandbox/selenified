@@ -169,7 +169,6 @@ public class Listener extends TestListenerAdapter {
                             getFolderName(result) + "/" + filename + LINK_MIDDLE + testName +
                             LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
-
         // update sauce labs
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();
