@@ -54,7 +54,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/11/2019
+ * @lastupdate 2/14/2019
  */
 public class Capabilities {
 
@@ -102,7 +102,10 @@ public class Capabilities {
                 break;
             case SAFARI:
                 this.desiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
-                this.desiredCapabilities.setAcceptInsecureCerts(false);
+                // Safari 12 doesn't support setAcceptInsecureCerts, and there is no current workaround
+                if (browser.getVersion().equals("12")) {
+                    this.desiredCapabilities.setAcceptInsecureCerts(false);
+                }
                 break;
             default:
                 this.desiredCapabilities.setPlatform(Platform.ANY);

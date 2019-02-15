@@ -36,7 +36,7 @@ import java.util.Arrays;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 5/16/2018
+ * @lastupdate 2/14/2019
  */
 public class Equals extends Assert {
 

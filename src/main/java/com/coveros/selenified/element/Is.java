@@ -32,7 +32,7 @@ import org.testng.log4testng.Logger;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 9/1/2017
+ * @lastupdate 2/14/2019
  */
 public class Is {
 

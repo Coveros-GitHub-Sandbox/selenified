@@ -771,7 +771,7 @@ https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3771
 but may cause tests to fail, as cookies present are always returned as false. This is a Microsoft Edge
 and EdgeDriver issue, not specific to Selenified.
 https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-* Safari doesn't properly handle insecure (expired, invalid, bad, etc) ssl certificates. As a result, Safari gets stuck
+* Safari 12 doesn't properly handle insecure (expired, invalid, bad, etc) ssl certificates. As a result, Safari gets stuck
 on the page indicating the certificate is invalid. There is currently no work around for this issue, other than installing
 a valid certificate for the site.
 

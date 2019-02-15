@@ -42,7 +42,7 @@ import java.util.Date;
 
 /**
  * App is an instance of the browser based application that is under test.
- * <p>
+ *
  * Pages should be build out of this object (if using the page object model
  * (POM)), so that several pages make up an app. Within each page, multiple
  * elements should be created. In this way, we can act on our app, page, or
@@ -51,7 +51,7 @@ import java.util.Date;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/11/2019
+ * @lastupdate 2/14/2019
  */
 public class App {
 
@@ -771,8 +771,6 @@ public class App {
                 }
             }
         }
-        //for Safari
-        //TODO, pending sauce ticket #63099
     }
 
     //////////////////////////
@@ -830,16 +828,16 @@ public class App {
      * @param expected - the expected result
      * @return Boolean: is a confirmation actually present or not.
      */
-    private boolean isConfirmation(String action, String expected) {
+    private boolean isNotConfirmation(String action, String expected) {
         // wait for element to be present
         if (!is.confirmationPresent()) {
             waitFor.confirmationPresent();
         }
         if (!is.confirmationPresent()) {
             file.recordAction(action, expected, "Unable to click confirmation as it is not present", Result.FAILURE);
-            return false; // indicates element not present
+            return true; // indicates element not present
         }
-        return true;
+        return false;
     }
 
     /**
@@ -852,7 +850,7 @@ public class App {
      * @param perform  - the action occurring to the prompt
      * @return Boolean: is a prompt actually present or not.
      */
-    private boolean isPrompt(String action, String expected, String perform) {
+    private boolean isNotPrompt(String action, String expected, String perform) {
         // wait for element to be present
         if (!is.promptPresent()) {
             waitFor.promptPresent();
@@ -860,9 +858,9 @@ public class App {
         if (!is.promptPresent()) {
             file.recordAction(action, expected, "Unable to " + perform + " prompt as it is not present",
                     Result.FAILURE);
-            return false; // indicates element not present
+            return true; // indicates element not present
         }
-        return true;
+        return false;
     }
 
     /**
@@ -888,7 +886,7 @@ public class App {
     public void acceptConfirmation() {
         String action = "Clicking 'OK' on a confirmation";
         String expected = "Confirmation is present to be clicked";
-        if (!isConfirmation(action, expected)) {
+        if (isNotConfirmation(action, expected)) {
             return;
         }
         accept(action, expected, "confirmation");
@@ -900,7 +898,7 @@ public class App {
     public void dismissConfirmation() {
         String action = "Clicking 'Cancel' on a confirmation";
         String expected = "Confirmation is present to be clicked";
-        if (!isConfirmation(action, expected)) {
+        if (isNotConfirmation(action, expected)) {
             return;
         }
         dismiss(action, expected, "confirmation");
@@ -912,7 +910,7 @@ public class App {
     public void acceptPrompt() {
         String action = "Clicking 'OK' on a prompt";
         String expected = "Prompt is present to be clicked";
-        if (!isPrompt(action, expected, "click")) {
+        if (isNotPrompt(action, expected, "click")) {
             return;
         }
         accept(action, expected, "prompt");
@@ -924,7 +922,7 @@ public class App {
     public void dismissPrompt() {
         String action = "Clicking 'Cancel' on a prompt";
         String expected = "Prompt is present to be clicked";
-        if (!isPrompt(action, expected, "click")) {
+        if (isNotPrompt(action, expected, "click")) {
             return;
         }
         dismiss(action, expected, "prompt");
@@ -938,7 +936,7 @@ public class App {
     public void typeIntoPrompt(String text) {
         String action = "Typing text '" + text + "' into prompt";
         String expected = "Prompt is present and enabled to have text " + text + " typed in";
-        if (!isPrompt(action, expected, "type into")) {
+        if (isNotPrompt(action, expected, "type into")) {
             return;
         }
         try {
