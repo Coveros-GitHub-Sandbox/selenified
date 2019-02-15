@@ -729,25 +729,16 @@ with these trending results.
 ## Installation
 ### Building the jar
 If you want to compile the jar from the source code, use maven. Maven can be used to run unit tests, run
-integration tests, build javadocs, and build the executable jar. To simply execute the unit tests, run the
-below command
-```
-mvn clean test
-```
-To also build the jars, run the below commands
+integration tests, build javadocs, and build the executable jar. To simply create the jar, run the below command
 ```
 mvn clean package
 ```
-To run the integration tests, use the verify goal. The integration tests currently point at a private server
-hosting the file found in this base directory called `index.html`. In order to properly execute these tests,
-host this file, and set the testSite to point to the hosted file's location. This can be done dynamically through
-the command line, as outlined below in the Application URL section.
-
-Some of the integration tests require a physical browser to run, and so they can be run two different ways, the 
-entire set with a browser, or a subset using HtmlUnit
+To also run the integration tests, use the verify goal. Some of the integration tests require a physical browser 
+to run, and so they can be run two different ways, the entire set with a browser, or a subset using HtmlUnit. Use
+the Jenkinsfile as a guide. Below is a good example
 ```
-mvn clean verify -Dbrowser=Firefox
-mvn clean verify -Dfailsafe.groups.include=virtual
+mvn clean verify
+mvn clean verify -Dbrowser=chrome -Dfailsafe.groups.exclude=""
 ```
 
 ### Packaging Results
