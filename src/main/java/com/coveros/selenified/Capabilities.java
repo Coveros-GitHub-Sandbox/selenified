@@ -66,6 +66,7 @@ public class Capabilities {
     private Browser browser;
     private int instance;
     private DesiredCapabilities desiredCapabilities;
+    private boolean addedExtraCapabilities = false;
 
     /**
      * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
@@ -76,11 +77,11 @@ public class Capabilities {
             throw new InvalidBrowserException("A valid browser was not provided");
         }
         this.browser = browser;
+        this.desiredCapabilities = new DesiredCapabilities();
         setDesiredCapabilities();
     }
 
     private void setDesiredCapabilities() {
-        this.desiredCapabilities = new DesiredCapabilities();
         if (browser.getName() == BrowserName.NONE) {
             this.desiredCapabilities = null;
             return;
@@ -125,6 +126,9 @@ public class Capabilities {
         // always enable javascript, accept certs, and start with a clean session
         this.desiredCapabilities.setJavascriptEnabled(true);
         this.desiredCapabilities.setCapability("ensureCleanSession", true);
+        // setup additional non-browser capabilities
+        setupProxy();
+        setupSauceCapabilities();
     }
 
     /**
@@ -292,8 +296,16 @@ public class Capabilities {
      */
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
-            setDesiredCapabilities();
+            addedExtraCapabilities = true;
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
+        }
+    }
+
+    public void resetDesiredCapabilities() {
+        if (addedExtraCapabilities) {
+            addedExtraCapabilities = false;
+            desiredCapabilities = new DesiredCapabilities();
+            setDesiredCapabilities();
         }
     }
 }

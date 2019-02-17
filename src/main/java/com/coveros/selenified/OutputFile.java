@@ -208,7 +208,7 @@ public class OutputFile {
             try {
                 throw new IOException("Unable to create output directory");
             } catch (IOException e) {
-                log.error(e);
+                log.info(e);
             }
         }
         if (!file.exists()) {

@@ -195,7 +195,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -469,6 +469,8 @@ public class Selenified {
         if (test.getAttributeNames().contains(testName + INVOCATION_COUNT)) {
             invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
         }
+        Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
+        capabilities.resetDesiredCapabilities();
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
     }
 
@@ -519,6 +521,47 @@ public class Selenified {
         }
     }
 
+
+    /**
+     * looks at the browser information passed in, and loads that data into a
+     * list
+     *
+     * @return List: a list of all browser
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be thrown
+     */
+    private static List<Browser> getBrowserInput() throws InvalidBrowserException {
+        List<Browser> browsers = new ArrayList<>();
+        // null input check
+        if (System.getProperty(BROWSER_INPUT) == null) {
+            return browsers;
+        }
+        String[] browserInput = System.getProperty(BROWSER_INPUT).split(",");
+        for (String singleBrowserInput : browserInput) {
+            browsers.add(new Browser(singleBrowserInput));
+        }
+        return browsers;
+    }
+
+    /**
+     * Obtains passed in browser information, and sets up the required
+     * capabilities
+     *
+     * @throws InvalidBrowserException If a browser that is not one specified in the
+     *                                 Selenium.Browser class is used, this exception will be
+     *                                 thrown
+     */
+    private static void setupTestParameters() throws InvalidBrowserException {
+        if (System.getProperty(BROWSER_INPUT) == null) {
+            System.setProperty(BROWSER_INPUT, BrowserName.HTMLUNIT.toString());
+        }
+        List<Browser> browsers = getBrowserInput();
+
+        for (Browser browser : browsers) {
+            Selenified.CAPABILITIES.add(new Capabilities(browser));
+        }
+    }
+
     /**
      * Setups up the initial system for test. As a singleton, this is only done
      * once per test suite.
@@ -562,49 +605,6 @@ public class Selenified {
             wasInvoked = true;
             // downgrade our logging
             java.util.logging.Logger.getLogger("io.github").setLevel(Level.SEVERE);
-        }
-
-        /**
-         * Obtains passed in browser information, and sets up the required
-         * capabilities
-         *
-         * @throws InvalidBrowserException If a browser that is not one specified in the
-         *                                 Selenium.Browser class is used, this exception will be
-         *                                 thrown
-         */
-        private static void setupTestParameters() throws InvalidBrowserException {
-            if (System.getProperty(BROWSER_INPUT) == null) {
-                System.setProperty(BROWSER_INPUT, BrowserName.HTMLUNIT.toString());
-            }
-            List<Browser> browsers = getBrowserInput();
-
-            for (Browser browser : browsers) {
-                Capabilities capabilities = new Capabilities(browser);
-                capabilities.setupProxy();
-                capabilities.setupSauceCapabilities();
-                Selenified.CAPABILITIES.add(capabilities);
-            }
-        }
-
-        /**
-         * looks at the browser information passed in, and loads that data into a
-         * list
-         *
-         * @return List: a list of all browser
-         * @throws InvalidBrowserException If a browser that is not one specified in the
-         *                                 Selenium.Browser class is used, this exception will be thrown
-         */
-        private static List<Browser> getBrowserInput() throws InvalidBrowserException {
-            List<Browser> browsers = new ArrayList<>();
-            // null input check
-            if (System.getProperty(BROWSER_INPUT) == null) {
-                return browsers;
-            }
-            String[] browserInput = System.getProperty(BROWSER_INPUT).split(",");
-            for (String singleBrowserInput : browserInput) {
-                browsers.add(new Browser(singleBrowserInput));
-            }
-            return browsers;
         }
     }
 }
