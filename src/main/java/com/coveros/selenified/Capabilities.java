@@ -291,8 +291,8 @@ public class Capabilities {
      * @param extraCapabilities any additional parameters to set for selenium
      */
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
-        setDesiredCapabilities();
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
+            setDesiredCapabilities();
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
         }
     }

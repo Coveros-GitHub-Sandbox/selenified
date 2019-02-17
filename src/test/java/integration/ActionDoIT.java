@@ -8,6 +8,7 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.Point;
 import com.coveros.selenified.utilities.Sauce;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Platform;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -661,8 +662,13 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "car_list").type(Keys.DOWN);
         app.newElement(Locator.ID, "car_list").assertEquals().selectedValue("saab");
-        // verify no issues
-        finish();
+        if (this.apps.get().getBrowser().getName() == Browser.BrowserName.CHROME && this.apps.get().getBrowser().getPlatform() == Platform.MAC) {
+            // known issue with chrome on mac, arrows don't work on select
+            finish(1);
+        } else {
+            // verify no issues
+            finish();
+        }
     }
 
     @Test(groups = {"integration", "action", "do", "type"},
