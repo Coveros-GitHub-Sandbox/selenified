@@ -24,6 +24,8 @@
         var displayed_when_hovered = document.getElementById("displayed_when_hovered");
         var new_window = document.getElementById("new_window");
         var delayed_alert_button = document.getElementById("delayed_alert_button");
+        var focus_box = document.getElementById("focus_box");
+        var blur_box = document.getElementById("blur_box");
 
         // Disable the button on initial page load
         alert_button.disabled = true;
@@ -93,8 +95,12 @@
             displayed_when_hovered.className = "hidden_div";
         });
 
-        input_box.addEventListener('blur', function(event) {
+        blur_box.addEventListener('blur', function(event) {
             alert("I've been blurred");
+        });
+
+        focus_box.addEventListener('focus', function(event) {
+            focus_box.disabled = true;
         });
 
         setTimeout(function() {
@@ -249,7 +255,8 @@ tr:nth-child(even) {
             </div>
             <input name="five_second_button" id="five_second_button"
                    type="button" value="5 Second Button"/> <br/> <input
-                type="text" name="input_box" id="input_box" value=""/> <br>
+                type="text" name="focus_box" id="focus_box" value=""/> <br/> <input
+                type="text" name="blur_box" id="blur_box" value=""/> <br>
             <input id="scroll_button" name="scroll_button" type="button"
                    value="Increase Page Height"/> <br/> <select id="car_list"
                                                                 name="car_list">

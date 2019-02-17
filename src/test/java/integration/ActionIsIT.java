@@ -49,7 +49,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        assertTrue(app.newElement(Locator.ID, "input_box").is().input());
+        assertTrue(app.newElement(Locator.ID, "blur_box").is().input());
         // verify no issues
         finish();
     }
@@ -104,7 +104,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        assertFalse(app.newElement(Locator.ID, "input_box").is().select());
+        assertFalse(app.newElement(Locator.ID, "blur_box").is().select());
         // verify no issues
         finish();
     }
