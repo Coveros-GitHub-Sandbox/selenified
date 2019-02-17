@@ -280,17 +280,15 @@ public class OutputFile {
      * Removes all elements that cannot be converted to pdf, this method is to be used
      * before converting the html file to pdf with openhtmltopdf.pdfboxout.PdfRendererBuilder
      */
-    private String getHtmlForPDFConversion() {
+    private String getHtmlForPDFConversion() throws IOException {
         StringBuilder oldContent = new StringBuilder();
 
-        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                oldContent.append(line);
-                oldContent.append("\r\n");
-            }
-        } catch (IOException e) {
-            log.error(e);
+        FileReader fr = new FileReader(file);
+        BufferedReader reader = new BufferedReader(fr);
+        String line;
+        while ((line = reader.readLine()) != null) {
+            oldContent.append(line);
+            oldContent.append("\r\n");
         }
 
         // replace all non convertible elements with empty text or modify for conversion
@@ -306,7 +304,8 @@ public class OutputFile {
             str = str.replaceAll("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*? src='(.*?)'(?s).*?)" +
                             " style(?s).*?</img>",
                     "$1" + "></img><a href=\"#image-" + imageCount + "\">Link to full size image</a>");
-            str = str.replaceAll("</body>", "<p style='page-break-before: always' id='image-" + imageCount++ + "'></p>" +
+            str = str.replaceAll("</body>", "<p style='page-break-before: always' id='image-" + imageCount++ + "'></p" +
+                    ">" +
                     m.group().replaceAll("width='300px' style(?s).*?'>", "height='600px' width='1000px'>") + "</body>");
         }
         return str;
@@ -691,7 +690,7 @@ public class OutputFile {
             builder.toStream(os);
             builder.run();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
