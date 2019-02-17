@@ -751,11 +751,7 @@ public class Element {
                 return;
             }
             WebElement webElement = getWebElement();
-            if ("input".equalsIgnoreCase(webElement.getTagName())) {
-                webElement.sendKeys("");
-            } else {
-                new Actions(driver).moveToElement(webElement).perform();
-            }
+            new Actions(driver).moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
             file.recordAction(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
