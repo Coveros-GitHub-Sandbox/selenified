@@ -765,6 +765,8 @@ https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
 * Safari 12 doesn't properly handle insecure (expired, invalid, bad, etc) ssl certificates. As a result, Safari gets stuck
 on the page indicating the certificate is invalid. There is currently no work around for this issue, other than installing
 a valid certificate for the site.
+* Chrome on Mac doesn't accept up/down keys in select dropdowns for navigation. Be cautious when trying to use Keys to 
+manipulate selects
 
 ### Skipping Tests
 To handle some of these known issues, the ability to skip a test, based on the browser is provided. For example
