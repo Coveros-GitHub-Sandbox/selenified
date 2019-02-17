@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 public class AssertContainsIT extends WebBase {
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareNumOfSelectOptions method")
     public void compareNumOfSelectOptionsTest() {
         // use this object to manipulate the app
@@ -17,7 +17,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareNumOfSelectOptions method")
     public void negativeCompareNumOfSelectOptionsTest() {
         // use this object to manipulate the app
@@ -28,7 +28,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareNumOfSelectOptions method")
     public void negativeCompareNumOfSelectOptionsNotEnabledTest() {
         // use this object to manipulate the app
@@ -39,7 +39,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareNumOfTableRows method")
     public void compareNumOfTableRowsTest() {
         // use this object to manipulate the app
@@ -50,7 +50,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareNumOfTableRows method")
     public void negativeCompareNumOfTableRowsTest() {
         // use this object to manipulate the app
@@ -61,7 +61,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareNumOfTableRows method")
     public void negativeCompareNumOfTableRowsNotPresentTest() {
         // use this object to manipulate the app
@@ -72,7 +72,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareNumOfTableColumns method")
     public void compareNumOfTableColumnsTest() {
         // use this object to manipulate the app
@@ -83,7 +83,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareNumOfTableColumns method")
     public void negativeCompareNumOfTableColumnsTest() {
         // use this object to manipulate the app
@@ -94,7 +94,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareNumOfTableColumns method")
     public void negativeCompareNumOfTableColumnsNotTableTest() {
         // use this object to manipulate the app
@@ -105,7 +105,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareNumOfTableColumns method")
     public void negativeCompareNumOfTableColumnsNotPresetTest() {
         // use this object to manipulate the app
@@ -116,7 +116,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the checkIfOptionInSelect method")
     public void checkIfOptionInSelectTest() {
         // use this object to manipulate the app
@@ -127,7 +127,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfOptionInSelectTest() {
         // use this object to manipulate the app
@@ -138,7 +138,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfOptionInSelectNotEnabledTest() {
         // use this object to manipulate the app
@@ -149,7 +149,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfOptionInSelectDelayedTest() {
         // use this object to manipulate the app
@@ -161,7 +161,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkIfOptionInSelect method")
     public void checkIfValueInSelectTest() {
         // use this object to manipulate the app
@@ -172,7 +172,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfValueInSelectTest() {
         // use this object to manipulate the app
@@ -183,7 +183,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfValueInSelectNotEnabledTest() {
         // use this object to manipulate the app
@@ -194,7 +194,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfValueInSelectDelayedTest() {
         // use this object to manipulate the app
@@ -206,7 +206,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkIfOptionInSelect method")
     public void negativeCheckIfValueInSelectCheckDelayedTest() {
         // use this object to manipulate the app
@@ -218,7 +218,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the checkElementContainsClass method")
     public void checkElementContainsClassTest() {
         // use this object to manipulate the app
@@ -229,7 +229,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkElementContainsClass method")
     public void negativeCheckElementContainsClassTest() {
         // use this object to manipulate the app
@@ -240,7 +240,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkElementContainsClass method")
     public void negativeCheckElementContainsClassNotPresentTest() {
         // use this object to manipulate the app
@@ -251,7 +251,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkElementContainsClass method")
     public void negativeCheckElementContainsClassDelayedTest() {
         // use this object to manipulate the app
@@ -262,7 +262,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the checkElementHasAttribute method")
     public void checkElementHasAttributeTest() {
         // use this object to manipulate the app
@@ -273,7 +273,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkElementHasAttribute method")
     public void negativeCheckElementHasAttributeTest() {
         // use this object to manipulate the app
@@ -284,7 +284,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkElementHasAttribute method")
     public void negativeCheckElementHasAttributeNotPresentTest() {
         // use this object to manipulate the app
@@ -295,7 +295,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkElementHasAttribute method")
     public void negativeCheckElementHasAttributeDelayedTest() {
         // use this object to manipulate the app
@@ -306,7 +306,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareTextValueContains method")
     public void compareTextValueContainsTest() {
         // use this object to manipulate the app
@@ -317,7 +317,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareTextValueContains method")
     public void compareTextValueContainsDelayedTest() {
         // use this object to manipulate the app
@@ -328,7 +328,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareTextValueContains method")
     public void negativeCompareTextValueContainsTest() {
         // use this object to manipulate the app
@@ -339,7 +339,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareTextValueContains method")
     public void negativeCompareTextValueContainsNotPresentTest() {
         // use this object to manipulate the app
@@ -350,7 +350,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareTextValueContains method")
     public void compareValueContainsTest() {
         // use this object to manipulate the app
@@ -361,7 +361,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareTextValueContains method")
     public void compareValueContainsDelayedTest() {
         // use this object to manipulate the app
@@ -372,7 +372,7 @@ public class AssertContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareTextValueContains method")
     public void negativeCompareValueContainsTest() {
         // use this object to manipulate the app
@@ -383,7 +383,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareTextValueContains method")
     public void negativeCompareValueNotInputContainsTest() {
         // use this object to manipulate the app
@@ -394,7 +394,7 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "contains"},
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the compareTextValueContains method")
     public void negativeCompareValueContainsNotPresentTest() {
         // use this object to manipulate the app

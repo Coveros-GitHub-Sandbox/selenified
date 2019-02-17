@@ -25,7 +25,7 @@ package com.coveros.selenified;
  * are: xpath, id, name, classname, css, paritallinktext, linktext, tagname
  *
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.0.5
  * @lastupdate 5/16/2018
  */
 public enum Locator {

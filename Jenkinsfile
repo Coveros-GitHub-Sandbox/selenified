@@ -56,7 +56,7 @@ node {
                 }
                 stage('Execute Local Tests') {
                     try {
-                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="services" -Dheadless'
+                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless'
                     } catch (e) {
                         throw e
                     } finally {
@@ -64,6 +64,30 @@ node {
                         sh "mkdir -p results/browserLocal; mv target results/browserLocal/"
                         archiveArtifacts artifacts: 'results/browserLocal/target/failsafe-reports/**'
                         junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
+                    }
+                }
+            }
+            withCredentials([
+                    usernamePassword(
+                            credentialsId: 'saucelabs',
+                            usernameVariable: 'sauceusername',
+                            passwordVariable: 'saucekey'
+                    )
+            ]) {
+                stage('Update Test Site') {
+                    sh 'scp public/* ec2-user@34.233.135.10:/var/www/noindex/'
+                }
+                stage('Execute Hub Tests') {
+                    try {
+//                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                    } catch (e) {
+                        throw e
+                    } finally {
+                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                        sh "mkdir -p results/browserRemote; mv target results/browserRemote/"
+                        archiveArtifacts artifacts: 'results/browserRemote/target/failsafe-reports/**'
+                        junit 'results/browserRemote/target/failsafe-reports/TEST-*.xml'
                     }
                 }
             }
@@ -104,8 +128,10 @@ node {
                 stage('Send Notifications') {
                     emailextrecipients([culprits(), developers(), requestor()])
                     // send slack notifications
-                    def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
-                    sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
+                    if (branch == 'develop' || branch == 'master' || pullRequest) {
+                        def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
+                        sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
+                    }
                 }
             }
         }

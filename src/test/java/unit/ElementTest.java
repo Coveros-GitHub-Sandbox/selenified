@@ -10,6 +10,12 @@ import static org.testng.Assert.assertNull;
 public class ElementTest {
 
     @Test
+    public void checkElementTypeNullTest() {
+        Element element = new Element(null, null, null, "myId");
+        assertNull(element.getType());
+    }
+
+    @Test
     public void checkElementTypeTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
         assertEquals(element.getType(), Locator.ID);

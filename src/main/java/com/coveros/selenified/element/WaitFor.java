@@ -1,20 +1,20 @@
 /*
  * Copyright 2018 Coveros, Inc.
- * 
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -22,6 +22,7 @@ package com.coveros.selenified.element;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -34,8 +35,8 @@ import org.testng.log4testng.Logger;
  * still nothing is returned, but an error is logged
  *
  * @author Max Saperstone
- * @version 3.0.4
- * @lastupdate 9/13/2018
+ * @version 3.0.5
+ * @lastupdate 2/14/2019
  */
 public class WaitFor {
 
@@ -247,23 +248,28 @@ public class WaitFor {
     public void enabled(double seconds) {
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + ENABLED;
         String expected = element.prettyOutputStart() + " is enabled";
-        if (!element.is().present() && !present(seconds)) {
+        double start = System.currentTimeMillis();
+        if (!element.is().present()) {
+            present(seconds);
+        }
+        if (!element.is().enabled()) {
+            // wait for up to XX seconds for the error message
+            double end = System.currentTimeMillis() + (seconds * 1000);
+            while (System.currentTimeMillis() < end) {
+                if (element.is().enabled()) {
+                    break;
+                }
+            }
+        }
+        double timetook = (System.currentTimeMillis() - start) / 1000;
+        if (!element.is().enabled()) {
+            file.recordAction(action, expected, WAITING + timetook + SECONDS_FOR + element.prettyOutput() +
+                    " is not enabled", Result.FAILURE);
+            file.addError();
             return;
         }
-        try {
-            double start = System.currentTimeMillis();
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
-            wait.until(ExpectedConditions.elementToBeClickable(element.defineByElement()));
-            double timetook = (System.currentTimeMillis() - start) / 1000;
-            file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() + ENABLED,
-                    Result.SUCCESS);
-        } catch (TimeoutException e) {
-            file.recordAction(action, expected,
-                    WAITING + seconds + SECONDS_FOR + element.prettyOutput() + " is not enabled", Result.FAILURE);
-            file.addError();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() +
+                ENABLED, Result.SUCCESS);
     }
 
     /**
@@ -272,30 +278,33 @@ public class WaitFor {
      * @param seconds - the number of seconds to wait
      */
     public void notEnabled(double seconds) {
-        // this might fail if the element is no longer present
         String action = UPTO + seconds + SECONDS_FOR + element.prettyOutput() + " to not be enabled";
         String expected = element.prettyOutputStart() + " is not enabled";
         if (!element.is().present()) {
-            file.recordAction(action, expected,
-                    element.prettyOutputStart() + " is not present, and therefore not enabled", Result.SUCCESS);
+            file.recordAction(action, expected, element.prettyOutputStart() +
+                    " is not present, and therefore not " + "enabled", Result.SUCCESS);
             return;
         }
+        double start = System.currentTimeMillis();
+        // wait for up to XX seconds
+        double end = start + (seconds * 1000);
         try {
-            double start = System.currentTimeMillis();
-            // wait for up to XX seconds
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
-            wait.until(ExpectedConditions
-                    .or(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.defineByElement())),
-                            ExpectedConditions.invisibilityOfElementLocated(element.defineByElement())));
-            double timetook = (System.currentTimeMillis() - start) / 1000;
-            file.recordAction(action, expected,
-                    WAITED + timetook + SECONDS_FOR + element.prettyOutput() + " to not be enabled", Result.SUCCESS);
-        } catch (TimeoutException e) {
-            file.recordAction(action, expected,
-                    WAITING + seconds + SECONDS_FOR + element.prettyOutput() + " is still enabled", Result.FAILURE);
-            file.addError();
-        } catch (Exception e) {
-            log.error(e.getMessage());
+            while (element.is().enabled() && System.currentTimeMillis() < end) ;
+        } catch (StaleElementReferenceException e) {
+            log.info(e);
+            file.recordAction(action, expected, element.prettyOutput() +
+                            " has been removed from the page, and therefore not displayed",
+                    Result.SUCCESS);
+            return;
         }
+        double timetook = (System.currentTimeMillis() - start) / 1000;
+        if (element.is().enabled()) {
+            file.recordAction(action, expected, WAITING + timetook + SECONDS_FOR + element.prettyOutput() +
+                    " is still enabled", Result.FAILURE);
+            file.addError();
+            return;
+        }
+        file.recordAction(action, expected, WAITED + timetook + SECONDS_FOR + element.prettyOutput() +
+                " to not be enabled", Result.SUCCESS);
     }
 }

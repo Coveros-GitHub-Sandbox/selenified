@@ -46,7 +46,7 @@ import static com.coveros.selenified.Selenified.SESSION_ID;
  * the TestNG xml file.
  *
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.0.5
  * @lastupdate 1/12/2019
  */
 public class Listener extends TestListenerAdapter {
@@ -169,7 +169,6 @@ public class Listener extends TestListenerAdapter {
                             getFolderName(result) + "/" + filename + LINK_MIDDLE + testName +
                             LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
-
         // update sauce labs
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();

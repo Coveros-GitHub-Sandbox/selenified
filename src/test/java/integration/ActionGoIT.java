@@ -16,7 +16,7 @@ import static org.testng.Assert.assertNull;
 
 public class ActionGoIT extends WebBase {
 
-    @Test(groups = {"integration", "actions", "go", "browser"},
+    @Test(groups = {"integration", "action", "go", "browser", "alert"},
             description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageTest() {
         // use this object to manipulate the app
@@ -30,7 +30,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go", "alert"},
             description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageNoBackTest() {
         // use this object to manipulate the app
@@ -41,7 +41,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the goBackOnePage method")
     public void goBackOnePageErrorTest() {
         // use this object to manipulate the app
@@ -53,7 +53,7 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go", "browser"},
+    @Test(groups = {"integration", "action", "go", "browser", "alert"},
             description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageTest() {
         // use this object to manipulate the app
@@ -69,7 +69,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go", "alert"},
             description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageNoForwardTest() {
         // use this object to manipulate the app
@@ -80,7 +80,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the goForwardOnePage method")
     public void goForwardOnePageErrorTest() {
         // use this object to manipulate the app
@@ -92,7 +92,7 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the refreshPage method")
     public void refreshPageTest() {
         // use this object to manipulate the app
@@ -103,7 +103,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the refreshPage method")
     public void refreshPageErrorTest() {
         // use this object to manipulate the app
@@ -115,7 +115,7 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardTest() {
         // use this object to manipulate the app
@@ -126,7 +126,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the refreshPageHard method")
     public void refreshPageHardErrorTest() {
         // use this object to manipulate the app
@@ -138,8 +138,9 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the setCookie method")
-    public void setCookieTest(ITestContext context) throws IOException, ParseException {
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "cookie", "no-edge"}, description = "An integration test to check the setCookie method")
+    public void setCookieTest(ITestContext context) throws ParseException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -153,8 +154,9 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the setCookie method")
-    public void setCookieErrorTest(ITestContext context) throws IOException, ParseException {
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "go", "cookie", "no-edge"}, description = "An integration test to check the setCookie method")
+    public void setCookieErrorTest(ITestContext context) throws ParseException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -169,7 +171,8 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "action", "go", "cookie", "no-edge"},
             description = "An integration test to check the deleteCookie method")
     public void deleteCookieTest() {
         // use this object to manipulate the app
@@ -182,7 +185,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration negative test to check the deleteCookie method")
     public void deleteNonExistentCookieTest() {
         // use this object to manipulate the app
@@ -193,7 +196,7 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration negative test to check the deleteCookie method")
     public void deleteCookieBadDriverTest() {
         // use this object to manipulate the app
@@ -205,7 +208,7 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesTest() {
         // use this object to manipulate the app
@@ -218,7 +221,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesTwiceTest() {
         // use this object to manipulate the app
@@ -232,7 +235,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the deleteAllCookies method")
     public void deleteAllCookiesErrorTest() {
         // use this object to manipulate the app
@@ -244,7 +247,7 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenTest() {
         // use this object to manipulate the app
@@ -255,7 +258,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration test to check the maximizeScreen method")
     public void maximizeScreenErrorTest() {
         // use this object to manipulate the app
@@ -267,7 +270,7 @@ public class ActionGoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the resize method")
+    @Test(groups = {"integration", "action", "go"}, description = "An integration test to check the resize method")
     public void resizeScreenTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -277,7 +280,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"}, description = "An integration test to check the resize method")
+    @Test(groups = {"integration", "action", "go"}, description = "An integration test to check the resize method")
     public void resizeScreenTooLargeTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -287,7 +290,7 @@ public class ActionGoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "go"},
+    @Test(groups = {"integration", "action", "go"},
             description = "An integration negative test to check the resize method")
     public void resizeScreenErrorTest() {
         // use this object to manipulate the app

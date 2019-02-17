@@ -10,7 +10,7 @@ import static org.testng.Assert.assertTrue;
 
 public class ActionIsIT extends WebBase {
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is present")
     public void isElementPresentTest() {
         // use this object to manipulate the app
@@ -21,7 +21,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is present")
     public void isElementPresentMatchTest() {
         // use this object to manipulate the app
@@ -32,7 +32,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is present")
     public void isElementPresentNotExistTest() {
         // use this object to manipulate the app
@@ -43,7 +43,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementInputTest() {
         // use this object to manipulate the app
@@ -54,7 +54,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementSelectTest() {
         // use this object to manipulate the app
@@ -65,7 +65,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementTextAreaTest() {
         // use this object to manipulate the app
@@ -76,7 +76,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementNotInputTest() {
         // use this object to manipulate the app
@@ -87,7 +87,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementInputNotExistTest() {
         // use this object to manipulate the app
@@ -98,7 +98,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementSelectInputTest() {
         // use this object to manipulate the app
@@ -109,7 +109,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementSelectSelectTest() {
         // use this object to manipulate the app
@@ -120,7 +120,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementSelectTextAreaTest() {
         // use this object to manipulate the app
@@ -131,7 +131,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementSelectNotSelectTest() {
         // use this object to manipulate the app
@@ -142,7 +142,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is input")
     public void isElementSelectNotExistTest() {
         // use this object to manipulate the app
@@ -153,7 +153,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is a table")
     public void isElementTableTest() {
         // use this object to manipulate the app
@@ -165,7 +165,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is a table")
     public void isElementTableNotTest() {
         // use this object to manipulate the app
@@ -176,7 +176,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is a table")
     public void isElementTableNotPrintMatchTest() {
         // use this object to manipulate the app
@@ -187,7 +187,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is a table")
     public void isElementTableNotExistTest() {
         // use this object to manipulate the app
@@ -198,7 +198,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is enabled")
     public void isElementEnabledTest() {
         // use this object to manipulate the app
@@ -209,7 +209,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is enabled")
     public void isElementEnabledMatchTest() {
         // use this object to manipulate the app
@@ -220,7 +220,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is enabled")
     public void isElementEnabledNotExistTest() {
         // use this object to manipulate the app
@@ -231,7 +231,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is checked")
     public void isElementCheckedTest() {
         // use this object to manipulate the app
@@ -243,7 +243,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is checked")
     public void isElementCheckedNotTest() {
         // use this object to manipulate the app
@@ -254,7 +254,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is checked")
     public void isElementCheckedNotExistTest() {
         // use this object to manipulate the app
@@ -265,7 +265,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is displayed")
     public void isElementDisplayedTest() {
         // use this object to manipulate the app
@@ -276,7 +276,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is displayed")
     public void isElementDisplayedMatchTest() {
         // use this object to manipulate the app
@@ -287,7 +287,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is displayed")
     public void isElementDisplayedNotExistTest() {
         // use this object to manipulate the app
@@ -298,7 +298,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if something is selected from a dropdown")
     public void isSomethingSelectedTest() {
         // use this object to manipulate the app
@@ -309,7 +309,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if something is selected from a dropdown")
     public void isSomethingSelectedMultipleTest() {
         // use this object to manipulate the app
@@ -321,7 +321,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if something is selected from a dropdown")
     public void isSomethingNotSelectedTest() {
         // use this object to manipulate the app
@@ -332,7 +332,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if something is selected from a checkbox")
     public void isSomethingCheckedTest() {
         // use this object to manipulate the app
@@ -344,7 +344,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if something is selected from a checkbox")
     public void isSomethingNotCheckedTest() {
         // use this object to manipulate the app
@@ -355,7 +355,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if something is selected from a non-existant element")
     public void isSomethingSelectedNotExistTest() {
         // use this object to manipulate the app
@@ -366,7 +366,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if something is selected from an div")
     public void isSomethingSelectedTextAreaTest() {
         // use this object to manipulate the app
@@ -377,7 +377,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if something is selected from an div")
     public void isSomethingSelectedNotSelectOrInputTest() {
         // use this object to manipulate the app
@@ -388,7 +388,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isAlertPresent method")
     public void isAlertPresentTest() {
         // use this object to manipulate the app
@@ -401,7 +401,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration negative test to check the isAlertPresent method")
     public void negativeIsAlertPresentTest() {
         // use this object to manipulate the app
@@ -412,7 +412,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isConfirmationPresent method")
     public void isConfirmationPresentTest() {
         // use this object to manipulate the app
@@ -424,7 +424,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration negative test to check the isConfirmationPresent method")
     public void negativeIsConfirmationPresentTest() {
         // use this object to manipulate the app
@@ -435,7 +435,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is", "alert"},
             description = "An integration test to check the isPromptPresent method")
     public void isPromptPresentTest() {
         // use this object to manipulate the app
@@ -447,7 +447,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "A integration negative test to check the isPromptPresent method")
     public void negativeIsPromptPresentTest() {
         // use this object to manipulate the app
@@ -458,7 +458,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"}, description = "An integration test to check the isLocation method")
+    @Test(groups = {"integration", "action", "is"}, description = "An integration test to check the isLocation method")
     public void isLocationTest(ITestContext test) {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -468,9 +468,9 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "A negative integration test to check the isLocation method")
-    public void negativeIsLocationTest(ITestContext test) {
+    public void negativeIsLocationTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -479,7 +479,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check the isTextPresentInSource method")
     public void isTextPresentInSourceTest() {
         // use this object to manipulate the app
@@ -491,7 +491,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration negative test to check the isTextPresentInSource method")
     public void negativeIsTextPresentInSourceTest() {
         // use this object to manipulate the app
@@ -503,7 +503,7 @@ public class ActionIsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "is"},
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration negative test to check the isTextPresentInSource method")
     public void negativeIsTextPresentInSourceErrorTest() {
         // use this object to manipulate the app

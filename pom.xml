@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>3.0.4-SNAPSHOT</version>
+    <version>3.0.5-SNAPSHOT</version>
 
     <prerequisites>
         <maven>3.0.4</maven>
@@ -18,16 +18,16 @@
         <!-- Test run information -->
         <failsafe.threads>5</failsafe.threads>
         <failsafe.verbosity>0</failsafe.verbosity>
-        <failsafe.groups.include></failsafe.groups.include>
+        <failsafe.groups.include/>
         <failsafe.groups.exclude>browser</failsafe.groups.exclude>
         <failsafe.files.include>**/*IT.java</failsafe.files.include>
-        <failsafe.files.exclude></failsafe.files.exclude>
+        <failsafe.files.exclude/>
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
 
         <!-- General Selenium run versions -->
-        <selenium.version>3.12.0</selenium.version>
+        <selenium.version>3.14.0</selenium.version>
         <webdrivermanager.version>2.2.1</webdrivermanager.version>
         <phantomjsdriver.version>2.0.0</phantomjsdriver.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -169,6 +169,7 @@
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
                     <!-- Sets the VM argument line used when unit tests are run. -->
+                    <!--suppress UnresolvedMavenProperty -->
                     <argLine>${surefireArgLine}</argLine>
                     <!-- Skips unit tests if the value of skip.unit.tests property is true -->
                     <skipTests>${skip.unit.tests}</skipTests>
@@ -176,6 +177,9 @@
                     <excludes>
                         <exclude>**/*IT.java</exclude>
                     </excludes>
+                    <systemPropertyVariables>
+                        <selenium.version>${selenium.version}</selenium.version>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
@@ -233,6 +237,9 @@
                     <excludes>
                         <exclude>${failsafe.files.exclude}</exclude>
                     </excludes>
+                    <systemPropertyVariables>
+                        <selenium.version>${selenium.version}</selenium.version>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
@@ -242,6 +249,7 @@
                         </goals>
                         <configuration>
                             <!-- Sets the VM argument line used when integration tests are run. -->
+                            <!--suppress UnresolvedMavenProperty -->
                             <argLine>${failsafeArgLine}</argLine>
                             <!-- Skips integration tests if the value of skip.integration.tests
                                 property is true -->
