@@ -4,7 +4,6 @@ import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
-import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.Point;
 import com.coveros.selenified.utilities.Sauce;
@@ -426,19 +425,6 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.ID, "hover_over_me").hover();
         // verify 1 issue
         finish(1);
-    }
-
-    @Test(groups = {"integration", "action", "do", "focus", "browser", "alert"},
-            description = "An integration test to check the focus method")
-    public void focusTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "focus_box").focus();
-        app.newElement(Locator.ID, "focus_box").waitFor().notEnabled();
-        app.newElement(Locator.ID, "focus_box").assertState().notEnabled();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "focus", "browser", "alert"},

@@ -737,9 +737,9 @@ public class Element {
     }
 
     /**
-     * Blurs (focuses and then unfocuses) the element, but only if the element
+     * Focuses on the element, but only if the element
      * is present, displayed, enabled, and an input. If those conditions are not
-     * met, the blur action will be logged, but skipped and the test will
+     * met, the focus action will be logged, but skipped and the test will
      * continue.
      */
     public void focus() {
@@ -758,7 +758,7 @@ public class Element {
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd(),
+        file.recordAction(action, expected, "Focused on " + prettyOutputEnd(),
                 Result.SUCCESS);
     }
 
