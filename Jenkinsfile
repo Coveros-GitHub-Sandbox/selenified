@@ -44,7 +44,8 @@ node {
             wrap([$class: 'Xvfb']) {
                 stage('Execute HTMLUnit Tests') {
                     try {
-                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=htmlunit -Dheadless'
+                        // commenting out coveros tests, as site is too slow to run properly in htmlunit
+                        sh 'mvn clean verify -Dskip.unit.tests -Dfailsafe.groups.exclude="browser,coveros" -Dbrowser=htmlunit -Dheadless'
                     } catch (e) {
                         throw e
                     } finally {
