@@ -726,6 +726,14 @@ If running within SecureCI™ and Jenkins, TestNG produces a JUnit XML results f
 results/metrics within Jenkins, and tracking trends. Additionally, consider archiving testing results to go along 
 with these trending results.
 
+### Packaging Results
+If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
+and set it to true
+```
+mvn clean verify -Dbrowser=Firefox -DpackageResults=true
+```
+The zipped results will be placed in the same directory as the test results
+
 ## Installation
 ### Building the jar
 If you want to compile the jar from the source code, use maven. Maven can be used to run unit tests, run
@@ -740,14 +748,6 @@ the Jenkinsfile as a guide. Below is a good example
 mvn clean verify
 mvn clean verify -Dbrowser=chrome -Dfailsafe.groups.exclude=""
 ```
-
-### Packaging Results
-If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
-and set it to true
-```
-mvn clean verify -Dbrowser=Firefox -DpackageResults=true
-```
-The zipped results will be placed in the same directory as the test results
 
 ## Known Issues
 * Safari through 10 doesn't properly handle alerts. These exceptions are caught and handled in the code, but will
