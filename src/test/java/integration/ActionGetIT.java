@@ -345,7 +345,7 @@ public class ActionGetIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = app.newElement(Locator.ID, "input_box", 0).get().tableRow(1);
+        List<WebElement> row = app.newElement(Locator.ID, "blur_box", 0).get().tableRow(1);
         assertNull(row);
         // verify no issues
         finish();
@@ -707,7 +707,7 @@ public class ActionGetIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        String text = app.newElement(Locator.ID, "input_box").get().value();
+        String text = app.newElement(Locator.ID, "blur_box").get().value();
         assertEquals(text, "");
         // verify no issues
         finish();

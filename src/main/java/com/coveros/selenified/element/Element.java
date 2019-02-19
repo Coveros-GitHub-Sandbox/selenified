@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -41,13 +41,13 @@ import java.util.List;
 /**
  * Element an object representative of a web element on a particular page that
  * is under test.
- * 
+ *
  * Elements should be directly interacted with, with actions performed on them,
  * and assertions make about their current state
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/14/2019
+ * @lastupdate 2/19/2019
  */
 public class Element {
 
@@ -734,6 +734,32 @@ public class Element {
             return;
         }
         file.recordAction(action, expected, "Hovered over " + prettyOutputEnd(), Result.SUCCESS);
+    }
+
+    /**
+     * Focuses on the element, but only if the element
+     * is present, displayed, enabled, and an input. If those conditions are not
+     * met, the focus action will be logged, but skipped and the test will
+     * continue.
+     */
+    public void focus() {
+        String cantFocus = "Unable to focus on ";
+        String action = "Focusing on " + prettyOutput();
+        String expected = prettyOutput() + " is present, displayed, and enabled to be focused";
+        try {
+            if (isNotPresentDisplayedEnabledInput(action, expected, cantFocus)) {
+                return;
+            }
+            WebElement webElement = getWebElement();
+            new Actions(driver).moveToElement(webElement).perform();
+        } catch (Exception e) {
+            log.warn(e);
+            file.recordAction(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.addError();
+            return;
+        }
+        file.recordAction(action, expected, "Focused on " + prettyOutputEnd(),
+                Result.SUCCESS);
     }
 
     /**
