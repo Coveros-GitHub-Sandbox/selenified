@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -54,7 +54,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/14/2019
+ * @lastupdate 2/19/2019
  */
 public class Capabilities {
 
