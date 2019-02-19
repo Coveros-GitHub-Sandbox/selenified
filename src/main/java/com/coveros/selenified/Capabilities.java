@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -54,7 +54,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/14/2019
+ * @lastupdate 2/19/2019
  */
 public class Capabilities {
 
@@ -66,6 +66,7 @@ public class Capabilities {
     private Browser browser;
     private int instance;
     private DesiredCapabilities desiredCapabilities;
+    private boolean addedExtraCapabilities = false;
 
     /**
      * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
@@ -76,11 +77,11 @@ public class Capabilities {
             throw new InvalidBrowserException("A valid browser was not provided");
         }
         this.browser = browser;
+        this.desiredCapabilities = new DesiredCapabilities();
         setDesiredCapabilities();
     }
 
     private void setDesiredCapabilities() {
-        this.desiredCapabilities = new DesiredCapabilities();
         if (browser.getName() == BrowserName.NONE) {
             this.desiredCapabilities = null;
             return;
@@ -125,6 +126,9 @@ public class Capabilities {
         // always enable javascript, accept certs, and start with a clean session
         this.desiredCapabilities.setJavascriptEnabled(true);
         this.desiredCapabilities.setCapability("ensureCleanSession", true);
+        // setup additional non-browser capabilities
+        setupProxy();
+        setupSauceCapabilities();
     }
 
     /**
@@ -291,9 +295,17 @@ public class Capabilities {
      * @param extraCapabilities any additional parameters to set for selenium
      */
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
-        setDesiredCapabilities();
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
+            addedExtraCapabilities = true;
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
+        }
+    }
+
+    public void resetDesiredCapabilities() {
+        if (addedExtraCapabilities) {
+            addedExtraCapabilities = false;
+            desiredCapabilities = new DesiredCapabilities();
+            setDesiredCapabilities();
         }
     }
 }
