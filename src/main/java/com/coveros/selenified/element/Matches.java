@@ -23,8 +23,6 @@ package com.coveros.selenified.element;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
 
-import java.util.Arrays;
-
 /**
  * Matches extends Asserts to provide some additional verification capabilities.
  * It will handle all verifications performed on the actual element. These
@@ -39,6 +37,8 @@ import java.util.Arrays;
  * @lastupdate 2/21/2019
  */
 public class Matches extends Assert {
+
+    private static final String MATCH_PATTERN = " to match a pattern of <b>";
 
     public Matches(Element element, OutputFile file) {
         this.element = element;
@@ -63,7 +63,7 @@ public class Matches extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " to match a pattern of <b>" + expectedPattern + "</b>");
+        file.recordExpected(EXPECTED + element.prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>");
         // check for the object to the present on the page
         String elementText = element.get().text();
         if (!elementText.matches(expectedPattern)) {
@@ -81,10 +81,10 @@ public class Matches extends Assert {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      *
-     * @param row  - the number of the row in the table - note, row numbering
-     *             starts at 1, NOT 0
-     * @param col  - the number of the column in the table - note, column
-     *             numbering starts at 1, NOT 0
+     * @param row     - the number of the row in the table - note, row numbering
+     *                starts at 1, NOT 0
+     * @param col     - the number of the column in the table - note, column
+     *                numbering starts at 1, NOT 0
      * @param pattern - what pattern do we expect to be in the table cell
      */
     public void text(int row, int col, String pattern) {
@@ -92,7 +92,7 @@ public class Matches extends Assert {
         String within = " within element ";
         // wait for the table
         if (!isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput() +
-                " to match a pattern of <b>" + pattern + "</b>")) {
+                MATCH_PATTERN + pattern + "</b>")) {
             return;
         }
         // get the table cell pattern
@@ -122,7 +122,7 @@ public class Matches extends Assert {
             return;
         }
         // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + " to match a pattern of <b>" + expectedPattern + "</b>");
+        file.recordExpected(EXPECTED + element.prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>");
         // verify this is an input element
         if (!element.is().input()) {
             file.recordActual(element.prettyOutputStart() + " is not an input on the page", Success.FAIL);
