@@ -47,7 +47,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/19/2019
+ * @lastupdate 2/21/2019
  */
 public class Element {
 
@@ -81,6 +81,8 @@ public class Element {
     private Excludes excludes;
     // the is class to determine if an element has attributes equal to something
     private Equals equals;
+    // the is class to determine if an element has attributes matching to something
+    private Matches matches;
 
     // constants
     private static final String IN = "' in ";
@@ -210,6 +212,7 @@ public class Element {
         contains = new Contains(this, file);
         excludes = new Excludes(this, file);
         equals = new Equals(this, file);
+        matches = new Matches(this, file);
     }
 
     /**
@@ -375,6 +378,17 @@ public class Element {
      */
     public Equals assertEquals() {
         return equals;
+    }
+
+    /**
+     * Verifies that the element has a particular value pattern associated with it.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
+    public Matches assertMatches() {
+        return matches;
     }
 
     //////////////////////////////////////////////////////

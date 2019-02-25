@@ -35,7 +35,7 @@ import java.util.Set;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 1/13/2019
+ * @lastupdate 2/21/2019
  */
 class Assert {
 
@@ -46,6 +46,7 @@ class Assert {
     Element element;
 
     // constants
+    static final String OPTION = " has the option of <b>";
     static final String EXPECTED = "Expected to find ";
     static final String CLASS = "class";
 

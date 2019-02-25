@@ -36,12 +36,11 @@ import java.util.Arrays;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/14/2019
+ * @lastupdate 2/21/2019
  */
 public class Equals extends Assert {
 
     // constants
-    private static final String OPTION = " has the option of <b>";
     private static final String OPTIONS = " has options of <b>";
     private static final String VALUES = " has values of <b>";
     private static final String WITH = " with the value of <b>";
