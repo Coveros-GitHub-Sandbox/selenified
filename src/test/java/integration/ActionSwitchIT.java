@@ -205,6 +205,18 @@ public class ActionSwitchIT extends WebBase {
     }
 
     @Test(groups = {"integration", "action", "switch", "tab", "browser"},
+            description = "An integration test to check the openWindow method")
+    public void openWindowBadURLTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.openNewWindow("https://www.google.com");
+        app.azzert().urlEquals("https://www.google.com/");
+        // verify 2 issues
+        finish(2);
+    }
+
+    @Test(groups = {"integration", "action", "switch", "tab", "browser"},
             description = "An integration negative test to check the openWindow method")
     public void openWindowBadDriverTest() {
         // use this object to manipulate the app
