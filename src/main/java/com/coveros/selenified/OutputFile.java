@@ -52,7 +52,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/19/2019
+ * @lastupdate 2/25/2019
  */
 public class OutputFile {
 
@@ -284,11 +284,12 @@ public class OutputFile {
         StringBuilder oldContent = new StringBuilder();
 
         FileReader fr = new FileReader(file);
-        BufferedReader reader = new BufferedReader(fr);
-        String line;
-        while ((line = reader.readLine()) != null) {
-            oldContent.append(line);
-            oldContent.append("\r\n");
+        try (BufferedReader reader = new BufferedReader(fr)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                oldContent.append(line);
+                oldContent.append("\r\n");
+            }
         }
 
         // replace all non convertible elements with empty text or modify for conversion
@@ -650,6 +651,16 @@ public class OutputFile {
         } else {
             replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAILURE</b></font>");
         }
+        addTimeToOutputFile();
+        if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
+            packageTestResults();
+        }
+        if (System.getProperty("generatePDF") != null && "true".equals(System.getProperty("generatePDF"))) {
+            generatePdf();
+        }
+    }
+
+    private void addTimeToOutputFile() {
         // record the time
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
         String timeNow = stf.format(new Date());
@@ -671,22 +682,17 @@ public class OutputFile {
         }
         replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
         replaceInFile("TIMEFINISHED", timeNow);
-        if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
-            packageTestResults();
-        }
-        if (System.getProperty("generatePDF") != null && "true".equals(System.getProperty("generatePDF"))) {
-            generatePdf();
-        }
     }
 
     /**
      * Generates a pdf report in the same directory as the html report
      */
     private void generatePdf() {
-        String pdfFilename = directory + "/" + filename + ".pdf";
-        try (OutputStream os = new FileOutputStream(pdfFilename)) {
+        File pdfFile = new File(directory, filename + ".pdf");
+        try (OutputStream os = new FileOutputStream(pdfFile)) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
-            builder.withHtmlContent(getHtmlForPDFConversion(), "file://" + pdfFilename.replaceAll(" ", "%20"));
+            builder.withHtmlContent(getHtmlForPDFConversion(), "file://" + pdfFile.getName()
+                    .replaceAll(" ", "%20"));
             builder.toStream(os);
             builder.run();
         } catch (Exception e) {
@@ -710,7 +716,7 @@ public class OutputFile {
 
             // Add screenshots to zip file
             for (String screenshot : screenshots) {
-                ZipEntry s = new ZipEntry(screenshot.replaceAll(".*\\/", ""));
+                ZipEntry s = new ZipEntry(screenshot.replaceAll(".*/", ""));
                 out.putNextEntry(s);
                 Path screenPath = FileSystems.getDefault().getPath(screenshot);
                 byte[] screenData = Files.readAllBytes(screenPath);
@@ -787,9 +793,9 @@ public class OutputFile {
             if (params.getMultipartData() != null) {
                 for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
                     output.append("<div>");
-                    output.append(String.valueOf(entry.getKey()));
+                    output.append(entry.getKey());
                     output.append(" : ");
-                    output.append(String.valueOf(entry.getValue()));
+                    output.append(entry.getValue());
                     output.append("</div>");
                 }
             }
