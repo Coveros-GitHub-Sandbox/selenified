@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -62,7 +62,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/14/2019
+ * @lastupdate 2/19/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -195,7 +195,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -469,6 +469,8 @@ public class Selenified {
         if (test.getAttributeNames().contains(testName + INVOCATION_COUNT)) {
             invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
         }
+        Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
+        capabilities.resetDesiredCapabilities();
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
     }
 
@@ -579,10 +581,7 @@ public class Selenified {
             List<Browser> browsers = getBrowserInput();
 
             for (Browser browser : browsers) {
-                Capabilities capabilities = new Capabilities(browser);
-                capabilities.setupProxy();
-                capabilities.setupSauceCapabilities();
-                Selenified.CAPABILITIES.add(capabilities);
+                Selenified.CAPABILITIES.add(new Capabilities(browser));
             }
         }
 

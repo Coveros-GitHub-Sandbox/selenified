@@ -726,30 +726,6 @@ If running within SecureCI™ and Jenkins, TestNG produces a JUnit XML results f
 results/metrics within Jenkins, and tracking trends. Additionally, consider archiving testing results to go along 
 with these trending results.
 
-## Installation
-### Building the jar
-If you want to compile the jar from the source code, use maven. Maven can be used to run unit tests, run
-integration tests, build javadocs, and build the executable jar. To simply execute the unit tests, run the
-below command
-```
-mvn clean test
-```
-To also build the jars, run the below commands
-```
-mvn clean package
-```
-To run the integration tests, use the verify goal. The integration tests currently point at a private server
-hosting the file found in this base directory called `index.html`. In order to properly execute these tests,
-host this file, and set the testSite to point to the hosted file's location. This can be done dynamically through
-the command line, as outlined below in the Application URL section.
-
-Some of the integration tests require a physical browser to run, and so they can be run two different ways, the 
-entire set with a browser, or a subset using HtmlUnit
-```
-mvn clean verify -Dbrowser=Firefox
-mvn clean verify -Dfailsafe.groups.include=virtual
-```
-
 ### Packaging Results
 If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
 and set it to true
@@ -757,6 +733,21 @@ and set it to true
 mvn clean verify -Dbrowser=Firefox -DpackageResults=true
 ```
 The zipped results will be placed in the same directory as the test results
+
+## Installation
+### Building the jar
+If you want to compile the jar from the source code, use maven. Maven can be used to run unit tests, run
+integration tests, build javadocs, and build the executable jar. To simply create the jar, run the below command
+```
+mvn clean package
+```
+To also run the integration tests, use the verify goal. Some of the integration tests require a physical browser 
+to run, and so they can be run two different ways, the entire set with a browser, or a subset using HtmlUnit. Use
+the Jenkinsfile as a guide. Below is a good example
+```
+mvn clean verify
+mvn clean verify -Dbrowser=chrome -Dfailsafe.groups.exclude=""
+```
 
 ## Known Issues
 * Safari through 10 doesn't properly handle alerts. These exceptions are caught and handled in the code, but will
@@ -774,6 +765,8 @@ https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
 * Safari 12 doesn't properly handle insecure (expired, invalid, bad, etc) ssl certificates. As a result, Safari gets stuck
 on the page indicating the certificate is invalid. There is currently no work around for this issue, other than installing
 a valid certificate for the site.
+* Chrome on Mac doesn't accept up/down keys in select dropdowns for navigation. Be cautious when trying to use Keys to 
+manipulate selects
 
 ### Skipping Tests
 To handle some of these known issues, the ability to skip a test, based on the browser is provided. For example

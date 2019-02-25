@@ -134,7 +134,7 @@ public class AssertStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box").assertState().displayedAndEditable();
+        app.newElement(Locator.ID, "blur_box").assertState().displayedAndEditable();
         // verify no issues
         finish();
     }
@@ -178,7 +178,7 @@ public class AssertStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box", 0).assertState().displayedAndNotEditable();
+        app.newElement(Locator.ID, "blur_box", 0).assertState().displayedAndNotEditable();
         // verify 1 issue
         finish(1);
     }
@@ -256,7 +256,7 @@ public class AssertStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box").assertState().editable();
+        app.newElement(Locator.ID, "blur_box").assertState().editable();
         // verify no issues
         finish();
     }
@@ -463,7 +463,7 @@ public class AssertStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box").assertState().editable();
+        app.newElement(Locator.ID, "blur_box").assertState().editable();
         // verify no issues
         finish();
     }
@@ -506,7 +506,7 @@ public class AssertStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box").assertState().notEditable();
+        app.newElement(Locator.ID, "blur_box").assertState().notEditable();
         // verify 1 issue
         finish(1);
     }
@@ -527,7 +527,7 @@ public class AssertStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box").assertState().enabled();
+        app.newElement(Locator.ID, "blur_box").assertState().enabled();
         // verify no issues
         finish();
     }

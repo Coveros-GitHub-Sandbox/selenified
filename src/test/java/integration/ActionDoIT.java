@@ -8,6 +8,7 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.Point;
 import com.coveros.selenified.utilities.Sauce;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Platform;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -426,27 +427,83 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "do", "blur", "browser"},
+    @Test(groups = {"integration", "action", "do", "focus", "browser", "alert"},
+            description = "An integration negative test to check the focus method")
+    public void focusAlertTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "confirm_button").click();
+        app.newElement(Locator.ID, "focus_box").blur();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "do", "focus"},
+            description = "An integration negative test to check the focus method")
+    public void focusNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").focus();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "focus", "do"},
+            description = "An integration negative test to check the focus method")
+    public void focusDisabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.CSS, "input#alert_button").focus();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "do", "focus", "browser"},
+            description = "An integration negative test to check the focus method")
+    public void focusNotVisibleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "transparent_input").focus();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "do", "focus"},
+            description = "An integration negative test to check the focus method")
+    public void focusNotInputTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.CLASSNAME, "click").focus();
+        // verify 2 issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "do", "blur", "browser", "alert"},
             description = "An integration test to check the blur method")
     public void blurTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box").blur();
+        app.newElement(Locator.ID, "blur_box").blur();
         app.waitFor().alertPresent();
         app.azzert().alertPresent();
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "do", "blur", "browser"},
+    @Test(groups = {"integration", "action", "do", "blur", "browser", "alert"},
             description = "An integration negative test to check the blur method")
     public void blurAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "confirm_button").click();
-        app.newElement(Locator.ID, "input_box").blur();
+        app.newElement(Locator.ID, "blur_box").blur();
         // verify 1 issue
         finish(1);
     }
@@ -501,8 +558,8 @@ public class ActionDoIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box").type("This is a test");
-        app.newElement(Locator.ID, "input_box").assertEquals().value("This is a test");
+        app.newElement(Locator.ID, "blur_box").type("This is a test");
+        app.newElement(Locator.ID, "blur_box").assertEquals().value("This is a test");
         // verify no issues
         finish();
     }
@@ -612,7 +669,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "confirm_button").click();
-        app.newElement(Locator.ID, "input_box").type("This is a test");
+        app.newElement(Locator.ID, "blur_box").type("This is a test");
         // verify 1 issue
         finish(1);
     }
@@ -623,7 +680,7 @@ public class ActionDoIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "input_box", 0).type(Keys.TAB);
+        app.newElement(Locator.ID, "blur_box", 0).type(Keys.TAB);
         app.azzert().alertPresent();
         // verify no issues
         finish();
@@ -661,8 +718,13 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "car_list").type(Keys.DOWN);
         app.newElement(Locator.ID, "car_list").assertEquals().selectedValue("saab");
-        // verify no issues
-        finish();
+        if (this.apps.get().getBrowser().getName() == Browser.BrowserName.CHROME && this.apps.get().getBrowser().getPlatform() == Platform.MAC) {
+            // known issue with chrome on mac, arrows don't work on select
+            finish(1);
+        } else {
+            // verify no issues
+            finish();
+        }
     }
 
     @Test(groups = {"integration", "action", "do", "type"},
@@ -727,7 +789,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "confirm_button").click();
-        app.newElement(Locator.ID, "input_box").type(Keys.BACK_SPACE);
+        app.newElement(Locator.ID, "blur_box").type(Keys.BACK_SPACE);
         // verify 1 issue
         finish(1);
     }
@@ -834,7 +896,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "confirm_button").click();
-        app.newElement(Locator.ID, "input_box").clear();
+        app.newElement(Locator.ID, "blur_box").clear();
         // verify 1 issue
         finish(1);
     }
