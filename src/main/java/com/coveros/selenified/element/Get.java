@@ -391,7 +391,6 @@ public class Get {
         if (rows == null) {
             return null;
         }
-        int i = numOfTableRows();
         if (numOfTableRows() < rowNum) {
             return null;
         }
