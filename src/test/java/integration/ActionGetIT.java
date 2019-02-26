@@ -263,7 +263,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getNumOfTableRows method")
     public void getNumOfTableRowsTest() {
         // use this object to manipulate the app
@@ -275,7 +275,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getNumOfTableRows method")
     public void getNumOfTableRowsNotExistTest() {
         // use this object to manipulate the app
@@ -287,7 +287,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getNumOfTableColumns method")
     public void getNumOfTableColumnsTest() {
         // use this object to manipulate the app
@@ -299,7 +299,7 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getNumOfTableColumns method")
     public void getNumOfTableColumnsNotExistTest() {
         // use this object to manipulate the app
@@ -311,226 +311,172 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = app.newElement(Locator.ID, "table").get().tableRow(1);
-        assertEquals(row.size(), 4);
-        assertEquals(row.get(0).getText(), "President");
-        assertEquals(row.get(1).getText(), "Alfreds Futterkiste");
-        assertEquals(row.get(2).getText(), "Maria Anders");
-        assertEquals(row.get(3).getText(), "Germany");
+        Element rows = app.newElement(Locator.ID, "table", 1).get().tableRow(0);
+        assertTrue(rows.get().text().matches("\\s*Company\\s*Contact\\s*Country"));
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowNoRowTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = app.newElement(Locator.ID, "table", 0).get().tableRow(99);
-        assertEquals(row, new ArrayList<>());
+        Element row = app.newElement(Locator.ID, "table", 0).get().tableRow(99);
+        assertNull(row);
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowNotTableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = app.newElement(Locator.ID, "blur_box", 0).get().tableRow(1);
+        Element row = app.newElement(Locator.ID, "blur_box", 0).get().tableRow(1);
         assertNull(row);
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        List<WebElement> row = app.newElement(Locator.ID, "non-existent-name").get().tableRow(1);
+        Element row = app.newElement(Locator.ID, "non-existent-name").get().tableRow(1);
         assertNull(row);
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        List<WebElement> rows = app.newElement(Locator.ID, "table", 1).get().tableRows();
-        assertEquals(rows.size(), 7);
-        assertTrue(rows.get(0).getText().matches("\\s*Company\\s*Contact\\s*Country"));
+        Element rows = app.newElement(Locator.ID, "table", 1).get().tableRows();
+        assertEquals(rows.get().matchCount(), 7);
+        assertTrue(rows.get(0).get().text().matches("\\s*Company\\s*Contact\\s*Country"));
         assertTrue(
-                rows.get(1).getText().matches("President\\s*Alfreds\\s*Futterkiste\\s*Maria\\s*Anders\\s*Germany"));
+                rows.get(1).get().text().matches("President\\s*Alfreds\\s*Futterkiste\\s*Maria\\s*Anders\\s*Germany"));
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableRow method")
     public void getTableRowsNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        List<WebElement> rows = app.newElement(Locator.ID, "non-existent-name", 1).get().tableRows();
+        Element rows = app.newElement(Locator.ID, "non-existent-name", 1).get().tableRows();
         assertNull(rows);
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
-            description = "An integration test to check the getTableColumn method")
-    public void getTableColumnTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        List<WebElement> column = app.newElement(Locator.ID, "table").get().tableColumn(1);
-        assertEquals(column.size(), 7);
-        assertEquals(column.get(0).getText(), "Company");
-        assertEquals(column.get(1).getText(), "Alfreds Futterkiste");
-        assertEquals(column.get(2).getText(), "Centro comercial Moctezuma");
-        assertEquals(column.get(3).getText(), "Ernst Handel");
-        assertEquals(column.get(4).getText(), "Island Trading");
-        assertEquals(column.get(5).getText(), "Laughing Bacchus Winecellars");
-        assertEquals(column.get(6).getText(), "Magazzini Alimentari Riuniti");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "action", "get"},
-            description = "An integration test to check the getTableColumn method")
-    public void getTableColumnNoColumnTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        List<WebElement> column = app.newElement(Locator.ID, "table", 0).get().tableColumn(99);
-        assertEquals(column, new ArrayList<>());
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "action", "get"},
-            description = "An integration test to check the getTableColumn method")
-    public void getTableColumnNotExistTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        List<WebElement> column = app.newElement(Locator.ID, "non-existent-name").get().tableColumn(1);
-        assertNull(column);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "action", "get"},
-            description = "An integration test to check the getTableColumn method")
-    public void getTableColumnNotTableTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        List<WebElement> column = app.newElement(Locator.ID, "transparent_input").get().tableColumn(1);
-        assertNull(column);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "action", "get"},
-            description = "An integration test to check the getTableColumn method")
-    public void getTableColumnsTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        List<List<WebElement>> columns = app.newElement(Locator.ID, "table", 1).get().tableColumns();
-        assertEquals(columns.size(), 4);
-        assertEquals(columns.get(1).get(0).getText(), "Company");
-        assertEquals(columns.get(1).get(1).getText(), "Alfreds Futterkiste");
-        assertEquals(columns.get(1).get(2).getText(), "Centro comercial Moctezuma");
-        assertEquals(columns.get(1).get(3).getText(), "Ernst Handel");
-        assertEquals(columns.get(1).get(4).getText(), "Island Trading");
-        assertEquals(columns.get(1).get(5).getText(), "Laughing Bacchus Winecellars");
-        assertEquals(columns.get(1).get(6).getText(), "Magazzini Alimentari Riuniti");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "action", "get"},
-            description = "An integration test to check the getTableColumn method")
-    public void getTableColumnsNotExistTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        List<List<WebElement>> columns = app.newElement(Locator.ID, "non-existent-name", 1).get().tableColumns();
-        assertNull(columns);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableCell method")
-    public void getTableCellTest() {
+    public void getTableCell00Test() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        WebElement cell = app.newElement(Locator.ID, "table").get().tableCell(1, 1);
-        assertEquals(cell.getText(), "Alfreds Futterkiste");
+        Element cell = app.newElement(Locator.ID, "table").get().tableCell(0, 0);
+        cell.assertEquals().text("");
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
+            description = "An integration test to check the getTableCell method")
+    public void getTableCell01Test() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element cell = app.newElement(Locator.ID, "table").get().tableCell(0, 1);
+        cell.assertEquals().text("Company");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get", "table"},
+            description = "An integration test to check the getTableCell method")
+    public void getTableCell10Test() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element cell = app.newElement(Locator.ID, "table").get().tableCell(1, 0);
+        cell.assertEquals().text("President");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get", "table"},
+            description = "An integration test to check the getTableCell method")
+    public void getTableCell11Test() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element cell = app.newElement(Locator.ID, "table").get().tableCell(1, 1);
+        cell.assertEquals().text("Alfreds Futterkiste");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellWideTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        WebElement cell = app.newElement(Locator.ID, "table", 0).get().tableCell(1, 99);
+        Element cell = app.newElement(Locator.ID, "table", 0).get().tableCell(1, 99);
         assertNull(cell);
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellLongTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        WebElement cell = app.newElement(Locator.ID, "table").get().tableCell(99, 1);
+        Element cell = app.newElement(Locator.ID, "table").get().tableCell(99, 1);
         assertNull(cell);
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellNoCellTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        WebElement cell = app.newElement(Locator.ID, "table").get().tableCell(99, 99);
+        Element cell = app.newElement(Locator.ID, "table").get().tableCell(99, 99);
         assertNull(cell);
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "get"},
+    @Test(groups = {"integration", "action", "get", "table"},
             description = "An integration test to check the getTableCell method")
     public void getTableCellNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        WebElement cell = app.newElement(Locator.ID, "non-existent-name").get().tableCell(1, 1);
+        Element cell = app.newElement(Locator.ID, "non-existent-name").get().tableCell(1, 1);
         assertNull(cell);
         // verify no issues
         finish();

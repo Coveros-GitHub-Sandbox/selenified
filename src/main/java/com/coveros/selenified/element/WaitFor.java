@@ -61,7 +61,7 @@ public class WaitFor {
     private static final long DEFAULT_POLLING_INTERVAL = 50;
     private double defaultWait = 5.0;
 
-    public WaitFor(Element element, OutputFile file) {
+    WaitFor(Element element, OutputFile file) {
         this.element = element;
         this.file = file;
     }

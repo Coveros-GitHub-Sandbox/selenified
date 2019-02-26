@@ -46,7 +46,7 @@ public class State extends Assert {
     private static final String NOTCHECKED = " is not checked on the page";
     private static final String IS = " is ";
 
-    public State(Element element, OutputFile file) {
+    State(Element element, OutputFile file) {
         this.element = element;
         this.file = file;
     }
