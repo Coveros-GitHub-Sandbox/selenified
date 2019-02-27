@@ -40,7 +40,7 @@ public class Matches extends Assert {
 
     private static final String MATCH_PATTERN = " to match a pattern of <b>";
 
-    public Matches(Element element, OutputFile file) {
+    Matches(Element element, OutputFile file) {
         this.element = element;
         this.file = file;
     }
@@ -96,7 +96,7 @@ public class Matches extends Assert {
             return;
         }
         // get the table cell pattern
-        String actualText = element.get().tableCell(row, col).getText();
+        String actualText = element.get().tableCell(row, col).get().text();
         if (!actualText.matches(pattern)) {
             file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput() +
                     " has the value of <b>" + actualText + "</b>", Success.FAIL);

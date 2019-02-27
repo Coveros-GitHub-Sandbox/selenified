@@ -45,7 +45,7 @@ public class Equals extends Assert {
     private static final String VALUES = " has values of <b>";
     private static final String WITH = " with the value of <b>";
 
-    public Equals(Element element, OutputFile file) {
+    Equals(Element element, OutputFile file) {
         this.element = element;
         this.file = file;
     }
@@ -203,7 +203,7 @@ public class Equals extends Assert {
             return;
         }
         // get the table cell text
-        String actualText = element.get().tableCell(row, col).getText();
+        String actualText = element.get().tableCell(row, col).get().text();
         if (!actualText.equals(text)) {
             file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput() +
                     " has the text value of <b>" + actualText + "</b>", Success.FAIL);

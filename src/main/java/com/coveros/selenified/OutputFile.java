@@ -56,33 +56,8 @@ import java.util.zip.ZipOutputStream;
  */
 public class OutputFile {
 
-    private static final Logger log = Logger.getLogger(OutputFile.class);
     public static final String PASSORFAIL = "PASSORFAIL";
-
-    private App app = null;
-
-    private final String url;
-    private final String suite;
-    private final String group;
-    private final String version;
-    private final String author;
-    private final String objectives;
-
-    private final String test;
-    private final String directory;
-    private final File file;
-    private final String filename;
-    private Capabilities capabilities;
-    private final List<String> screenshots = new ArrayList<>();
-
-    // timing of the test
-    private long startTime;
-    private long lastTime = 0;
-    // this will track the step numbers
-    private int stepNum = 0;
-    // this will keep track of the errors
-    private int errors = 0;
-
+    private static final Logger log = Logger.getLogger(OutputFile.class);
     // constants
     private static final String START_ROW = "   <tr>\n";
     private static final String START_CELL = "    <td>";
@@ -91,6 +66,26 @@ public class OutputFile {
     private static final String END_IDIV = "</i></div>";
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
+    private final String url;
+    private final String suite;
+    private final String group;
+    private final String version;
+    private final String author;
+    private final String objectives;
+    private final String test;
+    private final String directory;
+    private final File file;
+    private final String filename;
+    private final List<String> screenshots = new ArrayList<>();
+    private App app = null;
+    private Capabilities capabilities;
+    // timing of the test
+    private long startTime;
+    private long lastTime = 0;
+    // this will track the step numbers
+    private int stepNum = 0;
+    // this will keep track of the errors
+    private int errors = 0;
 
     /**
      * Creates a new instance of the OutputFile, which will serve as the
@@ -179,6 +174,16 @@ public class OutputFile {
     private boolean isRealBrowser() {
         Browser browser = capabilities.getBrowser();
         return browser.getName() != BrowserName.NONE && browser.getName() != BrowserName.HTMLUNIT;
+    }
+
+    /**
+     * Retrieves the App class associated with the output file which controls all actions within
+     * the browser
+     *
+     * @return App: the App class associated with the output file
+     */
+    public App getApp() {
+        return this.app;
     }
 
     /**
@@ -860,12 +865,12 @@ public class OutputFile {
     public enum Success {
         PASS, FAIL;
 
-        int errors;
-
         static {
             PASS.errors = 0;
             FAIL.errors = 1;
         }
+
+        int errors;
 
         /**
          * Retrieves the errors associated with the enumeration

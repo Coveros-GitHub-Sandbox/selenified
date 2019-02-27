@@ -23,6 +23,7 @@ package com.coveros.selenified.element;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.application.App;
 import com.coveros.selenified.utilities.Point;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
@@ -205,9 +206,14 @@ public class Element {
         this.driver = driver;
         this.file = file;
 
+        App app = null;
+        if ( file != null ) {
+            app = file.getApp();
+        }
+
         is = new Is(this);
         waitFor = new WaitFor(this, file);
-        get = new Get(driver, this);
+        get = new Get(app, driver, this);
         state = new State(this, file);
         contains = new Contains(this, file);
         excludes = new Excludes(this, file);
@@ -225,6 +231,11 @@ public class Element {
      */
     public void setMatch(int match) {
         this.match = match;
+    }
+
+    public Element get(int match) {
+        setMatch(match);
+        return this;
     }
 
     /**
