@@ -302,10 +302,10 @@ public class OutputFile {
         Matcher m = r.matcher(str);
         int imageCount = 0;
         while (m.find()) {
-            str = str.replaceAll("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*? src='(.*?)'(?s).*?)" +
+            str = str.replaceFirst("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*? src='(.*?)'(?s).*?)" +
                             " style(?s).*?</img>",
                     "$1" + "></img><a href=\"#image-" + imageCount + "\">Link to full size image</a>");
-            str = str.replaceAll("</body>", "<p style='page-break-before: always' id='image-" + imageCount++ + "'></p" +
+            str = str.replaceFirst("</body>", "<p style='page-break-before: always' id='image-" + imageCount++ + "'></p" +
                     ">" +
                     m.group().replaceAll("width='300px' style(?s).*?'>", "height='600px' width='1000px'>") + "</body>");
         }
@@ -691,7 +691,7 @@ public class OutputFile {
         File pdfFile = new File(directory, filename + ".pdf");
         try (OutputStream os = new FileOutputStream(pdfFile)) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
-            builder.withHtmlContent(getHtmlForPDFConversion(), "file://" + pdfFile.getName()
+            builder.withHtmlContent(getHtmlForPDFConversion(), "file://" + pdfFile.getAbsolutePath()
                     .replaceAll(" ", "%20"));
             builder.toStream(os);
             builder.run();
