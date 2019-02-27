@@ -141,9 +141,18 @@ public class Capabilities {
     }
 
     /**
+     * Sets the browser, and all defined browser details. Generally only used to override browser information
+     *
+     * @param browser
+     */
+    void setBrowser(Browser browser) {
+        this.browser = browser;
+    }
+
+    /**
      * returns the classes defined all browser details
      *
-     * @return Browser
+     * @return Browser - the browser with details
      */
     public Browser getBrowser() {
         return browser;
@@ -153,7 +162,7 @@ public class Capabilities {
      * Sets the instances of the test running. This references the invocation count from TestNG, allowing looping, and
      * specifies which test run this is
      *
-     * @param instance
+     * @param instance - the number instance of the test being run, to track capabilities
      */
     public void setInstance(int instance) {
         this.instance = instance;

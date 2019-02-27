@@ -41,6 +41,38 @@ public class Browser {
         NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, OPERA, SAFARI, PHANTOMJS
     }
 
+    /**
+     * determining how to launch/start the browser. Do we even want a browser, and
+     * if so do we wait for the initial page to load, or do we need to perform other
+     * activities first
+     */
+    public enum BrowserUse {
+        FALSE, OPEN, LOAD;
+
+        private Boolean browser;
+        private Boolean load;
+
+        static {
+            FALSE.browser = false;
+            OPEN.browser = true;
+            LOAD.browser = true;
+        }
+
+        static {
+            FALSE.load = false;
+            OPEN.load = false;
+            LOAD.load = true;
+        }
+
+        public Boolean useBrowser() {
+            return this.browser;
+        }
+
+        public Boolean loadPage() {
+            return this.load;
+        }
+    }
+
     public static final String SCREENSIZE_INPUT = "screensize";
     public static final String BROWSER_INPUT = "browser";
     public static final String NAME_INPUT = "name";

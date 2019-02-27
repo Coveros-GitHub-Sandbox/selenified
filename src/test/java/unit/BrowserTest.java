@@ -3,14 +3,22 @@ package unit;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public class BrowserTest {
+
+    @Test
+    public void driverSetupTest() {
+        assertFalse(Browser.BrowserUse.FALSE.useBrowser());
+        assertTrue(Browser.BrowserUse.OPEN.useBrowser());
+        assertTrue(Browser.BrowserUse.LOAD.useBrowser());
+
+        assertFalse(Browser.BrowserUse.FALSE.loadPage());
+        assertFalse(Browser.BrowserUse.OPEN.loadPage());
+        assertTrue(Browser.BrowserUse.LOAD.loadPage());
+    }
 
     @Test
     public void browsersTest() throws InvalidBrowserException {

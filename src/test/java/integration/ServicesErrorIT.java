@@ -1,5 +1,6 @@
 package integration;
 
+import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
@@ -12,8 +13,6 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-
-import static com.coveros.selenified.DriverSetup.FALSE;
 
 public class ServicesErrorIT extends Selenified {
 
@@ -30,7 +29,7 @@ public class ServicesErrorIT extends Selenified {
 
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
-        super.startTest(dataProvider, method, test, result, FALSE);
+        super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }
 
     @Test(groups = {"integration", "service", "httpget"},

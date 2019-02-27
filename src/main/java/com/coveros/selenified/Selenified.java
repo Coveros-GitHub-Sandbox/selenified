@@ -21,6 +21,7 @@
 package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
@@ -340,7 +341,7 @@ public class Selenified {
      */
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
-        startTest(dataProvider, method, test, result, DriverSetup.LOAD);
+        startTest(dataProvider, method, test, result, BrowserUse.LOAD);
     }
 
     /**
@@ -359,7 +360,7 @@ public class Selenified {
      *                     be setup
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-                             DriverSetup selenium) throws InvalidBrowserException, MalformedURLException {
+                             BrowserUse selenium) throws InvalidBrowserException, MalformedURLException {
         String testName = TestCase.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
@@ -380,6 +381,7 @@ public class Selenified {
         Browser browser = capabilities.getBrowser();
         if (!selenium.useBrowser()) {
             browser = new Browser("None");
+            capabilities.setBrowser(browser);
         }
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);

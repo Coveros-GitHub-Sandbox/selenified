@@ -1,6 +1,6 @@
 package integration;
 
-import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.apache.commons.io.FileUtils;
@@ -21,7 +21,7 @@ public class NoLoadIT extends WebBase {
 
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
-        super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
+        super.startTest(dataProvider, method, test, result, BrowserUse.OPEN);
     }
 
     @SuppressWarnings("deprecation")

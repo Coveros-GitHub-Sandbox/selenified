@@ -1,6 +1,5 @@
 package unit;
 
-import com.coveros.selenified.DriverSetup;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.Selenified;
 import org.testng.ITestContext;
@@ -56,17 +55,6 @@ public class SelenifiedTest extends Selenified {
         System.setProperty("appURL", "http://www.yahoo.com");
         setTestSite(this, context, "google");
         assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
-    }
-
-    @Test
-    public void driverSetupTest() {
-        assertFalse(DriverSetup.FALSE.useBrowser());
-        assertTrue(DriverSetup.OPEN.useBrowser());
-        assertTrue(DriverSetup.LOAD.useBrowser());
-
-        assertFalse(DriverSetup.FALSE.loadPage());
-        assertFalse(DriverSetup.OPEN.loadPage());
-        assertTrue(DriverSetup.LOAD.loadPage());
     }
 
     @Test
