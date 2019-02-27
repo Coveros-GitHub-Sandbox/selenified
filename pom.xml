@@ -46,6 +46,7 @@
         <lint.maven.plugin.version>0.0.11</lint.maven.plugin.version>
         <mock.server.version>5.3.0</mock.server.version>
         <nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
+        <openhtml.version>0.0.1-RC15</openhtml.version>
 
         <!-- SonarQube properties -->
         <sonar.host.url>http://localhost:9000/sonar</sonar.host.url>
@@ -133,6 +134,20 @@
             <artifactId>mockserver-netty</artifactId>
             <version>${mock.server.version}</version>
         </dependency>
+
+        <dependency>
+        <!-- ALWAYS required. -->
+        <groupId>com.openhtmltopdf</groupId>
+        <artifactId>openhtmltopdf-core</artifactId>
+        <version>${openhtml.version}</version>
+    </dependency>
+
+    <dependency>
+        <!-- Required for PDF output. -->
+        <groupId>com.openhtmltopdf</groupId>
+        <artifactId>openhtmltopdf-pdfbox</artifactId>
+        <version>${openhtml.version}</version>
+    </dependency>
     </dependencies>
 
     <distributionManagement>
