@@ -295,7 +295,8 @@ public class OutputFile {
         // replace all non convertible elements with empty text or modify for conversion
         String str = oldContent.toString()
                 .replaceAll("<script type='text/javascript'>(?s).*</script>", "")
-                .replaceAll("<tr>\\s*<th>View Results</th>(?s).*?</tr>", "");
+                .replaceAll("<tr>\\s*<th>View Results</th>(?s).*?</tr>", "")
+                .replaceAll("&nbsp;", " ");
 
         String imagePattern = "(<img(?s).*? src='(.*?)'(?s).*?)</img>";
         Pattern r = Pattern.compile(imagePattern);
