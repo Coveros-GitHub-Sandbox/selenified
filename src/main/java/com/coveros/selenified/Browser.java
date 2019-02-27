@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 1/12/2019
+ * @lastupdate 2/27/2019
  */
 public class Browser {
 

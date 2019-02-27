@@ -54,7 +54,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/19/2019
+ * @lastupdate 2/27/2019
  */
 public class Capabilities {
 
@@ -66,7 +66,6 @@ public class Capabilities {
     private Browser browser;
     private int instance;
     private DesiredCapabilities desiredCapabilities;
-    private boolean addedExtraCapabilities = false;
 
     /**
      * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
@@ -295,7 +294,6 @@ public class Capabilities {
      */
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
-            addedExtraCapabilities = true;
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
         }
     }

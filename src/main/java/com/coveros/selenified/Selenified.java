@@ -55,7 +55,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * system variables are gathered, to set the browser, test site, proxy, hub,
  * etc. This class should be extended by each test class to allow for simple
  * execution of tests.
- *
+ * <p>
  * By default each test run will launch a selenium browser, and open the defined
  * test site. If no browser is needed for the test, override the startTest
  * method. Similarly, if you don't want a URL to initially load, override the
@@ -63,7 +63,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/19/2019
+ * @lastupdate 2/27/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -196,7 +196,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -378,7 +378,7 @@ public class Selenified {
         Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
-        } else if ( getAdditionalDesiredCapabilities(extClass, test) != null ) {
+        } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
             capabilities = new Capabilities(capabilities.getBrowser());
             capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
