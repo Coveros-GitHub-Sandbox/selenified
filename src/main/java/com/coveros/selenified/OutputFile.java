@@ -304,7 +304,7 @@ public class OutputFile {
         while (m.find()) {
             str = str.replaceFirst("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*? src='(.*?)'(?s).*?)" +
                             " style(?s).*?</img>",
-                    "$1" + "></img><a href=\"#image-" + imageCount + "\">Link to full size image</a>");
+                    "<a href=\"#image-" + imageCount + "\">View Screenshot</a>");
             str = str.replaceFirst("</body>", "<p style='page-break-before: always' id='image-" + imageCount++ + "'></p" +
                     ">" +
                     m.group().replaceAll("width='300px' style(?s).*?'>", "height='600px' width='1000px'>") + "</body>");
