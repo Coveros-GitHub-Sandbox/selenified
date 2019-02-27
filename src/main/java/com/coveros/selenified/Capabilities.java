@@ -83,7 +83,6 @@ public class Capabilities {
 
     private void setDesiredCapabilities() {
         if (browser.getName() == BrowserName.NONE) {
-            this.desiredCapabilities = null;
             return;
         }
         // by default, accept insecure sites - there are some exceptions for browsers
@@ -138,15 +137,6 @@ public class Capabilities {
      */
     public DesiredCapabilities getDesiredCapabilities() {
         return desiredCapabilities;
-    }
-
-    /**
-     * Sets the browser, and all defined browser details. Generally only used to override browser information
-     *
-     * @param browser
-     */
-    void setBrowser(Browser browser) {
-        this.browser = browser;
     }
 
     /**
@@ -307,14 +297,6 @@ public class Capabilities {
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
             addedExtraCapabilities = true;
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
-        }
-    }
-
-    public void resetDesiredCapabilities() {
-        if (addedExtraCapabilities) {
-            addedExtraCapabilities = false;
-            desiredCapabilities = new DesiredCapabilities();
-            setDesiredCapabilities();
         }
     }
 }

@@ -376,13 +376,14 @@ public class Selenified {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
-        capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
-        capabilities.setInstance(invocationCount);
-        Browser browser = capabilities.getBrowser();
         if (!selenium.useBrowser()) {
-            browser = new Browser("None");
-            capabilities.setBrowser(browser);
+            capabilities = new Capabilities(new Browser("None"));
+        } else if ( getAdditionalDesiredCapabilities(extClass, test) != null ) {
+            capabilities = new Capabilities(capabilities.getBrowser());
+            capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
+        Browser browser = capabilities.getBrowser();
+        capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
@@ -471,8 +472,6 @@ public class Selenified {
         if (test.getAttributeNames().contains(testName + INVOCATION_COUNT)) {
             invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
         }
-        Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
-        capabilities.resetDesiredCapabilities();
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
     }
 
