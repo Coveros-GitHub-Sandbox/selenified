@@ -728,11 +728,18 @@ with these trending results.
 
 ### Packaging Results
 If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property
-and set it to true
 ```
-mvn clean verify -Dbrowser=Firefox -DpackageResults=true
+mvn clean verify -Dbrowser=Firefox -DpackageResults
 ```
 The zipped results will be placed in the same directory as the test results
+
+### PDF Test Reports
+If you'd like to get test reports as PDF files instead of HTML for easier sharing, include the 'generatePDF' 
+system property
+```
+mvn clean verify -Dbrowser=Firefox -DgeneratePDF
+```
+The PDF reports will be generated alongside the HTML reports
 
 ## Installation
 ### Building the jar

@@ -67,7 +67,7 @@ public class OutputFileTest {
 
     @Test
     public void fileNameTest() {
-        assertEquals(outputFile.getFileName(), "file.html");
+        assertEquals(outputFile.getFileName(), "file");
     }
 
     @Test
@@ -344,28 +344,42 @@ public class OutputFileTest {
 
     @Test
     public void packageResultsPositiveTest() throws IOException {
+        String packageResults = null;
+        if (System.getProperty("packageResults") != null) {
+            packageResults = System.getProperty("packageResults");
+        }
         OutputFile outputFile =
                 new OutputFile("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");
-        File file = new File("results", "file.html");
+        File file = new File("results", "file");
 
         System.setProperty("packageResults", "true");
         outputFile.finalizeOutputFile(1);
-        System.clearProperty("packageResults");
         File results = new File("results", file.getName() + "_RESULTS.zip");
         assertTrue(results.exists());
 
         file.delete();
         results.delete();
         directory.delete();
+        System.clearProperty("packageResults");
+        if (packageResults != null) {
+            System.setProperty("packageResults", packageResults);
+        }
     }
 
     @Test
-    public void packageResultsNegativeTest() throws IOException {
+    public void packageResultsNegativeTest() {
+        String packageResults = null;
+        if (System.getProperty("packageResults") != null) {
+            packageResults = System.getProperty("packageResults");
+        }
         System.setProperty("packageResults", "false");
         outputFile.finalizeOutputFile(1);
-        System.clearProperty("packageResults");
         assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
+        System.clearProperty("packageResults");
+        if (packageResults != null) {
+            System.setProperty("packageResults", packageResults);
+        }
     }
 
     @Test
@@ -661,5 +675,30 @@ public class OutputFileTest {
     @Test
     public void formatHTMLFullTest() {
         assertEquals(outputFile.formatHTML("hello world\nhello world"), "hello&nbsp;world<br/>hello&nbsp;world");
+    }
+
+    @Test
+    public void generatePDFTest() throws InvalidBrowserException {
+        String generatePDF = null;
+        if (System.getProperty("generatePDF") != null) {
+            generatePDF = System.getProperty("generatePDF");
+        }
+        OutputFile outputFile =
+                new OutputFile("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
+        File directory = new File("results");
+        File file = new File("results", "file");
+
+        System.setProperty("generatePDF", "true");
+        outputFile.finalizeOutputFile(1);
+        File results = new File("results", file.getName() + ".pdf");
+        assertTrue(results.exists());
+
+        file.delete();
+        results.delete();
+        directory.delete();
+        System.clearProperty("generatePDF");
+        if (generatePDF != null) {
+            System.setProperty("generatePDF", generatePDF);
+        }
     }
 }

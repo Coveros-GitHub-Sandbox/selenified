@@ -155,10 +155,14 @@ public class Listener extends TestListenerAdapter {
     private void recordResult(ITestResult result) {
         // finalize our output file
         OutputFile outputFile = (OutputFile) result.getAttribute(OUTPUT_FILE);
-        String filename = "";
+        String htmlFilename = "";
+        String pdfFilename = "";
         if (outputFile != null) {
             outputFile.finalizeOutputFile(result.getStatus());
-            filename = outputFile.getFileName();
+            htmlFilename = outputFile.getFileName() + ".html";
+            if (System.getProperty("generatePDF") != null) {
+                pdfFilename = outputFile.getFileName() + ".pdf";
+            }
         }
         // update our reporter logger
         String testName = getTestName(result);
@@ -166,8 +170,14 @@ public class Listener extends TestListenerAdapter {
         if (browser != null) {
             Reporter.log(
                     Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
-                            getFolderName(result) + "/" + filename + LINK_MIDDLE + testName +
-                            LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
+                            getFolderName(result) + "/" + htmlFilename + LINK_MIDDLE + testName + " HTML Report" +
+                            LINK_END);
+            if (!pdfFilename.isEmpty()) {
+                Reporter.log(OUTPUT_BREAK + LINK_START +
+                        getFolderName(result) + "/" + pdfFilename + LINK_MIDDLE + testName + " PDF" +
+                        LINK_END);
+            }
+            Reporter.log(OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
         // update sauce labs
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {

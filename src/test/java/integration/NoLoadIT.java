@@ -34,7 +34,7 @@ public class NoLoadIT extends WebBase {
         assertNotNull(app);
         String directory = context.getOutputDirectory();
         String file = app.getOutputFile().getFileName();
-        assertFalse(FileUtils.readFileToString(new File(directory, file))
+        assertFalse(FileUtils.readFileToString(new File(directory, file + ".html"))
                 .contains("Opening new browser and loading up starting app"));
         // verify the app wasn't attempted to load
         app.azzert().urlEquals(getTestSite(this.getClass().getName(), context));
