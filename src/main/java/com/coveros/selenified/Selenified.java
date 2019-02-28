@@ -21,6 +21,7 @@
 package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
@@ -62,7 +63,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/19/2019
+ * @lastupdate 2/27/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -195,7 +196,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -340,7 +341,7 @@ public class Selenified {
      */
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
-        startTest(dataProvider, method, test, result, DriverSetup.LOAD);
+        startTest(dataProvider, method, test, result, BrowserUse.LOAD);
     }
 
     /**
@@ -359,7 +360,7 @@ public class Selenified {
      *                     be setup
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-                             DriverSetup selenium) throws InvalidBrowserException, MalformedURLException {
+                             BrowserUse selenium) throws InvalidBrowserException, MalformedURLException {
         String testName = TestCase.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
@@ -375,12 +376,14 @@ public class Selenified {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
-        capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
-        capabilities.setInstance(invocationCount);
-        Browser browser = capabilities.getBrowser();
         if (!selenium.useBrowser()) {
-            browser = new Browser("None");
+            capabilities = new Capabilities(new Browser("None"));
+        } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
+            capabilities = new Capabilities(capabilities.getBrowser());
+            capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
+        Browser browser = capabilities.getBrowser();
+        capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
@@ -469,8 +472,6 @@ public class Selenified {
         if (test.getAttributeNames().contains(testName + INVOCATION_COUNT)) {
             invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
         }
-        Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
-        capabilities.resetDesiredCapabilities();
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
     }
 

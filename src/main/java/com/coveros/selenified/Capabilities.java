@@ -54,7 +54,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/19/2019
+ * @lastupdate 2/27/2019
  */
 public class Capabilities {
 
@@ -66,7 +66,6 @@ public class Capabilities {
     private Browser browser;
     private int instance;
     private DesiredCapabilities desiredCapabilities;
-    private boolean addedExtraCapabilities = false;
 
     /**
      * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
@@ -83,7 +82,6 @@ public class Capabilities {
 
     private void setDesiredCapabilities() {
         if (browser.getName() == BrowserName.NONE) {
-            this.desiredCapabilities = null;
             return;
         }
         // by default, accept insecure sites - there are some exceptions for browsers
@@ -143,7 +141,7 @@ public class Capabilities {
     /**
      * returns the classes defined all browser details
      *
-     * @return Browser
+     * @return Browser - the browser with details
      */
     public Browser getBrowser() {
         return browser;
@@ -153,7 +151,7 @@ public class Capabilities {
      * Sets the instances of the test running. This references the invocation count from TestNG, allowing looping, and
      * specifies which test run this is
      *
-     * @param instance
+     * @param instance - the number instance of the test being run, to track capabilities
      */
     public void setInstance(int instance) {
         this.instance = instance;
@@ -296,16 +294,7 @@ public class Capabilities {
      */
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
-            addedExtraCapabilities = true;
             desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
-        }
-    }
-
-    public void resetDesiredCapabilities() {
-        if (addedExtraCapabilities) {
-            addedExtraCapabilities = false;
-            desiredCapabilities = new DesiredCapabilities();
-            setDesiredCapabilities();
         }
     }
 }

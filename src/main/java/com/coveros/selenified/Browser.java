@@ -33,12 +33,44 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 1/12/2019
+ * @lastupdate 2/27/2019
  */
 public class Browser {
 
     public enum BrowserName {
         NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, OPERA, SAFARI, PHANTOMJS
+    }
+
+    /**
+     * determining how to launch/start the browser. Do we even want a browser, and
+     * if so do we wait for the initial page to load, or do we need to perform other
+     * activities first
+     */
+    public enum BrowserUse {
+        FALSE, OPEN, LOAD;
+
+        private Boolean browser;
+        private Boolean load;
+
+        static {
+            FALSE.browser = false;
+            OPEN.browser = true;
+            LOAD.browser = true;
+        }
+
+        static {
+            FALSE.load = false;
+            OPEN.load = false;
+            LOAD.load = true;
+        }
+
+        public Boolean useBrowser() {
+            return this.browser;
+        }
+
+        public Boolean loadPage() {
+            return this.load;
+        }
     }
 
     public static final String SCREENSIZE_INPUT = "screensize";

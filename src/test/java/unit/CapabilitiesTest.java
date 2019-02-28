@@ -52,7 +52,7 @@ public class CapabilitiesTest {
     @Test
     public void setupBrowserCapabilityNone() throws InvalidBrowserException {
         Capabilities capabilities = new Capabilities(new Browser("None"));
-        assertNull(capabilities.getDesiredCapabilities());
+        assertEquals(capabilities.getDesiredCapabilities(), new DesiredCapabilities());
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
@@ -315,7 +315,7 @@ public class CapabilitiesTest {
     public void addExtraCapabilitiesNoBrowserTest() throws InvalidBrowserException {
         Capabilities capabilities = new Capabilities(new Browser("None"));
         capabilities.addExtraCapabilities(new DesiredCapabilities());
-        assertNull(capabilities.getDesiredCapabilities());
+        assertEquals(capabilities.getDesiredCapabilities(), new DesiredCapabilities());
     }
 
     @Test
