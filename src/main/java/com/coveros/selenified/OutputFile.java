@@ -27,6 +27,7 @@ import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.TestCase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import org.testng.log4testng.Logger;
 
 import java.io.*;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -49,7 +52,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/19/2019
+ * @lastupdate 2/25/2019
  */
 public class OutputFile {
 
@@ -112,7 +115,7 @@ public class OutputFile {
         this.version = version;
         this.objectives = objectives;
         filename = generateFilename();
-        file = new File(directory, filename);
+        file = new File(directory, filename + ".html");
         setupFile();
         setStartTime();
         createOutputHeader();
@@ -202,7 +205,7 @@ public class OutputFile {
         if (capabilities.getInstance() > 0) {
             counter = "_" + capabilities.getInstance();
         }
-        return test + counter + ".html";
+        return test + counter;
     }
 
     /**
@@ -276,6 +279,43 @@ public class OutputFile {
         } catch (IOException ioe) {
             log.error(ioe);
         }
+    }
+
+    /**
+     * Removes all elements that cannot be converted to pdf, this method is to be used
+     * before converting the html file to pdf with openhtmltopdf.pdfboxout.PdfRendererBuilder
+     */
+    private String getHtmlForPDFConversion() throws IOException {
+        StringBuilder oldContent = new StringBuilder();
+
+        FileReader fr = new FileReader(file);
+        try (BufferedReader reader = new BufferedReader(fr)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                oldContent.append(line);
+                oldContent.append("\r\n");
+            }
+        }
+
+        // replace all non convertible elements with empty text or modify for conversion
+        String str = oldContent.toString()
+                .replaceAll("<script type='text/javascript'>(?s).*</script>", "")
+                .replaceAll("<tr>\\s*<th>View Results</th>(?s).*?</tr>", "")
+                .replaceAll("&nbsp;", " ");
+
+        String imagePattern = "(<img(?s).*? src='(.*?)'(?s).*?)</img>";
+        Pattern r = Pattern.compile(imagePattern);
+        Matcher m = r.matcher(str);
+        int imageCount = 0;
+        while (m.find()) {
+            str = str.replaceFirst("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*? src='(.*?)'(?s).*?)" +
+                            " style(?s).*?</img>",
+                    "<a href=\"#image-" + imageCount + "\">View Screenshot</a>");
+            str = str.replaceFirst("</body>", "<p style='page-break-before: always' id='image-" + imageCount++ + "'></p" +
+                    ">" +
+                    m.group().replaceAll("width='300px' style(?s).*?'>", "height='600px' width='1000px'>") + "</body>");
+        }
+        return str;
     }
 
     /**
@@ -429,6 +469,9 @@ public class OutputFile {
             out.write(" <head>\n");
             out.write("  <title>" + test + "</title>\n");
             out.write("  <style type='text/css'>\n");
+            out.write("    @page {\n");
+            out.write("     size: landscape;\n");
+            out.write(endBracket3);
             out.write("   table {\n");
             out.write("    margin-left:auto;margin-right:auto;\n");
             out.write("    width:90%;\n");
@@ -484,7 +527,8 @@ public class OutputFile {
             out.write(endBracket3);
             out.write("   function getElementsByClassName(oElm, strTagName, strClassName){\n");
             out.write(
-                    "    var arrElements = (strTagName == '*' && document.all)? document.all : oElm.getElementsByTagName(strTagName);\n");
+                    "    var arrElements = (strTagName == '*' && document.all)? document.all : oElm" +
+                            ".getElementsByTagName(strTagName);\n");
             out.write("    var arrReturnElements = new Array();\n");
             out.write("    strClassName = strClassName.replace(/\\-/g, '\\\\-');\n");
             out.write("    var oRegExp = new RegExp('(^|\\s)' + strClassName + '(\\s|$)');\n");
@@ -510,7 +554,7 @@ public class OutputFile {
             out.write("  <table>\n");
             out.write(START_ROW);
             out.write("    <th bgcolor='lightblue'><font size='5'>Test</font></th>\n");
-            out.write("    <td bgcolor='lightblue' colspan=3><font size='5'>" + test + " </font></td>\n");
+            out.write("    <td bgcolor='lightblue' colspan='3'><font size='5'>" + test + " </font></td>\n");
             out.write(swapRow);
             out.write("    <th>Tester</th>\n");
             out.write("    <td>Automated</td>\n");
@@ -540,12 +584,12 @@ public class OutputFile {
             out.write(START_CELL + suite + END_CELL);
             out.write(swapRow);
             out.write("    <th>Test Objectives</th>\n");
-            out.write("    <td colspan=3>" + objectives + END_CELL);
+            out.write("    <td colspan='3'>" + objectives + END_CELL);
             out.write(swapRow);
             out.write("    <th>Overall Results</th>\n");
-            out.write("    <td colspan=3 style='padding: 0px;'>\n");
+            out.write("    <td colspan='3' style='padding: 0px;'>\n");
             out.write("     <table style='width: 100%;'><tr>\n");
-            out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
+            out.write("      <td font-size='big' rowspan='2'>PASSORFAIL</td>\n");
             out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" +
                     "<td><b>Steps Failed</b></td>\n");
             out.write("     </tr><tr>\n");
@@ -554,16 +598,22 @@ public class OutputFile {
             out.write("    </td>\n");
             out.write(swapRow);
             out.write("    <th>View Results</th>\n");
-            out.write("    <td colspan=3>\n");
-            out.write("     <input type=checkbox name='step' onclick='toggleVis(0,this.checked)' checked>Step\n");
-            out.write("     <input type=checkbox name='action' onclick='toggleVis(1,this.checked)' checked>Action \n");
+            out.write("    <td colspan='3'>\n");
+            out.write("     <input type='checkbox' name='step' onclick='toggleVis(0,this.checked)' " +
+                    "checked='checked'>Step</input>\n");
+            out.write("     <input type='checkbox' name='action' onclick='toggleVis(1,this.checked)' " +
+                    "checked='checked'>Action</input>\n");
             out.write(
-                    "     <input type=checkbox name='expected' onclick='toggleVis(2,this.checked)' checked>Expected Results \n");
+                    "     <input type='checkbox' name='expected' onclick='toggleVis(2,this.checked)' " +
+                            "checked='checked'>Expected Results</input>\n");
             out.write(
-                    "     <input type=checkbox name='actual' onclick='toggleVis(3,this.checked)' checked>Actual Results \n");
+                    "     <input type='checkbox' name='actual' onclick='toggleVis(3,this.checked)' " +
+                            "checked='checked'>Actual Results</input>\n");
             out.write(
-                    "     <input type=checkbox name='times' onclick='toggleVis(4,this.checked)' checked>Step Times \n");
-            out.write("     <input type=checkbox name='result' onclick='toggleVis(5,this.checked)' checked>Results\n");
+                    "     <input type='checkbox' name='times' onclick='toggleVis(4,this.checked)' " +
+                            "checked='checked'>Step Times</input>\n");
+            out.write("     <input type='checkbox' name='result' onclick='toggleVis(5,this.checked)' " +
+                    "checked='checked'>Results</input>\n");
             out.write("    </td>\n");
             out.write(END_ROW);
             out.write("  </table>\n");
@@ -602,10 +652,21 @@ public class OutputFile {
         if (fails == 0 && errors == 0 && testStatus == 1) {
             replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>SUCCESS</b></font>");
         } else if (fails == 0 && errors == 0) {
-            replaceInFile(PASSORFAIL, "<font size='+2' class='warning'><b>" + Result.values()[testStatus] + "</b></font>");
+            replaceInFile(PASSORFAIL, "<font size='+2' class='warning'><b>" + Result.values()[testStatus] + "</b" +
+                    "></font>");
         } else {
             replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAILURE</b></font>");
         }
+        addTimeToOutputFile();
+        if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
+            packageTestResults();
+        }
+        if (System.getProperty("generatePDF") != null && "true".equals(System.getProperty("generatePDF"))) {
+            generatePdf();
+        }
+    }
+
+    private void addTimeToOutputFile() {
         // record the time
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
         String timeNow = stf.format(new Date());
@@ -627,8 +688,21 @@ public class OutputFile {
         }
         replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
         replaceInFile("TIMEFINISHED", timeNow);
-        if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
-            packageTestResults();
+    }
+
+    /**
+     * Generates a pdf report in the same directory as the html report
+     */
+    private void generatePdf() {
+        File pdfFile = new File(directory, filename + ".pdf");
+        try (OutputStream os = new FileOutputStream(pdfFile)) {
+            PdfRendererBuilder builder = new PdfRendererBuilder();
+            builder.withHtmlContent(getHtmlForPDFConversion(), "file://" + pdfFile.getAbsolutePath()
+                    .replaceAll(" ", "%20"));
+            builder.toStream(os);
+            builder.run();
+        } catch (Exception e) {
+            log.error(e);
         }
     }
 
@@ -648,7 +722,7 @@ public class OutputFile {
 
             // Add screenshots to zip file
             for (String screenshot : screenshots) {
-                ZipEntry s = new ZipEntry(screenshot.replaceAll(".*\\/", ""));
+                ZipEntry s = new ZipEntry(screenshot.replaceAll(".*/", ""));
                 out.putNextEntry(s);
                 Path screenPath = FileSystems.getDefault().getPath(screenshot);
                 byte[] screenData = Files.readAllBytes(screenPath);
@@ -676,7 +750,7 @@ public class OutputFile {
                     imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
             imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
                     imageName.substring(directory.length() + 1) + "' width='" + EMBEDDED_IMAGE_WIDTH +
-                    "px' style='display:none;'>";
+                    "px' style='display:none;'></img>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
         }
@@ -725,9 +799,9 @@ public class OutputFile {
             if (params.getMultipartData() != null) {
                 for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
                     output.append("<div>");
-                    output.append(String.valueOf(entry.getKey()));
+                    output.append(entry.getKey());
                     output.append(" : ");
-                    output.append(String.valueOf(entry.getValue()));
+                    output.append(entry.getValue());
                     output.append("</div>");
                 }
             }
