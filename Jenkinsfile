@@ -45,7 +45,7 @@ node {
                 stage('Execute HTMLUnit Tests') {
                     try {
                         // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                        sh 'mvn clean verify -Dskip.unit.tests -Dfailsafe.groups.exclude="browser,coveros" -Dbrowser=htmlunit -Dheadless'
+                        sh 'mvn clean verify -Dskip.unit.tests -Dfailsafe.groups.exclude="browser,coveros"'
                     } catch (e) {
                         throw e
                     } finally {
@@ -57,7 +57,7 @@ node {
                 }
                 stage('Execute Local Tests') {
                     try {
-                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless'
+                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless -DgeneratePDF'
                     } catch (e) {
                         throw e
                     } finally {
