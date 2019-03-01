@@ -21,7 +21,7 @@
 package com.coveros.selenified.application;
 
 import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.OutputFile.Success;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -138,10 +138,10 @@ public class WaitFor {
         try {
             double timetook = popup(seconds);
             file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present",
-                    Result.SUCCESS);
+                    Success.PASS);
         } catch (TimeoutException e) {
             file.recordAction(action, expected, WAITING + seconds + " seconds, an alert is not present",
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
         }
     }
@@ -157,10 +157,10 @@ public class WaitFor {
         try {
             double timetook = popup(seconds);
             file.recordAction(action, expected, WAITED + timetook + " seconds for a confirmation to be present",
-                    Result.SUCCESS);
+                    Success.PASS);
         } catch (TimeoutException e) {
             file.recordAction(action, expected, WAITING + seconds + " seconds, a confirmation is not present",
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
         }
     }
@@ -176,10 +176,10 @@ public class WaitFor {
         try {
             double timetook = popup(seconds);
             file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present",
-                    Result.SUCCESS);
+                    Success.PASS);
         } catch (TimeoutException e) {
             file.recordAction(action, expected, WAITING + seconds + " seconds, a prompt is not present",
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
         }
     }
@@ -199,12 +199,12 @@ public class WaitFor {
             wait.until(ExpectedConditions.urlToBe(location));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             file.recordAction(action, expected,
-                    WAITED + timetook + " seconds for the location to show as '" + location + "'", Result.SUCCESS);
+                    WAITED + timetook + " seconds for the location to show as '" + location + "'", Success.PASS);
         } catch (TimeoutException e) {
             // No alert found in given time
             file.recordAction(action, expected,
                     WAITING + seconds + " seconds, the location shows as '" + driver.getCurrentUrl() + "'",
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
         }
     }
@@ -224,11 +224,11 @@ public class WaitFor {
             wait.until(ExpectedConditions.titleIs(title));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             file.recordAction(action, expected, WAITED + timetook + " seconds for the title to show as '" + title + "'",
-                    Result.SUCCESS);
+                    Success.PASS);
         } catch (TimeoutException e) {
             // No alert found in given time
             file.recordAction(action, expected,
-                    WAITING + seconds + " seconds, the title shows as '" + driver.getTitle() + "'", Result.FAILURE);
+                    WAITING + seconds + " seconds, the title shows as '" + driver.getTitle() + "'", Success.FAIL);
             file.addError();
         }
     }

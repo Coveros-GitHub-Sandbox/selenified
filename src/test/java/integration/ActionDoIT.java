@@ -427,6 +427,17 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
+    @Test(groups = {"integration", "action", "do", "focus"},
+            description = "An integration test to check the focus method")
+    public void focusTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "focus_box").focus();
+        // verify no issues
+        finish(0);
+    }
+
     @Test(groups = {"integration", "action", "do", "focus", "browser", "alert"},
             description = "An integration negative test to check the focus method")
     public void focusAlertTest() {
@@ -434,7 +445,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "confirm_button").click();
-        app.newElement(Locator.ID, "focus_box").blur();
+        app.newElement(Locator.ID, "focus_box").focus();
         // verify 1 issue
         finish(1);
     }
@@ -1366,6 +1377,18 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.ID, "hidden_div").draw(points);
         // verify 1 issue
         finish(1);
+    }
+
+
+    @Test(groups = {"integration", "action", "screenshot", "do"},
+            description = "An integration test to check the takeScreenshot method")
+    public void takeScreenshotTest() throws InvalidBrowserException, MalformedURLException {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.getOutputFile().recordScreenshot();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "screenshot", "do", "local"},

@@ -22,7 +22,7 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Browser.BrowserUse;
-import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
@@ -435,14 +435,14 @@ public class Selenified {
                 if (!app.get().location().contains(url)) {
                     file.recordAction(act, expected,
                             startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
-                            Result.FAILURE);
+                            Success.FAIL);
                     file.addError();
                     return;
                 }
-                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
+                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Success.PASS);
             } catch (Exception e) {
                 log.warn(e);
-                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
+                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Success.FAIL);
                 file.addError();
             }
             app.acceptCertificate();
