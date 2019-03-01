@@ -374,7 +374,7 @@ public class OutputFile {
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
             out.write(START_CELL + action + END_CELL);
             out.write(START_CELL + expectedResult + END_CELL);
-            out.write("    <td>" + actualResult + imageLink + END_CELL);
+            out.write(START_CELL + actualResult + imageLink + END_CELL);
             out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
             out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + END_CELL);
             out.write(END_ROW);
