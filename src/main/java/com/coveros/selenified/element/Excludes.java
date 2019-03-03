@@ -35,7 +35,7 @@ import java.util.Arrays;
  * don't have a particular value associated to them.
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 2/21/2018
  */
 public class Excludes extends Assert {

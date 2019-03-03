@@ -50,7 +50,7 @@ import java.util.Date;
  * elements directly out of your app.
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 2/14/2019
  */
 public class App {
@@ -590,8 +590,8 @@ public class App {
             return;
         }
         switchToNewWindow();
-        waitFor().location(url);
-        if (!get().location().equals(url)) {
+        waitFor().url(url);
+        if (!get().url().equals(url)) {
             file.recordAction(action, expected, "Unable to open new window to " + url, Result.FAILURE);
             file.addError();
             return;

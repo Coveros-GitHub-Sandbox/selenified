@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 5/4/2018
  */
 public class Assert {
@@ -82,7 +82,7 @@ public class Assert {
     public void urlEquals(String expectedURL) {
         // file.record the action
         file.recordExpected("Expected to be on page with the URL of <i>" + expectedURL + "</i>");
-        String actualURL = app.get().location();
+        String actualURL = app.get().url();
         if (!actualURL.equalsIgnoreCase(expectedURL)) {
             file.recordActual("The page URL  reads <b>" + actualURL + "</b>", Success.FAIL);
             file.addError();

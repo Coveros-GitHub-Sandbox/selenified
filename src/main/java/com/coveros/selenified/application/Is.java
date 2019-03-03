@@ -31,7 +31,7 @@ import org.testng.log4testng.Logger;
  * object is present or not
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 2/14/2019
  */
 public class Is {
@@ -100,7 +100,7 @@ public class Is {
      *
      * @return Boolean: is the url the expected one
      */
-    public boolean location(String location) {
+    public boolean url(String location) {
         return location.equals(driver.getCurrentUrl());
     }
 

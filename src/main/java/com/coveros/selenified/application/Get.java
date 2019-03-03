@@ -33,7 +33,7 @@ import java.util.Date;
  * particular page or element. If an object isn't present, null will be returned
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 5/16/2018
  */
 public class Get {
@@ -60,7 +60,7 @@ public class Get {
      *
      * @return String - current application url
      */
-    public String location() {
+    public String url() {
         try {
             return driver.getCurrentUrl();
         } catch (Exception e) {
