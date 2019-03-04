@@ -23,7 +23,7 @@ package com.coveros.selenified;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.Sauce;
-import io.github.bonigarcia.wdm.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
@@ -100,7 +100,7 @@ public class Capabilities {
                 this.desiredCapabilities.setPlatform(Platform.WIN10);
                 break;
             case SAFARI:
-                this.desiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
+                this.desiredCapabilities.setPlatform(Platform.MOJAVE);
                 // Safari 12 doesn't support setAcceptInsecureCerts, and there is no current workaround
                 if ("12".equals(browser.getVersion()) || browser.getVersion() == null) {
                     this.desiredCapabilities.setAcceptInsecureCerts(false);
@@ -216,7 +216,7 @@ public class Capabilities {
                 driver = new HtmlUnitDriver(desiredCapabilities);
                 break;
             case FIREFOX:
-                FirefoxDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.firefoxdriver().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(desiredCapabilities);
                 firefoxOptions.addArguments(getBrowserOptions());
                 if (runHeadless()) {
@@ -225,7 +225,7 @@ public class Capabilities {
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             case CHROME:
-                ChromeDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.chromedriver().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(desiredCapabilities);
                 chromeOptions.addArguments(getBrowserOptions());
@@ -235,12 +235,12 @@ public class Capabilities {
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case INTERNETEXPLORER:
-                InternetExplorerDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.iedriver().forceCache().setup();
                 InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions(desiredCapabilities);
                 driver = new InternetExplorerDriver(internetExplorerOptions);
                 break;
             case EDGE:
-                EdgeDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.edgedriver().forceCache().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions = edgeOptions.merge(desiredCapabilities);
                 driver = new EdgeDriver(edgeOptions);
@@ -250,13 +250,13 @@ public class Capabilities {
                 driver = new SafariDriver(safariOptions);
                 break;
             case OPERA:
-                OperaDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.operadriver().forceCache().setup();
                 OperaOptions operaOptions = new OperaOptions();
                 operaOptions = operaOptions.merge(desiredCapabilities);
                 driver = new OperaDriver(operaOptions);
                 break;
             case PHANTOMJS:
-                PhantomJsDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.phantomjs().forceCache().setup();
                 driver = new PhantomJSDriver(desiredCapabilities);
                 break;
             // if the browser is not listed, throw an error

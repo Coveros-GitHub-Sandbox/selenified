@@ -156,7 +156,7 @@ public class CapabilitiesTest {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("safari");
-        expectedDesiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
+        expectedDesiredCapabilities.setPlatform(Platform.MOJAVE);
         expectedDesiredCapabilities.setVersion("");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
         expectedDesiredCapabilities.setAcceptInsecureCerts(false);
@@ -171,7 +171,7 @@ public class CapabilitiesTest {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("safari");
-        expectedDesiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
+        expectedDesiredCapabilities.setPlatform(Platform.MOJAVE);
         expectedDesiredCapabilities.setVersion("12");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
         expectedDesiredCapabilities.setAcceptInsecureCerts(false);
@@ -186,7 +186,7 @@ public class CapabilitiesTest {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("safari");
-        expectedDesiredCapabilities.setPlatform(Platform.HIGH_SIERRA);
+        expectedDesiredCapabilities.setPlatform(Platform.MOJAVE);
         expectedDesiredCapabilities.setVersion("10");
         expectedDesiredCapabilities.setJavascriptEnabled(true);
         expectedDesiredCapabilities.setAcceptInsecureCerts(true);
@@ -252,7 +252,7 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setJavascriptEnabled(true);
         expectedDesiredCapabilities.setAcceptInsecureCerts(true);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
-        expectedDesiredCapabilities.setCapability("seleniumVersion", "3.14.0");
+        expectedDesiredCapabilities.setCapability("seleniumVersion", "3.141.59");
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("Chrome"));
         capabilities.setupSauceCapabilities();
@@ -270,8 +270,8 @@ public class CapabilitiesTest {
         expectedDesiredCapabilities.setJavascriptEnabled(true);
         expectedDesiredCapabilities.setAcceptInsecureCerts(false);
         expectedDesiredCapabilities.setCapability("ensureCleanSession", true);
-        expectedDesiredCapabilities.setCapability("seleniumVersion", "3.14.0");
-        expectedDesiredCapabilities.setCapability("iedriverVersion", "3.14.0");
+        expectedDesiredCapabilities.setCapability("seleniumVersion", "3.141.59");
+        expectedDesiredCapabilities.setCapability("iedriverVersion", "3.141.59");
         // what we're getting
         Capabilities capabilities = new Capabilities(new Browser("internetExplorer"));
         capabilities.setupSauceCapabilities();
