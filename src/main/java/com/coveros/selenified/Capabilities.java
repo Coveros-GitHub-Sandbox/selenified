@@ -54,7 +54,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.0.5
- * @lastupdate 2/27/2019
+ * @lastupdate 3/4/2019
  */
 public class Capabilities {
 
