@@ -30,7 +30,7 @@ import com.coveros.selenified.OutputFile;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 5/4/2018
  */
 public class Verify implements Check {
