@@ -21,7 +21,7 @@
 package com.coveros.selenified.services;
 
 import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.OutputFile.Success;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
@@ -245,10 +245,10 @@ public class Call {
                     log.error("Unknown method call named");
             }
             response.setOutputFile(file);
-            file.recordStep(action.toString(), expected, expected, Result.SUCCESS);
+            file.recordStep(action.toString(), expected, expected, Success.PASS);
         } catch (Exception e) {
             file.recordStep(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage(),
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
             log.warn(e);
             response = new Response(0);
