@@ -72,14 +72,16 @@ public class App {
     // keeps track of the initial window open
     private String parentWindow;
 
+    // the get class to retrieve information about the app
+    private Get get;
     // the is class to determine if something exists
     private Is is;
     // the wait class to determine if we need to wait for something
     private WaitFor waitFor;
-    // the get class to retrieve information about the app
-    private Get get;
     // the assert class to verify information about the app
     private Assert azzert;
+    // the verify class to verify information about the app
+    private Verify verify;
 
     // constants
     private static final String WAITED = "Waited ";
@@ -114,10 +116,11 @@ public class App {
         } else {
             driver = capabilities.setupDriver();
         }
+        get = new Get(driver);
         is = new Is(driver);
         waitFor = new WaitFor(driver, file);
-        get = new Get(driver);
         azzert = new Assert(this, file);
+        verify = new Verify(this, file);
     }
 
     /**
@@ -175,6 +178,15 @@ public class App {
     ///////////////////////////////////////////////////////
 
     /**
+     * Retrieves information about the app in general, not specific to any
+     * particular page or element. If an object isn't present, null will be
+     * returned
+     */
+    public Get get() {
+        return get;
+    }
+
+    /**
      * Checks information about the app in general, not specific to any
      * particular page or element. A boolean is always returning, indicating if
      * an object is present or not
@@ -195,23 +207,27 @@ public class App {
     }
 
     /**
-     * Retrieves information about the app in general, not specific to any
-     * particular page or element. If an object isn't present, null will be
-     * returned
+     * Will handle all assertions performed on the actual application itself.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented desiredCapabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests. A failed assert will cause
+     * the test to immediately stop on the error.
      */
-    public Get get() {
-        return get;
+    public Assert azzert() {
+        return azzert;
     }
 
     /**
      * Will handle all verifications performed on the actual application itself.
-     * These asserts are custom to the framework, and in addition to providing
+     * These verifications are custom to the framework, and in addition to providing
      * easy object oriented desiredCapabilities, they take screenshots with each
      * verification to provide additional traceability, and assist in
-     * troubleshooting and debugging failing tests.
+     * troubleshooting and debugging failing tests. A failed verify will log the error,
+     * but continue on anyways, failing at the end due to the issues
      */
-    public Assert azzert() {
-        return azzert;
+    public Verify verify() {
+        return verify;
     }
 
     ////////////////////////////////////////////

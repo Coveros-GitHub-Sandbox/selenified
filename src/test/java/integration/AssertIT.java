@@ -2,9 +2,18 @@ package integration;
 
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
+import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 public class AssertIT extends WebBase {
+
+    @Test(groups = {"integration", "assert"}, description = "An integration test to check the url")
+    public void compareUrlTest(ITestContext test) {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform the verification
+        app.azzert().urlEquals(getTestSite(this.getClass().getName(), test));
+    }
 
     @Test(groups = {"integration", "assert"}, description = "An integration test to check a title")
     public void compareTitleTest() {
@@ -12,18 +21,14 @@ public class AssertIT extends WebBase {
         App app = this.apps.get();
         // perform the verification
         app.azzert().titleEquals("Selenified Test Page");
-        // perform the verification
-        finish();
     }
 
-    @Test(groups = {"integration", "assert"}, description = "An integration negative test to check a title")
-    public void negativeCompareTitleTest() {
+    @Test(groups = {"integration", "assert"}, description = "An integration test to check a title")
+    public void compareTitleMatchesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
-        // perform some actions
-        app.azzert().titleEquals("Yahoo");
-        // verify 1 issue
-        finish(1);
+        // perform the verification
+        app.azzert().titleMatches("Selenified(.*)");
     }
 
     @Test(groups = {"integration", "assert", "alert"},
@@ -35,19 +40,6 @@ public class AssertIT extends WebBase {
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
         app.azzert().alertPresent();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkAlertPresent method")
-    public void negativeCheckAlertPresentTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().alertPresent();
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = {"integration", "assert", "alert"},
@@ -59,19 +51,6 @@ public class AssertIT extends WebBase {
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
         app.azzert().confirmationPresent();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkAlertPresent method")
-    public void negativeCheckConfirmationPresentTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().confirmationPresent();
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = {"integration", "assert"},
@@ -81,21 +60,6 @@ public class AssertIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.azzert().alertNotPresent();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkAlertPresent method")
-    public void negativeCheckNotAlertPresentTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "disable_click").click();
-        app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().alertNotPresent();
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = {"integration", "assert", "alert"}, description = "An integration test to check the checkAlert method")
@@ -105,45 +69,17 @@ public class AssertIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().alertPresent("Enabled!");
-        // verify no issues
-        finish();
+        app.azzert().alertEquals("Enabled!");
     }
 
     @Test(groups = {"integration", "assert", "alert"}, description = "An integration test to check the checkAlert method")
-    public void checkAlertRegexTest() {
+    public void checkAlertMatchTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().alertPresent("([A-Z])\\w+!");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkAlert method")
-    public void negativeCheckAlertNoAlertTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().alertPresent("Disabled!");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "alert"},
-            description = "An integration negative test to check the checkAlert method")
-    public void negativeCheckAlertTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "disable_click").click();
-        app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().alertPresent("Disabled!");
-        // verify 1 issue
-        finish(1);
+        app.azzert().alertMatches("([A-Z])\\w+!");
     }
 
     @Test(groups = {"integration", "assert", "alert"},
@@ -154,33 +90,18 @@ public class AssertIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().confirmationPresent("Enabled!");
-        // verify no issues
-        finish();
+        app.azzert().confirmationEquals("Enabled!");
     }
 
     @Test(groups = {"integration", "assert", "alert"},
-            description = "An integration negative test to check the checkConfirmation method")
-    public void negativeCheckConfirmationTest() {
+            description = "An integration test to check the checkConfirmation method")
+    public void checkConfirmationMatchesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().confirmationPresent("Disabled!");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkConfirmation method")
-    public void negativeCheckConfirmationNoConfirmationTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().confirmationPresent("Disabled!");
-        // verify 1 issue
-        finish(1);
+        app.azzert().confirmationMatches("[E|e]nabled!");
     }
 
     @Test(groups = {"integration", "assert"},
@@ -190,21 +111,6 @@ public class AssertIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.azzert().confirmationNotPresent();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert", "alert"},
-            description = "An integration negative test to check the checkConfirmationNotPresent method")
-    public void negativeCheckConfirmationNotPresentTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "disable_click").click();
-        app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().confirmationNotPresent();
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = {"integration", "assert", "alert"}, description = "An integration test to check the checkPrompt method")
@@ -214,33 +120,17 @@ public class AssertIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().promptPresent("Enabled!");
-        // verify no issues
-        finish();
+        app.azzert().promptEquals("Enabled!");
     }
 
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkPrompt method")
-    public void negativeCheckPromptNoPromptTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().promptPresent("Enabled!");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "alert"},
-            description = "An integration negative test to check the checkPrompt method")
-    public void negativeCheckPromptTest() {
+    @Test(groups = {"integration", "assert", "alert"}, description = "An integration test to check the checkPrompt method")
+    public void checkPromptMatchesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().promptPresent("Disabled!");
-        // verify 1 issue
-        finish(1);
+        app.azzert().promptMatches("[E|e]nabled!");
     }
 
     @Test(groups = {"integration", "assert", "alert"},
@@ -252,19 +142,6 @@ public class AssertIT extends WebBase {
         app.newElement(Locator.ID, "disable_click").click();
         app.newElement(Locator.ID, "alert_button").click();
         app.azzert().promptPresent();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkPromptNotPresent method")
-    public void negativeCheckPromptPresentTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().promptPresent();
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = {"integration", "assert"},
@@ -274,21 +151,6 @@ public class AssertIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.azzert().promptNotPresent();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkPromptNotPresent method")
-    public void negativeCheckPromptNotPresentTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "disable_click").click();
-        app.newElement(Locator.ID, "alert_button").click();
-        app.azzert().promptNotPresent();
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = {"integration", "assert"},
@@ -298,19 +160,6 @@ public class AssertIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.azzert().textNotPresent("No such text on the app");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkTextNotVisible method")
-    public void negativeCheckTextNotVisibleTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().textNotPresent("Click me to Disable/Enable a html button");
-        // verify 1 issue
-        finish(1);
     }
 
     @Test(groups = {"integration", "assert"}, description = "An integration test to check the checkTextVisible method")
@@ -319,19 +168,6 @@ public class AssertIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.azzert().textPresent("Click me to Disable/Enable a html button");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkTextVisible method")
-    public void negativeCheckTextVisibleTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().textPresent("No such text on the app");
-        // verify 1 issue
-        finish(1);
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
@@ -340,31 +176,16 @@ public class AssertIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.azzert().cookieExists("cookie", "cookietest");
-        // verify no issues
-        finish();
+        app.azzert().cookieEquals("cookie", "cookietest");
     }
 
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkCookie method")
-    public void negativeCheckCookieTest() {
+    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+    @Test(groups = {"integration", "assert", "cookie", "no-edge"}, description = "An integration test to check the checkCookie method")
+    public void checkCookieMatchesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.azzert().cookieExists("cookie", "negativecookietest");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkCookie method")
-    public void negativeCheckCookieWrongNameTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().cookieExists("wrongcookie", "cookietest");
-        // verify 1 issue
-        finish(1);
+        app.azzert().cookieMatches("cookie", "([a-z]*)");
     }
 
     @Test(groups = {"integration", "assert"},
@@ -374,20 +195,6 @@ public class AssertIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.azzert().cookieNotExists("wrongcookie");
-        // verify no issues
-        finish();
-    }
-
-    // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-    @Test(groups = {"integration", "assert", "cookie", "no-edge"},
-            description = "An integration negative test to check the checkCookieNotPresent method")
-    public void negativeCheckCookieNotPresentTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().cookieNotExists("cookie");
-        // verify 1 issue
-        finish(1);
     }
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
@@ -398,18 +205,5 @@ public class AssertIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.azzert().cookieExists("cookie");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert"},
-            description = "An integration negative test to check the checkCookiePresent method")
-    public void negativeCheckCookiePresentTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.azzert().cookieExists("wrongcookie");
-        // verify 1 issue
-        finish(1);
     }
 }

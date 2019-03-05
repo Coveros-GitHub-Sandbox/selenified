@@ -22,9 +22,6 @@ package com.coveros.selenified.application;
 
 import com.coveros.selenified.OutputFile;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 /**
  * Assert will handle all verifications performed on the actual application
  * itself. These asserts are custom to the framework, and in addition to
@@ -36,7 +33,7 @@ import static org.testng.AssertJUnit.assertTrue;
  * @version 3.0.5
  * @lastupdate 5/4/2018
  */
-public class Assert implements Check {
+public class Verify implements Check {
 
     // this will be the name of the file we write all commands out to
     private final OutputFile file;
@@ -44,7 +41,7 @@ public class Assert implements Check {
     // this is the driver that will be used for all selenium actions
     private final App app;
 
-    public Assert(App app, OutputFile file) {
+    public Verify(App app, OutputFile file) {
         this.app = app;
         this.file = file;
     }
@@ -79,7 +76,9 @@ public class Assert implements Check {
      * @param expectedURL the URL of the page
      */
     public void urlEquals(String expectedURL) {
-        assertEquals("URL Mismatch", expectedURL, checkUrlEquals(expectedURL));
+        if (!expectedURL.equals(checkUrlEquals(expectedURL))) {
+            file.addError();
+        }
     }
 
     /**
@@ -90,7 +89,9 @@ public class Assert implements Check {
      * @param expectedTitle the friendly name of the page
      */
     public void titleEquals(String expectedTitle) {
-        assertEquals("Title Mismatch", expectedTitle, checkTitleEquals(expectedTitle));
+        if (!expectedTitle.equals(checkTitleEquals(expectedTitle))) {
+            file.addError();
+        }
     }
 
     /**
@@ -101,7 +102,9 @@ public class Assert implements Check {
      * @param expectedTitlePattern the friendly name of the page
      */
     public void titleMatches(String expectedTitlePattern) {
-        assertTrue("Title Mismatch", checkTitleEquals(expectedTitlePattern).matches(expectedTitlePattern));
+        if (!checkTitleMatches(expectedTitlePattern).matches(expectedTitlePattern)) {
+            file.addError();
+        }
     }
 
     /**
@@ -112,7 +115,9 @@ public class Assert implements Check {
      * @param expectedText the expected text to be present
      */
     public void textPresent(String expectedText) {
-        assertTrue("Expected to find text '" + expectedText + "'", checkTextPresent(expectedText));
+        if (!checkTextPresent(expectedText)) {
+            file.addError();
+        }
     }
 
     /**
@@ -123,7 +128,9 @@ public class Assert implements Check {
      * @param expectedText the expected text to be not present
      */
     public void textNotPresent(String expectedText) {
-        assertTrue("Expected to not find text '" + expectedText + "'", checkTextNotPresent(expectedText));
+        if (!checkTextNotPresent(expectedText)) {
+            file.addError();
+        }
     }
 
     ///////////////////////////////////////////////////////
@@ -136,7 +143,9 @@ public class Assert implements Check {
      * debugging support.
      */
     public void alertPresent() {
-        assertTrue("Expected to find an alert", checkAlertPresent());
+        if (!checkAlertPresent()) {
+            file.addError();
+        }
     }
 
     /**
@@ -145,7 +154,9 @@ public class Assert implements Check {
      * debugging support.
      */
     public void alertNotPresent() {
-        assertTrue("Expected to not find an alert", checkAlertNotPresent());
+        if (!checkAlertNotPresent()) {
+            file.addError();
+        }
     }
 
     /**
@@ -156,18 +167,22 @@ public class Assert implements Check {
      * @param expectedAlertText the expected text of the alert
      */
     public void alertEquals(String expectedAlertText) {
-        assertEquals("Alert Text Mismatch", expectedAlertText, checkAlertEquals(expectedAlertText));
+        if (!expectedAlertText.equals(checkAlertEquals(expectedAlertText))) {
+            file.addError();
+        }
     }
 
     /**
      * Verifies that an alert present on the page has content matching the
-     * expected patten. This information will be logged and recorded, with a
+     * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
      * @param expectedAlertPattern the expected text of the alert
      */
     public void alertMatches(String expectedAlertPattern) {
-        assertTrue("Alert Text Mismatch", checkAlertMatches(expectedAlertPattern).matches(expectedAlertPattern));
+        if (!checkAlertMatches(expectedAlertPattern).matches(expectedAlertPattern)) {
+            file.addError();
+        }
     }
 
     /**
@@ -176,7 +191,9 @@ public class Assert implements Check {
      * debugging support.
      */
     public void confirmationPresent() {
-        assertTrue("Expected to find a confirmation", checkConfirmationPresent());
+        if (!checkConfirmationPresent()) {
+            file.addError();
+        }
     }
 
     /**
@@ -185,7 +202,9 @@ public class Assert implements Check {
      * debugging support.
      */
     public void confirmationNotPresent() {
-        assertTrue("Expected to not find a confirmation", checkConfirmationNotPresent());
+        if (!checkConfirmationNotPresent()) {
+            file.addError();
+        }
     }
 
     /**
@@ -196,7 +215,9 @@ public class Assert implements Check {
      * @param expectedConfirmationText the expected text of the confirmation
      */
     public void confirmationEquals(String expectedConfirmationText) {
-        assertEquals("Confirmation Text Mismatch", expectedConfirmationText, checkConfirmationEquals(expectedConfirmationText));
+        if (!expectedConfirmationText.equals(checkConfirmationEquals(expectedConfirmationText))) {
+            file.addError();
+        }
     }
 
     /**
@@ -207,7 +228,9 @@ public class Assert implements Check {
      * @param expectedConfirmationPattern the expected text of the confirmation
      */
     public void confirmationMatches(String expectedConfirmationPattern) {
-        assertTrue("Confirmation Text Mismatch", checkConfirmationMatches(expectedConfirmationPattern).matches(expectedConfirmationPattern));
+        if (!checkConfirmationMatches(expectedConfirmationPattern).matches(expectedConfirmationPattern)) {
+            file.addError();
+        }
     }
 
     /**
@@ -216,7 +239,9 @@ public class Assert implements Check {
      * debugging support.
      */
     public void promptPresent() {
-        assertTrue("Expected to find a prompt", checkPromptPresent());
+        if (!checkPromptPresent()) {
+            file.addError();
+        }
     }
 
     /**
@@ -225,7 +250,9 @@ public class Assert implements Check {
      * debugging support.
      */
     public void promptNotPresent() {
-        assertTrue("Expected to not find a prompt", checkPromptNotPresent());
+        if (!checkPromptNotPresent()) {
+            file.addError();
+        }
     }
 
     /**
@@ -236,7 +263,9 @@ public class Assert implements Check {
      * @param expectedPromptText the expected text of the prompt
      */
     public void promptEquals(String expectedPromptText) {
-        assertEquals("Prompt Text Mismatch", expectedPromptText, checkPromptEquals(expectedPromptText));
+        if (!expectedPromptText.equals(checkPromptEquals(expectedPromptText))) {
+            file.addError();
+        }
     }
 
     /**
@@ -247,7 +276,9 @@ public class Assert implements Check {
      * @param expectedPromptPattern the expected text of the prompt
      */
     public void promptMatches(String expectedPromptPattern) {
-        assertTrue("Prompt Text Mismatch", checkPromptMatches(expectedPromptPattern).matches(expectedPromptPattern));
+        if (!checkPromptMatches(expectedPromptPattern).matches(expectedPromptPattern)) {
+            file.addError();
+        }
     }
 
     ///////////////////////////////////////////////////////
@@ -262,7 +293,9 @@ public class Assert implements Check {
      * @param expectedCookieName the name of the cookie
      */
     public void cookieExists(String expectedCookieName) {
-        assertTrue("Expected to find cookie", checkCookieExists(expectedCookieName));
+        if (!checkCookieExists(expectedCookieName)) {
+            file.addError();
+        }
     }
 
     /**
@@ -273,7 +306,9 @@ public class Assert implements Check {
      * @param unexpectedCookieName the name of the cookie
      */
     public void cookieNotExists(String unexpectedCookieName) {
-        assertTrue("Expected to not find cookie", checkCookieNotExists(unexpectedCookieName));
+        if (!checkCookieNotExists(unexpectedCookieName)) {
+            file.addError();
+        }
     }
 
     /**
@@ -285,18 +320,22 @@ public class Assert implements Check {
      * @param expectedCookieValue the expected value of the cookie
      */
     public void cookieEquals(String cookieName, String expectedCookieValue) {
-        assertEquals("Cookie Value Mismatch", expectedCookieValue, checkCookieEquals(cookieName, expectedCookieValue));
+        if (!expectedCookieValue.equals(checkCookieEquals(cookieName, expectedCookieValue))) {
+            file.addError();
+        }
     }
 
     /**
      * Verifies that a cookies with the provided name has a value matching the
-     * expected pattern. This information will be logged and recorded, with a
+     * expected value. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
      * @param cookieName          the name of the cookie
      * @param expectedCookiePattern the expected value of the cookie
      */
     public void cookieMatches(String cookieName, String expectedCookiePattern) {
-        assertTrue("Cookie Value Mismatch", checkCookieMatches(cookieName, expectedCookiePattern).matches(expectedCookiePattern));
+        if (!checkCookieMatches(cookieName, expectedCookiePattern).matches(expectedCookiePattern)) {
+            file.addError();
+        }
     }
 }
