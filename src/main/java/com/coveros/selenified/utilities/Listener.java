@@ -46,7 +46,7 @@ import static com.coveros.selenified.Selenified.SESSION_ID;
  * the TestNG xml file.
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 1/12/2019
  */
 public class Listener extends TestListenerAdapter {

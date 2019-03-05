@@ -463,7 +463,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        assertTrue(app.is().location(getTestSite(this.getClass().getName(), test)));
+        assertTrue(app.is().url(getTestSite(this.getClass().getName(), test)));
         // verify no issues
         finish();
     }
@@ -474,7 +474,7 @@ public class ActionIsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        assertFalse(app.is().location("Some Made Up URL"));
+        assertFalse(app.is().url("Some Made Up URL"));
         // verify no issues
         finish();
     }

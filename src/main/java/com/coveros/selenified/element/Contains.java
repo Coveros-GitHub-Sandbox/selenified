@@ -35,7 +35,7 @@ import java.util.Arrays;
  * have a particular value associated to them.
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 2/22/2018
  */
 public class Contains extends Assert {

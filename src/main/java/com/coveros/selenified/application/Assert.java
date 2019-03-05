@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Coveros, Inc.
- * 
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -34,8 +34,8 @@ import java.util.regex.Pattern;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.0.5
- * @lastupdate 5/4/2018
+ * @version 3.1.0
+ * @lastupdate 3/3/2019
  */
 public class Assert {
 
@@ -82,7 +82,7 @@ public class Assert {
     public void urlEquals(String expectedURL) {
         // file.record the action
         file.recordExpected("Expected to be on page with the URL of <i>" + expectedURL + "</i>");
-        String actualURL = app.get().location();
+        String actualURL = app.get().url();
         if (!actualURL.equalsIgnoreCase(expectedURL)) {
             file.recordActual("The page URL  reads <b>" + actualURL + "</b>", Success.FAIL);
             file.addError();
