@@ -212,7 +212,7 @@ public class OutputFileTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(
-                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>expected</td>\n"));
+                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>expected</td>\n"));
     }
 
     @Test
