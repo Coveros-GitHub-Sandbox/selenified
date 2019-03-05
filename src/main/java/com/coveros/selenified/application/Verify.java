@@ -68,6 +68,12 @@ public class Verify implements Check {
         return app;
     }
 
+    private void verify(boolean check) {
+        if (!check) {
+            file.addError();
+        }
+    }
+
     ///////////////////////////////////////////////////////
     // verifications about the page in general
     ///////////////////////////////////////////////////////
@@ -81,9 +87,7 @@ public class Verify implements Check {
      */
     @Override
     public void urlEquals(String expectedURL) {
-        if (!expectedURL.equals(checkUrlEquals(expectedURL, 0, 0))) {
-            file.addError();
-        }
+        verify(expectedURL.equals(checkUrlEquals(expectedURL, 0, 0)));
     }
 
     /**
@@ -95,9 +99,7 @@ public class Verify implements Check {
      */
     @Override
     public void titleEquals(String expectedTitle) {
-        if (!expectedTitle.equals(checkTitleEquals(expectedTitle, 0, 0))) {
-            file.addError();
-        }
+        verify(expectedTitle.equals(checkTitleEquals(expectedTitle, 0, 0)));
     }
 
     /**
@@ -109,9 +111,7 @@ public class Verify implements Check {
      */
     @Override
     public void titleMatches(String expectedTitlePattern) {
-        if (!checkTitleMatches(expectedTitlePattern, 0, 0).matches(expectedTitlePattern)) {
-            file.addError();
-        }
+        verify(checkTitleMatches(expectedTitlePattern, 0, 0).matches(expectedTitlePattern));
     }
 
     /**
@@ -123,9 +123,7 @@ public class Verify implements Check {
      */
     @Override
     public void textPresent(String expectedText) {
-        if (!checkTextPresent(expectedText, 0, 0)) {
-            file.addError();
-        }
+        verify(checkTextPresent(expectedText, 0, 0));
     }
 
     /**
@@ -137,9 +135,7 @@ public class Verify implements Check {
      */
     @Override
     public void textNotPresent(String expectedText) {
-        if (!checkTextNotPresent(expectedText, 0, 0)) {
-            file.addError();
-        }
+        verify(checkTextNotPresent(expectedText, 0, 0));
     }
 
     ///////////////////////////////////////////////////////
@@ -153,9 +149,7 @@ public class Verify implements Check {
      */
     @Override
     public void alertPresent() {
-        if (!checkAlertPresent(0, 0)) {
-            file.addError();
-        }
+        verify(checkAlertPresent(0, 0));
     }
 
     /**
@@ -165,9 +159,7 @@ public class Verify implements Check {
      */
     @Override
     public void alertNotPresent() {
-        if (!checkAlertNotPresent(0, 0)) {
-            file.addError();
-        }
+        verify(checkAlertNotPresent(0, 0));
     }
 
     /**
@@ -179,9 +171,7 @@ public class Verify implements Check {
      */
     @Override
     public void alertEquals(String expectedAlertText) {
-        if (!expectedAlertText.equals(checkAlertEquals(expectedAlertText, 0, 0))) {
-            file.addError();
-        }
+        verify(expectedAlertText.equals(checkAlertEquals(expectedAlertText, 0, 0)));
     }
 
     /**
@@ -193,9 +183,7 @@ public class Verify implements Check {
      */
     @Override
     public void alertMatches(String expectedAlertPattern) {
-        if (!checkAlertMatches(expectedAlertPattern, 0, 0).matches(expectedAlertPattern)) {
-            file.addError();
-        }
+        verify(checkAlertMatches(expectedAlertPattern, 0, 0).matches(expectedAlertPattern));
     }
 
     /**
@@ -205,9 +193,7 @@ public class Verify implements Check {
      */
     @Override
     public void confirmationPresent() {
-        if (!checkConfirmationPresent(0, 0)) {
-            file.addError();
-        }
+        verify(checkConfirmationPresent(0, 0));
     }
 
     /**
@@ -217,9 +203,7 @@ public class Verify implements Check {
      */
     @Override
     public void confirmationNotPresent() {
-        if (!checkConfirmationNotPresent(0, 0)) {
-            file.addError();
-        }
+        verify(checkConfirmationNotPresent(0, 0));
     }
 
     /**
@@ -231,9 +215,7 @@ public class Verify implements Check {
      */
     @Override
     public void confirmationEquals(String expectedConfirmationText) {
-        if (!expectedConfirmationText.equals(checkConfirmationEquals(expectedConfirmationText, 0, 0))) {
-            file.addError();
-        }
+        verify(expectedConfirmationText.equals(checkConfirmationEquals(expectedConfirmationText, 0, 0)));
     }
 
     /**
@@ -245,9 +227,7 @@ public class Verify implements Check {
      */
     @Override
     public void confirmationMatches(String expectedConfirmationPattern) {
-        if (!checkConfirmationMatches(expectedConfirmationPattern, 0, 0).matches(expectedConfirmationPattern)) {
-            file.addError();
-        }
+        verify(checkConfirmationMatches(expectedConfirmationPattern, 0, 0).matches(expectedConfirmationPattern));
     }
 
     /**
@@ -257,9 +237,7 @@ public class Verify implements Check {
      */
     @Override
     public void promptPresent() {
-        if (!checkPromptPresent(0, 0)) {
-            file.addError();
-        }
+        verify(checkPromptPresent(0, 0));
     }
 
     /**
@@ -269,9 +247,7 @@ public class Verify implements Check {
      */
     @Override
     public void promptNotPresent() {
-        if (!checkPromptNotPresent(0, 0)) {
-            file.addError();
-        }
+        verify(checkPromptNotPresent(0, 0));
     }
 
     /**
@@ -283,9 +259,7 @@ public class Verify implements Check {
      */
     @Override
     public void promptEquals(String expectedPromptText) {
-        if (!expectedPromptText.equals(checkPromptEquals(expectedPromptText, 0, 0))) {
-            file.addError();
-        }
+        verify(expectedPromptText.equals(checkPromptEquals(expectedPromptText, 0, 0)));
     }
 
     /**
@@ -297,9 +271,7 @@ public class Verify implements Check {
      */
     @Override
     public void promptMatches(String expectedPromptPattern) {
-        if (!checkPromptMatches(expectedPromptPattern, 0, 0).matches(expectedPromptPattern)) {
-            file.addError();
-        }
+        verify(checkPromptMatches(expectedPromptPattern, 0, 0).matches(expectedPromptPattern));
     }
 
     ///////////////////////////////////////////////////////
@@ -315,9 +287,7 @@ public class Verify implements Check {
      */
     @Override
     public void cookieExists(String expectedCookieName) {
-        if (!checkCookieExists(expectedCookieName, 0, 0)) {
-            file.addError();
-        }
+        verify(checkCookieExists(expectedCookieName, 0, 0));
     }
 
     /**
@@ -329,9 +299,7 @@ public class Verify implements Check {
      */
     @Override
     public void cookieNotExists(String unexpectedCookieName) {
-        if (!checkCookieNotExists(unexpectedCookieName, 0, 0)) {
-            file.addError();
-        }
+        verify(checkCookieNotExists(unexpectedCookieName, 0, 0));
     }
 
     /**
@@ -344,9 +312,7 @@ public class Verify implements Check {
      */
     @Override
     public void cookieEquals(String cookieName, String expectedCookieValue) {
-        if (!expectedCookieValue.equals(checkCookieEquals(cookieName, expectedCookieValue, 0, 0))) {
-            file.addError();
-        }
+        verify(expectedCookieValue.equals(checkCookieEquals(cookieName, expectedCookieValue, 0, 0)));
     }
 
     /**
@@ -359,8 +325,6 @@ public class Verify implements Check {
      */
     @Override
     public void cookieMatches(String cookieName, String expectedCookiePattern) {
-        if (!checkCookieMatches(cookieName, expectedCookiePattern, 0, 0).matches(expectedCookiePattern)) {
-            file.addError();
-        }
+        verify(checkCookieMatches(cookieName, expectedCookiePattern, 0, 0).matches(expectedCookiePattern));
     }
 }

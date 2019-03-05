@@ -72,7 +72,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.goToURL("https://www.bing.com/");
-        app.azzert().urlEquals(getTestSite(this.getClass().getName(), test));
+        app.verify().urlEquals(getTestSite(this.getClass().getName(), test));
         // verify 1 issue
         finish(1);
     }
