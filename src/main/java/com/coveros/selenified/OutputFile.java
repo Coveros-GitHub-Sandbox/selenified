@@ -367,8 +367,8 @@ public class OutputFile {
         long tTime = currentTime.getTime() - startTime;
         lastTime = currentTime.getTime();
         try (
-                // Reopen file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
+            // Reopen file
+            FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // record the action
             out.write(START_ROW);
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
@@ -394,8 +394,8 @@ public class OutputFile {
      */
     public void recordActual(String actualOutcome, Success result) {
         try (
-                // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
+            // reopen the log file
+            FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // get a screen shot of the action
             String imageLink = "";
             if (isRealBrowser()) {
@@ -432,10 +432,9 @@ public class OutputFile {
      */
     public void recordAction(String action, String expectedOutcome) {
         stepNum++;
-
         try (
-                // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
+            // reopen the log file
+            FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // start the row
             out.write(START_ROW);
             // log the step number

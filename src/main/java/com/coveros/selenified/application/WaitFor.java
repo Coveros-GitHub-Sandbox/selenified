@@ -21,7 +21,6 @@
 package com.coveros.selenified.application;
 
 import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -362,9 +361,8 @@ public class WaitFor implements Check {
 /*
 TODO
  - finish waitFor class (uncomment and fill out)
- - move assert waits into own class
+ - move assert wait tests into own class
  - expand out on tests in assert wait class
- - consider adding action in for recording waits
  - update java docs
  ** model/follow same pattern for element
  */

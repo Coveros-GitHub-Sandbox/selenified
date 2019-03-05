@@ -38,19 +38,19 @@ public interface Check {
 
     // constants
     String ONPAGE = "</b> on the page";
-    String NOALERT = "n alert is not present on the page";
-    String ALERTTEXT = "n alert with text <b>";
-    String NOCONFIRMATION = " confirmation is not present on the page";
-    String CONFIRMATIONTEXT = " confirmation with text <b>";
-    String NOPROMPT = " prompt is not present on the page";
-    String PROMPTTEXT = " prompt with text <b>";
+    String NOALERT = "An alert is not present on the page";
+    String ALERTTEXT = "An alert with text <b>";
+    String NOCONFIRMATION = "a confirmation is not present on the page";
+    String CONFIRMATIONTEXT = "a confirmation with text <b>";
+    String NOPROMPT = "a prompt is not present on the page";
+    String PROMPTTEXT = "a prompt with text <b>";
 
     String STORED = "</b> is stored for the page";
     String NOTSTORED = "</b> is not stored for the page";
     String VALUE = "</b> and a value of <b>";
-    String COOKIE = " cookie with the name <b>";
+    String COOKIE = "a cookie with the name <b>";
 
-    String TEXT = "he text <b>";
+    String TEXT = "The text <b>";
     String PRESENT = "</b> is present on the page";
 
 
@@ -74,7 +74,7 @@ public interface Check {
 
     default void recordAction(String check, double waitFor) {
         String action = "";
-        if( waitFor > 0 ) {
+        if (waitFor > 0) {
             action = "Waiting up to " + waitFor + " seconds " + check;
         }
         getOutputFile().recordAction(action, "Expected " + check);
@@ -82,8 +82,8 @@ public interface Check {
 
     default void recordActual(String check, double timeTook, Success success) {
         String actual = check;
-        if( timeTook > 0) {
-            String lowercase = actual.substring(0,1).toLowerCase();
+        if (timeTook > 0) {
+            String lowercase = actual.substring(0, 1).toLowerCase();
             actual = "After waiting for " + timeTook + " seconds, " + lowercase + actual.substring(1);
         }
         getOutputFile().recordActual(actual, success);
@@ -119,14 +119,14 @@ public interface Check {
      */
     void titleEquals(String expectedTitle);
 
-    default String checkTitleEquals(String expectedTitle, String waitFor) {
+    default String checkTitleEquals(String expectedTitle, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordExpected("Expected to be on page with the title of <b>" + expectedTitle + "</b>");
+        recordAction("to be on page with the title of <b>" + expectedTitle + "</b>", waitFor);
         String actualTitle = getApp().get().title();
         if (!actualTitle.equals(expectedTitle)) {
-            getOutputFile().recordActual(waitFor + "he page title reads <b>" + actualTitle + "</b>", Success.FAIL);
+            recordActual("The page title reads <b>" + actualTitle + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + "he page title reads <b>" + actualTitle + "</b>", Success.PASS);
+            recordActual("The page title reads <b>" + actualTitle + "</b>", timeTook, Success.PASS);
         }
         return actualTitle;
     }
@@ -140,14 +140,14 @@ public interface Check {
      */
     void titleMatches(String expectedTitlePattern);
 
-    default String checkTitleMatches(String expectedTitlePattern, String waitFor) {
+    default String checkTitleMatches(String expectedTitlePattern, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordExpected("Expected to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>");
+        recordAction("to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>", waitFor);
         String actualTitle = getApp().get().title();
         if (!actualTitle.matches(expectedTitlePattern)) {
-            getOutputFile().recordActual(waitFor + "he page title reads <b>" + actualTitle + "</b>", Success.FAIL);
+            recordActual("The page title reads <b>" + actualTitle + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + "he page title reads <b>" + actualTitle + "</b>", Success.PASS);
+            recordActual("The page title reads <b>" + actualTitle + "</b>", timeTook, Success.PASS);
         }
         return actualTitle;
     }
@@ -161,16 +161,16 @@ public interface Check {
      */
     void textPresent(String expectedText);
 
-    default boolean checkTextPresent(String expectedText, String waitFor) {
+    default boolean checkTextPresent(String expectedText, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordExpected("Expected to find text <b>" + expectedText + "</b> present on the page");
+        recordAction("to find text <b>" + expectedText + "</b> present on the page", waitFor);
         // check for the object to be present
         boolean isPresent = getApp().is().textPresent(expectedText);
         if (!isPresent) {
-            getOutputFile().recordActual(waitFor + TEXT + expectedText + "</b> is not present on the page", Success.FAIL);
+            recordActual(TEXT + expectedText + "</b> is not present on the page", timeTook, Success.FAIL);
             return false;
         }
-        getOutputFile().recordActual(waitFor + TEXT + expectedText + PRESENT, Success.PASS);
+        recordActual(TEXT + expectedText + PRESENT, timeTook, Success.PASS);
         return true;
     }
 
@@ -183,16 +183,16 @@ public interface Check {
      */
     void textNotPresent(String expectedText);
 
-    default boolean checkTextNotPresent(String expectedText, String waitFor) {
+    default boolean checkTextNotPresent(String expectedText, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordExpected("Expected not to find text <b>" + expectedText + "</b> present on the page");
+        recordAction("not to find text <b>" + expectedText + "</b> present on the page", waitFor);
         // check for the object to be present
         boolean isPresent = getApp().is().textPresent(expectedText);
         if (isPresent) {
-            getOutputFile().recordActual(waitFor + TEXT + expectedText + PRESENT, Success.FAIL);
+            recordActual(TEXT + expectedText + PRESENT, timeTook, Success.FAIL);
             return false;
         }
-        getOutputFile().recordActual(waitFor + TEXT + expectedText + "</b> is not present on the page", Success.PASS);
+        recordActual(TEXT + expectedText + "</b> is not present on the page", timeTook, Success.PASS);
         return true;
     }
 
@@ -207,19 +207,19 @@ public interface Check {
      */
     void alertPresent();
 
-    default boolean checkAlertPresent(String waitFor) {
+    default boolean checkAlertPresent(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordExpected("Expected to find an alert on the page");
+        recordAction("to find an alert on the page", waitFor);
         // check for the object to be present
         String alert;
         boolean isAlertPresent = getApp().is().alertPresent();
         if (isAlertPresent) {
             alert = getApp().get().alert();
         } else {
-            getOutputFile().recordActual(waitFor + NOALERT, Success.FAIL);
+            recordActual(NOALERT, timeTook, Success.FAIL);
             return false;
         }
-        getOutputFile().recordActual(waitFor + ALERTTEXT + alert + PRESENT, Success.PASS);
+        recordActual(ALERTTEXT + alert + PRESENT, timeTook, Success.PASS);
         return true;
     }
 
@@ -230,16 +230,16 @@ public interface Check {
      */
     void alertNotPresent();
 
-    default boolean checkAlertNotPresent(String waitFor) {
+    default boolean checkAlertNotPresent(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordExpected("Expected not to find an alert on the page");
+        recordAction("not to find an alert on the page", waitFor);
         // check for the object to be present
         boolean isAlertPresent = getApp().is().alertPresent();
         if (isAlertPresent) {
-            getOutputFile().recordActual(waitFor + "n alert is present on the page", Success.FAIL);
+            recordActual("An alert is present on the page", timeTook, Success.FAIL);
             return false;
         }
-        getOutputFile().recordActual(waitFor + NOALERT, Success.PASS);
+        recordActual(NOALERT, timeTook, Success.PASS);
         return true;
     }
 
@@ -252,22 +252,22 @@ public interface Check {
      */
     void alertEquals(String expectedAlertText);
 
-    default String checkAlertEquals(String expectedAlertText, String waitFor) {
+    default String checkAlertEquals(String expectedAlertText, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordExpected("Expected to find alert with the text <b>" + expectedAlertText + ONPAGE);
+        recordAction("to find alert with the text <b>" + expectedAlertText + ONPAGE, waitFor);
         // check for the object to be present
         String alert;
         boolean isAlertPresent = getApp().is().alertPresent();
         if (isAlertPresent) {
             alert = getApp().get().alert();
         } else {
-            getOutputFile().recordActual(waitFor + NOALERT, Success.FAIL);
+            recordActual(NOALERT, timeTook, Success.FAIL);
             return "";
         }
         if (!alert.equals(expectedAlertText)) {
-            getOutputFile().recordActual(waitFor + ALERTTEXT + alert + PRESENT, Success.FAIL);
+            recordActual(ALERTTEXT + alert + PRESENT, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + ALERTTEXT + alert + PRESENT, Success.PASS);
+            recordActual(ALERTTEXT + alert + PRESENT, timeTook, Success.PASS);
         }
         return alert;
     }
@@ -281,22 +281,22 @@ public interface Check {
      */
     void alertMatches(String expectedAlertPattern);
 
-    default String checkAlertMatches(String expectedAlertPattern, String waitFor) {
+    default String checkAlertMatches(String expectedAlertPattern, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordExpected("Expected to find alert with the text matching pattern <b>" + expectedAlertPattern + ONPAGE);
+        recordAction("to find alert with the text matching pattern <b>" + expectedAlertPattern + ONPAGE, waitFor);
         // check for the object to be present
         String alert;
         boolean isAlertPresent = getApp().is().alertPresent();
         if (isAlertPresent) {
             alert = getApp().get().alert();
         } else {
-            getOutputFile().recordActual(waitFor + NOALERT, Success.FAIL);
+            recordActual(NOALERT, timeTook, Success.FAIL);
             return "";
         }
         if (!alert.matches(expectedAlertPattern)) {
-            getOutputFile().recordActual(waitFor + ALERTTEXT + alert + PRESENT, Success.FAIL);
+            recordActual(ALERTTEXT + alert + PRESENT, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + ALERTTEXT + alert + PRESENT, Success.PASS);
+            recordActual(ALERTTEXT + alert + PRESENT, timeTook, Success.PASS);
         }
         return alert;
     }
@@ -308,19 +308,19 @@ public interface Check {
      */
     void confirmationPresent();
 
-    default boolean checkConfirmationPresent(String waitFor) {
+    default boolean checkConfirmationPresent(double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find a confirmation on the page");
+        recordAction("to find a confirmation on the page", waitFor);
         // check for the object to be present
         String confirmation;
         boolean isConfirmationPresent = getApp().is().confirmationPresent();
         if (isConfirmationPresent) {
             confirmation = getApp().get().confirmation();
         } else {
-            getOutputFile().recordActual(waitFor + NOCONFIRMATION, Success.FAIL);
+            recordActual(NOCONFIRMATION, timeTook, Success.FAIL);
             return false;
         }
-        getOutputFile().recordActual(waitFor + CONFIRMATIONTEXT + confirmation + PRESENT, Success.PASS);
+        recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, timeTook, Success.PASS);
         return true;
     }
 
@@ -331,16 +331,16 @@ public interface Check {
      */
     void confirmationNotPresent();
 
-    default boolean checkConfirmationNotPresent(String waitFor) {
+    default boolean checkConfirmationNotPresent(double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find a confirmation on the page");
+        recordAction("to find a confirmation on the page", waitFor);
         // check for the object to be present
         boolean isConfirmationPresent = getApp().is().confirmationPresent();
         if (isConfirmationPresent) {
-            getOutputFile().recordActual(waitFor + " confirmation is present on the page", Success.FAIL);
+            recordActual(" confirmation is present on the page", timeTook, Success.FAIL);
             return false;
         }
-        getOutputFile().recordActual(waitFor + NOCONFIRMATION, Success.PASS);
+        recordActual(NOCONFIRMATION, timeTook, Success.PASS);
         return true;
     }
 
@@ -353,22 +353,22 @@ public interface Check {
      */
     void confirmationEquals(String expectedConfirmationText);
 
-    default String checkConfirmationEquals(String expectedConfirmationText, String waitFor) {
+    default String checkConfirmationEquals(String expectedConfirmationText, double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find confirmation with the text <b>" + expectedConfirmationText + ONPAGE);
+        recordAction("to find confirmation with the text <b>" + expectedConfirmationText + ONPAGE, waitFor);
         // check for the object to be present
         String confirmation;
         boolean isConfirmationPresent = getApp().is().confirmationPresent();
         if (isConfirmationPresent) {
             confirmation = getApp().get().confirmation();
         } else {
-            getOutputFile().recordActual(waitFor + NOCONFIRMATION, Success.FAIL);
+            recordActual(NOCONFIRMATION, timeTook, Success.FAIL);
             return "";
         }
         if (!expectedConfirmationText.equals(confirmation)) {
-            getOutputFile().recordActual(waitFor + CONFIRMATIONTEXT + confirmation + PRESENT, Success.FAIL);
+            recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + CONFIRMATIONTEXT + confirmation + PRESENT, Success.PASS);
+            recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, timeTook, Success.PASS);
         }
         return confirmation;
     }
@@ -382,22 +382,22 @@ public interface Check {
      */
     void confirmationMatches(String expectedConfirmationPattern);
 
-    default String checkConfirmationMatches(String expectedConfirmationPattern, String waitFor) {
+    default String checkConfirmationMatches(String expectedConfirmationPattern, double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ONPAGE);
+        recordAction("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ONPAGE, waitFor);
         // check for the object to be present
         String confirmation;
         boolean isConfirmationPresent = getApp().is().confirmationPresent();
         if (isConfirmationPresent) {
             confirmation = getApp().get().confirmation();
         } else {
-            getOutputFile().recordActual(waitFor + NOCONFIRMATION, Success.FAIL);
+            recordActual(NOCONFIRMATION, timeTook, Success.FAIL);
             return "";
         }
         if (!confirmation.matches(expectedConfirmationPattern)) {
-            getOutputFile().recordActual(waitFor + CONFIRMATIONTEXT + confirmation + PRESENT, Success.FAIL);
+            recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + CONFIRMATIONTEXT + confirmation + PRESENT, Success.PASS);
+            recordActual(CONFIRMATIONTEXT + confirmation + PRESENT, timeTook, Success.PASS);
         }
         return confirmation;
     }
@@ -409,19 +409,19 @@ public interface Check {
      */
     void promptPresent();
 
-    default boolean checkPromptPresent(String waitFor) {
+    default boolean checkPromptPresent(double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find prompt on the page");
+        recordAction("to find prompt on the page", waitFor);
         // check for the object to be present
         String prompt;
         boolean isPromptPresent = getApp().is().promptPresent();
         if (isPromptPresent) {
             prompt = getApp().get().prompt();
         } else {
-            getOutputFile().recordActual(waitFor + NOPROMPT, Success.FAIL);
+            recordActual(NOPROMPT, timeTook, Success.FAIL);
             return false;
         }
-        getOutputFile().recordActual(waitFor + PROMPTTEXT + prompt + PRESENT, Success.PASS);
+        recordActual(PROMPTTEXT + prompt + PRESENT, timeTook, Success.PASS);
         return true;
     }
 
@@ -432,15 +432,15 @@ public interface Check {
      */
     void promptNotPresent();
 
-    default boolean checkPromptNotPresent(String waitFor) {
+    default boolean checkPromptNotPresent(double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected not to find prompt on the page");
+        recordAction("not to find prompt on the page", waitFor);
         // check for the object to be present
         boolean isPromptPresent = getApp().is().promptPresent();
         if (isPromptPresent) {
-            getOutputFile().recordActual(waitFor + " prompt is present on the page", Success.FAIL);
+            recordActual(" prompt is present on the page", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + NOPROMPT, Success.PASS);
+            recordActual(NOPROMPT, timeTook, Success.PASS);
         }
         return !isPromptPresent;
     }
@@ -454,22 +454,22 @@ public interface Check {
      */
     void promptEquals(String expectedPromptText);
 
-    default String checkPromptEquals(String expectedPromptText, String waitFor) {
+    default String checkPromptEquals(String expectedPromptText, double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find prompt with the text <b>" + expectedPromptText + ONPAGE);
+        recordAction("to find prompt with the text <b>" + expectedPromptText + ONPAGE, waitFor);
         // check for the object to be present
         String prompt;
         boolean isPromptPresent = getApp().is().promptPresent();
         if (isPromptPresent) {
             prompt = getApp().get().prompt();
         } else {
-            getOutputFile().recordActual(waitFor + NOPROMPT, Success.FAIL);
+            recordActual(NOPROMPT, timeTook, Success.FAIL);
             return "";
         }
         if (!expectedPromptText.equals(prompt)) {
-            getOutputFile().recordActual(waitFor + PROMPTTEXT + prompt + PRESENT, Success.FAIL);
+            recordActual(PROMPTTEXT + prompt + PRESENT, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + PROMPTTEXT + prompt + PRESENT, Success.PASS);
+            recordActual(PROMPTTEXT + prompt + PRESENT, timeTook, Success.PASS);
         }
         return prompt;
     }
@@ -483,22 +483,22 @@ public interface Check {
      */
     void promptMatches(String expectedPromptPattern);
 
-    default String checkPromptMatches(String expectedPromptPattern, String waitFor) {
+    default String checkPromptMatches(String expectedPromptPattern, double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find prompt with the text matching pattern <b>" + expectedPromptPattern + ONPAGE);
+        recordAction("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ONPAGE, waitFor);
         // check for the object to be present
         String prompt;
         boolean isPromptPresent = getApp().is().promptPresent();
         if (isPromptPresent) {
             prompt = getApp().get().prompt();
         } else {
-            getOutputFile().recordActual(waitFor + NOPROMPT, Success.FAIL);
+            recordActual(NOPROMPT, timeTook, Success.FAIL);
             return "";
         }
         if (!prompt.matches(expectedPromptPattern)) {
-            getOutputFile().recordActual(waitFor + PROMPTTEXT + prompt + PRESENT, Success.FAIL);
+            recordActual(PROMPTTEXT + prompt + PRESENT, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + PROMPTTEXT + prompt + PRESENT, Success.PASS);
+            recordActual(PROMPTTEXT + prompt + PRESENT, timeTook, Success.PASS);
         }
         return prompt;
     }
@@ -516,17 +516,17 @@ public interface Check {
      */
     void cookieExists(String expectedCookieName);
 
-    default boolean checkCookieExists(String expectedCookieName, String waitFor) {
+    default boolean checkCookieExists(String expectedCookieName, double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find cookie with the name <b>" + expectedCookieName + STORED);
+        recordAction("to find cookie with the name <b>" + expectedCookieName + STORED, waitFor);
         // check for the object to be present
         String cookieValue;
         boolean isCookiePresent = getApp().is().cookiePresent(expectedCookieName);
         if (isCookiePresent) {
             cookieValue = getApp().get().cookieValue(expectedCookieName);
-            getOutputFile().recordActual(waitFor + COOKIE + expectedCookieName + VALUE + cookieValue + STORED, Success.PASS);
+            recordActual(COOKIE + expectedCookieName + VALUE + cookieValue + STORED, timeTook, Success.PASS);
         } else {
-            getOutputFile().recordActual(waitFor + COOKIE + expectedCookieName + NOTSTORED, Success.FAIL);
+            recordActual(COOKIE + expectedCookieName + NOTSTORED, timeTook, Success.FAIL);
         }
         return isCookiePresent;
     }
@@ -540,15 +540,15 @@ public interface Check {
      */
     void cookieNotExists(String unexpectedCookieName);
 
-    default boolean checkCookieNotExists(String unexpectedCookieName, String waitFor) {
+    default boolean checkCookieNotExists(String unexpectedCookieName, double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected("Expected to find no cookie with the name <b>" + unexpectedCookieName + STORED);
+        recordAction("to find no cookie with the name <b>" + unexpectedCookieName + STORED, waitFor);
         // check for the object to be present
         boolean isCookiePresent = getApp().is().cookiePresent(unexpectedCookieName);
         if (isCookiePresent) {
-            getOutputFile().recordActual(waitFor + COOKIE + unexpectedCookieName + STORED, Success.FAIL);
+            recordActual(COOKIE + unexpectedCookieName + STORED, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + COOKIE + unexpectedCookieName + NOTSTORED, Success.PASS);
+            recordActual(COOKIE + unexpectedCookieName + NOTSTORED, timeTook, Success.PASS);
         }
         return !isCookiePresent;
     }
@@ -563,25 +563,25 @@ public interface Check {
      */
     void cookieEquals(String cookieName, String expectedCookieValue);
 
-    default String checkCookieEquals(String cookieName, String expectedCookieValue, String waitFor) {
+    default String checkCookieEquals(String cookieName, String expectedCookieValue, double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected(
-                "Expected to find cookie with the name <b>" + cookieName + VALUE + expectedCookieValue + STORED);
+        recordAction(
+                "to find cookie with the name <b>" + cookieName + VALUE + expectedCookieValue + STORED, waitFor);
         // check for the object to be present
         String cookieValue;
         boolean isCookiePresent = getApp().is().cookiePresent(cookieName);
         if (isCookiePresent) {
             cookieValue = getApp().get().cookieValue(cookieName);
         } else {
-            getOutputFile().recordActual(waitFor + COOKIE + cookieName + NOTSTORED, Success.FAIL);
+            recordActual(COOKIE + cookieName + NOTSTORED, timeTook, Success.FAIL);
             return "";
         }
         if (!cookieValue.equals(expectedCookieValue)) {
-            getOutputFile().recordActual(
-                    waitFor + COOKIE + cookieName + "</b> is stored for the page, but the value of the cookie is " + cookieValue,
-                    Success.FAIL);
+            recordActual(
+                    COOKIE + cookieName + "</b> is stored for the page, but the value of the cookie is " + cookieValue,
+                    timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + COOKIE + cookieName + VALUE + cookieValue + STORED, Success.PASS);
+            recordActual(COOKIE + cookieName + VALUE + cookieValue + STORED, timeTook, Success.PASS);
         }
         return cookieValue;
     }
@@ -596,25 +596,25 @@ public interface Check {
      */
     void cookieMatches(String cookieName, String expectedCookiePattern);
 
-    default String checkCookieMatches(String cookieName, String expectedCookiePattern, String waitFor) {
+    default String checkCookieMatches(String cookieName, String expectedCookiePattern, double waitFor, double timeTook) {
         //record the action
-        getOutputFile().recordExpected(
-                "Expected to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED);
+        recordAction(
+                "to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED, waitFor);
         // check for the object to be present
         String cookieValue;
         boolean isCookiePresent = getApp().is().cookiePresent(cookieName);
         if (isCookiePresent) {
             cookieValue = getApp().get().cookieValue(cookieName);
         } else {
-            getOutputFile().recordActual(waitFor + COOKIE + cookieName + NOTSTORED, Success.FAIL);
+            recordActual(COOKIE + cookieName + NOTSTORED, timeTook, Success.FAIL);
             return "";
         }
         if (!cookieValue.matches(expectedCookiePattern)) {
-            getOutputFile().recordActual(
-                    waitFor + COOKIE + cookieName + "</b> is stored for the page, but the value of the cookie is " + cookieValue,
-                    Success.FAIL);
+            recordActual(
+                    COOKIE + cookieName + "</b> is stored for the page, but the value of the cookie is " + cookieValue,
+                    timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(waitFor + COOKIE + cookieName + VALUE + cookieValue + STORED, Success.PASS);
+            recordActual(COOKIE + cookieName + VALUE + cookieValue + STORED, timeTook, Success.PASS);
         }
         return cookieValue;
     }

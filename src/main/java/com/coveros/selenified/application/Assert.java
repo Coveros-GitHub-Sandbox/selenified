@@ -82,7 +82,7 @@ public class Assert implements Check {
      */
     @Override
     public void urlEquals(String expectedURL) {
-        assertEquals("URL Mismatch", expectedURL, checkUrlEquals(expectedURL, "T"));
+        assertEquals("URL Mismatch", expectedURL, checkUrlEquals(expectedURL, 0, 0));
     }
 
     /**
@@ -94,7 +94,7 @@ public class Assert implements Check {
      */
     @Override
     public void titleEquals(String expectedTitle) {
-        assertEquals("Title Mismatch", expectedTitle, checkTitleEquals(expectedTitle, "T"));
+        assertEquals("Title Mismatch", expectedTitle, checkTitleEquals(expectedTitle, 0, 0));
     }
 
     /**
@@ -106,7 +106,7 @@ public class Assert implements Check {
      */
     @Override
     public void titleMatches(String expectedTitlePattern) {
-        assertTrue("Title Mismatch", checkTitleEquals(expectedTitlePattern, "T").matches(expectedTitlePattern));
+        assertTrue("Title Mismatch", checkTitleEquals(expectedTitlePattern, 0, 0).matches(expectedTitlePattern));
     }
 
     /**
@@ -118,7 +118,7 @@ public class Assert implements Check {
      */
     @Override
     public void textPresent(String expectedText) {
-        assertTrue("Expected to find text '" + expectedText + "'", checkTextPresent(expectedText, "T"));
+        assertTrue("Expected to find text '" + expectedText + "'", checkTextPresent(expectedText, 0, 0));
     }
 
     /**
@@ -130,7 +130,7 @@ public class Assert implements Check {
      */
     @Override
     public void textNotPresent(String expectedText) {
-        assertTrue("Expected to not find text '" + expectedText + "'", checkTextNotPresent(expectedText, "T"));
+        assertTrue("Expected to not find text '" + expectedText + "'", checkTextNotPresent(expectedText, 0, 0));
     }
 
     ///////////////////////////////////////////////////////
@@ -144,7 +144,7 @@ public class Assert implements Check {
      */
     @Override
     public void alertPresent() {
-        assertTrue("Expected to find an alert", checkAlertPresent("A"));
+        assertTrue("Expected to find an alert", checkAlertPresent(0, 0));
     }
 
     /**
@@ -154,7 +154,7 @@ public class Assert implements Check {
      */
     @Override
     public void alertNotPresent() {
-        assertTrue("Expected to not find an alert", checkAlertNotPresent("A"));
+        assertTrue("Expected to not find an alert", checkAlertNotPresent(0, 0));
     }
 
     /**
@@ -166,7 +166,7 @@ public class Assert implements Check {
      */
     @Override
     public void alertEquals(String expectedAlertText) {
-        assertEquals("Alert Text Mismatch", expectedAlertText, checkAlertEquals(expectedAlertText, "A"));
+        assertEquals("Alert Text Mismatch", expectedAlertText, checkAlertEquals(expectedAlertText, 0, 0));
     }
 
     /**
@@ -178,7 +178,7 @@ public class Assert implements Check {
      */
     @Override
     public void alertMatches(String expectedAlertPattern) {
-        assertTrue("Alert Text Mismatch", checkAlertMatches(expectedAlertPattern, "A").matches(expectedAlertPattern));
+        assertTrue("Alert Text Mismatch", checkAlertMatches(expectedAlertPattern, 0, 0).matches(expectedAlertPattern));
     }
 
     /**
@@ -188,7 +188,7 @@ public class Assert implements Check {
      */
     @Override
     public void confirmationPresent() {
-        assertTrue("Expected to find a confirmation", checkConfirmationPresent("A"));
+        assertTrue("Expected to find a confirmation", checkConfirmationPresent(0, 0));
     }
 
     /**
@@ -198,7 +198,7 @@ public class Assert implements Check {
      */
     @Override
     public void confirmationNotPresent() {
-        assertTrue("Expected to not find a confirmation", checkConfirmationNotPresent("A"));
+        assertTrue("Expected to not find a confirmation", checkConfirmationNotPresent(0, 0));
     }
 
     /**
@@ -210,7 +210,7 @@ public class Assert implements Check {
      */
     @Override
     public void confirmationEquals(String expectedConfirmationText) {
-        assertEquals("Confirmation Text Mismatch", expectedConfirmationText, checkConfirmationEquals(expectedConfirmationText, "A"));
+        assertEquals("Confirmation Text Mismatch", expectedConfirmationText, checkConfirmationEquals(expectedConfirmationText, 0, 0));
     }
 
     /**
@@ -222,7 +222,7 @@ public class Assert implements Check {
      */
     @Override
     public void confirmationMatches(String expectedConfirmationPattern) {
-        assertTrue("Confirmation Text Mismatch", checkConfirmationMatches(expectedConfirmationPattern, "A").matches(expectedConfirmationPattern));
+        assertTrue("Confirmation Text Mismatch", checkConfirmationMatches(expectedConfirmationPattern, 0, 0).matches(expectedConfirmationPattern));
     }
 
     /**
@@ -232,7 +232,7 @@ public class Assert implements Check {
      */
     @Override
     public void promptPresent() {
-        assertTrue("Expected to find a prompt", checkPromptPresent("A"));
+        assertTrue("Expected to find a prompt", checkPromptPresent(0, 0));
     }
 
     /**
@@ -242,7 +242,7 @@ public class Assert implements Check {
      */
     @Override
     public void promptNotPresent() {
-        assertTrue("Expected to not find a prompt", checkPromptNotPresent("A"));
+        assertTrue("Expected to not find a prompt", checkPromptNotPresent(0, 0));
     }
 
     /**
@@ -254,7 +254,7 @@ public class Assert implements Check {
      */
     @Override
     public void promptEquals(String expectedPromptText) {
-        assertEquals("Prompt Text Mismatch", expectedPromptText, checkPromptEquals(expectedPromptText, "A"));
+        assertEquals("Prompt Text Mismatch", expectedPromptText, checkPromptEquals(expectedPromptText, 0, 0));
     }
 
     /**
@@ -266,7 +266,7 @@ public class Assert implements Check {
      */
     @Override
     public void promptMatches(String expectedPromptPattern) {
-        assertTrue("Prompt Text Mismatch", checkPromptMatches(expectedPromptPattern, "A").matches(expectedPromptPattern));
+        assertTrue("Prompt Text Mismatch", checkPromptMatches(expectedPromptPattern, 0, 0).matches(expectedPromptPattern));
     }
 
     ///////////////////////////////////////////////////////
@@ -282,7 +282,7 @@ public class Assert implements Check {
      */
     @Override
     public void cookieExists(String expectedCookieName) {
-        assertTrue("Expected to find cookie", checkCookieExists(expectedCookieName, "A"));
+        assertTrue("Expected to find cookie", checkCookieExists(expectedCookieName, 0, 0));
     }
 
     /**
@@ -294,7 +294,7 @@ public class Assert implements Check {
      */
     @Override
     public void cookieNotExists(String unexpectedCookieName) {
-        assertTrue("Expected to not find cookie", checkCookieNotExists(unexpectedCookieName, "A"));
+        assertTrue("Expected to not find cookie", checkCookieNotExists(unexpectedCookieName, 0, 0));
     }
 
     /**
@@ -307,7 +307,7 @@ public class Assert implements Check {
      */
     @Override
     public void cookieEquals(String cookieName, String expectedCookieValue) {
-        assertEquals("Cookie Value Mismatch", expectedCookieValue, checkCookieEquals(cookieName, expectedCookieValue, "A"));
+        assertEquals("Cookie Value Mismatch", expectedCookieValue, checkCookieEquals(cookieName, expectedCookieValue, 0, 0));
     }
 
     /**
@@ -320,6 +320,6 @@ public class Assert implements Check {
      */
     @Override
     public void cookieMatches(String cookieName, String expectedCookiePattern) {
-        assertTrue("Cookie Value Mismatch", checkCookieMatches(cookieName, expectedCookiePattern, "A").matches(expectedCookiePattern));
+        assertTrue("Cookie Value Mismatch", checkCookieMatches(cookieName, expectedCookiePattern, 0, 0).matches(expectedCookiePattern));
     }
 }
