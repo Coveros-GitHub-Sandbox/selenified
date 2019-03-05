@@ -53,7 +53,7 @@ import java.util.logging.Level;
  * Assists with Selenified class in setting up proxy, hub, and browser details
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 3/4/2019
  */
 public class Capabilities {

@@ -62,8 +62,8 @@ import static org.testng.AssertJUnit.assertEquals;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 3.0.5
- * @lastupdate 2/27/2019
+ * @version 3.1.0
+ * @lastupdate 3/3/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -432,9 +432,9 @@ public class Selenified {
         if (app != null) {
             try {
                 app.getDriver().get(url);
-                if (!app.get().location().contains(url)) {
+                if (!app.get().url().contains(url)) {
                     file.recordAction(act, expected,
-                            startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
+                            startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>",
                             Result.FAILURE);
                     file.addError();
                     return;

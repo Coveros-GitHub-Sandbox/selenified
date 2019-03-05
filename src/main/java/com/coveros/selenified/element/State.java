@@ -32,7 +32,7 @@ import com.coveros.selenified.OutputFile.Success;
  * failing tests. State checks that elements are in a particular state.
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 9/13/2018
  */
 public class State extends Assert {

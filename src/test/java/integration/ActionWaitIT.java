@@ -90,7 +90,7 @@ public class ActionWaitIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().location(getTestSite(this.getClass().getName(), context));
+        app.waitFor().url(getTestSite(this.getClass().getName(), context));
         // verify no issues
         finish();
     }
@@ -101,7 +101,7 @@ public class ActionWaitIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().location("http://hellourl.io");
+        app.waitFor().url("http://hellourl.io");
         // verify 1 issue
         finish(1);
     }
@@ -124,6 +124,50 @@ public class ActionWaitIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.waitFor().title("Selenium TST pg");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "wait"},
+    description = "An integration test to check the wait for text present method")
+    public void waitTextPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().textPresent("President");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "wait"},
+            description = "An integration negative test to check the wait for text present method")
+    public void waitTextPresentFailTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().textPresent(3, "President Roosevelt");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "wait"},
+            description = "An integration test to check the wait for text not present method")
+    public void waitTextNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().textNotPresent("President Roosevelt");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "wait"},
+            description = "An integration negative test to check the wait for text not present method")
+    public void waitTextNotPresentFailTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().textNotPresent(3, "President");
         // verify 1 issue
         finish(1);
     }
