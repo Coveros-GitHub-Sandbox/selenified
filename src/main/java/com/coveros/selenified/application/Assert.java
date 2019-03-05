@@ -33,8 +33,8 @@ import static org.testng.AssertJUnit.assertTrue;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.0.5
- * @lastupdate 5/4/2018
+ * @version 3.1.0
+ * @lastupdate 3/3/2019
  */
 public class Assert implements Check {
 
@@ -315,7 +315,7 @@ public class Assert implements Check {
      * expected pattern. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param cookieName          the name of the cookie
+     * @param cookieName            the name of the cookie
      * @param expectedCookiePattern the expected value of the cookie
      */
     @Override

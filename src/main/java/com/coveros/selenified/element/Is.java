@@ -31,7 +31,7 @@ import org.testng.log4testng.Logger;
  * returning, indicating if an object is present or not
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 2/14/2019
  */
 public class Is {

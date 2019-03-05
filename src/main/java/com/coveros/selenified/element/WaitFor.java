@@ -35,7 +35,7 @@ import org.testng.log4testng.Logger;
  * still nothing is returned, but an error is logged
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 2/14/2019
  */
 public class WaitFor {

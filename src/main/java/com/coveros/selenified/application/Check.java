@@ -101,7 +101,7 @@ public interface Check {
     default String checkUrlEquals(String expectedURL, double waitFor, double timeTook) {
         // record the action
         recordAction("to be on page with the URL of <b>" + expectedURL + "</b>", waitFor);
-        String actualURL = getApp().get().location();
+        String actualURL = getApp().get().url();
         if (!actualURL.equals(expectedURL)) {
             recordActual("The page URL reads <b>" + actualURL + "</b>", timeTook, Success.FAIL);
         } else {

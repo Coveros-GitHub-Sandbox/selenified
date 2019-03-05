@@ -16,13 +16,12 @@ public class ConflictIT extends Selenified {
         setAuthor(this, test, "Matt Grasberger\n<br/>matthew.grasberger@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "3.0.5");
+        setVersion(this, test, "3.1.0");
     }
 
     @Test(groups = {"integration", "conflict"},
             description = "A sample test to show how to loop through elements with multiple matches")
     public void conflictingTestName() {
-        System.setProperty("packageResults", "true");
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -34,6 +33,5 @@ public class ConflictIT extends Selenified {
         }
         // close out the test
         finish();
-        System.setProperty("packageResults", "false");
     }
 }

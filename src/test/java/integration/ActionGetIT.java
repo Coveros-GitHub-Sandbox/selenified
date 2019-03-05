@@ -5,7 +5,6 @@ import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
 import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebElement;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
@@ -1080,7 +1079,7 @@ public class ActionGetIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        assertEquals(app.get().location(), getTestSite(method.getDeclaringClass().getName(), test));
+        assertEquals(app.get().url(), getTestSite(method.getDeclaringClass().getName(), test));
         // verify no issues
         finish();
     }
@@ -1092,7 +1091,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.killDriver();
-        assertNull(app.get().location());
+        assertNull(app.get().url());
         // verify no issues
         finish();
     }

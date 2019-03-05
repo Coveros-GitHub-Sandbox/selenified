@@ -352,7 +352,7 @@ public class Verify implements Check {
      * expected value. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param cookieName          the name of the cookie
+     * @param cookieName            the name of the cookie
      * @param expectedCookiePattern the expected value of the cookie
      */
     @Override

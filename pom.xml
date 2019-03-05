@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>3.0.5-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
 
     <prerequisites>
         <maven>3.0.4</maven>
@@ -27,10 +27,11 @@
         <skip.integration.tests>false</skip.integration.tests>
 
         <!-- General Selenium run versions -->
-        <selenium.version>3.14.0</selenium.version>
-        <webdrivermanager.version>2.2.1</webdrivermanager.version>
+        <selenium.version>3.141.59</selenium.version>
+        <htmlunit.version>2.34.0</htmlunit.version>
+        <webdrivermanager.version>3.3.0</webdrivermanager.version>
         <phantomjsdriver.version>2.0.0</phantomjsdriver.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j.version>1.7.26</slf4j.version>
         <testng.version>6.14.3</testng.version>
 
         <!-- Additional plugin versions -->
@@ -103,6 +104,12 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
             <version>${selenium.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/htmlunit-drive -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>htmlunit-driver</artifactId>
+            <version>${htmlunit.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>

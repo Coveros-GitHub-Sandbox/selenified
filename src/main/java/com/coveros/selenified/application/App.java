@@ -50,8 +50,8 @@ import java.util.Date;
  * elements directly out of your app.
  *
  * @author Max Saperstone
- * @version 3.0.5
- * @lastupdate 2/14/2019
+ * @version 3.1.0
+ * @lastupdate 3/3/2019
  */
 public class App {
 
@@ -116,8 +116,8 @@ public class App {
         } else {
             driver = capabilities.setupDriver();
         }
-        get = new Get(driver);
         is = new Is(driver);
+        get = new Get(driver);
         waitFor = new WaitFor(this, file);
         azzert = new Assert(this, file);
         verify = new Verify(this, file);
@@ -607,7 +607,7 @@ public class App {
         }
         switchToNewWindow();
         waitFor().urlEquals(url);
-        if (!get().location().equals(url)) {
+        if (!get().url().equals(url)) {
             file.recordStep(action, expected, "Unable to open new window to " + url, Result.FAILURE);
             file.addError();
             return;

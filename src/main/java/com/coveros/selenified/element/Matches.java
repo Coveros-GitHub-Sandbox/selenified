@@ -33,7 +33,7 @@ import com.coveros.selenified.OutputFile.Success;
  * to them that fits the provided regular expression.
  *
  * @author Max Saperstone
- * @version 3.0.5
+ * @version 3.1.0
  * @lastupdate 2/21/2019
  */
 public class Matches extends Assert {

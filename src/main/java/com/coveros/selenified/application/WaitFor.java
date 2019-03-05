@@ -22,7 +22,6 @@ package com.coveros.selenified.application;
 
 import com.coveros.selenified.OutputFile;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -34,8 +33,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * is returned, but an error is logged
  *
  * @author Max Saperstone
- * @version 3.0.5
- * @lastupdate 8/7/2018
+ * @version 3.1.0
+ * @lastupdate 3/3/2019
  */
 public class WaitFor implements Check {
 
@@ -45,18 +44,11 @@ public class WaitFor implements Check {
     // this is the driver that will be used for all selenium actions
     private final App app;
 
-    // this is the driver that will be used for all selenium actions
-    private final WebDriver driver;
-
     // constants
-    private static final String WAITED = "Waited ";
-    private static final String UPTO = "Wait up to ";
-    private static final String WAITING = "After waiting ";
     private double defaultWait = 5.0;
 
     public WaitFor(App app, OutputFile file) {
         this.app = app;
-        this.driver = app.getDriver();
         this.file = file;
     }
 
@@ -115,7 +107,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void titleMatches(String title) {
-//        titleMatches(defaultWait, title);
+        titleMatches(defaultWait, title);
     }
 
     /**
@@ -125,7 +117,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void textPresent(String expectedText) {
-//        textPresent(defaultWait, expectedText);
+        textPresent(defaultWait, expectedText);
     }
 
     /**
@@ -135,7 +127,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void textNotPresent(String expectedText) {
-//        textNotPresent(defaultWait, expectedText);
+        textNotPresent(defaultWait, expectedText);
     }
 
     /**
@@ -151,7 +143,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void alertNotPresent() {
-//        alertNotPresent(defaultWait);
+        alertNotPresent(defaultWait);
     }
 
     /**
@@ -159,7 +151,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void alertEquals(String expectedAlertText) {
-//        alertEquals(defaultWait, expectedAlertText);
+        alertEquals(defaultWait, expectedAlertText);
     }
 
     /**
@@ -167,7 +159,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void alertMatches(String expectedAlertPattern) {
-//        alertMatches(defaultWait, expectedAlertPattern);
+        alertMatches(defaultWait, expectedAlertPattern);
     }
 
     /**
@@ -183,7 +175,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void confirmationNotPresent() {
-//        confirmationNotPresent(defaultWait);
+        confirmationNotPresent(defaultWait);
     }
 
     /**
@@ -191,7 +183,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void confirmationEquals(String expectedConfirmationText) {
-//        confirmationEquals(defaultWait, expectedConfirmationText);
+        confirmationEquals(defaultWait, expectedConfirmationText);
     }
 
     /**
@@ -199,7 +191,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void confirmationMatches(String expectedConfirmationPattern) {
-//        confirmationMatches(defaultWait, expectedConfirmationPattern);
+        confirmationMatches(defaultWait, expectedConfirmationPattern);
     }
 
     /**
@@ -215,7 +207,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void promptNotPresent() {
-//        promptNotPresent(defaultWait);
+        promptNotPresent(defaultWait);
     }
 
     /**
@@ -223,7 +215,7 @@ public class WaitFor implements Check {
      */
     @Override
     public void promptEquals(String expectedPromptText) {
-//        promptEquals(defaultWait, expectedPromptText);
+        promptEquals(defaultWait, expectedPromptText);
     }
 
     /**
@@ -231,27 +223,27 @@ public class WaitFor implements Check {
      */
     @Override
     public void promptMatches(String expectedPromptPattern) {
-//        promptMatches(defaultWait, expectedPromptPattern);
+        promptMatches(defaultWait, expectedPromptPattern);
     }
 
     @Override
     public void cookieExists(String expectedCookieName) {
-//        cookieExists(defaultWait, expectedCookieName);
+        cookieExists(defaultWait, expectedCookieName);
     }
 
     @Override
     public void cookieNotExists(String unexpectedCookieName) {
-//        cookieNotExists((defaultWait, unexpectedCookieName);
+        cookieNotExists(defaultWait, unexpectedCookieName);
     }
 
     @Override
     public void cookieEquals(String cookieName, String expectedCookieValue) {
-//        cookieEquals(defaultWait, cookieName, expectedCookieValue);
+        cookieEquals(defaultWait, cookieName, expectedCookieValue);
     }
 
     @Override
     public void cookieMatches(String cookieName, String expectedCookiePattern) {
-//        cookieMatches((defaultWait, cookieName, expectedCookiePattern);
+        cookieMatches(defaultWait, cookieName, expectedCookiePattern);
     }
 
     ///////////////////////////////////////////////////
@@ -261,16 +253,16 @@ public class WaitFor implements Check {
     /**
      * Wait up to a specified time for the url to show a particular expectedURL
      *
-     * @param seconds  - the number of seconds to wait
+     * @param seconds     - the number of seconds to wait
      * @param expectedURL - the expectedURL to wait for
      */
     public void urlEquals(double seconds, String expectedURL) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+            WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
             wait.until(ExpectedConditions.urlToBe(expectedURL));
-            double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkUrlEquals(expectedURL, seconds, timetook);
+            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            checkUrlEquals(expectedURL, seconds, timeTook);
         } catch (TimeoutException e) {
             checkUrlEquals(expectedURL, seconds, seconds);
             file.addError();
@@ -286,12 +278,28 @@ public class WaitFor implements Check {
     public void titleEquals(double seconds, String title) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+            WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
             wait.until(ExpectedConditions.titleIs(title));
-            double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkTitleEquals(title, seconds, timetook);
+            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            checkTitleEquals(title, seconds, timeTook);
         } catch (TimeoutException e) {
             checkTitleEquals(title, seconds, seconds);
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for the title to show up in the application
+     *
+     * @param seconds - the number of seconds to wait
+     * @param title   - the title to wait for
+     */
+    public void titleMatches(double seconds, String title) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (!app.get().title().matches(title) && System.currentTimeMillis() < end) ;
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        checkTitleMatches(title, seconds, timeTook);
+        if (!app.get().title().matches(title)) {
             file.addError();
         }
     }
@@ -306,10 +314,34 @@ public class WaitFor implements Check {
     private double popup(double seconds) {
         // wait for up to XX seconds for the error message
         double end = System.currentTimeMillis() + (seconds * 1000);
-        WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+        WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
         wait.until(ExpectedConditions.alertIsPresent());
-        double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
-        return timetook / 1000;
+        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+    }
+
+    private double popupEquals(double seconds, String text) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (!app.get().alert().equals(text) && System.currentTimeMillis() < end) ;
+        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+    }
+
+    private double popupMatches(double seconds, String pattern) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (!app.get().alert().matches(pattern) && System.currentTimeMillis() < end) ;
+        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+    }
+
+    /**
+     * Wait for a popup to be present, up to the default time (5 seconds), and
+     * then returns the amount of time that was waited
+     *
+     * @param seconds - maximum time to wait in seconds
+     * @return double - the total time waited
+     */
+    private double noPopup(double seconds) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (app.is().alertPresent() && System.currentTimeMillis() < end) ;
+        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
     }
 
     /**
@@ -319,10 +351,61 @@ public class WaitFor implements Check {
      */
     public void alertPresent(double seconds) {
         try {
-            double timetook = popup(seconds);
-            checkAlertPresent(seconds, timetook);
+            double timeTook = popup(seconds);
+            checkAlertPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkAlertPresent(seconds, seconds);
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for an alert to not be present
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void alertNotPresent(double seconds) {
+        double timeTook = noPopup(seconds);
+        checkAlertNotPresent(seconds, timeTook);
+        if (app.is().alertPresent()) {
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for an alert to have text
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void alertEquals(double seconds, String text) {
+        try {
+            double timeTook = popup(seconds);
+            timeTook = popupEquals(seconds - timeTook, text);
+            checkAlertEquals(text, seconds, timeTook);
+            if (!app.get().alert().equals(text)) {
+                file.addError();
+            }
+        } catch (TimeoutException e) {
+            checkAlertEquals(text, seconds, seconds);
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for an alert to have text
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void alertMatches(double seconds, String text) {
+        try {
+            double timeTook = popup(seconds);
+            timeTook = popupMatches(seconds - timeTook, text);
+            checkAlertMatches(text, seconds, timeTook);
+            if (!app.get().alert().matches(text)) {
+                file.addError();
+            }
+        } catch (TimeoutException e) {
+            checkAlertMatches(text, seconds, seconds);
             file.addError();
         }
     }
@@ -334,10 +417,61 @@ public class WaitFor implements Check {
      */
     public void confirmationPresent(double seconds) {
         try {
-            double timetook = popup(seconds);
-            checkConfirmationPresent(seconds, timetook);
+            double timeTook = popup(seconds);
+            checkConfirmationPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkConfirmationPresent(seconds, seconds);
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for a confirmation to not be present
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void confirmationNotPresent(double seconds) {
+        double timeTook = noPopup(seconds);
+        checkConfirmationNotPresent(seconds, timeTook);
+        if (app.is().confirmationPresent()) {
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for an confirmation to have text
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void confirmationEquals(double seconds, String text) {
+        try {
+            double timeTook = popup(seconds);
+            timeTook = popupEquals(seconds - timeTook, text);
+            checkConfirmationEquals(text, seconds, timeTook);
+            if (!app.get().confirmation().equals(text)) {
+                file.addError();
+            }
+        } catch (TimeoutException e) {
+            checkConfirmationEquals(text, seconds, seconds);
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for an confirmation to have text
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void confirmationMatches(double seconds, String text) {
+        try {
+            double timeTook = popup(seconds);
+            timeTook = popupMatches(seconds - timeTook, text);
+            checkConfirmationMatches(text, seconds, timeTook);
+            if (!app.get().confirmation().matches(text)) {
+                file.addError();
+            }
+        } catch (TimeoutException e) {
+            checkConfirmationMatches(text, seconds, seconds);
             file.addError();
         }
     }
@@ -349,20 +483,166 @@ public class WaitFor implements Check {
      */
     public void promptPresent(double seconds) {
         try {
-            double timetook = popup(seconds);
-            checkPromptPresent(seconds, timetook);
+            double timeTook = popup(seconds);
+            checkPromptPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkPromptPresent(seconds, seconds);
             file.addError();
         }
     }
-}
 
-/*
-TODO
- - finish waitFor class (uncomment and fill out)
- - move assert wait tests into own class
- - expand out on tests in assert wait class
- - update java docs
- ** model/follow same pattern for element
- */
+    /**
+     * Wait up to a specified time for a prompt to not be present
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void promptNotPresent(double seconds) {
+        double timeTook = noPopup(seconds);
+        checkPromptNotPresent(seconds, timeTook);
+        if (app.is().promptPresent()) {
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for an confirmation to have text
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void promptEquals(double seconds, String text) {
+        try {
+            double timeTook = popup(seconds);
+            timeTook = popupEquals(seconds - timeTook, text);
+            checkPromptEquals(text, seconds, timeTook);
+            if (!app.get().prompt().equals(text)) {
+                file.addError();
+            }
+        } catch (TimeoutException e) {
+            checkPromptEquals(text, seconds, seconds);
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for an confirmation to have text
+     *
+     * @param seconds - the number of seconds to wait
+     */
+    public void promptMatches(double seconds, String text) {
+        try {
+            double timeTook = popup(seconds);
+            timeTook = popupMatches(seconds - timeTook, text);
+            checkPromptMatches(text, seconds, timeTook);
+            if (!app.get().prompt().matches(text)) {
+                file.addError();
+            }
+        } catch (TimeoutException e) {
+            checkPromptMatches(text, seconds, seconds);
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for text to be present on the page
+     *
+     * @param seconds - the number of seconds to wait
+     * @param text    - the text to wait for
+     */
+    public void textPresent(double seconds, String text) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (!app.is().textPresent(text) && System.currentTimeMillis() < end) ;
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        checkTextPresent(text, seconds, timeTook);
+        if (!app.is().textPresent(text)) {
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for text to not be present on the page
+     *
+     * @param seconds - the number of seconds to wait
+     * @param text    - the to wait to not be present
+     */
+    public void textNotPresent(double seconds, String text) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (app.is().textPresent(text) && System.currentTimeMillis() < end) ;
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        checkTextNotPresent(text, seconds, timeTook);
+        if (app.is().textPresent(text)) {
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for a cookie to be present on the page
+     *
+     * @param seconds            - the number of seconds to wait
+     * @param expectedCookieName - the to wait to not be present
+     */
+    public void cookieExists(double seconds, String expectedCookieName) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (!app.is().cookiePresent(expectedCookieName) && System.currentTimeMillis() < end) ;
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        checkCookieExists(expectedCookieName, seconds, timeTook);
+        if (!app.is().cookiePresent(expectedCookieName)) {
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for a cookie to not be present on the page
+     *
+     * @param seconds              - the number of seconds to wait
+     * @param unexpectedCookieName - the to wait to not be present
+     */
+    public void cookieNotExists(double seconds, String unexpectedCookieName) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (app.is().cookiePresent(unexpectedCookieName) && System.currentTimeMillis() < end) ;
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        checkCookieNotExists(unexpectedCookieName, seconds, timeTook);
+        if (app.is().cookiePresent(unexpectedCookieName)) {
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for a cookie to be present on the page with an expected value
+     *
+     * @param seconds    - the number of seconds to wait
+     * @param cookieName - the to wait to not be present
+     */
+    public void cookieEquals(double seconds, String cookieName, String expectedCookieValue) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (app.is().cookiePresent(cookieName) && System.currentTimeMillis() < end) ;
+        if (app.is().cookiePresent(cookieName)) {
+            while (!app.get().cookieValue(cookieName).equals(expectedCookieValue) && System.currentTimeMillis() < end) ;
+        }
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        checkCookieEquals(cookieName, expectedCookieValue, seconds, timeTook);
+        if (!app.is().cookiePresent(cookieName) || !app.get().cookieValue(cookieName).equals(expectedCookieValue)) {
+            file.addError();
+        }
+    }
+
+    /**
+     * Wait up to a specified time for a cookie to be present on the page with an expected value
+     *
+     * @param seconds    - the number of seconds to wait
+     * @param cookieName - the to wait to not be present
+     */
+    public void cookieMatches(double seconds, String cookieName, String expectedCookiePattern) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (app.is().cookiePresent(cookieName) && System.currentTimeMillis() < end) ;
+        if (app.is().cookiePresent(cookieName)) {
+            while (!app.get().cookieValue(cookieName).matches(expectedCookiePattern) && System.currentTimeMillis() < end)
+                ;
+        }
+        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        checkCookieEquals(cookieName, expectedCookiePattern, seconds, timeTook);
+        if (!app.is().cookiePresent(cookieName) || !app.get().cookieValue(cookieName).matches(expectedCookiePattern)) {
+            file.addError();
+        }
+    }
+
+}

@@ -25,7 +25,7 @@ public class WebBase extends Selenified {
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
-        setVersion(this, test, "3.0.5");
+        setVersion(this, test, "3.1.0");
     }
 
     private static String readFile(String path) throws IOException {
