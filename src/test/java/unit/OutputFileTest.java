@@ -225,6 +225,24 @@ public class OutputFileTest {
     }
 
     @Test
+    public void recordAction() throws IOException {
+        outputFile.recordAction("action", "expected");
+        assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(
+                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td>action</td>\n    <td>expected</td>\n"));
+    }
+
+    @Test
+    public void recordAction1BadFile() throws InvalidBrowserException {
+        OutputFile file =
+                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
+                        null);
+        file.recordAction("action", "expected");
+        // we are just verifying that no errors were thrown
+    }
+
+    @Test
     public void recordActualPass() throws IOException {
         outputFile.recordActual("actual", Success.PASS);
         assertNotEquals(file.length(), 0);
