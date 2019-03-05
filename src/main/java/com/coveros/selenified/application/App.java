@@ -115,7 +115,7 @@ public class App {
             driver = capabilities.setupDriver();
         }
         is = new Is(driver);
-        waitFor = new WaitFor(driver, file);
+        waitFor = new WaitFor(this, file);
         get = new Get(driver);
         azzert = new Assert(this, file);
     }
