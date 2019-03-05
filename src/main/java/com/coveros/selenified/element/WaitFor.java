@@ -36,7 +36,7 @@ import org.testng.log4testng.Logger;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/14/2019
+ * @lastupdate 3/5/2019
  */
 public class WaitFor {
 

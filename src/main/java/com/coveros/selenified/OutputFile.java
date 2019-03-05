@@ -52,7 +52,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/25/2019
+ * @lastupdate 3/5/2019
  */
 public class OutputFile {
 

@@ -32,7 +32,7 @@ import com.coveros.selenified.OutputFile.Success;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 5/4/2018
+ * @lastupdate 3/5/2019
  */
 public interface Check {
 
