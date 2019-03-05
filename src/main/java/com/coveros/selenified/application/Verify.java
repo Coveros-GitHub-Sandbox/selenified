@@ -41,15 +41,19 @@ public class Verify implements Check {
     // this is the driver that will be used for all selenium actions
     private final App app;
 
+    /**
+     * The default constructor passing in the app and output file
+     *
+     * @param app  - the application under test
+     * @param file - the file to write all logging out to
+     */
     public Verify(App app, OutputFile file) {
         this.app = app;
         this.file = file;
     }
 
     /**
-     * Retrieves the output file that we write all details out to
-     *
-     * @return OutputFile
+     * {@inheritDoc}
      */
     @Override
     public OutputFile getOutputFile() {
@@ -57,9 +61,7 @@ public class Verify implements Check {
     }
 
     /**
-     * Retrieves the driver that is used for all selenium actions
-     *
-     * @return App
+     * {@inheritDoc}
      */
     @Override
     public App getApp() {
@@ -67,7 +69,7 @@ public class Verify implements Check {
     }
 
     ///////////////////////////////////////////////////////
-    // assertions about the page in general
+    // verifications about the page in general
     ///////////////////////////////////////////////////////
 
     /**
@@ -75,7 +77,7 @@ public class Verify implements Check {
      * currently on. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedURL the URL of the page
+     * @param expectedURL - the URL of the page
      */
     @Override
     public void urlEquals(String expectedURL) {
@@ -89,7 +91,7 @@ public class Verify implements Check {
      * the application is on. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      *
-     * @param expectedTitle the friendly name of the page
+     * @param expectedTitle - the friendly name of the page
      */
     @Override
     public void titleEquals(String expectedTitle) {
@@ -103,7 +105,7 @@ public class Verify implements Check {
      * the application is on. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      *
-     * @param expectedTitlePattern the friendly name of the page
+     * @param expectedTitlePattern - the friendly name of the page
      */
     @Override
     public void titleMatches(String expectedTitlePattern) {
@@ -117,7 +119,7 @@ public class Verify implements Check {
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
-     * @param expectedText the expected text to be present
+     * @param expectedText - the expected text to be present
      */
     @Override
     public void textPresent(String expectedText) {
@@ -131,7 +133,7 @@ public class Verify implements Check {
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
-     * @param expectedText the expected text to be not present
+     * @param expectedText - the expected text to be not present
      */
     @Override
     public void textNotPresent(String expectedText) {
@@ -141,7 +143,7 @@ public class Verify implements Check {
     }
 
     ///////////////////////////////////////////////////////
-    // assertions about pop-ups
+    // verifications about pop-ups
     ///////////////////////////////////////////////////////
 
     /**
@@ -173,7 +175,7 @@ public class Verify implements Check {
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedAlertText the expected text of the alert
+     * @param expectedAlertText - the expected text of the alert
      */
     @Override
     public void alertEquals(String expectedAlertText) {
@@ -187,7 +189,7 @@ public class Verify implements Check {
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedAlertPattern the expected text of the alert
+     * @param expectedAlertPattern - the expected text of the alert
      */
     @Override
     public void alertMatches(String expectedAlertPattern) {
@@ -225,7 +227,7 @@ public class Verify implements Check {
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedConfirmationText the expected text of the confirmation
+     * @param expectedConfirmationText - the expected text of the confirmation
      */
     @Override
     public void confirmationEquals(String expectedConfirmationText) {
@@ -239,7 +241,7 @@ public class Verify implements Check {
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedConfirmationPattern the expected text of the confirmation
+     * @param expectedConfirmationPattern - the expected text of the confirmation
      */
     @Override
     public void confirmationMatches(String expectedConfirmationPattern) {
@@ -277,7 +279,7 @@ public class Verify implements Check {
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedPromptText the expected text of the prompt
+     * @param expectedPromptText - the expected text of the prompt
      */
     @Override
     public void promptEquals(String expectedPromptText) {
@@ -291,7 +293,7 @@ public class Verify implements Check {
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedPromptPattern the expected text of the prompt
+     * @param expectedPromptPattern - the expected text of the prompt
      */
     @Override
     public void promptMatches(String expectedPromptPattern) {
@@ -301,7 +303,7 @@ public class Verify implements Check {
     }
 
     ///////////////////////////////////////////////////////
-    // assertions about cookies
+    // verifications about cookies
     ///////////////////////////////////////////////////////
 
     /**
@@ -309,7 +311,7 @@ public class Verify implements Check {
      * cookieName. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedCookieName the name of the cookie
+     * @param expectedCookieName - the name of the cookie
      */
     @Override
     public void cookieExists(String expectedCookieName) {
@@ -323,7 +325,7 @@ public class Verify implements Check {
      * cookieName. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param unexpectedCookieName the name of the cookie
+     * @param unexpectedCookieName - the name of the cookie
      */
     @Override
     public void cookieNotExists(String unexpectedCookieName) {
@@ -337,8 +339,8 @@ public class Verify implements Check {
      * expected value. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param cookieName          the name of the cookie
-     * @param expectedCookieValue the expected value of the cookie
+     * @param cookieName          - the name of the cookie
+     * @param expectedCookieValue - the expected value of the cookie
      */
     @Override
     public void cookieEquals(String cookieName, String expectedCookieValue) {
@@ -352,8 +354,8 @@ public class Verify implements Check {
      * expected value. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param cookieName            the name of the cookie
-     * @param expectedCookiePattern the expected value of the cookie
+     * @param cookieName            - the name of the cookie
+     * @param expectedCookiePattern - the expected value of the cookie
      */
     @Override
     public void cookieMatches(String cookieName, String expectedCookiePattern) {

@@ -44,15 +44,19 @@ public class Assert implements Check {
     // this is the driver that will be used for all selenium actions
     private final App app;
 
+    /**
+     * The default constructor passing in the app and output file
+     *
+     * @param app  - the application under test
+     * @param file - the file to write all logging out to
+     */
     public Assert(App app, OutputFile file) {
         this.app = app;
         this.file = file;
     }
 
     /**
-     * Retrieves the output file that we write all details out to
-     *
-     * @return OutputFile
+     * {@inheritDoc}
      */
     @Override
     public OutputFile getOutputFile() {
@@ -60,9 +64,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Retrieves the driver that is used for all selenium actions
-     *
-     * @return App
+     * {@inheritDoc}
      */
     @Override
     public App getApp() {
@@ -74,7 +76,7 @@ public class Assert implements Check {
     ///////////////////////////////////////////////////////
 
     /**
-     * Verifies that the provided URL equals the actual URL the application is
+     * Asserts that the provided URL equals the actual URL the application is
      * currently on. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -110,7 +112,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that provided text(s) are on the current page. This information
+     * Asserts thatprovided text(s) are on the current page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
@@ -122,7 +124,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that provided text(s) are not on the current page. This
+     * Asserts thatprovided text(s) are not on the current page. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
@@ -138,7 +140,7 @@ public class Assert implements Check {
     ///////////////////////////////////////////////////////
 
     /**
-     * Verifies that an alert is present on the page. This information will be
+     * Asserts that an alert is present on the page. This information will be
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
@@ -148,7 +150,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that an alert is not present on the page. This information will
+     * Asserts that an alert is not present on the page. This information will
      * be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
@@ -158,7 +160,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that an alert present on the page has content equal to the
+     * Asserts that an alert present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -170,7 +172,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that an alert present on the page has content matching the
+     * Asserts that an alert present on the page has content matching the
      * expected patten. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -182,7 +184,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a confirmation is present on the page. This information
+     * Asserts that a confirmation is present on the page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
@@ -192,7 +194,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a confirmation is not present on the page. This information
+     * Asserts that a confirmation is not present on the page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
@@ -202,7 +204,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a confirmation present on the page has content equal to the
+     * Asserts that a confirmation present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -214,7 +216,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a confirmation present on the page has content matching the
+     * Asserts that a confirmation present on the page has content matching the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -226,7 +228,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a prompt is present on the page. This information will be
+     * Asserts that a prompt is present on the page. This information will be
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
@@ -236,7 +238,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a prompt is not present on the page. This information will
+     * Asserts that a prompt is not present on the page. This information will
      * be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
@@ -246,7 +248,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a prompt present on the page has content equal to the
+     * Asserts that a prompt present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -258,7 +260,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a prompt present on the page has content matching the
+     * Asserts that a prompt present on the page has content matching the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -274,7 +276,7 @@ public class Assert implements Check {
     ///////////////////////////////////////////////////////
 
     /**
-     * Verifies that a cookie exists in the application with the provided
+     * Asserts that a cookie exists in the application with the provided
      * cookieName. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -286,7 +288,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a cookie doesn't exist in the application with the provided
+     * Asserts that a cookie doesn't exist in the application with the provided
      * cookieName. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -298,7 +300,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a cookies with the provided name has a value equal to the
+     * Asserts that a cookies with the provided name has a value equal to the
      * expected value. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
@@ -311,7 +313,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Verifies that a cookies with the provided name has a value matching the
+     * Asserts that a cookies with the provided name has a value matching the
      * expected pattern. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *

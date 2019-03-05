@@ -72,6 +72,13 @@ public interface Check {
     // checks about the page in general
     ///////////////////////////////////////////////////////
 
+    /**
+     * Write the action and expected into the output file. If this is a wait, an action will be provided, otherwise, action
+     * will be left empty
+     *
+     * @param check   - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
+     */
     default void recordAction(String check, double waitFor) {
         String action = "";
         if (waitFor > 0) {
@@ -80,6 +87,13 @@ public interface Check {
         getOutputFile().recordAction(action, "Expected " + check);
     }
 
+    /**
+     * Write the actual results into the output file. If something was waited for, that will be prepended to the actual event
+     *
+     * @param check    - the check being performed
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @param success  - was this a success or failure
+     */
     default void recordActual(String check, double timeTook, Success success) {
         String actual = check;
         if (timeTook > 0) {
@@ -90,14 +104,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that the provided URL equals the actual URL the application is
+     * Checks that the provided URL equals the actual URL the application is
      * currently on. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedURL the URL of the page
+     * @param expectedURL - the URL of the page
      */
     void urlEquals(String expectedURL);
 
+    /**
+     * Checks that the provided URL equals the actual URL the application is
+     * currently on. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedURL -  the URL of the page
+     * @param waitFor     - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook    - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String - the actual URL
+     */
     default String checkUrlEquals(String expectedURL, double waitFor, double timeTook) {
         // record the action
         recordAction("to be on page with the URL of <b>" + expectedURL + "</b>", waitFor);
@@ -111,7 +136,7 @@ public interface Check {
     }
 
     /**
-     * Verifies the provided title equals the actual title of the current page
+     * Checks the provided title equals the actual title of the current page
      * the application is on. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      *
@@ -119,6 +144,17 @@ public interface Check {
      */
     void titleEquals(String expectedTitle);
 
+    /**
+     * Checks the provided title equals the actual title of the current page
+     * the application is on. This information will be logged and recorded, with
+     * a screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedTitle - the friendly name of the page
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual title
+     */
     default String checkTitleEquals(String expectedTitle, double waitFor, double timeTook) {
         // record the action
         recordAction("to be on page with the title of <b>" + expectedTitle + "</b>", waitFor);
@@ -132,14 +168,25 @@ public interface Check {
     }
 
     /**
-     * Verifies the provided title matches the actual title of the current page
+     * Checks the provided title matches the actual title of the current page
      * the application is on. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      *
-     * @param expectedTitlePattern the friendly name of the page
+     * @param expectedTitlePattern - the friendly name of the page
      */
     void titleMatches(String expectedTitlePattern);
 
+    /**
+     * Checks the provided title matches the actual title of the current page
+     * the application is on. This information will be logged and recorded, with
+     * a screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedTitlePattern - the friendly name of the page
+     * @param waitFor              - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook             - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual title
+     */
     default String checkTitleMatches(String expectedTitlePattern, double waitFor, double timeTook) {
         // record the action
         recordAction("to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>", waitFor);
@@ -153,14 +200,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that provided text(s) are on the current page. This information
+     * Checks that provided text are on the current page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
-     * @param expectedText the expected text to be present
+     * @param expectedText - the expected text to be present
      */
     void textPresent(String expectedText);
 
+    /**
+     * Checks that provided text are on the current page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedText - the expected text to be present
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether or not the text is actually present
+     */
     default boolean checkTextPresent(String expectedText, double waitFor, double timeTook) {
         // record the action
         recordAction("to find text <b>" + expectedText + "</b> present on the page", waitFor);
@@ -175,14 +233,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that provided text(s) are not on the current page. This
+     * Checks that provided text are not on the current page. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
-     * @param expectedText the expected text to be not present
+     * @param expectedText - the expected text to be not present
      */
     void textNotPresent(String expectedText);
 
+    /**
+     * Checks that provided text are not on the current page. This
+     * information will be logged and recorded, with a screenshot for
+     * traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedText - the expected text to be not present
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether or not the text is actually present
+     */
     default boolean checkTextNotPresent(String expectedText, double waitFor, double timeTook) {
         // record the action
         recordAction("not to find text <b>" + expectedText + "</b> present on the page", waitFor);
@@ -197,16 +266,26 @@ public interface Check {
     }
 
     ///////////////////////////////////////////////////////
-    // assertions about pop-ups
+    // checks about pop-ups
     ///////////////////////////////////////////////////////
 
     /**
-     * Verifies that an alert is present on the page. This information will be
+     * Checks that an alert is present on the page. This information will be
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
     void alertPresent();
 
+    /**
+     * Checks that an alert is present on the page. This information will be
+     * logged and recorded, with a screenshot for traceability and added
+     * debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether or not the alert is actually present
+     */
     default boolean checkAlertPresent(double waitFor, double timeTook) {
         // record the action
         recordAction("to find an alert on the page", waitFor);
@@ -224,12 +303,22 @@ public interface Check {
     }
 
     /**
-     * Verifies that an alert is not present on the page. This information will
+     * Checks that an alert is not present on the page. This information will
      * be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
     void alertNotPresent();
 
+    /**
+     * Checks that an alert is not present on the page. This information will
+     * be logged and recorded, with a screenshot for traceability and added
+     * debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether or not the alert is actually present
+     */
     default boolean checkAlertNotPresent(double waitFor, double timeTook) {
         // record the action
         recordAction("not to find an alert on the page", waitFor);
@@ -244,14 +333,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that an alert present on the page has content equal to the
+     * Checks that an alert present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedAlertText the expected text of the alert
+     * @param expectedAlertText - the expected text of the alert
      */
     void alertEquals(String expectedAlertText);
 
+    /**
+     * Checks that an alert present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedAlertText - the expected text of the alert
+     * @param waitFor           - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook          - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: if the alert is present, the text of the alert
+     */
     default String checkAlertEquals(String expectedAlertText, double waitFor, double timeTook) {
         // record the action
         recordAction("to find alert with the text <b>" + expectedAlertText + ONPAGE, waitFor);
@@ -273,14 +373,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that an alert present on the page has content matching the
+     * Checks that an alert present on the page has content matching the
      * expected pattern. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedAlertPattern the expected text of the alert
+     * @param expectedAlertPattern - the expected text of the alert
      */
     void alertMatches(String expectedAlertPattern);
 
+    /**
+     * Checks that an alert present on the page has content matching the
+     * expected pattern. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedAlertPattern - the expected text of the alert
+     * @param waitFor              - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook             - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: if the alert is present, the text of the alert
+     */
     default String checkAlertMatches(String expectedAlertPattern, double waitFor, double timeTook) {
         // record the action
         recordAction("to find alert with the text matching pattern <b>" + expectedAlertPattern + ONPAGE, waitFor);
@@ -302,12 +413,22 @@ public interface Check {
     }
 
     /**
-     * Verifies that a confirmation is present on the page. This information
+     * Checks that a confirmation is present on the page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
     void confirmationPresent();
 
+    /**
+     * Checks that a confirmation is present on the page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether or not the confirmation is actually present
+     */
     default boolean checkConfirmationPresent(double waitFor, double timeTook) {
         //record the action
         recordAction("to find a confirmation on the page", waitFor);
@@ -325,12 +446,22 @@ public interface Check {
     }
 
     /**
-     * Verifies that a confirmation is not present on the page. This information
+     * Checks that a confirmation is not present on the page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
     void confirmationNotPresent();
 
+    /**
+     * Checks that a confirmation is not present on the page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether or not the confirmation is actually present
+     */
     default boolean checkConfirmationNotPresent(double waitFor, double timeTook) {
         //record the action
         recordAction("to find a confirmation on the page", waitFor);
@@ -345,14 +476,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that a confirmation present on the page has content equal to the
+     * Checks that a confirmation present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedConfirmationText the expected text of the confirmation
+     * @param expectedConfirmationText - the expected text of the confirmation
      */
     void confirmationEquals(String expectedConfirmationText);
 
+    /**
+     * Checks that a confirmation present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedConfirmationText - the expected text of the confirmation
+     * @param waitFor                  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook                 - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: if the confirmation is present, the text of the confirmation
+     */
     default String checkConfirmationEquals(String expectedConfirmationText, double waitFor, double timeTook) {
         //record the action
         recordAction("to find confirmation with the text <b>" + expectedConfirmationText + ONPAGE, waitFor);
@@ -374,14 +516,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that a confirmation present on the page has content matching the
+     * Checks that a confirmation present on the page has content matching the
      * expected pattern. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedConfirmationPattern the expected text of the confirmation
+     * @param expectedConfirmationPattern - the expected text of the confirmation
      */
     void confirmationMatches(String expectedConfirmationPattern);
 
+    /**
+     * Checks that a confirmation present on the page has content matching the
+     * expected pattern. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedConfirmationPattern - the expected text of the confirmation
+     * @param waitFor                     - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook                    - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: if the confirmation is present, the text of the confirmation
+     */
     default String checkConfirmationMatches(String expectedConfirmationPattern, double waitFor, double timeTook) {
         //record the action
         recordAction("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ONPAGE, waitFor);
@@ -403,12 +556,22 @@ public interface Check {
     }
 
     /**
-     * Verifies that a prompt is present on the page. This information will be
+     * Checks that a prompt is present on the page. This information will be
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
     void promptPresent();
 
+    /**
+     * Checks that a prompt is present on the page. This information will be
+     * logged and recorded, with a screenshot for traceability and added
+     * debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether or not the prompt is actually present
+     */
     default boolean checkPromptPresent(double waitFor, double timeTook) {
         //record the action
         recordAction("to find prompt on the page", waitFor);
@@ -426,12 +589,22 @@ public interface Check {
     }
 
     /**
-     * Verifies that a prompt is not present on the page. This information will
+     * Checks that a prompt is not present on the page. This information will
      * be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
     void promptNotPresent();
 
+    /**
+     * Checks that a prompt is not present on the page. This information will
+     * be logged and recorded, with a screenshot for traceability and added
+     * debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether or not the prompt is actually present
+     */
     default boolean checkPromptNotPresent(double waitFor, double timeTook) {
         //record the action
         recordAction("not to find prompt on the page", waitFor);
@@ -446,14 +619,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that a prompt present on the page has content equal to the
+     * Checks that a prompt present on the page has content equal to the
      * expected text. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedPromptText the expected text of the prompt
+     * @param expectedPromptText - the expected text of the prompt
      */
     void promptEquals(String expectedPromptText);
 
+    /**
+     * Checks that a prompt present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedPromptText - the expected text of the prompt
+     * @param waitFor            - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook           - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: if the prompt is present, the text of the prompt
+     */
     default String checkPromptEquals(String expectedPromptText, double waitFor, double timeTook) {
         //record the action
         recordAction("to find prompt with the text <b>" + expectedPromptText + ONPAGE, waitFor);
@@ -475,14 +659,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that a prompt present on the page has content matches the
+     * Checks that a prompt present on the page has content matching the
      * expected pattern. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedPromptPattern the expected text of the prompt
+     * @param expectedPromptPattern - the expected text of the prompt
      */
     void promptMatches(String expectedPromptPattern);
 
+    /**
+     * Checks that a prompt present on the page has content matching the
+     * expected pattern. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedPromptPattern - the expected text of the prompt
+     * @param waitFor               - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook              - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: if the prompt is present, the text of the prompt
+     */
     default String checkPromptMatches(String expectedPromptPattern, double waitFor, double timeTook) {
         //record the action
         recordAction("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ONPAGE, waitFor);
@@ -504,18 +699,29 @@ public interface Check {
     }
 
     ///////////////////////////////////////////////////////
-    // assertions about cookies
+    // checks about cookies
     ///////////////////////////////////////////////////////
 
     /**
-     * Verifies that a cookie exists in the application with the provided
+     * Checks that a cookie exists in the application with the provided
      * cookieName. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedCookieName the name of the cookie
+     * @param expectedCookieName - the name of the cookie
      */
     void cookieExists(String expectedCookieName);
 
+    /**
+     * Checks that a cookie exists in the application with the provided
+     * cookieName. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param expectedCookieName - the name of the cookie
+     * @param waitFor            - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook           - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether the cookie is present or not
+     */
     default boolean checkCookieExists(String expectedCookieName, double waitFor, double timeTook) {
         //record the action
         recordAction("to find cookie with the name <b>" + expectedCookieName + STORED, waitFor);
@@ -532,14 +738,25 @@ public interface Check {
     }
 
     /**
-     * Verifies that a cookie doesn't exist in the application with the provided
+     * Checks that a cookie doesn't exist in the application with the provided
      * cookieName. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param unexpectedCookieName the name of the cookie
+     * @param unexpectedCookieName - the name of the cookie
      */
     void cookieNotExists(String unexpectedCookieName);
 
+    /**
+     * Checks that a cookie doesn't exist in the application with the provided
+     * cookieName. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param unexpectedCookieName - the name of the cookie
+     * @param waitFor              - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook             - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Boolean: whether the cookie is present or not
+     */
     default boolean checkCookieNotExists(String unexpectedCookieName, double waitFor, double timeTook) {
         //record the action
         recordAction("to find no cookie with the name <b>" + unexpectedCookieName + STORED, waitFor);
@@ -554,15 +771,27 @@ public interface Check {
     }
 
     /**
-     * Verifies that a cookies with the provided name has a value equal to the
+     * Checks that a cookies with the provided name has a value equal to the
      * expected value. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param cookieName          the name of the cookie
-     * @param expectedCookieValue the expected value of the cookie
+     * @param cookieName          - the name of the cookie
+     * @param expectedCookieValue - the expected value of the cookie
      */
     void cookieEquals(String cookieName, String expectedCookieValue);
 
+    /**
+     * Checks that a cookies with the provided name has a value equal to the
+     * expected value. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param cookieName          - the name of the cookie
+     * @param expectedCookieValue - the expected value of the cookie
+     * @param waitFor             - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook            - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: if the cookie is present, the value of the cookie, and null if the cookie isn't present
+     */
     default String checkCookieEquals(String cookieName, String expectedCookieValue, double waitFor, double timeTook) {
         //record the action
         recordAction(
@@ -587,15 +816,27 @@ public interface Check {
     }
 
     /**
-     * Verifies that a cookies with the provided name has a value matching the
+     * Checks that a cookies with the provided name has a value matching the
      * expected value pattern. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param cookieName            the name of the cookie
-     * @param expectedCookiePattern the expected value of the cookie
+     * @param cookieName            - the name of the cookie
+     * @param expectedCookiePattern - the expected value of the cookie
      */
     void cookieMatches(String cookieName, String expectedCookiePattern);
 
+    /**
+     * Checks that a cookies with the provided name has a value matching the
+     * expected value pattern. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support. Handles the actual
+     * logging for the verify, assert, and waitFor implementations
+     *
+     * @param cookieName            - the name of the cookie
+     * @param expectedCookiePattern - the expected value of the cookie
+     * @param waitFor               - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook              - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: if the cookie is present, the value of the cookie, and null if the cookie isn't present
+     */
     default String checkCookieMatches(String cookieName, String expectedCookiePattern, double waitFor, double timeTook) {
         //record the action
         recordAction(

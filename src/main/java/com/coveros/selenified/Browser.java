@@ -88,8 +88,10 @@ public class Browser {
     /**
      * Parses the passed in browser information (obtained from command line inputs), and saves off the information
      *
-     * @param browserInput
-     * @throws InvalidBrowserException
+     * @param browserInput - the browser information, either a browser name, or key value pairs. ampersands (&) are used to
+     *                     split into key value pairs, while equals (=) are used to assign key vs
+     *                     values
+     * @throws InvalidBrowserException - if an invalid browser is passed, an exception is thrown
      */
     public Browser(String browserInput) throws InvalidBrowserException {
         this.browserInput = browserInput;

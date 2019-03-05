@@ -44,18 +44,22 @@ public class WaitFor implements Check {
     // this is the driver that will be used for all selenium actions
     private final App app;
 
-    // constants
+    // the default wait for elements
     private double defaultWait = 5.0;
 
+    /**
+     * The default constructor passing in the app and output file
+     *
+     * @param app  - the application under test
+     * @param file - the file to write all logging out to
+     */
     public WaitFor(App app, OutputFile file) {
         this.app = app;
         this.file = file;
     }
 
     /**
-     * Retrieves the output file that we write all details out to
-     *
-     * @return OutputFile
+     * {@inheritDoc}
      */
     @Override
     public OutputFile getOutputFile() {
@@ -63,9 +67,7 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Retrieves the driver that is used for all selenium actions
-     *
-     * @return App
+     * {@inheritDoc}
      */
     @Override
     public App getApp() {
@@ -87,31 +89,45 @@ public class WaitFor implements Check {
     // ///////////////////////////////////////
 
     /**
-     * Wait up to the default time (5 seconds) for a location to show in url
+     * Waits up to the default wait time (5 seconds unless changed) for the provided URL equals the actual URL the application is
+     * currently on. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedURL the URL of the page
      */
     @Override
-    public void urlEquals(String location) {
-        urlEquals(defaultWait, location);
+    public void urlEquals(String expectedURL) {
+        urlEquals(defaultWait, expectedURL);
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a title to show in the app
+     * Waits up to the default wait time (5 seconds unless changed) for the provided title equals the actual title of the current page
+     * the application is on. This information will be logged and recorded, with
+     * a screenshot for traceability and added debugging support.
+     *
+     * @param expectedTitle the friendly name of the page
      */
     @Override
-    public void titleEquals(String title) {
-        titleEquals(defaultWait, title);
+    public void titleEquals(String expectedTitle) {
+        titleEquals(defaultWait, expectedTitle);
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a title to show in the app
+     * Waits up to the default wait time (5 seconds unless changed) for the provided title matches the actual title of the current page
+     * the application is on. This information will be logged and recorded, with
+     * a screenshot for traceability and added debugging support.
+     *
+     * @param expectedTitlePattern the friendly name of the page
      */
     @Override
-    public void titleMatches(String title) {
-        titleMatches(defaultWait, title);
+    public void titleMatches(String expectedTitlePattern) {
+        titleMatches(defaultWait, expectedTitlePattern);
     }
 
     /**
-     * Wait up to the default time (5 seconds) for text to be present in the app
+     * Asserts thatprovided text(s) are on the current page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      *
      * @param expectedText the expected text to be present
      */
@@ -121,7 +137,9 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for text to not be present in the app
+     * Asserts thatprovided text(s) are not on the current page. This
+     * information will be logged and recorded, with a screenshot for
+     * traceability and added debugging support.
      *
      * @param expectedText the expected text to be not present
      */
@@ -131,7 +149,9 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for an alert to be present
+     * Waits up to the default wait time (5 seconds unless changed) for an alert is present on the page. This information will be
+     * logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     @Override
     public void alertPresent() {
@@ -139,7 +159,9 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for an alert to be present
+     * Waits up to the default wait time (5 seconds unless changed) for an alert is not present on the page. This information will
+     * be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     @Override
     public void alertNotPresent() {
@@ -147,7 +169,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for an alert to be present
+     * Waits up to the default wait time (5 seconds unless changed) for an alert present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedAlertText the expected text of the alert
      */
     @Override
     public void alertEquals(String expectedAlertText) {
@@ -155,7 +181,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for an alert to be present
+     * Waits up to the default wait time (5 seconds unless changed) for an alert present on the page has content matching the
+     * expected patten. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedAlertPattern the expected text of the alert
      */
     @Override
     public void alertMatches(String expectedAlertPattern) {
@@ -163,7 +193,9 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a confirmation to be present
+     * Waits up to the default wait time (5 seconds unless changed) for a confirmation is present on the page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     @Override
     public void confirmationPresent() {
@@ -171,7 +203,9 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a confirmation to not be present
+     * Waits up to the default wait time (5 seconds unless changed) for a confirmation is not present on the page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     @Override
     public void confirmationNotPresent() {
@@ -179,7 +213,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a confirmation to be present
+     * Waits up to the default wait time (5 seconds unless changed) for a confirmation present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedConfirmationText the expected text of the confirmation
      */
     @Override
     public void confirmationEquals(String expectedConfirmationText) {
@@ -187,7 +225,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a confirmation to not be present
+     * Waits up to the default wait time (5 seconds unless changed) for a confirmation present on the page has content matching the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedConfirmationPattern the expected text of the confirmation
      */
     @Override
     public void confirmationMatches(String expectedConfirmationPattern) {
@@ -195,7 +237,9 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a prompt to be present
+     * Waits up to the default wait time (5 seconds unless changed) for a prompt is present on the page. This information will be
+     * logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     @Override
     public void promptPresent() {
@@ -203,7 +247,9 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a prompt to be present
+     * Waits up to the default wait time (5 seconds unless changed) for a prompt is not present on the page. This information will
+     * be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      */
     @Override
     public void promptNotPresent() {
@@ -211,7 +257,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a prompt to be present
+     * Waits up to the default wait time (5 seconds unless changed) for a prompt present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedPromptText the expected text of the prompt
      */
     @Override
     public void promptEquals(String expectedPromptText) {
@@ -219,28 +269,62 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to the default time (5 seconds) for a prompt to be present
+     * Waits up to the default wait time (5 seconds unless changed) for a prompt present on the page has content matching the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedPromptPattern the expected text of the prompt
      */
     @Override
     public void promptMatches(String expectedPromptPattern) {
         promptMatches(defaultWait, expectedPromptPattern);
     }
 
+    /**
+     * Waits up to the default wait time (5 seconds unless changed) for a cookie exists in the application with the provided
+     * cookieName. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedCookieName the name of the cookie
+     */
     @Override
     public void cookieExists(String expectedCookieName) {
         cookieExists(defaultWait, expectedCookieName);
     }
 
+    /**
+     * Waits up to the default wait time (5 seconds unless changed) for a cookie doesn't exist in the application with the provided
+     * cookieName. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param unexpectedCookieName the name of the cookie
+     */
     @Override
     public void cookieNotExists(String unexpectedCookieName) {
         cookieNotExists(defaultWait, unexpectedCookieName);
     }
 
+    /**
+     * Waits up to the default wait time (5 seconds unless changed) for a cookies with the provided name has a value equal to the
+     * expected value. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param cookieName          the name of the cookie
+     * @param expectedCookieValue the expected value of the cookie
+     */
     @Override
     public void cookieEquals(String cookieName, String expectedCookieValue) {
         cookieEquals(defaultWait, cookieName, expectedCookieValue);
     }
 
+    /**
+     * Waits up to the default wait time (5 seconds unless changed) for a cookies with the provided name has a value matching the
+     * expected pattern. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param cookieName            the name of the cookie
+     * @param expectedCookiePattern the expected value of the cookie
+     */
     @Override
     public void cookieMatches(String cookieName, String expectedCookiePattern) {
         cookieMatches(defaultWait, cookieName, expectedCookiePattern);
@@ -251,9 +335,11 @@ public class WaitFor implements Check {
     ///////////////////////////////////////////////////
 
     /**
-     * Wait up to a specified time for the url to show a particular expectedURL
+     * Asserts that the provided URL equals the actual URL the application is
+     * currently on. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds     - the number of seconds to wait
+     * @param seconds     the number of seconds to wait
      * @param expectedURL - the expectedURL to wait for
      */
     public void urlEquals(double seconds, String expectedURL) {
@@ -270,42 +356,46 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for the title to show up in the application
+     * Waits up to the default wait time (5 seconds unless changed) for the provided title equals the actual title of the current page
+     * the application is on. This information will be logged and recorded, with
+     * a screenshot for traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
-     * @param title   - the title to wait for
+     * @param seconds       the number of seconds to wait
+     * @param expectedTitle - the title to wait for
      */
-    public void titleEquals(double seconds, String title) {
+    public void titleEquals(double seconds, String expectedTitle) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
-            wait.until(ExpectedConditions.titleIs(title));
+            wait.until(ExpectedConditions.titleIs(expectedTitle));
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkTitleEquals(title, seconds, timeTook);
+            checkTitleEquals(expectedTitle, seconds, timeTook);
         } catch (TimeoutException e) {
-            checkTitleEquals(title, seconds, seconds);
+            checkTitleEquals(expectedTitle, seconds, seconds);
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for the title to show up in the application
+     * Waits up to the default wait time (5 seconds unless changed) for the provided title matches the actual title of the current page
+     * the application is on. This information will be logged and recorded, with
+     * a screenshot for traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
-     * @param title   - the title to wait for
+     * @param seconds       the number of seconds to wait
+     * @param expectedTitle - the title to wait for
      */
-    public void titleMatches(double seconds, String title) {
+    public void titleMatches(double seconds, String expectedTitle) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (!app.get().title().matches(title) && System.currentTimeMillis() < end) ;
+        while (!app.get().title().matches(expectedTitle) && System.currentTimeMillis() < end) ;
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        checkTitleMatches(title, seconds, timeTook);
-        if (!app.get().title().matches(title)) {
+        checkTitleMatches(expectedTitle, seconds, timeTook);
+        if (!app.get().title().matches(expectedTitle)) {
             file.addError();
         }
     }
 
     /**
-     * Wait for a popup to be present, up to the default time (5 seconds), and
+     * Wait for a popup to be present, and
      * then returns the amount of time that was waited
      *
      * @param seconds - maximum time to wait in seconds
@@ -319,20 +409,36 @@ public class WaitFor implements Check {
         return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
     }
 
-    private double popupEquals(double seconds, String text) {
+    /**
+     * Wait for a popup to have the expected text, and then returns the
+     * amount of time that was waited
+     *
+     * @param seconds           - maximum amount of time to wait in seconds
+     * @param expectedPopupText - the expected text to wait for
+     * @return double: the total time waited
+     */
+    private double popupEquals(double seconds, String expectedPopupText) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (!app.get().alert().equals(text) && System.currentTimeMillis() < end) ;
-        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-    }
-
-    private double popupMatches(double seconds, String pattern) {
-        double end = System.currentTimeMillis() + (seconds * 1000);
-        while (!app.get().alert().matches(pattern) && System.currentTimeMillis() < end) ;
+        while (!app.get().alert().equals(expectedPopupText) && System.currentTimeMillis() < end) ;
         return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
     }
 
     /**
-     * Wait for a popup to be present, up to the default time (5 seconds), and
+     * Wait for a popup to have the expected text, and then returns the
+     * amount of time that was waited
+     *
+     * @param seconds              - maximum amount of time to wait in seconds
+     * @param expectedPopupPattern - the expected pattern to wait for
+     * @return double: the total time waited
+     */
+    private double popupMatches(double seconds, String expectedPopupPattern) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        while (!app.get().alert().matches(expectedPopupPattern) && System.currentTimeMillis() < end) ;
+        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+    }
+
+    /**
+     * Wait for a popup to be present and
      * then returns the amount of time that was waited
      *
      * @param seconds - maximum time to wait in seconds
@@ -345,9 +451,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for an alert to be present
+     * Asserts that an alert is present on the page. This information will be
+     * logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param seconds the number of seconds to wait
      */
     public void alertPresent(double seconds) {
         try {
@@ -360,9 +468,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for an alert to not be present
+     * Waits up to the provided wait time for an alert is not present on the page. This information will
+     * be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param seconds the number of seconds to wait
      */
     public void alertNotPresent(double seconds) {
         double timeTook = noPopup(seconds);
@@ -373,47 +483,55 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for an alert to have text
+     * Waits up to the provided wait time for an alert present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param expectedAlertText the expected text of the alert
+     * @param seconds           the number of seconds to wait
      */
-    public void alertEquals(double seconds, String text) {
+    public void alertEquals(double seconds, String expectedAlertText) {
         try {
             double timeTook = popup(seconds);
-            timeTook = popupEquals(seconds - timeTook, text);
-            checkAlertEquals(text, seconds, timeTook);
-            if (!app.get().alert().equals(text)) {
+            timeTook = popupEquals(seconds - timeTook, expectedAlertText);
+            checkAlertEquals(expectedAlertText, seconds, timeTook);
+            if (!app.get().alert().equals(expectedAlertText)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
-            checkAlertEquals(text, seconds, seconds);
+            checkAlertEquals(expectedAlertText, seconds, seconds);
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for an alert to have text
+     * Waits up to the provided wait time for an alert present on the page has content matching the
+     * expected patten. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param expectedAlertPattern the expected text of the alert
+     * @param seconds              the number of seconds to wait
      */
-    public void alertMatches(double seconds, String text) {
+    public void alertMatches(double seconds, String expectedAlertPattern) {
         try {
             double timeTook = popup(seconds);
-            timeTook = popupMatches(seconds - timeTook, text);
-            checkAlertMatches(text, seconds, timeTook);
-            if (!app.get().alert().matches(text)) {
+            timeTook = popupMatches(seconds - timeTook, expectedAlertPattern);
+            checkAlertMatches(expectedAlertPattern, seconds, timeTook);
+            if (!app.get().alert().matches(expectedAlertPattern)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
-            checkAlertMatches(text, seconds, seconds);
+            checkAlertMatches(expectedAlertPattern, seconds, seconds);
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for a confirmation to be present
+     * Waits up to the provided wait time for a confirmation is present on the page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param seconds the number of seconds to wait
      */
     public void confirmationPresent(double seconds) {
         try {
@@ -426,9 +544,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for a confirmation to not be present
+     * Waits up to the provided wait time for a confirmation is not present on the page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param seconds the number of seconds to wait
      */
     public void confirmationNotPresent(double seconds) {
         double timeTook = noPopup(seconds);
@@ -439,47 +559,55 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for an confirmation to have text
+     * Waits up to the provided wait time for a confirmation present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param expectedConfirmationText the expected text of the confirmation
+     * @param seconds                  the number of seconds to wait
      */
-    public void confirmationEquals(double seconds, String text) {
+    public void confirmationEquals(double seconds, String expectedConfirmationText) {
         try {
             double timeTook = popup(seconds);
-            timeTook = popupEquals(seconds - timeTook, text);
-            checkConfirmationEquals(text, seconds, timeTook);
-            if (!app.get().confirmation().equals(text)) {
+            timeTook = popupEquals(seconds - timeTook, expectedConfirmationText);
+            checkConfirmationEquals(expectedConfirmationText, seconds, timeTook);
+            if (!app.get().confirmation().equals(expectedConfirmationText)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
-            checkConfirmationEquals(text, seconds, seconds);
+            checkConfirmationEquals(expectedConfirmationText, seconds, seconds);
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for an confirmation to have text
+     * Waits up to the provided wait time for a confirmation present on the page has content matching the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param expectedConfirmationPattern the expected text of the confirmation
+     * @param seconds                     the number of seconds to wait
      */
-    public void confirmationMatches(double seconds, String text) {
+    public void confirmationMatches(double seconds, String expectedConfirmationPattern) {
         try {
             double timeTook = popup(seconds);
-            timeTook = popupMatches(seconds - timeTook, text);
-            checkConfirmationMatches(text, seconds, timeTook);
-            if (!app.get().confirmation().matches(text)) {
+            timeTook = popupMatches(seconds - timeTook, expectedConfirmationPattern);
+            checkConfirmationMatches(expectedConfirmationPattern, seconds, timeTook);
+            if (!app.get().confirmation().matches(expectedConfirmationPattern)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
-            checkConfirmationMatches(text, seconds, seconds);
+            checkConfirmationMatches(expectedConfirmationPattern, seconds, seconds);
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for a prompt to be present
+     * Waits up to the provided wait time for a prompt is present on the page. This information will be
+     * logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param seconds the number of seconds to wait
      */
     public void promptPresent(double seconds) {
         try {
@@ -492,9 +620,11 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for a prompt to not be present
+     * Waits up to the provided wait time for a prompt is not present on the page. This information will
+     * be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param seconds the number of seconds to wait
      */
     public void promptNotPresent(double seconds) {
         double timeTook = noPopup(seconds);
@@ -505,80 +635,92 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for an confirmation to have text
+     * Waits up to the provided wait time for a prompt present on the page has content equal to the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param expectedPromptText the expected text of the prompt
+     * @param seconds            the number of seconds to wait
      */
-    public void promptEquals(double seconds, String text) {
+    public void promptEquals(double seconds, String expectedPromptText) {
         try {
             double timeTook = popup(seconds);
-            timeTook = popupEquals(seconds - timeTook, text);
-            checkPromptEquals(text, seconds, timeTook);
-            if (!app.get().prompt().equals(text)) {
+            timeTook = popupEquals(seconds - timeTook, expectedPromptText);
+            checkPromptEquals(expectedPromptText, seconds, timeTook);
+            if (!app.get().prompt().equals(expectedPromptText)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
-            checkPromptEquals(text, seconds, seconds);
+            checkPromptEquals(expectedPromptText, seconds, seconds);
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for an confirmation to have text
+     * Waits up to the provided wait time for a prompt present on the page has content matching the
+     * expected text. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
+     * @param expectedPromptPattern the expected text of the prompt
+     * @param seconds               the number of seconds to wait
      */
-    public void promptMatches(double seconds, String text) {
+    public void promptMatches(double seconds, String expectedPromptPattern) {
         try {
             double timeTook = popup(seconds);
-            timeTook = popupMatches(seconds - timeTook, text);
-            checkPromptMatches(text, seconds, timeTook);
-            if (!app.get().prompt().matches(text)) {
+            timeTook = popupMatches(seconds - timeTook, expectedPromptPattern);
+            checkPromptMatches(expectedPromptPattern, seconds, timeTook);
+            if (!app.get().prompt().matches(expectedPromptPattern)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
-            checkPromptMatches(text, seconds, seconds);
+            checkPromptMatches(expectedPromptPattern, seconds, seconds);
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for text to be present on the page
+     * Waits up to the provided wait time forprovided text(s) are on the current page. This information
+     * will be logged and recorded, with a screenshot for traceability and added
+     * debugging support.
      *
-     * @param seconds - the number of seconds to wait
-     * @param text    - the text to wait for
+     * @param expectedText the expected text to be present
+     * @param seconds      the number of seconds to wait
      */
-    public void textPresent(double seconds, String text) {
+    public void textPresent(double seconds, String expectedText) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (!app.is().textPresent(text) && System.currentTimeMillis() < end) ;
+        while (!app.is().textPresent(expectedText) && System.currentTimeMillis() < end) ;
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        checkTextPresent(text, seconds, timeTook);
-        if (!app.is().textPresent(text)) {
+        checkTextPresent(expectedText, seconds, timeTook);
+        if (!app.is().textPresent(expectedText)) {
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for text to not be present on the page
+     * Waits up to the provided wait time forprovided text(s) are not on the current page. This
+     * information will be logged and recorded, with a screenshot for
+     * traceability and added debugging support.
      *
-     * @param seconds - the number of seconds to wait
-     * @param text    - the to wait to not be present
+     * @param expectedText the expected text to be not present
+     * @param seconds      the number of seconds to wait
      */
-    public void textNotPresent(double seconds, String text) {
+    public void textNotPresent(double seconds, String expectedText) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (app.is().textPresent(text) && System.currentTimeMillis() < end) ;
+        while (app.is().textPresent(expectedText) && System.currentTimeMillis() < end) ;
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        checkTextNotPresent(text, seconds, timeTook);
-        if (app.is().textPresent(text)) {
+        checkTextNotPresent(expectedText, seconds, timeTook);
+        if (app.is().textPresent(expectedText)) {
             file.addError();
         }
     }
 
     /**
-     * Wait up to a specified time for a cookie to be present on the page
+     * Waits up to the provided wait time for a cookie exists in the application with the provided
+     * cookieName. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds            - the number of seconds to wait
-     * @param expectedCookieName - the to wait to not be present
+     * @param expectedCookieName the name of the cookie
+     * @param seconds            the number of seconds to wait
      */
     public void cookieExists(double seconds, String expectedCookieName) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -591,10 +733,12 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for a cookie to not be present on the page
+     * Waits up to the provided wait time for a cookie doesn't exist in the application with the provided
+     * cookieName. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds              - the number of seconds to wait
-     * @param unexpectedCookieName - the to wait to not be present
+     * @param unexpectedCookieName the name of the cookie
+     * @param seconds              the number of seconds to wait
      */
     public void cookieNotExists(double seconds, String unexpectedCookieName) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -607,10 +751,13 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for a cookie to be present on the page with an expected value
+     * Waits up to the provided wait time for a cookies with the provided name has a value equal to the
+     * expected value. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds    - the number of seconds to wait
-     * @param cookieName - the to wait to not be present
+     * @param cookieName          the name of the cookie
+     * @param expectedCookieValue the expected value of the cookie
+     * @param seconds             the number of seconds to wait
      */
     public void cookieEquals(double seconds, String cookieName, String expectedCookieValue) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -626,10 +773,13 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Wait up to a specified time for a cookie to be present on the page with an expected value
+     * Waits up to the provided wait time for a cookies with the provided name has a value matching the
+     * expected pattern. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
      *
-     * @param seconds    - the number of seconds to wait
-     * @param cookieName - the to wait to not be present
+     * @param cookieName            the name of the cookie
+     * @param expectedCookiePattern the expected value of the cookie
+     * @param seconds               the number of seconds to wait
      */
     public void cookieMatches(double seconds, String cookieName, String expectedCookiePattern) {
         double end = System.currentTimeMillis() + (seconds * 1000);
