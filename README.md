@@ -324,17 +324,35 @@ checking, and waiting for things on the page. Additionally, objects exist for ge
     element.waitFor().displayed();
 ```
 
-There are also custom assertions associated with both the page and element objects. These asserts are custom
+There are also custom checks associated with both the page and element objects. These checks are custom
 to the framework, and in addition to providing easy object oriented capabilities, they take screenshots with
-each verification to provide additional traceability, and assist in troubleshooting and debugging failing tests.
+each check to provide additional traceability, and assist in troubleshooting and debugging failing tests.
+
+There are two types of checks, `asserts` and `verifys`. `Asserts` immediate check that state of the system, 
+and exit the test if there is a failure or mismatch, whereas `verifys` will perform the check, but keep moving
+forward with the test, and fail once all steps are completed. 
+There are also `waitFors` which mirror the checks (`assert` and `verify`), but instead of forcing a check,
+mirely wait for the expected condition.
 ```java
     app.azzert().alertPresent();
+    app.verify().alertPresent();
+    app.waitFor().alertPresent();
     app.azzert().urlEquals();
+    app.verify().urlEquals();
+    app.waitFor().urlEquals();
     
     element.assertContains().text("hello");
+    element.verifyContains().text("hello");
+    element.waitForContains().text("hello");
     element.assertExcludes().value("world");
+    element.verifyExcludes().value("world");
+    element.waitForExcludes().value("world");
     element.assertEquals().rows(7);
+    element.verifyEquals().rows(7);
+    element.waitForEquals().rows(7);
     element.assertState().enabled();
+    element.verifyState().enabled();
+    element.waitForState().enabled();
 ```
 
 ##### Web Services
@@ -418,6 +436,9 @@ read as follow:
 ```java
     finish();
 ```
+Note, this is only needed if checking states with `verify`, instead of `azzert`. As previously stated, `azzert` 
+immediately ends the tests with a comparison checking for failure, whereas `verify` will continue forward, 
+tracking issues as they are encountered.
 
 Using and IDE such as Eclipse will help you auto-complete desired commands, and the 
 [JavaDocs](https://coveros.github.io/selenified) provided will outline each piece of functionality.
