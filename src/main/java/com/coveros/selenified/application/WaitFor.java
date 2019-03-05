@@ -289,7 +289,7 @@ public class WaitFor {
         double end = System.currentTimeMillis() + (seconds * 1000);
         while (app.is().textPresent(text) && System.currentTimeMillis() < end) ;
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        if (app.is().textPresent(text)) {
+        if (!app.is().textPresent(text)) {
             file.recordAction(action, expected, WAITED + timetook + " seconds for the page to not contain text <b>" + text + "</b>",
                     Result.SUCCESS);
         } else {
