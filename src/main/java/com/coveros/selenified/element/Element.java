@@ -507,7 +507,7 @@ public class Element {
             waitFor.present();
         }
         if (!is.present()) {
-            file.recordAction(action, expected, extra + prettyOutput() + NOTPRESENT, Result.FAILURE);
+            file.recordStep(action, expected, extra + prettyOutput() + NOTPRESENT, Result.FAILURE);
             // indicates element not present
             return true;
         }
@@ -529,7 +529,7 @@ public class Element {
             waitFor.displayed();
         }
         if (!is.displayed()) {
-            file.recordAction(action, expected, extra + prettyOutput() + NOTDISPLAYED, Result.FAILURE);
+            file.recordStep(action, expected, extra + prettyOutput() + NOTDISPLAYED, Result.FAILURE);
             // indicates element not displayed
             return true;
         }
@@ -551,7 +551,7 @@ public class Element {
             waitFor.enabled();
         }
         if (!is.enabled()) {
-            file.recordAction(action, expected, extra + prettyOutput() + NOTENABLED, Result.FAILURE);
+            file.recordStep(action, expected, extra + prettyOutput() + NOTENABLED, Result.FAILURE);
             // indicates element not enabled
             return true;
         }
@@ -569,7 +569,7 @@ public class Element {
     private boolean isNotInput(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.input()) {
-            file.recordAction(action, expected, extra + prettyOutput() + NOTINPUT, Result.FAILURE);
+            file.recordStep(action, expected, extra + prettyOutput() + NOTINPUT, Result.FAILURE);
             file.addError();
             // indicates element not an input
             return true;
@@ -587,7 +587,7 @@ public class Element {
     private boolean isSelect(String action, String expected) {
         // wait for element to be displayed
         if (!is.select()) {
-            file.recordAction(action, expected, Element.CANTSELECT + prettyOutput() + NOTSELECT, Result.FAILURE);
+            file.recordStep(action, expected, Element.CANTSELECT + prettyOutput() + NOTSELECT, Result.FAILURE);
             file.addError();
             // indicates element not an input
             return false;
@@ -699,12 +699,12 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.click();
         } catch (Exception e) {
-            file.recordAction(action, expected, cantClick + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, cantClick + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             log.warn(e);
             return;
         }
-        file.recordAction(action, expected, "Clicked " + prettyOutputEnd(), Result.SUCCESS);
+        file.recordStep(action, expected, "Clicked " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -723,12 +723,12 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.submit();
         } catch (Exception e) {
-            file.recordAction(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             log.warn(e);
             return;
         }
-        file.recordAction(action, expected, "Submitted " + prettyOutputEnd(), Result.SUCCESS);
+        file.recordStep(action, expected, "Submitted " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -754,11 +754,11 @@ public class Element {
             selAction.moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, cantHover + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, cantHover + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Hovered over " + prettyOutputEnd(), Result.SUCCESS);
+        file.recordStep(action, expected, "Hovered over " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -779,11 +779,11 @@ public class Element {
             new Actions(driver).moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Focused on " + prettyOutputEnd(),
+        file.recordStep(action, expected, "Focused on " + prettyOutputEnd(),
                 Result.SUCCESS);
     }
 
@@ -805,11 +805,11 @@ public class Element {
             webElement.sendKeys(Keys.TAB);
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd(),
+        file.recordStep(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd(),
                 Result.SUCCESS);
     }
 
@@ -837,15 +837,15 @@ public class Element {
             webElement.sendKeys(text);
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
         if (warning) {
-            file.recordAction(action, expected, TYPTED + text + IN + prettyOutput() +
+            file.recordStep(action, expected, TYPTED + text + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
         } else {
-            file.recordAction(action, expected, TYPTED + text + IN + prettyOutputEnd(), Result.SUCCESS);
+            file.recordStep(action, expected, TYPTED + text + IN + prettyOutputEnd(), Result.SUCCESS);
         }
     }
 
@@ -873,15 +873,15 @@ public class Element {
             webElement.sendKeys(key);
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
         if (warning) {
-            file.recordAction(action, expected, TYPTED + key + IN + prettyOutput() +
+            file.recordStep(action, expected, TYPTED + key + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Result.WARNING);
         } else {
-            file.recordAction(action, expected, TYPTED + key + IN + prettyOutputEnd(), Result.SUCCESS);
+            file.recordStep(action, expected, TYPTED + key + IN + prettyOutputEnd(), Result.SUCCESS);
         }
     }
 
@@ -902,11 +902,11 @@ public class Element {
             webElement.clear();
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, cantClear + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, cantClear + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Cleared text in " + prettyOutputEnd(), Result.SUCCESS);
+        file.recordStep(action, expected, "Cleared text in " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -927,7 +927,7 @@ public class Element {
             }
             String[] options = get.selectOptions();
             if (index > options.length) {
-                file.recordAction(action, expected,
+                file.recordStep(action, expected,
                         "Unable to select the <i>" + index + "</i> option, as there are only <i>" + options.length +
                                 "</i> available.", Result.FAILURE);
                 file.addError();
@@ -939,11 +939,11 @@ public class Element {
             dropdown.selectByIndex(index);
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd(), Result.SUCCESS);
+        file.recordStep(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -963,7 +963,7 @@ public class Element {
             }
             // ensure the option exists
             if (!Arrays.asList(get.selectOptions()).contains(option)) {
-                file.recordAction(action, expected, CANTSELECT + option + " in " + prettyOutput() +
+                file.recordStep(action, expected, CANTSELECT + option + " in " + prettyOutput() +
                         " as that option isn't present. Available options are:<i><br/>&nbsp;&nbsp;&nbsp;" +
                         String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>", Result.FAILURE);
                 file.addError();
@@ -975,11 +975,11 @@ public class Element {
             dropdown.selectByVisibleText(option);
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected <b>" + option + INN + prettyOutputEnd(), Result.SUCCESS);
+        file.recordStep(action, expected, "Selected <b>" + option + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -999,7 +999,7 @@ public class Element {
             }
             // ensure the value exists
             if (!Arrays.asList(get.selectValues()).contains(value)) {
-                file.recordAction(action, expected, CANTSELECT + value + " in " + prettyOutput() +
+                file.recordStep(action, expected, CANTSELECT + value + " in " + prettyOutput() +
                         " as that value isn't present. Available values are:<i><br/>&nbsp;&nbsp;&nbsp;" +
                         String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>", Result.FAILURE);
                 file.addError();
@@ -1011,11 +1011,11 @@ public class Element {
             dropdown.selectByValue(value);
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Selected <b>" + value + INN + prettyOutputEnd(), Result.SUCCESS);
+        file.recordStep(action, expected, "Selected <b>" + value + INN + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**
@@ -1028,7 +1028,7 @@ public class Element {
      */
     private void cantMove(Exception e, String action, String expected) {
         log.warn(e);
-        file.recordAction(action, expected, CANTMOVE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+        file.recordStep(action, expected, CANTMOVE + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
         file.addError();
     }
 
@@ -1041,12 +1041,12 @@ public class Element {
      */
     private void isMoved(String action, String expected) {
         if (!is.displayed()) {
-            file.recordAction(action, expected, prettyOutputStart() + " is not displayed within the current viewport",
+            file.recordStep(action, expected, prettyOutputStart() + " is not displayed within the current viewport",
                     Result.FAILURE);
             file.addError();
             return; // indicates element not on displayed screen
         }
-        file.recordAction(action, expected, prettyOutputStart() + " is displayed within the current viewport",
+        file.recordStep(action, expected, prettyOutputStart() + " is displayed within the current viewport",
                 Result.SUCCESS);
     }
 
@@ -1113,7 +1113,7 @@ public class Element {
      */
     public void draw(List<Point<Integer, Integer>> points) {
         if (points.isEmpty()) {
-            file.recordAction("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
+            file.recordStep("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
                     "Unable to draw in " + prettyOutput() + " as no points were supplied", Result.FAILURE);
             file.addError();
             return;
@@ -1145,12 +1145,12 @@ public class Element {
             drawAction.perform();
         } catch (Exception e) {
             log.error(e);
-            file.recordAction(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage(),
+            file.recordStep(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Drew object in " + prettyOutput() + getScreenshot(), Result.SUCCESS);
+        file.recordStep(action, expected, "Drew object in " + prettyOutput() + getScreenshot(), Result.SUCCESS);
     }
 
     /**
@@ -1176,11 +1176,11 @@ public class Element {
             driver.switchTo().frame(webElement);
         } catch (Exception e) {
             log.warn(e);
-            file.recordAction(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
+            file.recordStep(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage(), Result.FAILURE);
             file.addError();
             return;
         }
-        file.recordAction(action, expected, "Focused on frame " + prettyOutputEnd(), Result.SUCCESS);
+        file.recordStep(action, expected, "Focused on frame " + prettyOutputEnd(), Result.SUCCESS);
     }
 
     /**

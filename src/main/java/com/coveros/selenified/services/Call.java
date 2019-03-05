@@ -245,9 +245,9 @@ public class Call {
                     log.error("Unknown method call named");
             }
             response.setOutputFile(file);
-            file.recordAction(action.toString(), expected, expected, Result.SUCCESS);
+            file.recordStep(action.toString(), expected, expected, Result.SUCCESS);
         } catch (Exception e) {
-            file.recordAction(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage(),
+            file.recordStep(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage(),
                     Result.FAILURE);
             file.addError();
             log.warn(e);

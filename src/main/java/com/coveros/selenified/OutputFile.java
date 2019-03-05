@@ -347,7 +347,7 @@ public class OutputFile {
      * @param actualResult   - the result that actually occurred
      * @param result         - the result of the action
      */
-    public void recordAction(String action, String expectedResult, String actualResult, Result result) {
+    public void recordStep(String action, String expectedResult, String actualResult, Result result) {
         stepNum++;
         String success = "Check";
         String imageLink = "";
@@ -427,9 +427,10 @@ public class OutputFile {
      * should always be followed the recordActual method to record what actually
      * happened.
      *
+     * @param action - what is the action being performed
      * @param expectedOutcome - what the expected outcome is
      */
-    public void recordExpected(String expectedOutcome) {
+    public void recordAction(String action, String expectedOutcome) {
         stepNum++;
 
         try (
@@ -439,13 +440,24 @@ public class OutputFile {
             out.write(START_ROW);
             // log the step number
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
-            // leave the step blank as this is simply a check
-            out.write("    <td> </td>\n");
+            // write out the action being performed
+            out.write(START_CELL + action + END_CELL);
             // write out the expected outcome
             out.write(START_CELL + expectedOutcome + END_CELL);
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+    /**
+     * Writes to the output file the expected outcome of an event. This method
+     * should always be followed the recordActual method to record what actually
+     * happened.
+     *
+     * @param expectedOutcome - what the expected outcome is
+     */
+    public void recordExpected(String expectedOutcome) {
+        recordAction("", expectedOutcome);
     }
 
     /**

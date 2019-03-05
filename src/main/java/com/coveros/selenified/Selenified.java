@@ -433,16 +433,16 @@ public class Selenified {
             try {
                 app.getDriver().get(url);
                 if (!app.get().location().contains(url)) {
-                    file.recordAction(act, expected,
+                    file.recordStep(act, expected,
                             startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
                             Result.FAILURE);
                     file.addError();
                     return;
                 }
-                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
+                file.recordStep(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
             } catch (Exception e) {
                 log.warn(e);
-                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
+                file.recordStep(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
                 file.addError();
             }
             app.acceptCertificate();

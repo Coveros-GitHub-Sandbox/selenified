@@ -90,7 +90,7 @@ public class ActionWaitIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().location(getTestSite(this.getClass().getName(), context));
+        app.waitFor().urlEquals(getTestSite(this.getClass().getName(), context));
         // verify no issues
         finish();
     }
@@ -101,7 +101,7 @@ public class ActionWaitIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().location("http://hellourl.io");
+        app.waitFor().urlEquals("http://hellourl.io");
         // verify 1 issue
         finish(1);
     }
@@ -112,7 +112,7 @@ public class ActionWaitIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().title("Selenified Test Page");
+        app.waitFor().titleEquals("Selenified Test Page");
         // verify no issues
         finish();
     }
@@ -123,7 +123,7 @@ public class ActionWaitIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().title("Selenium TST pg");
+        app.waitFor().titleEquals("Selenium TST pg");
         // verify 1 issue
         finish(1);
     }

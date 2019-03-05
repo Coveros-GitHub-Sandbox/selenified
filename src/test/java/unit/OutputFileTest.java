@@ -163,7 +163,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionSuccess() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Result.SUCCESS);
+        outputFile.recordStep("my action", "expected", "actual", Result.SUCCESS);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -172,7 +172,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionFailure() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Result.FAILURE);
+        outputFile.recordStep("my action", "expected", "actual", Result.FAILURE);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -181,7 +181,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionFailureSkipped() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Result.SKIPPED);
+        outputFile.recordStep("my action", "expected", "actual", Result.SKIPPED);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -190,7 +190,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionFailureWarning() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Result.WARNING);
+        outputFile.recordStep("my action", "expected", "actual", Result.WARNING);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -202,7 +202,7 @@ public class OutputFileTest {
         OutputFile file =
                 new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
-        file.recordAction("my action", "expected", "actual", Result.WARNING);
+        file.recordStep("my action", "expected", "actual", Result.WARNING);
         // we are just verifying that no errors were thrown
     }
 
@@ -320,7 +320,7 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileActionNotLoggedTest() throws IOException {
-        outputFile.recordAction("Something", "Something", "Something", Result.SUCCESS);
+        outputFile.recordStep("Something", "Something", "Something", Result.SUCCESS);
         outputFile.finalizeOutputFile(1);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
@@ -329,7 +329,7 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileActionNotLoggedWarningTest() throws IOException {
-        outputFile.recordAction("Something", "Something", "Something", Result.WARNING);
+        outputFile.recordStep("Something", "Something", "Something", Result.WARNING);
         outputFile.finalizeOutputFile(1);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
