@@ -22,7 +22,7 @@ package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
 import com.google.gson.JsonArray;
@@ -158,7 +158,8 @@ public class Listener extends TestListenerAdapter {
         String htmlFilename = "";
         String pdfFilename = "";
         if (outputFile != null) {
-            outputFile.finalizeOutputFile(result.getStatus());
+            // subtracting one from the status ordinal to map ITestResult to Success
+            outputFile.finalizeOutputFile(result.getStatus() - 1);
             htmlFilename = outputFile.getFileName() + ".html";
             if (System.getProperty("generatePDF") != null) {
                 pdfFilename = outputFile.getFileName() + ".pdf";
@@ -168,8 +169,9 @@ public class Listener extends TestListenerAdapter {
         String testName = getTestName(result);
         Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
         if (browser != null) {
+            // subtracting one from the status ordinal to map ITestResult to Success
             Reporter.log(
-                    Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
+                    Success.values()[result.getStatus() - 1] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
                             getFolderName(result) + "/" + htmlFilename + LINK_MIDDLE + testName + " HTML Report" +
                             LINK_END);
             if (!pdfFilename.isEmpty()) {

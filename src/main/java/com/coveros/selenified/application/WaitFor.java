@@ -21,9 +21,8 @@
 package com.coveros.selenified.application;
 
 import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.OutputFile.Success;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -159,10 +158,10 @@ public class WaitFor {
         try {
             double timetook = popup(seconds);
             file.recordAction(action, expected, WAITED + timetook + " seconds for an alert to be present",
-                    Result.SUCCESS);
+                    Success.PASS);
         } catch (TimeoutException e) {
             file.recordAction(action, expected, WAITING + seconds + " seconds, an alert is not present",
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
         }
     }
@@ -178,10 +177,10 @@ public class WaitFor {
         try {
             double timetook = popup(seconds);
             file.recordAction(action, expected, WAITED + timetook + " seconds for a confirmation to be present",
-                    Result.SUCCESS);
+                    Success.PASS);
         } catch (TimeoutException e) {
             file.recordAction(action, expected, WAITING + seconds + " seconds, a confirmation is not present",
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
         }
     }
@@ -197,10 +196,10 @@ public class WaitFor {
         try {
             double timetook = popup(seconds);
             file.recordAction(action, expected, WAITED + timetook + " seconds for a prompt to be present",
-                    Result.SUCCESS);
+                    Success.PASS);
         } catch (TimeoutException e) {
             file.recordAction(action, expected, WAITING + seconds + " seconds, a prompt is not present",
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
         }
     }
@@ -220,12 +219,12 @@ public class WaitFor {
             wait.until(ExpectedConditions.urlToBe(location));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             file.recordAction(action, expected,
-                    WAITED + timetook + " seconds for the location to show as <b>" + location + "</b>", Result.SUCCESS);
+                    WAITED + timetook + " seconds for the location to show as <b>" + location + "</b>", Success.PASS);
         } catch (TimeoutException e) {
             // No alert found in given time
             file.recordAction(action, expected,
                     WAITING + seconds + " seconds, the location shows as <b>" + app.getDriver().getCurrentUrl() + "</b>",
-                    Result.FAILURE);
+                    Success.FAIL);
             file.addError();
         }
     }
@@ -245,11 +244,11 @@ public class WaitFor {
             wait.until(ExpectedConditions.titleIs(title));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             file.recordAction(action, expected, WAITED + timetook + " seconds for the title to show as <b>" + title + "</b>",
-                    Result.SUCCESS);
+                    Success.PASS);
         } catch (TimeoutException e) {
             // No alert found in given time
             file.recordAction(action, expected,
-                    WAITING + seconds + " seconds, the title shows as <b>" + app.getDriver().getTitle() + "</b>", Result.FAILURE);
+                    WAITING + seconds + " seconds, the title shows as <b>" + app.getDriver().getTitle() + "</b>", Success.FAIL);
             file.addError();
         }
     }
@@ -268,11 +267,11 @@ public class WaitFor {
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
         if (app.is().textPresent(text)) {
             file.recordAction(action, expected, WAITED + timetook + " seconds for the page to contain text <b>" + text + "</b>",
-                    Result.SUCCESS);
+                    Success.PASS);
         } else {
             // No alert found in given time
             file.recordAction(action, expected,
-                    WAITING + seconds + " seconds, the page does not show text <b>" + text + "</b>", Result.FAILURE);
+                    WAITING + seconds + " seconds, the page does not show text <b>" + text + "</b>", Success.FAIL);
             file.addError();
         }
     }
@@ -291,11 +290,11 @@ public class WaitFor {
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
         if (!app.is().textPresent(text)) {
             file.recordAction(action, expected, WAITED + timetook + " seconds for the page to not contain text <b>" + text + "</b>",
-                    Result.SUCCESS);
+                    Success.PASS);
         } else {
             // No alert found in given time
             file.recordAction(action, expected,
-                    WAITING + seconds + " seconds, the page shows text <b>" + text + "</b>", Result.FAILURE);
+                    WAITING + seconds + " seconds, the page shows text <b>" + text + "</b>", Success.FAIL);
             file.addError();
         }
     }

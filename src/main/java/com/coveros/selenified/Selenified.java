@@ -22,7 +22,7 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Browser.BrowserUse;
-import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
@@ -196,7 +196,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -435,14 +435,14 @@ public class Selenified {
                 if (!app.get().url().contains(url)) {
                     file.recordAction(act, expected,
                             startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>",
-                            Result.FAILURE);
+                            Success.FAIL);
                     file.addError();
                     return;
                 }
-                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
+                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Success.PASS);
             } catch (Exception e) {
                 log.warn(e);
-                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
+                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Success.FAIL);
                 file.addError();
             }
             app.acceptCertificate();

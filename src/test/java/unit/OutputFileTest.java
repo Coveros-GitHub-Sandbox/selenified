@@ -3,7 +3,6 @@ package unit;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
 import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Request;
@@ -163,38 +162,29 @@ public class OutputFileTest {
 
     @Test
     public void recordActionSuccess() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Result.SUCCESS);
+        outputFile.recordAction("my action", "expected", "actual", Success.PASS);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='success'>actual</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td>actual</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
     public void recordActionFailure() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Result.FAILURE);
+        outputFile.recordAction("my action", "expected", "actual", Success.FAIL);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='failure'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
-    public void recordActionFailureSkipped() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Result.SKIPPED);
+    public void recordActionFailureCheck() throws IOException {
+        outputFile.recordAction("my action", "expected", "actual", Success.CHECK);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='skipped'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>Check</td>\n   </tr>\n"));
-    }
-
-    @Test
-    public void recordActionFailureWarning() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Result.WARNING);
-        assertNotEquals(file.length(), 0);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td class='warning'>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>Check</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>CHECK</td>\n   </tr>\n"));
     }
 
     @Test
@@ -202,7 +192,7 @@ public class OutputFileTest {
         OutputFile file =
                 new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
-        file.recordAction("my action", "expected", "actual", Result.WARNING);
+        file.recordAction("my action", "expected", "actual", Success.CHECK);
         // we are just verifying that no errors were thrown
     }
 
@@ -253,7 +243,7 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileTest() throws IOException {
-        outputFile.finalizeOutputFile(1);
+        outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.contains("  </table>\r\n </body>\r\n</html>\r\n"));
@@ -261,18 +251,18 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileNoErrorsPassTest() throws IOException {
-        outputFile.finalizeOutputFile(1);
+        outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='pass'><b>SUCCESS</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
     }
 
     @Test
     public void endTestTemplateOutputFileNoErrorsWarningTest() throws IOException {
-        outputFile.finalizeOutputFile(0);
+        outputFile.finalizeOutputFile(1);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='warning'><b>WARNING</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='check'><b>CHECK</b></font>"));
     }
 
     @Test
@@ -280,15 +270,7 @@ public class OutputFileTest {
         outputFile.finalizeOutputFile(2);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='warning'><b>FAILURE</b></font>"));
-    }
-
-    @Test
-    public void endTestTemplateOutputFileNoErrorsSkipTest() throws IOException {
-        outputFile.finalizeOutputFile(3);
-        assertNotEquals(file.length(), 0);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='warning'><b>SKIPPED</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='check'><b>CHECK</b></font>"));
     }
 
     @Test
@@ -297,43 +279,43 @@ public class OutputFileTest {
         outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='fail'><b>FAILURE</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='fail'><b>FAIL</b></font>"));
     }
 
     @Test
     public void endTestTemplateOutputFileLoggedTest() throws IOException {
         outputFile.recordActual("Something", Success.FAIL);
-        outputFile.finalizeOutputFile(1);
+        outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='fail'><b>FAILURE</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='fail'><b>FAIL</b></font>"));
     }
 
     @Test
     public void endTestTemplateOutputFileActualNotLoggedTest() throws IOException {
         outputFile.recordActual("Something", Success.PASS);
-        outputFile.finalizeOutputFile(1);
+        outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='pass'><b>SUCCESS</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
     }
 
     @Test
     public void endTestTemplateOutputFileActionNotLoggedTest() throws IOException {
-        outputFile.recordAction("Something", "Something", "Something", Result.SUCCESS);
-        outputFile.finalizeOutputFile(1);
+        outputFile.recordAction("Something", "Something", "Something", Success.PASS);
+        outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='pass'><b>SUCCESS</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
     }
 
     @Test
     public void endTestTemplateOutputFileActionNotLoggedWarningTest() throws IOException {
-        outputFile.recordAction("Something", "Something", "Something", Result.WARNING);
-        outputFile.finalizeOutputFile(1);
+        outputFile.recordAction("Something", "Something", "Something", Success.CHECK);
+        outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='pass'><b>SUCCESS</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
     }
 
     @Test

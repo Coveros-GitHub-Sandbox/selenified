@@ -338,6 +338,13 @@ public class OutputFile {
     }
 
     /**
+     * A simple method to allow posting a screenshot of the app in it's current state into the detailed report
+     */
+    public void recordScreenshot() {
+        recordAction("", "", "", Success.CHECK);
+    }
+
+    /**
      * Writes an action that was performed out to the output file. If the action
      * is considered a failure, and a 'real' browser is being used (not NONE or
      * HTMLUNIT), then a screenshot will automatically be taken
@@ -345,19 +352,12 @@ public class OutputFile {
      * @param action         - the step that was performed
      * @param expectedResult - the result that was expected to occur
      * @param actualResult   - the result that actually occurred
-     * @param result         - the result of the action
+     * @param success        - the result of the action
      */
-    public void recordAction(String action, String expectedResult, String actualResult, Result result) {
+    public void recordAction(String action, String expectedResult, String actualResult, Success success) {
         stepNum++;
-        String success = "Check";
         String imageLink = "";
-        if (result == Result.SUCCESS) {
-            success = "Pass";
-        }
-        if (result == Result.FAILURE) {
-            success = "Fail";
-        }
-        if (!"Pass".equals(success) && isRealBrowser()) {
+        if (success != Success.PASS && isRealBrowser()) {
             // get a screen shot of the action
             imageLink = captureEntirePageScreenshot();
         }
@@ -374,9 +374,9 @@ public class OutputFile {
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
             out.write(START_CELL + action + END_CELL);
             out.write(START_CELL + expectedResult + END_CELL);
-            out.write("    <td class='" + result.toString().toLowerCase() + "'>" + actualResult + imageLink + END_CELL);
+            out.write(START_CELL + actualResult + imageLink + END_CELL);
             out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
-            out.write("    <td class='" + success.toLowerCase() + "'>" + success + END_CELL);
+            out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + END_CELL);
             out.write(END_ROW);
         } catch (IOException e) {
             log.error(e);
@@ -486,9 +486,6 @@ public class OutputFile {
             out.write(endBracket3);
             out.write("   td {\n");
             out.write("    word-wrap: break-word;\n");
-            out.write(endBracket3);
-            out.write("   .warning {\n");
-            out.write("    color:orange;\n");
             out.write(endBracket3);
             out.write("   .check {\n");
             out.write("    color:orange;\n");
@@ -649,13 +646,13 @@ public class OutputFile {
         replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes));
         replaceInFile("STEPSPASSED", Integer.toString(passes));
         replaceInFile("STEPSFAILED", Integer.toString(fails));
-        if (fails == 0 && errors == 0 && testStatus == 1) {
-            replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>SUCCESS</b></font>");
+        if (fails == 0 && errors == 0 && testStatus == 0) {
+            replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>PASS</b></font>");
         } else if (fails == 0 && errors == 0) {
-            replaceInFile(PASSORFAIL, "<font size='+2' class='warning'><b>" + Result.values()[testStatus] + "</b" +
+            replaceInFile(PASSORFAIL, "<font size='+2' class='check'><b>CHECK</b" +
                     "></font>");
         } else {
-            replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAILURE</b></font>");
+            replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAIL</b></font>");
         }
         addTimeToOutputFile();
         if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
@@ -863,11 +860,12 @@ public class OutputFile {
      * @author Max Saperstone
      */
     public enum Success {
-        PASS, FAIL;
+        PASS, FAIL, CHECK;
 
         static {
             PASS.errors = 0;
             FAIL.errors = 1;
+            CHECK.errors = 0;
         }
 
         int errors;
@@ -880,14 +878,5 @@ public class OutputFile {
         public int getErrors() {
             return this.errors;
         }
-    }
-
-    /**
-     * Gives status for each test step
-     *
-     * @author Max Saperstone
-     */
-    public enum Result {
-        WARNING, SUCCESS, FAILURE, SKIPPED
     }
 }
