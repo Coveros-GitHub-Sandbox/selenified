@@ -270,9 +270,9 @@ public class WaitFor implements Check {
             WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
             wait.until(ExpectedConditions.urlToBe(expectedURL));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkUrlEquals(expectedURL, "After waiting for " + timetook + " seconds, t");
+            checkUrlEquals(expectedURL, seconds, timetook);
         } catch (TimeoutException e) {
-            checkUrlEquals(expectedURL, "After waiting for " + seconds + " seconds, t");
+            checkUrlEquals(expectedURL, seconds, seconds);
             file.addError();
         }
     }
@@ -289,9 +289,9 @@ public class WaitFor implements Check {
             WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
             wait.until(ExpectedConditions.titleIs(title));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkTitleEquals(title, "After waiting for " + timetook + " seconds, t");
+            checkTitleEquals(title, seconds, timetook);
         } catch (TimeoutException e) {
-            checkTitleEquals(title, "After waiting for " + seconds + " seconds, t");
+            checkTitleEquals(title, seconds, seconds);
             file.addError();
         }
     }
@@ -320,9 +320,9 @@ public class WaitFor implements Check {
     public void alertPresent(double seconds) {
         try {
             double timetook = popup(seconds);
-            checkAlertPresent("After waiting for " + timetook + " seconds, a");
+            checkAlertPresent(seconds, timetook);
         } catch (TimeoutException e) {
-            checkAlertPresent("After waiting for " + seconds + " seconds, a");
+            checkAlertPresent(seconds, seconds);
             file.addError();
         }
     }
@@ -335,9 +335,9 @@ public class WaitFor implements Check {
     public void confirmationPresent(double seconds) {
         try {
             double timetook = popup(seconds);
-            checkConfirmationPresent("After waiting for " + timetook + " seconds, a");
+            checkConfirmationPresent(seconds, timetook);
         } catch (TimeoutException e) {
-            checkConfirmationPresent("After waiting for " + seconds + " seconds, a");
+            checkConfirmationPresent(seconds, seconds);
             file.addError();
         }
     }
@@ -350,9 +350,9 @@ public class WaitFor implements Check {
     public void promptPresent(double seconds) {
         try {
             double timetook = popup(seconds);
-            checkPromptPresent("After waiting for " + timetook + " seconds, a");
+            checkPromptPresent(seconds, timetook);
         } catch (TimeoutException e) {
-            checkPromptPresent("After waiting for " + seconds + " seconds, a");
+            checkPromptPresent(seconds, seconds);
             file.addError();
         }
     }
