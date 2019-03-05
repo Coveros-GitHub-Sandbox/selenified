@@ -43,9 +43,8 @@ public class WaitFor {
     // this will be the name of the file we write all commands out to
     private final OutputFile file;
 
-    // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
-    private final WebDriver driver;
+    private final App app;
 
     // constants
     private static final String WAITED = "Waited ";
@@ -53,8 +52,8 @@ public class WaitFor {
     private static final String WAITING = "After waiting ";
     private double defaultWait = 5.0;
 
-    public WaitFor(WebDriver driver, OutputFile file) {
-        this.driver = driver;
+    public WaitFor(App app, OutputFile file) {
+        this.app = app;
         this.file = file;
     }
 
@@ -143,7 +142,7 @@ public class WaitFor {
     private double popup(double seconds) {
         // wait for up to XX seconds for the error message
         double end = System.currentTimeMillis() + (seconds * 1000);
-        WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+        WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
         wait.until(ExpectedConditions.alertIsPresent());
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000);
         return timetook / 1000;
@@ -217,7 +216,7 @@ public class WaitFor {
         String expected = "Location shows as <b>" + location + "</b>";
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+            WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
             wait.until(ExpectedConditions.urlToBe(location));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             file.recordAction(action, expected,
@@ -225,7 +224,7 @@ public class WaitFor {
         } catch (TimeoutException e) {
             // No alert found in given time
             file.recordAction(action, expected,
-                    WAITING + seconds + " seconds, the location shows as <b>" + driver.getCurrentUrl() + "</b>",
+                    WAITING + seconds + " seconds, the location shows as <b>" + app.getDriver().getCurrentUrl() + "</b>",
                     Result.FAILURE);
             file.addError();
         }
@@ -242,7 +241,7 @@ public class WaitFor {
         String expected = "Title shows as <b>" + title + "</b>";
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            WebDriverWait wait = new WebDriverWait(driver, (long) seconds);
+            WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
             wait.until(ExpectedConditions.titleIs(title));
             double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             file.recordAction(action, expected, WAITED + timetook + " seconds for the title to show as <b>" + title + "</b>",
@@ -250,7 +249,7 @@ public class WaitFor {
         } catch (TimeoutException e) {
             // No alert found in given time
             file.recordAction(action, expected,
-                    WAITING + seconds + " seconds, the title shows as <b>" + driver.getTitle() + "</b>", Result.FAILURE);
+                    WAITING + seconds + " seconds, the title shows as <b>" + app.getDriver().getTitle() + "</b>", Result.FAILURE);
             file.addError();
         }
     }
@@ -265,9 +264,9 @@ public class WaitFor {
         String action = UPTO + seconds + " seconds for page to contain text <i>" + text + "</i>";
         String expected = "Page contains text <b>" + text + "</b>";
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (!file.getApp().is().textPresent(text) && System.currentTimeMillis() < end) ;
+        while (!app.is().textPresent(text) && System.currentTimeMillis() < end) ;
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        if (file.getApp().is().textPresent(text)) {
+        if (app.is().textPresent(text)) {
             file.recordAction(action, expected, WAITED + timetook + " seconds for the page to contain text <b>" + text + "</b>",
                     Result.SUCCESS);
         } else {
@@ -288,9 +287,9 @@ public class WaitFor {
         String action = UPTO + seconds + " seconds for page to not contain text <i>" + text + "</i>";
         String expected = "Page doesn't contain text <b>" + text + "</b>";
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (file.getApp().is().textPresent(text) && System.currentTimeMillis() < end) ;
+        while (app.is().textPresent(text) && System.currentTimeMillis() < end) ;
         double timetook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        if (!file.getApp().is().textPresent(text)) {
+        if (app.is().textPresent(text)) {
             file.recordAction(action, expected, WAITED + timetook + " seconds for the page to not contain text <b>" + text + "</b>",
                     Result.SUCCESS);
         } else {
