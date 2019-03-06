@@ -67,10 +67,10 @@ public class Equals extends Assert {
             file.recordActual(
                     element.prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", Success.FAIL);
             file.addError();
-            return;
+        } else {
+            file.recordActual(
+                    element.prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", Success.PASS);
         }
-        file.recordActual(
-                element.prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", Success.PASS);
     }
 
     /**
