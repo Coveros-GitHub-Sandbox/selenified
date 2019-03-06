@@ -118,6 +118,18 @@ public class ElementTest {
     }
 
     @Test
+    public void checkPrettyOutputParentTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", new Element(null, null, Locator.NAME, "parentId"));
+        assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> and parent of <i>NAME</i> of <i>parentId</i> ");
+    }
+
+    @Test
+    public void checkPrettyOutputGrandParentTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", new Element(null, null, Locator.NAME, "parentId", new Element(null, null, Locator.TAGNAME, "grandParentId")));
+        assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> and parent of <i>NAME</i> of <i>parentId</i> and parent of <i>TAGNAME</i> of <i>grandParentId</i> ");
+    }
+
+    @Test
     public void checkPrettyOutputStartTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
         assertEquals(element.prettyOutputStart(), "Element with <i>ID</i> of <i>myId</i>");

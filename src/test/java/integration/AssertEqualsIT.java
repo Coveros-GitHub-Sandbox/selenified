@@ -8,6 +8,46 @@ import org.testng.annotations.Test;
 
 public class AssertEqualsIT extends WebBase {
 
+    @Test(groups = {"integration", "assert", "equals"}, description = "An integration test to check the matchCount method")
+    public void matchesTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "car_list").assertEquals().matches(1);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "assert", "equals"}, description = "An integration test to check the matchCount method")
+    public void matchesMultipleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.TAGNAME, "table").assertEquals().matches(3);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "assert", "equals"}, description = "An integration negative test to check the matchCount method")
+    public void matchesFalseTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.TAGNAME, "table").assertEquals().matches(1);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"}, description = "An integration negativetest to check the matchCount method")
+    public void matchesNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.TAGNAME, "someBadTag").assertEquals().matches(1);
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = {"integration", "assert", "equals"},
             description = "An integration test to check the compareSelectValues method")
     public void compareSelectValuesTest() {

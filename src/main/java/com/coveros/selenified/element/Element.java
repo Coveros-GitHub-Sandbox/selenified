@@ -207,7 +207,7 @@ public class Element {
         this.file = file;
 
         App app = null;
-        if ( file != null ) {
+        if (file != null) {
             app = file.getApp();
         }
 
@@ -282,7 +282,23 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     public String prettyOutputStart() {
-        return "Element with <i>" + type.toString() + "</i> of <i>" + locator + "</i>";
+        return prettyOutputStart("Element with ");
+    }
+
+    /**
+     * Builds the nicely HTML formatted output of the element by retrieving parent
+     * element information
+     *
+     * @param initialString - the starting string, typically describing the element,
+     *                      or initial parent element
+     * @return String: text identifing how the element was located
+     */
+    private String prettyOutputStart(String initialString) {
+        initialString += "<i>" + type.toString() + "</i> of <i>" + locator + "</i>";
+        if (parent != null) {
+            initialString = parent.prettyOutputStart(initialString + " and parent of ");
+        }
+        return initialString;
     }
 
     /**
