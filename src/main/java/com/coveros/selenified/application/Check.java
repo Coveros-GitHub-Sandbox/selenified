@@ -53,7 +53,6 @@ public interface Check {
     String TEXT = "The text <b>";
     String PRESENT = "</b> is present on the page";
 
-
     /**
      * Retrieves the output file that we write all details out to
      *

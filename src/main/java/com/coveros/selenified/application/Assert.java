@@ -108,7 +108,8 @@ public class Assert implements Check {
      */
     @Override
     public void titleMatches(String expectedTitlePattern) {
-        assertTrue("Title Mismatch", checkTitleEquals(expectedTitlePattern, 0, 0).matches(expectedTitlePattern));
+        String title = checkTitleEquals(expectedTitlePattern, 0, 0);
+        assertTrue("Title Mismatch: title of '" + title + "' doesn't match pattern '" + expectedTitlePattern + "'", title.matches(expectedTitlePattern));
     }
 
     /**
@@ -132,7 +133,7 @@ public class Assert implements Check {
      */
     @Override
     public void textNotPresent(String expectedText) {
-        assertTrue("Expected to not find text '" + expectedText + "'", checkTextNotPresent(expectedText, 0, 0));
+        assertTrue("Expected not to find text '" + expectedText + "'", checkTextNotPresent(expectedText, 0, 0));
     }
 
     ///////////////////////////////////////////////////////
@@ -180,7 +181,8 @@ public class Assert implements Check {
      */
     @Override
     public void alertMatches(String expectedAlertPattern) {
-        assertTrue("Alert Text Mismatch", checkAlertMatches(expectedAlertPattern, 0, 0).matches(expectedAlertPattern));
+        String alert = checkAlertMatches(expectedAlertPattern, 0, 0);
+        assertTrue("Alert Text Mismatch: alert text of '" + alert + "' doesn't match pattern '" + expectedAlertPattern + "'", alert.matches(expectedAlertPattern));
     }
 
     /**
@@ -224,7 +226,8 @@ public class Assert implements Check {
      */
     @Override
     public void confirmationMatches(String expectedConfirmationPattern) {
-        assertTrue("Confirmation Text Mismatch", checkConfirmationMatches(expectedConfirmationPattern, 0, 0).matches(expectedConfirmationPattern));
+        String confirmation = checkConfirmationMatches(expectedConfirmationPattern, 0, 0);
+        assertTrue("Confirmation Text Mismatch: confirmation text of '" + confirmation + "' doesn't match pattern '" + expectedConfirmationPattern + "'", confirmation.matches(expectedConfirmationPattern));
     }
 
     /**
@@ -268,7 +271,8 @@ public class Assert implements Check {
      */
     @Override
     public void promptMatches(String expectedPromptPattern) {
-        assertTrue("Prompt Text Mismatch", checkPromptMatches(expectedPromptPattern, 0, 0).matches(expectedPromptPattern));
+        String prompt = checkPromptMatches(expectedPromptPattern, 0, 0);
+        assertTrue("Prompt Text Mismatch: prompt text of '" + prompt + "' doesn't match pattern '" + expectedPromptPattern + "'", prompt.matches(expectedPromptPattern));
     }
 
     ///////////////////////////////////////////////////////
@@ -322,6 +326,7 @@ public class Assert implements Check {
      */
     @Override
     public void cookieMatches(String cookieName, String expectedCookiePattern) {
-        assertTrue("Cookie Value Mismatch", checkCookieMatches(cookieName, expectedCookiePattern, 0, 0).matches(expectedCookiePattern));
+        String cookie = checkCookieMatches(cookieName, expectedCookiePattern, 0, 0);
+        assertTrue("Cookie Value Mismatch: cookie value of '" + cookie + "' doesn't match pattern '" + expectedCookiePattern + "'", cookie.matches(expectedCookiePattern));
     }
 }

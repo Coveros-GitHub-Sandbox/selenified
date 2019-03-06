@@ -91,7 +91,7 @@ public class Matches extends Assert {
         String column = " and column ";
         String within = " within element ";
         // wait for the table
-        if (!isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput() +
+        if (isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput() +
                 MATCH_PATTERN + pattern + "</b>")) {
             return;
         }
@@ -149,7 +149,7 @@ public class Matches extends Assert {
      */
     public void selectedOption(String expectedPattern) {
         // wait for the select
-        if (!isPresentSelect(
+        if (isPresentSelect(
                 EXPECTED + element.prettyOutput() + " having a selected option to match a pattern " +
                         "of <b>" + expectedPattern + "</b>")) {
             return;
@@ -174,7 +174,7 @@ public class Matches extends Assert {
      */
     public void selectedValue(String expectedPattern) {
         // wait for the select
-        if (!isPresentSelect(
+        if (isPresentSelect(
                 EXPECTED + element.prettyOutput() + " having a selected value to match a pattern " +
                         "of <b>" + expectedPattern + "</b>")) {
             return;

@@ -38,7 +38,7 @@ import java.util.Arrays;
  * @version 3.1.0
  * @lastupdate 2/21/2019
  */
-public class Equals extends Assert {
+public interface Equals extends Assert {
 
     // constants
     private static final String OPTIONS = " has options of <b>";
@@ -198,7 +198,7 @@ public class Equals extends Assert {
         String column = " and column ";
         String within = " within element ";
         // wait for the table
-        if (!isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput() +
+        if (isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput() +
                 " to have the text value of <b>" + text + "</b>")) {
             return;
         }
@@ -256,7 +256,7 @@ public class Equals extends Assert {
      */
     public void selectedOption(String expectedText) {
         // wait for the select
-        if (!isPresentSelect(
+        if (isPresentSelect(
                 EXPECTED + element.prettyOutput() + " having a selected option of <b>" + expectedText + "</b>")) {
             return;
         }
@@ -280,7 +280,7 @@ public class Equals extends Assert {
      */
     public void selectedValue(String expectedValue) {
         // wait for the select
-        if (!isPresentSelect(
+        if (isPresentSelect(
                 EXPECTED + element.prettyOutput() + " having a selected value of <b>" + expectedValue + "</b>")) {
             return;
         }
@@ -304,7 +304,7 @@ public class Equals extends Assert {
      */
     public void selectOptions(String... expectedOptions) {
         // wait for the select
-        if (!isPresentSelect(
+        if (isPresentSelect(
                 EXPECTED + element.prettyOutput() + " with select options of <b>" + String.join("</b>, <b>" + expectedOptions) + "</b>")) {
             return;
         }
@@ -330,7 +330,7 @@ public class Equals extends Assert {
      */
     public void selectValues(String... expectedValues) {
         // wait for the select
-        if (!isPresentSelect(
+        if (isPresentSelect(
                 EXPECTED + element.prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) +
                         "</b>")) {
             return;

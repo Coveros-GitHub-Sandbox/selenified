@@ -157,7 +157,7 @@ public class Excludes extends Assert {
      */
     public void selectOption(String option) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " without the option <b>" + option +
+        if (isPresentSelect(EXPECTED + element.prettyOutput() + " without the option <b>" + option +
                 "</b> available to be selected on the page")) {
             return;
         }
@@ -185,7 +185,7 @@ public class Excludes extends Assert {
      */
     public void selectValue(String selectValue) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " without a select value of <b>" + selectValue +
+        if (isPresentSelect(EXPECTED + element.prettyOutput() + " without a select value of <b>" + selectValue +
                 "</b> available to be selected on the page")) {
             return;
         }

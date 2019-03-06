@@ -37,32 +37,40 @@ import java.util.Set;
  * @version 3.1.0
  * @lastupdate 2/21/2019
  */
-class Assert {
-
-    // this will be the name of the file we write all commands out to
-    OutputFile file;
-
-    // what element are we trying to interact with on the page
-    Element element;
+interface Check {
 
     // constants
-    static final String OPTION = " has the option of <b>";
-    static final String EXPECTED = "Expected to find ";
-    static final String CLASS = "class";
+    String OPTION = " has the option of <b>";
+    String EXPECTED = "Expected to find ";
+    String CLASS = "class";
 
-    private static final String NOTINPUT = " is not an input on the page";
+    String NOTINPUT = " is not an input on the page";
 
-    static final String VALUE = " has the value of <b>";
-    static final String TEXT = " has the text of <b>";
-    static final String HASVALUE = " contains the value of <b>";
-    static final String HASNTVALUE = " does not contain the value of <b>";
-    static final String HASTEXT = " contains the text of <b>";
-    static final String HASNTTEXT = " does not contain the text of <b>";
-    static final String ONLYVALUE = ", only the values <b>";
-    static final String CLASSVALUE = " has a class value of <b>";
+    String VALUE = " has the value of <b>";
+    String TEXT = " has the text of <b>";
+    String HASVALUE = " contains the value of <b>";
+    String HASNTVALUE = " does not contain the value of <b>";
+    String HASTEXT = " contains the text of <b>";
+    String HASNTTEXT = " does not contain the text of <b>";
+    String ONLYVALUE = ", only the values <b>";
+    String CLASSVALUE = " has a class value of <b>";
 
-    private static final String NOTSELECT = " is not a select on the page";
-    private static final String NOTTABLE = " is not a table on the page";
+    String NOTSELECT = " is not a select on the page";
+    String NOTTABLE = " is not a table on the page";
+
+    /**
+     * Retrieves the output file that we write all details out to
+     *
+     * @return OutputFile
+     */
+    OutputFile getOutputFile();
+
+    /**
+     * Retrieves the driver that is used for all selenium actions
+     *
+     * @return App
+     */
+    Element getElement();
 
     ///////////////////////////////////////////////////////
     // assertions about the element in general
@@ -74,10 +82,10 @@ class Assert {
      *
      * @return Boolean: whether the element is present or not
      */
-    boolean isPresent() {
-        if (!element.is().present()) {
-            element.waitFor().present();
-            return element.is().present();
+    default boolean isPresent() {
+        if (!getElement().is().present()) {
+            getElement().waitFor().present();
+            return getElement().is().present();
         }
         return true;
     }
@@ -87,10 +95,10 @@ class Assert {
      *
      * @return Boolean: whether the element is an select or not
      */
-    private boolean isSelect() {
-        if (!element.is().select()) {
-            file.recordActual(element.prettyOutputStart() + NOTSELECT, Success.FAIL);
-            file.addError();
+    default boolean isSelect() {
+        if (!getElement().is().select()) {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTSELECT, Success.FAIL);
+            getOutputFile().addError();
             return false;
         }
         return true;
@@ -101,10 +109,10 @@ class Assert {
      *
      * @return Boolean: whether the element is an table or not
      */
-    private boolean isTable() {
-        if (!element.is().table()) {
-            file.recordActual(element.prettyOutputStart() + NOTTABLE, Success.FAIL);
-            file.addError();
+    default boolean isTable() {
+        if (!getElement().is().table()) {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTTABLE, Success.FAIL);
+            getOutputFile().addError();
             return false;
         }
         return true;
@@ -116,14 +124,14 @@ class Assert {
      * @param expected - the expected outcome
      * @return Boolean: whether the element is a select or not
      */
-    boolean isPresentSelect(String expected) {
+    default boolean isPresentSelect(String expected) {
         // wait for the element
         if (!isPresent()) {
-            return false;
+            return true;
         }
-        file.recordExpected(expected);
+        getOutputFile().recordExpected(expected);
         // verify this is a select element
-        return isSelect();
+        return !isSelect();
     }
 
     /**
@@ -132,14 +140,14 @@ class Assert {
      * @param expected - the expected outcome
      * @return Boolean: whether the element is an table or not
      */
-    boolean isPresentTable(String expected) {
+    default boolean isPresentTable(String expected) {
         // wait for the element
         if (!isPresent()) {
-            return false;
+            return true;
         }
-        file.recordExpected(expected);
+        getOutputFile().recordExpected(expected);
         // verify this is a select element
-        return isTable();
+        return !isTable();
     }
 
     /**
@@ -153,17 +161,17 @@ class Assert {
      * @return String[]: the list of all attributes from the element;
      */
     @SuppressWarnings("squid:S1168")
-    String[] getAttributes(String attribute, String expected) {
+    default String[] getAttributes(String attribute, String expected) {
         // wait for the element
         if (!isPresent()) {
             return null;    // returning an empty array could be confused with no attributes
         }
-        file.recordExpected(EXPECTED + element.prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>");
+        getOutputFile().recordExpected(EXPECTED + getElement().prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>");
         // check our attributes
-        Map<String, String> attributes = element.get().allAttributes();
+        Map<String, String> attributes = getElement().get().allAttributes();
         if (attributes == null) {
-            file.recordActual("Unable to assess the attributes of " + element.prettyOutputEnd(), Success.FAIL);
-            file.addError();
+            getOutputFile().recordActual("Unable to assess the attributes of " + getElement().prettyOutputEnd(), Success.FAIL);
+            getOutputFile().addError();
             return null;    // returning an empty array could be confused with no attributes
         }
         Set<String> keys = attributes.keySet();
@@ -179,20 +187,20 @@ class Assert {
      * @param expected - is the attribute expected to be present, or not present
      * @return String: the actual value from the input element
      */
-    String getValue(String value, String expected) {
+    default String getValue(String value, String expected) {
         // wait for the element
         if (!isPresent()) {
             return null;
         }
-        // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + expected + value + "</b>");
+        // getOutputFile().record the element
+        getOutputFile().recordExpected(EXPECTED + getElement().prettyOutput() + expected + value + "</b>");
         // verify this is an input element
-        if (!element.is().input()) {
-            file.recordActual(element.prettyOutputStart() + NOTINPUT, Success.FAIL);
-            file.addError();
+        if (!getElement().is().input()) {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTINPUT, Success.FAIL);
+            getOutputFile().addError();
             return null;
         }
         // check for the object to the present on the page
-        return element.get().value();
+        return getElement().get().value();
     }
 }

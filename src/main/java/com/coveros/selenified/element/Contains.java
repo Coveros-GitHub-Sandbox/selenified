@@ -158,7 +158,7 @@ public class Contains extends Assert {
      */
     public void selectOption(String option) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " with the option <b>" + option +
+        if (isPresentSelect(EXPECTED + element.prettyOutput() + " with the option <b>" + option +
                 "</b> available to be selected on the page")) {
             return;
         }
@@ -185,7 +185,7 @@ public class Contains extends Assert {
      */
     public void selectValue(String selectValue) {
         // wait for the select
-        if (!isPresentSelect(EXPECTED + element.prettyOutput() + " having a select value of <b>" + selectValue +
+        if (isPresentSelect(EXPECTED + element.prettyOutput() + " having a select value of <b>" + selectValue +
                 "</b> available to be selected on the page")) {
             return;
         }
@@ -210,7 +210,7 @@ public class Contains extends Assert {
      */
     public void selectOptions(int numOfOptions) {
         // wait for the select
-        if (!isPresentSelect(
+        if (isPresentSelect(
                 EXPECTED + element.prettyOutput() + " with number of select values equal to <b>" + numOfOptions +
                         "</b>")) {
             return;
@@ -237,7 +237,7 @@ public class Contains extends Assert {
      */
     public void columns(int numOfColumns) {
         // wait for the table
-        if (!isPresentTable(
+        if (isPresentTable(
                 EXPECTED + element.prettyOutput() + " with the number of table columns equal to <b>" + numOfColumns +
                         "</b>")) {
             return;
@@ -262,7 +262,7 @@ public class Contains extends Assert {
      */
     public void rows(int numOfRows) {
         // wait for the table
-        if (!isPresentTable(
+        if (isPresentTable(
                 EXPECTED + element.prettyOutput() + " with the number of table rows equal to <b>" + numOfRows +
                         "</b>")) {
             return;
