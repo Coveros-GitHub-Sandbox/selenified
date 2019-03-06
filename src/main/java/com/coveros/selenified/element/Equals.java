@@ -54,6 +54,25 @@ public class Equals extends Assert {
     // assessing functionality
     // ///////////////////////////////////////
 
+    public void matches(int expectedMatches) {
+        // wait for the element
+        if (!isPresent()) {
+            return;
+        }
+        // record the element
+        file.recordExpected(EXPECTED + element.prettyOutput() + " having a match count of <b>" + expectedMatches +
+                "</b>");
+        int matchCount = element.get().matchCount();
+        if (matchCount != expectedMatches) {
+            file.recordActual(
+                    element.prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", Success.FAIL);
+            file.addError();
+        } else {
+            file.recordActual(
+                    element.prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", Success.PASS);
+        }
+    }
+
     /**
      * Verifies that the element has a css attribute with a value equal to the
      * value provided. If the element isn't present, or the css doesn't contain
@@ -69,9 +88,9 @@ public class Equals extends Assert {
         if (!isPresent()) {
             return;
         }
-        // file.record the element
+        // record the element
         file.recordExpected(EXPECTED + element.prettyOutput() + " having a css attribute of <i>" + attribute +
-                " with a value of <b>" + expectedValue + "</b>");
+                "</i> with a value of <b>" + expectedValue + "</b>");
         // get the actual css element value
         String elementCssValue = element.get().css(attribute);
         if (elementCssValue == null) {
