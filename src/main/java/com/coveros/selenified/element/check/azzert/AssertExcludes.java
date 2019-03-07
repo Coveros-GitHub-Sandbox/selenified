@@ -136,6 +136,7 @@ public class AssertExcludes implements Excludes {
             }
             fail(reason);
         }
+        assertNotNull(value);
         assertFalse("Value found: element value of '" + value + CONTAINS + expectedValue + "'", value.contains(expectedValue));
     }
 
@@ -156,6 +157,7 @@ public class AssertExcludes implements Excludes {
             }
             fail(reason);
         }
+        assertNotNull(options);
         assertFalse("Option found: element options of '" + String.join(",", options) +
                 CONTAINS + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
     }
@@ -177,6 +179,7 @@ public class AssertExcludes implements Excludes {
             }
             fail(reason);
         }
+        assertNotNull(values);
         assertFalse("Value found: element values of '" + String.join(",", values) +
                 CONTAINS + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
     }

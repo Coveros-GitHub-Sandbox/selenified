@@ -135,6 +135,7 @@ public class AssertContains implements Contains {
             }
             fail(reason);
         }
+        assertNotNull(value);
         assertTrue("Value not found: element value of '" + value + DOES_NOT_CONTAIN + expectedValue + "'", value.contains(expectedValue));
     }
 
@@ -155,6 +156,7 @@ public class AssertContains implements Contains {
             }
             fail(reason);
         }
+        assertNotNull(options);
         assertTrue("Option not found: element options of '" + String.join(",", options) +
                 DOES_NOT_CONTAIN + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
     }
@@ -176,6 +178,7 @@ public class AssertContains implements Contains {
             }
             fail(reason);
         }
+        assertNotNull(values);
         assertTrue("Value not found: element values of '" + String.join(",", values) +
                 DOES_NOT_CONTAIN + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
     }

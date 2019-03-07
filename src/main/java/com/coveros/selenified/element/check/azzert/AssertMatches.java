@@ -123,6 +123,7 @@ public class AssertMatches implements Matches {
             }
             fail(reason);
         }
+        assertNotNull(value);
         assertTrue("Value Mismatch: value of '" + value + DOES_NOT_MATCH_PATTERN + expectedPattern + "'", value.matches(expectedPattern));
     }
 
@@ -143,6 +144,7 @@ public class AssertMatches implements Matches {
             }
             fail(reason);
         }
+        assertNotNull(selectedOption);
         assertTrue("Selected Option Mismatch: option of '" + selectedOption + DOES_NOT_MATCH_PATTERN + expectedPattern + "'",
                 selectedOption.matches(expectedPattern));
     }
@@ -164,6 +166,7 @@ public class AssertMatches implements Matches {
             }
             fail(reason);
         }
+        assertNotNull(selectedValue);
         assertTrue("Selected Value Mismatch: value of '" + selectedValue + DOES_NOT_MATCH_PATTERN + expectedPattern + "'",
                 selectedValue.matches(expectedPattern));
     }

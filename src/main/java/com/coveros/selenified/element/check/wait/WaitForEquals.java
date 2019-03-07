@@ -22,6 +22,7 @@ package com.coveros.selenified.element.check.wait;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
+import com.coveros.selenified.element.check.Constants;
 import com.coveros.selenified.element.check.Equals;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -31,6 +32,7 @@ import java.util.Arrays;
 
 import static com.coveros.selenified.element.check.Constants.CLASS;
 import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INTERVAL;
+import static com.coveros.selenified.element.check.Constants.ELEMENT_NOT_SELECT;
 
 /**
  * WaitForEquals implements Equals to provide some additional wait capabilities.
@@ -460,7 +462,7 @@ public class WaitForEquals implements Equals {
         try {
             elementPresent(seconds);
             if( !element.is().select()) {
-                throw new TimeoutException("Not a select");
+                throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
             while (!element.get().selectedOption().equals(expectedText) && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
@@ -490,7 +492,7 @@ public class WaitForEquals implements Equals {
         try {
             elementPresent(seconds);
             if( !element.is().select()) {
-                throw new TimeoutException("Not a select");
+                throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
             while (!element.get().selectedValue().equals(expectedValue) && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
@@ -520,7 +522,7 @@ public class WaitForEquals implements Equals {
         try {
             elementPresent(seconds);
             if( !element.is().select()) {
-                throw new TimeoutException("Not a select");
+                throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
             while (!Arrays.toString(element.get().selectOptions()).equals(Arrays.toString(expectedOptions)) && System.currentTimeMillis() < end)
                 ;
@@ -551,7 +553,7 @@ public class WaitForEquals implements Equals {
         try {
             elementPresent(seconds);
             if( !element.is().select()) {
-                throw new TimeoutException("Not a select");
+                throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
             while (!Arrays.toString(element.get().selectValues()).equals(Arrays.toString(expectedValues)) && System.currentTimeMillis() < end)
                 ;
