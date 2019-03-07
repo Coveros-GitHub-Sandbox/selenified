@@ -24,6 +24,8 @@ import com.coveros.selenified.OutputFile.Success;
 
 import java.util.Arrays;
 
+import static com.coveros.selenified.element.check.Constants.*;
+
 /**
  * Excludes extends Asserts to provide some additional verification
  * capabilities. It will handle all verifications performed on the actual
@@ -149,11 +151,12 @@ public interface Excludes extends Check {
      */
     void selectOption(String option);
 
+    @SuppressWarnings("squid:S1168")
     default String[] checkSelectOption(String option, double waitFor, double timeTook) {
         // record the action, and check for select
         if (!isPresentSelect(getElement().prettyOutput() + " without the option <b>" + option +
                 "</b> available to be selected on the page", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // check for the object to the editable
         String[] allOptions = getElement().get().selectOptions();
@@ -180,11 +183,12 @@ public interface Excludes extends Check {
      */
     void selectValue(String selectValue);
 
+    @SuppressWarnings("squid:S1168")
     default String[] checkSelectValue(String selectValue, double waitFor, double timeTook) {
         // record the action, and check for select
         if (!isPresentSelect(getElement().prettyOutput() + " without a select value of <b>" + selectValue +
                 "</b> available to be selected on the page", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // check for the object to the present on the page
         String[] elementValues = getElement().get().selectValues();

@@ -24,6 +24,8 @@ import com.coveros.selenified.OutputFile.Success;
 
 import java.util.Arrays;
 
+import static com.coveros.selenified.element.check.Constants.*;
+
 /**
  * Contains extends Asserts to provide some additional verification
  * capabilities. It will handle all verifications performed on the actual
@@ -149,11 +151,12 @@ public interface Contains extends Check {
      */
     void selectOption(String expectedOption);
 
+    @SuppressWarnings("squid:S1168")
     default String[] checkSelectOption(String expectedOption, double waitFor, double timeTook) {
         // record the action, and check for select
         if (!isPresentSelect(getElement().prettyOutput() + " with the option <b>" + expectedOption +
                 "</b> available to be selected on the page", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the select options
         String[] allOptions = getElement().get().selectOptions();
@@ -179,11 +182,12 @@ public interface Contains extends Check {
      */
     void selectValue(String expectedValue);
 
+    @SuppressWarnings("squid:S1168")
     default String[] checkSelectValue(String expectedValue, double waitFor, double timeTook) {
         // record the action, and check for select
         if (!isPresentSelect(getElement().prettyOutput() + " having a select value of <b>" + expectedValue +
                 "</b> available to be selected on the page", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the select values
         String[] allValues = getElement().get().selectValues();

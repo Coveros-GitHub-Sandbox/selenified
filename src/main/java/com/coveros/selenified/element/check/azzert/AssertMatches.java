@@ -24,8 +24,10 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Matches;
 
+import static com.coveros.selenified.element.check.Constants.*;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
 
 /**
  * Matches extends Asserts to provide some additional verification capabilities.
@@ -83,8 +85,8 @@ public class AssertMatches implements Matches {
      */
     public void text(String expectedPattern) {
         String text = checkText(expectedPattern, 0, 0);
-        assertNotNull("No element found", text);
-        assertTrue("Text Mismatch: text of '" + text + "' doesn't match pattern '" + expectedPattern + "'", text.matches(expectedPattern));
+        assertNotNull(NO_ELEMENT_FOUND, text);
+        assertTrue("Text Mismatch: text of '" + text + DOES_NOT_MATCH_PATTERN + expectedPattern + "'", text.matches(expectedPattern));
     }
 
     /**
@@ -102,8 +104,8 @@ public class AssertMatches implements Matches {
      */
     public void text(int row, int col, String pattern) {
         String text = checkText(row, col, pattern, 0, 0);
-        assertNotNull("No element found", text);
-        assertTrue("Text Mismatch: text of '" + text + "' doesn't match pattern '" + pattern + "'", text.matches(pattern));
+        assertNotNull(NO_ELEMENT_FOUND, text);
+        assertTrue("Text Mismatch: text of '" + text + DOES_NOT_MATCH_PATTERN + pattern + "'", text.matches(pattern));
     }
 
     /**
@@ -117,13 +119,13 @@ public class AssertMatches implements Matches {
     public void value(String expectedPattern) {
         String value = checkValue(expectedPattern, 0, 0);
         if (value == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
                 reason = "Element not input";
             }
-            assertNotNull(reason, value);
+            fail(reason);
         }
-        assertTrue("Value Mismatch: value of '" + value + "' doesn't match pattern '" + expectedPattern + "'", value.matches(expectedPattern));
+        assertTrue("Value Mismatch: value of '" + value + DOES_NOT_MATCH_PATTERN + expectedPattern + "'", value.matches(expectedPattern));
     }
 
     /**
@@ -137,13 +139,13 @@ public class AssertMatches implements Matches {
     public void selectedOption(String expectedPattern) {
         String selectedOption = checkSelectedOption(expectedPattern, 0, 0);
         if (selectedOption == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
-                reason = "Element not select";
+                reason = ELEMENT_NOT_SELECT;
             }
-            assertNotNull(reason, selectedOption);
+            fail(reason);
         }
-        assertTrue("Selected Option Mismatch: option of '" + selectedOption + "' doesn't match pattern '" + expectedPattern + "'",
+        assertTrue("Selected Option Mismatch: option of '" + selectedOption + DOES_NOT_MATCH_PATTERN + expectedPattern + "'",
                 selectedOption.matches(expectedPattern));
     }
 
@@ -158,13 +160,13 @@ public class AssertMatches implements Matches {
     public void selectedValue(String expectedPattern) {
         String selectedValue = checkSelectedValue(expectedPattern, 0, 0);
         if (selectedValue == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
-                reason = "Element not select";
+                reason = ELEMENT_NOT_SELECT;
             }
-            assertNotNull(reason, selectedValue);
+            fail(reason);
         }
-        assertTrue("Selected Value Mismatch: value of '" + selectedValue + "' doesn't match pattern '" + expectedPattern + "'",
+        assertTrue("Selected Value Mismatch: value of '" + selectedValue + DOES_NOT_MATCH_PATTERN + expectedPattern + "'",
                 selectedValue.matches(expectedPattern));
     }
 }

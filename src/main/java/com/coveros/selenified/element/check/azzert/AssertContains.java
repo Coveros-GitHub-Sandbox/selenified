@@ -26,6 +26,7 @@ import com.coveros.selenified.element.check.Contains;
 
 import java.util.Arrays;
 
+import static com.coveros.selenified.element.check.Constants.*;
 import static org.testng.AssertJUnit.*;
 
 /**
@@ -84,7 +85,7 @@ public class AssertContains implements Contains {
      */
     public void clazz(String expectedClass) {
         String clazz = checkClazz(expectedClass, 0, 0);
-        assertNotNull("No element found", clazz);
+        assertNotNull(NO_ELEMENT_FOUND, clazz);
         assertTrue("Class Mismatch: class of '" + clazz + "' doesn't contain '" + expectedClass + "'", clazz.contains(expectedClass));
     }
 
@@ -98,7 +99,7 @@ public class AssertContains implements Contains {
      */
     public void attribute(String expectedAttribute) {
         String[] attributes = checkAttribute(expectedAttribute, 0, 0);
-        assertNotNull("No element found", attributes);
+        assertNotNull(NO_ELEMENT_FOUND, attributes);
         assertTrue("Attribute not found: element attributes of '" + String.join(",", attributes) +
                 "' doesn't contain '" + expectedAttribute + "'", Arrays.asList(attributes).contains(expectedAttribute));
     }
@@ -113,7 +114,7 @@ public class AssertContains implements Contains {
      */
     public void text(String expectedText) {
         String text = checkText(expectedText, 0, 0);
-        assertNotNull("No element found", text);
+        assertNotNull(NO_ELEMENT_FOUND, text);
         assertTrue("Text not found: element text of '" + text + "' doesn't contain '" + expectedText + "'", text.contains(expectedText));
     }
 
@@ -128,11 +129,11 @@ public class AssertContains implements Contains {
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
         if (value == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
                 reason = "Element not input";
             }
-            assertNotNull(reason, value);
+            fail(reason);
         }
         assertTrue("Value not found: element value of '" + value + "' doesn't contain '" + expectedValue + "'", value.contains(expectedValue));
     }
@@ -148,11 +149,11 @@ public class AssertContains implements Contains {
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
         if (options == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
-                reason = "Element not select";
+                reason = ELEMENT_NOT_SELECT;
             }
-            assertNotNull(reason, options);
+            fail(reason);
         }
         assertTrue("Option not found: element options of '" + String.join(",", options) +
                 "' doesn't contain '" + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
@@ -169,11 +170,11 @@ public class AssertContains implements Contains {
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
         if (values == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
-                reason = "Element not select";
+                reason = ELEMENT_NOT_SELECT;
             }
-            assertNotNull(reason, values);
+            fail(reason);
         }
         assertTrue("Value not found: element values of '" + String.join(",", values) +
                 "' doesn't contain '" + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
@@ -190,9 +191,9 @@ public class AssertContains implements Contains {
     public void selectOptions(int numOfOptions) {
         int options = checkSelectOptions(numOfOptions, 0, 0);
         if (options < 0) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
-                reason = "Element not select";
+                reason = ELEMENT_NOT_SELECT;
             }
             fail(reason);
         }
@@ -210,7 +211,7 @@ public class AssertContains implements Contains {
     public void columns(int numOfColumns) {
         int columns = checkColumns(numOfColumns, 0, 0);
         if (columns < 0) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
                 reason = "Element not table";
             }
@@ -230,7 +231,7 @@ public class AssertContains implements Contains {
     public void rows(int numOfRows) {
         int rows = checkRows(numOfRows, 0, 0);
         if (rows < 0) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
                 reason = "Element not table";
             }

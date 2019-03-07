@@ -26,8 +26,10 @@ import com.coveros.selenified.element.check.Excludes;
 
 import java.util.Arrays;
 
+import static com.coveros.selenified.element.check.Constants.*;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.fail;
 
 /**
  * Excludes extends Asserts to provide some additional verification
@@ -86,8 +88,8 @@ public class AssertExcludes implements Excludes {
      */
     public void clazz(String unexpectedClass) {
         String clazz = checkClazz(unexpectedClass, 0, 0);
-        assertNotNull("No element found", clazz);
-        assertFalse("Class Mismatch: class of '" + clazz + "' contains '" + unexpectedClass + "'", clazz.contains(unexpectedClass));
+        assertNotNull(NO_ELEMENT_FOUND, clazz);
+        assertFalse("Class Mismatch: class of '" + clazz + CONTAINS + unexpectedClass + "'", clazz.contains(unexpectedClass));
     }
 
     /**
@@ -100,9 +102,9 @@ public class AssertExcludes implements Excludes {
      */
     public void attribute(String expectedAttribute) {
         String[] attributes = checkAttribute(expectedAttribute, 0, 0);
-        assertNotNull("No element found", attributes);
+        assertNotNull(NO_ELEMENT_FOUND, attributes);
         assertFalse("Attribute found: element attributes of '" + String.join(",", attributes) +
-                "' contains '" + expectedAttribute + "'", Arrays.asList(attributes).contains(expectedAttribute));
+                CONTAINS + expectedAttribute + "'", Arrays.asList(attributes).contains(expectedAttribute));
     }
 
     /**
@@ -115,8 +117,8 @@ public class AssertExcludes implements Excludes {
      */
     public void text(String expectedText) {
         String text = checkText(expectedText, 0, 0);
-        assertNotNull("No element found", text);
-        assertFalse("Text found: element text of '" + text + "' contains '" + expectedText + "'", text.contains(expectedText));
+        assertNotNull(NO_ELEMENT_FOUND, text);
+        assertFalse("Text found: element text of '" + text + CONTAINS + expectedText + "'", text.contains(expectedText));
     }
 
     /**
@@ -130,13 +132,13 @@ public class AssertExcludes implements Excludes {
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
         if (value == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
                 reason = "Element not input";
             }
-            assertNotNull(reason, value);
+            fail(reason);
         }
-        assertFalse("Value found: element value of '" + value + "' contains '" + expectedValue + "'", value.contains(expectedValue));
+        assertFalse("Value found: element value of '" + value + CONTAINS + expectedValue + "'", value.contains(expectedValue));
     }
 
     /**
@@ -150,14 +152,14 @@ public class AssertExcludes implements Excludes {
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
         if (options == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
-                reason = "Element not select";
+                reason = ELEMENT_NOT_SELECT;
             }
-            assertNotNull(reason, options);
+            fail(reason);
         }
         assertFalse("Option found: element options of '" + String.join(",", options) +
-                "' contains '" + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
+                CONTAINS + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
     }
 
     /**
@@ -171,13 +173,13 @@ public class AssertExcludes implements Excludes {
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
         if (values == null) {
-            String reason = "No element found";
+            String reason = NO_ELEMENT_FOUND;
             if (getElement().is().present()) {
-                reason = "Element not select";
+                reason = ELEMENT_NOT_SELECT;
             }
-            assertNotNull(reason, values);
+            fail(reason);
         }
         assertFalse("Value found: element values of '" + String.join(",", values) +
-                "' contains '" + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
+                CONTAINS + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
     }
 }

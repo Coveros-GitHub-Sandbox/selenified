@@ -27,6 +27,8 @@ import com.coveros.selenified.element.Element;
 import java.util.Map;
 import java.util.Set;
 
+import static com.coveros.selenified.element.check.Constants.*;
+
 /**
  * Assert will handle all verifications performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
@@ -39,24 +41,6 @@ import java.util.Set;
  * @lastupdate 2/21/2019
  */
 interface Check {
-
-    // constants
-    String HAS_OPTION = " has the option of <b>";
-    String CLASS = "class";
-
-    String HAS_VALUE = " has the value of <b>";
-    String HAS_TEXT = " has the text of <b>";
-    String CONTAINS_VALUE = " contains the value of <b>";
-    String EXCLUDES_VALUE = " does not contain the value of <b>";
-    String CONTAINS_TEXT = " contains the text of <b>";
-    String EXCLUDES_TEXT = " does not contain the text of <b>";
-    String ONLY_VALUE = ", only the values <b>";
-    String CLASS_VALUE = " has a class value of <b>";
-
-    String IS_NOT_PRESENT = " is not present on the page";
-    String IS_NOT_INPUT = " is not an input on the page";
-    String IS_NOT_SELECT = " is not a select on the page";
-    String IS_NOT_TABLE = " is not a table on the page";
 
     /**
      * Retrieves the output file that we write all details out to

@@ -22,6 +22,8 @@ package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.OutputFile.Success;
 
+import static com.coveros.selenified.element.check.Constants.*;
+
 /**
  * Matches extends Asserts to provide some additional verification capabilities.
  * It will handle all verifications performed on the actual element. These
@@ -36,8 +38,6 @@ import com.coveros.selenified.OutputFile.Success;
  * @lastupdate 2/21/2019
  */
 public interface Matches extends Check {
-
-    String MATCH_PATTERN = " to match a pattern of <b>";
 
     // ///////////////////////////////////////
     // assessing functionality

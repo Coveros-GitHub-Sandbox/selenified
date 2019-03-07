@@ -22,6 +22,7 @@ package com.coveros.selenified.application;
 
 import com.coveros.selenified.OutputFile;
 
+import static com.coveros.selenified.element.check.Constants.DOES_NOT_MATCH_PATTERN;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -109,7 +110,7 @@ public class Assert implements Check {
     @Override
     public void titleMatches(String expectedTitlePattern) {
         String title = checkTitleEquals(expectedTitlePattern, 0, 0);
-        assertTrue("Title Mismatch: title of '" + title + "' doesn't match pattern '" + expectedTitlePattern + "'", title.matches(expectedTitlePattern));
+        assertTrue("Title Mismatch: title of '" + title + DOES_NOT_MATCH_PATTERN + expectedTitlePattern + "'", title.matches(expectedTitlePattern));
     }
 
     /**
@@ -182,7 +183,7 @@ public class Assert implements Check {
     @Override
     public void alertMatches(String expectedAlertPattern) {
         String alert = checkAlertMatches(expectedAlertPattern, 0, 0);
-        assertTrue("Alert Text Mismatch: alert text of '" + alert + "' doesn't match pattern '" + expectedAlertPattern + "'", alert.matches(expectedAlertPattern));
+        assertTrue("Alert Text Mismatch: alert text of '" + alert + DOES_NOT_MATCH_PATTERN + expectedAlertPattern + "'", alert.matches(expectedAlertPattern));
     }
 
     /**
@@ -227,7 +228,7 @@ public class Assert implements Check {
     @Override
     public void confirmationMatches(String expectedConfirmationPattern) {
         String confirmation = checkConfirmationMatches(expectedConfirmationPattern, 0, 0);
-        assertTrue("Confirmation Text Mismatch: confirmation text of '" + confirmation + "' doesn't match pattern '" + expectedConfirmationPattern + "'", confirmation.matches(expectedConfirmationPattern));
+        assertTrue("Confirmation Text Mismatch: confirmation text of '" + confirmation + DOES_NOT_MATCH_PATTERN + expectedConfirmationPattern + "'", confirmation.matches(expectedConfirmationPattern));
     }
 
     /**
@@ -272,7 +273,7 @@ public class Assert implements Check {
     @Override
     public void promptMatches(String expectedPromptPattern) {
         String prompt = checkPromptMatches(expectedPromptPattern, 0, 0);
-        assertTrue("Prompt Text Mismatch: prompt text of '" + prompt + "' doesn't match pattern '" + expectedPromptPattern + "'", prompt.matches(expectedPromptPattern));
+        assertTrue("Prompt Text Mismatch: prompt text of '" + prompt + DOES_NOT_MATCH_PATTERN + expectedPromptPattern + "'", prompt.matches(expectedPromptPattern));
     }
 
     ///////////////////////////////////////////////////////
@@ -327,6 +328,6 @@ public class Assert implements Check {
     @Override
     public void cookieMatches(String cookieName, String expectedCookiePattern) {
         String cookie = checkCookieMatches(cookieName, expectedCookiePattern, 0, 0);
-        assertTrue("Cookie Value Mismatch: cookie value of '" + cookie + "' doesn't match pattern '" + expectedCookiePattern + "'", cookie.matches(expectedCookiePattern));
+        assertTrue("Cookie Value Mismatch: cookie value of '" + cookie + DOES_NOT_MATCH_PATTERN + expectedCookiePattern + "'", cookie.matches(expectedCookiePattern));
     }
 }

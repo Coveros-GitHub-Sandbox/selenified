@@ -22,6 +22,8 @@ package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.OutputFile.Success;
 
+import static com.coveros.selenified.element.check.Constants.*;
+
 /**
  * State extends Asserts to provide some additional verification capabilities.
  * It will handle all verifications performed on the actual element. These
@@ -35,17 +37,6 @@ import com.coveros.selenified.OutputFile.Success;
  * @lastupdate 9/13/2018
  */
 public interface State extends Check {
-
-    // constants
-    String IS_PRESENT = " is present on the page";
-    String IS_DISPLAYED = " is displayed on the page";
-    String IS_NOT_DISPLAYED = " is not displayed on the page";
-    String IS_CHECKED = " is checked on the page";
-    String IS_NOT_CHECKED = " is not checked on the page";
-    String IS_EDITABLE = " is editable on the page";
-    String IS_NOT_EDITABLE = " is not editable on the page";
-    String IS_ENABLED = " is enabled on the page";
-    String IS_NOT_ENABLED = " is not enabled on the page";
 
     // ///////////////////////////////////////
     // assessing functionality

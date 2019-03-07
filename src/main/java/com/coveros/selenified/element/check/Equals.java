@@ -24,6 +24,8 @@ import com.coveros.selenified.OutputFile.Success;
 
 import java.util.Arrays;
 
+import static com.coveros.selenified.element.check.Constants.*;
+
 /**
  * Equals extends Asserts to provide some additional verification capabilities.
  * It will handle all verifications performed on the actual element. These
@@ -38,11 +40,6 @@ import java.util.Arrays;
  * @lastupdate 2/21/2019
  */
 public interface Equals extends Check {
-
-    // constants
-    String OPTIONS = " has options of <b>";
-    String VALUES = " has values of <b>";
-    String WITH = " with the value of <b>";
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -208,13 +205,14 @@ public interface Equals extends Check {
      */
     void text(int row, int col, String expectedText);
 
+    @SuppressWarnings("squid:S1168")
     default String checkText(int row, int col, String expectedText, double waitFor, double timeTook) {
         String column = " and column ";
         String within = " within element ";
         // record the action, and check for table
         if (!isPresentTable("cell at row " + row + column + col + within + getElement().prettyOutput() +
                 " to have the text value of <b>" + expectedText + "</b>", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the table cell text
         String actualText = getElement().get().tableCell(row, col).get().text();
@@ -240,10 +238,11 @@ public interface Equals extends Check {
      */
     void value(String expectedValue);
 
+    @SuppressWarnings("squid:S1168")
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and verify this is an input element
         if (!isPresentInput(getElement().prettyOutputStart() + " is not an input on the page", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the element value
         String elementValue = getElement().get().value();
@@ -266,11 +265,12 @@ public interface Equals extends Check {
      */
     void selectedOption(String expectedText);
 
+    @SuppressWarnings("squid:S1168")
     default String checkSelectedOption(String expectedText, double waitFor, double timeTook) {
         // record the action and verify it's a select
         if (!isPresentSelect(
                 getElement().prettyOutput() + " having a selected option of <b>" + expectedText + "</b>", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the selected text
         String elementText = getElement().get().selectedOption();
@@ -293,11 +293,12 @@ public interface Equals extends Check {
      */
     void selectedValue(String expectedValue);
 
+    @SuppressWarnings("squid:S1168")
     default String checkSelectedValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and verify it's a select
         if (!isPresentSelect(
                 getElement().prettyOutput() + " having a selected value of <b>" + expectedValue + "</b>", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the selected value
         String elementValue = getElement().get().selectedValue();
@@ -320,11 +321,12 @@ public interface Equals extends Check {
      */
     void selectOptions(String... expectedOptions);
 
+    @SuppressWarnings("squid:S1168")
     default String[] checkSelectOptions(String[] expectedOptions, double waitFor, double timeTook) {
         // record the action, and verify it's a select
         if (!isPresentSelect(
                 getElement().prettyOutput() + " with select options of <b>" + String.join("</b>, <b>" + expectedOptions) + "</b>", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the actual select options
         String[] elementOptions = getElement().get().selectOptions();
@@ -349,12 +351,13 @@ public interface Equals extends Check {
      */
     void selectValues(String... expectedValues);
 
+    @SuppressWarnings("squid:S1168")
     default String[] checkSelectValues(String[] expectedValues, double waitFor, double timeTook) {
         // record the action, and verify it's a select
         if (!isPresentSelect(
                 getElement().prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) +
                         "</b>", waitFor)) {
-            return null;
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the actual select values
         String[] elementValues = getElement().get().selectValues();

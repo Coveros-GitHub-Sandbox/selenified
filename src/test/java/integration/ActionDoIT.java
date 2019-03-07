@@ -708,7 +708,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "car_list").type(Keys.DOWN);
-        app.newElement(Locator.ID, "car_list").assertEquals().selectedValue("saab");
+        app.newElement(Locator.ID, "car_list").verifyEquals().selectedValue("saab");
         if (this.apps.get().getBrowser().getName() == Browser.BrowserName.CHROME && this.apps.get().getBrowser().getPlatform() == Platform.MAC) {
             // known issue with chrome on mac, arrows don't work on select
             finish(1);
