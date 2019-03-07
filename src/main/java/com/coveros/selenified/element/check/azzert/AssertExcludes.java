@@ -129,6 +129,13 @@ public class AssertExcludes implements Excludes {
      */
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
+        if( value == null ) {
+            String reason = "No element found";
+            if (getElement().is().present()) {
+                reason = "Element not input";
+            }
+            assertNotNull(reason, value);
+        }
         assertFalse("Value found: element value of '" + value + "' contains '" + expectedValue + "'", value.contains(expectedValue));
     }
 
@@ -142,7 +149,13 @@ public class AssertExcludes implements Excludes {
      */
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
-        assertNotNull("No element found", options);
+        if( options == null ) {
+            String reason = "No element found";
+            if (getElement().is().present()) {
+                reason = "Element not select";
+            }
+            assertNotNull(reason, options);
+        }
         assertFalse("Option found: element options of '" + String.join(",", options) +
                 "' contains '" + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
     }
@@ -157,7 +170,13 @@ public class AssertExcludes implements Excludes {
      */
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
-        assertNotNull("No element found", values);
+        if( values == null ) {
+            String reason = "No element found";
+            if (getElement().is().present()) {
+                reason = "Element not select";
+            }
+            assertNotNull(reason, values);
+        }
         assertFalse("Value found: element values of '" + String.join(",", values) +
                 "' contains '" + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
     }

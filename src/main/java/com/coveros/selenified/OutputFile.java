@@ -695,12 +695,13 @@ public class OutputFile {
             log.error(e);
         }
         // Record the metrics
-        int passes = countInstancesOf("<td class='pass'>Pass</td>");
-        int fails = countInstancesOf("<td class='fail'>Fail</td>");
-        replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes));
+        int passes = countInstancesOf("<td class='pass'>PASS</td>");
+        int fails = countInstancesOf("<td class='fail'>FAIL</td>");
+        int checks = countInstancesOf("<td class='check'>CHECK</td>");
+        replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes + checks));
         replaceInFile("STEPSPASSED", Integer.toString(passes));
         replaceInFile("STEPSFAILED", Integer.toString(fails));
-        if (fails == 0 && errors == 0 && testStatus == 0) {
+        if (fails == 0 && checks == 0 && errors == 0 && testStatus == 0) {
             replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>PASS</b></font>");
         } else if (fails == 0 && errors == 0) {
             replaceInFile(PASSORFAIL, "<font size='+2' class='check'><b>CHECK</b" +

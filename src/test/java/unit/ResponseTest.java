@@ -194,7 +194,7 @@ public class ResponseTest {
         response.assertEquals(5);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a response code of <b>5</b></td>\n    <td>Found a response code of <b>5</b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a response code of <b>5</b></td>\n    <td>Found a response code of <b>5</b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -206,7 +206,7 @@ public class ResponseTest {
         response.assertEquals(6);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a response code of <b>6</b></td>\n    <td>Found a response code of <b>5</b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a response code of <b>6</b></td>\n    <td>Found a response code of <b>5</b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -220,7 +220,7 @@ public class ResponseTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;" +
-                        "\"john\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "\"john\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -234,7 +234,7 @@ public class ResponseTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\{\\}</i></div></td>\n    <td>Found a response of: " +
-                        "<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -248,7 +248,7 @@ public class ResponseTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\{\\}</i></div></td>\n    <td>Found a response of: " +
-                        "<div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -262,7 +262,7 @@ public class ResponseTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>Found " +
-                        "a response of: <div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "a response of: <div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -276,7 +276,7 @@ public class ResponseTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\[\\]</i></div></td>\n    <td>Found a response of: " +
-                        "<div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -290,7 +290,7 @@ public class ResponseTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: <div><i>\\[\\]</i></div></td>\n    <td>Found a response of: " +
-                        "<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -303,7 +303,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: '<i>Some message</i>'</td>\n    <td>Found " +
                         "a response of: '<i>Some message</i>'</td>\n    <td>[0-9]+ms" +
-                        " / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        " / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -316,7 +316,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: '<i>Some message</i>'</td>\n    <td>Found " +
                         "a response of: '<i>SOME MESSAGE</i>'</td>\n    <td>[0-9]+ms" +
-                        " / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        " / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -329,7 +329,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response of: '<i></i>'</td>\n    <td>Found " +
                         "a response of: '<i>null</i>'</td>\n    <td>[0-9]+ms" +
-                        " / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        " / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -344,7 +344,7 @@ public class ResponseTest {
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
-                        "response containing: <div><i><div>name : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "response containing: <div><i><div>name : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -359,7 +359,7 @@ public class ResponseTest {
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "response containing: <div><i><div>name1 : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -375,7 +375,7 @@ public class ResponseTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : john1</div></i></div></td>\n    <td>Found a " +
-                        "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -392,7 +392,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -409,7 +409,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -426,7 +426,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 6</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -443,7 +443,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 5.5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -460,7 +460,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 5.5</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -477,7 +477,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 6.5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -494,7 +494,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 5.5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -511,7 +511,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 5.5</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -528,7 +528,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 6.5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5.5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -545,7 +545,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 5</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -562,7 +562,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 5</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -579,7 +579,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 6</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;5<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -596,7 +596,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : true</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;true<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -613,7 +613,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : true</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;true<br/>\\}</i></div></td>\n " +
-                        "   <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "   <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -630,7 +630,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : false</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;true<br/>\\}</i></div></td>\n " +
-                        "   <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "   <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -647,7 +647,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 0</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;0<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -664,7 +664,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : 0</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;0<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -681,7 +681,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : 1</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;0<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -698,7 +698,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : a</div></i></div></td>\n    <td>Found a response" +
                         " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"a\"<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -715,7 +715,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : a</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"a\"<br/>\\}</i></div></td>\n" +
-                        "    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -732,7 +732,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : b</div></i></div></td>\n    <td>Found a " +
                         "response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\"a\"<br/>\\}</i></div></td>\n" +
-                        "    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -753,7 +753,7 @@ public class ResponseTest {
                         "response containing: <div><i><div>name : \\{\"first\":\"john\"," +
                         "\"last\":\"smith\"\\}</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;" +
-                        "\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -774,7 +774,7 @@ public class ResponseTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name : \\{\"first\":\"john\"\\}</div></i></div></td>\n    " +
-                        "<td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -794,7 +794,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: <div><i><div>name1 : \\{\"first\":\"john\"," +
                         "\"last\":\"smith\"\\}</div></i></div></td>\n    <td>Found a response of: " +
-                        "<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -815,7 +815,7 @@ public class ResponseTest {
                         "response containing: <div><i><div>name : \\[\"john\",\"smith\"\\]</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\[<br/>\\&nbsp;\\&nbsp;\\&nbsp;" +
                         "\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;" +
-                        "\\]<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "\\]<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -838,7 +838,7 @@ public class ResponseTest {
                         "response containing: <div><i><div>name : \\[\"john\"\\]</div></i></div></td>\n    <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\[<br/>\\&nbsp;\\&nbsp;\\&nbsp;" +
                         "\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;" +
-                        "\\]<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n" +
+                        "\\]<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n" +
                         "   </tr>\n"));
     }
 
@@ -861,7 +861,7 @@ public class ResponseTest {
                         " <td>Found a response " +
                         "of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;\\[<br/>\\&nbsp;\\&nbsp;\\&nbsp;" +
                         "\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;" +
-                        "\\]<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n" +
+                        "\\]<br/>}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n" +
                         "   </tr>\n"));
     }
 
@@ -877,7 +877,7 @@ public class ResponseTest {
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "response containing: <div><i><div>name1 : john</div></i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>\\&nbsp;\\&nbsp;\"name\"<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -894,7 +894,7 @@ public class ResponseTest {
                 "    <td>Expected to find a response containing: <div><i><div>name : 5</div></i></div></td>\n" +
                 "    <td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;" +
                 "5<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n" +
-                "    <td class='pass'>Pass</td>\n   </tr>\n"));
+                "    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -910,7 +910,7 @@ public class ResponseTest {
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
-                        "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                        "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -928,7 +928,7 @@ public class ResponseTest {
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
-                        "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\&nbsp;\\&nbsp;\\}<br/>\\]</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -942,7 +942,7 @@ public class ResponseTest {
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
-                        "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                        "response containing:<div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>Found a response of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"first\":\\&nbsp;\"john\",<br/>\\&nbsp;\\&nbsp;\"last\":\\&nbsp;\"smith\"<br/>\\}</i></div></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -955,7 +955,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: '<i>message</i>'</td>\n    <td>Found a response of: " +
                         "'<i>Some message</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
-                        "class='pass'>Pass</td>\n   </tr>\n"));
+                        "class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -968,7 +968,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: '<i>message </i>'</td>\n    <td>Found a response of: " +
                         "'<i>Some message</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
-                        "class='fail'>Fail</td>\n   </tr>\n"));
+                        "class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -981,7 +981,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: '<i></i>'</td>\n    <td>Found a response of: " +
                         "'<i>null</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
-                        "class='fail'>Fail</td>\n   </tr>\n"));
+                        "class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -994,7 +994,7 @@ public class ResponseTest {
                 "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
                         "response containing: '<i>null</i>'</td>\n    <td>Found a response of: " +
                         "'<i>null</i>'</td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td " +
-                        "class='fail'>Fail</td>\n   </tr>\n"));
+                        "class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test

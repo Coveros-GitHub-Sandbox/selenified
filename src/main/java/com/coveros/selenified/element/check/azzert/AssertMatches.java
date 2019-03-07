@@ -116,7 +116,13 @@ public class AssertMatches implements Matches {
      */
     public void value(String expectedPattern) {
         String value = checkValue(expectedPattern, 0, 0);
-        assertNotNull("No element found", value);
+        if (value == null) {
+            String reason = "No element found";
+            if (getElement().is().present()) {
+                reason = "Element not input";
+            }
+            assertNotNull(reason, value);
+        }
         assertTrue("Value Mismatch: value of '" + value + "' doesn't match pattern '" + expectedPattern + "'", value.matches(expectedPattern));
     }
 
@@ -130,7 +136,13 @@ public class AssertMatches implements Matches {
      */
     public void selectedOption(String expectedPattern) {
         String selectedOption = checkSelectedOption(expectedPattern, 0, 0);
-        assertNotNull("No element found", selectedOption);
+        if (selectedOption == null) {
+            String reason = "No element found";
+            if (getElement().is().present()) {
+                reason = "Element not select";
+            }
+            assertNotNull(reason, selectedOption);
+        }
         assertTrue("Selected Option Mismatch: option of '" + selectedOption + "' doesn't match pattern '" + expectedPattern + "'",
                 selectedOption.matches(expectedPattern));
     }
@@ -145,7 +157,13 @@ public class AssertMatches implements Matches {
      */
     public void selectedValue(String expectedPattern) {
         String selectedValue = checkSelectedValue(expectedPattern, 0, 0);
-        assertNotNull("No element found", selectedValue);
+        if (selectedValue == null) {
+            String reason = "No element found";
+            if (getElement().is().present()) {
+                reason = "Element not select";
+            }
+            assertNotNull(reason, selectedValue);
+        }
         assertTrue("Selected Value Mismatch: value of '" + selectedValue + "' doesn't match pattern '" + expectedPattern + "'",
                 selectedValue.matches(expectedPattern));
     }

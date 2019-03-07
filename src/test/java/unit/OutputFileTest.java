@@ -238,7 +238,7 @@ public class OutputFileTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -247,7 +247,7 @@ public class OutputFileTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -333,7 +333,7 @@ public class OutputFileTest {
         outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='check'><b>CHECK</b></font>"));
     }
 
     @Test

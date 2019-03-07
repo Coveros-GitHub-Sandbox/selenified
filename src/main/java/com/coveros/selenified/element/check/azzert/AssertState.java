@@ -99,6 +99,7 @@ public class AssertState implements State {
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void displayed() {
+        assertTrue("Expected Element Not Present", getElement().is().present());
         assertTrue("Expected Element Not Displayed", checkDisplayed(0, 0));
     }
 
@@ -110,6 +111,7 @@ public class AssertState implements State {
      * support.
      */
     public void notDisplayed() {
+        assertTrue("Expected Element Not Present", getElement().is().present());
         assertTrue("Expected Element Displayed", checkNotDisplayed(0, 0));
     }
 
@@ -120,6 +122,7 @@ public class AssertState implements State {
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void checked() {
+        assertTrue("Expected Element Not Present", getElement().is().present());
         assertTrue("Expected Element Not Checked", checkChecked(0, 0));
     }
 
@@ -131,6 +134,7 @@ public class AssertState implements State {
      * support.
      */
     public void notChecked() {
+        assertTrue("Expected Element Not Present", getElement().is().present());
         assertTrue("Expected Element Checked", checkNotChecked(0, 0));
     }
 
@@ -143,6 +147,7 @@ public class AssertState implements State {
      * debugging support.
      */
     public void editable() {
+        assertTrue("Expected Element Not Present", getElement().is().present());
         assertTrue("Expected Element Not Editable", checkEditable(0, 0));
     }
 
@@ -155,6 +160,7 @@ public class AssertState implements State {
      * traceability and added debugging support.
      */
     public void notEditable() {
+        assertTrue("Expected Element Not Present", getElement().is().present());
         assertTrue("Expected Element Editable", checkNotEditable(0, 0));
     }
 
@@ -165,6 +171,7 @@ public class AssertState implements State {
      * a screenshot for traceability and added debugging support.
      */
     public void enabled() {
+        assertTrue("Expected Element Not Present", getElement().is().present());
         assertTrue("Expected Element Not Enabled", checkEnabled(0, 0));
     }
 
@@ -175,6 +182,7 @@ public class AssertState implements State {
      * a screenshot for traceability and added debugging support.
      */
     public void notEnabled() {
+        assertTrue("Expected Element Not Present", getElement().is().present());
         assertTrue("Expected Element Enabled", checkNotEnabled(0, 0));
     }
 }
