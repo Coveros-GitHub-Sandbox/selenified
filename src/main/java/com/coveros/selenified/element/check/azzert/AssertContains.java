@@ -26,8 +26,7 @@ import com.coveros.selenified.element.check.Contains;
 
 import java.util.Arrays;
 
-import static com.coveros.selenified.element.check.Constants.ELEMENT_NOT_SELECT;
-import static com.coveros.selenified.element.check.Constants.NO_ELEMENT_FOUND;
+import static com.coveros.selenified.element.check.Constants.*;
 import static org.testng.AssertJUnit.*;
 
 /**
@@ -87,7 +86,7 @@ public class AssertContains implements Contains {
     public void clazz(String expectedClass) {
         String clazz = checkClazz(expectedClass, 0, 0);
         assertNotNull(NO_ELEMENT_FOUND, clazz);
-        assertTrue("Class Mismatch: class of '" + clazz + "' doesn't contain '" + expectedClass + "'", clazz.contains(expectedClass));
+        assertTrue("Class Mismatch: class of '" + clazz + DOES_NOT_CONTAIN + expectedClass + "'", clazz.contains(expectedClass));
     }
 
     /**
@@ -102,7 +101,7 @@ public class AssertContains implements Contains {
         String[] attributes = checkAttribute(expectedAttribute, 0, 0);
         assertNotNull(NO_ELEMENT_FOUND, attributes);
         assertTrue("Attribute not found: element attributes of '" + String.join(",", attributes) +
-                "' doesn't contain '" + expectedAttribute + "'", Arrays.asList(attributes).contains(expectedAttribute));
+                DOES_NOT_CONTAIN + expectedAttribute + "'", Arrays.asList(attributes).contains(expectedAttribute));
     }
 
     /**
@@ -116,7 +115,7 @@ public class AssertContains implements Contains {
     public void text(String expectedText) {
         String text = checkText(expectedText, 0, 0);
         assertNotNull(NO_ELEMENT_FOUND, text);
-        assertTrue("Text not found: element text of '" + text + "' doesn't contain '" + expectedText + "'", text.contains(expectedText));
+        assertTrue("Text not found: element text of '" + text + DOES_NOT_CONTAIN + expectedText + "'", text.contains(expectedText));
     }
 
     /**
@@ -136,7 +135,7 @@ public class AssertContains implements Contains {
             }
             fail(reason);
         }
-        assertTrue("Value not found: element value of '" + value + "' doesn't contain '" + expectedValue + "'", value.contains(expectedValue));
+        assertTrue("Value not found: element value of '" + value + DOES_NOT_CONTAIN + expectedValue + "'", value.contains(expectedValue));
     }
 
     /**
@@ -157,7 +156,7 @@ public class AssertContains implements Contains {
             fail(reason);
         }
         assertTrue("Option not found: element options of '" + String.join(",", options) +
-                "' doesn't contain '" + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
+                DOES_NOT_CONTAIN + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
     }
 
     /**
@@ -178,7 +177,7 @@ public class AssertContains implements Contains {
             fail(reason);
         }
         assertTrue("Value not found: element values of '" + String.join(",", values) +
-                "' doesn't contain '" + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
+                DOES_NOT_CONTAIN + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
     }
 
     /**

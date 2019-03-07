@@ -30,8 +30,8 @@ import java.util.Set;
 import static com.coveros.selenified.element.check.Constants.*;
 
 /**
- * Assert will handle all verifications performed on the actual element. These
- * asserts are custom to the framework, and in addition to providing easy object
+ * Check will handle all verifications performed on the actual element. These
+ * checks are custom to the framework, and in addition to providing easy object
  * oriented capabilities, they take screenshots with each verification to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests.
@@ -61,8 +61,7 @@ interface Check {
     ///////////////////////////////////////////////////////
 
     /**
-     * Determines if the element is present, and if it is not, waits up to the
-     * default time (5 seconds) for the element
+     * Determines if the element is present, and if it is not writes a failure out to the detailed log
      *
      * @return Boolean: whether the element is present or not
      */
@@ -75,7 +74,7 @@ interface Check {
     }
 
     /**
-     * Determines if the element is an input element
+     * Determines if the element is an input element, and if it is not writes a failure out to the detailed log
      *
      * @return Boolean: whether the element is an input or not
      */
@@ -88,7 +87,7 @@ interface Check {
     }
 
     /**
-     * Determines if the element is a select element
+     * Determines if the element is a select element, and if it is not writes a failure out to the detailed log
      *
      * @return Boolean: whether the element is an select or not
      */
@@ -101,7 +100,7 @@ interface Check {
     }
 
     /**
-     * Determines if the element is a table element
+     * Determines if the element is a table element, and if it is not writes a failure out to the detailed log
      *
      * @return Boolean: whether the element is an table or not
      */
@@ -114,7 +113,9 @@ interface Check {
     }
 
     /**
-     * Determines if the element is a present, and if it is, it is an input
+     * Determines if the element is a present, and if it is, it is an input.
+     * Writes out the action and expected outcome to the detailed log. Action is only logged
+     * if waitFor is greater than 0 (implying we are waiting)
      *
      * @param expected - the expected outcome
      * @return Boolean: whether the element is a select or not
@@ -126,7 +127,9 @@ interface Check {
     }
 
     /**
-     * Determines if the element is a present, and if it is, it is a select
+     * Determines if the element is a present, and if it is, it is a select.
+     * Writes out the action and expected outcome to the detailed log. Action is only logged
+     * if waitFor is greater than 0 (implying we are waiting)
      *
      * @param expected - the expected outcome
      * @return Boolean: whether the element is a select or not
@@ -138,7 +141,9 @@ interface Check {
     }
 
     /**
-     * Determines if the element is a present, and if it is, it is a table
+     * Determines if the element is a present, and if it is, it is a table.
+     * Writes out the action and expected outcome to the detailed log. Action is only logged
+     * if waitFor is greater than 0 (implying we are waiting)
      *
      * @param expected - the expected outcome
      * @return Boolean: whether the element is an table or not
@@ -150,8 +155,9 @@ interface Check {
     }
 
     /**
-     * Retrieves all attributes of an element, and writes out the expected
-     * result of checking for one particular attribute. If the element isn't
+     * Retrieves all attributes of an element, and writes out the action and expected
+     * result of checking for one particular attribute. Action is only logged
+     * if waitFor is greater than 0 (implying we are waiting). If the element isn't
      * present, or the attributes can't be determined an error will be logged
      * and null will be returned
      *
@@ -172,8 +178,9 @@ interface Check {
     }
 
     /**
-     * Retrieves the value from the element, and writes out the value that is
-     * being expected. If the element isn't present or an input, an error will
+     * Retrieves the value from the element, and writes out the action and value that is
+     * being expected. Action is only logged if waitFor is greater than 0 (implying we
+     * are waiting). If the element isn't present or an input, an error will
      * be logged and null will be returned
      *
      * @param value    the expected value of the element

@@ -46,7 +46,7 @@ public interface Equals extends Check {
     // ///////////////////////////////////////
 
     /**
-     * Verifies that the element has a the expected number of matches on the page, e.g.
+     * Checks that the element has a the expected number of matches on the page, e.g.
      * how many elements match the locator and target provided.
      * If the element isn't present, or the css doesn't contain
      * the desired attribute, this will constitute a failure, same as a
@@ -57,6 +57,19 @@ public interface Equals extends Check {
      */
     void matches(int expectedMatches);
 
+    /**
+     * Checks that the element has a the expected number of matches on the page, e.g.
+     * how many elements match the locator and target provided.
+     * If the element isn't present, or the css doesn't contain
+     * the desired attribute, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedMatches the expected number of elements matching the locator
+     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Integer: the number of elements matching the locator
+     */
     default int checkMatches(int expectedMatches, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + " having a match count of <b>" + expectedMatches +
@@ -75,7 +88,7 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element has a css attribute with a value equal to the
+     * Checks that the element has a css attribute with a value equal to the
      * value provided. If the element isn't present, or the css doesn't contain
      * the desired attribute, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
@@ -86,6 +99,19 @@ public interface Equals extends Check {
      */
     void cssValue(String attribute, String expectedValue);
 
+    /**
+     * Checks that the element has a css attribute with a value equal to the
+     * value provided. If the element isn't present, or the css doesn't contain
+     * the desired attribute, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param attribute     - the css attribute to be checked
+     * @param expectedValue the expected css value of the passed attribute of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the css value of the attribute passed in. null will be returned if the element's css isn't accessible
+     */
     default String checkCssValue(String attribute, String expectedValue, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + " having a css attribute of <i>" + attribute +
@@ -108,7 +134,7 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element's class equals the provided expected class. If
+     * Checks that the element's class equals the provided expected class. If
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
@@ -117,6 +143,17 @@ public interface Equals extends Check {
      */
     void clazz(String expectedClass);
 
+    /**
+     * Checks that the element's class equals the provided expected class. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedClass - the full expected class value
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual class of the element. null will be returned if the element isn't present
+     */
     default String checkClazz(String expectedClass, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + " with class <b>" + expectedClass + "</b>", waitFor);
@@ -132,17 +169,30 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element has an attribute with a value equals to the
+     * Checks that the element has an attribute with a value equals to the
      * value provided. If the element isn't present, or the element does not
      * have the attribute, this will constitute a failure, same as a mismatch.
      * This information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
      * @param attribute     - the attribute to be checked
-     * @param expectedValue the expected value of the passed attribute of the element
+     * @param expectedValue - the expected value of the passed attribute of the element
      */
     void attribute(String attribute, String expectedValue);
 
+    /**
+     * Checks that the element has an attribute with a value equals to the
+     * value provided. If the element isn't present, or the element does not
+     * have the attribute, this will constitute a failure, same as a mismatch.
+     * This information will be logged and recorded, with a screenshot for
+     * traceability and added debugging support.
+     *
+     * @param attribute     - the attribute to be checked
+     * @param expectedValue - the expected value of the passed attribute of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the attribute value of the attribute specified from the element. null will be returned if the element isn't present
+     */
     default String checkAttribute(String attribute, String expectedValue, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(
@@ -167,7 +217,7 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element's text equals the provided expected text. If
+     * Checks that the element's text equals the provided expected text. If
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
@@ -176,6 +226,17 @@ public interface Equals extends Check {
      */
     void text(String expectedText);
 
+    /**
+     * Checks that the element's text equals the provided expected text. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedText - the expected value of the element
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual text of the element. null will be returned if the element isn't present
+     */
     default String checkText(String expectedText, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + " having text of <b>" + expectedText + "</b>", waitFor);
@@ -191,7 +252,7 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element's text in a particular cell equals the provided
+     * Checks that the element's text in a particular cell equals the provided
      * expected text. If the element isn't present, or a table, this will
      * constitute a failure, same as a mismatch. This information will be logged
      * and recorded, with a screenshot for traceability and added debugging
@@ -205,6 +266,22 @@ public interface Equals extends Check {
      */
     void text(int row, int col, String expectedText);
 
+    /**
+     * Checks that the element's text in a particular cell equals the provided
+     * expected text. If the element isn't present, or a table, this will
+     * constitute a failure, same as a mismatch. This information will be logged
+     * and recorded, with a screenshot for traceability and added debugging
+     * support.
+     *
+     * @param row          - the number of the row in the table - note, row numbering
+     *                     starts at 0
+     * @param col          - the number of the column in the table - note, column
+     *                     numbering starts at 0
+     * @param expectedText - what text do we expect to be in the table cell
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual text of the table cell. null will be returned if the element isn't present or a table, or table cell doesn't exist
+     */
     @SuppressWarnings("squid:S1168")
     default String checkText(int row, int col, String expectedText, double waitFor, double timeTook) {
         String column = " and column ";
@@ -229,15 +306,26 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element's value equals the provided expected value. If
+     * Checks that the element's value equals the provided expected value. If
      * the element isn't present or an input, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedValue the expected input value of the element
+     * @param expectedValue - the expected input value of the element
      */
     void value(String expectedValue);
 
+    /**
+     * Checks that the element's value equals the provided expected value. If
+     * the element isn't present or an input, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedValue - the expected input value of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual value of the element. null will be returned if the element isn't present or an input
+     */
     @SuppressWarnings("squid:S1168")
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and verify this is an input element
@@ -256,15 +344,26 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element's selected option equals the provided expected
+     * Checks that the element's selected option equals the provided expected
      * option. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedText the expected input text of the element
+     * @param expectedText - the expected input text of the element
      */
     void selectedOption(String expectedText);
 
+    /**
+     * Checks that the element's selected option equals the provided expected
+     * option. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedText - the expected input text of the element
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual selected option of the element. null will be returned if the element isn't present or a select
+     */
     @SuppressWarnings("squid:S1168")
     default String checkSelectedOption(String expectedText, double waitFor, double timeTook) {
         // record the action and verify it's a select
@@ -284,15 +383,26 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element's selected value equals the provided expected
+     * Checks that the element's selected value equals the provided expected
      * value. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedValue the expected input value of the element
+     * @param expectedValue - the expected input value of the element
      */
     void selectedValue(String expectedValue);
 
+    /**
+     * Checks that the element's selected value equals the provided expected
+     * value. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedValue - the expected input value of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual selected value of the element. null will be returned if the element isn't present or a select
+     */
     @SuppressWarnings("squid:S1168")
     default String checkSelectedValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and verify it's a select
@@ -312,15 +422,26 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element's select options equal the provided expected
+     * Checks that the element's select options equal the provided expected
      * options. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedOptions the expected input value of the element
+     * @param expectedOptions - the expected input value of the element
      */
     void selectOptions(String... expectedOptions);
 
+    /**
+     * Checks that the element's select options equal the provided expected
+     * options. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedOptions - the expected input value of the element
+     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String[]: all of the select options of the element. null will be returned if the element isn't present or a select
+     */
     @SuppressWarnings("squid:S1168")
     default String[] checkSelectOptions(String[] expectedOptions, double waitFor, double timeTook) {
         // record the action, and verify it's a select
@@ -342,15 +463,26 @@ public interface Equals extends Check {
     }
 
     /**
-     * Verifies that the element's select values equal the provided expected
+     * Checks that the element's select values equal the provided expected
      * values. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param expectedValues the expected input value of the element
+     * @param expectedValues - the expected input value of the element
      */
     void selectValues(String... expectedValues);
 
+    /**
+     * Checks that the element's select values equal the provided expected
+     * values. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedValues - the expected input value of the element
+     * @param waitFor        - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook       - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String[]: all of the select values of the element. null will be returned if the element isn't present or a select
+     */
     @SuppressWarnings("squid:S1168")
     default String[] checkSelectValues(String[] expectedValues, double waitFor, double timeTook) {
         // record the action, and verify it's a select

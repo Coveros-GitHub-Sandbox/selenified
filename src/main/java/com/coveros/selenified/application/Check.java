@@ -27,7 +27,7 @@ import static com.coveros.selenified.element.check.Constants.*;
 
 /**
  * Assert will handle all verifications performed on the actual application
- * itself. These asserts are custom to the framework, and in addition to
+ * itself. These checks are custom to the framework, and in addition to
  * providing easy object oriented capabilities, they take screenshots with each
  * verification to provide additional traceability, and assist in
  * troubleshooting and debugging failing tests.

@@ -44,15 +44,26 @@ public interface Matches extends Check {
     // ///////////////////////////////////////
 
     /**
-     * Verifies that the element's text matches the regular expression pattern provided. If
+     * Checks that the element's text matches the regular expression pattern provided. If
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param expectedPattern the expected pattern of the text of the element
+     * @param expectedPattern - the expected pattern of the text of the element
      */
     void text(String expectedPattern);
 
+    /**
+     * Checks that the element's text matches the regular expression pattern provided. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedPattern - the expected pattern of the text of the element
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual text of the element. null will be returned if the element isn't present
+     */
     default String checkText(String expectedPattern, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>", waitFor);
@@ -68,7 +79,7 @@ public interface Matches extends Check {
     }
 
     /**
-     * Verifies that the element's pattern in a particular cell matches the regular expression
+     * Checks that the element's pattern in a particular cell matches the regular expression
      * pattern provided. If the element isn't present, or a table, this will
      * constitute a failure, same as a mismatch. This information will be logged
      * and recorded, with a screenshot for traceability and added debugging
@@ -82,6 +93,22 @@ public interface Matches extends Check {
      */
     void text(int row, int col, String pattern);
 
+    /**
+     * Checks that the element's pattern in a particular cell matches the regular expression
+     * pattern provided. If the element isn't present, or a table, this will
+     * constitute a failure, same as a mismatch. This information will be logged
+     * and recorded, with a screenshot for traceability and added debugging
+     * support.
+     *
+     * @param row     - the number of the row in the table - note, row numbering
+     *                starts at 1, NOT 0
+     * @param col     - the number of the column in the table - note, column
+     *                numbering starts at 1, NOT 0
+     * @param pattern - what pattern do we expect to be in the table cell
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual text of the table cell. null will be returned if the element isn't present or a table, or table cell doesn't exist
+     */
     default String checkText(int row, int col, String pattern, double waitFor, double timeTook) {
         String column = " and column ";
         String within = " within element ";
@@ -105,7 +132,7 @@ public interface Matches extends Check {
     }
 
     /**
-     * Verifies that the element's value matches the regular expression pattern
+     * Checks that the element's value matches the regular expression pattern
      * provided. If the element isn't present or an input, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -114,6 +141,17 @@ public interface Matches extends Check {
      */
     void value(String expectedPattern);
 
+    /**
+     * Checks that the element's value matches the regular expression pattern
+     * provided. If the element isn't present or an input, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedPattern the expected input value of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual value of the element. null will be returned if the element isn't present or an input
+     */
     default String checkValue(String expectedPattern, double waitFor, double timeTook) {
         // record the action and verify this is an input element
         if (!isPresentInput(getElement().prettyOutputStart() + " is not an input on the page", waitFor)) {
@@ -131,7 +169,7 @@ public interface Matches extends Check {
     }
 
     /**
-     * Verifies that the element's selected option matches the regular expression pattern
+     * Checks that the element's selected option matches the regular expression pattern
      * provided. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -140,6 +178,17 @@ public interface Matches extends Check {
      */
     void selectedOption(String expectedPattern);
 
+    /**
+     * Checks that the element's selected option matches the regular expression pattern
+     * provided. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedPattern the expected input text of the element
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual selected option of the element. null will be returned if the element isn't present or a select
+     */
     default String checkSelectedOption(String expectedPattern, double waitFor, double timeTook) {
         // record the action, and verify it's a select
         if (!isPresentSelect(
@@ -159,7 +208,7 @@ public interface Matches extends Check {
     }
 
     /**
-     * Verifies that the element's selected value  matches the regular expression pattern
+     * Checks that the element's selected value  matches the regular expression pattern
      * provided. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -168,6 +217,17 @@ public interface Matches extends Check {
      */
     void selectedValue(String expectedPattern);
 
+    /**
+     * Checks that the element's selected value  matches the regular expression pattern
+     * provided. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedPattern the expected input value of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual selected value of the element. null will be returned if the element isn't present or a select
+     */
     default String checkSelectedValue(String expectedPattern, double waitFor, double timeTook) {
         // record the action, and verify it's a select
         if (!isPresentSelect(

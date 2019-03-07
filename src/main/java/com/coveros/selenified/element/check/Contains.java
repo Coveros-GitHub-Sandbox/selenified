@@ -27,8 +27,8 @@ import java.util.Arrays;
 import static com.coveros.selenified.element.check.Constants.*;
 
 /**
- * Contains extends Asserts to provide some additional verification
- * capabilities. It will handle all verifications performed on the actual
+ * Contains extends Check to provide some additional checking
+ * capabilities. It will handle all checks performed on the actual
  * element. These asserts are custom to the framework, and in addition to
  * providing easy object oriented capabilities, they take screenshots with each
  * verification to provide additional traceability, and assist in
@@ -46,7 +46,7 @@ public interface Contains extends Check {
     // ///////////////////////////////////////
 
     /**
-     * Verifies that the element's class contains the provided expected class.
+     * Checks that the element's class contains the provided expected class.
      * If the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
@@ -55,6 +55,17 @@ public interface Contains extends Check {
      */
     void clazz(String expectedClass);
 
+    /**
+     * Checks that the element's class contains the provided expected class.
+     * If the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedClass - the expected class value
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual class of the element. null will be returned if the element isn't present
+     */
     default String checkClazz(String expectedClass, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + " containing class <b>" + expectedClass + "</b>", waitFor);
@@ -71,7 +82,7 @@ public interface Contains extends Check {
     }
 
     /**
-     * Verifies that the element contains the provided expected attribute. If
+     * Checks that the element contains the provided expected attribute. If
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
@@ -80,6 +91,17 @@ public interface Contains extends Check {
      */
     void attribute(String expectedAttribute);
 
+    /**
+     * Checks that the element contains the provided expected attribute. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedAttribute - the attribute to check for
+     * @param waitFor           - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook          - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String[]: all of the attributes of the element. null will be returned if the element isn't present
+     */
     default String[] checkAttribute(String expectedAttribute, double waitFor, double timeTook) {
         // record the action and get the attributes
         String[] allAttributes = getAttributes(expectedAttribute, "with", waitFor);
@@ -96,15 +118,26 @@ public interface Contains extends Check {
     }
 
     /**
-     * Verifies that the element's text contains the provided expected text. If
+     * Checks that the element's text contains the provided expected text. If
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param expectedText the expected value of the element
+     * @param expectedText - the expected value of the element
      */
     void text(String expectedText);
 
+    /**
+     * Checks that the element's text contains the provided expected text. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedText - the expected value of the element
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual text of the element. null will be returned if the element isn't present
+     */
     default String checkText(String expectedText, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + CONTAINS_TEXT + expectedText + "</b>", waitFor);
@@ -120,7 +153,7 @@ public interface Contains extends Check {
     }
 
     /**
-     * Verifies that the element's value contains the provided expected value.
+     * Checks that the element's value contains the provided expected value.
      * If the element isn't present or an input, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -129,6 +162,17 @@ public interface Contains extends Check {
      */
     void value(String expectedValue);
 
+    /**
+     * Checks that the element's value contains the provided expected value.
+     * If the element isn't present or an input, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedValue the expected value of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual value of the element. null will be returned if the element isn't present or an input
+     */
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and get the attributes
         String elementValue = getValue(expectedValue, CONTAINS_VALUE, waitFor);
@@ -142,7 +186,7 @@ public interface Contains extends Check {
     }
 
     /**
-     * Verifies that the element's options contains the provided expected
+     * Checks that the element's options contains the provided expected
      * option. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -151,6 +195,17 @@ public interface Contains extends Check {
      */
     void selectOption(String expectedOption);
 
+    /**
+     * Checks that the element's options contains the provided expected
+     * option. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedOption the option expected in the list
+     * @param waitFor        - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook       - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String[]: all of the select options of the element. null will be returned if the element isn't present or a select
+     */
     @SuppressWarnings("squid:S1168")
     default String[] checkSelectOption(String expectedOption, double waitFor, double timeTook) {
         // record the action, and check for select
@@ -173,7 +228,7 @@ public interface Contains extends Check {
     }
 
     /**
-     * Verifies that the element's options contains the provided expected value.
+     * Checks that the element's options contains the provided expected value.
      * If the element isn't present or a select, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -182,6 +237,17 @@ public interface Contains extends Check {
      */
     void selectValue(String expectedValue);
 
+    /**
+     * Checks that the element's options contains the provided expected value.
+     * If the element isn't present or a select, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedValue the expected input value of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String[]: all of the select values of the element. null will be returned if the element isn't present or a select
+     */
     @SuppressWarnings("squid:S1168")
     default String[] checkSelectValue(String expectedValue, double waitFor, double timeTook) {
         // record the action, and check for select
@@ -202,7 +268,7 @@ public interface Contains extends Check {
     }
 
     /**
-     * Verifies that the element has the expected number of options. If the
+     * Checks that the element has the expected number of options. If the
      * element isn't present or a select, this will constitute a failure, same
      * as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -211,6 +277,17 @@ public interface Contains extends Check {
      */
     void selectOptions(int numOfOptions);
 
+    /**
+     * Checks that the element has the expected number of options. If the
+     * element isn't present or a select, this will constitute a failure, same
+     * as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param numOfOptions the expected number of options in the select element
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Integer: the number of select options of the element. -1 will be returned if the element isn't present or a select
+     */
     default int checkSelectOptions(int numOfOptions, double waitFor, double timeTook) {
         // record the action, and check for select
         if (!isPresentSelect(getElement().prettyOutput() + " with number of select values equal to <b>" + numOfOptions + "</b>", waitFor)) {
@@ -230,7 +307,7 @@ public interface Contains extends Check {
     }
 
     /**
-     * Verifies that the element has the expected number of columns. If the
+     * Checks that the element has the expected number of columns. If the
      * element isn't present or a table, this will constitute a failure, same as
      * a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -239,6 +316,17 @@ public interface Contains extends Check {
      */
     void columns(int numOfColumns);
 
+    /**
+     * Checks that the element has the expected number of columns. If the
+     * element isn't present or a table, this will constitute a failure, same as
+     * a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param numOfColumns the expected number of column elements of a table
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Integer: the number of columns of the element. -1 will be returned if the element isn't present or a table
+     */
     default int checkColumns(int numOfColumns, double waitFor, double timeTook) {
         // record the action, and check for table
         if (!isPresentTable(getElement().prettyOutput() + " with the number of table columns equal to <b>" + numOfColumns + "</b>", waitFor)) {
@@ -257,7 +345,7 @@ public interface Contains extends Check {
     }
 
     /**
-     * Verifies that the element has the expected number of rows. If the element
+     * Checks that the element has the expected number of rows. If the element
      * isn't present or a table, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
@@ -266,6 +354,17 @@ public interface Contains extends Check {
      */
     void rows(int numOfRows);
 
+    /**
+     * Checks that the element has the expected number of rows. If the element
+     * isn't present or a table, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param numOfRows the expected number of row elements of a table
+     * @param waitFor   - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook  - the amount of time it took for wait for something (assuming we had to wait)
+     * @return Integer: the number of columns of the element. -1 will be returned if the element isn't present or a table
+     */
     default int checkRows(int numOfRows, double waitFor, double timeTook) {
         // record the action, and check for table
         if (!isPresentTable(getElement().prettyOutput() + " with the number of table rows equal to <b>" + numOfRows + "</b>", waitFor)) {

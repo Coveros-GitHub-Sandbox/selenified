@@ -46,7 +46,7 @@ public interface Excludes extends Check {
     // ///////////////////////////////////////
 
     /**
-     * Verifies that the element's class does not contain the provided expected
+     * Checks that the element's class does not contain the provided expected
      * class. If the element isn't present, this will constitute a failure, same
      * as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -55,6 +55,17 @@ public interface Excludes extends Check {
      */
     void clazz(String unexpectedClass);
 
+    /**
+     * Checks that the element's class does not contain the provided expected
+     * class. If the element isn't present, this will constitute a failure, same
+     * as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param unexpectedClass - the unexpected class value
+     * @param waitFor        - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook       - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual class of the element. null will be returned if the element isn't present
+     */
     default String checkClazz(String unexpectedClass, double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + " without class <b>" + unexpectedClass + "</b>", waitFor);
@@ -73,7 +84,7 @@ public interface Excludes extends Check {
     }
 
     /**
-     * Verifies that the element does not contain the provided expected
+     * Checks that the element does not contain the provided expected
      * attribute. If the element isn't present, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -82,6 +93,17 @@ public interface Excludes extends Check {
      */
     void attribute(String attribute);
 
+    /**
+     * Checks that the element does not contain the provided expected
+     * attribute. If the element isn't present, this will constitute a failure,
+     * same as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param attribute - the attribute to check for
+     * @param waitFor           - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook          - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String[]: all of the attributes of the element. null will be returned if the element isn't present
+     */
     default String[] checkAttribute(String attribute, double waitFor, double timeTook) {
         // record the action and get the attributes
         String[] allAttributes = getAttributes(attribute, "without", waitFor);
@@ -97,22 +119,33 @@ public interface Excludes extends Check {
     }
 
     /**
-     * Verifies that the element's text does not contain the provided expected
+     * Checks that the element's text does not contain the provided expected
      * text. If the element isn't present, this will constitute a failure, same
      * as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
      *
-     * @param expectedValue the expected value of the element
+     * @param expectedText the expected value of the element
      */
-    void text(String expectedValue);
+    void text(String expectedText);
 
-    default String checkText(String expectedValue, double waitFor, double timeTook) {
+    /**
+     * Checks that the element's text does not contain the provided expected
+     * text. If the element isn't present, this will constitute a failure, same
+     * as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param expectedText the expected value of the element
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual text of the element. null will be returned if the element isn't present
+     */
+    default String checkText(String expectedText, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + EXCLUDES_TEXT + expectedValue + "</b>", waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + EXCLUDES_TEXT + expectedText + "</b>", waitFor);
         // check for the object to the present on the page
         String elementValue = getElement().get().text();
         // record the result
-        if (elementValue == null || elementValue.contains(expectedValue)) {
+        if (elementValue == null || elementValue.contains(expectedText)) {
             getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.PASS);
@@ -121,7 +154,7 @@ public interface Excludes extends Check {
     }
 
     /**
-     * Verifies that the element's value does not contain the provided expected
+     * Checks that the element's value does not contain the provided expected
      * value. If the element isn't present or an input, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -130,6 +163,17 @@ public interface Excludes extends Check {
      */
     void value(String expectedValue);
 
+    /**
+     * Checks that the element's value does not contain the provided expected
+     * value. If the element isn't present or an input, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedValue the expected value of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual value of the element. null will be returned if the element isn't present or an input
+     */
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and get our value
         String elementValue = getValue(expectedValue, EXCLUDES_VALUE, waitFor);
@@ -142,7 +186,7 @@ public interface Excludes extends Check {
     }
 
     /**
-     * Verifies that the element's options do not contain the provided expected
+     * Checks that the element's options do not contain the provided expected
      * option. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -151,6 +195,17 @@ public interface Excludes extends Check {
      */
     void selectOption(String option);
 
+    /**
+     * Checks that the element's options do not contain the provided expected
+     * option. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param option the option not expected in the list
+     * @param waitFor        - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook       - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String[]: all of the select options of the element. null will be returned if the element isn't present or a select
+     */
     @SuppressWarnings("squid:S1168")
     default String[] checkSelectOption(String option, double waitFor, double timeTook) {
         // record the action, and check for select
@@ -174,7 +229,7 @@ public interface Excludes extends Check {
     }
 
     /**
-     * Verifies that the element's options do not contain the provided expected
+     * Checks that the element's options do not contain the provided expected
      * value. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -183,6 +238,17 @@ public interface Excludes extends Check {
      */
     void selectValue(String selectValue);
 
+    /**
+     * Checks that the element's options do not contain the provided expected
+     * value. If the element isn't present or a select, this will constitute a
+     * failure, same as a mismatch. This information will be logged and
+     * recorded, with a screenshot for traceability and added debugging support.
+     *
+     * @param selectValue the unexpected input value of the element
+     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String[]: all of the select values of the element. null will be returned if the element isn't present or a select
+     */
     @SuppressWarnings("squid:S1168")
     default String[] checkSelectValue(String selectValue, double waitFor, double timeTook) {
         // record the action, and check for select
