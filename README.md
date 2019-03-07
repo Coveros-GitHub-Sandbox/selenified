@@ -97,7 +97,7 @@ public class ReadmeSampleIT extends Selenified {
         searchBox.type(searchTerm);
         searchBox.submit();
         //wait for the page to return the results
-        app.newElement(Locator.ID, "recent-posts-4").waitFor().present();
+        app.newElement(Locator.ID, "recent-posts-4").waitForState().present();
         // verify the correct page title
         app.azzert().titleEquals("You searched for " + searchTerm + " - Coveros");
         // verify no issues
@@ -343,10 +343,10 @@ mirely wait for the expected condition.
     
     element.assertContains().text("hello");
     element.verifyContains().text("hello");
-    element.waitForContains().text("hello");
     element.assertExcludes().value("world");
     element.verifyExcludes().value("world");
-    element.waitForExcludes().value("world");
+    element.assertMatches().value("[a-z]");
+    element.verifyMatches().value("[a-z]");
     element.assertEquals().rows(7);
     element.verifyEquals().rows(7);
     element.waitForEquals().rows(7);

@@ -3,9 +3,23 @@ package integration;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.Element;
 import org.testng.annotations.Test;
 
 public class WaitForEqualsIT extends WebBase {
+
+    @Test(groups = {"integration", "equals", "wait"},
+            description = "An integration test to check changing the default wait method")
+    public void setDefaultWaitElementTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element element = app.newElement(Locator.ID, "five_second_button");
+        element.waitForEquals().changeDefaultWait(0.5);
+        element.click();
+        // verify 1 issue
+        finish(1);
+    }
 
     @Test(groups = {"integration", "wait", "equals"}, description = "An integration test to check the matchCount method")
     public void matchesTest() {
@@ -15,6 +29,16 @@ public class WaitForEqualsIT extends WebBase {
         app.newElement(Locator.NAME, "car_list").waitForEquals().matches(1);
         // verify no issues
         finish();
+    }
+
+    @Test(groups = {"integration", "wait", "equals"}, description = "An integration test to check the matchCount method")
+    public void matchesTestNone() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "car_list").waitForEquals().matches(0, 2);
+        // verify one issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "wait", "equals"}, description = "An integration test to check the matchCount method")
@@ -32,7 +56,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.TAGNAME, "table").waitForEquals().matches(1);
+        app.newElement(Locator.TAGNAME, "table").waitForEquals().matches(1,1);
         // verify 1 issue
         finish(1);
     }
@@ -42,7 +66,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.TAGNAME, "someBadTag").waitForEquals().matches(1);
+        app.newElement(Locator.TAGNAME, "someBadTag").waitForEquals().matches(1,1);
         // verify 1 issue
         finish(1);
     }
@@ -65,7 +89,7 @@ public class WaitForEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "non-existent-element", 0).waitForEquals()
-                .selectValues("volvo", "ford", "mercedes", "audi");
+                .selectValues(new String[]{"volvo", "ford", "mercedes", "audi"}, 1);
         // verify 1 issue
         finish(1);
     }
@@ -76,7 +100,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitForEquals().selectValues("volvo", "ford", "mercedes", "audi");
+        app.newElement(Locator.NAME, "car_list").waitForEquals().selectValues(new String[]{"volvo", "ford", "mercedes", "audi"},1);
         // verify 1 issue
         finish(1);
     }
@@ -88,7 +112,7 @@ public class WaitForEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").waitForEquals()
-                .selectValues("volvo", "saab", "mercedes", "audi", "chevrolet");
+                .selectValues(new String[]{"volvo", "saab", "mercedes", "audi", "chevrolet"}, 1);
         // verify 1 issue
         finish(1);
     }
@@ -99,7 +123,18 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitForEquals().selectValues("volvo", "saab", "mercedes");
+        app.newElement(Locator.NAME, "car_list").waitForEquals().selectValues(new String[]{"volvo", "saab", "mercedes"},1);
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "An integration test to check the compareSelectValues method")
+    public void negativeCompareSelectValuesNoElementTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "non-existing-element").waitForEquals().selectValues(new String[]{"volvo", "saab", "mercedes"},1);
         // verify no issue
         finish(1);
     }
@@ -122,7 +157,7 @@ public class WaitForEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "non-existent-element", 0).waitForEquals()
-                .selectOptions("Volvo", "Ford", "Mercedes", "Audi");
+                .selectOptions(new String[]{"Volvo", "Ford", "Mercedes", "Audi"},1);
         // verify 1 issue
         finish(1);
     }
@@ -133,7 +168,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitForEquals().selectOptions("Volvo", "Ford", "Mercedes", "Audi");
+        app.newElement(Locator.NAME, "car_list").waitForEquals().selectOptions(new String[]{"Volvo", "Ford", "Mercedes", "Audi"},1);
         // verify 1 issue
         finish(1);
     }
@@ -145,7 +180,7 @@ public class WaitForEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").waitForEquals()
-                .selectOptions("Volvo", "Saab", "Mercedes", "Audi", "Chevrolet");
+                .selectOptions(new String[]{"Volvo", "Saab", "Mercedes", "Audi", "Chevrolet"}, 1);
         // verify 1 issue
         finish(1);
     }
@@ -156,7 +191,18 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitForEquals().selectOptions("Volvo", "Saab", "Mercedes");
+        app.newElement(Locator.NAME, "car_list").waitForEquals().selectOptions(new String[]{"Volvo", "Saab", "Mercedes"}, 1);
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "An integration test to check the compareSelectOptions method")
+    public void negativeCompareSelectOptionsNoElementTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "non-existant-element").waitForEquals().selectOptions(new String[]{"Volvo", "Saab", "Mercedes"}, 1);
         // verify no issue
         finish(1);
     }
@@ -178,7 +224,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "table", 0).waitForEquals().text(1, 1, "Bad-Value");
+        app.newElement(Locator.ID, "table", 0).waitForEquals().text(1, 1, "Bad-Value",1);
         // verify 1 issue
         finish(1);
     }
@@ -189,7 +235,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").waitForEquals().text(0, 0, "");
+        app.newElement(Locator.ID, "non-existent-element").waitForEquals().text(0, 0, "",1);
         // verify 1 issue
         finish(1);
     }
@@ -211,7 +257,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().clazz("wrong_class");
+        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().clazz("wrong_class",1);
         // verify 1 issue
         finish(1);
     }
@@ -222,7 +268,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().clazz(null);
+        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().clazz(null,1);
         // verify 1 issue
         finish(1);
     }
@@ -233,7 +279,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").waitForEquals().clazz("wrong_class");
+        app.newElement(Locator.ID, "non-existent-element").waitForEquals().clazz("wrong_class",1);
         // verify 1 issue
         finish(1);
     }
@@ -244,7 +290,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "prompt_button").waitForEquals().clazz("wrong_class");
+        app.newElement(Locator.ID, "prompt_button").waitForEquals().clazz("wrong_class",1);
         // verify 1 issue
         finish(1);
     }
@@ -270,7 +316,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "check").waitForEquals().clazz("wrong_class");
+        app.newElement(Locator.ID, "check").waitForEquals().clazz("wrong_class",1);
         // verify 1 issue
         finish(1);
     }
@@ -303,7 +349,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().cssValue("display", "inline");
+        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().cssValue("display", "inline",1);
         // verify 1 issue
         finish(1);
     }
@@ -314,7 +360,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().cssValue(null, "inline");
+        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().cssValue(null, "inline",1);
         // verify 1 issue
         finish(1);
     }
@@ -325,7 +371,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").waitForEquals().cssValue("display", "inline");
+        app.newElement(Locator.ID, "non-existent-element").waitForEquals().cssValue("display", "inline",1);
         // verify 1 issue
         finish(1);
     }
@@ -347,7 +393,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div").waitForEquals().attribute("id", "another_id");
+        app.newElement(Locator.ID, "hidden_div").waitForEquals().attribute("id", "another_id",1);
         // verify 1 issue
         finish(1);
     }
@@ -358,7 +404,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().attribute("display", "inline");
+        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().attribute("display", "inline",1);
         // verify 1 issue
         finish(1);
     }
@@ -369,7 +415,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").waitForEquals().attribute("display", "inline");
+        app.newElement(Locator.ID, "non-existent-element").waitForEquals().attribute("display", "inline",1);
         // verify 1 issue
         finish(1);
     }
@@ -391,7 +437,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "that", 0).waitForEquals().value("wrong value");
+        app.newElement(Locator.ID, "that", 0).waitForEquals().value("wrong value",1);
         // verify 1 issue
         finish(1);
     }
@@ -413,7 +459,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "car_list", 0).waitForEquals().selectedValue("wrong value");
+        app.newElement(Locator.ID, "car_list", 0).waitForEquals().selectedValue("wrong value",1);
         // verify 1 issue
         finish(1);
     }
@@ -424,7 +470,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "enabled_button").waitForEquals().selectedValue("wrong value");
+        app.newElement(Locator.ID, "enabled_button").waitForEquals().selectedValue("wrong value",1);
         // verify 1 issue
         finish(1);
     }
@@ -435,7 +481,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "table").waitForEquals().selectedValue("wrong value");
+        app.newElement(Locator.ID, "table").waitForEquals().selectedValue("wrong value",1);
         // verify 1 issue
         finish(1);
     }
@@ -458,7 +504,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", 0).waitForEquals().text("Maria Anders");
+        app.newElement(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]", 0).waitForEquals().text("Maria Anders",1);
         // verify 1 issue
         finish(1);
     }
@@ -469,7 +515,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").waitForEquals().text("Maria Anders");
+        app.newElement(Locator.ID, "non-existent-element").waitForEquals().text("Maria Anders",1);
         // verify 1 issue
         finish(1);
     }
@@ -491,7 +537,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "textarea_input", 0).waitForEquals().value("Maria Anders");
+        app.newElement(Locator.ID, "textarea_input", 0).waitForEquals().value("Maria Anders",1);
         // verify 1 issue
         finish(1);
     }
@@ -502,7 +548,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hover_over_me").waitForEquals().value("Maria Anders");
+        app.newElement(Locator.ID, "hover_over_me").waitForEquals().value("Maria Anders",1);
         // verify 1 issue
         finish(1);
     }
@@ -513,7 +559,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").waitForEquals().value("Maria Anders");
+        app.newElement(Locator.ID, "non-existent-element").waitForEquals().value("Maria Anders",1);
         // verify 1 issue
         finish(1);
     }
@@ -535,7 +581,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "car_list", 0).waitForEquals().selectedOption("wrong value");
+        app.newElement(Locator.ID, "car_list", 0).waitForEquals().selectedOption("wrong value",1);
         // verify 1 issue
         finish(1);
     }
@@ -546,7 +592,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "alert_button").waitForEquals().selectedOption("wrong value");
+        app.newElement(Locator.ID, "alert_button").waitForEquals().selectedOption("wrong value",1);
         // verify 1 issue
         finish(1);
     }
