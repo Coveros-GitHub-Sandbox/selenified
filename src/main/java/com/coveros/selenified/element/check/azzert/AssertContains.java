@@ -26,7 +26,8 @@ import com.coveros.selenified.element.check.Contains;
 
 import java.util.Arrays;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.element.check.Constants.ELEMENT_NOT_SELECT;
+import static com.coveros.selenified.element.check.Constants.NO_ELEMENT_FOUND;
 import static org.testng.AssertJUnit.*;
 
 /**

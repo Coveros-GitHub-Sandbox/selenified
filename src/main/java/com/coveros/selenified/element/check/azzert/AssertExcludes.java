@@ -27,9 +27,7 @@ import com.coveros.selenified.element.check.Excludes;
 import java.util.Arrays;
 
 import static com.coveros.selenified.element.check.Constants.*;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.fail;
+import static org.testng.AssertJUnit.*;
 
 /**
  * Excludes extends Asserts to provide some additional verification

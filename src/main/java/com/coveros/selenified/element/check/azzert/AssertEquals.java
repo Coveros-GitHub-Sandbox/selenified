@@ -26,8 +26,10 @@ import com.coveros.selenified.element.check.Equals;
 
 import java.util.Arrays;
 
-import static com.coveros.selenified.element.check.Constants.*;
-import static org.testng.AssertJUnit.*;
+import static com.coveros.selenified.element.check.Constants.ELEMENT_NOT_SELECT;
+import static com.coveros.selenified.element.check.Constants.NO_ELEMENT_FOUND;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.fail;
 
 /**
  * Equals extends Asserts to provide some additional verification capabilities.

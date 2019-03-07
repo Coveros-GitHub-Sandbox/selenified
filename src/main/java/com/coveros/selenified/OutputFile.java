@@ -203,6 +203,7 @@ public class OutputFile {
 
     /**
      * If the check fails, adds an error, otherwise, proceed
+     *
      * @param check - a basic check for passing or failing
      */
     public void verify(boolean check) {
@@ -415,8 +416,8 @@ public class OutputFile {
         long tTime = currentTime.getTime() - startTime;
         lastTime = currentTime.getTime();
         try (
-            // Reopen file
-            FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
+                // Reopen file
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // record the action
             out.write(START_ROW);
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
@@ -438,12 +439,12 @@ public class OutputFile {
      * result, using the recordExpected method.
      *
      * @param actualOutcome - what the actual outcome was
-     * @param success        - whether this result is a pass or a failure
+     * @param success       - whether this result is a pass or a failure
      */
     public void recordActual(String actualOutcome, Success success) {
         try (
-            // reopen the log file
-            FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
+                // reopen the log file
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // get a screen shot of the action
             String imageLink = "";
             if (isRealBrowser()) {
@@ -470,14 +471,14 @@ public class OutputFile {
      * should always be followed the recordActual method to record what actually
      * happened.
      *
-     * @param action - what is the action being performed
+     * @param action          - what is the action being performed
      * @param expectedOutcome - what the expected outcome is
      */
     public void recordAction(String action, String expectedOutcome) {
         stepNum++;
         try (
-            // reopen the log file
-            FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
+                // reopen the log file
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             // start the row
             out.write(START_ROW);
             // log the step number

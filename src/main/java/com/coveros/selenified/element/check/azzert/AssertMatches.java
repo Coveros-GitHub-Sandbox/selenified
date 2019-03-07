@@ -25,9 +25,7 @@ import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Matches;
 
 import static com.coveros.selenified.element.check.Constants.*;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
+import static org.testng.AssertJUnit.*;
 
 /**
  * Matches extends Asserts to provide some additional verification capabilities.
