@@ -60,9 +60,9 @@ public interface Contains extends Check {
         String actualClass = getElement().get().attribute(CLASS);
         // record the result
         if (actualClass == null || !actualClass.contains(expectedClass)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASSVALUE + actualClass + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>" +
+            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
                     expectedClass + "</b>", timeTook, Success.PASS);
         }
         return actualClass;
@@ -85,7 +85,7 @@ public interface Contains extends Check {
         if (allAttributes == null || !Arrays.asList(allAttributes).contains(expectedAttribute)) {
             getOutputFile().recordActual(
                     getElement().prettyOutputStart() + " does not contain the attribute of <b>" + expectedAttribute + "</b>" +
-                            ONLYVALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.FAIL);
+                            ONLY_VALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.FAIL);
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + " contains the attribute of <b>" + expectedAttribute + "</b>",
                     timeTook, Success.PASS);
@@ -105,14 +105,14 @@ public interface Contains extends Check {
 
     default String checkText(String expectedText, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + HASTEXT + expectedText + "</b>", waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + CONTAINS_TEXT + expectedText + "</b>", waitFor);
         // get the value
         String elementValue = getElement().get().text();
         // record the result
         if (elementValue == null || !elementValue.contains(expectedText)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + TEXT + elementValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + TEXT + elementValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }
@@ -129,12 +129,12 @@ public interface Contains extends Check {
 
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and get the attributes
-        String elementValue = getValue(expectedValue, HASVALUE, waitFor);
+        String elementValue = getValue(expectedValue, CONTAINS_VALUE, waitFor);
         // record the expected
         if (elementValue == null || !elementValue.contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }
@@ -189,10 +189,10 @@ public interface Contains extends Check {
         String[] allValues = getElement().get().selectValues();
         // record the expected
         if (allValues == null || !Arrays.asList(allValues).contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HASNTVALUE + expectedValue + "</b>" + ONLYVALUE +
+            getOutputFile().recordActual(getElement().prettyOutputStart() + EXCLUDES_VALUE + expectedValue + "</b>" + ONLY_VALUE +
                     Arrays.toString(allValues) + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HASVALUE + expectedValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + CONTAINS_VALUE + expectedValue + "</b>", timeTook, Success.PASS);
         }
         return allValues;
     }

@@ -127,9 +127,9 @@ public interface Equals extends Check {
         String actualClass = getElement().get().attribute(CLASS);
         // record the result
         if (expectedClass == null ? actualClass != null : !expectedClass.equals(actualClass)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASSVALUE + actualClass + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASSVALUE + expectedClass + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + expectedClass + "</b>", timeTook, Success.PASS);
         }
         return actualClass;
     }
@@ -186,9 +186,9 @@ public interface Equals extends Check {
         String elementText = getElement().get().text();
         // record the result
         if (!expectedText.equals(elementText)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementText + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementText + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook, Success.PASS);
         }
         return elementText;
     }
@@ -249,9 +249,9 @@ public interface Equals extends Check {
         String elementValue = getElement().get().value();
         // record the result
         if (!elementValue.equals(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }
@@ -276,9 +276,9 @@ public interface Equals extends Check {
         String elementText = getElement().get().selectedOption();
         // record the result
         if (!elementText.equals(expectedText)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + OPTION + elementText + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + OPTION + elementText + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook, Success.PASS);
         }
         return elementText;
     }
@@ -303,9 +303,9 @@ public interface Equals extends Check {
         String elementValue = getElement().get().selectedValue();
         // record the result
         if (!elementValue.equals(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }

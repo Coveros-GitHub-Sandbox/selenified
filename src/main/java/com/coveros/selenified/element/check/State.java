@@ -37,16 +37,15 @@ import com.coveros.selenified.OutputFile.Success;
 public interface State extends Check {
 
     // constants
-    String PRESENT = " is present on the page";
-    String NOTPRESENT = " is not present on the page";
-    String DISPLAYED = " is displayed on the page";
-    String NOTDISPLAYED = " is not displayed on the page";
-    String CHECKED = " is checked on the page";
-    String NOTCHECKED = " is not checked on the page";
-    String EDITABLE = " is editable on the page";
-    String NOTEDITABLE = " is not editable on the page";
-    String ENABLED = " is enabled on the page";
-    String NOTENABLED = " is not enabled on the page";
+    String IS_PRESENT = " is present on the page";
+    String IS_DISPLAYED = " is displayed on the page";
+    String IS_NOT_DISPLAYED = " is not displayed on the page";
+    String IS_CHECKED = " is checked on the page";
+    String IS_NOT_CHECKED = " is not checked on the page";
+    String IS_EDITABLE = " is editable on the page";
+    String IS_NOT_EDITABLE = " is not editable on the page";
+    String IS_ENABLED = " is enabled on the page";
+    String IS_NOT_ENABLED = " is not enabled on the page";
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -62,14 +61,14 @@ public interface State extends Check {
 
     default boolean checkPresent(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + PRESENT, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_PRESENT, waitFor);
         // perform the check
         boolean isPresent = getElement().is().present();
         // record the result
         if (isPresent) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + PRESENT, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_PRESENT, timeTook, Success.PASS);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTPRESENT, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_PRESENT, timeTook, Success.FAIL);
         }
         return isPresent;
     }
@@ -85,14 +84,14 @@ public interface State extends Check {
 
     default boolean checkNotPresent(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + NOTPRESENT, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_PRESENT, waitFor);
         // perform the check
         boolean isPresent = getElement().is().present();
         // record the result
         if (isPresent) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + PRESENT, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_PRESENT, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTPRESENT, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_PRESENT, timeTook, Success.PASS);
         }
         return !isPresent;
     }
@@ -107,7 +106,7 @@ public interface State extends Check {
 
     default boolean checkDisplayed(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + DISPLAYED, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_DISPLAYED, waitFor);
         // verify the element is present
         if (!isPresent(waitFor)) {
             return false;
@@ -116,9 +115,9 @@ public interface State extends Check {
         boolean isDisplayed = getElement().is().displayed();
         // record the result
         if (!isDisplayed) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTDISPLAYED, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_DISPLAYED, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + DISPLAYED, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_DISPLAYED, timeTook, Success.PASS);
         }
         return isDisplayed;
     }
@@ -134,7 +133,7 @@ public interface State extends Check {
 
     default boolean checkNotDisplayed(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + NOTDISPLAYED, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_DISPLAYED, waitFor);
         // verify the element is present
         if (!isPresent(waitFor)) {
             return false;
@@ -143,9 +142,9 @@ public interface State extends Check {
         boolean isDisplayed = getElement().is().displayed();
         // record the result
         if (!isDisplayed) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTDISPLAYED, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_DISPLAYED, timeTook, Success.PASS);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + DISPLAYED, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_DISPLAYED, timeTook, Success.FAIL);
         }
         return !isDisplayed;
     }
@@ -161,7 +160,7 @@ public interface State extends Check {
 
     default boolean checkChecked(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + CHECKED, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_CHECKED, waitFor);
         // verify the element is present
         if (!isPresent(waitFor)) {
             return false;
@@ -170,9 +169,9 @@ public interface State extends Check {
         boolean isChecked = getElement().is().checked();
         // record the result
         if (!isChecked) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTCHECKED, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_CHECKED, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CHECKED, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_CHECKED, timeTook, Success.PASS);
         }
         return isChecked;
     }
@@ -188,7 +187,7 @@ public interface State extends Check {
 
     default boolean checkNotChecked(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + NOTCHECKED, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_CHECKED, waitFor);
         // verify the element is present
         if (!isPresent(waitFor)) {
             return false;
@@ -197,9 +196,9 @@ public interface State extends Check {
         boolean isChecked = getElement().is().checked();
         // record the result
         if (!isChecked) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTCHECKED, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_CHECKED, timeTook, Success.PASS);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CHECKED, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_CHECKED, timeTook, Success.FAIL);
         }
         return !isChecked;
     }
@@ -216,7 +215,7 @@ public interface State extends Check {
 
     default boolean checkEditable(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + EDITABLE, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_EDITABLE, waitFor);
         // verify the element is present
         if (!isPresent(waitFor)) {
             return false;
@@ -225,9 +224,9 @@ public interface State extends Check {
         boolean isEditable = getElement().is().editable();
         // record the result
         if (!isEditable) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTEDITABLE, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_EDITABLE, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + EDITABLE, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_EDITABLE, timeTook, Success.PASS);
         }
         return isEditable;
     }
@@ -244,7 +243,7 @@ public interface State extends Check {
 
     default boolean checkNotEditable(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + NOTEDITABLE, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_EDITABLE, waitFor);
         // verify the element is present
         if (!isPresent(waitFor)) {
             return false;
@@ -253,9 +252,9 @@ public interface State extends Check {
         boolean isEditable = getElement().is().editable();
         // record the result
         if (!isEditable) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTEDITABLE, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_EDITABLE, timeTook, Success.PASS);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + EDITABLE, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_EDITABLE, timeTook, Success.FAIL);
         }
         return !isEditable;
     }
@@ -270,7 +269,7 @@ public interface State extends Check {
 
     default boolean checkEnabled(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + ENABLED, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_ENABLED, waitFor);
         // verify the element is present
         if (!isPresent(waitFor)) {
             return false;
@@ -279,9 +278,9 @@ public interface State extends Check {
         boolean isEnabled = getElement().is().enabled();
         // record the result
         if (!isEnabled) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTENABLED, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_ENABLED, timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + ENABLED, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_ENABLED, timeTook, Success.PASS);
         }
         return isEnabled;
     }
@@ -296,7 +295,7 @@ public interface State extends Check {
 
     default boolean checkNotEnabled(double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + NOTENABLED, waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_ENABLED, waitFor);
         // verify the element is present
         if (!isPresent(waitFor)) {
             return false;
@@ -305,9 +304,9 @@ public interface State extends Check {
         boolean isEnabled = getElement().is().enabled();
         // record the result
         if (!isEnabled) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTENABLED, timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_ENABLED, timeTook, Success.PASS);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + ENABLED, timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_ENABLED, timeTook, Success.FAIL);
         }
         return !isEnabled;
     }

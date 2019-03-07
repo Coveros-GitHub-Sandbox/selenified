@@ -60,9 +60,9 @@ public interface Matches extends Check {
         String elementText = getElement().get().text();
         // record the result
         if (elementText == null || !elementText.matches(expectedPattern)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementText + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementText + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook, Success.PASS);
         }
         return elementText;
     }
@@ -123,9 +123,9 @@ public interface Matches extends Check {
         String elementValue = getElement().get().value();
         // record the result
         if (!elementValue.matches(expectedPattern)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }
@@ -151,9 +151,9 @@ public interface Matches extends Check {
         String elementText = getElement().get().selectedOption();
         // record the result
         if (!elementText.matches(expectedPattern)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + OPTION + elementText + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + OPTION + elementText + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook, Success.PASS);
         }
         return elementText;
     }
@@ -179,9 +179,9 @@ public interface Matches extends Check {
         String elementValue = getElement().get().selectedValue();
         // record the result
         if (!elementValue.matches(expectedPattern)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }

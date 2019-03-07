@@ -64,7 +64,7 @@ public interface Excludes extends Check {
                     getElement().prettyOutputStart() + " does not contain a class value of <b>" + unexpectedClass + "</b>",
                     timeTook, Success.PASS);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>" +
+            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
                     unexpectedClass + "</b>", timeTook, Success.FAIL);
         }
         return actualClass;
@@ -89,7 +89,7 @@ public interface Excludes extends Check {
                     timeTook, Success.FAIL);
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
-                    ONLYVALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.PASS);
+                    ONLY_VALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.PASS);
         }
         return allAttributes;
     }
@@ -106,14 +106,14 @@ public interface Excludes extends Check {
 
     default String checkText(String expectedValue, double waitFor, double timeTook) {
         // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + HASNTTEXT + expectedValue + "</b>", waitFor);
+        getOutputFile().recordAction(getElement().prettyOutput() + EXCLUDES_TEXT + expectedValue + "</b>", waitFor);
         // check for the object to the present on the page
         String elementValue = getElement().get().text();
         // record the result
         if (elementValue == null || elementValue.contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + TEXT + elementValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + TEXT + elementValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }
@@ -130,11 +130,11 @@ public interface Excludes extends Check {
 
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and get our value
-        String elementValue = getValue(expectedValue, HASNTVALUE, waitFor);
+        String elementValue = getValue(expectedValue, EXCLUDES_VALUE, waitFor);
         if (elementValue == null || elementValue.contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }
@@ -190,9 +190,9 @@ public interface Excludes extends Check {
         String[] elementValues = getElement().get().selectValues();
         // record the result
         if (Arrays.asList(elementValues).contains(selectValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HASVALUE + selectValue + "</b>", timeTook, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + CONTAINS_VALUE + selectValue + "</b>", timeTook, Success.FAIL);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HASNTVALUE + selectValue + "</b>, only the values <b>" +
+            getOutputFile().recordActual(getElement().prettyOutputStart() + EXCLUDES_VALUE + selectValue + "</b>, only the values <b>" +
                     Arrays.toString(elementValues) + "</b>", timeTook, Success.PASS);
         }
         return elementValues;

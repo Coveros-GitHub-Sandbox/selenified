@@ -41,23 +41,22 @@ import java.util.Set;
 interface Check {
 
     // constants
-    String OPTION = " has the option of <b>";
-    //    String EXPECTED = "Expected to find ";
+    String HAS_OPTION = " has the option of <b>";
     String CLASS = "class";
 
-    String VALUE = " has the value of <b>";
-    String TEXT = " has the text of <b>";
-    String HASVALUE = " contains the value of <b>";
-    String HASNTVALUE = " does not contain the value of <b>";
-    String HASTEXT = " contains the text of <b>";
-    String HASNTTEXT = " does not contain the text of <b>";
-    String ONLYVALUE = ", only the values <b>";
-    String CLASSVALUE = " has a class value of <b>";
+    String HAS_VALUE = " has the value of <b>";
+    String HAS_TEXT = " has the text of <b>";
+    String CONTAINS_VALUE = " contains the value of <b>";
+    String EXCLUDES_VALUE = " does not contain the value of <b>";
+    String CONTAINS_TEXT = " contains the text of <b>";
+    String EXCLUDES_TEXT = " does not contain the text of <b>";
+    String ONLY_VALUE = ", only the values <b>";
+    String CLASS_VALUE = " has a class value of <b>";
 
-    String NOTPRESENT = " is not present on the page";
-    String NOTINPUT = " is not an input on the page";
-    String NOTSELECT = " is not a select on the page";
-    String NOTTABLE = " is not a table on the page";
+    String IS_NOT_PRESENT = " is not present on the page";
+    String IS_NOT_INPUT = " is not an input on the page";
+    String IS_NOT_SELECT = " is not a select on the page";
+    String IS_NOT_TABLE = " is not a table on the page";
 
     /**
      * Retrieves the output file that we write all details out to
@@ -85,7 +84,7 @@ interface Check {
      */
     default boolean isPresent(double waitFor) {
         if (!getElement().is().present()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTPRESENT, waitFor, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_PRESENT, waitFor, Success.FAIL);
             return false;
         }
         return true;
@@ -98,7 +97,7 @@ interface Check {
      */
     default boolean isInput(double waitFor) {
         if (!getElement().is().input()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTINPUT, waitFor, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_INPUT, waitFor, Success.FAIL);
             return false;
         }
         return true;
@@ -111,7 +110,7 @@ interface Check {
      */
     default boolean isSelect(double waitFor) {
         if (!getElement().is().select()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTSELECT, waitFor, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_SELECT, waitFor, Success.FAIL);
             return false;
         }
         return true;
@@ -124,7 +123,7 @@ interface Check {
      */
     default boolean isTable(double waitFor) {
         if (!getElement().is().table()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTTABLE, waitFor, Success.FAIL);
+            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_TABLE, waitFor, Success.FAIL);
             return false;
         }
         return true;
