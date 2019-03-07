@@ -68,12 +68,6 @@ public class Verify implements Check {
         return app;
     }
 
-    private void verify(boolean check) {
-        if (!check) {
-            file.addError();
-        }
-    }
-
     ///////////////////////////////////////////////////////
     // verifications about the page in general
     ///////////////////////////////////////////////////////
@@ -87,7 +81,7 @@ public class Verify implements Check {
      */
     @Override
     public void urlEquals(String expectedURL) {
-        verify(expectedURL.equals(checkUrlEquals(expectedURL, 0, 0)));
+        file.verify(expectedURL.equals(checkUrlEquals(expectedURL, 0, 0)));
     }
 
     /**
@@ -99,7 +93,7 @@ public class Verify implements Check {
      */
     @Override
     public void titleEquals(String expectedTitle) {
-        verify(expectedTitle.equals(checkTitleEquals(expectedTitle, 0, 0)));
+        file.verify(expectedTitle.equals(checkTitleEquals(expectedTitle, 0, 0)));
     }
 
     /**
@@ -111,7 +105,7 @@ public class Verify implements Check {
      */
     @Override
     public void titleMatches(String expectedTitlePattern) {
-        verify(checkTitleMatches(expectedTitlePattern, 0, 0).matches(expectedTitlePattern));
+        file.verify(checkTitleMatches(expectedTitlePattern, 0, 0).matches(expectedTitlePattern));
     }
 
     /**
@@ -123,7 +117,7 @@ public class Verify implements Check {
      */
     @Override
     public void textPresent(String expectedText) {
-        verify(checkTextPresent(expectedText, 0, 0));
+        file.verify(checkTextPresent(expectedText, 0, 0));
     }
 
     /**
@@ -135,7 +129,7 @@ public class Verify implements Check {
      */
     @Override
     public void textNotPresent(String expectedText) {
-        verify(checkTextNotPresent(expectedText, 0, 0));
+        file.verify(checkTextNotPresent(expectedText, 0, 0));
     }
 
     ///////////////////////////////////////////////////////
@@ -149,7 +143,7 @@ public class Verify implements Check {
      */
     @Override
     public void alertPresent() {
-        verify(checkAlertPresent(0, 0));
+        file.verify(checkAlertPresent(0, 0));
     }
 
     /**
@@ -159,7 +153,7 @@ public class Verify implements Check {
      */
     @Override
     public void alertNotPresent() {
-        verify(checkAlertNotPresent(0, 0));
+        file.verify(checkAlertNotPresent(0, 0));
     }
 
     /**
@@ -171,7 +165,7 @@ public class Verify implements Check {
      */
     @Override
     public void alertEquals(String expectedAlertText) {
-        verify(expectedAlertText.equals(checkAlertEquals(expectedAlertText, 0, 0)));
+        file.verify(expectedAlertText.equals(checkAlertEquals(expectedAlertText, 0, 0)));
     }
 
     /**
@@ -183,7 +177,7 @@ public class Verify implements Check {
      */
     @Override
     public void alertMatches(String expectedAlertPattern) {
-        verify(checkAlertMatches(expectedAlertPattern, 0, 0).matches(expectedAlertPattern));
+        file.verify(checkAlertMatches(expectedAlertPattern, 0, 0).matches(expectedAlertPattern));
     }
 
     /**
@@ -193,7 +187,7 @@ public class Verify implements Check {
      */
     @Override
     public void confirmationPresent() {
-        verify(checkConfirmationPresent(0, 0));
+        file.verify(checkConfirmationPresent(0, 0));
     }
 
     /**
@@ -203,7 +197,7 @@ public class Verify implements Check {
      */
     @Override
     public void confirmationNotPresent() {
-        verify(checkConfirmationNotPresent(0, 0));
+        file.verify(checkConfirmationNotPresent(0, 0));
     }
 
     /**
@@ -215,7 +209,7 @@ public class Verify implements Check {
      */
     @Override
     public void confirmationEquals(String expectedConfirmationText) {
-        verify(expectedConfirmationText.equals(checkConfirmationEquals(expectedConfirmationText, 0, 0)));
+        file.verify(expectedConfirmationText.equals(checkConfirmationEquals(expectedConfirmationText, 0, 0)));
     }
 
     /**
@@ -227,7 +221,7 @@ public class Verify implements Check {
      */
     @Override
     public void confirmationMatches(String expectedConfirmationPattern) {
-        verify(checkConfirmationMatches(expectedConfirmationPattern, 0, 0).matches(expectedConfirmationPattern));
+        file.verify(checkConfirmationMatches(expectedConfirmationPattern, 0, 0).matches(expectedConfirmationPattern));
     }
 
     /**
@@ -237,7 +231,7 @@ public class Verify implements Check {
      */
     @Override
     public void promptPresent() {
-        verify(checkPromptPresent(0, 0));
+        file.verify(checkPromptPresent(0, 0));
     }
 
     /**
@@ -247,7 +241,7 @@ public class Verify implements Check {
      */
     @Override
     public void promptNotPresent() {
-        verify(checkPromptNotPresent(0, 0));
+        file.verify(checkPromptNotPresent(0, 0));
     }
 
     /**
@@ -259,7 +253,7 @@ public class Verify implements Check {
      */
     @Override
     public void promptEquals(String expectedPromptText) {
-        verify(expectedPromptText.equals(checkPromptEquals(expectedPromptText, 0, 0)));
+        file.verify(expectedPromptText.equals(checkPromptEquals(expectedPromptText, 0, 0)));
     }
 
     /**
@@ -271,7 +265,7 @@ public class Verify implements Check {
      */
     @Override
     public void promptMatches(String expectedPromptPattern) {
-        verify(checkPromptMatches(expectedPromptPattern, 0, 0).matches(expectedPromptPattern));
+        file.verify(checkPromptMatches(expectedPromptPattern, 0, 0).matches(expectedPromptPattern));
     }
 
     ///////////////////////////////////////////////////////
@@ -287,7 +281,7 @@ public class Verify implements Check {
      */
     @Override
     public void cookieExists(String expectedCookieName) {
-        verify(checkCookieExists(expectedCookieName, 0, 0));
+        file.verify(checkCookieExists(expectedCookieName, 0, 0));
     }
 
     /**
@@ -299,7 +293,7 @@ public class Verify implements Check {
      */
     @Override
     public void cookieNotExists(String unexpectedCookieName) {
-        verify(checkCookieNotExists(unexpectedCookieName, 0, 0));
+        file.verify(checkCookieNotExists(unexpectedCookieName, 0, 0));
     }
 
     /**
@@ -312,7 +306,7 @@ public class Verify implements Check {
      */
     @Override
     public void cookieEquals(String cookieName, String expectedCookieValue) {
-        verify(expectedCookieValue.equals(checkCookieEquals(cookieName, expectedCookieValue, 0, 0)));
+        file.verify(expectedCookieValue.equals(checkCookieEquals(cookieName, expectedCookieValue, 0, 0)));
     }
 
     /**
@@ -325,6 +319,6 @@ public class Verify implements Check {
      */
     @Override
     public void cookieMatches(String cookieName, String expectedCookiePattern) {
-        verify(checkCookieMatches(cookieName, expectedCookiePattern, 0, 0).matches(expectedCookiePattern));
+        file.verify(checkCookieMatches(cookieName, expectedCookiePattern, 0, 0).matches(expectedCookiePattern));
     }
 }

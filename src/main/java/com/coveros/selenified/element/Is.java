@@ -128,7 +128,7 @@ public class Is {
     /**
      * Determines whether the element is enabled or not.
      *
-     * @return Boolean: whether the element is present or not
+     * @return Boolean: whether the element is enabled or not
      */
     public boolean enabled() {
         boolean isEnabled = false;
@@ -140,6 +140,16 @@ public class Is {
             log.info(e);
         }
         return isEnabled;
+    }
+
+    /**
+     * Determines whether the element is editable or not. To be editable, it must
+     * be an input, and enabled
+     *
+     * @return Boolean: whether the element is editable or not
+     */
+    public boolean editable() {
+        return enabled() && input();
     }
 
     /**

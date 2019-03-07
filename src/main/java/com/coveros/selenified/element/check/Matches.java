@@ -18,9 +18,8 @@
  * under the License.
  */
 
-package com.coveros.selenified.element;
+package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
 
 /**
@@ -36,14 +35,9 @@ import com.coveros.selenified.OutputFile.Success;
  * @version 3.1.0
  * @lastupdate 2/21/2019
  */
-public class Matches extends Assert {
+public interface Matches extends Check {
 
-    private static final String MATCH_PATTERN = " to match a pattern of <b>";
-
-    Matches(Element element, OutputFile file) {
-        this.element = element;
-        this.file = file;
-    }
+    String MATCH_PATTERN = " to match a pattern of <b>";
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -57,21 +51,20 @@ public class Matches extends Assert {
      *
      * @param expectedPattern the expected pattern of the text of the element
      */
-    public void text(String expectedPattern) {
-        // wait for the element
-        if (!isPresent()) {
-            return;
-        }
-        // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>");
+    void text(String expectedPattern);
+
+    default String checkText(String expectedPattern, double waitFor, double timeTook) {
+        // record the action
+        getOutputFile().recordAction(getElement().prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>", waitFor);
         // check for the object to the present on the page
-        String elementText = element.get().text();
+        String elementText = getElement().get().text();
+        // record the result
         if (!elementText.matches(expectedPattern)) {
-            file.recordActual(element.prettyOutputStart() + VALUE + elementText + "</b>", Success.FAIL);
-            file.addError();
-            return;
+            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementText + "</b>", timeTook, Success.FAIL);
+        } else {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementText + "</b>", timeTook, Success.PASS);
         }
-        file.recordActual(element.prettyOutputStart() + VALUE + elementText + "</b>", Success.PASS);
+        return elementText;
     }
 
     /**
@@ -87,25 +80,28 @@ public class Matches extends Assert {
      *                numbering starts at 1, NOT 0
      * @param pattern - what pattern do we expect to be in the table cell
      */
-    public void text(int row, int col, String pattern) {
+    void text(int row, int col, String pattern);
+
+    default String checkText(int row, int col, String pattern, double waitFor, double timeTook) {
         String column = " and column ";
         String within = " within element ";
-        // wait for the table
-        if (isPresentTable("Expected to find cell at row " + row + column + col + within + element.prettyOutput() +
-                MATCH_PATTERN + pattern + "</b>")) {
-            return;
+        // record the action
+        if (!isPresentTable("Expected to find cell at row " + row + column + col + within + getElement().prettyOutput() +
+                MATCH_PATTERN + pattern + "</b>", waitFor)) {
+            return null;
         }
         // get the table cell pattern
-        String actualText = element.get().tableCell(row, col).get().text();
+        String actualText = getElement().get().tableCell(row, col).get().text();
+        // record the result
         if (!actualText.matches(pattern)) {
-            file.recordActual("Cell at row " + row + column + col + within + element.prettyOutput() +
-                    " has the value of <b>" + actualText + "</b>", Success.FAIL);
-            file.addError();
-            return;
+            getOutputFile().recordActual("Cell at row " + row + column + col + within + getElement().prettyOutput() +
+                    " has the value of <b>" + actualText + "</b>", timeTook, Success.FAIL);
+        } else {
+            getOutputFile().recordActual(
+                    "Cell at row " + row + column + col + within + getElement().prettyOutput() + " has the text of <b>" +
+                            actualText + "</b>", timeTook, Success.PASS);
         }
-        file.recordActual(
-                "Cell at row " + row + column + col + within + element.prettyOutput() + " has the text of <b>" +
-                        actualText + "</b>", Success.PASS);
+        return actualText;
     }
 
     /**
@@ -116,27 +112,22 @@ public class Matches extends Assert {
      *
      * @param expectedPattern the expected input value of the element
      */
-    public void value(String expectedPattern) {
-        // wait for the element
-        if (!isPresent()) {
-            return;
-        }
-        // file.record the element
-        file.recordExpected(EXPECTED + element.prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>");
-        // verify this is an input element
-        if (!element.is().input()) {
-            file.recordActual(element.prettyOutputStart() + " is not an input on the page", Success.FAIL);
-            file.addError();
-            return;
+    void value(String expectedPattern);
+
+    default String checkValue(String expectedPattern, double waitFor, double timeTook) {
+        // record the action and verify this is an input element
+        if (!isPresentInput(getElement().prettyOutputStart() + " is not an input on the page", waitFor)) {
+            return null;
         }
         // get the element value
-        String elementValue = element.get().value();
+        String elementValue = getElement().get().value();
+        // record the result
         if (!elementValue.matches(expectedPattern)) {
-            file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.FAIL);
-            file.addError();
-            return;
+            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+        } else {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
-        file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
+        return elementValue;
     }
 
     /**
@@ -147,21 +138,24 @@ public class Matches extends Assert {
      *
      * @param expectedPattern the expected input text of the element
      */
-    public void selectedOption(String expectedPattern) {
-        // wait for the select
-        if (isPresentSelect(
-                EXPECTED + element.prettyOutput() + " having a selected option to match a pattern " +
-                        "of <b>" + expectedPattern + "</b>")) {
-            return;
+    void selectedOption(String expectedPattern);
+
+    default String checkSelectedOption(String expectedPattern, double waitFor, double timeTook) {
+        // record the action, and verify it's a select
+        if (!isPresentSelect(
+                getElement().prettyOutput() + " having a selected option to match a pattern " +
+                        "of <b>" + expectedPattern + "</b>", waitFor)) {
+            return null;
         }
         // get the selected text
-        String elementText = element.get().selectedOption();
+        String elementText = getElement().get().selectedOption();
+        // record the result
         if (!elementText.matches(expectedPattern)) {
-            file.recordActual(element.prettyOutputStart() + OPTION + elementText + "</b>", Success.FAIL);
-            file.addError();
-            return;
+            getOutputFile().recordActual(getElement().prettyOutputStart() + OPTION + elementText + "</b>", timeTook, Success.FAIL);
+        } else {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + OPTION + elementText + "</b>", timeTook, Success.PASS);
         }
-        file.recordActual(element.prettyOutputStart() + OPTION + elementText + "</b>", Success.PASS);
+        return elementText;
     }
 
     /**
@@ -172,20 +166,23 @@ public class Matches extends Assert {
      *
      * @param expectedPattern the expected input value of the element
      */
-    public void selectedValue(String expectedPattern) {
-        // wait for the select
-        if (isPresentSelect(
-                EXPECTED + element.prettyOutput() + " having a selected value to match a pattern " +
-                        "of <b>" + expectedPattern + "</b>")) {
-            return;
+    void selectedValue(String expectedPattern);
+
+    default String checkSelectedValue(String expectedPattern, double waitFor, double timeTook) {
+        // record the action, and verify it's a select
+        if (!isPresentSelect(
+                getElement().prettyOutput() + " having a selected value to match a pattern " +
+                        "of <b>" + expectedPattern + "</b>", waitFor)) {
+            return null;
         }
         // get the selected value
-        String elementValue = element.get().selectedValue();
+        String elementValue = getElement().get().selectedValue();
+        // record the result
         if (!elementValue.matches(expectedPattern)) {
-            file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.FAIL);
-            file.addError();
-            return;
+            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+        } else {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
-        file.recordActual(element.prettyOutputStart() + VALUE + elementValue + "</b>", Success.PASS);
+        return elementValue;
     }
 }

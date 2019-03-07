@@ -24,6 +24,9 @@ import com.coveros.selenified.Locator;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.element.check.*;
+import com.coveros.selenified.element.check.azzert.*;
+import com.coveros.selenified.element.check.verify.*;
 import com.coveros.selenified.utilities.Point;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
@@ -70,20 +73,26 @@ public class Element {
 
     // the is class to determine if something exists
     private Is is;
-    // the wait class to determine if we need to wait for something
-    private WaitFor waitFor;
     // the wait class to retrieve information about the element
     private Get get;
+    // the wait class to determine if we need to wait for something
+    private WaitFor waitFor;
     // the is class to determine the state of an element
-    private State state;
+    private State verifyState;
+    private State assertState;
     // the is class to determine if an element contains something
-    private Contains contains;
+    private Contains verifyContains;
+    private Contains assertContains;
     // the is class to determine if an element doesn't contain something
-    private Excludes excludes;
+    private Excludes verifyExcludes;
+    private Excludes assertExcludes;
     // the is class to determine if an element has attributes equal to something
-    private Equals equals;
+    private Equals verifyEquals;
+    private Equals assertEquals;
     // the is class to determine if an element has attributes matching to something
-    private Matches matches;
+    private Matches verifyMatches;
+    private Matches assertMatches;
+
 
     // constants
     private static final String IN = "' in ";
@@ -214,11 +223,16 @@ public class Element {
         is = new Is(this);
         waitFor = new WaitFor(this, file);
         get = new Get(app, driver, this);
-        state = new State(this, file);
-        contains = new Contains(this, file);
-        excludes = new Excludes(this, file);
-        equals = new Equals(this, file);
-        matches = new Matches(this, file);
+        verifyState = new VerifyState(this, file);
+        assertState = new AssertState(this, file);
+        verifyContains = new VerifyContains(this, file);
+        assertContains = new AssertContains(this, file);
+        verifyExcludes = new VerifyExcludes(this, file);
+        assertExcludes = new AssertExcludes(this, file);
+        verifyEquals = new VerifyEquals(this, file);
+        assertEquals = new AssertEquals(this, file);
+        verifyMatches = new VerifyMatches(this, file);
+        assertMatches = new AssertMatches(this, file);
     }
 
     /**
@@ -370,8 +384,19 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
+    public State verifyState() {
+        return verifyState;
+    }
+
+    /**
+     * Asserts that the element has a particular state associated to it. These
+     * asserts are custom to the framework, and in addition to providing easy
+     * object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public State assertState() {
-        return state;
+        return assertState;
     }
 
     /**
@@ -381,8 +406,19 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
+    public Contains verifyContains() {
+        return verifyContains;
+    }
+
+    /**
+     * Asserts that the element has a particular value contained within it.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public Contains assertContains() {
-        return contains;
+        return assertContains;
     }
 
     /**
@@ -392,8 +428,19 @@ public class Element {
      * each verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
+    public Excludes verifyExcludes() {
+        return verifyExcludes;
+    }
+
+    /**
+     * Asserts that the element doesn't have a particular value contained
+     * within it. These asserts are custom to the framework, and in addition to
+     * providing easy object oriented capabilities, they take screenshots with
+     * each verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public Excludes assertExcludes() {
-        return excludes;
+        return assertExcludes;
     }
 
     /**
@@ -403,8 +450,19 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
+    public Equals verifyEquals() {
+        return verifyEquals;
+    }
+
+    /**
+     * Asserts that the element has a particular value associated with it.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public Equals assertEquals() {
-        return equals;
+        return assertEquals;
     }
 
     /**
@@ -414,8 +472,19 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
+    public Matches verifyMatches() {
+        return verifyMatches;
+    }
+
+    /**
+     * Asserts that the element has a particular value pattern associated with it.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
     public Matches assertMatches() {
-        return matches;
+        return assertMatches;
     }
 
     //////////////////////////////////////////////////////

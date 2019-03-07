@@ -272,14 +272,14 @@ public class Get {
 
     /**
      * Retrieves the number of select options in the element. If the element
-     * isn't present or a select, the returned response will be zero.
+     * isn't present or a select, the returned response will be negative 1.
      *
      * @return Integer: how many select options are available in the select
      * element
      */
     public int numOfSelectOptions() {
         if (isNotPresentSelect()) {
-            return 0;
+            return -1;
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -331,14 +331,14 @@ public class Get {
 
     /**
      * Retrieves the number of rows in the element. If the element isn't present
-     * or a table, the returned response will be zero
+     * or a table, the returned response will be negative one
      *
      * @return Integer: the number of rows the table has
      */
     public int numOfTableRows() {
         Element rows = tableRows();
         if (rows == null) {
-            return 0;
+            return -1;
         }
         return rows.get().matchCount();
     }
@@ -363,14 +363,14 @@ public class Get {
 
     /**
      * Retrieves the number of columns in the element. If the element isn't
-     * present or a table, the returned response will be zero
+     * present or a table, the returned response will be negative one
      *
      * @return Integer: the number of columns the table has
      */
     public int numOfTableColumns() {
         Element rows = tableRows();
         if (rows == null) {
-            return 0;
+            return -1;
         }
         Element thCells = rows.findChild(app.newElement(Locator.TAGNAME, "th"));
         Element tdCells = rows.findChild(app.newElement(Locator.TAGNAME, "td"));

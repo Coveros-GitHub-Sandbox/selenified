@@ -10,6 +10,11 @@ import static org.testng.Assert.assertTrue;
 
 public class ActionIsIT extends WebBase {
 
+    /**
+     * TODO
+     * need tests around new isEditable
+     */
+
     @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is present")
     public void isElementPresentTest() {

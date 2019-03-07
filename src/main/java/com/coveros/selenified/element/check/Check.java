@@ -1,27 +1,28 @@
 /*
  * Copyright 2019 Coveros, Inc.
- * 
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
-package com.coveros.selenified.element;
+package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
+import com.coveros.selenified.element.Element;
 
 import java.util.Map;
 import java.util.Set;
@@ -41,10 +42,8 @@ interface Check {
 
     // constants
     String OPTION = " has the option of <b>";
-    String EXPECTED = "Expected to find ";
+    //    String EXPECTED = "Expected to find ";
     String CLASS = "class";
-
-    String NOTINPUT = " is not an input on the page";
 
     String VALUE = " has the value of <b>";
     String TEXT = " has the text of <b>";
@@ -55,6 +54,8 @@ interface Check {
     String ONLYVALUE = ", only the values <b>";
     String CLASSVALUE = " has a class value of <b>";
 
+    String NOTPRESENT = " is not present on the page";
+    String NOTINPUT = " is not an input on the page";
     String NOTSELECT = " is not a select on the page";
     String NOTTABLE = " is not a table on the page";
 
@@ -66,9 +67,9 @@ interface Check {
     OutputFile getOutputFile();
 
     /**
-     * Retrieves the driver that is used for all selenium actions
+     * Retrieves the element that is used for all selenium actions and checks
      *
-     * @return App
+     * @return Element
      */
     Element getElement();
 
@@ -82,10 +83,23 @@ interface Check {
      *
      * @return Boolean: whether the element is present or not
      */
-    default boolean isPresent() {
+    default boolean isPresent(double waitFor) {
         if (!getElement().is().present()) {
-            getElement().waitFor().present();
-            return getElement().is().present();
+            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTPRESENT, waitFor, Success.FAIL);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determines if the element is an input element
+     *
+     * @return Boolean: whether the element is an input or not
+     */
+    default boolean isInput(double waitFor) {
+        if (!getElement().is().input()) {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTINPUT, waitFor, Success.FAIL);
+            return false;
         }
         return true;
     }
@@ -95,10 +109,9 @@ interface Check {
      *
      * @return Boolean: whether the element is an select or not
      */
-    default boolean isSelect() {
+    default boolean isSelect(double waitFor) {
         if (!getElement().is().select()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTSELECT, Success.FAIL);
-            getOutputFile().addError();
+            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTSELECT, waitFor, Success.FAIL);
             return false;
         }
         return true;
@@ -109,13 +122,24 @@ interface Check {
      *
      * @return Boolean: whether the element is an table or not
      */
-    default boolean isTable() {
+    default boolean isTable(double waitFor) {
         if (!getElement().is().table()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTTABLE, Success.FAIL);
-            getOutputFile().addError();
+            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTTABLE, waitFor, Success.FAIL);
             return false;
         }
         return true;
+    }
+
+    /**
+     * Determines if the element is a present, and if it is, it is an input
+     *
+     * @param expected - the expected outcome
+     * @return Boolean: whether the element is a select or not
+     */
+    default boolean isPresentInput(String expected, double waitFor) {
+        getOutputFile().recordAction(expected, waitFor);
+        // verify this is a select element
+        return (isPresent(waitFor) && isInput(waitFor));
     }
 
     /**
@@ -124,14 +148,10 @@ interface Check {
      * @param expected - the expected outcome
      * @return Boolean: whether the element is a select or not
      */
-    default boolean isPresentSelect(String expected) {
-        // wait for the element
-        if (!isPresent()) {
-            return true;
-        }
-        getOutputFile().recordExpected(expected);
+    default boolean isPresentSelect(String expected, double waitFor) {
+        getOutputFile().recordAction(expected, waitFor);
         // verify this is a select element
-        return !isSelect();
+        return (isPresent(waitFor) && isSelect(waitFor));
     }
 
     /**
@@ -140,14 +160,10 @@ interface Check {
      * @param expected - the expected outcome
      * @return Boolean: whether the element is an table or not
      */
-    default boolean isPresentTable(String expected) {
-        // wait for the element
-        if (!isPresent()) {
-            return true;
-        }
-        getOutputFile().recordExpected(expected);
+    default boolean isPresentTable(String expected, double waitFor) {
+        getOutputFile().recordAction(expected, waitFor);
         // verify this is a select element
-        return !isTable();
+        return (isPresent(waitFor) && isTable(waitFor));
     }
 
     /**
@@ -161,17 +177,11 @@ interface Check {
      * @return String[]: the list of all attributes from the element;
      */
     @SuppressWarnings("squid:S1168")
-    default String[] getAttributes(String attribute, String expected) {
-        // wait for the element
-        if (!isPresent()) {
-            return null;    // returning an empty array could be confused with no attributes
-        }
-        getOutputFile().recordExpected(EXPECTED + getElement().prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>");
+    default String[] getAttributes(String attribute, String expected, double waitFor) {
+        getOutputFile().recordAction(getElement().prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>", waitFor);
         // check our attributes
         Map<String, String> attributes = getElement().get().allAttributes();
         if (attributes == null) {
-            getOutputFile().recordActual("Unable to assess the attributes of " + getElement().prettyOutputEnd(), Success.FAIL);
-            getOutputFile().addError();
             return null;    // returning an empty array could be confused with no attributes
         }
         Set<String> keys = attributes.keySet();
@@ -187,18 +197,12 @@ interface Check {
      * @param expected - is the attribute expected to be present, or not present
      * @return String: the actual value from the input element
      */
-    default String getValue(String value, String expected) {
-        // wait for the element
-        if (!isPresent()) {
-            return null;
-        }
-        // getOutputFile().record the element
-        getOutputFile().recordExpected(EXPECTED + getElement().prettyOutput() + expected + value + "</b>");
+    default String getValue(String value, String expected, double waitFor) {
+        // record the action
+        getOutputFile().recordAction(getElement().prettyOutput() + expected + value + "</b>", waitFor);
         // verify this is an input element
         if (!getElement().is().input()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + NOTINPUT, Success.FAIL);
-            getOutputFile().addError();
-            return null;
+            return null;        //return null, as it's not an input element
         }
         // check for the object to the present on the page
         return getElement().get().value();

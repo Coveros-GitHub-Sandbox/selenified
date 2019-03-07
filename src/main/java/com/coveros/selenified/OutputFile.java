@@ -56,7 +56,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class OutputFile {
 
-    public static final String PASSORFAIL = "PASSORFAIL";
+    private static final String PASSORFAIL = "PASSORFAIL";
     private static final Logger log = Logger.getLogger(OutputFile.class);
     // constants
     private static final String START_ROW = "   <tr>\n";
@@ -164,6 +164,54 @@ public class OutputFile {
     public void addErrors(int errorsToAdd) {
         errors += errorsToAdd;
     }
+
+    /////////////////////////////////////
+    // For our checking functions
+    /////////////////////////////////////
+
+
+    /**
+     * Write the action and expected into the output file. If this is a wait, an action will be provided, otherwise, action
+     * will be left empty
+     *
+     * @param check   - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
+     */
+    public void recordAction(String check, double waitFor) {
+        String action = "";
+        if (waitFor > 0) {
+            action = "Waiting up to " + waitFor + " seconds " + check;
+        }
+        recordAction(action, "Expected " + check);
+    }
+
+    /**
+     * Write the actual results into the output file. If something was waited for, that will be prepended to the actual event
+     *
+     * @param check    - the check being performed
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @param success  - was this a success or failure
+     */
+    public void recordActual(String check, double timeTook, Success success) {
+        String actual = check;
+        if (timeTook > 0) {
+            String lowercase = actual.substring(0, 1).toLowerCase();
+            actual = "After waiting for " + timeTook + " seconds, " + lowercase + actual.substring(1);
+        }
+        recordActual(actual, success);
+    }
+
+    /**
+     * If the check fails, adds an error, otherwise, proceed
+     * @param check - a basic check for passing or failing
+     */
+    public void verify(boolean check) {
+        if (!check) {
+            addError();
+        }
+    }
+
+    //////////////////////////////////////
 
     /**
      * Determines if a 'real' browser is being used. If the browser is NONE or
