@@ -77,7 +77,7 @@ public class AssertEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        if( app.getBrowser().getName() == BrowserName.HTMLUNIT) {
+        if (app.getBrowser().getName() == BrowserName.HTMLUNIT) {
             app.newElement(Locator.ID, "prompt_button").assertEquals().clazz(null);
         } else {
             app.newElement(Locator.ID, "prompt_button").assertEquals().clazz("");

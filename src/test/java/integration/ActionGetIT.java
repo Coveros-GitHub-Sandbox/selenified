@@ -12,7 +12,10 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 import static org.testng.Assert.*;
 
@@ -305,7 +308,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         int columns = app.newElement(Locator.ID, "non-existent-name", 0).get().numOfTableColumns();
-        assertEquals(columns, 0);
+        assertEquals(columns, -1);
         // verify no issues
         finish();
     }

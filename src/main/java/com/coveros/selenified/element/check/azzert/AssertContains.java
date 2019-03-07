@@ -127,9 +127,9 @@ public class AssertContains implements Contains {
      */
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
-        if( value == null ) {
+        if (value == null) {
             String reason = "No element found";
-            if ( getElement().is().present() ) {
+            if (getElement().is().present()) {
                 reason = "Element not input";
             }
             assertNotNull(reason, value);
@@ -147,9 +147,9 @@ public class AssertContains implements Contains {
      */
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
-        if( options == null ) {
+        if (options == null) {
             String reason = "No element found";
-            if ( getElement().is().present() ) {
+            if (getElement().is().present()) {
                 reason = "Element not select";
             }
             assertNotNull(reason, options);
@@ -168,9 +168,9 @@ public class AssertContains implements Contains {
      */
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
-        if( values == null ) {
+        if (values == null) {
             String reason = "No element found";
-            if ( getElement().is().present() ) {
+            if (getElement().is().present()) {
                 reason = "Element not select";
             }
             assertNotNull(reason, values);
@@ -189,9 +189,9 @@ public class AssertContains implements Contains {
      */
     public void selectOptions(int numOfOptions) {
         int options = checkSelectOptions(numOfOptions, 0, 0);
-        if( options < 0 ) {
+        if (options < 0) {
             String reason = "No element found";
-            if ( getElement().is().present() ) {
+            if (getElement().is().present()) {
                 reason = "Element not select";
             }
             fail(reason);
@@ -209,9 +209,9 @@ public class AssertContains implements Contains {
      */
     public void columns(int numOfColumns) {
         int columns = checkColumns(numOfColumns, 0, 0);
-        if( columns < 0 ) {
+        if (columns < 0) {
             String reason = "No element found";
-            if ( getElement().is().present() ) {
+            if (getElement().is().present()) {
                 reason = "Element not table";
             }
             fail(reason);
@@ -229,9 +229,9 @@ public class AssertContains implements Contains {
      */
     public void rows(int numOfRows) {
         int rows = checkRows(numOfRows, 0, 0);
-        if( rows < 0 ) {
+        if (rows < 0) {
             String reason = "No element found";
-            if ( getElement().is().present() ) {
+            if (getElement().is().present()) {
                 reason = "Element not table";
             }
             fail(reason);

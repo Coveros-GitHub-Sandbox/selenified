@@ -129,7 +129,7 @@ public class AssertExcludes implements Excludes {
      */
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
-        if( value == null ) {
+        if (value == null) {
             String reason = "No element found";
             if (getElement().is().present()) {
                 reason = "Element not input";
@@ -149,7 +149,7 @@ public class AssertExcludes implements Excludes {
      */
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
-        if( options == null ) {
+        if (options == null) {
             String reason = "No element found";
             if (getElement().is().present()) {
                 reason = "Element not select";
@@ -170,7 +170,7 @@ public class AssertExcludes implements Excludes {
      */
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
-        if( values == null ) {
+        if (values == null) {
             String reason = "No element found";
             if (getElement().is().present()) {
                 reason = "Element not select";

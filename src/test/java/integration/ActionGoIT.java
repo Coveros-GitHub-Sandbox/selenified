@@ -6,7 +6,6 @@ import org.openqa.selenium.Cookie;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
