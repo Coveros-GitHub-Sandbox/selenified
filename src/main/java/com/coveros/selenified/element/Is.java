@@ -161,7 +161,7 @@ public class Is {
         boolean isChecked = false;
         try {
             isChecked = element.getWebElement().isSelected();
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             log.info(e);
         }
         return isChecked;

@@ -7,11 +7,6 @@ import org.testng.annotations.Test;
 
 public class WaitForIT extends WebBase {
 
-    /*
-     * TODO
-     * need additional waitFors (from new methods)
-     */
-
     @Test(groups = {"integration", "wait"}, description = "An integration test to check the url")
     public void compareUrlTest(ITestContext test) {
         // use this object to manipulate the app

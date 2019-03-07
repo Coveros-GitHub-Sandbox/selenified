@@ -176,7 +176,7 @@ public class WaitForState implements State {
      * the issue with a screenshot for traceability and added debugging support.
      */
     public void notEnabled() {
-        notEditable(defaultWait);
+        notEnabled(defaultWait);
     }
 
     ///////////////////////////////////////////////////
@@ -268,11 +268,16 @@ public class WaitForState implements State {
      */
     public void checked(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        elementPresent(seconds);
-        while (!element.is().checked() && System.currentTimeMillis() < end) ;
-        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        checkChecked(seconds, timeTook);
-        if (!element.is().checked()) {
+        try {
+            elementPresent(seconds);
+            while (!element.is().checked() && System.currentTimeMillis() < end) ;
+            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            checkChecked(seconds, timeTook);
+            if (!element.is().checked()) {
+                file.addError();
+            }
+        } catch (TimeoutException e) {
+            checkNotDisplayed(seconds, seconds);
             file.addError();
         }
     }
@@ -284,11 +289,16 @@ public class WaitForState implements State {
      */
     public void notChecked(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        elementPresent(seconds);
-        while (element.is().checked() && System.currentTimeMillis() < end) ;
-        double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        checkNotChecked(seconds, timeTook);
-        if (element.is().checked()) {
+        try {
+            elementPresent(seconds);
+            while (element.is().checked() && System.currentTimeMillis() < end) ;
+            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            checkNotChecked(seconds, timeTook);
+            if (element.is().checked()) {
+                file.addError();
+            }
+        } catch (TimeoutException e) {
+            checkNotDisplayed(seconds, seconds);
             file.addError();
         }
     }
@@ -303,13 +313,15 @@ public class WaitForState implements State {
     public void editable(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            double timeTook = elementPresent(seconds);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), DEFAULT_POLLING_INTERVAL);
-            wait.until(ExpectedConditions.elementToBeSelected(element.defineByElement()));
-            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            elementPresent(seconds);
+            while (!element.is().editable() && System.currentTimeMillis() < end) ;
+            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkEditable(seconds, timeTook);
+            if (!element.is().editable()) {
+                file.addError();
+            }
         } catch (TimeoutException e) {
-            checkEditable(seconds, seconds);
+            checkEnabled(seconds, seconds);
             file.addError();
         }
     }
@@ -324,13 +336,15 @@ public class WaitForState implements State {
     public void notEditable(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            double timeTook = elementPresent(seconds);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), DEFAULT_POLLING_INTERVAL);
-            wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeSelected(element.defineByElement())));
-            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            elementPresent(seconds);
+            while (element.is().editable() && System.currentTimeMillis() < end) ;
+            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkNotEditable(seconds, timeTook);
+            if (element.is().editable()) {
+                file.addError();
+            }
         } catch (TimeoutException e) {
-            checkNotEditable(seconds, seconds);
+            checkEnabled(seconds, seconds);
             file.addError();
         }
     }
