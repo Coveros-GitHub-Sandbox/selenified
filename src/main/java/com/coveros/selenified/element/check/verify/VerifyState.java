@@ -25,7 +25,7 @@ import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.State;
 
 /**
- * State extends Asserts to provide some additional verification capabilities.
+ * VerifyState implements State to provide some additional verification capabilities.
  * It will handle all verifications performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
  * oriented capabilities, they take screenshots with each verification to
@@ -70,9 +70,7 @@ public class VerifyState implements State {
     // ///////////////////////////////////////
 
     /**
-     * Verifies that the element is present. If the element isn't present, it
-     * waits up to the default time (5 seconds) for the element, before marking
-     * this verification as a failure. This information will be logged and
+     * Verifies that the element is present. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void present() {
@@ -80,9 +78,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is not present. If the element is present, it
-     * waits up to the default time (5 seconds) for the element to be removed,
-     * before marking this verification as a failure. This information will be
+     * Verifies that the element is not present. This information will be
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
@@ -91,9 +87,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is displayed. If the element isn't present, it
-     * waits up to the default time (5 seconds) for the element, before marking
-     * this verification as a failure. This information will be logged and
+     * Verifies that the element is displayed. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void displayed() {
@@ -101,9 +95,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is not displayed. If the element isn't present,
-     * it waits up to the default time (5 seconds) for the element, before
-     * marking this verification as a failure. This information will be logged
+     * Verifies that the element is not displayed. This information will be logged
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      */
@@ -112,9 +104,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is checked. If the element isn't present, it
-     * waits up to the default time (5 seconds) for the element, before marking
-     * this verification as a failure. This information will be logged and
+     * Verifies that the element is checked. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void checked() {
@@ -122,9 +112,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is not checked. If the element isn't present,
-     * it waits up to the default time (5 seconds) for the element, before
-     * marking this verification as a failure. This information will be logged
+     * Verifies that the element is not checked. This information will be logged
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      */
@@ -133,9 +121,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is editable. If the element isn't present, it
-     * waits up to the default time (5 seconds) for the element, before marking
-     * this verification as a failure. If the element isn't an input, this will
+     * Verifies that the element is editable. If the element isn't an input, this will
      * constitute a failure, same as it not being editable. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
@@ -145,9 +131,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is not editable. If the element isn't present,
-     * it waits up to the default time (5 seconds) for the element, before
-     * marking this verification as a failure. If the element isn't an input,
+     * Verifies that the element is not editable. If the element isn't an input,
      * this will constitute a pass, as non input elements are not editable. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
@@ -157,9 +141,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is enabled. If the element isn't present, it waits
-     * up to the default time (5 seconds) for the element, before marking this
-     * verification as a failure. This information will be logged and recorded, with
+     * Verifies that the element is enabled. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      */
     public void enabled() {
@@ -167,9 +149,7 @@ public class VerifyState implements State {
     }
 
     /**
-     * Verifies that the element is not enabled. If the element isn't present, it
-     * waits up to the default time (5 seconds) for the element, before marking this
-     * verification as a failure. This information will be logged and recorded, with
+     * Verifies that the element is not enabled. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      */
     public void notEnabled() {

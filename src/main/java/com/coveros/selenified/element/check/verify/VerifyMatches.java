@@ -25,7 +25,7 @@ import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Matches;
 
 /**
- * Matches extends Asserts to provide some additional verification capabilities.
+ * VerifyMatches extends Matches to provide some additional verification capabilities.
  * It will handle all verifications performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
  * oriented capabilities, they take screenshots with each verification to

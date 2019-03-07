@@ -28,10 +28,10 @@ import static com.coveros.selenified.element.check.Constants.*;
 import static org.testng.AssertJUnit.*;
 
 /**
- * Matches extends Asserts to provide some additional verification capabilities.
- * It will handle all verifications performed on the actual element. These
+ * AssertMatches implements Matches to provide some additional assertion capabilities.
+ * It will handle all assertions performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
- * oriented capabilities, they take screenshots with each verification to
+ * oriented capabilities, they take screenshots with each assertion to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests. Matches checks that elements have a particular value associated
  * to them that fits the provided regular expression.
@@ -74,7 +74,7 @@ public class AssertMatches implements Matches {
     // ///////////////////////////////////////
 
     /**
-     * Verifies that the element's text matches the regular expression pattern provided. If
+     * Asserts that the element's text matches the regular expression pattern provided. If
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
@@ -88,7 +88,7 @@ public class AssertMatches implements Matches {
     }
 
     /**
-     * Verifies that the element's pattern in a particular cell matches the regular expression
+     * Asserts that the element's pattern in a particular cell matches the regular expression
      * pattern provided. If the element isn't present, or a table, this will
      * constitute a failure, same as a mismatch. This information will be logged
      * and recorded, with a screenshot for traceability and added debugging
@@ -107,7 +107,7 @@ public class AssertMatches implements Matches {
     }
 
     /**
-     * Verifies that the element's value matches the regular expression pattern
+     * Asserts that the element's value matches the regular expression pattern
      * provided. If the element isn't present or an input, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -127,7 +127,7 @@ public class AssertMatches implements Matches {
     }
 
     /**
-     * Verifies that the element's selected option matches the regular expression pattern
+     * Asserts that the element's selected option matches the regular expression pattern
      * provided. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -148,7 +148,7 @@ public class AssertMatches implements Matches {
     }
 
     /**
-     * Verifies that the element's selected value  matches the regular expression pattern
+     * Asserts that the element's selected value  matches the regular expression pattern
      * provided. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.

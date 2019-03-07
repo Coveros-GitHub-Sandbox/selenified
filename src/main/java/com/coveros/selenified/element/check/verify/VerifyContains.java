@@ -27,7 +27,7 @@ import com.coveros.selenified.element.check.Contains;
 import java.util.Arrays;
 
 /**
- * Contains extends Asserts to provide some additional verification
+ * VerifyContains implements Contains to provide some additional verification
  * capabilities. It will handle all verifications performed on the actual
  * element. These asserts are custom to the framework, and in addition to
  * providing easy object oriented capabilities, they take screenshots with each

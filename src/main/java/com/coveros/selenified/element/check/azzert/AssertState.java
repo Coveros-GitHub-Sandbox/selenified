@@ -24,14 +24,14 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.State;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static com.coveros.selenified.element.check.Constants.EXPECTED_ELEMENT_NOT_PRESENT;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
- * State extends Asserts to provide some additional verification capabilities.
- * It will handle all verifications performed on the actual element. These
+ * AssertState implements State to provide some additional assertion capabilities.
+ * It will handle all assertions performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
- * oriented capabilities, they take screenshots with each verification to
+ * oriented capabilities, they take screenshots with each assertion to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests. State checks that elements are in a particular state.
  *
@@ -73,9 +73,9 @@ public class AssertState implements State {
     // ///////////////////////////////////////
 
     /**
-     * Verifies that the element is present. If the element isn't present, it
+     * Asserts that the element is present. If the element isn't present, it
      * waits up to the default time (5 seconds) for the element, before marking
-     * this verification as a failure. This information will be logged and
+     * this assertion as a failure. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void present() {
@@ -83,9 +83,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is not present. If the element is present, it
+     * Asserts that the element is not present. If the element is present, it
      * waits up to the default time (5 seconds) for the element to be removed,
-     * before marking this verification as a failure. This information will be
+     * before marking this assertion as a failure. This information will be
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
@@ -94,9 +94,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is displayed. If the element isn't present, it
+     * Asserts that the element is displayed. If the element isn't present, it
      * waits up to the default time (5 seconds) for the element, before marking
-     * this verification as a failure. This information will be logged and
+     * this assertion as a failure. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void displayed() {
@@ -105,9 +105,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is not displayed. If the element isn't present,
+     * Asserts that the element is not displayed. If the element isn't present,
      * it waits up to the default time (5 seconds) for the element, before
-     * marking this verification as a failure. This information will be logged
+     * marking this assertion as a failure. This information will be logged
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      */
@@ -117,9 +117,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is checked. If the element isn't present, it
+     * Asserts that the element is checked. If the element isn't present, it
      * waits up to the default time (5 seconds) for the element, before marking
-     * this verification as a failure. This information will be logged and
+     * this assertion as a failure. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void checked() {
@@ -128,9 +128,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is not checked. If the element isn't present,
+     * Asserts that the element is not checked. If the element isn't present,
      * it waits up to the default time (5 seconds) for the element, before
-     * marking this verification as a failure. This information will be logged
+     * marking this assertion as a failure. This information will be logged
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      */
@@ -140,9 +140,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is editable. If the element isn't present, it
+     * Asserts that the element is editable. If the element isn't present, it
      * waits up to the default time (5 seconds) for the element, before marking
-     * this verification as a failure. If the element isn't an input, this will
+     * this assertion as a failure. If the element isn't an input, this will
      * constitute a failure, same as it not being editable. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
@@ -153,9 +153,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is not editable. If the element isn't present,
+     * Asserts that the element is not editable. If the element isn't present,
      * it waits up to the default time (5 seconds) for the element, before
-     * marking this verification as a failure. If the element isn't an input,
+     * marking this assertion as a failure. If the element isn't an input,
      * this will constitute a pass, as non input elements are not editable. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
@@ -166,9 +166,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is enabled. If the element isn't present, it waits
+     * Asserts that the element is enabled. If the element isn't present, it waits
      * up to the default time (5 seconds) for the element, before marking this
-     * verification as a failure. This information will be logged and recorded, with
+     * assertion as a failure. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      */
     public void enabled() {
@@ -177,9 +177,9 @@ public class AssertState implements State {
     }
 
     /**
-     * Verifies that the element is not enabled. If the element isn't present, it
+     * Asserts that the element is not enabled. If the element isn't present, it
      * waits up to the default time (5 seconds) for the element, before marking this
-     * verification as a failure. This information will be logged and recorded, with
+     * assertion as a failure. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      */
     public void notEnabled() {

@@ -31,7 +31,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  * capabilities. It will handle all checks performed on the actual
  * element. These asserts are custom to the framework, and in addition to
  * providing easy object oriented capabilities, they take screenshots with each
- * verification to provide additional traceability, and assist in
+ * check to provide additional traceability, and assist in
  * troubleshooting and debugging failing tests. Contains checks that elements
  * have a particular value associated to them.
  *

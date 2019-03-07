@@ -27,11 +27,11 @@ import java.util.Arrays;
 import static com.coveros.selenified.element.check.Constants.*;
 
 /**
- * Excludes extends Asserts to provide some additional verification
- * capabilities. It will handle all verifications performed on the actual
+ * Excludes extends Check to provide some additional checking
+ * capabilities. It will handle all checks performed on the actual
  * element. These asserts are custom to the framework, and in addition to
  * providing easy object oriented capabilities, they take screenshots with each
- * verification to provide additional traceability, and assist in
+ * check to provide additional traceability, and assist in
  * troubleshooting and debugging failing tests. Excludes checks that elements
  * don't have a particular value associated to them.
  *
@@ -62,8 +62,8 @@ public interface Excludes extends Check {
      * screenshot for traceability and added debugging support.
      *
      * @param unexpectedClass - the unexpected class value
-     * @param waitFor        - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook       - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual class of the element. null will be returned if the element isn't present
      */
     default String checkClazz(String unexpectedClass, double waitFor, double timeTook) {
@@ -100,8 +100,8 @@ public interface Excludes extends Check {
      * screenshot for traceability and added debugging support.
      *
      * @param attribute - the attribute to check for
-     * @param waitFor           - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook          - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor   - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook  - the amount of time it took for wait for something (assuming we had to wait)
      * @return String[]: all of the attributes of the element. null will be returned if the element isn't present
      */
     default String[] checkAttribute(String attribute, double waitFor, double timeTook) {
@@ -201,9 +201,9 @@ public interface Excludes extends Check {
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param option the option not expected in the list
-     * @param waitFor        - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook       - the amount of time it took for wait for something (assuming we had to wait)
+     * @param option   the option not expected in the list
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return String[]: all of the select options of the element. null will be returned if the element isn't present or a select
      */
     @SuppressWarnings("squid:S1168")
@@ -245,8 +245,8 @@ public interface Excludes extends Check {
      * recorded, with a screenshot for traceability and added debugging support.
      *
      * @param selectValue the unexpected input value of the element
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor     - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook    - the amount of time it took for wait for something (assuming we had to wait)
      * @return String[]: all of the select values of the element. null will be returned if the element isn't present or a select
      */
     @SuppressWarnings("squid:S1168")

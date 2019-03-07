@@ -25,10 +25,10 @@ import com.coveros.selenified.OutputFile.Success;
 import static com.coveros.selenified.element.check.Constants.*;
 
 /**
- * State extends Asserts to provide some additional verification capabilities.
- * It will handle all verifications performed on the actual element. These
+ * State extends Check to provide some additional checking capabilities.
+ * It will handle all checks performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
- * oriented capabilities, they take screenshots with each verification to
+ * oriented capabilities, they take screenshots with each check to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests. State checks that elements are in a particular state.
  *
@@ -52,8 +52,8 @@ public interface State extends Check {
      * Checks that the element is present. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element present
      */
     default boolean checkPresent(double waitFor, double timeTook) {
@@ -82,8 +82,8 @@ public interface State extends Check {
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not present
      */
     default boolean checkNotPresent(double waitFor, double timeTook) {
@@ -110,14 +110,14 @@ public interface State extends Check {
      * Checks that the element is displayed. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element displayed. if the element is not present, false be sent
      */
     default boolean checkDisplayed(double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + IS_DISPLAYED, waitFor);
-        // verify the element is present
+        // check the element is present
         if (!isPresent(waitFor)) {
             return false;
         }
@@ -144,14 +144,14 @@ public interface State extends Check {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not displayed. if the element is not present, false be sent
      */
     default boolean checkNotDisplayed(double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_DISPLAYED, waitFor);
-        // verify the element is present
+        // check the element is present
         if (!isPresent(waitFor)) {
             return false;
         }
@@ -178,14 +178,14 @@ public interface State extends Check {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element checked. if the element is not present, false be sent
      */
     default boolean checkChecked(double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + IS_CHECKED, waitFor);
-        // verify the element is present
+        // check the element is present
         if (!isPresent(waitFor)) {
             return false;
         }
@@ -212,14 +212,14 @@ public interface State extends Check {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not checked. if the element is not present, false be sent
      */
     default boolean checkNotChecked(double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_CHECKED, waitFor);
-        // verify the element is present
+        // check the element is present
         if (!isPresent(waitFor)) {
             return false;
         }
@@ -249,14 +249,14 @@ public interface State extends Check {
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element editable. if the element is not present, false be sent
      */
     default boolean checkEditable(double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + IS_EDITABLE, waitFor);
-        // verify the element is present
+        // check the element is present
         if (!isPresent(waitFor)) {
             return false;
         }
@@ -287,14 +287,14 @@ public interface State extends Check {
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not editable. if the element is not present, false be sent
      */
     default boolean checkNotEditable(double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_EDITABLE, waitFor);
-        // verify the element is present
+        // check the element is present
         if (!isPresent(waitFor)) {
             return false;
         }
@@ -319,14 +319,14 @@ public interface State extends Check {
      * Checks that the element is enabled. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element enabled. if the element is not present, false be sent
      */
     default boolean checkEnabled(double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + IS_ENABLED, waitFor);
-        // verify the element is present
+        // check the element is present
         if (!isPresent(waitFor)) {
             return false;
         }
@@ -351,14 +351,14 @@ public interface State extends Check {
      * Checks that the element is not enabled. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      *
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor  - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not enabled. if the element is not present, false be sent
      */
     default boolean checkNotEnabled(double waitFor, double timeTook) {
         // record the action
         getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_ENABLED, waitFor);
-        // verify the element is present
+        // check the element is present
         if (!isPresent(waitFor)) {
             return false;
         }

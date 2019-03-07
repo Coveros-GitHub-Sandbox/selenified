@@ -32,10 +32,10 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.fail;
 
 /**
- * Equals extends Asserts to provide some additional verification capabilities.
- * It will handle all verifications performed on the actual element. These
+ * AssertEquals implements Equals to provide some additional assertion capabilities.
+ * It will handle all assertions performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
- * oriented capabilities, they take screenshots with each verification to
+ * oriented capabilities, they take screenshots with each assertion to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests. Equals checks that elements have a particular value associated
  * to them.
@@ -83,7 +83,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element has a css attribute with a value equal to the
+     * Asserts that the element has a css attribute with a value equal to the
      * value provided. If the element isn't present, or the css doesn't contain
      * the desired attribute, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
@@ -105,7 +105,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element's class equals the provided expected class. If
+     * Asserts that the element's class equals the provided expected class. If
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
@@ -117,7 +117,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element has an attribute with a value equals to the
+     * Asserts that the element has an attribute with a value equals to the
      * value provided. If the element isn't present, or the element does not
      * have the attribute, this will constitute a failure, same as a mismatch.
      * This information will be logged and recorded, with a screenshot for
@@ -139,7 +139,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element's text equals the provided expected text. If
+     * Asserts that the element's text equals the provided expected text. If
      * the element isn't present, this will constitute a failure, same as a
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
@@ -155,7 +155,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element's text in a particular cell equals the provided
+     * Asserts that the element's text in a particular cell equals the provided
      * expected text. If the element isn't present, or a table, this will
      * constitute a failure, same as a mismatch. This information will be logged
      * and recorded, with a screenshot for traceability and added debugging
@@ -180,7 +180,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element's value equals the provided expected value. If
+     * Asserts that the element's value equals the provided expected value. If
      * the element isn't present or an input, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -200,7 +200,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element's selected option equals the provided expected
+     * Asserts that the element's selected option equals the provided expected
      * option. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -220,7 +220,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element's selected value equals the provided expected
+     * Asserts that the element's selected value equals the provided expected
      * value. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -240,7 +240,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element's select options equal the provided expected
+     * Asserts that the element's select options equal the provided expected
      * options. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -260,7 +260,7 @@ public class AssertEquals implements Equals {
     }
 
     /**
-     * Verifies that the element's select values equal the provided expected
+     * Asserts that the element's select values equal the provided expected
      * values. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.

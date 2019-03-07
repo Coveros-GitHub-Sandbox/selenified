@@ -27,10 +27,10 @@ import java.util.Arrays;
 import static com.coveros.selenified.element.check.Constants.*;
 
 /**
- * Equals extends Asserts to provide some additional verification capabilities.
- * It will handle all verifications performed on the actual element. These
+ * Equals extends Check to provide some additional checking capabilities.
+ * It will handle all checks performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
- * oriented capabilities, they take screenshots with each verification to
+ * oriented capabilities, they take screenshots with each check to
  * provide additional traceability, and assist in troubleshooting and debugging
  * failing tests. Equals checks that elements have a particular value associated
  * to them.
@@ -328,7 +328,7 @@ public interface Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
-        // record the action and verify this is an input element
+        // record the action and check this is an input element
         if (!isPresentInput(getElement().prettyOutputStart() + " is not an input on the page", waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
@@ -366,7 +366,7 @@ public interface Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     default String checkSelectedOption(String expectedText, double waitFor, double timeTook) {
-        // record the action and verify it's a select
+        // record the action and check it's a select
         if (!isPresentSelect(
                 getElement().prettyOutput() + " having a selected option of <b>" + expectedText + "</b>", waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
@@ -405,7 +405,7 @@ public interface Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     default String checkSelectedValue(String expectedValue, double waitFor, double timeTook) {
-        // record the action and verify it's a select
+        // record the action and check it's a select
         if (!isPresentSelect(
                 getElement().prettyOutput() + " having a selected value of <b>" + expectedValue + "</b>", waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
@@ -444,7 +444,7 @@ public interface Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     default String[] checkSelectOptions(String[] expectedOptions, double waitFor, double timeTook) {
-        // record the action, and verify it's a select
+        // record the action, and check it's a select
         if (!isPresentSelect(
                 getElement().prettyOutput() + " with select options of <b>" + String.join("</b>, <b>" + expectedOptions) + "</b>", waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
@@ -485,7 +485,7 @@ public interface Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     default String[] checkSelectValues(String[] expectedValues, double waitFor, double timeTook) {
-        // record the action, and verify it's a select
+        // record the action, and check it's a select
         if (!isPresentSelect(
                 getElement().prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) +
                         "</b>", waitFor)) {

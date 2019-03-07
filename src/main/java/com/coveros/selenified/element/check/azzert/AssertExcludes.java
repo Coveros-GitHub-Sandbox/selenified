@@ -30,11 +30,11 @@ import static com.coveros.selenified.element.check.Constants.*;
 import static org.testng.AssertJUnit.*;
 
 /**
- * Excludes extends Asserts to provide some additional verification
- * capabilities. It will handle all verifications performed on the actual
+ * AssertExcludes implements Excludes to provide some additional assertion
+ * capabilities. It will handle all assertions performed on the actual
  * element. These asserts are custom to the framework, and in addition to
  * providing easy object oriented capabilities, they take screenshots with each
- * verification to provide additional traceability, and assist in
+ * assertion to provide additional traceability, and assist in
  * troubleshooting and debugging failing tests. Excludes checks that elements
  * don't have a particular value associated to them.
  *
@@ -77,7 +77,7 @@ public class AssertExcludes implements Excludes {
     // ///////////////////////////////////////
 
     /**
-     * Verifies that the element's class does not contain the provided expected
+     * Asserts that the element's class does not contain the provided expected
      * class. If the element isn't present, this will constitute a failure, same
      * as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -91,7 +91,7 @@ public class AssertExcludes implements Excludes {
     }
 
     /**
-     * Verifies that the element does not contain the provided expected
+     * Asserts that the element does not contain the provided expected
      * attribute. If the element isn't present, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -106,7 +106,7 @@ public class AssertExcludes implements Excludes {
     }
 
     /**
-     * Verifies that the element's text does not contain the provided expected
+     * Asserts that the element's text does not contain the provided expected
      * text. If the element isn't present, this will constitute a failure, same
      * as a mismatch. This information will be logged and recorded, with a
      * screenshot for traceability and added debugging support.
@@ -120,7 +120,7 @@ public class AssertExcludes implements Excludes {
     }
 
     /**
-     * Verifies that the element's value does not contain the provided expected
+     * Asserts that the element's value does not contain the provided expected
      * value. If the element isn't present or an input, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -140,7 +140,7 @@ public class AssertExcludes implements Excludes {
     }
 
     /**
-     * Verifies that the element's options do not contain the provided expected
+     * Asserts that the element's options do not contain the provided expected
      * option. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
@@ -161,7 +161,7 @@ public class AssertExcludes implements Excludes {
     }
 
     /**
-     * Verifies that the element's options do not contain the provided expected
+     * Asserts that the element's options do not contain the provided expected
      * value. If the element isn't present or a select, this will constitute a
      * failure, same as a mismatch. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.

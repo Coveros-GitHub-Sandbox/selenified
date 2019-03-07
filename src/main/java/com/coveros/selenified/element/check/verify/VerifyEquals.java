@@ -27,7 +27,7 @@ import com.coveros.selenified.element.check.Equals;
 import java.util.Arrays;
 
 /**
- * Equals extends Asserts to provide some additional verification capabilities.
+ * VerifyEquals implements Equals to provide some additional verification capabilities.
  * It will handle all verifications performed on the actual element. These
  * asserts are custom to the framework, and in addition to providing easy object
  * oriented capabilities, they take screenshots with each verification to
