@@ -101,7 +101,7 @@ public class VerifyEquals implements Equals {
      */
     public void clazz(String expectedClass) {
         String clazz = checkClazz(expectedClass, 0, 0);
-        file.verify(expectedClass == null ? clazz != null : !expectedClass.equals(clazz));
+        file.verify(expectedClass == null ? clazz == null : expectedClass.equals(clazz));
     }
 
     /**

@@ -1,6 +1,5 @@
 package integration;
 
-import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
@@ -283,8 +282,8 @@ public class VerifyEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "check").verifyEquals().clazz(null);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "verify", "equals"},

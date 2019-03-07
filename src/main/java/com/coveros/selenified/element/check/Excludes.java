@@ -59,13 +59,13 @@ public interface Excludes extends Check {
         // check our classes
         String actualClass = getElement().get().attribute(CLASS);
         // record the result
-        if (actualClass != null && actualClass.contains(unexpectedClass)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>" +
-                    unexpectedClass + "</b>", timeTook, Success.FAIL);
-        } else {
+        if (actualClass != null && !actualClass.contains(unexpectedClass)) {
             getOutputFile().recordActual(
                     getElement().prettyOutputStart() + " does not contain a class value of <b>" + unexpectedClass + "</b>",
                     timeTook, Success.PASS);
+        } else {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASSVALUE + actualClass + "</b>, which contains <b>" +
+                    unexpectedClass + "</b>", timeTook, Success.FAIL);
         }
         return actualClass;
     }
@@ -84,12 +84,12 @@ public interface Excludes extends Check {
         // record the action and get the attributes
         String[] allAttributes = getAttributes(attribute, "without", waitFor);
         // record the result
-        if (allAttributes == null || !Arrays.asList(allAttributes).contains(attribute)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
-                    ONLYVALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.PASS);
-        } else {
+        if (allAttributes == null || Arrays.asList(allAttributes).contains(attribute)) {
             getOutputFile().recordActual(getElement().prettyOutputStart() + " contains the attribute of <b>" + attribute + "</b>",
                     timeTook, Success.FAIL);
+        } else {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
+                    ONLYVALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.PASS);
         }
         return allAttributes;
     }
@@ -110,7 +110,7 @@ public interface Excludes extends Check {
         // check for the object to the present on the page
         String elementValue = getElement().get().text();
         // record the result
-        if (elementValue.contains(expectedValue)) {
+        if (elementValue == null || elementValue.contains(expectedValue)) {
             getOutputFile().recordActual(getElement().prettyOutputStart() + TEXT + elementValue + "</b>", timeTook, Success.FAIL);
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + TEXT + elementValue + "</b>", timeTook, Success.PASS);
@@ -131,10 +131,10 @@ public interface Excludes extends Check {
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and get our value
         String elementValue = getValue(expectedValue, HASNTVALUE, waitFor);
-        if (elementValue == null || !elementValue.contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
-        } else {
+        if (elementValue == null || elementValue.contains(expectedValue)) {
             getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+        } else {
+            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementValue + "</b>", timeTook, Success.PASS);
         }
         return elementValue;
     }

@@ -79,7 +79,8 @@ public class VerifyMatches implements Matches {
      * @param expectedPattern the expected pattern of the text of the element
      */
     public void text(String expectedPattern) {
-        file.verify(checkText(expectedPattern, 0, 0).matches(expectedPattern));
+        String text = checkText(expectedPattern, 0, 0);
+        file.verify(text != null && text.matches(expectedPattern));
     }
 
     /**
@@ -96,7 +97,8 @@ public class VerifyMatches implements Matches {
      * @param pattern - what pattern do we expect to be in the table cell
      */
     public void text(int row, int col, String pattern) {
-        file.verify(checkText(row, col, pattern, 0, 0).matches(pattern));
+        String text = checkText(row, col, pattern, 0, 0);
+        file.verify(text != null && text.matches(pattern));
     }
 
     /**
@@ -108,7 +110,8 @@ public class VerifyMatches implements Matches {
      * @param expectedPattern the expected input value of the element
      */
     public void value(String expectedPattern) {
-        file.verify(checkValue(expectedPattern, 0, 0).matches(expectedPattern));
+        String value = checkValue(expectedPattern, 0, 0);
+        file.verify(value != null && value.matches(expectedPattern));
     }
 
     /**
@@ -120,7 +123,8 @@ public class VerifyMatches implements Matches {
      * @param expectedPattern the expected input text of the element
      */
     public void selectedOption(String expectedPattern) {
-        file.verify(checkSelectedOption(expectedPattern, 0, 0).matches(expectedPattern));
+        String selectedOption = checkSelectedOption(expectedPattern, 0, 0);
+        file.verify(selectedOption != null && selectedOption.matches(expectedPattern));
     }
 
     /**
@@ -132,6 +136,7 @@ public class VerifyMatches implements Matches {
      * @param expectedPattern the expected input value of the element
      */
     public void selectedValue(String expectedPattern) {
-        file.verify(checkSelectedValue(expectedPattern, 0, 0).matches(expectedPattern));
+        String selectedValue = checkSelectedValue(expectedPattern, 0, 0);
+        file.verify(selectedValue != null && selectedValue.matches(expectedPattern));
     }
 }

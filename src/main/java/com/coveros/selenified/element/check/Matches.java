@@ -59,7 +59,7 @@ public interface Matches extends Check {
         // check for the object to the present on the page
         String elementText = getElement().get().text();
         // record the result
-        if (!elementText.matches(expectedPattern)) {
+        if (elementText == null || !elementText.matches(expectedPattern)) {
             getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementText + "</b>", timeTook, Success.FAIL);
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + VALUE + elementText + "</b>", timeTook, Success.PASS);

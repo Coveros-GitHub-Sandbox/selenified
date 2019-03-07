@@ -27,6 +27,7 @@ import com.coveros.selenified.element.check.Excludes;
 import java.util.Arrays;
 
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * Excludes extends Asserts to provide some additional verification
@@ -85,6 +86,7 @@ public class AssertExcludes implements Excludes {
      */
     public void clazz(String unexpectedClass) {
         String clazz = checkClazz(unexpectedClass, 0, 0);
+        assertNotNull("No element found", clazz);
         assertFalse("Class Mismatch: class of '" + clazz + "' contains '" + unexpectedClass + "'", clazz.contains(unexpectedClass));
     }
 
@@ -98,6 +100,7 @@ public class AssertExcludes implements Excludes {
      */
     public void attribute(String expectedAttribute) {
         String[] attributes = checkAttribute(expectedAttribute, 0, 0);
+        assertNotNull("No element found", attributes);
         assertFalse("Attribute found: element attributes of '" + String.join(",", attributes) +
                 "' contains '" + expectedAttribute + "'", Arrays.asList(attributes).contains(expectedAttribute));
     }
@@ -112,6 +115,7 @@ public class AssertExcludes implements Excludes {
      */
     public void text(String expectedText) {
         String text = checkText(expectedText, 0, 0);
+        assertNotNull("No element found", text);
         assertFalse("Text found: element text of '" + text + "' contains '" + expectedText + "'", text.contains(expectedText));
     }
 
@@ -138,6 +142,7 @@ public class AssertExcludes implements Excludes {
      */
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
+        assertNotNull("No element found", options);
         assertFalse("Option found: element options of '" + String.join(",", options) +
                 "' contains '" + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
     }
@@ -152,6 +157,7 @@ public class AssertExcludes implements Excludes {
      */
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
+        assertNotNull("No element found", values);
         assertFalse("Value found: element values of '" + String.join(",", values) +
                 "' contains '" + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
     }

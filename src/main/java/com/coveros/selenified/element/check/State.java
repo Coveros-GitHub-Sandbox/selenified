@@ -94,7 +94,7 @@ public interface State extends Check {
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + NOTPRESENT, timeTook, Success.PASS);
         }
-        return isPresent;
+        return !isPresent;
     }
 
     /**
@@ -147,7 +147,7 @@ public interface State extends Check {
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + DISPLAYED, timeTook, Success.FAIL);
         }
-        return isDisplayed;
+        return !isDisplayed;
     }
 
     /**
@@ -201,7 +201,7 @@ public interface State extends Check {
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + CHECKED, timeTook, Success.FAIL);
         }
-        return isChecked;
+        return !isChecked;
     }
 
     /**
@@ -257,7 +257,7 @@ public interface State extends Check {
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + EDITABLE, timeTook, Success.FAIL);
         }
-        return isEditable;
+        return !isEditable;
     }
 
     /**
@@ -309,6 +309,6 @@ public interface State extends Check {
         } else {
             getOutputFile().recordActual(getElement().prettyOutputStart() + ENABLED, timeTook, Success.FAIL);
         }
-        return isEnabled;
+        return !isEnabled;
     }
 }

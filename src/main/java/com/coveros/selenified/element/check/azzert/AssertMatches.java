@@ -24,6 +24,7 @@ import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Matches;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 /**
@@ -82,6 +83,7 @@ public class AssertMatches implements Matches {
      */
     public void text(String expectedPattern) {
         String text = checkText(expectedPattern, 0, 0);
+        assertNotNull("No element found", text);
         assertTrue("Text Mismatch: text of '" + text + "' doesn't match pattern '" + expectedPattern + "'", text.matches(expectedPattern));
     }
 
@@ -100,6 +102,7 @@ public class AssertMatches implements Matches {
      */
     public void text(int row, int col, String pattern) {
         String text = checkText(row, col, pattern, 0, 0);
+        assertNotNull("No element found", text);
         assertTrue("Text Mismatch: text of '" + text + "' doesn't match pattern '" + pattern + "'", text.matches(pattern));
     }
 
@@ -113,6 +116,7 @@ public class AssertMatches implements Matches {
      */
     public void value(String expectedPattern) {
         String value = checkValue(expectedPattern, 0, 0);
+        assertNotNull("No element found", value);
         assertTrue("Value Mismatch: value of '" + value + "' doesn't match pattern '" + expectedPattern + "'", value.matches(expectedPattern));
     }
 
@@ -126,6 +130,7 @@ public class AssertMatches implements Matches {
      */
     public void selectedOption(String expectedPattern) {
         String selectedOption = checkSelectedOption(expectedPattern, 0, 0);
+        assertNotNull("No element found", selectedOption);
         assertTrue("Selected Option Mismatch: option of '" + selectedOption + "' doesn't match pattern '" + expectedPattern + "'",
                 selectedOption.matches(expectedPattern));
     }
@@ -140,6 +145,7 @@ public class AssertMatches implements Matches {
      */
     public void selectedValue(String expectedPattern) {
         String selectedValue = checkSelectedValue(expectedPattern, 0, 0);
+        assertNotNull("No element found", selectedValue);
         assertTrue("Selected Value Mismatch: value of '" + selectedValue + "' doesn't match pattern '" + expectedPattern + "'",
                 selectedValue.matches(expectedPattern));
     }

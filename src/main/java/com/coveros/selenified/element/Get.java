@@ -234,7 +234,7 @@ public class Get {
     @SuppressWarnings("unchecked")
     public Map<String, String> allAttributes() {
         if (!element.is().present()) {
-            return new HashMap<>();
+            return null;
         }
         try {
             WebElement webElement = element.getWebElement();

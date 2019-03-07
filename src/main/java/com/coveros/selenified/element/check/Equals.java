@@ -322,7 +322,7 @@ public interface Equals extends Check {
 
     default String[] checkSelectOptions(String[] expectedOptions, double waitFor, double timeTook) {
         // record the action, and verify it's a select
-        if (isPresentSelect(
+        if (!isPresentSelect(
                 getElement().prettyOutput() + " with select options of <b>" + String.join("</b>, <b>" + expectedOptions) + "</b>", waitFor)) {
             return null;
         }
@@ -351,7 +351,7 @@ public interface Equals extends Check {
 
     default String[] checkSelectValues(String[] expectedValues, double waitFor, double timeTook) {
         // record the action, and verify it's a select
-        if (isPresentSelect(
+        if (!isPresentSelect(
                 getElement().prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) +
                         "</b>", waitFor)) {
             return null;

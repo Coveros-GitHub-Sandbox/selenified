@@ -438,9 +438,9 @@ public class OutputFile {
      * result, using the recordExpected method.
      *
      * @param actualOutcome - what the actual outcome was
-     * @param result        - whether this result is a pass or a failure
+     * @param success        - whether this result is a pass or a failure
      */
-    public void recordActual(String actualOutcome, Success result) {
+    public void recordActual(String actualOutcome, Success success) {
         try (
             // reopen the log file
             FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
@@ -457,12 +457,7 @@ public class OutputFile {
             // write out the actual outcome
             out.write(START_CELL + actualOutcome + imageLink + END_CELL);
             out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
-            // write out the pass or fail result
-            if (result == Success.PASS) {
-                out.write("    <td class='pass'>Pass</td>\n");
-            } else {
-                out.write("    <td class='fail'>Fail</td>\n");
-            }
+            out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + END_CELL);
             // end the row
             out.write(END_ROW);
         } catch (IOException e) {

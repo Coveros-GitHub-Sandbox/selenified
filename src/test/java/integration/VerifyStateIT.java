@@ -226,16 +226,6 @@ public class VerifyStateIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "verify", "state"}, description = "An integration test to check the present method")
-    public void checkElementPresentDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").verifyState().present();
-        // verify no issues
-        finish();
-    }
-
     @Test(groups = {"integration", "verify", "state"},
             description = "An integration negative test to check the present method")
     public void checkElementPresentNotExistTest() {
@@ -265,8 +255,8 @@ public class VerifyStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "nocheck").verifyState().notPresent();
-        // verify no issues
-        finish();
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "verify", "state"},

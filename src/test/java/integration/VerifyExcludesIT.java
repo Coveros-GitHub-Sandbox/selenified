@@ -106,17 +106,6 @@ public class VerifyExcludesIT extends WebBase {
     }
 
     @Test(groups = {"integration", "verify", "excludes"},
-            description = "An integration negative test to check the checkElementDoesntContainClass method")
-    public void checkElementDoesntContainClassDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").verifyExcludes().clazz("hidden_div");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "verify", "excludes"},
             description = "An integration test to check the checkElementDoesntHaveAttribute method")
     public void checkElementDoesntHaveAttributeTest() {
         // use this object to manipulate the app
@@ -150,34 +139,12 @@ public class VerifyExcludesIT extends WebBase {
     }
 
     @Test(groups = {"integration", "verify", "excludes"},
-            description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
-    public void checkElementDoesntHaveAttributeDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").verifyExcludes().attribute("name");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "verify", "excludes"},
             description = "An integration test to check the compareTextValueExcludes method")
     public void compareTextValueExcludesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]").verifyExcludes().text("Anders");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "verify", "excludes"},
-            description = "An integration test to check the compareTextValueExcludes method")
-    public void compareTextValueExcludesDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").verifyExcludes().text("Anders");
         // verify no issues
         finish();
     }
@@ -211,17 +178,6 @@ public class VerifyExcludesIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "textarea_input").verifyExcludes().value("Anders");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "verify", "excludes"},
-            description = "An integration test to check the compareTextValueExcludes method")
-    public void compareValueExcludesDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").verifyExcludes().value("Anders");
         // verify no issues
         finish();
     }
