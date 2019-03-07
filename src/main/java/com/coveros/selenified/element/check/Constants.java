@@ -2,6 +2,8 @@ package com.coveros.selenified.element.check;
 
 public class Constants {
 
+    public static final long DEFAULT_POLLING_INTERVAL = 50;
+
     public static final String ON_PAGE = "</b> on the page";
     public static final String NO_ALERT = "An alert is not present on the page";
     public static final String ALERT_TEXT = "An alert with text <b>";
@@ -48,6 +50,14 @@ public class Constants {
     public static final String DOES_NOT_MATCH_PATTERN = "' doesn't match pattern '";
     public static final String DOES_NOT_CONTAIN = "' doesn't contain '";
     public static final String EXPECTED_ELEMENT_NOT_PRESENT = "Expected Element Not Present";
+
+    private static final String WAITED = "Waited ";
+    private static final String UPTO = "Wait up to ";
+    private static final String WAITING = "After waiting ";
+    private static final String SECONDS_FOR = " seconds for ";
+    private static final String PRESENT = " to be present";
+    private static final String DISPLAYED = " to be displayed";
+    private static final String ENABLED = " to be enabled";
 
     private Constants() {
     }

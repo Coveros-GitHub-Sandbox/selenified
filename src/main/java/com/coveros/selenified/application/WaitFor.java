@@ -25,6 +25,8 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INTERVAL;
+
 /**
  * WaitFor performs dynamic waits on the app in general, until a particular
  * condition of the application is met, not one for a particular page or
@@ -345,7 +347,7 @@ public class WaitFor implements Check {
     public void urlEquals(double seconds, String expectedURL) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
+            WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
             wait.until(ExpectedConditions.urlToBe(expectedURL));
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkUrlEquals(expectedURL, seconds, timeTook);
@@ -366,7 +368,7 @@ public class WaitFor implements Check {
     public void titleEquals(double seconds, String expectedTitle) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
+            WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
             wait.until(ExpectedConditions.titleIs(expectedTitle));
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkTitleEquals(expectedTitle, seconds, timeTook);
@@ -404,7 +406,7 @@ public class WaitFor implements Check {
     private double popup(double seconds) {
         // wait for up to XX seconds for the error message
         double end = System.currentTimeMillis() + (seconds * 1000);
-        WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds);
+        WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
         wait.until(ExpectedConditions.alertIsPresent());
         return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
     }
@@ -446,7 +448,8 @@ public class WaitFor implements Check {
      */
     private double noPopup(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        while (app.is().alertPresent() && System.currentTimeMillis() < end) ;
+        WebDriverWait wait = new WebDriverWait(app.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
+        wait.until(ExpectedConditions.not(ExpectedConditions.alertIsPresent()));
         return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
     }
 
@@ -475,9 +478,11 @@ public class WaitFor implements Check {
      * @param seconds the number of seconds to wait
      */
     public void alertNotPresent(double seconds) {
-        double timeTook = noPopup(seconds);
-        checkAlertNotPresent(seconds, timeTook);
-        if (app.is().alertPresent()) {
+        try {
+            double timeTook = noPopup(seconds);
+            checkAlertNotPresent(seconds, timeTook);
+        } catch (TimeoutException e) {
+            checkAlertNotPresent(seconds, seconds);
             file.addError();
         }
     }
@@ -551,9 +556,11 @@ public class WaitFor implements Check {
      * @param seconds the number of seconds to wait
      */
     public void confirmationNotPresent(double seconds) {
-        double timeTook = noPopup(seconds);
-        checkConfirmationNotPresent(seconds, timeTook);
-        if (app.is().confirmationPresent()) {
+        try {
+            double timeTook = noPopup(seconds);
+            checkConfirmationNotPresent(seconds, timeTook);
+        } catch (TimeoutException e) {
+            checkConfirmationNotPresent(seconds, seconds);
             file.addError();
         }
     }
@@ -627,9 +634,11 @@ public class WaitFor implements Check {
      * @param seconds the number of seconds to wait
      */
     public void promptNotPresent(double seconds) {
-        double timeTook = noPopup(seconds);
-        checkPromptNotPresent(seconds, timeTook);
-        if (app.is().promptPresent()) {
+        try {
+            double timeTook = noPopup(seconds);
+            checkPromptNotPresent(seconds, timeTook);
+        } catch (TimeoutException e) {
+            checkPromptNotPresent(seconds, seconds);
             file.addError();
         }
     }

@@ -27,6 +27,7 @@ import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.check.*;
 import com.coveros.selenified.element.check.azzert.*;
 import com.coveros.selenified.element.check.verify.*;
+import com.coveros.selenified.element.check.waitFor.WaitForState;
 import com.coveros.selenified.utilities.Point;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
@@ -76,7 +77,7 @@ public class Element {
     // the wait class to retrieve information about the element
     private Get get;
     // the wait class to determine if we need to wait for something
-    private WaitFor waitFor;
+    private WaitForState waitFor;
     // the is class to determine the state of an element
     private State verifyState;
     private State assertState;
@@ -97,21 +98,21 @@ public class Element {
     // constants
     private static final String IN = "' in ";
     private static final String INN = "</b> in ";
-    private static final String TYPTED = "Typed text '";
+    private static final String TYPED = "Typed text '";
 
-    private static final String NOTPRESENT = " as it is not present";
-    private static final String NOTDISPLAYED = " as it is not displayed";
-    private static final String NOTENABLED = " as it is not enabled";
-    private static final String NOTINPUT = " as it is not an input";
-    private static final String NOTSELECT = " as it is not a select";
+    private static final String NOT_PRESENT = " as it is not present";
+    private static final String NOT_DISPLAYED = " as it is not displayed";
+    private static final String NOT_ENABLED = " as it is not enabled";
+    private static final String NOT_AN_INPUT = " as it is not an input";
+    private static final String NOT_A_SELECT = " as it is not a select";
 
-    private static final String CANTTYPE = "Unable to type in ";
-    private static final String CANTMOVE = "Unable to move to ";
-    private static final String CANTSELECT = "Unable to select ";
+    private static final String CANT_TYPE = "Unable to type in ";
+    private static final String CANT_MOVE = "Unable to move to ";
+    private static final String CANT_SELECT = "Unable to select ";
 
     private static final String SELECTING = "Selecting ";
     private static final String SELECTED = " selected";
-    private static final String PRESDISEN = " is present, displayed, and enabled to have the value ";
+    private static final String PRESENT_DISPLAYED_AND_ENABLED = " is present, displayed, and enabled to have the value ";
 
     /**
      * Sets up the element object. Driver, and Output are defined here, which
@@ -221,7 +222,7 @@ public class Element {
         }
 
         is = new Is(this);
-        waitFor = new WaitFor(this, file);
+        waitFor = new WaitForState(this, file);
         get = new Get(app, driver, this);
         verifyState = new VerifyState(this, file);
         assertState = new AssertState(this, file);
@@ -365,7 +366,7 @@ public class Element {
      * seconds, but can be overridden. If the condition is not met in the
      * allotted time, still nothing is returned, but an error is logged
      */
-    public WaitFor waitFor() {
+    public WaitForState waitFor() {
         return waitFor;
     }
 
@@ -496,7 +497,7 @@ public class Element {
      *
      * @return By: the Selenium object
      */
-    By defineByElement() {
+    public By defineByElement() {
         // consider adding strengthening
         By byElement = null;
         switch (type) { // determine which locator type we are interested in
@@ -592,7 +593,7 @@ public class Element {
             waitFor.present();
         }
         if (!is.present()) {
-            file.recordStep(action, expected, extra + prettyOutput() + NOTPRESENT, Success.FAIL);
+            file.recordStep(action, expected, extra + prettyOutput() + NOT_PRESENT, Success.FAIL);
             // indicates element not present
             return true;
         }
@@ -614,7 +615,7 @@ public class Element {
             waitFor.displayed();
         }
         if (!is.displayed()) {
-            file.recordStep(action, expected, extra + prettyOutput() + NOTDISPLAYED, Success.FAIL);
+            file.recordStep(action, expected, extra + prettyOutput() + NOT_DISPLAYED, Success.FAIL);
             // indicates element not displayed
             return true;
         }
@@ -636,7 +637,7 @@ public class Element {
             waitFor.enabled();
         }
         if (!is.enabled()) {
-            file.recordStep(action, expected, extra + prettyOutput() + NOTENABLED, Success.FAIL);
+            file.recordStep(action, expected, extra + prettyOutput() + NOT_ENABLED, Success.FAIL);
             // indicates element not enabled
             return true;
         }
@@ -654,7 +655,7 @@ public class Element {
     private boolean isNotInput(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.input()) {
-            file.recordStep(action, expected, extra + prettyOutput() + NOTINPUT, Success.FAIL);
+            file.recordStep(action, expected, extra + prettyOutput() + NOT_AN_INPUT, Success.FAIL);
             file.addError();
             // indicates element not an input
             return true;
@@ -672,7 +673,7 @@ public class Element {
     private boolean isSelect(String action, String expected) {
         // wait for element to be displayed
         if (!is.select()) {
-            file.recordStep(action, expected, Element.CANTSELECT + prettyOutput() + NOTSELECT, Success.FAIL);
+            file.recordStep(action, expected, Element.CANT_SELECT + prettyOutput() + NOT_A_SELECT, Success.FAIL);
             file.addError();
             // indicates element not an input
             return false;
@@ -712,11 +713,11 @@ public class Element {
      */
     private boolean isNotPresentEnabledInput(String action, String expected) {
         // wait for element to be present
-        if (isNotPresent(action, expected, Element.CANTTYPE)) {
+        if (isNotPresent(action, expected, Element.CANT_TYPE)) {
             return true;
         }
         // wait for element to be enabled
-        return isNotEnabled(action, expected, Element.CANTTYPE) || isNotInput(action, expected, Element.CANTTYPE);
+        return isNotEnabled(action, expected, Element.CANT_TYPE) || isNotInput(action, expected, Element.CANT_TYPE);
     }
 
     /**
@@ -753,15 +754,15 @@ public class Element {
      */
     private boolean isNotPresentDisplayedEnabledSelect(String action, String expected) {
         // wait for element to be present
-        if (isNotPresent(action, expected, Element.CANTSELECT)) {
+        if (isNotPresent(action, expected, Element.CANT_SELECT)) {
             return true;
         }
         // wait for element to be displayed
-        if (isNotDisplayed(action, expected, Element.CANTSELECT)) {
+        if (isNotDisplayed(action, expected, Element.CANT_SELECT)) {
             return true;
         }
         // wait for element to be enabled
-        return isNotEnabled(action, expected, Element.CANTSELECT) || !isSelect(action, expected);
+        return isNotEnabled(action, expected, Element.CANT_SELECT) || !isSelect(action, expected);
     }
 
     // ///////////////////////////////////
@@ -922,15 +923,15 @@ public class Element {
             webElement.sendKeys(text);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
+            file.recordStep(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
             file.addError();
             return;
         }
         if (warning) {
-            file.recordStep(action, expected, TYPTED + text + IN + prettyOutput() +
+            file.recordStep(action, expected, TYPED + text + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Success.CHECK);
         } else {
-            file.recordStep(action, expected, TYPTED + text + IN + prettyOutputEnd(), Success.PASS);
+            file.recordStep(action, expected, TYPED + text + IN + prettyOutputEnd(), Success.PASS);
         }
     }
 
@@ -958,15 +959,15 @@ public class Element {
             webElement.sendKeys(key);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANTTYPE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
+            file.recordStep(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
             file.addError();
             return;
         }
         if (warning) {
-            file.recordStep(action, expected, TYPTED + key + IN + prettyOutput() +
+            file.recordStep(action, expected, TYPED + key + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Success.CHECK);
         } else {
-            file.recordStep(action, expected, TYPTED + key + IN + prettyOutputEnd(), Success.PASS);
+            file.recordStep(action, expected, TYPED + key + IN + prettyOutputEnd(), Success.PASS);
         }
     }
 
@@ -1005,7 +1006,7 @@ public class Element {
      */
     public void select(int index) {
         String action = SELECTING + index + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESDISEN + index + SELECTED;
+        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + index + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
@@ -1024,7 +1025,7 @@ public class Element {
             dropdown.selectByIndex(index);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
+            file.recordStep(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
             file.addError();
             return;
         }
@@ -1041,14 +1042,14 @@ public class Element {
      */
     public void selectOption(String option) {
         String action = SELECTING + option + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESDISEN + option + SELECTED;
+        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + option + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
             }
             // ensure the option exists
             if (!Arrays.asList(get.selectOptions()).contains(option)) {
-                file.recordStep(action, expected, CANTSELECT + option + " in " + prettyOutput() +
+                file.recordStep(action, expected, CANT_SELECT + option + " in " + prettyOutput() +
                         " as that option isn't present. Available options are:<i><br/>&nbsp;&nbsp;&nbsp;" +
                         String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>", Success.FAIL);
                 file.addError();
@@ -1060,7 +1061,7 @@ public class Element {
             dropdown.selectByVisibleText(option);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
+            file.recordStep(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
             file.addError();
             return;
         }
@@ -1077,14 +1078,14 @@ public class Element {
      */
     public void selectValue(String value) {
         String action = SELECTING + value + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESDISEN + value + SELECTED;
+        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + value + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
             }
             // ensure the value exists
             if (!Arrays.asList(get.selectValues()).contains(value)) {
-                file.recordStep(action, expected, CANTSELECT + value + " in " + prettyOutput() +
+                file.recordStep(action, expected, CANT_SELECT + value + " in " + prettyOutput() +
                         " as that value isn't present. Available values are:<i><br/>&nbsp;&nbsp;&nbsp;" +
                         String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>", Success.FAIL);
                 file.addError();
@@ -1096,7 +1097,7 @@ public class Element {
             dropdown.selectByValue(value);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANTSELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
+            file.recordStep(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
             file.addError();
             return;
         }
@@ -1113,7 +1114,7 @@ public class Element {
      */
     private void cantMove(Exception e, String action, String expected) {
         log.warn(e);
-        file.recordStep(action, expected, CANTMOVE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
+        file.recordStep(action, expected, CANT_MOVE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
         file.addError();
     }
 
@@ -1146,7 +1147,7 @@ public class Element {
         String expected = prettyOutput() + " is now displayed within the current viewport";
         try {
             // wait for element to be present
-            if (isNotPresent(action, expected, CANTMOVE)) {
+            if (isNotPresent(action, expected, CANT_MOVE)) {
                 return;
             }
             // perform the move action
@@ -1173,7 +1174,7 @@ public class Element {
         String expected = prettyOutput() + " is now displayed within the current viewport";
         try {
             // wait for element to be present
-            if (isNotPresent(action, expected, CANTMOVE)) {
+            if (isNotPresent(action, expected, CANT_MOVE)) {
                 return;
             }
             // perform the move action
