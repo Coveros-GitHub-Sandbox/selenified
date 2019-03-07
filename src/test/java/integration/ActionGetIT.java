@@ -257,7 +257,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         int options = app.newElement(Locator.NAME, "non-existent-name", 0).get().numOfSelectOptions();
-        assertEquals(options, 0);
+        assertEquals(options, -1);
         // verify no issues
         finish();
     }
@@ -281,7 +281,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         int rows = app.newElement(Locator.ID, "non-existent-name", 0).get().numOfTableRows();
-        assertEquals(rows, 0);
+        assertEquals(rows, -1);
         // verify no issues
         finish();
     }
@@ -807,7 +807,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         Map<String, String> attributes = app.newElement(Locator.ID, "non-existent-name").get().allAttributes();
-        assertEquals(attributes, new HashMap<>());
+        assertNull(attributes);
         // verify 0 issue
         finish();
     }

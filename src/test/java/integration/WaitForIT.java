@@ -603,8 +603,6 @@ public class WaitForIT extends WebBase {
         app.newElement(Locator.ID, "delayed_alert_button").click();
         app.waitFor().alertPresent();
         app.azzert().alertPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "wait", "browser"},

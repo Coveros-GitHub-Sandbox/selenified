@@ -436,9 +436,6 @@ read as follow:
 ```java
     finish();
 ```
-Note, this is only needed if checking states with `verify`, instead of `azzert`. As previously stated, `azzert` 
-immediately ends the tests with a comparison checking for failure, whereas `verify` will continue forward, 
-tracking issues as they are encountered.
 
 Using and IDE such as Eclipse will help you auto-complete desired commands, and the 
 [JavaDocs](https://coveros.github.io/selenified) provided will outline each piece of functionality.

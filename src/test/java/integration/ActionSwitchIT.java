@@ -200,8 +200,6 @@ public class ActionSwitchIT extends WebBase {
         // perform some actions
         app.openNewWindow("https://www.google.com/");
         app.azzert().urlEquals("https://www.google.com/");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "switch", "tab", "browser"},
@@ -211,7 +209,7 @@ public class ActionSwitchIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.openNewWindow("https://www.google.com");
-        app.azzert().urlEquals("https://www.google.com/");
+        app.verify().urlEquals("https://www.google.com/");
         // verify 2 issues
         finish(2);
     }
@@ -237,8 +235,6 @@ public class ActionSwitchIT extends WebBase {
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
         app.azzert().textPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "switch", "window"},
@@ -265,8 +261,6 @@ public class ActionSwitchIT extends WebBase {
         app.azzert().textPresent("You're on the next page");
         app.switchToParentWindow();
         app.azzert().textNotPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "switch", "window", "browser"},
@@ -288,7 +282,7 @@ public class ActionSwitchIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.azzert().textPresent("You're on the next page");
+        app.verify().textPresent("You're on the next page");
         app.killDriver();
         app.switchToParentWindow();
         // verify one issue
@@ -306,8 +300,6 @@ public class ActionSwitchIT extends WebBase {
         app.azzert().textPresent("You're on the next page");
         app.closeCurrentWindow();
         app.azzert().textNotPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "switch", "window"},
@@ -318,7 +310,7 @@ public class ActionSwitchIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.azzert().textPresent("You're on the next page");
+        app.verify().textPresent("You're on the next page");
         app.closeCurrentWindow();
         app.closeCurrentWindow();
         // verify 1 issue

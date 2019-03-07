@@ -54,7 +54,7 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(Locator.TAGNAME, "body");
         Element cell = table.findChild(app.newElement(Locator.TAGNAME, "button", 3));
-        cell.assertEquals().text("");
+        cell.verifyEquals().text("");
         // verify 1 issue
         finish(1);
     }

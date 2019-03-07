@@ -6,16 +6,6 @@ import org.testng.annotations.Test;
 
 public class VerifyStateIT extends WebBase {
 
-    @Test(groups = {"integration", "verify", "state"}, description = "An integration test to check a title")
-    public void compareTitleTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform the verification
-        app.azzert().titleEquals("Selenified Test Page");
-        // perform the verification
-        finish();
-    }
-
     @Test(groups = {"integration", "verify", "state"},
             description = "An integration test to check the checkElementChecked method")
     public void checkElementCheckedTest() {
