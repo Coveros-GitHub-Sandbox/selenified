@@ -48,9 +48,7 @@ public interface Equals extends Check {
     /**
      * Checks that the element has a the expected number of matches on the page, e.g.
      * how many elements match the locator and target provided.
-     * If the element isn't present, or the css doesn't contain
-     * the desired attribute, this will constitute a failure, same as a
-     * mismatch. This information will be logged and recorded, with a screenshot
+     * This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
      * @param expectedMatches the expected number of elements matching the locator

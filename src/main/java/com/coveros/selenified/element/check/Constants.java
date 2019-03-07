@@ -51,14 +51,6 @@ public class Constants {
     public static final String DOES_NOT_CONTAIN = "' doesn't contain '";
     public static final String EXPECTED_ELEMENT_NOT_PRESENT = "Expected Element Not Present";
 
-    private static final String WAITED = "Waited ";
-    private static final String UPTO = "Wait up to ";
-    private static final String WAITING = "After waiting ";
-    private static final String SECONDS_FOR = " seconds for ";
-    private static final String PRESENT = " to be present";
-    private static final String DISPLAYED = " to be displayed";
-    private static final String ENABLED = " to be enabled";
-
     private Constants() {
     }
 }

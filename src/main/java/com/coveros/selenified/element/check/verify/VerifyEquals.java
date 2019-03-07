@@ -73,6 +73,14 @@ public class VerifyEquals implements Equals {
     // assessing functionality
     // ///////////////////////////////////////
 
+    /**
+     * Verifies that the element has a the expected number of matches on the page, e.g.
+     * how many elements match the locator and target provided.
+     * This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedMatches the expected number of elements matching the locator
+     */
     public void matches(int expectedMatches) {
         file.verify(checkMatches(expectedMatches, 0, 0) == expectedMatches);
     }

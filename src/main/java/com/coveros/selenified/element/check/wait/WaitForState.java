@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.element.check.waitFor;
+package com.coveros.selenified.element.check.wait;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
@@ -183,17 +183,12 @@ public class WaitForState implements State {
     // Our actual full implementation of the above overloaded methods
     ///////////////////////////////////////////////////
 
-    private double elementPresent(double seconds) {
-        double end = System.currentTimeMillis() + (seconds * 1000);
-        WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(element.defineByElement()));
-        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-    }
-
     /**
-     * Waits for the element to be present. The default wait time will be used
+     * Waits for the element to be present. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void present(double seconds) {
         try {
@@ -206,9 +201,11 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to not be present. The default wait time will be used
+     * Waits for the element to not be present. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void notPresent(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -224,9 +221,11 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to be displayed. The default wait time will be used
+     * Waits for the element to be displayed. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void displayed(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -243,9 +242,11 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to not be displayed. The default wait time will be used
+     * Waits for the element to not be displayed. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void notDisplayed(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -262,9 +263,11 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to be checked. The default wait time will be used
+     * Waits for the element to be checked. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void checked(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -283,9 +286,11 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to not be checked. The default wait time will be used
+     * Waits for the element to not be checked. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void notChecked(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -304,11 +309,13 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to be editable. The default wait time will be used
+     * Waits for the element to be editable. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
      * If the element isn't an input, this will
      * constitute a failure, same as it not being editable.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void editable(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -327,11 +334,13 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to not be editable. The default wait time will be used
+     * Waits for the element to not be editable. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
      * If the element isn't an input, this will
      * constitute a pass, same as it not being editable.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void notEditable(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -350,9 +359,11 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to be enabled. The default wait time will be used
+     * Waits for the element to be enabled. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void enabled(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -369,9 +380,11 @@ public class WaitForState implements State {
     }
 
     /**
-     * Waits for the element to not be enabled. The default wait time will be used
+     * Waits for the element to not be enabled. The provided wait time will be used
      * and if the element isn't present after that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param seconds - how many seconds to wait for
      */
     public void notEnabled(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);

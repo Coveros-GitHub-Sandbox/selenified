@@ -27,7 +27,8 @@ import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.check.*;
 import com.coveros.selenified.element.check.azzert.*;
 import com.coveros.selenified.element.check.verify.*;
-import com.coveros.selenified.element.check.waitFor.WaitForState;
+import com.coveros.selenified.element.check.wait.WaitForEquals;
+import com.coveros.selenified.element.check.wait.WaitForState;
 import com.coveros.selenified.utilities.Point;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
@@ -76,11 +77,10 @@ public class Element {
     private Is is;
     // the wait class to retrieve information about the element
     private Get get;
-    // the wait class to determine if we need to wait for something
-    private WaitForState waitFor;
     // the is class to determine the state of an element
     private State verifyState;
     private State assertState;
+    private WaitForState waitForState;
     // the is class to determine if an element contains something
     private Contains verifyContains;
     private Contains assertContains;
@@ -90,6 +90,7 @@ public class Element {
     // the is class to determine if an element has attributes equal to something
     private Equals verifyEquals;
     private Equals assertEquals;
+    private WaitForEquals waitForEquals;
     // the is class to determine if an element has attributes matching to something
     private Matches verifyMatches;
     private Matches assertMatches;
@@ -222,16 +223,17 @@ public class Element {
         }
 
         is = new Is(this);
-        waitFor = new WaitForState(this, file);
         get = new Get(app, driver, this);
         verifyState = new VerifyState(this, file);
         assertState = new AssertState(this, file);
+        waitForState = new WaitForState(this, file);
         verifyContains = new VerifyContains(this, file);
         assertContains = new AssertContains(this, file);
         verifyExcludes = new VerifyExcludes(this, file);
         assertExcludes = new AssertExcludes(this, file);
         verifyEquals = new VerifyEquals(this, file);
         assertEquals = new AssertEquals(this, file);
+        waitForEquals = new WaitForEquals(this, file);
         verifyMatches = new VerifyMatches(this, file);
         assertMatches = new AssertMatches(this, file);
     }
@@ -361,16 +363,6 @@ public class Element {
     }
 
     /**
-     * Performs dyanamic waits on a particular element, until a particular
-     * condition is met. Nothing is ever returned. The default wait is 5
-     * seconds, but can be overridden. If the condition is not met in the
-     * allotted time, still nothing is returned, but an error is logged
-     */
-    public WaitForState waitFor() {
-        return waitFor;
-    }
-
-    /**
      * Retrieves information about a particular element. If an object isn't
      * present, null will be returned
      */
@@ -398,6 +390,17 @@ public class Element {
      */
     public State assertState() {
         return assertState;
+    }
+
+    /**
+     * Waits for the element to have a particular state associated to it. These
+     * asserts are custom to the framework, and in addition to providing easy
+     * object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
+    public WaitForState waitForState() {
+        return waitForState;
     }
 
     /**
@@ -464,6 +467,17 @@ public class Element {
      */
     public Equals assertEquals() {
         return assertEquals;
+    }
+
+    /**
+     * Wait for the element to have a particular value associated with it.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented capabilities, they take screenshots with each
+     * verification to provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
+    public WaitForEquals waitForEquals() {
+        return waitForEquals;
     }
 
     /**
@@ -590,7 +604,7 @@ public class Element {
     private boolean isNotPresent(String action, String expected, String extra) {
         // wait for element to be present
         if (!is.present()) {
-            waitFor.present();
+            waitForState.present();
         }
         if (!is.present()) {
             file.recordStep(action, expected, extra + prettyOutput() + NOT_PRESENT, Success.FAIL);
@@ -612,7 +626,7 @@ public class Element {
     private boolean isNotDisplayed(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.displayed()) {
-            waitFor.displayed();
+            waitForState.displayed();
         }
         if (!is.displayed()) {
             file.recordStep(action, expected, extra + prettyOutput() + NOT_DISPLAYED, Success.FAIL);
@@ -634,7 +648,7 @@ public class Element {
     private boolean isNotEnabled(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.enabled()) {
-            waitFor.enabled();
+            waitForState.enabled();
         }
         if (!is.enabled()) {
             file.recordStep(action, expected, extra + prettyOutput() + NOT_ENABLED, Success.FAIL);

@@ -23,6 +23,8 @@ package com.coveros.selenified.element.check;
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.element.Element;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Map;
 import java.util.Set;
@@ -196,5 +198,21 @@ interface Check {
         }
         // check for the object to the present on the page
         return getElement().get().value();
+    }
+
+
+    /**
+     * Performs a simple check for the element to be present. The provided wait time will be used
+     * and the total time the action took will be returned. Nohing will be logged, but this will
+     * be used as part of other methods.
+     *
+     * @param seconds - how many seconds to wait for
+     * @return double: the time waited
+     */
+    default double elementPresent(double seconds) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        WebDriverWait wait = new WebDriverWait(getElement().getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(getElement().defineByElement()));
+        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
     }
 }

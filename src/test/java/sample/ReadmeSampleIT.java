@@ -46,7 +46,7 @@ public class ReadmeSampleIT extends Selenified {
         searchBox.type(searchTerm);
         searchBox.submit();
         //wait for the page to return the results
-        app.newElement(Locator.ID, "recent-posts-4").waitFor().present();
+        app.newElement(Locator.ID, "recent-posts-4").waitForState().present();
         // verify the correct page title
         app.azzert().titleEquals("You searched for " + searchTerm + " - Coveros");
     }

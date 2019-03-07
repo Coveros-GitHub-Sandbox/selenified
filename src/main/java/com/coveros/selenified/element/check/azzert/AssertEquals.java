@@ -78,6 +78,14 @@ public class AssertEquals implements Equals {
     // assessing functionality
     // ///////////////////////////////////////
 
+    /**
+     * Asserts that the element has a the expected number of matches on the page, e.g.
+     * how many elements match the locator and target provided.
+     * This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedMatches the expected number of elements matching the locator
+     */
     public void matches(int expectedMatches) {
         assertEquals("Element Match Mismatch", expectedMatches, checkMatches(expectedMatches, 0, 0));
     }

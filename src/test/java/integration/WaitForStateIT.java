@@ -14,7 +14,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         Element element = app.newElement(Locator.ID, "five_second_button");
-        element.waitFor().changeDefaultWait(0.5);
+        element.waitForState().changeDefaultWait(0.5);
         element.click();
         // verify 1 issue
         finish(1);
@@ -26,7 +26,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitFor().present();
+        app.newElement(Locator.NAME, "car_list").waitForState().present();
         // verify no issues
         finish();
     }
@@ -37,7 +37,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitFor().present(5.0);
+        app.newElement(Locator.NAME, "car_list").waitForState().present(5.0);
         // verify no issues
         finish();
     }
@@ -48,7 +48,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list", 0).waitFor().present();
+        app.newElement(Locator.NAME, "car_list", 0).waitForState().present();
         // verify no issues
         finish();
     }
@@ -59,7 +59,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non-existent-name", 0).waitFor().present(5.0);
+        app.newElement(Locator.NAME, "non-existent-name", 0).waitForState().present(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -70,7 +70,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non-existent-name").waitFor().notPresent();
+        app.newElement(Locator.NAME, "non-existent-name").waitForState().notPresent();
         // verify no issues
         finish();
     }
@@ -81,7 +81,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non-existent-name").waitFor().notPresent(5.0);
+        app.newElement(Locator.NAME, "non-existent-name").waitForState().notPresent(5.0);
         // verify no issues
         finish();
     }
@@ -92,7 +92,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non-existent-name", 0).waitFor().notPresent();
+        app.newElement(Locator.NAME, "non-existent-name", 0).waitForState().notPresent();
         // verify no issues
         finish();
     }
@@ -103,7 +103,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non-existent-name").waitFor().notPresent();
+        app.newElement(Locator.NAME, "non-existent-name").waitForState().notPresent();
         // verify no issues
         finish();
     }
@@ -114,7 +114,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list", 0).waitFor().notPresent(5.0);
+        app.newElement(Locator.NAME, "car_list", 0).waitForState().notPresent(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -125,7 +125,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitFor().displayed();
+        app.newElement(Locator.NAME, "car_list").waitForState().displayed();
         // verify no issues
         finish();
     }
@@ -137,7 +137,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "added_div", 0).waitFor().displayed();
+        app.newElement(Locator.NAME, "added_div", 0).waitForState().displayed();
         // verify no issues
         finish();
     }
@@ -149,7 +149,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button").waitFor().displayed(5.0);
+        app.newElement(Locator.NAME, "delayed_hide_button").waitForState().displayed(5.0);
         // verify no issues
         finish();
     }
@@ -160,7 +160,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non-existent-name", 0).waitFor().displayed(5.0);
+        app.newElement(Locator.NAME, "non-existent-name", 0).waitForState().displayed(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -171,7 +171,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "hidden_div").waitFor().displayed();
+        app.newElement(Locator.NAME, "hidden_div").waitForState().displayed();
         // verify 1 issue
         finish(1);
     }
@@ -182,7 +182,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "hidden_div").waitFor().notDisplayed();
+        app.newElement(Locator.NAME, "hidden_div").waitForState().notDisplayed();
         // verify no issues
         finish();
     }
@@ -193,7 +193,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non_existent").waitFor().notDisplayed(5.0);
+        app.newElement(Locator.NAME, "non_existent").waitForState().notDisplayed(5.0);
         // verify one issue
         finish(1);
     }
@@ -205,9 +205,9 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button").waitFor().displayed();
+        app.newElement(Locator.NAME, "delayed_hide_button").waitForState().displayed();
         app.newElement(Locator.NAME, "delayed_hide_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button", 0).waitFor().notDisplayed();
+        app.newElement(Locator.NAME, "delayed_hide_button", 0).waitForState().notDisplayed();
         // verify no issues
         finish();
     }
@@ -219,9 +219,9 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button").waitFor().displayed();
+        app.newElement(Locator.NAME, "delayed_hide_button").waitForState().displayed();
         app.newElement(Locator.NAME, "delayed_hide_button").click();
-        app.newElement(Locator.NAME, "added_div", 0).waitFor().notDisplayed();
+        app.newElement(Locator.NAME, "added_div", 0).waitForState().notDisplayed();
         // verify no issues
         finish();
     }
@@ -232,7 +232,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // use this object to verify the app looks as expected
-        app.newElement(Locator.NAME, "car_list", 0).waitFor().notDisplayed(5.0);
+        app.newElement(Locator.NAME, "car_list", 0).waitForState().notDisplayed(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -244,7 +244,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "that").click();
-        app.newElement(Locator.NAME, "that").waitFor().checked();
+        app.newElement(Locator.NAME, "that").waitForState().checked();
         // verify no issues
         finish();
     }
@@ -256,7 +256,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "added_div", 0).waitFor().checked();
+        app.newElement(Locator.NAME, "added_div", 0).waitForState().checked();
         // verify one issue
         finish(1);
     }
@@ -268,7 +268,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button").waitFor().checked(5.0);
+        app.newElement(Locator.NAME, "delayed_hide_button").waitForState().checked(5.0);
         // verify one issue
         finish(1);
     }
@@ -279,7 +279,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non-existent-name", 0).waitFor().checked(5.0);
+        app.newElement(Locator.NAME, "non-existent-name", 0).waitForState().checked(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -290,7 +290,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "hidden_div").waitFor().checked();
+        app.newElement(Locator.NAME, "hidden_div").waitForState().checked();
         // verify 1 issue
         finish(1);
     }
@@ -301,7 +301,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "hidden_div").waitFor().notChecked();
+        app.newElement(Locator.NAME, "hidden_div").waitForState().notChecked();
         // verify no issues
         finish();
     }
@@ -312,7 +312,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "that").waitFor().notChecked();
+        app.newElement(Locator.NAME, "that").waitForState().notChecked();
         // verify no issues
         finish();
     }
@@ -324,7 +324,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "that").click();
-        app.newElement(Locator.NAME, "that").waitFor().notChecked();
+        app.newElement(Locator.NAME, "that").waitForState().notChecked();
         // verify 1 issue
         finish(1);
     }
@@ -335,7 +335,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non_existent").waitFor().notChecked(5.0);
+        app.newElement(Locator.NAME, "non_existent").waitForState().notChecked(5.0);
         // verify one issue
         finish(1);
     }
@@ -347,9 +347,9 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button").waitFor().checked();
+        app.newElement(Locator.NAME, "delayed_hide_button").waitForState().checked();
         app.newElement(Locator.NAME, "delayed_hide_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button", 0).waitFor().notChecked();
+        app.newElement(Locator.NAME, "delayed_hide_button", 0).waitForState().notChecked();
         // verify 1 issue
         finish(1);
     }
@@ -360,7 +360,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitFor().enabled();
+        app.newElement(Locator.NAME, "car_list").waitForState().enabled();
         // verify no issues
         finish();
     }
@@ -372,7 +372,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "added_div", 0).waitFor().enabled();
+        app.newElement(Locator.NAME, "added_div", 0).waitForState().enabled();
         // verify no issues
         finish();
     }
@@ -384,7 +384,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_enable_button").click();
-        app.newElement(Locator.NAME, "delayed_input").waitFor().enabled(5.0);
+        app.newElement(Locator.NAME, "delayed_input").waitForState().enabled(5.0);
         // verify no issues
         finish();
     }
@@ -395,7 +395,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "alert_button", 0).waitFor().enabled(5.0);
+        app.newElement(Locator.NAME, "alert_button", 0).waitForState().enabled(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -406,7 +406,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "alert_button").waitFor().notEnabled();
+        app.newElement(Locator.NAME, "alert_button").waitForState().notEnabled();
         // verify no issues
         finish();
     }
@@ -417,7 +417,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "alert_button").waitFor().notEnabled();
+        app.newElement(Locator.NAME, "alert_button").waitForState().notEnabled();
         // verify no issues
         finish();
     }
@@ -428,7 +428,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non_existent").waitFor().notEnabled(5.0);
+        app.newElement(Locator.NAME, "non_existent").waitForState().notEnabled(5.0);
         // verify one issue
         finish(1);
     }
@@ -440,9 +440,9 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_enable_button").click();
-        app.newElement(Locator.NAME, "delayed_input").waitFor().enabled();
+        app.newElement(Locator.NAME, "delayed_input").waitForState().enabled();
         app.newElement(Locator.NAME, "delayed_enable_button").click();
-        app.newElement(Locator.NAME, "delayed_input", 0).waitFor().notEnabled();
+        app.newElement(Locator.NAME, "delayed_input", 0).waitForState().notEnabled();
         // verify no issues
         finish();
     }
@@ -453,7 +453,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list", 0).waitFor().notEnabled(5.0);
+        app.newElement(Locator.NAME, "car_list", 0).waitForState().notEnabled(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -464,7 +464,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list").waitFor().editable();
+        app.newElement(Locator.NAME, "car_list").waitForState().editable();
         // verify no issues
         finish();
     }
@@ -475,7 +475,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "blur_box").waitFor().editable();
+        app.newElement(Locator.NAME, "blur_box").waitForState().editable();
         // verify no issues
         finish();
     }
@@ -487,7 +487,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "added_div", 0).waitFor().editable();
+        app.newElement(Locator.NAME, "added_div", 0).waitForState().editable();
         // verify one issue
         finish(1);
     }
@@ -499,7 +499,7 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_enable_button").click();
-        app.newElement(Locator.NAME, "delayed_input").waitFor().editable(5.0);
+        app.newElement(Locator.NAME, "delayed_input").waitForState().editable(5.0);
         // verify no issues
         finish();
     }
@@ -510,7 +510,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "alert_button", 0).waitFor().editable(5.0);
+        app.newElement(Locator.NAME, "alert_button", 0).waitForState().editable(5.0);
         // verify 1 issue
         finish(1);
     }
@@ -521,7 +521,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non-existant-element", 0).waitFor().editable(2.0);
+        app.newElement(Locator.NAME, "non-existant-element", 0).waitForState().editable(2.0);
         // verify 1 issue
         finish(1);
     }
@@ -532,7 +532,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "alert_button").waitFor().notEditable();
+        app.newElement(Locator.NAME, "alert_button").waitForState().notEditable();
         // verify no issues
         finish();
     }
@@ -543,7 +543,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "alert_button").waitFor().notEditable();
+        app.newElement(Locator.NAME, "alert_button").waitForState().notEditable();
         // verify no issues
         finish();
     }
@@ -554,7 +554,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "non_existent").waitFor().notEditable(5.0);
+        app.newElement(Locator.NAME, "non_existent").waitForState().notEditable(5.0);
         // verify one issue
         finish(1);
     }
@@ -566,9 +566,9 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_enable_button").click();
-        app.newElement(Locator.NAME, "delayed_input").waitFor().editable();
+        app.newElement(Locator.NAME, "delayed_input").waitForState().editable();
         app.newElement(Locator.NAME, "delayed_enable_button").click();
-        app.newElement(Locator.NAME, "delayed_input", 0).waitFor().notEditable();
+        app.newElement(Locator.NAME, "delayed_input", 0).waitForState().notEditable();
         // verify no issues
         finish();
     }
@@ -580,9 +580,9 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button").waitFor().displayed();
+        app.newElement(Locator.NAME, "delayed_hide_button").waitForState().displayed();
         app.newElement(Locator.NAME, "delayed_hide_button").click();
-        app.newElement(Locator.NAME, "added_div", 0).waitFor().notEditable();
+        app.newElement(Locator.NAME, "added_div", 0).waitForState().notEditable();
         // verify no issues
         finish();
     }
@@ -593,7 +593,7 @@ public class WaitForStateIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "car_list", 0).waitFor().notEditable(5.0);
+        app.newElement(Locator.NAME, "car_list", 0).waitForState().notEditable(5.0);
         // verify 1 issue
         finish(1);
     }
