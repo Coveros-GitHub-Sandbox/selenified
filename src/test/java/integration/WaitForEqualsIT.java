@@ -140,6 +140,17 @@ public class WaitForEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "wait", "equals"},
+            description = "An integration test to check the compareSelectValues method")
+    public void negativeCompareSelectValuesNotSelectTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").waitForEquals().selectValues(new String[]{"volvo", "saab", "mercedes"},1);
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
             description = "An integration test to check the compareSelectOptions method")
     public void compareSelectOptionsTest() {
         // use this object to manipulate the app
@@ -203,6 +214,17 @@ public class WaitForEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "non-existant-element").waitForEquals().selectOptions(new String[]{"Volvo", "Saab", "Mercedes"}, 1);
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "An integration test to check the compareSelectOptions method")
+    public void negativeCompareSelectOptionsNotSelectTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").waitForEquals().selectOptions(new String[]{"Volvo", "Saab", "Mercedes"}, 1);
         // verify no issue
         finish(1);
     }
