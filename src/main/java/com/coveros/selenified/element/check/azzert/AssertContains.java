@@ -40,7 +40,7 @@ import static org.testng.AssertJUnit.*;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/22/2018
+ * @lastupdate 3/7/2019
  */
 public class AssertContains implements Contains {
 

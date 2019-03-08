@@ -29,7 +29,6 @@ import java.util.Arrays;
 import static com.coveros.selenified.element.check.Constants.ELEMENT_NOT_SELECT;
 import static com.coveros.selenified.element.check.Constants.NO_ELEMENT_FOUND;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.fail;
 
 /**
@@ -43,7 +42,7 @@ import static org.testng.AssertJUnit.fail;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/21/2019
+ * @lastupdate 3/7/2019
  */
 public class AssertEquals implements Equals {
 

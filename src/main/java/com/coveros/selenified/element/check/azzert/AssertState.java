@@ -37,7 +37,7 @@ import static org.testng.AssertJUnit.assertTrue;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 9/13/2018
+ * @lastupdate 3/7/2019
  */
 public class AssertState implements State {
 

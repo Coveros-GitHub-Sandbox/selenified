@@ -37,7 +37,7 @@ import java.util.Arrays;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/21/2018
+ * @lastupdate 3/7/2019
  */
 public class VerifyExcludes implements Excludes {
 

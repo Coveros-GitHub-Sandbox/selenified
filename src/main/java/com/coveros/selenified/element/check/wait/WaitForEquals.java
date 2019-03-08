@@ -42,7 +42,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/21/2019
+ * @lastupdate 3/7/2019
  */
 public class WaitForEquals implements Equals {
 

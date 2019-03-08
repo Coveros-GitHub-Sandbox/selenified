@@ -35,7 +35,7 @@ import static org.testng.AssertJUnit.assertTrue;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 3/5/2019
+ * @lastupdate 3/7/2019
  */
 public class Assert implements Check {
 
@@ -114,7 +114,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Asserts thatprovided text(s) are on the current page. This information
+     * Asserts that provided text(s) are on the current page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
@@ -126,7 +126,7 @@ public class Assert implements Check {
     }
 
     /**
-     * Asserts thatprovided text(s) are not on the current page. This
+     * Asserts that provided text(s) are not on the current page. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
