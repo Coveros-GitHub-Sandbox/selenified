@@ -207,6 +207,17 @@ public class AssertEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "assert", "equals"},
             description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "blur_box", 0).assertEquals().text(1, 1, "Bad-Value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
     public void negativeCompareTableCellTextNotPresetTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
