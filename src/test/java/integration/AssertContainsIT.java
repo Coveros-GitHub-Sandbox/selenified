@@ -40,6 +40,17 @@ public class AssertContainsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration negative test to check the compareNumOfSelectOptions method", expectedExceptions = AssertionError.class)
+    public void negativeCompareNumOfSelectOptionsNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "non-existant-element").assertContains().selectOptions(0);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareNumOfTableRows method")
     public void compareNumOfTableRowsTest() {
         // use this object to manipulate the app
@@ -57,6 +68,17 @@ public class AssertContainsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "table", 0).assertContains().rows(0);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration negative test to check the compareNumOfTableRows method", expectedExceptions = AssertionError.class)
+    public void negativeCompareNumOfTableNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "blur_box", 0).assertContains().rows(0);
         // verify 1 issue
         finish(1);
     }
@@ -100,7 +122,7 @@ public class AssertContainsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "check").assertContains().columns(0);
+        app.newElement(Locator.ID, "blur_box").assertContains().columns(0);
         // verify 1 issue
         finish(1);
     }
@@ -156,6 +178,17 @@ public class AssertContainsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "delayed_input").assertContains().selectOption("Ford");
+        // verify 1 issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration negative test to check the checkIfOptionInSelect method", expectedExceptions = AssertionError.class)
+    public void negativeCheckIfOptionInSelectNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-element").assertContains().selectOption("Ford");
         // verify 1 issues
         finish(1);
     }

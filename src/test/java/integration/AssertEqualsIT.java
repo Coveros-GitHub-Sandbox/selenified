@@ -105,6 +105,17 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the compareSelectValues method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSelectValuesNotSelectTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().selectValues("volvo", "saab", "mercedes");
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
             description = "An integration test to check the compareSelectOptions method")
     public void compareSelectOptionsTest() {
         // use this object to manipulate the app
@@ -157,6 +168,17 @@ public class AssertEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals().selectOptions("Volvo", "Saab", "Mercedes");
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the compareSelectOptions method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSelectOptionsNotSelectTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().selectOptions("Volvo", "Saab", "Mercedes");
         // verify no issue
         finish(1);
     }
@@ -465,6 +487,17 @@ public class AssertEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "assert", "equals"},
             description = "An integration negative test to check the compareTextValue method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTextValueNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "blur_box").assertEquals().text("Maria Anders");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareTextValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareTextValueNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -547,6 +580,17 @@ public class AssertEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "alert_button").assertEquals().selectedOption("wrong value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareSelectedText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSelectedTextNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-element").assertEquals().selectedOption("wrong value");
         // verify 1 issue
         finish(1);
     }

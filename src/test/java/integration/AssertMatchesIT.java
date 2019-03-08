@@ -215,4 +215,15 @@ public class AssertMatchesIT extends WebBase {
         // verify 1 issue
         finish(1);
     }
+
+    @Test(groups = {"integration", "assert", "matches"},
+            description = "An integration negative test to check the compareSelectedText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSelectedTextNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-element").assertMatches().selectedOption("\\s+");
+        // verify 1 issue
+        finish(1);
+    }
 }

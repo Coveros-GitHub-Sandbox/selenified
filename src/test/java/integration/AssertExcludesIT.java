@@ -40,6 +40,17 @@ public class AssertExcludesIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkSelectValueNotPresent method", expectedExceptions = AssertionError.class)
+    public void negativeCheckSelectValueNotPresentNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-element").assertExcludes().selectValue("volvo");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration test to check the checkIfOptionNotInSelect method")
     public void checkIfOptionNotInSelectTest() {
         // use this object to manipulate the app
@@ -68,6 +79,17 @@ public class AssertExcludesIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "alert_button").assertExcludes().selectOption("audi");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkIfOptionNotInSelect method", expectedExceptions = AssertionError.class)
+    public void negativeCheckIfOptionNotInSelectNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-element").assertExcludes().selectOption("audi");
         // verify 1 issue
         finish(1);
     }
