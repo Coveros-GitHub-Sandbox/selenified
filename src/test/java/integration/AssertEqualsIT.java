@@ -364,6 +364,17 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareCssValue method")
+    public void negativeCompareCssValueNotPresentNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").assertEquals().cssValue("display", null);
+        // verify one issue
+        finish();
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
             description = "An integration test to check the compareAttributeValue method")
     public void compareAttributeValueTest() {
         // use this object to manipulate the app
