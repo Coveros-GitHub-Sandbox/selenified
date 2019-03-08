@@ -240,17 +240,6 @@ public class AssertStateIT extends WebBase {
 
     @Test(groups = {"integration", "assert", "state"},
             description = "An integration negative test to check the present method", expectedExceptions = AssertionError.class)
-    public void checkElementNotPresentDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "nocheck").assertState().notPresent();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the present method", expectedExceptions = AssertionError.class)
     public void checkElementNotPresentExistsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

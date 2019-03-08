@@ -213,20 +213,6 @@ public class WaitForStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "state", "wait"},
-            description = "An integration test to check the WaitForElementNotDisplayed method")
-    public void waitForElementNotDisplayedDeletedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button").waitForState().displayed();
-        app.newElement(Locator.NAME, "delayed_hide_button").click();
-        app.newElement(Locator.NAME, "added_div", 0).waitForState().notDisplayed();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "state", "wait"},
             description = "An integration negative test to check the WaitForElementNotDisplayed method")
     public void negativeWaitForElementNotDisplayedTest() {
         // use this object to manipulate the app
@@ -557,34 +543,6 @@ public class WaitForStateIT extends WebBase {
         app.newElement(Locator.NAME, "non_existent").waitForState().notEditable(5.0);
         // verify one issue
         finish(1);
-    }
-
-    @Test(groups = {"integration", "state", "wait"},
-            description = "An integration test to check the WaitForElementNotEditable method")
-    public void waitForElementNotEditableDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.NAME, "delayed_enable_button").click();
-        app.newElement(Locator.NAME, "delayed_input").waitForState().editable();
-        app.newElement(Locator.NAME, "delayed_enable_button").click();
-        app.newElement(Locator.NAME, "delayed_input", 0).waitForState().notEditable();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "state", "wait"},
-            description = "An integration test to check the WaitForElementNotEditable method")
-    public void waitForElementNotEditableDeletedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.NAME, "delayed_display_button").click();
-        app.newElement(Locator.NAME, "delayed_hide_button").waitForState().displayed();
-        app.newElement(Locator.NAME, "delayed_hide_button").click();
-        app.newElement(Locator.NAME, "added_div", 0).waitForState().notEditable();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "state", "wait"},
