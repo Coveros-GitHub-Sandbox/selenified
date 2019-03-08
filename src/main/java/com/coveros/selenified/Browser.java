@@ -79,7 +79,7 @@ public class Browser {
     public static final String VERSION_INPUT = "version";
     public static final String PLATFORM_INPUT = "platform";
 
-    private String browserInput;
+    private final String browserInput;
     private BrowserName name;
     private String version = null;
     private Platform platform = null;

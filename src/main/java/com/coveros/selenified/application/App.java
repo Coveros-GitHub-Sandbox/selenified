@@ -87,7 +87,7 @@ public class App {
     private static final String WAITED = "Waited ";
     private static final String SECONDS = " seconds";
     private static final String AVAILABLE = "</b> is available and selected";
-    private static final String NOTSELECTED = "</b> was unable to be selected";
+    private static final String NOT_SELECTED = "</b> was unable to be selected";
     private static final String FRAME = "Frame <b>";
 
     /**
@@ -328,9 +328,9 @@ public class App {
             file.addError();
             return;
         }
-        double timetook = System.currentTimeMillis() - start;
-        timetook = timetook / 1000;
-        file.recordStep(action, expected, "Loaded " + url + " in " + timetook + SECONDS, Success.PASS);
+        double timeTook = System.currentTimeMillis() - start;
+        timeTook = timeTook / 1000;
+        file.recordStep(action, expected, "Loaded " + url + " in " + timeTook + SECONDS, Success.PASS);
         acceptCertificate();
     }
 
@@ -731,7 +731,7 @@ public class App {
         try {
             driver.switchTo().frame(frameNumber);
         } catch (Exception e) {
-            file.recordStep(action, expected, FRAME + frameNumber + NOTSELECTED + ". " + e.getMessage(),
+            file.recordStep(action, expected, FRAME + frameNumber + NOT_SELECTED + ". " + e.getMessage(),
                     Success.FAIL);
             file.addError();
             log.warn(e);
@@ -752,7 +752,7 @@ public class App {
         try {
             driver.switchTo().frame(frameIdentifier);
         } catch (Exception e) {
-            file.recordStep(action, expected, FRAME + frameIdentifier + NOTSELECTED + ". " + e.getMessage(),
+            file.recordStep(action, expected, FRAME + frameIdentifier + NOT_SELECTED + ". " + e.getMessage(),
                     Success.FAIL);
             file.addError();
             log.warn(e);

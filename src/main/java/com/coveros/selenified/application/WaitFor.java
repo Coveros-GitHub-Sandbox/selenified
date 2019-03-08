@@ -127,7 +127,7 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Asserts thatprovided text(s) are on the current page. This information
+     * Asserts that provided text(s) are on the current page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
@@ -139,7 +139,7 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Asserts thatprovided text(s) are not on the current page. This
+     * Asserts that provided text(s) are not on the current page. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *
@@ -688,7 +688,7 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Waits up to the provided wait time forprovided text(s) are on the current page. This information
+     * Waits up to the provided wait time for provided text(s) are on the current page. This information
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      *
@@ -706,7 +706,7 @@ public class WaitFor implements Check {
     }
 
     /**
-     * Waits up to the provided wait time forprovided text(s) are not on the current page. This
+     * Waits up to the provided wait time for provided text(s) are not on the current page. This
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      *

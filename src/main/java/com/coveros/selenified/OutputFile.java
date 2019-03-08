@@ -78,7 +78,7 @@ public class OutputFile {
     private final String filename;
     private final List<String> screenshots = new ArrayList<>();
     private App app = null;
-    private Capabilities capabilities;
+    private final Capabilities capabilities;
     // timing of the test
     private long startTime;
     private long lastTime = 0;

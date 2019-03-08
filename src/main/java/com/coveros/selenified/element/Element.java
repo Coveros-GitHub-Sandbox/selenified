@@ -308,7 +308,7 @@ public class Element {
      *
      * @param initialString - the starting string, typically describing the element,
      *                      or initial parent element
-     * @return String: text identifing how the element was located
+     * @return String: text identifying how the element was located
      */
     private String prettyOutputStart(String initialString) {
         initialString += "<i>" + type.toString() + "</i> of <i>" + locator + "</i>";
@@ -1206,7 +1206,7 @@ public class Element {
 
     /**
      * Simulates moving the mouse around while the cursor is pressed. Can be
-     * used for drawing on canvases, or swipping on certain elements. Note, this is not supported in HTMLUNIT
+     * used for drawing on canvases, or swiping on certain elements. Note, this is not supported in HTMLUNIT
      *
      * @param points - a list of points to connect. At least one point must be
      *               provided in the list
