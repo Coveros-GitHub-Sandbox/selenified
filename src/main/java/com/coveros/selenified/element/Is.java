@@ -32,7 +32,7 @@ import org.testng.log4testng.Logger;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/14/2019
+ * @lastupdate 3/7/2019
  */
 public class Is {
 
@@ -128,7 +128,7 @@ public class Is {
     /**
      * Determines whether the element is enabled or not.
      *
-     * @return Boolean: whether the element is present or not
+     * @return Boolean: whether the element is enabled or not
      */
     public boolean enabled() {
         boolean isEnabled = false;
@@ -143,6 +143,16 @@ public class Is {
     }
 
     /**
+     * Determines whether the element is editable or not. To be editable, it must
+     * be an input, and enabled
+     *
+     * @return Boolean: whether the element is editable or not
+     */
+    public boolean editable() {
+        return enabled() && input();
+    }
+
+    /**
      * Determines whether the element is checked or not.
      *
      * @return Boolean: whether the element is checked or not
@@ -151,7 +161,7 @@ public class Is {
         boolean isChecked = false;
         try {
             isChecked = element.getWebElement().isSelected();
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             log.info(e);
         }
         return isChecked;

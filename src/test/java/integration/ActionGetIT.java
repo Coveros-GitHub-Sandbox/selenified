@@ -12,7 +12,10 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 import static org.testng.Assert.*;
 
@@ -257,7 +260,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         int options = app.newElement(Locator.NAME, "non-existent-name", 0).get().numOfSelectOptions();
-        assertEquals(options, 0);
+        assertEquals(options, -1);
         // verify no issues
         finish();
     }
@@ -281,7 +284,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         int rows = app.newElement(Locator.ID, "non-existent-name", 0).get().numOfTableRows();
-        assertEquals(rows, 0);
+        assertEquals(rows, -1);
         // verify no issues
         finish();
     }
@@ -305,7 +308,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         int columns = app.newElement(Locator.ID, "non-existent-name", 0).get().numOfTableColumns();
-        assertEquals(columns, 0);
+        assertEquals(columns, -1);
         // verify no issues
         finish();
     }
@@ -807,7 +810,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         Map<String, String> attributes = app.newElement(Locator.ID, "non-existent-name").get().allAttributes();
-        assertEquals(attributes, new HashMap<>());
+        assertNull(attributes);
         // verify 0 issue
         finish();
     }

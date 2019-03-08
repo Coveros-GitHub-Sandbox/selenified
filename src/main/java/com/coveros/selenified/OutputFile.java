@@ -52,11 +52,11 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/25/2019
+ * @lastupdate 3/7/2019
  */
 public class OutputFile {
 
-    public static final String PASSORFAIL = "PASSORFAIL";
+    private static final String PASSORFAIL = "PASSORFAIL";
     private static final Logger log = Logger.getLogger(OutputFile.class);
     // constants
     private static final String START_ROW = "   <tr>\n";
@@ -78,7 +78,7 @@ public class OutputFile {
     private final String filename;
     private final List<String> screenshots = new ArrayList<>();
     private App app = null;
-    private Capabilities capabilities;
+    private final Capabilities capabilities;
     // timing of the test
     private long startTime;
     private long lastTime = 0;
@@ -164,6 +164,55 @@ public class OutputFile {
     public void addErrors(int errorsToAdd) {
         errors += errorsToAdd;
     }
+
+    /////////////////////////////////////
+    // For our checking functions
+    /////////////////////////////////////
+
+
+    /**
+     * Write the action and expected into the output file. If this is a wait, an action will be provided, otherwise, action
+     * will be left empty
+     *
+     * @param check   - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
+     */
+    public void recordAction(String check, double waitFor) {
+        String action = "";
+        if (waitFor > 0) {
+            action = "Waiting up to " + waitFor + " seconds " + check;
+        }
+        recordAction(action, "Expected " + check);
+    }
+
+    /**
+     * Write the actual results into the output file. If something was waited for, that will be prepended to the actual event
+     *
+     * @param check    - the check being performed
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @param success  - was this a success or failure
+     */
+    public void recordActual(String check, double timeTook, Success success) {
+        String actual = check;
+        if (timeTook > 0) {
+            String lowercase = actual.substring(0, 1).toLowerCase();
+            actual = "After waiting for " + timeTook + " seconds, " + lowercase + actual.substring(1);
+        }
+        recordActual(actual, success);
+    }
+
+    /**
+     * If the check fails, adds an error, otherwise, proceed
+     *
+     * @param check - a basic check for passing or failing
+     */
+    public void verify(boolean check) {
+        if (!check) {
+            addError();
+        }
+    }
+
+    //////////////////////////////////////
 
     /**
      * Determines if a 'real' browser is being used. If the browser is NONE or
@@ -341,7 +390,7 @@ public class OutputFile {
      * A simple method to allow posting a screenshot of the app in it's current state into the detailed report
      */
     public void recordScreenshot() {
-        recordAction("", "", "", Success.CHECK);
+        recordStep("", "", "", Success.CHECK);
     }
 
     /**
@@ -354,7 +403,7 @@ public class OutputFile {
      * @param actualResult   - the result that actually occurred
      * @param success        - the result of the action
      */
-    public void recordAction(String action, String expectedResult, String actualResult, Success success) {
+    public void recordStep(String action, String expectedResult, String actualResult, Success success) {
         stepNum++;
         String imageLink = "";
         if (success != Success.PASS && isRealBrowser()) {
@@ -390,9 +439,9 @@ public class OutputFile {
      * result, using the recordExpected method.
      *
      * @param actualOutcome - what the actual outcome was
-     * @param result        - whether this result is a pass or a failure
+     * @param success       - whether this result is a pass or a failure
      */
-    public void recordActual(String actualOutcome, Success result) {
+    public void recordActual(String actualOutcome, Success success) {
         try (
                 // reopen the log file
                 FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
@@ -409,14 +458,35 @@ public class OutputFile {
             // write out the actual outcome
             out.write(START_CELL + actualOutcome + imageLink + END_CELL);
             out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
-            // write out the pass or fail result
-            if (result == Success.PASS) {
-                out.write("    <td class='pass'>Pass</td>\n");
-            } else {
-                out.write("    <td class='fail'>Fail</td>\n");
-            }
+            out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + END_CELL);
             // end the row
             out.write(END_ROW);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Writes to the output file the expected outcome of an event. This method
+     * should always be followed the recordActual method to record what actually
+     * happened.
+     *
+     * @param action          - what is the action being performed
+     * @param expectedOutcome - what the expected outcome is
+     */
+    public void recordAction(String action, String expectedOutcome) {
+        stepNum++;
+        try (
+                // reopen the log file
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
+            // start the row
+            out.write(START_ROW);
+            // log the step number
+            out.write("    <td align='center'>" + stepNum + ".</td>\n");
+            // write out the action being performed
+            out.write(START_CELL + action + END_CELL);
+            // write out the expected outcome
+            out.write(START_CELL + expectedOutcome + END_CELL);
         } catch (IOException e) {
             log.error(e);
         }
@@ -430,22 +500,7 @@ public class OutputFile {
      * @param expectedOutcome - what the expected outcome is
      */
     public void recordExpected(String expectedOutcome) {
-        stepNum++;
-
-        try (
-                // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
-            // start the row
-            out.write(START_ROW);
-            // log the step number
-            out.write("    <td align='center'>" + stepNum + ".</td>\n");
-            // leave the step blank as this is simply a check
-            out.write("    <td> </td>\n");
-            // write out the expected outcome
-            out.write(START_CELL + expectedOutcome + END_CELL);
-        } catch (IOException e) {
-            log.error(e);
-        }
+        recordAction("", expectedOutcome);
     }
 
     /**
@@ -641,12 +696,13 @@ public class OutputFile {
             log.error(e);
         }
         // Record the metrics
-        int passes = countInstancesOf("<td class='pass'>Pass</td>");
-        int fails = countInstancesOf("<td class='fail'>Fail</td>");
-        replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes));
+        int passes = countInstancesOf("<td class='pass'>PASS</td>");
+        int fails = countInstancesOf("<td class='fail'>FAIL</td>");
+        int checks = countInstancesOf("<td class='check'>CHECK</td>");
+        replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes + checks));
         replaceInFile("STEPSPASSED", Integer.toString(passes));
         replaceInFile("STEPSFAILED", Integer.toString(fails));
-        if (fails == 0 && errors == 0 && testStatus == 0) {
+        if (fails == 0 && checks == 0 && errors == 0 && testStatus == 0) {
             replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>PASS</b></font>");
         } else if (fails == 0 && errors == 0) {
             replaceInFile(PASSORFAIL, "<font size='+2' class='check'><b>CHECK</b" +

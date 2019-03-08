@@ -22,7 +22,6 @@ public class ConflictIT extends Selenified {
     @Test(groups = {"integration", "conflict"},
             description = "A sample test to show how to loop through elements with multiple matches")
     public void conflictingTestName() {
-        System.setProperty("packageResults", "true");
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -34,6 +33,5 @@ public class ConflictIT extends Selenified {
         }
         // close out the test
         finish();
-        System.setProperty("packageResults", "false");
     }
 }

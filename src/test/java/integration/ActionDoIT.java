@@ -61,8 +61,6 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.goToURL("https://www.google.com/");
         app.azzert().urlEquals("https://www.google.com/");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "url"},
@@ -72,7 +70,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.goToURL("https://www.bing.com/");
-        app.azzert().urlEquals(getTestSite(this.getClass().getName(), test));
+        app.verify().urlEquals(getTestSite(this.getClass().getName(), test));
         // verify 1 issue
         finish(1);
     }
@@ -98,8 +96,6 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#alert_button").click();
         app.acceptAlert();
         app.azzert().alertNotPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -122,8 +118,6 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#confirm_button").click();
         app.acceptConfirmation();
         app.azzert().confirmationNotPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -146,8 +140,6 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#confirm_button").click();
         app.dismissConfirmation();
         app.azzert().confirmationNotPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -170,8 +162,6 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#prompt_button").click();
         app.acceptPrompt();
         app.azzert().promptNotPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -194,8 +184,6 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#prompt_button").click();
         app.dismissPrompt();
         app.azzert().confirmationNotPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -240,8 +228,6 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.LINKTEXT, "I'M A LINK").click();
         app.azzert().confirmationPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "click", "browser", "alert"},
@@ -308,8 +294,6 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "submit_button").submit();
         app.azzert().textPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "submit", "browser"},
@@ -503,8 +487,6 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.ID, "blur_box").blur();
         app.waitFor().alertPresent();
         app.azzert().alertPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "blur", "browser", "alert"},
@@ -693,8 +675,6 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "blur_box", 0).type(Keys.TAB);
         app.azzert().alertPresent();
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "type"},
@@ -728,7 +708,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "car_list").type(Keys.DOWN);
-        app.newElement(Locator.ID, "car_list").assertEquals().selectedValue("saab");
+        app.newElement(Locator.ID, "car_list").verifyEquals().selectedValue("saab");
         if (this.apps.get().getBrowser().getName() == Browser.BrowserName.CHROME && this.apps.get().getBrowser().getPlatform() == Platform.MAC) {
             // known issue with chrome on mac, arrows don't work on select
             finish(1);

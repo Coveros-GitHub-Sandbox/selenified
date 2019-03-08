@@ -32,7 +32,8 @@ import java.util.Random;
  */
 public class TestCase {
 
-    private TestCase() {}
+    private TestCase() {
+    }
 
     //constants
     private static final int MAXFILENAMELENGTH = 200;

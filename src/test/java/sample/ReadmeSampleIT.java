@@ -33,8 +33,6 @@ public class ReadmeSampleIT extends Selenified {
         App app = this.apps.get();
         // verify the correct page title
         app.azzert().titleEquals("Coveros | Bringing together agile and security to deliver superior software");
-        // verify no issues
-        finish();
     }
 
     @Test(dataProvider = "coveros search terms", groups = {"sample", "coveros"},
@@ -48,11 +46,9 @@ public class ReadmeSampleIT extends Selenified {
         searchBox.type(searchTerm);
         searchBox.submit();
         //wait for the page to return the results
-        app.newElement(Locator.ID, "recent-posts-4").waitFor().present();
+        app.newElement(Locator.ID, "recent-posts-4").waitForState().present();
         // verify the correct page title
         app.azzert().titleEquals("You searched for " + searchTerm + " - Coveros");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"sample", "service", "coveros"}, description = "A sample web services test to verify the response code")

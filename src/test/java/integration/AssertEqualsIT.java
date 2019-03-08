@@ -1,6 +1,5 @@
 package integration;
 
-import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
@@ -28,7 +27,7 @@ public class AssertEqualsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "assert", "equals"}, description = "An integration negative test to check the matchCount method")
+    @Test(groups = {"integration", "assert", "equals"}, description = "An integration negative test to check the matchCount method", expectedExceptions = AssertionError.class)
     public void matchesFalseTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -38,7 +37,7 @@ public class AssertEqualsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "assert", "equals"}, description = "An integration negativetest to check the matchCount method")
+    @Test(groups = {"integration", "assert", "equals"}, description = "An integration negativetest to check the matchCount method", expectedExceptions = AssertionError.class)
     public void matchesNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -60,7 +59,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration test to check the compareSelectValues method")
+            description = "An integration test to check the compareSelectValues method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectValuesNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -72,7 +71,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration test to check the compareSelectValues method")
+            description = "An integration test to check the compareSelectValues method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectValuesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -83,7 +82,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareSelectValues method")
+            description = "An integration negative test to check the compareSelectValues method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectValuesExtraTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -95,12 +94,23 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration test to check the compareSelectValues method")
+            description = "An integration test to check the compareSelectValues method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectValuesMissingTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals().selectValues("volvo", "saab", "mercedes");
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the compareSelectValues method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSelectValuesNotSelectTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().selectValues("volvo", "saab", "mercedes");
         // verify no issue
         finish(1);
     }
@@ -117,7 +127,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration test to check the compareSelectOptions method")
+            description = "An integration test to check the compareSelectOptions method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectOptionsNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -129,7 +139,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration test to check the compareSelectOptions method")
+            description = "An integration test to check the compareSelectOptions method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectOptionsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -140,7 +150,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareSelectOptions method")
+            description = "An integration negative test to check the compareSelectOptions method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectOptionsExtraTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -152,12 +162,23 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration test to check the compareSelectOptions method")
+            description = "An integration test to check the compareSelectOptions method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectOptionsMissingTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "car_list").assertEquals().selectOptions("Volvo", "Saab", "Mercedes");
+        // verify no issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the compareSelectOptions method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSelectOptionsNotSelectTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().selectOptions("Volvo", "Saab", "Mercedes");
         // verify no issue
         finish(1);
     }
@@ -174,7 +195,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareTableCellText method")
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
     public void negativeCompareTableCellTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -185,7 +206,18 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareTableCellText method")
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "blur_box", 0).assertEquals().text(1, 1, "Bad-Value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
     public void negativeCompareTableCellTextNotPresetTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -207,7 +239,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
+            description = "An integration negative test to check the checkElementHasClass method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementHasClassTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -218,7 +250,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
+            description = "An integration negative test to check the checkElementHasClass method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementHasClassNullTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -229,7 +261,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
+            description = "An integration negative test to check the checkElementHasClass method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementHasClassNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -240,7 +272,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
+            description = "An integration negative test to check the checkElementHasClass method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementHasClassNoClassTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -256,7 +288,7 @@ public class AssertEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        if( app.getBrowser().getName() == BrowserName.HTMLUNIT) {
+        if (app.getBrowser().getName() == BrowserName.HTMLUNIT) {
             app.newElement(Locator.ID, "prompt_button").assertEquals().clazz(null);
         } else {
             app.newElement(Locator.ID, "prompt_button").assertEquals().clazz("");
@@ -266,7 +298,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
+            description = "An integration negative test to check the checkElementHasClass method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementHasClassDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -283,8 +315,8 @@ public class AssertEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "check").assertEquals().clazz(null);
-        // verify 1 issue
-        finish(1);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "assert", "equals"},
@@ -299,7 +331,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareCssValue method")
+            description = "An integration negative test to check the compareCssValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareCssValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -310,7 +342,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareCssValue method")
+            description = "An integration negative test to check the compareCssValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareCssNullValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -321,7 +353,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareCssValue method")
+            description = "An integration negative test to check the compareCssValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareCssValueNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -329,6 +361,17 @@ public class AssertEqualsIT extends WebBase {
         app.newElement(Locator.ID, "non-existent-element").assertEquals().cssValue("display", "inline");
         // verify 1 issue
         finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareCssValue method")
+    public void negativeCompareCssValueNotPresentNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").assertEquals().cssValue("display", null);
+        // verify one issue
+        finish();
     }
 
     @Test(groups = {"integration", "assert", "equals"},
@@ -343,7 +386,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareAttributeValue method")
+            description = "An integration negative test to check the compareAttributeValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareAttributeValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -354,7 +397,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareAttributeValue method")
+            description = "An integration negative test to check the compareAttributeValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareAttributeNoAttributeValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -365,7 +408,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareAttributeValue method")
+            description = "An integration negative test to check the compareAttributeValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareAttributeValueNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -387,7 +430,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareCssValue method")
+            description = "An integration negative test to check the compareCssValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareInputValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -409,7 +452,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareSelectedValue method")
+            description = "An integration negative test to check the compareSelectedValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectedValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -420,7 +463,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareSelectedValue method")
+            description = "An integration negative test to check the compareSelectedValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectedValueNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -431,7 +474,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareSelectedValue method")
+            description = "An integration negative test to check the compareSelectedValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectedValueNotInputTest() throws Exception {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -454,7 +497,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareTextValue method")
+            description = "An integration negative test to check the compareTextValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareTextValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -465,7 +508,18 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareTextValue method")
+            description = "An integration negative test to check the compareTextValue method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTextValueNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "blur_box").assertEquals().text("Maria Anders");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareTextValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareTextValueNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -487,7 +541,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareValue method")
+            description = "An integration negative test to check the compareValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareValueTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -498,7 +552,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareValue method")
+            description = "An integration negative test to check the compareValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareValueNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -509,7 +563,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareValue method")
+            description = "An integration negative test to check the compareValue method", expectedExceptions = AssertionError.class)
     public void negativeCompareValueNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -531,7 +585,7 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareSelectedText method")
+            description = "An integration negative test to check the compareSelectedText method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectedTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -542,12 +596,23 @@ public class AssertEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "equals"},
-            description = "An integration negative test to check the compareSelectedText method")
+            description = "An integration negative test to check the compareSelectedText method", expectedExceptions = AssertionError.class)
     public void negativeCompareSelectedTextNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "alert_button").assertEquals().selectedOption("wrong value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareSelectedText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSelectedTextNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-element").assertEquals().selectedOption("wrong value");
         // verify 1 issue
         finish(1);
     }

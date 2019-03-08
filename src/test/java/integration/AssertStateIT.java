@@ -6,16 +6,6 @@ import org.testng.annotations.Test;
 
 public class AssertStateIT extends WebBase {
 
-    @Test(groups = {"integration", "assert", "state"}, description = "An integration test to check a title")
-    public void compareTitleTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform the verification
-        app.azzert().titleEquals("Selenified Test Page");
-        // perform the verification
-        finish();
-    }
-
     @Test(groups = {"integration", "assert", "state"},
             description = "An integration test to check the checkElementChecked method")
     public void checkElementCheckedTest() {
@@ -29,7 +19,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementChecked method")
+            description = "An integration negative test to check the checkElementChecked method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -40,7 +30,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementChecked method")
+            description = "An integration negative test to check the checkElementChecked method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementCheckedNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -62,7 +52,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayed method")
+            description = "An integration negative test to check the checkElementDisplayed method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -73,179 +63,12 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayed method")
+            description = "An integration negative test to check the checkElementDisplayed method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementDisplayedHiddenTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div").assertState().displayed();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration test to check the checkElementDisplayedAndChecked method")
-    public void checkElementDisplayedAndCheckedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "this").click();
-        app.newElement(Locator.ID, "this").assertState().displayedAndChecked();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndChecked method")
-    public void negativeCheckElementDisplayedAndCheckedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "this", 0).assertState().displayedAndChecked();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndChecked method")
-    public void negativeCheckElementDisplayedAndCheckedNotExistTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").assertState().displayedAndChecked();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndChecked method")
-    public void negativeCheckElementDisplayedAndCheckedNotDisplayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "displayed_when_hovered").assertState().displayedAndChecked();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration test to check the checkElementDisplayedAndEditable method")
-    public void checkElementDisplayedAndEditableTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "blur_box").assertState().displayedAndEditable();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndEditable method")
-    public void negativeCheckElementDisplayedAndEditableTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "non_existent", 0).assertState().displayedAndEditable();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndEditable method")
-    public void negativeCheckElementDisplayedAndEditableNotDisplayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "displayed_when_hovered", 0).assertState().displayedAndEditable();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration test to check the checkElementDisplayedAndNotEditable method")
-    public void checkElementDisplayedAndNotEditableTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "table").assertState().displayedAndNotEditable();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
-    public void negativeCheckElementDisplayedAndNotEditableTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "blur_box", 0).assertState().displayedAndNotEditable();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
-    public void negativeCheckElementDisplayedAndNotEditableNotExistTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").assertState().displayedAndNotEditable();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndNotEditable method")
-    public void negativeCheckElementDisplayedAndNotEditableNotDisplayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "displayed_when_hovered").assertState().displayedAndNotEditable();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration test to check the checkElementDisplayedAndUnchecked method")
-    public void checkElementDisplayedAndUncheckedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "this").assertState().displayedAndUnchecked();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
-    public void negativeCheckElementDisplayedAndUncheckedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "this").click();
-        app.newElement(Locator.ID, "this", 0).assertState().displayedAndUnchecked();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
-    public void negativeCheckElementDisplayedAndUncheckedNotExistTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").assertState().displayedAndUnchecked();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementDisplayedAndUnchecked method")
-    public void negativeCheckElementDisplayedAndUncheckedNotDisplayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "displayed_when_hovered").assertState().displayedAndUnchecked();
         // verify 1 issue
         finish(1);
     }
@@ -262,7 +85,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementEditable method")
+            description = "An integration negative test to check the checkElementEditable method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -273,7 +96,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementEditable method")
+            description = "An integration negative test to check the checkElementEditable method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementEditableNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -284,7 +107,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementEditable method")
+            description = "An integration negative test to check the checkElementEditable method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementEditableNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -306,7 +129,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementNotChecked method")
+            description = "An integration negative test to check the checkElementNotChecked method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementNotCheckedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -318,7 +141,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementNotChecked method")
+            description = "An integration negative test to check the checkElementNotChecked method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementNotCheckedNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -340,7 +163,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementNotDisplayed method")
+            description = "An integration negative test to check the checkElementNotDisplayed method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementNotDisplayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -362,7 +185,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementNotEditable method")
+            description = "An integration negative test to check the checkElementNotEditable method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementNotEditableNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -373,7 +196,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the checkElementNotEditable method")
+            description = "An integration negative test to check the checkElementNotEditable method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementNotEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -393,18 +216,8 @@ public class AssertStateIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "assert", "state"}, description = "An integration test to check the present method")
-    public void checkElementPresentDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertState().present();
-        // verify no issues
-        finish();
-    }
-
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the present method")
+            description = "An integration negative test to check the present method", expectedExceptions = AssertionError.class)
     public void checkElementPresentNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -426,18 +239,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the present method")
-    public void checkElementNotPresentDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "nocheck").assertState().notPresent();
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the present method")
+            description = "An integration negative test to check the present method", expectedExceptions = AssertionError.class)
     public void checkElementNotPresentExistsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -448,7 +250,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the present method")
+            description = "An integration negative test to check the present method", expectedExceptions = AssertionError.class)
     public void checkElementNotDisplayedNotExistsTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -469,7 +271,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to editabled method")
+            description = "An integration negative test to editabled method", expectedExceptions = AssertionError.class)
     public void checkElementEditabledNotEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -480,7 +282,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to editabled method")
+            description = "An integration negative test to editabled method", expectedExceptions = AssertionError.class)
     public void checkElementEditabledNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -501,7 +303,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to notEditabled method")
+            description = "An integration negative test to notEditabled method", expectedExceptions = AssertionError.class)
     public void checkElementNotEditabledEditableTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -533,7 +335,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the enabled method")
+            description = "An integration negative test to check the enabled method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -555,7 +357,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the enabled method")
+            description = "An integration negative test to check the enabled method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementEnabledNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -577,7 +379,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the notEnabled method")
+            description = "An integration negative test to check the notEnabled method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementNotEnabledNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -588,7 +390,7 @@ public class AssertStateIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "state"},
-            description = "An integration negative test to check the notEnabled method")
+            description = "An integration negative test to check the notEnabled method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

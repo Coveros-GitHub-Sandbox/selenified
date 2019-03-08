@@ -27,7 +27,7 @@ public class OverrideIT extends WebBase {
         // perform some actions
         Element table = app.newElement(Locator.ID, "table");
         if (app.getBrowser().getName() == Browser.BrowserName.HTMLUNIT) {
-            table.assertExcludes().attribute("id");
+            table.verifyExcludes().attribute("id");
             // verify one issue
             finish(1);
         } else {

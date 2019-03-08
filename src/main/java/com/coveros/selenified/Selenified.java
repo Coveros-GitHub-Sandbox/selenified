@@ -63,7 +63,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 3/3/2019
+ * @lastupdate 3/7/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -433,16 +433,16 @@ public class Selenified {
             try {
                 app.getDriver().get(url);
                 if (!app.get().url().contains(url)) {
-                    file.recordAction(act, expected,
+                    file.recordStep(act, expected,
                             startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>",
                             Success.FAIL);
                     file.addError();
                     return;
                 }
-                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Success.PASS);
+                file.recordStep(act, expected, startingPage + url + "</i> loaded successfully", Success.PASS);
             } catch (Exception e) {
                 log.warn(e);
-                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Success.FAIL);
+                file.recordStep(act, expected, startingPage + url + "</i> did not load successfully", Success.FAIL);
                 file.addError();
             }
             app.acceptCertificate();

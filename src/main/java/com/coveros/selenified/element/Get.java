@@ -28,7 +28,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +37,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.1.0
- * @lastupdate 2/14/2019
+ * @lastupdate 3/7/2019
  */
 public class Get {
     private static final Logger log = Logger.getLogger(Get.class);
@@ -234,7 +233,7 @@ public class Get {
     @SuppressWarnings("unchecked")
     public Map<String, String> allAttributes() {
         if (!element.is().present()) {
-            return new HashMap<>();
+            return null;
         }
         try {
             WebElement webElement = element.getWebElement();
@@ -272,14 +271,14 @@ public class Get {
 
     /**
      * Retrieves the number of select options in the element. If the element
-     * isn't present or a select, the returned response will be zero.
+     * isn't present or a select, the returned response will be negative 1.
      *
      * @return Integer: how many select options are available in the select
      * element
      */
     public int numOfSelectOptions() {
         if (isNotPresentSelect()) {
-            return 0;
+            return -1;
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -331,14 +330,14 @@ public class Get {
 
     /**
      * Retrieves the number of rows in the element. If the element isn't present
-     * or a table, the returned response will be zero
+     * or a table, the returned response will be negative one
      *
      * @return Integer: the number of rows the table has
      */
     public int numOfTableRows() {
         Element rows = tableRows();
         if (rows == null) {
-            return 0;
+            return -1;
         }
         return rows.get().matchCount();
     }
@@ -363,14 +362,14 @@ public class Get {
 
     /**
      * Retrieves the number of columns in the element. If the element isn't
-     * present or a table, the returned response will be zero
+     * present or a table, the returned response will be negative one
      *
      * @return Integer: the number of columns the table has
      */
     public int numOfTableColumns() {
         Element rows = tableRows();
         if (rows == null) {
-            return 0;
+            return -1;
         }
         Element thCells = rows.findChild(app.newElement(Locator.TAGNAME, "th"));
         Element tdCells = rows.findChild(app.newElement(Locator.TAGNAME, "td"));

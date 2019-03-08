@@ -42,8 +42,6 @@ public class POMSampleIT extends WebBase {
         app.azzert().alertPresent();
         app.acceptAlert();
         app.azzert().alertNotPresent();
-        // close out the test
-        finish();
     }
 
     @Test(groups = {"sample", "pom"}, description = "A sample test using a data provider to perform searches")

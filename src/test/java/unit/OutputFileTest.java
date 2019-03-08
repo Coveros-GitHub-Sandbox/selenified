@@ -162,7 +162,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionSuccess() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Success.PASS);
+        outputFile.recordStep("my action", "expected", "actual", Success.PASS);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -171,7 +171,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionFailure() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Success.FAIL);
+        outputFile.recordStep("my action", "expected", "actual", Success.FAIL);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -180,7 +180,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionFailureCheck() throws IOException {
-        outputFile.recordAction("my action", "expected", "actual", Success.CHECK);
+        outputFile.recordStep("my action", "expected", "actual", Success.CHECK);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -192,7 +192,7 @@ public class OutputFileTest {
         OutputFile file =
                 new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
-        file.recordAction("my action", "expected", "actual", Success.CHECK);
+        file.recordStep("my action", "expected", "actual", Success.CHECK);
         // we are just verifying that no errors were thrown
     }
 
@@ -202,7 +202,7 @@ public class OutputFileTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(
-                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td> </td>\n    <td>expected</td>\n"));
+                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>expected</td>\n"));
     }
 
     @Test
@@ -215,12 +215,30 @@ public class OutputFileTest {
     }
 
     @Test
+    public void recordAction() throws IOException {
+        outputFile.recordAction("action", "expected");
+        assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(
+                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td>action</td>\n    <td>expected</td>\n"));
+    }
+
+    @Test
+    public void recordAction1BadFile() throws InvalidBrowserException {
+        OutputFile file =
+                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
+                        null);
+        file.recordAction("action", "expected");
+        // we are just verifying that no errors were thrown
+    }
+
+    @Test
     public void recordActualPass() throws IOException {
         outputFile.recordActual("actual", Success.PASS);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>Pass</td>\n   </tr>\n"));
+                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -229,7 +247,7 @@ public class OutputFileTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>Fail</td>\n   </tr>\n"));
+                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -302,7 +320,7 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileActionNotLoggedTest() throws IOException {
-        outputFile.recordAction("Something", "Something", "Something", Success.PASS);
+        outputFile.recordStep("Something", "Something", "Something", Success.PASS);
         outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
@@ -311,11 +329,11 @@ public class OutputFileTest {
 
     @Test
     public void endTestTemplateOutputFileActionNotLoggedWarningTest() throws IOException {
-        outputFile.recordAction("Something", "Something", "Something", Success.CHECK);
+        outputFile.recordStep("Something", "Something", "Something", Success.CHECK);
         outputFile.finalizeOutputFile(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
+        assertTrue(content.contains("<font size='+2' class='check'><b>CHECK</b></font>"));
     }
 
     @Test

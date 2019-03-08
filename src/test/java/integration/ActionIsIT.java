@@ -232,6 +232,72 @@ public class ActionIsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "action", "is"},
+            description = "An integration test to check if an element is enabled")
+    public void isElementEnabledNotEnabledTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertFalse(app.newElement(Locator.ID, "delayed_input", 0).is().enabled());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "is"},
+            description = "An integration test to check if an element is editable")
+    public void isElementEditableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertTrue(app.newElement(Locator.ID, "scroll_button").is().editable());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "is"},
+            description = "An integration test to check if an element is editable")
+    public void isElementEditableMatchTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertTrue(app.newElement(Locator.ID, "scroll_button", 0).is().editable());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "is"},
+            description = "An integration test to check if an element is editable")
+    public void isElementEditableNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertFalse(app.newElement(Locator.ID, "non-existent-name", 0).is().editable());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "is"},
+            description = "An integration test to check if an element is editable")
+    public void isElementEditableNotEditableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertFalse(app.newElement(Locator.ID, "delayed_input", 0).is().editable());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "is"},
+            description = "An integration test to check if an element is editable")
+    public void isElementEditableNotInputTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertFalse(app.newElement(Locator.ID, "table", 0).is().editable());
+        // verify no issues
+        finish(0);
+    }
+
+    @Test(groups = {"integration", "action", "is"},
             description = "An integration test to check if an element is checked")
     public void isElementCheckedTest() {
         // use this object to manipulate the app

@@ -79,7 +79,7 @@ public class Browser {
     public static final String VERSION_INPUT = "version";
     public static final String PLATFORM_INPUT = "platform";
 
-    private String browserInput;
+    private final String browserInput;
     private BrowserName name;
     private String version = null;
     private Platform platform = null;
@@ -88,8 +88,10 @@ public class Browser {
     /**
      * Parses the passed in browser information (obtained from command line inputs), and saves off the information
      *
-     * @param browserInput
-     * @throws InvalidBrowserException
+     * @param browserInput - the browser information, either a browser name, or key value pairs. ampersands (&) are used to
+     *                     split into key value pairs, while equals (=) are used to assign key vs
+     *                     values
+     * @throws InvalidBrowserException - if an invalid browser is passed, an exception is thrown
      */
     public Browser(String browserInput) throws InvalidBrowserException {
         this.browserInput = browserInput;

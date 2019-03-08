@@ -129,7 +129,7 @@ node {
                 stage('Send Notifications') {
                     emailextrecipients([culprits(), developers(), requestor()])
                     // send slack notifications
-                    if (branch == 'develop' || branch == 'master' || pullRequest) {
+                    if (branch == 'develop' || branch == 'master' || (pullRequest && currentBuild.currentResult == "SUCCESS")) {
                         def message = "Selenified%20build%20completed%20for%20`${env.BRANCH_NAME}`.%20It%20was%20a%20${currentBuild.currentResult}.%20Find%20the%20details%20at%20${env.BUILD_URL}."
                         sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
                     }

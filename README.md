@@ -97,7 +97,7 @@ public class ReadmeSampleIT extends Selenified {
         searchBox.type(searchTerm);
         searchBox.submit();
         //wait for the page to return the results
-        app.newElement(Locator.ID, "recent-posts-4").waitFor().present();
+        app.newElement(Locator.ID, "recent-posts-4").waitForState().present();
         // verify the correct page title
         app.azzert().titleEquals("You searched for " + searchTerm + " - Coveros");
         // verify no issues
@@ -324,17 +324,35 @@ checking, and waiting for things on the page. Additionally, objects exist for ge
     element.waitFor().displayed();
 ```
 
-There are also custom assertions associated with both the page and element objects. These asserts are custom
+There are also custom checks associated with both the page and element objects. These checks are custom
 to the framework, and in addition to providing easy object oriented capabilities, they take screenshots with
-each verification to provide additional traceability, and assist in troubleshooting and debugging failing tests.
+each check to provide additional traceability, and assist in troubleshooting and debugging failing tests.
+
+There are two types of checks, `asserts` and `verifys`. `Asserts` immediate check that state of the system, 
+and exit the test if there is a failure or mismatch, whereas `verifys` will perform the check, but keep moving
+forward with the test, and fail once all steps are completed. 
+There are also `waitFors` which mirrors verify, except that it waits for the expected condition to be true. If
+the condition is never true, it will log an error, but keep moving on, similar to `verify`
 ```java
     app.azzert().alertPresent();
+    app.verify().alertPresent();
+    app.waitFor().alertPresent();
     app.azzert().urlEquals();
+    app.verify().urlEquals();
+    app.waitFor().urlEquals();
     
     element.assertContains().text("hello");
+    element.verifyContains().text("hello");
     element.assertExcludes().value("world");
+    element.verifyExcludes().value("world");
+    element.assertMatches().value("[a-z]");
+    element.verifyMatches().value("[a-z]");
     element.assertEquals().rows(7);
+    element.verifyEquals().rows(7);
+    element.waitForEquals().rows(7);
     element.assertState().enabled();
+    element.verifyState().enabled();
+    element.waitForState().enabled();
 ```
 
 ##### Web Services

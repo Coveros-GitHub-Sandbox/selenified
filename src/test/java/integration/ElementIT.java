@@ -3,20 +3,11 @@ package integration;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -54,7 +45,7 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(Locator.TAGNAME, "body");
         Element cell = table.findChild(app.newElement(Locator.TAGNAME, "button", 3));
-        cell.assertEquals().text("");
+        cell.verifyEquals().text("");
         // verify 1 issue
         finish(1);
     }

@@ -6,7 +6,6 @@ import org.openqa.selenium.Cookie;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,8 +25,6 @@ public class ActionGoIT extends WebBase {
         app.azzert().textPresent("You're on the next page");
         app.goBack();
         app.azzert().textNotPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "go", "alert"},
@@ -65,8 +62,6 @@ public class ActionGoIT extends WebBase {
         app.azzert().textNotPresent("You're on the next page");
         app.goForward();
         app.azzert().textPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "action", "go", "alert"},
