@@ -114,6 +114,7 @@ public class AssertMatches implements Matches {
      *
      * @param expectedPattern the expected input value of the element
      */
+    @SuppressWarnings("squid:S2259")
     public void value(String expectedPattern) {
         String value = checkValue(expectedPattern, 0, 0);
         if (value == null) {
@@ -123,7 +124,6 @@ public class AssertMatches implements Matches {
             }
             fail(reason);
         }
-        assertNotNull(value);
         assertTrue("Value Mismatch: value of '" + value + DOES_NOT_MATCH_PATTERN + expectedPattern + "'", value.matches(expectedPattern));
     }
 
@@ -135,6 +135,7 @@ public class AssertMatches implements Matches {
      *
      * @param expectedPattern the expected input text of the element
      */
+    @SuppressWarnings("squid:S2259")
     public void selectedOption(String expectedPattern) {
         String selectedOption = checkSelectedOption(expectedPattern, 0, 0);
         if (selectedOption == null) {
@@ -144,7 +145,6 @@ public class AssertMatches implements Matches {
             }
             fail(reason);
         }
-        assertNotNull(selectedOption);
         assertTrue("Selected Option Mismatch: option of '" + selectedOption + DOES_NOT_MATCH_PATTERN + expectedPattern + "'",
                 selectedOption.matches(expectedPattern));
     }
@@ -157,6 +157,7 @@ public class AssertMatches implements Matches {
      *
      * @param expectedPattern the expected input value of the element
      */
+    @SuppressWarnings("squid:S2259")
     public void selectedValue(String expectedPattern) {
         String selectedValue = checkSelectedValue(expectedPattern, 0, 0);
         if (selectedValue == null) {
@@ -166,7 +167,6 @@ public class AssertMatches implements Matches {
             }
             fail(reason);
         }
-        assertNotNull(selectedValue);
         assertTrue("Selected Value Mismatch: value of '" + selectedValue + DOES_NOT_MATCH_PATTERN + expectedPattern + "'",
                 selectedValue.matches(expectedPattern));
     }

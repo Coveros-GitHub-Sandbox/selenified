@@ -22,7 +22,6 @@ package com.coveros.selenified.element.check.wait;
 
 import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Constants;
 import com.coveros.selenified.element.check.Equals;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,9 +29,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Arrays;
 
-import static com.coveros.selenified.element.check.Constants.CLASS;
-import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INTERVAL;
-import static com.coveros.selenified.element.check.Constants.ELEMENT_NOT_SELECT;
+import static com.coveros.selenified.element.check.Constants.*;
 
 /**
  * WaitForEquals implements Equals to provide some additional wait capabilities.
@@ -272,8 +269,8 @@ public class WaitForEquals implements Equals {
             }
             while (element.get().matchCount() != expectedMatches && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkMatches(expectedMatches, seconds, timeTook);
-            if (element.get().matchCount() != expectedMatches) {
+            int matches = checkMatches(expectedMatches, seconds, timeTook);
+            if (matches != expectedMatches) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -300,8 +297,8 @@ public class WaitForEquals implements Equals {
             elementPresent(seconds);
             while (!expectedValue.equals(element.get().css(attribute)) && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkCssValue(attribute, expectedValue, seconds, timeTook);
-            if (!expectedValue.equals(element.get().css(attribute))) {
+            String cssValue = checkCssValue(attribute, expectedValue, seconds, timeTook);
+            if (!expectedValue.equals(cssValue)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -324,11 +321,10 @@ public class WaitForEquals implements Equals {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             elementPresent(seconds);
-            String clazz = element.get().attribute(CLASS);
-            while (!(expectedClass == null ? clazz == null : expectedClass.equals(clazz)) && System.currentTimeMillis() < end)
+            while (!(expectedClass == null ? element.get().attribute(CLASS) == null : expectedClass.equals(element.get().attribute(CLASS))) && System.currentTimeMillis() < end)
                 ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkClazz(expectedClass, seconds, timeTook);
+            String clazz = checkClazz(expectedClass, seconds, timeTook);
             if (!(expectedClass == null ? clazz == null : expectedClass.equals(clazz))) {
                 file.addError();
             }
@@ -356,8 +352,8 @@ public class WaitForEquals implements Equals {
             elementPresent(seconds);
             while (!expectedValue.equals(element.get().attribute(attribute)) && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkAttribute(attribute, expectedValue, seconds, timeTook);
-            if (!expectedValue.equals(element.get().attribute(attribute))) {
+            String actualAttribute = checkAttribute(attribute, expectedValue, seconds, timeTook);
+            if (!expectedValue.equals(actualAttribute)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -409,10 +405,11 @@ public class WaitForEquals implements Equals {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             elementPresent(seconds);
-            while (!element.get().tableCell(row, col).get().text().equals(expectedText) && System.currentTimeMillis() < end) ;
+            while (!element.get().tableCell(row, col).get().text().equals(expectedText) && System.currentTimeMillis() < end)
+                ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkText(row, col, expectedText, seconds, timeTook);
-            if (!element.get().tableCell(row, col).get().text().equals(expectedText)) {
+            String text = checkText(row, col, expectedText, seconds, timeTook);
+            if (!expectedText.equals(text)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -461,13 +458,13 @@ public class WaitForEquals implements Equals {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             elementPresent(seconds);
-            if( !element.is().select()) {
+            if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
             while (!element.get().selectedOption().equals(expectedText) && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkSelectedOption(expectedText, seconds, timeTook);
-            if (!element.get().selectedOption().equals(expectedText)) {
+            String selectedOption = checkSelectedOption(expectedText, seconds, timeTook);
+            if (!expectedText.equals(selectedOption)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -491,13 +488,13 @@ public class WaitForEquals implements Equals {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             elementPresent(seconds);
-            if( !element.is().select()) {
+            if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
             while (!element.get().selectedValue().equals(expectedValue) && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkSelectedValue(expectedValue, seconds, timeTook);
-            if (!element.get().selectedValue().equals(expectedValue)) {
+            String selectedValue = checkSelectedValue(expectedValue, seconds, timeTook);
+            if (!expectedValue.equals(selectedValue)) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -521,14 +518,14 @@ public class WaitForEquals implements Equals {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             elementPresent(seconds);
-            if( !element.is().select()) {
+            if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
             while (!Arrays.toString(element.get().selectOptions()).equals(Arrays.toString(expectedOptions)) && System.currentTimeMillis() < end)
                 ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkSelectOptions(expectedOptions, seconds, timeTook);
-            if (!Arrays.toString(element.get().selectOptions()).equals(Arrays.toString(expectedOptions))) {
+            String[] selectOptions = checkSelectOptions(expectedOptions, seconds, timeTook);
+            if (!Arrays.toString(expectedOptions).equals(Arrays.toString(selectOptions))) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -552,14 +549,14 @@ public class WaitForEquals implements Equals {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             elementPresent(seconds);
-            if( !element.is().select()) {
+            if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
             while (!Arrays.toString(element.get().selectValues()).equals(Arrays.toString(expectedValues)) && System.currentTimeMillis() < end)
                 ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkSelectValues(expectedValues, seconds, timeTook);
-            if (!Arrays.toString(element.get().selectValues()).equals(Arrays.toString(expectedValues))) {
+            String[] selectValues = checkSelectValues(expectedValues, seconds, timeTook);
+            if (!Arrays.toString(expectedValues).equals(Arrays.toString(selectValues))) {
                 file.addError();
             }
         } catch (TimeoutException e) {

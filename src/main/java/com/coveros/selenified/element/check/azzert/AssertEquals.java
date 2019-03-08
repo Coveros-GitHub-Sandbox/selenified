@@ -144,7 +144,6 @@ public class AssertEquals implements Equals {
             }
             fail(reason);
         }
-        assertNotNull(value);
         assertEquals("Attribute Mismatch", expectedValue, value);
     }
 
@@ -161,7 +160,6 @@ public class AssertEquals implements Equals {
         if (text == null) {
             fail(NO_ELEMENT_FOUND);
         }
-        assertNotNull(text);
         assertEquals("Text Mismatch", expectedText, text);
     }
 
@@ -187,7 +185,6 @@ public class AssertEquals implements Equals {
             }
             fail(reason);
         }
-        assertNotNull(text);
         assertEquals("Text Mismatch", expectedText, text);
     }
 
@@ -208,7 +205,6 @@ public class AssertEquals implements Equals {
             }
             fail(reason);
         }
-        assertNotNull(value);
         assertEquals("Value Mismatch", expectedValue, value);
     }
 
@@ -229,7 +225,6 @@ public class AssertEquals implements Equals {
             }
             fail(reason);
         }
-        assertNotNull(option);
         assertEquals("Selected Option Mismatch", expectedText, option);
     }
 
@@ -250,7 +245,6 @@ public class AssertEquals implements Equals {
             }
             fail(reason);
         }
-        assertNotNull(value);
         assertEquals("Selected Value Mismatch", expectedValue, value);
     }
 
@@ -271,7 +265,6 @@ public class AssertEquals implements Equals {
             }
             fail(reason);
         }
-        assertNotNull(options);
         assertEquals("Selected Options Mismatch", Arrays.asList(expectedOptions), Arrays.asList(options));
     }
 
@@ -292,7 +285,6 @@ public class AssertEquals implements Equals {
             }
             fail(reason);
         }
-        assertNotNull(values);
         assertEquals("Selected Values Mismatch", Arrays.asList(expectedValues), Arrays.asList(values));
     }
 }

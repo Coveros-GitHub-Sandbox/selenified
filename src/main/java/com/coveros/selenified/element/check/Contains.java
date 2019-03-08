@@ -216,7 +216,7 @@ public interface Contains extends Check {
         // get the select options
         String[] allOptions = getElement().get().selectOptions();
         // record the expected
-        if (allOptions == null || !Arrays.asList(allOptions).contains(expectedOption)) {
+        if (!Arrays.asList(allOptions).contains(expectedOption)) {
             getOutputFile().recordActual(
                     getElement().prettyOutputStart() + " is present but does not contain the option <b>" + expectedOption + "</b>",
                     timeTook, Success.FAIL);
@@ -258,7 +258,7 @@ public interface Contains extends Check {
         // get the select values
         String[] allValues = getElement().get().selectValues();
         // record the expected
-        if (allValues == null || !Arrays.asList(allValues).contains(expectedValue)) {
+        if (!Arrays.asList(allValues).contains(expectedValue)) {
             getOutputFile().recordActual(getElement().prettyOutputStart() + EXCLUDES_VALUE + expectedValue + "</b>" + ONLY_VALUE +
                     Arrays.toString(allValues) + "</b>", timeTook, Success.FAIL);
         } else {

@@ -350,8 +350,8 @@ public class WaitForEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "check").waitForEquals().clazz(null);
-        // verify no issues
-        finish();
+        // verify one issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "wait", "equals"},

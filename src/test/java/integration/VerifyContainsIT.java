@@ -100,7 +100,7 @@ public class VerifyContainsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "check").verifyContains().columns(0);
+        app.newElement(Locator.ID, "blur_box").verifyContains().columns(0);
         // verify 1 issue
         finish(1);
     }

@@ -331,8 +331,8 @@ each check to provide additional traceability, and assist in troubleshooting and
 There are two types of checks, `asserts` and `verifys`. `Asserts` immediate check that state of the system, 
 and exit the test if there is a failure or mismatch, whereas `verifys` will perform the check, but keep moving
 forward with the test, and fail once all steps are completed. 
-There are also `waitFors` which mirror the checks (`assert` and `verify`), but instead of forcing a check,
-mirely wait for the expected condition.
+There are also `waitFors` which mirrors verify, except that it waits for the expected condition to be true. If
+the condition is never true, it will log an error, but keep moving on, similar to `verify`
 ```java
     app.azzert().alertPresent();
     app.verify().alertPresent();

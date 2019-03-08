@@ -275,8 +275,8 @@ public class WaitForState implements State {
             elementPresent(seconds);
             while (!element.is().checked() && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkChecked(seconds, timeTook);
-            if (!element.is().checked()) {
+            boolean isChecked = checkChecked(seconds, timeTook);
+            if (!isChecked) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -298,8 +298,8 @@ public class WaitForState implements State {
             elementPresent(seconds);
             while (element.is().checked() && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkNotChecked(seconds, timeTook);
-            if (element.is().checked()) {
+            boolean isNotChecked = checkNotChecked(seconds, timeTook);
+            if (!isNotChecked) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -323,8 +323,8 @@ public class WaitForState implements State {
             elementPresent(seconds);
             while (!element.is().editable() && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkEditable(seconds, timeTook);
-            if (!element.is().editable()) {
+            boolean isEditable = checkEditable(seconds, timeTook);
+            if (!isEditable) {
                 file.addError();
             }
         } catch (TimeoutException e) {
@@ -348,8 +348,8 @@ public class WaitForState implements State {
             elementPresent(seconds);
             while (element.is().editable() && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            checkNotEditable(seconds, timeTook);
-            if (element.is().editable()) {
+            boolean isNotEditable = checkNotEditable(seconds, timeTook);
+            if (!isNotEditable) {
                 file.addError();
             }
         } catch (TimeoutException e) {
