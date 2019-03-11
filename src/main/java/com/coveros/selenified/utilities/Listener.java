@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -22,7 +22,7 @@ package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
 import com.google.gson.JsonArray;
@@ -46,7 +46,7 @@ import static com.coveros.selenified.Selenified.SESSION_ID;
  * the TestNG xml file.
  *
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.1.0
  * @lastupdate 1/12/2019
  */
 public class Listener extends TestListenerAdapter {
@@ -155,21 +155,32 @@ public class Listener extends TestListenerAdapter {
     private void recordResult(ITestResult result) {
         // finalize our output file
         OutputFile outputFile = (OutputFile) result.getAttribute(OUTPUT_FILE);
-        String filename = "";
+        String htmlFilename = "";
+        String pdfFilename = "";
         if (outputFile != null) {
-            outputFile.finalizeOutputFile(result.getStatus());
-            filename = outputFile.getFileName();
+            // subtracting one from the status ordinal to map ITestResult to Success
+            outputFile.finalizeOutputFile(result.getStatus() - 1);
+            htmlFilename = outputFile.getFileName() + ".html";
+            if (System.getProperty("generatePDF") != null) {
+                pdfFilename = outputFile.getFileName() + ".pdf";
+            }
         }
         // update our reporter logger
         String testName = getTestName(result);
         Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
         if (browser != null) {
+            // subtracting one from the status ordinal to map ITestResult to Success
             Reporter.log(
-                    Result.values()[result.getStatus()] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
-                            getFolderName(result) + "/" + filename + LINK_MIDDLE + testName +
-                            LINK_END + OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
+                    Success.values()[result.getStatus() - 1] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
+                            getFolderName(result) + "/" + htmlFilename + LINK_MIDDLE + testName + " HTML Report" +
+                            LINK_END);
+            if (!pdfFilename.isEmpty()) {
+                Reporter.log(OUTPUT_BREAK + LINK_START +
+                        getFolderName(result) + "/" + pdfFilename + LINK_MIDDLE + testName + " PDF" +
+                        LINK_END);
+            }
+            Reporter.log(OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
-
         // update sauce labs
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();

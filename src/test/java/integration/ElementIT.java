@@ -14,6 +14,16 @@ import static org.testng.Assert.assertTrue;
 
 public class ElementIT extends WebBase {
 
+    @Test(groups = {"integration", "element"}, description = "A negative integration test to try to crash defineByElement",
+            expectedExceptions = NullPointerException.class)
+    public void checkNullLocatorTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element table = app.newElement(null, "table");
+        table.getWebElement();
+    }
+
     @Test(groups = {"integration", "element"},
             description = "An integration test to check that a child element is properly located")
     public void checkChildTest() {
@@ -25,6 +35,19 @@ public class ElementIT extends WebBase {
         cell.assertEquals().text("");
         // verify no issues
         finish();
+    }
+
+    @Test(groups = {"integration", "element"},
+            description = "An integration test to check that a child element is properly located")
+    public void checkSingleChildTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element table = app.newElement(Locator.TAGNAME, "body");
+        Element cell = table.findChild(app.newElement(Locator.TAGNAME, "button", 3));
+        cell.verifyEquals().text("");
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "element"},
@@ -105,7 +128,7 @@ public class ElementIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "element"},
+    @Test(groups = {"integration", "element", "pdftest"},
             description = "An integration test to check that an element can be retrieved")
     public void getMultipleWebElementsTest() {
         // use this object to manipulate the app

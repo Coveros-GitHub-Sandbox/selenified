@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -32,13 +32,45 @@ import java.util.Map;
  * Safari, PhantomJS
  *
  * @author Max Saperstone
- * @version 3.0.4
- * @lastupdate 1/12/2019
+ * @version 3.1.0
+ * @lastupdate 2/27/2019
  */
 public class Browser {
 
     public enum BrowserName {
         NONE, HTMLUNIT, FIREFOX, CHROME, INTERNETEXPLORER, EDGE, OPERA, SAFARI, PHANTOMJS
+    }
+
+    /**
+     * determining how to launch/start the browser. Do we even want a browser, and
+     * if so do we wait for the initial page to load, or do we need to perform other
+     * activities first
+     */
+    public enum BrowserUse {
+        FALSE, OPEN, LOAD;
+
+        private Boolean browser;
+        private Boolean load;
+
+        static {
+            FALSE.browser = false;
+            OPEN.browser = true;
+            LOAD.browser = true;
+        }
+
+        static {
+            FALSE.load = false;
+            OPEN.load = false;
+            LOAD.load = true;
+        }
+
+        public Boolean useBrowser() {
+            return this.browser;
+        }
+
+        public Boolean loadPage() {
+            return this.load;
+        }
     }
 
     public static final String SCREENSIZE_INPUT = "screensize";
@@ -47,7 +79,7 @@ public class Browser {
     public static final String VERSION_INPUT = "version";
     public static final String PLATFORM_INPUT = "platform";
 
-    private String browserInput;
+    private final String browserInput;
     private BrowserName name;
     private String version = null;
     private Platform platform = null;
@@ -56,8 +88,10 @@ public class Browser {
     /**
      * Parses the passed in browser information (obtained from command line inputs), and saves off the information
      *
-     * @param browserInput
-     * @throws InvalidBrowserException
+     * @param browserInput - the browser information, either a browser name, or key value pairs. ampersands (&) are used to
+     *                     split into key value pairs, while equals (=) are used to assign key vs
+     *                     values
+     * @throws InvalidBrowserException - if an invalid browser is passed, an exception is thrown
      */
     public Browser(String browserInput) throws InvalidBrowserException {
         this.browserInput = browserInput;

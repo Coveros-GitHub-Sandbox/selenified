@@ -1,20 +1,20 @@
 /*
- * Copyright 2018 Coveros, Inc.
- * 
+ * Copyright 2019 Coveros, Inc.
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
@@ -31,8 +31,8 @@ import org.testng.log4testng.Logger;
  * object is present or not
  *
  * @author Max Saperstone
- * @version 3.0.4
- * @lastupdate 2/14/2018
+ * @version 3.1.0
+ * @lastupdate 3/3/2019
  */
 public class Is {
 
@@ -100,7 +100,7 @@ public class Is {
      *
      * @return Boolean: is the url the expected one
      */
-    public boolean location(String location) {
+    public boolean url(String location) {
         return location.equals(driver.getCurrentUrl());
     }
 
@@ -113,10 +113,15 @@ public class Is {
      */
     public boolean cookiePresent(String expectedCookieName) {
         boolean isCookiePresent = false;
-        if (driver.manage().getCookieNamed(expectedCookieName) != null) {
-            isCookiePresent = true;
+        try {
+            if (driver.manage().getCookieNamed(expectedCookieName) != null) {
+                isCookiePresent = true;
+            }
+            return isCookiePresent;
+        } catch (Exception e) {
+            log.error(e);
+            return false;
         }
-        return isCookiePresent;
     }
 
     /**

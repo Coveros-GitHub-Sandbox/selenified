@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -22,7 +22,8 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import io.github.bonigarcia.wdm.*;
+import com.coveros.selenified.utilities.Sauce;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
@@ -52,8 +53,8 @@ import java.util.logging.Level;
  * Assists with Selenified class in setting up proxy, hub, and browser details
  *
  * @author Max Saperstone
- * @version 3.0.4
- * @lastupdate 1/12/2019
+ * @version 3.1.0
+ * @lastupdate 3/4/2019
  */
 public class Capabilities {
 
@@ -81,9 +82,10 @@ public class Capabilities {
 
     private void setDesiredCapabilities() {
         if (browser.getName() == BrowserName.NONE) {
-            this.desiredCapabilities = null;
             return;
         }
+        // by default, accept insecure sites - there are some exceptions for browsers
+        this.desiredCapabilities.setAcceptInsecureCerts(true);
         // setup our browser name based on the enum provided - there are a few special cases
         this.desiredCapabilities.setBrowserName(browser.getName().toString().toLowerCase());
         // the default platform is any, unless the browser is platform specific - this can be overridden
@@ -91,13 +93,18 @@ public class Capabilities {
             case INTERNETEXPLORER:
                 this.desiredCapabilities.setBrowserName("internet explorer");
                 this.desiredCapabilities.setPlatform(Platform.WINDOWS);
+                this.desiredCapabilities.setAcceptInsecureCerts(false);
                 break;
             case EDGE:
                 this.desiredCapabilities.setBrowserName("MicrosoftEdge");
                 this.desiredCapabilities.setPlatform(Platform.WIN10);
                 break;
             case SAFARI:
-                this.desiredCapabilities.setPlatform(Platform.SIERRA);
+                this.desiredCapabilities.setPlatform(Platform.MOJAVE);
+                // Safari 12 doesn't support setAcceptInsecureCerts, and there is no current workaround
+                if ("12".equals(browser.getVersion()) || browser.getVersion() == null) {
+                    this.desiredCapabilities.setAcceptInsecureCerts(false);
+                }
                 break;
             default:
                 this.desiredCapabilities.setPlatform(Platform.ANY);
@@ -116,8 +123,10 @@ public class Capabilities {
         }
         // always enable javascript, accept certs, and start with a clean session
         this.desiredCapabilities.setJavascriptEnabled(true);
-        this.desiredCapabilities.setAcceptInsecureCerts(true);
         this.desiredCapabilities.setCapability("ensureCleanSession", true);
+        // setup additional non-browser capabilities
+        setupProxy();
+        setupSauceCapabilities();
     }
 
     /**
@@ -132,7 +141,7 @@ public class Capabilities {
     /**
      * returns the classes defined all browser details
      *
-     * @return Browser
+     * @return Browser - the browser with details
      */
     public Browser getBrowser() {
         return browser;
@@ -142,7 +151,7 @@ public class Capabilities {
      * Sets the instances of the test running. This references the invocation count from TestNG, allowing looping, and
      * specifies which test run this is
      *
-     * @param instance
+     * @param instance - the number instance of the test being run, to track capabilities
      */
     public void setInstance(int instance) {
         this.instance = instance;
@@ -162,7 +171,6 @@ public class Capabilities {
      * Obtains the set system values for the proxy, and adds them to the desired
      * desiredCapabilities
      */
-
     public void setupProxy() {
         // are we running through a proxy
         if (System.getProperty(PROXY_INPUT) != null) {
@@ -170,6 +178,24 @@ public class Capabilities {
             Proxy proxy = new Proxy();
             proxy.setHttpProxy(System.getProperty(PROXY_INPUT));
             desiredCapabilities.setCapability(CapabilityType.PROXY, proxy);
+        }
+    }
+
+    /**
+     * Sauce labs has specific capabilities to manage the selenium version used. The version is obtained from the
+     * POM (or could be passed in via CMD to override) and then set so that Sauce sets the specific selenium version,
+     * instead of their default: https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options#TestConfigurationOptions-SeleniumVersion
+     * Additionally, the iedriverVersion is set to match the selenium version as suggested, if ie is the chosen browser
+     * Finally, the default platform for edge is set to windows 10
+     */
+    public void setupSauceCapabilities() {
+        if (Sauce.isSauce()) {
+            // set the selenium version
+            desiredCapabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
+            // set the ie driver if needed
+            if (desiredCapabilities.getBrowserName().equals("internet explorer")) {
+                desiredCapabilities.setCapability("iedriverVersion", System.getProperty("selenium.version"));
+            }
         }
     }
 
@@ -190,7 +216,7 @@ public class Capabilities {
                 driver = new HtmlUnitDriver(desiredCapabilities);
                 break;
             case FIREFOX:
-                FirefoxDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.firefoxdriver().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(desiredCapabilities);
                 firefoxOptions.addArguments(getBrowserOptions());
                 if (runHeadless()) {
@@ -199,7 +225,7 @@ public class Capabilities {
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             case CHROME:
-                ChromeDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.chromedriver().forceCache().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(desiredCapabilities);
                 chromeOptions.addArguments(getBrowserOptions());
@@ -209,12 +235,12 @@ public class Capabilities {
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case INTERNETEXPLORER:
-                InternetExplorerDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.iedriver().forceCache().setup();
                 InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions(desiredCapabilities);
                 driver = new InternetExplorerDriver(internetExplorerOptions);
                 break;
             case EDGE:
-                EdgeDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.edgedriver().forceCache().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions = edgeOptions.merge(desiredCapabilities);
                 driver = new EdgeDriver(edgeOptions);
@@ -224,13 +250,13 @@ public class Capabilities {
                 driver = new SafariDriver(safariOptions);
                 break;
             case OPERA:
-                OperaDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.operadriver().forceCache().setup();
                 OperaOptions operaOptions = new OperaOptions();
                 operaOptions = operaOptions.merge(desiredCapabilities);
                 driver = new OperaDriver(operaOptions);
                 break;
             case PHANTOMJS:
-                PhantomJsDriverManager.getInstance().forceCache().setup();
+                WebDriverManager.phantomjs().forceCache().setup();
                 driver = new PhantomJSDriver(desiredCapabilities);
                 break;
             // if the browser is not listed, throw an error

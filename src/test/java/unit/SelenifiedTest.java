@@ -1,22 +1,42 @@
 package unit;
 
-import com.coveros.selenified.Capabilities;
+import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.Selenified;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class SelenifiedTest extends Selenified {
+
+    private String appURL;
+
+    @BeforeClass (alwaysRun = true)
+    public void saveAppURL() {
+        if (System.getProperty("appURL") != null) {
+            appURL = System.getProperty("appURL");
+        }
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void restoreAppURL() {
+        if (appURL != null) {
+            System.setProperty("appURL", appURL);
+        }
+    }
+
+    @BeforeMethod (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
+    public void clearAppURL() {
+        System.clearProperty("appURL");
+    }
 
     @Override
     public void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
@@ -38,14 +58,12 @@ public class SelenifiedTest extends Selenified {
     }
 
     @Test
-    public void versionTest(ITestContext context) {
-        setVersion(this, context, "1.0.0");
-        assertEquals(getVersion(this.getClass().getName(), context), "1.0.0");
+    public void errorsForPassTest() {
+        assertEquals(OutputFile.Success.PASS.getErrors(), 0);
     }
 
     @Test
-    public void authorTest(ITestContext context) {
-        setAuthor(this, context, "Max");
-        assertEquals(getAuthor(this.getClass().getName(), context), "Max");
+    public void errorsForFailTest() {
+        assertEquals(OutputFile.Success.FAIL.getErrors(), 1);
     }
 }

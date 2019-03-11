@@ -1,34 +1,31 @@
 package unit;
 
 import com.coveros.selenified.utilities.Sauce;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
 
 public class SauceTest {
 
-    private String hub;
+    private String hub = null;
 
-    @BeforeClass
-    public void setupArrays() {
+    @BeforeClass (alwaysRun = true)
+    public void saveHub() {
         if (System.getProperty("hub") != null) {
             hub = System.getProperty("hub");
         }
     }
 
-    @AfterClass
-    public void restoreBrowser() {
-        System.clearProperty("hub");
+    @AfterClass (alwaysRun = true)
+    public void restoreHub() {
         if (hub != null) {
             System.setProperty("hub", hub);
         }
     }
 
-    @BeforeMethod
-    public void clearBrowser() {
+    @BeforeMethod (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
+    public void clearHub() {
         System.clearProperty("hub");
     }
 

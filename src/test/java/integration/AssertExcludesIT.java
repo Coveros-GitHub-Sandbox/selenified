@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 public class AssertExcludesIT extends WebBase {
 
-    @Test(groups = {"integration", "asserts", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration test to check the checkSelectValueNotPresent method")
     public void checkSelectValueNotPresentTest() {
         // use this object to manipulate the app
@@ -17,8 +17,8 @@ public class AssertExcludesIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkSelectValueNotPresent method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkSelectValueNotPresent method", expectedExceptions = AssertionError.class)
     public void negativeCheckSelectValueNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -28,8 +28,8 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkSelectValueNotPresent method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkSelectValueNotPresent method", expectedExceptions = AssertionError.class)
     public void negativeCheckSelectValueNotPresentNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -39,7 +39,18 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkSelectValueNotPresent method", expectedExceptions = AssertionError.class)
+    public void negativeCheckSelectValueNotPresentNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-element").assertExcludes().selectValue("volvo");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration test to check the checkIfOptionNotInSelect method")
     public void checkIfOptionNotInSelectTest() {
         // use this object to manipulate the app
@@ -50,8 +61,8 @@ public class AssertExcludesIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkIfOptionNotInSelect method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkIfOptionNotInSelect method", expectedExceptions = AssertionError.class)
     public void negativeCheckIfOptionNotInSelectTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -61,8 +72,8 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkIfOptionNotInSelect method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkIfOptionNotInSelect method", expectedExceptions = AssertionError.class)
     public void negativeCheckIfOptionNotInSelectNotEnabledTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -72,7 +83,18 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkIfOptionNotInSelect method", expectedExceptions = AssertionError.class)
+    public void negativeCheckIfOptionNotInSelectNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-element").assertExcludes().selectOption("audi");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration test to check the checkElementDoesntContainClass method")
     public void checkElementDoesntContainClassTest() {
         // use this object to manipulate the app
@@ -83,8 +105,8 @@ public class AssertExcludesIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkElementDoesntContainClass method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkElementDoesntContainClass method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementDoesntContainClassTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -94,8 +116,8 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkElementDoesntContainClass method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkElementDoesntContainClass method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementDoesntContainClassNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -105,18 +127,7 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkElementDoesntContainClass method")
-    public void checkElementDoesntContainClassDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertExcludes().clazz("hidden_div");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "asserts", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration test to check the checkElementDoesntHaveAttribute method")
     public void checkElementDoesntHaveAttributeTest() {
         // use this object to manipulate the app
@@ -127,8 +138,8 @@ public class AssertExcludesIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkElementDoesntHaveAttribute method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementDoesntHaveAttributeTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -138,8 +149,8 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the checkElementDoesntHaveAttribute method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementDoesntHaveAttributeNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -149,18 +160,7 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the checkElementDoesntHaveAttribute method")
-    public void checkElementDoesntHaveAttributeDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertExcludes().attribute("name");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "asserts", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration test to check the compareTextValueExcludes method")
     public void compareTextValueExcludesTest() {
         // use this object to manipulate the app
@@ -171,19 +171,8 @@ public class AssertExcludesIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration test to check the compareTextValueExcludes method")
-    public void compareTextValueExcludesDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertExcludes().text("Anders");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the compareTextValueExcludes method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the compareTextValueExcludes method", expectedExceptions = AssertionError.class)
     public void negativeCompareTextValueExcludesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -193,8 +182,8 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the compareTextValueExcludes method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the compareTextValueExcludes method", expectedExceptions = AssertionError.class)
     public void negativeCompareTextValueExcludesNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -204,7 +193,7 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration test to check the compareTextValueExcludes method")
     public void compareValueExcludesTest() {
         // use this object to manipulate the app
@@ -215,19 +204,8 @@ public class AssertExcludesIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration test to check the compareTextValueExcludes method")
-    public void compareValueExcludesDelayedTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").assertExcludes().value("Anders");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the compareTextValueExcludes method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the compareTextValueExcludes method", expectedExceptions = AssertionError.class)
     public void negativeCompareValueExcludesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -237,8 +215,8 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the compareTextValueExcludes method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the compareTextValueExcludes method", expectedExceptions = AssertionError.class)
     public void negativeCompareValueNotInputExcludesTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -248,8 +226,8 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "asserts", "excludes"},
-            description = "An integration negative test to check the compareTextValueExcludes method")
+    @Test(groups = {"integration", "assert", "excludes"},
+            description = "An integration negative test to check the compareTextValueExcludes method", expectedExceptions = AssertionError.class)
     public void negativeCompareValueExcludesNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

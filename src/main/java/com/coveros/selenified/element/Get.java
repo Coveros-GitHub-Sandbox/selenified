@@ -1,34 +1,33 @@
 /*
- * Copyright 2018 Coveros, Inc.
- * 
+ * Copyright 2019 Coveros, Inc.
+ *
  * This file is part of Selenified.
- * 
+ *
  * Selenified is licensed under the Apache License, Version
  * 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy 
+ * in compliance with the License. You may obtain a copy
  * of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, 
- * software distributed under the License is distributed on 
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
- * KIND, either express or implied. See the License for the 
- * specific language governing permissions and limitations 
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
  * under the License.
  */
 
 package com.coveros.selenified.element;
 
-import org.openqa.selenium.By;
+import com.coveros.selenified.Locator;
+import com.coveros.selenified.application.App;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,23 +36,23 @@ import java.util.Map;
  * present, null will be returned
  *
  * @author Max Saperstone
- * @version 3.0.4
- * @lastupdate 8/17/2018
+ * @version 3.1.0
+ * @lastupdate 3/7/2019
  */
 public class Get {
     private static final Logger log = Logger.getLogger(Get.class);
-
+    // constants
+    private static final String VALUE = "value";
+    // the overall app that we are interacting with
+    private final App app;
     // what element are we trying to interact with on the page
     private final Element element;
-
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
     private final WebDriver driver;
 
-    // constants
-    private static final String VALUE = "value";
-
-    public Get(WebDriver driver, Element element) {
+    public Get(App app, WebDriver driver, Element element) {
+        this.app = app;
         this.driver = driver;
         this.element = element;
     }
@@ -77,8 +76,8 @@ public class Get {
      *
      * @return Boolean: is the element present AND an input
      */
-    private boolean isPresentSelect() {
-        return element.is().present() && element.is().select();
+    private boolean isNotPresentSelect() {
+        return !element.is().present() || !element.is().select();
     }
 
     /**
@@ -88,7 +87,7 @@ public class Get {
      * @return String: the option from the select element
      */
     public String selectedOption() {
-        if (!isPresentSelect()) {
+        if (isNotPresentSelect()) {
             return null;
         }
         WebElement webElement = element.getWebElement();
@@ -105,7 +104,7 @@ public class Get {
      */
     @SuppressWarnings("squid:S1168")
     public String[] selectedOptions() {
-        if (!isPresentSelect()) {
+        if (isNotPresentSelect()) {
             return null;    // returning an empty array could be confused with no options selected
         }
         WebElement webElement = element.getWebElement();
@@ -125,7 +124,7 @@ public class Get {
      * @return String: the options from the select element
      */
     public String selectedValue() {
-        if (!isPresentSelect()) {
+        if (isNotPresentSelect()) {
             return null;
         }
         WebElement webElement = element.getWebElement();
@@ -142,7 +141,7 @@ public class Get {
      */
     @SuppressWarnings("squid:S1168")
     public String[] selectedValues() {
-        if (!isPresentSelect()) {
+        if (isNotPresentSelect()) {
             return null;    // returning an empty array could be confused with no values selected
         }
         WebElement webElement = element.getWebElement();
@@ -234,7 +233,7 @@ public class Get {
     @SuppressWarnings("unchecked")
     public Map<String, String> allAttributes() {
         if (!element.is().present()) {
-            return new HashMap<>();
+            return null;
         }
         try {
             WebElement webElement = element.getWebElement();
@@ -272,14 +271,14 @@ public class Get {
 
     /**
      * Retrieves the number of select options in the element. If the element
-     * isn't present or a select, the returned response will be zero.
+     * isn't present or a select, the returned response will be negative 1.
      *
      * @return Integer: how many select options are available in the select
      * element
      */
     public int numOfSelectOptions() {
-        if (!isPresentSelect()) {
-            return 0;
+        if (isNotPresentSelect()) {
+            return -1;
         }
         WebElement webElement = element.getWebElement();
         Select dropdown = new Select(webElement);
@@ -295,7 +294,7 @@ public class Get {
      */
     @SuppressWarnings("squid:S1168")
     public String[] selectOptions() {
-        if (!isPresentSelect()) {
+        if (isNotPresentSelect()) {
             return null;    // returning an empty array could be confused with no options available
         }
         WebElement webElement = element.getWebElement();
@@ -316,7 +315,7 @@ public class Get {
      */
     @SuppressWarnings("squid:S1168")
     public String[] selectValues() {
-        if (!isPresentSelect()) {
+        if (isNotPresentSelect()) {
             return null;    // returning an empty array could be confused with no options available
         }
         WebElement webElement = element.getWebElement();
@@ -331,123 +330,70 @@ public class Get {
 
     /**
      * Retrieves the number of rows in the element. If the element isn't present
-     * or a table, the returned response will be zero
+     * or a table, the returned response will be negative one
      *
      * @return Integer: the number of rows the table has
      */
     public int numOfTableRows() {
-        List<WebElement> rows = tableRows();
+        Element rows = tableRows();
         if (rows == null) {
-            return 0;
+            return -1;
         }
-        return rows.size();
+        return rows.get().matchCount();
     }
 
     /**
      * Retrieves the rows in the element. If the element isn't present or a
-     * table, a null value will be returned.
+     * table, a null value will be returned. The rows will be returned in one element
+     * and they can be iterated through, or selecting using the `setMatch` method
      *
      * @return List: a list of the table rows as WebElements
      */
     @SuppressWarnings("squid:S1168")
-    public List<WebElement> tableRows() {
+    public Element tableRows() {
         if (!element.is().present()) {
             return null;    // returning an empty array could be confused with no rows
         }
         if (!element.is().table()) {
             return null;    // returning an empty array could be confused with no rows
         }
-        WebElement webElement = element.getWebElement();
-        // this locator may need to be updated
-        return webElement.findElements(By.tagName("tr"));
+        return element.findChild(app.newElement(Locator.TAGNAME, "tr"));
     }
 
     /**
      * Retrieves the number of columns in the element. If the element isn't
-     * present or a table, the returned response will be zero
+     * present or a table, the returned response will be negative one
      *
      * @return Integer: the number of columns the table has
      */
     public int numOfTableColumns() {
-        List<List<WebElement>> columns = tableColumns();
-        if (columns == null) {
-            return 0;
+        Element rows = tableRows();
+        if (rows == null) {
+            return -1;
         }
-        return columns.size();
-    }
-
-    /**
-     * Retrieves the columns in the element. If the element isn't present or a
-     * table, a null value will be returned.
-     *
-     * @return List: a list of the table columns as WebElements
-     */
-    @SuppressWarnings("squid:S1168")
-    public List<List<WebElement>> tableColumns() {
-        if (!element.is().present()) {
-            return null;    // returning an empty array could be confused with no rows
-        }
-        if (!element.is().table()) {
-            return null;    // returning an empty array could be confused with no columns
-        }
-        List<WebElement> rows = tableRows();
-        List<WebElement> row = tableRow(1);
-        List<List<WebElement>> columns = new ArrayList<>();
-        for (int i = 0; i < row.size(); i++) {
-            List<WebElement> column = new ArrayList<>();
-            for (int j = 0; j < rows.size(); j++) {
-                List<WebElement> cells = tableRow(j);
-                column.add(cells.get(i));
-            }
-            columns.add(column);
-        }
-        return columns;
+        Element thCells = rows.findChild(app.newElement(Locator.TAGNAME, "th"));
+        Element tdCells = rows.findChild(app.newElement(Locator.TAGNAME, "td"));
+        return thCells.get().matchCount() + tdCells.get().matchCount();
     }
 
     /**
      * Retrieves a specific row from the element. If the element isn't present
-     * or a table, a null value will be returned. If the specified row is out of
-     * range, an empty list is returned
+     * or a table, or doesn't have that many rows a null value will be returned.
      *
      * @param rowNum - the row number of the table to obtain - note, row numbering
-     *               starts at 1, NOT 0
+     *               starts at 0
      * @return List: a list of the table cells in the row as WebElements
      */
     @SuppressWarnings("squid:S1168")
-    public List<WebElement> tableRow(int rowNum) {
-        List<WebElement> rows = tableRows();
+    public Element tableRow(int rowNum) {
+        Element rows = tableRows();
         if (rows == null) {
-            return null;    // returning an empty array could be confused with a row out of range
+            return null;
         }
-        if (rows.size() < rowNum) {
-            return new ArrayList<>();
+        if (numOfTableRows() < rowNum) {
+            return null;
         }
-        WebElement thisRow = rows.get(rowNum);
-        List<WebElement> cells = thisRow.findElements(By.xpath(".//th|.//td"));
-        List<WebElement> row = new ArrayList<>();
-        row.addAll(cells);
-        return row;
-    }
-
-    /**
-     * Retrieves a specific column from the element. If the element isn't
-     * present or a table, a null value will be returned. If the specified row
-     * is out of range, an empty list is returned
-     *
-     * @param colNum - the column number of the table to obtain - note, column
-     *               numbering starts at 1, NOT 0
-     * @return List: a list of the table cells in the column as WebElements
-     */
-    @SuppressWarnings("squid:S1168")
-    public List<WebElement> tableColumn(int colNum) {
-        List<List<WebElement>> columns = tableColumns();
-        if (columns == null) {
-            return null;    // returning an empty array could be confused with a column out of range
-        }
-        if (columns.size() < colNum) {
-            return new ArrayList<>();
-        }
-        return columns.get(colNum);
+        return rows.get(rowNum);
     }
 
     /**
@@ -456,18 +402,24 @@ public class Get {
      * will be returned.
      *
      * @param rowNum - the number of the row in the table - note, row numbering
-     *               starts at 1, NOT 0
+     *               starts at 0
      * @param colNum - the number of the column in the table - note, column
-     *               numbering starts at 1, NOT 0
+     *               numbering starts at 0
      * @return WebElement: the cell element object, and all associated values
      * with it
      */
-    public WebElement tableCell(int rowNum, int colNum) {
-        List<WebElement> row = tableRow(rowNum);
-        if (row == null || row.size() < colNum) {
+    public Element tableCell(int rowNum, int colNum) {
+        Element row = tableRow(rowNum);
+        if (row == null || numOfTableColumns() < colNum) {
             return null;
         }
-        return row.get(colNum);
+        Element thCells = row.findChild(app.newElement(Locator.TAGNAME, "th"));
+        Element tdCells = row.findChild(app.newElement(Locator.TAGNAME, "td"));
+        if (thCells.get().matchCount() > colNum) {
+            return thCells.get(colNum);
+        } else {
+            return tdCells.get(colNum - thCells.get().matchCount());
+        }
     }
 
     /**

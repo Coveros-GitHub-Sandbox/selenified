@@ -1,6 +1,6 @@
 package integration;
 
-import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.apache.commons.io.FileUtils;
@@ -21,7 +21,7 @@ public class NoLoadIT extends WebBase {
 
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
-        super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
+        super.startTest(dataProvider, method, test, result, BrowserUse.OPEN);
     }
 
     @SuppressWarnings("deprecation")
@@ -34,10 +34,10 @@ public class NoLoadIT extends WebBase {
         assertNotNull(app);
         String directory = context.getOutputDirectory();
         String file = app.getOutputFile().getFileName();
-        assertFalse(FileUtils.readFileToString(new File(directory, file))
+        assertFalse(FileUtils.readFileToString(new File(directory, file + ".html"))
                 .contains("Opening new browser and loading up starting app"));
         // verify the app wasn't attempted to load
-        app.azzert().urlEquals(getTestSite(this.getClass().getName(), context));
+        app.verify().urlEquals(getTestSite(this.getClass().getName(), context));
         // verify one issue from the above check
         finish(1);
     }

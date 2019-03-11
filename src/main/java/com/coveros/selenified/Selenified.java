@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -21,7 +21,8 @@
 package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
-import com.coveros.selenified.OutputFile.Result;
+import com.coveros.selenified.Browser.BrowserUse;
+import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
@@ -61,8 +62,8 @@ import static org.testng.AssertJUnit.assertEquals;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 3.0.4
- * @lastupdate 1/30/2019
+ * @version 3.1.0
+ * @lastupdate 3/7/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -71,11 +72,9 @@ public class Selenified {
     private static final String SERVICES_USER = "ServicesUser";
     private static final String SERVICES_PASS = "ServicesPass";
 
-    // any additional browser capabilities that might be necessary
-    protected static DesiredCapabilities extraCapabilities = null;
-
-    // some passed in system params
+    // some passed in system browser capabilities
     private static final List<Capabilities> CAPABILITIES = new ArrayList<>();
+    private static final String DESIRED_CAPABILITIES = "DesiredCapabilities";
 
     // for individual tests
     private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
@@ -141,7 +140,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the version of the current test being executed
      */
-    protected String getVersion(String clazz, ITestContext context) {
+    private String getVersion(String clazz, ITestContext context) {
         return (String) context.getAttribute(clazz + "Version");
     }
 
@@ -170,7 +169,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the author of the current test being executed
      */
-    protected String getAuthor(String clazz, ITestContext context) {
+    private String getAuthor(String clazz, ITestContext context) {
         return (String) context.getAttribute(clazz + "Author");
     }
 
@@ -199,7 +198,7 @@ public class Selenified {
      *                storing app url information
      * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
-    protected static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
+    private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
     }
 
@@ -218,6 +217,41 @@ public class Selenified {
     }
 
     /**
+     * Sets any additional capabilities desired for the browsers. Things like enabling javascript, accepting insecure certs. etc
+     * can all be added here on a per test class basis.
+     *
+     * @param clazz           - the test suite class, used for making threadsafe storage of
+     *                        application, allowing suites to have independent applications
+     *                        under test, run at the same time
+     * @param context         - the TestNG context associated with the test suite, used for
+     *                        storing app url information
+     * @param capabilityName  - the capability name to be added
+     * @param capabilityValue - the capability value to be set
+     */
+    protected static void addAdditionalDesiredCapabilities(Selenified clazz, ITestContext context, String capabilityName, Object capabilityValue) {
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        if (context.getAttributeNames().contains(clazz.getClass().getName() + DESIRED_CAPABILITIES)) {
+            desiredCapabilities = (DesiredCapabilities) context.getAttribute(clazz.getClass().getName() + DESIRED_CAPABILITIES);
+        }
+        desiredCapabilities.setCapability(capabilityName, capabilityValue);
+        context.setAttribute(clazz.getClass().getName() + DESIRED_CAPABILITIES, desiredCapabilities);
+    }
+
+    /**
+     * Retrieves the additional desired capabilities set by the current class for the browsers
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @return DesiredCapabilities
+     */
+    private static DesiredCapabilities getAdditionalDesiredCapabilities(String clazz, ITestContext context) {
+        return (DesiredCapabilities) context.getAttribute(clazz + DESIRED_CAPABILITIES);
+    }
+
+    /**
      * Obtains the web services username provided for the current test suite being executed. Anything passed in from
      * the command line will first be taken, to override any other values. Next, values being set in the classes will
      * be checked for. If neither of these are set, an empty string will be returned
@@ -229,7 +263,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the web services username to use for authentication
      */
-    protected static String getServiceUserCredential(String clazz, ITestContext context) {
+    private static String getServiceUserCredential(String clazz, ITestContext context) {
         if (System.getenv("SERVICES_USER") != null) {
             return System.getenv("SERVICES_USER");
         }
@@ -252,7 +286,7 @@ public class Selenified {
      *                storing app url information
      * @return String: the web services password to use for authentication
      */
-    protected static String getServicePassCredential(String clazz, ITestContext context) {
+    private static String getServicePassCredential(String clazz, ITestContext context) {
         if (System.getenv("SERVICES_PASS") != null) {
             return System.getenv("SERVICES_PASS");
         }
@@ -307,7 +341,7 @@ public class Selenified {
      */
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
-        startTest(dataProvider, method, test, result, DriverSetup.LOAD);
+        startTest(dataProvider, method, test, result, BrowserUse.LOAD);
     }
 
     /**
@@ -326,7 +360,7 @@ public class Selenified {
      *                     be setup
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-                             DriverSetup selenium) throws InvalidBrowserException, MalformedURLException {
+                             BrowserUse selenium) throws InvalidBrowserException, MalformedURLException {
         String testName = TestCase.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
@@ -342,11 +376,14 @@ public class Selenified {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
-        capabilities.setInstance(invocationCount);
-        Browser browser = capabilities.getBrowser();
         if (!selenium.useBrowser()) {
-            browser = new Browser("None");
+            capabilities = new Capabilities(new Browser("None"));
+        } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
+            capabilities = new Capabilities(capabilities.getBrowser());
+            capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
+        Browser browser = capabilities.getBrowser();
+        capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
@@ -395,19 +432,20 @@ public class Selenified {
         if (app != null) {
             try {
                 app.getDriver().get(url);
-                if (!app.get().location().contains(url)) {
-                    file.recordAction(act, expected,
-                            startingPage + app.get().location() + "</i> loaded instead of <i>" + url + "</i>",
-                            Result.FAILURE);
+                if (!app.get().url().contains(url)) {
+                    file.recordStep(act, expected,
+                            startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>",
+                            Success.FAIL);
                     file.addError();
                     return;
                 }
-                file.recordAction(act, expected, startingPage + url + "</i> loaded successfully", Result.SUCCESS);
+                file.recordStep(act, expected, startingPage + url + "</i> loaded successfully", Success.PASS);
             } catch (Exception e) {
                 log.warn(e);
-                file.recordAction(act, expected, startingPage + url + "</i> did not load successfully", Result.FAILURE);
+                file.recordStep(act, expected, startingPage + url + "</i> did not load successfully", Success.FAIL);
                 file.addError();
             }
+            app.acceptCertificate();
         }
     }
 
@@ -544,10 +582,7 @@ public class Selenified {
             List<Browser> browsers = getBrowserInput();
 
             for (Browser browser : browsers) {
-                Capabilities capabilities = new Capabilities(browser);
-                capabilities.setupProxy();
-                capabilities.addExtraCapabilities(extraCapabilities);
-                Selenified.CAPABILITIES.add(capabilities);
+                Selenified.CAPABILITIES.add(new Capabilities(browser));
             }
         }
 

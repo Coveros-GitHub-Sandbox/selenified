@@ -1,6 +1,6 @@
 package integration;
 
-import com.coveros.selenified.DriverSetup;
+import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.google.gson.JsonObject;
@@ -37,7 +37,7 @@ public class ServicesBase extends Selenified {
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
-        setVersion(this, test, "3.0.4");
+        setVersion(this, test, "3.1.0");
 
         //test data
         json1.addProperty("userId", 1);
@@ -82,7 +82,7 @@ public class ServicesBase extends Selenified {
 
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
-        super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
+        super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }
 
     @AfterSuite(alwaysRun = true)

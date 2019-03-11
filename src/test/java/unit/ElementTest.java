@@ -10,6 +10,12 @@ import static org.testng.Assert.assertNull;
 public class ElementTest {
 
     @Test
+    public void checkElementTypeNullTest() {
+        Element element = new Element(null, null, null, "myId");
+        assertNull(element.getType());
+    }
+
+    @Test
     public void checkElementTypeTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
         assertEquals(element.getType(), Locator.ID);
@@ -109,6 +115,18 @@ public class ElementTest {
     public void checkPrettyOutputTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
         assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> ");
+    }
+
+    @Test
+    public void checkPrettyOutputParentTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", new Element(null, null, Locator.NAME, "parentId"));
+        assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> and parent of <i>NAME</i> of <i>parentId</i> ");
+    }
+
+    @Test
+    public void checkPrettyOutputGrandParentTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", new Element(null, null, Locator.NAME, "parentId", new Element(null, null, Locator.TAGNAME, "grandParentId")));
+        assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> and parent of <i>NAME</i> of <i>parentId</i> and parent of <i>TAGNAME</i> of <i>grandParentId</i> ");
     }
 
     @Test

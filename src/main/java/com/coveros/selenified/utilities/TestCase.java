@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -27,12 +27,13 @@ import java.util.Random;
  * Manages the test cases, including naming conventions and formatting
  *
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.1.0
  * @lastupdate 1/12/2019
  */
 public class TestCase {
 
-    private TestCase() {}
+    private TestCase() {
+    }
 
     //constants
     private static final int MAXFILENAMELENGTH = 200;

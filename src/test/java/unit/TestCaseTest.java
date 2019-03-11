@@ -9,6 +9,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class TestCaseTest {
+
     @Test
     public void getRandomStringLengthTest() {
         assertEquals(TestCase.getRandomString(0).length(), 0);
@@ -42,6 +43,16 @@ public class TestCaseTest {
     }
 
     @Test
+    public void getTestNameNullTest(Method method) {
+        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
+        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", null), "UnitTests_helloWorld");
+        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", new Object[]{}), "UnitTests_helloWorld");
+        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", new Object[]{null}), "UnitTests_helloWorld");
+        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", new Object[]{"public"}), "UnitTests_helloWorld");
+
+    }
+
+    @Test
     public void getTestNameTest(Method method) {
         assertEquals(TestCase.getTestName(method), "unit_TestCaseTest_getTestNameTest");
         Object[] options = new Object[]{"Python", "public"};
@@ -50,7 +61,6 @@ public class TestCaseTest {
         options = new Object[]{"Python", null};
         assertEquals(TestCase.getTestName(method, options),
                 "unit_TestCaseTest_getTestNameTestWithOptionPython");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
         assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", "python"),
                 "UnitTests_helloWorldWithOptionPython");
         assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", "visual basic"),

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -28,7 +28,7 @@ package com.coveros.selenified.utilities;
  * @param <X>
  * @param <Y>
  * @author Max Saperstone
- * @version 3.0.4
+ * @version 3.1.0
  * @lastupdate 5/13/2018
  */
 public class Point<X, Y> {

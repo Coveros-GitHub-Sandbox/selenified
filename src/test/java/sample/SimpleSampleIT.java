@@ -20,8 +20,6 @@ public class SimpleSampleIT extends WebBase {
         App app = this.apps.get();
         // perform the verification
         app.azzert().titleEquals("Selenified Test Page");
-        // perform the verification
-        finish();
     }
 
     @Test(dataProvider = "car list items", groups = {"sample"},

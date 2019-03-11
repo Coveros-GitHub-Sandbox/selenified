@@ -10,15 +10,14 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 
-import static com.coveros.selenified.DriverSetup.FALSE;
-import static org.testng.Assert.assertEquals;
+import static com.coveros.selenified.Browser.BrowserUse;
 import static org.testng.Assert.assertNull;
 
 public class NoBrowserIT extends WebBase {
 
     @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
-        super.startTest(dataProvider, method, test, result, FALSE);
+        super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }
 
     @Test(groups = {"integration"}, description = "An integration test to verify we can start a test without a browser")

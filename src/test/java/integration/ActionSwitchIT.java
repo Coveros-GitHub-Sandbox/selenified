@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 public class ActionSwitchIT extends WebBase {
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectFrameIntTest() {
         // use this object to manipulate the app
@@ -19,7 +19,7 @@ public class ActionSwitchIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectFrameIntNotExistTest() {
         // use this object to manipulate the app
@@ -31,7 +31,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectFrameNameTest() {
         // use this object to manipulate the app
@@ -44,7 +44,7 @@ public class ActionSwitchIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectFrameNameNotExistTest() {
         // use this object to manipulate the app
@@ -56,7 +56,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectFrameTest() {
         // use this object to manipulate the app
@@ -69,7 +69,7 @@ public class ActionSwitchIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame", "browser"},
+    @Test(groups = {"integration", "action", "switch", "frame", "browser"},
             description = "An integration test to check the frame method")
     public void selectFrameAlertTest() {
         // use this object to manipulate the app
@@ -81,7 +81,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration negative test to check the frame method")
     public void selectFrameNotExistTest() {
         // use this object to manipulate the app
@@ -92,7 +92,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration negative test to check the frame method")
     public void selectFrameNotVisibleTest() {
         // use this object to manipulate the app
@@ -103,7 +103,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration negative test to check the frame method")
     public void selectFrameNotFrameTest() {
         // use this object to manipulate the app
@@ -114,7 +114,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectMainWindowTest() {
         // use this object to manipulate the app
@@ -128,7 +128,7 @@ public class ActionSwitchIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectMainWindowNoFrameTest() {
         // use this object to manipulate the app
@@ -141,7 +141,7 @@ public class ActionSwitchIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration negative test to check the frame method")
     public void selectMainWindowBadDriverTest() {
         // use this object to manipulate the app
@@ -153,7 +153,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectParentFrameTest() {
         // use this object to manipulate the app
@@ -167,7 +167,7 @@ public class ActionSwitchIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration test to check the frame method")
     public void selectParentFrameNoFrameTest() {
         // use this object to manipulate the app
@@ -180,7 +180,7 @@ public class ActionSwitchIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "frame"},
+    @Test(groups = {"integration", "action", "switch", "frame"},
             description = "An integration negative test to check the frame method")
     public void selectParentFrameBadDriverTest() {
         // use this object to manipulate the app
@@ -192,7 +192,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "tab", "browser"},
+    @Test(groups = {"integration", "action", "switch", "tab", "browser"},
             description = "An integration test to check the openWindow method")
     public void openWindowTest() {
         // use this object to manipulate the app
@@ -200,11 +200,21 @@ public class ActionSwitchIT extends WebBase {
         // perform some actions
         app.openNewWindow("https://www.google.com/");
         app.azzert().urlEquals("https://www.google.com/");
-        // verify no issues
-        finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "tab", "browser"},
+    @Test(groups = {"integration", "action", "switch", "tab", "browser"},
+            description = "An integration test to check the openWindow method")
+    public void openWindowBadURLTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.openNewWindow("https://www.google.com");
+        app.verify().urlEquals("https://www.google.com/");
+        // verify 2 issues
+        finish(2);
+    }
+
+    @Test(groups = {"integration", "action", "switch", "tab", "browser"},
             description = "An integration negative test to check the openWindow method")
     public void openWindowBadDriverTest() {
         // use this object to manipulate the app
@@ -216,7 +226,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "window"},
+    @Test(groups = {"integration", "action", "switch", "window"},
             description = "An integration test to check the switch method")
     public void switchToNewWindowTest() {
         // use this object to manipulate the app
@@ -225,11 +235,9 @@ public class ActionSwitchIT extends WebBase {
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
         app.azzert().textPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "window"},
+    @Test(groups = {"integration", "action", "switch", "window"},
             description = "An integration negative test to check the switch method")
     public void switchToNewWindowBadDriverTest() {
         // use this object to manipulate the app
@@ -242,7 +250,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "window", "browser"},
+    @Test(groups = {"integration", "action", "switch", "window", "browser"},
             description = "An integration test to check the switch method")
     public void switchToParentWindowTest() {
         // use this object to manipulate the app
@@ -253,11 +261,9 @@ public class ActionSwitchIT extends WebBase {
         app.azzert().textPresent("You're on the next page");
         app.switchToParentWindow();
         app.azzert().textNotPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "window", "browser"},
+    @Test(groups = {"integration", "action", "switch", "window", "browser"},
             description = "An integration negative test to check the switch method")
     public void switchToParentWindowNoParentTest() {
         // use this object to manipulate the app
@@ -268,7 +274,7 @@ public class ActionSwitchIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "window", "browser"},
+    @Test(groups = {"integration", "action", "switch", "window", "browser"},
             description = "An integration negative test to check the switch method")
     public void switchToParentWindowBadDriverTest() {
         // use this object to manipulate the app
@@ -276,14 +282,14 @@ public class ActionSwitchIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.azzert().textPresent("You're on the next page");
+        app.verify().textPresent("You're on the next page");
         app.killDriver();
         app.switchToParentWindow();
         // verify one issue
         finish(1);
     }
 
-    @Test(groups = {"integration", "actions", "switch", "window"},
+    @Test(groups = {"integration", "action", "switch", "window"},
             description = "An integration test to check the switch method")
     public void closeCurrentWindowTest() {
         // use this object to manipulate the app
@@ -294,11 +300,9 @@ public class ActionSwitchIT extends WebBase {
         app.azzert().textPresent("You're on the next page");
         app.closeCurrentWindow();
         app.azzert().textNotPresent("You're on the next page");
-        // verify no issues
-        finish();
     }
 
-    @Test(groups = {"integration", "actions", "switch", "window"},
+    @Test(groups = {"integration", "action", "switch", "window"},
             description = "An integration test to check the switch method")
     public void closeCurrentWindowNoWindowTest() {
         // use this object to manipulate the app
@@ -306,7 +310,7 @@ public class ActionSwitchIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
-        app.azzert().textPresent("You're on the next page");
+        app.verify().textPresent("You're on the next page");
         app.closeCurrentWindow();
         app.closeCurrentWindow();
         // verify 1 issue

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Coveros, Inc.
+ * Copyright 2019 Coveros, Inc.
  *
  * This file is part of Selenified.
  *
@@ -27,6 +27,7 @@ import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.TestCase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import org.testng.log4testng.Logger;
 
 import java.io.*;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -48,38 +51,13 @@ import java.util.zip.ZipOutputStream;
  * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
- * @version 3.0.4
- * @lastupdate 1/12/2019
+ * @version 3.1.0
+ * @lastupdate 3/7/2019
  */
 public class OutputFile {
 
+    private static final String PASSORFAIL = "PASSORFAIL";
     private static final Logger log = Logger.getLogger(OutputFile.class);
-    public static final String PASSORFAIL = "PASSORFAIL";
-
-    private App app = null;
-
-    private final String url;
-    private final String suite;
-    private final String group;
-    private final String version;
-    private final String author;
-    private final String objectives;
-
-    private final String test;
-    private final String directory;
-    private final File file;
-    private final String filename;
-    private Capabilities capabilities;
-    private final List<String> screenshots = new ArrayList<>();
-
-    // timing of the test
-    private long startTime;
-    private long lastTime = 0;
-    // this will track the step numbers
-    private int stepNum = 0;
-    // this will keep track of the errors
-    private int errors = 0;
-
     // constants
     private static final String START_ROW = "   <tr>\n";
     private static final String START_CELL = "    <td>";
@@ -88,6 +66,26 @@ public class OutputFile {
     private static final String END_IDIV = "</i></div>";
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
+    private final String url;
+    private final String suite;
+    private final String group;
+    private final String version;
+    private final String author;
+    private final String objectives;
+    private final String test;
+    private final String directory;
+    private final File file;
+    private final String filename;
+    private final List<String> screenshots = new ArrayList<>();
+    private App app = null;
+    private final Capabilities capabilities;
+    // timing of the test
+    private long startTime;
+    private long lastTime = 0;
+    // this will track the step numbers
+    private int stepNum = 0;
+    // this will keep track of the errors
+    private int errors = 0;
 
     /**
      * Creates a new instance of the OutputFile, which will serve as the
@@ -117,7 +115,7 @@ public class OutputFile {
         this.version = version;
         this.objectives = objectives;
         filename = generateFilename();
-        file = new File(directory, filename);
+        file = new File(directory, filename + ".html");
         setupFile();
         setStartTime();
         createOutputHeader();
@@ -167,6 +165,55 @@ public class OutputFile {
         errors += errorsToAdd;
     }
 
+    /////////////////////////////////////
+    // For our checking functions
+    /////////////////////////////////////
+
+
+    /**
+     * Write the action and expected into the output file. If this is a wait, an action will be provided, otherwise, action
+     * will be left empty
+     *
+     * @param check   - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
+     */
+    public void recordAction(String check, double waitFor) {
+        String action = "";
+        if (waitFor > 0) {
+            action = "Waiting up to " + waitFor + " seconds " + check;
+        }
+        recordAction(action, "Expected " + check);
+    }
+
+    /**
+     * Write the actual results into the output file. If something was waited for, that will be prepended to the actual event
+     *
+     * @param check    - the check being performed
+     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
+     * @param success  - was this a success or failure
+     */
+    public void recordActual(String check, double timeTook, Success success) {
+        String actual = check;
+        if (timeTook > 0) {
+            String lowercase = actual.substring(0, 1).toLowerCase();
+            actual = "After waiting for " + timeTook + " seconds, " + lowercase + actual.substring(1);
+        }
+        recordActual(actual, success);
+    }
+
+    /**
+     * If the check fails, adds an error, otherwise, proceed
+     *
+     * @param check - a basic check for passing or failing
+     */
+    public void verify(boolean check) {
+        if (!check) {
+            addError();
+        }
+    }
+
+    //////////////////////////////////////
+
     /**
      * Determines if a 'real' browser is being used. If the browser is NONE or
      * HTMLUNIT it is not considered a real browser
@@ -176,6 +223,16 @@ public class OutputFile {
     private boolean isRealBrowser() {
         Browser browser = capabilities.getBrowser();
         return browser.getName() != BrowserName.NONE && browser.getName() != BrowserName.HTMLUNIT;
+    }
+
+    /**
+     * Retrieves the App class associated with the output file which controls all actions within
+     * the browser
+     *
+     * @return App: the App class associated with the output file
+     */
+    public App getApp() {
+        return this.app;
     }
 
     /**
@@ -197,7 +254,7 @@ public class OutputFile {
         if (capabilities.getInstance() > 0) {
             counter = "_" + capabilities.getInstance();
         }
-        return test + counter + ".html";
+        return test + counter;
     }
 
     /**
@@ -208,7 +265,7 @@ public class OutputFile {
             try {
                 throw new IOException("Unable to create output directory");
             } catch (IOException e) {
-                log.error(e);
+                log.info(e);
             }
         }
         if (!file.exists()) {
@@ -274,6 +331,43 @@ public class OutputFile {
     }
 
     /**
+     * Removes all elements that cannot be converted to pdf, this method is to be used
+     * before converting the html file to pdf with openhtmltopdf.pdfboxout.PdfRendererBuilder
+     */
+    private String getHtmlForPDFConversion() throws IOException {
+        StringBuilder oldContent = new StringBuilder();
+
+        FileReader fr = new FileReader(file);
+        try (BufferedReader reader = new BufferedReader(fr)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                oldContent.append(line);
+                oldContent.append("\r\n");
+            }
+        }
+
+        // replace all non convertible elements with empty text or modify for conversion
+        String str = oldContent.toString()
+                .replaceAll("<script type='text/javascript'>(?s).*</script>", "")
+                .replaceAll("<tr>\\s*<th>View Results</th>(?s).*?</tr>", "")
+                .replaceAll("&nbsp;", " ");
+
+        String imagePattern = "(<img(?s).*? src='(.*?)'(?s).*?)</img>";
+        Pattern r = Pattern.compile(imagePattern);
+        Matcher m = r.matcher(str);
+        int imageCount = 0;
+        while (m.find()) {
+            str = str.replaceFirst("<a href='javascript:void\\(0\\)'(?s).*?(<img(?s).*? src='(.*?)'(?s).*?)" +
+                            " style(?s).*?</img>",
+                    "<a href=\"#image-" + imageCount + "\">View Screenshot</a>");
+            str = str.replaceFirst("</body>", "<p style='page-break-before: always' id='image-" + imageCount++ + "'></p" +
+                    ">" +
+                    m.group().replaceAll("width='300px' style(?s).*?'>", "height='600px' width='1000px'>") + "</body>");
+        }
+        return str;
+    }
+
+    /**
      * Captures the entire page screen shot, and created an HTML file friendly
      * link to place in the output file
      *
@@ -293,6 +387,13 @@ public class OutputFile {
     }
 
     /**
+     * A simple method to allow posting a screenshot of the app in it's current state into the detailed report
+     */
+    public void recordScreenshot() {
+        recordStep("", "", "", Success.CHECK);
+    }
+
+    /**
      * Writes an action that was performed out to the output file. If the action
      * is considered a failure, and a 'real' browser is being used (not NONE or
      * HTMLUNIT), then a screenshot will automatically be taken
@@ -300,19 +401,12 @@ public class OutputFile {
      * @param action         - the step that was performed
      * @param expectedResult - the result that was expected to occur
      * @param actualResult   - the result that actually occurred
-     * @param result         - the result of the action
+     * @param success        - the result of the action
      */
-    public void recordAction(String action, String expectedResult, String actualResult, Result result) {
+    public void recordStep(String action, String expectedResult, String actualResult, Success success) {
         stepNum++;
-        String success = "Check";
         String imageLink = "";
-        if (result == Result.SUCCESS) {
-            success = "Pass";
-        }
-        if (result == Result.FAILURE) {
-            success = "Fail";
-        }
-        if (!"Pass".equals(success) && isRealBrowser()) {
+        if (success != Success.PASS && isRealBrowser()) {
             // get a screen shot of the action
             imageLink = captureEntirePageScreenshot();
         }
@@ -329,9 +423,9 @@ public class OutputFile {
             out.write("    <td align='center'>" + stepNum + ".</td>\n");
             out.write(START_CELL + action + END_CELL);
             out.write(START_CELL + expectedResult + END_CELL);
-            out.write("    <td class='" + result.toString().toLowerCase() + "'>" + actualResult + imageLink + END_CELL);
+            out.write(START_CELL + actualResult + imageLink + END_CELL);
             out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
-            out.write("    <td class='" + success.toLowerCase() + "'>" + success + END_CELL);
+            out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + END_CELL);
             out.write(END_ROW);
         } catch (IOException e) {
             log.error(e);
@@ -345,9 +439,9 @@ public class OutputFile {
      * result, using the recordExpected method.
      *
      * @param actualOutcome - what the actual outcome was
-     * @param result        - whether this result is a pass or a failure
+     * @param success       - whether this result is a pass or a failure
      */
-    public void recordActual(String actualOutcome, Success result) {
+    public void recordActual(String actualOutcome, Success success) {
         try (
                 // reopen the log file
                 FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
@@ -364,14 +458,35 @@ public class OutputFile {
             // write out the actual outcome
             out.write(START_CELL + actualOutcome + imageLink + END_CELL);
             out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
-            // write out the pass or fail result
-            if (result == Success.PASS) {
-                out.write("    <td class='pass'>Pass</td>\n");
-            } else {
-                out.write("    <td class='fail'>Fail</td>\n");
-            }
+            out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + END_CELL);
             // end the row
             out.write(END_ROW);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Writes to the output file the expected outcome of an event. This method
+     * should always be followed the recordActual method to record what actually
+     * happened.
+     *
+     * @param action          - what is the action being performed
+     * @param expectedOutcome - what the expected outcome is
+     */
+    public void recordAction(String action, String expectedOutcome) {
+        stepNum++;
+        try (
+                // reopen the log file
+                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
+            // start the row
+            out.write(START_ROW);
+            // log the step number
+            out.write("    <td align='center'>" + stepNum + ".</td>\n");
+            // write out the action being performed
+            out.write(START_CELL + action + END_CELL);
+            // write out the expected outcome
+            out.write(START_CELL + expectedOutcome + END_CELL);
         } catch (IOException e) {
             log.error(e);
         }
@@ -385,22 +500,7 @@ public class OutputFile {
      * @param expectedOutcome - what the expected outcome is
      */
     public void recordExpected(String expectedOutcome) {
-        stepNum++;
-
-        try (
-                // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
-            // start the row
-            out.write(START_ROW);
-            // log the step number
-            out.write("    <td align='center'>" + stepNum + ".</td>\n");
-            // leave the step blank as this is simply a check
-            out.write("    <td> </td>\n");
-            // write out the expected outcome
-            out.write(START_CELL + expectedOutcome + END_CELL);
-        } catch (IOException e) {
-            log.error(e);
-        }
+        recordAction("", expectedOutcome);
     }
 
     /**
@@ -424,6 +524,9 @@ public class OutputFile {
             out.write(" <head>\n");
             out.write("  <title>" + test + "</title>\n");
             out.write("  <style type='text/css'>\n");
+            out.write("    @page {\n");
+            out.write("     size: landscape;\n");
+            out.write(endBracket3);
             out.write("   table {\n");
             out.write("    margin-left:auto;margin-right:auto;\n");
             out.write("    width:90%;\n");
@@ -438,9 +541,6 @@ public class OutputFile {
             out.write(endBracket3);
             out.write("   td {\n");
             out.write("    word-wrap: break-word;\n");
-            out.write(endBracket3);
-            out.write("   .warning {\n");
-            out.write("    color:orange;\n");
             out.write(endBracket3);
             out.write("   .check {\n");
             out.write("    color:orange;\n");
@@ -479,7 +579,8 @@ public class OutputFile {
             out.write(endBracket3);
             out.write("   function getElementsByClassName(oElm, strTagName, strClassName){\n");
             out.write(
-                    "    var arrElements = (strTagName == '*' && document.all)? document.all : oElm.getElementsByTagName(strTagName);\n");
+                    "    var arrElements = (strTagName == '*' && document.all)? document.all : oElm" +
+                            ".getElementsByTagName(strTagName);\n");
             out.write("    var arrReturnElements = new Array();\n");
             out.write("    strClassName = strClassName.replace(/\\-/g, '\\\\-');\n");
             out.write("    var oRegExp = new RegExp('(^|\\s)' + strClassName + '(\\s|$)');\n");
@@ -505,7 +606,7 @@ public class OutputFile {
             out.write("  <table>\n");
             out.write(START_ROW);
             out.write("    <th bgcolor='lightblue'><font size='5'>Test</font></th>\n");
-            out.write("    <td bgcolor='lightblue' colspan=3><font size='5'>" + test + " </font></td>\n");
+            out.write("    <td bgcolor='lightblue' colspan='3'><font size='5'>" + test + " </font></td>\n");
             out.write(swapRow);
             out.write("    <th>Tester</th>\n");
             out.write("    <td>Automated</td>\n");
@@ -535,12 +636,12 @@ public class OutputFile {
             out.write(START_CELL + suite + END_CELL);
             out.write(swapRow);
             out.write("    <th>Test Objectives</th>\n");
-            out.write("    <td colspan=3>" + objectives + END_CELL);
+            out.write("    <td colspan='3'>" + objectives + END_CELL);
             out.write(swapRow);
             out.write("    <th>Overall Results</th>\n");
-            out.write("    <td colspan=3 style='padding: 0px;'>\n");
+            out.write("    <td colspan='3' style='padding: 0px;'>\n");
             out.write("     <table style='width: 100%;'><tr>\n");
-            out.write("      <td font-size='big' rowspan=2>PASSORFAIL</td>\n");
+            out.write("      <td font-size='big' rowspan='2'>PASSORFAIL</td>\n");
             out.write("      <td><b>Steps Performed</b></td><td><b>Steps Passed</b></td>" +
                     "<td><b>Steps Failed</b></td>\n");
             out.write("     </tr><tr>\n");
@@ -549,16 +650,22 @@ public class OutputFile {
             out.write("    </td>\n");
             out.write(swapRow);
             out.write("    <th>View Results</th>\n");
-            out.write("    <td colspan=3>\n");
-            out.write("     <input type=checkbox name='step' onclick='toggleVis(0,this.checked)' checked>Step\n");
-            out.write("     <input type=checkbox name='action' onclick='toggleVis(1,this.checked)' checked>Action \n");
+            out.write("    <td colspan='3'>\n");
+            out.write("     <input type='checkbox' name='step' onclick='toggleVis(0,this.checked)' " +
+                    "checked='checked'>Step</input>\n");
+            out.write("     <input type='checkbox' name='action' onclick='toggleVis(1,this.checked)' " +
+                    "checked='checked'>Action</input>\n");
             out.write(
-                    "     <input type=checkbox name='expected' onclick='toggleVis(2,this.checked)' checked>Expected Results \n");
+                    "     <input type='checkbox' name='expected' onclick='toggleVis(2,this.checked)' " +
+                            "checked='checked'>Expected Results</input>\n");
             out.write(
-                    "     <input type=checkbox name='actual' onclick='toggleVis(3,this.checked)' checked>Actual Results \n");
+                    "     <input type='checkbox' name='actual' onclick='toggleVis(3,this.checked)' " +
+                            "checked='checked'>Actual Results</input>\n");
             out.write(
-                    "     <input type=checkbox name='times' onclick='toggleVis(4,this.checked)' checked>Step Times \n");
-            out.write("     <input type=checkbox name='result' onclick='toggleVis(5,this.checked)' checked>Results\n");
+                    "     <input type='checkbox' name='times' onclick='toggleVis(4,this.checked)' " +
+                            "checked='checked'>Step Times</input>\n");
+            out.write("     <input type='checkbox' name='result' onclick='toggleVis(5,this.checked)' " +
+                    "checked='checked'>Results</input>\n");
             out.write("    </td>\n");
             out.write(END_ROW);
             out.write("  </table>\n");
@@ -589,18 +696,30 @@ public class OutputFile {
             log.error(e);
         }
         // Record the metrics
-        int passes = countInstancesOf("<td class='pass'>Pass</td>");
-        int fails = countInstancesOf("<td class='fail'>Fail</td>");
-        replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes));
+        int passes = countInstancesOf("<td class='pass'>PASS</td>");
+        int fails = countInstancesOf("<td class='fail'>FAIL</td>");
+        int checks = countInstancesOf("<td class='check'>CHECK</td>");
+        replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes + checks));
         replaceInFile("STEPSPASSED", Integer.toString(passes));
         replaceInFile("STEPSFAILED", Integer.toString(fails));
-        if (fails == 0 && errors == 0 && testStatus == 1) {
-            replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>SUCCESS</b></font>");
+        if (fails == 0 && checks == 0 && errors == 0 && testStatus == 0) {
+            replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>PASS</b></font>");
         } else if (fails == 0 && errors == 0) {
-            replaceInFile(PASSORFAIL, "<font size='+2' class='warning'><b>" + Result.values()[testStatus] + "</b></font>");
+            replaceInFile(PASSORFAIL, "<font size='+2' class='check'><b>CHECK</b" +
+                    "></font>");
         } else {
-            replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAILURE</b></font>");
+            replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAIL</b></font>");
         }
+        addTimeToOutputFile();
+        if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
+            packageTestResults();
+        }
+        if (System.getProperty("generatePDF") != null && "true".equals(System.getProperty("generatePDF"))) {
+            generatePdf();
+        }
+    }
+
+    private void addTimeToOutputFile() {
         // record the time
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
         String timeNow = stf.format(new Date());
@@ -622,8 +741,21 @@ public class OutputFile {
         }
         replaceInFile("RUNTIME", hours + ":" + minutes + ":" + seconds);
         replaceInFile("TIMEFINISHED", timeNow);
-        if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
-            packageTestResults();
+    }
+
+    /**
+     * Generates a pdf report in the same directory as the html report
+     */
+    private void generatePdf() {
+        File pdfFile = new File(directory, filename + ".pdf");
+        try (OutputStream os = new FileOutputStream(pdfFile)) {
+            PdfRendererBuilder builder = new PdfRendererBuilder();
+            builder.withHtmlContent(getHtmlForPDFConversion(), "file://" + pdfFile.getAbsolutePath()
+                    .replaceAll(" ", "%20"));
+            builder.toStream(os);
+            builder.run();
+        } catch (Exception e) {
+            log.error(e);
         }
     }
 
@@ -643,7 +775,7 @@ public class OutputFile {
 
             // Add screenshots to zip file
             for (String screenshot : screenshots) {
-                ZipEntry s = new ZipEntry(screenshot.replaceAll(".*\\/", ""));
+                ZipEntry s = new ZipEntry(screenshot.replaceAll(".*/", ""));
                 out.putNextEntry(s);
                 Path screenPath = FileSystems.getDefault().getPath(screenshot);
                 byte[] screenData = Files.readAllBytes(screenPath);
@@ -671,7 +803,7 @@ public class OutputFile {
                     imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
             imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
                     imageName.substring(directory.length() + 1) + "' width='" + EMBEDDED_IMAGE_WIDTH +
-                    "px' style='display:none;'>";
+                    "px' style='display:none;'></img>";
         } else {
             imageLink += "<b><font class='fail'>No Image Preview</font></b>";
         }
@@ -720,9 +852,9 @@ public class OutputFile {
             if (params.getMultipartData() != null) {
                 for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
                     output.append("<div>");
-                    output.append(String.valueOf(entry.getKey()));
+                    output.append(entry.getKey());
                     output.append(" : ");
-                    output.append(String.valueOf(entry.getValue()));
+                    output.append(entry.getValue());
                     output.append("</div>");
                 }
             }
@@ -784,14 +916,15 @@ public class OutputFile {
      * @author Max Saperstone
      */
     public enum Success {
-        PASS, FAIL;
-
-        int errors;
+        PASS, FAIL, CHECK;
 
         static {
             PASS.errors = 0;
             FAIL.errors = 1;
+            CHECK.errors = 0;
         }
+
+        int errors;
 
         /**
          * Retrieves the errors associated with the enumeration
@@ -801,14 +934,5 @@ public class OutputFile {
         public int getErrors() {
             return this.errors;
         }
-    }
-
-    /**
-     * Gives status for each test step
-     *
-     * @author Max Saperstone
-     */
-    public enum Result {
-        WARNING, SUCCESS, FAILURE, SKIPPED
     }
 }

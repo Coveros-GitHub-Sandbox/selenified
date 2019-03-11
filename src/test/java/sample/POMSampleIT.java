@@ -30,7 +30,8 @@ public class POMSampleIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"sample", "pom"}, description = "A sample test using a data provider to perform searches")
+    // skipping safari as it doesn't support modal dialogs: https://github.com/SeleniumHQ/selenium-google-code-issue-archive/issues/3862
+    @Test(groups = {"sample", "pom", "alert", "no-safari"}, description = "A sample test using a data provider to perform searches")
     public void sampleTest() {
         // grab our main app object
         App app = this.apps.get();
@@ -41,8 +42,6 @@ public class POMSampleIT extends WebBase {
         app.azzert().alertPresent();
         app.acceptAlert();
         app.azzert().alertNotPresent();
-        // close out the test
-        finish();
     }
 
     @Test(groups = {"sample", "pom"}, description = "A sample test using a data provider to perform searches")
