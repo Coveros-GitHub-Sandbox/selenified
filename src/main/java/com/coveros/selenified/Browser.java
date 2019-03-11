@@ -32,7 +32,7 @@ import java.util.Map;
  * Safari, PhantomJS
  *
  * @author Max Saperstone
- * @version 3.1.0
+ * @version 3.1.1
  * @lastupdate 2/27/2019
  */
 public class Browser {

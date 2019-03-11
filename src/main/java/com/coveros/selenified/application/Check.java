@@ -33,7 +33,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.1.0
+ * @version 3.1.1
  * @lastupdate 3/7/2019
  */
 public interface Check {

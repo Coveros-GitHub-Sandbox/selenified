@@ -24,7 +24,7 @@ package com.coveros.selenified.utilities;
  * Utilities class to interact with sauce labs, retrieving information such as username, key, and test status
  *
  * @author Max Saperstone
- * @version 3.1.0
+ * @version 3.1.1
  * @lastupdate 5/13/2018
  */
 public class Sauce {

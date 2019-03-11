@@ -34,7 +34,7 @@ import static org.testng.AssertJUnit.assertTrue;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.1.0
+ * @version 3.1.1
  * @lastupdate 3/7/2019
  */
 public class Assert implements Check {

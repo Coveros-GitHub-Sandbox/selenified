@@ -36,7 +36,7 @@ import java.util.Arrays;
  * have a particular value associated to them.
  *
  * @author Max Saperstone
- * @version 3.1.0
+ * @version 3.1.1
  * @lastupdate 3/7/2019
  */
 public class VerifyContains implements Contains {

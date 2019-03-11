@@ -16,7 +16,7 @@ public class ConflictIT extends Selenified {
         setAuthor(this, test, "Matt Grasberger\n<br/>matthew.grasberger@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "3.1.0");
+        setVersion(this, test, "3.1.1");
     }
 
     @Test(groups = {"integration", "conflict"},

@@ -36,7 +36,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  * to them.
  *
  * @author Max Saperstone
- * @version 3.1.0
+ * @version 3.1.1
  * @lastupdate 3/7/2019
  */
 public interface Equals extends Check {
