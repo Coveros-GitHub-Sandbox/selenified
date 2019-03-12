@@ -115,14 +115,16 @@ node {
                     )
             ]) {
                 stage('Perform SonarQube Analysis') {
-                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.branch=${branch}"
-                    if (branch != 'develop' && branch != 'master') {
-//                        sonarCmd += " -Dsonar.analysis.mode=preview"
+                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken}"
+                    if (branch == 'develop' || branch == 'master') {
+                        sh "${sonarCmd} -Dsonar.branch=${branch}"
+                    } else {
                         if (pullRequest) {
-                            sonarCmd += "-Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
+                            sh "${sonarCmd} -Dsonar.analysis.mode=preview -Dsonar.branch=${branch} -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
+                        } else {
+                            sh "${sonarCmd}"
                         }
                     }
-                    sh "${sonarCmd}"
                 }
             }
             stage('Publish Coverage Results') {
