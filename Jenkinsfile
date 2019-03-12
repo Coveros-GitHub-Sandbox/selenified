@@ -35,7 +35,7 @@ node {
                 } catch (e) {
                     throw e
                 } finally {
-                    sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec;"
+                    sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec"
                     sh "mkdir -p results/unit; mv target results/unit/"
                     archiveArtifacts artifacts: 'results/unit/target/surefire-reports/**'
                     junit 'results/unit/target/surefire-reports/TEST-*.xml'
@@ -49,7 +49,7 @@ node {
                     } catch (e) {
                         throw e
                     } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
                         sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
                         archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
                         junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
@@ -61,7 +61,7 @@ node {
                     } catch (e) {
                         throw e
                     } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
                         sh "mkdir -p results/browserLocal; mv target results/browserLocal/"
                         archiveArtifacts artifacts: 'results/browserLocal/target/failsafe-reports/**'
                         junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
@@ -74,7 +74,7 @@ node {
                 } catch (e) {
                     throw e
                 } finally {
-                    sh "mv target/dependency-check-report.* dependency-check-report.*;"
+                    sh "mv target/dependency-check-report.* ."
                     archiveArtifacts artifacts: 'dependency-check-report.html'
                     dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
                 }
@@ -96,7 +96,7 @@ node {
                     } catch (e) {
                         throw e
                     } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
+                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
                         sh "mkdir -p results/browserRemote; mv target results/browserRemote/"
                         archiveArtifacts artifacts: 'results/browserRemote/target/failsafe-reports/**'
                         junit 'results/browserRemote/target/failsafe-reports/TEST-*.xml'
