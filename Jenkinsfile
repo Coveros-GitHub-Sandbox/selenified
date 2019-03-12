@@ -45,7 +45,7 @@ node {
                 stage('Execute HTMLUnit Tests') {
                     try {
                         // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                        sh 'mvn clean verify -Dskip.unit.tests -Dfailsafe.groups.exclude="browser,coveros"'
+                        sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros"'
                     } catch (e) {
                         throw e
                     } finally {
@@ -57,7 +57,7 @@ node {
                 }
                 stage('Execute Local Tests') {
                     try {
-                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless -DgeneratePDF'
+                        sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless -DgeneratePDF'
                     } catch (e) {
                         throw e
                     } finally {
@@ -66,6 +66,17 @@ node {
                         archiveArtifacts artifacts: 'results/browserLocal/target/failsafe-reports/**'
                         junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
                     }
+                }
+            }
+            stage('Execute Dependency Check') {
+                try {
+                    sh 'mvn clean verify -Dskip.unit.tests -Dskip.integration.tests'
+                } catch (e) {
+                    throw e
+                } finally {
+                    sh "mv target/dependency-check-report.* dependency-check-report.*;"
+                    archiveArtifacts artifacts: 'dependency-check-report.html'
+                    dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
                 }
             }
             withCredentials([
@@ -81,7 +92,7 @@ node {
                 stage('Execute Hub Tests') {
                     try {
 //                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
@@ -104,7 +115,7 @@ node {
                     )
             ]) {
                 stage('Perform SonarQube Analysis') {
-                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPaths=jacoco-ut.exec,jacoco-it.exec"
+                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken}"
                     if (branch == 'develop' || branch == 'master') {
                         sh "${sonarCmd} -Dsonar.branch=${branch}"
                     } else {
