@@ -125,7 +125,7 @@ node {
                     if (branch != 'develop' && branch != 'master') {
                         sonarCmd += " -Dsonar.analysis.mode=preview"
                         if (pullRequest) {
-                            sonarCmd += "-Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
+                            sonarCmd += " -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
                         }
                     }
                     sh "${sonarCmd}"
