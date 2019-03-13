@@ -29,56 +29,62 @@ node {
             sh "mkdir results"
         }
         try {
-//            stage('Run Unit Tests') {
-//                try {
-//                    sh "mvn clean test"
-//                } catch (e) {
-//                    throw e
-//                } finally {
-//                    sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec"
-//                    sh "mkdir -p results/unit; mv target results/unit/"
-//                    archiveArtifacts artifacts: 'results/unit/target/surefire-reports/**'
-//                    junit 'results/unit/target/surefire-reports/TEST-*.xml'
-//                }
-//            }
-            wrap([$class: 'Xvfb']) {
-//                stage('Execute HTMLUnit Tests') {
-//                    try {
-//                        // commenting out coveros tests, as site is too slow to run properly in htmlunit
-//                        sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros"'
-//                    } catch (e) {
-//                        throw e
-//                    } finally {
-//                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-//                        sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
-//                        archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
-//                        junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
-//                    }
-//                }
-//                stage('Execute Local Tests') {
-//                    try {
-//                        sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless -DgeneratePDF'
-//                    } catch (e) {
-//                        throw e
-//                    } finally {
-//                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-//                        sh "mkdir -p results/browserLocal; mv target results/browserLocal/"
-//                        archiveArtifacts artifacts: 'results/browserLocal/target/failsafe-reports/**'
-//                        junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
-//                    }
-//                }
-            }
-            stage('Execute Dependency Check') {
+            stage('Run Unit Tests') {
                 try {
-                    sh 'mvn clean verify -Dskip.unit.tests -Dskip.integration.tests'
+                    sh "mvn clean test"
                 } catch (e) {
                     throw e
                 } finally {
-                    sh "mv target/dependency-check-report.* ."
-                    archiveArtifacts artifacts: 'dependency-check-report.html'
-                    dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
+                    sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec"
+                    sh "mkdir -p results/unit; mv target results/unit/"
+                    archiveArtifacts artifacts: 'results/unit/target/surefire-reports/**'
+                    junit 'results/unit/target/surefire-reports/TEST-*.xml'
                 }
             }
+            parallel(
+                    "Execute Local Tests": {
+                        wrap([$class: 'Xvfb']) {
+                            stage('Execute HTMLUnit Tests') {
+                                try {
+                                    // commenting out coveros tests, as site is too slow to run properly in htmlunit
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros"'
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
+                                    archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
+                                    junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
+                                }
+                            }
+                            stage('Execute Chrome Tests') {
+                                try {
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless -DgeneratePDF'
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    sh "mkdir -p results/chrome; mv target results/chrome/"
+                                    archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
+                                    junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
+                                }
+                            }
+                        }
+                    },
+                    "Execute Dependency Check": {
+                        stage('Execute Dependency Check') {
+                            try {
+                                sh 'mvn clean verify -Dskip.unit.tests -Dskip.integration.tests'
+                            } catch (e) {
+                                throw e
+                            } finally {
+                                sh "mv target/dependency-check-report.* ."
+                                archiveArtifacts artifacts: 'dependency-check-report.html'
+                                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
+                            }
+                        }
+                    }
+            )
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
@@ -97,9 +103,9 @@ node {
 //                        throw e
 //                    } finally {
 //                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-//                        sh "mkdir -p results/browserRemote; mv target results/browserRemote/"
-//                        archiveArtifacts artifacts: 'results/browserRemote/target/failsafe-reports/**'
-//                        junit 'results/browserRemote/target/failsafe-reports/TEST-*.xml'
+//                        sh "mkdir -p results/sauce; mv target results/sauce/"
+//                        archiveArtifacts artifacts: 'results/sauce/target/failsafe-reports/**'
+//                        junit 'results/sauce/target/failsafe-reports/TEST-*.xml'
 //                    }
 //                }
             }
