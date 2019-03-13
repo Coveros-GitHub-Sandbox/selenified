@@ -92,22 +92,22 @@ node {
                             passwordVariable: 'saucekey'
                     )
             ]) {
-//                stage('Update Test Site') {
-//                    sh 'scp public/* ec2-user@34.233.135.10:/var/www/noindex/'
-//                }
-//                stage('Execute Hub Tests') {
-//                    try {
-////                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-//                        sh "mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-//                    } catch (e) {
-//                        throw e
-//                    } finally {
-//                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-//                        sh "mkdir -p results/sauce; mv target results/sauce/"
-//                        archiveArtifacts artifacts: 'results/sauce/target/failsafe-reports/**'
-//                        junit 'results/sauce/target/failsafe-reports/TEST-*.xml'
-//                    }
-//                }
+                stage('Update Test Site') {
+                    sh 'scp public/* ec2-user@34.233.135.10:/var/www/noindex/'
+                }
+                stage('Execute Hub Tests') {
+                    try {
+//                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                    } catch (e) {
+                        throw e
+                    } finally {
+                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                        sh "mkdir -p results/sauce; mv target results/sauce/"
+                        archiveArtifacts artifacts: 'results/sauce/target/failsafe-reports/**'
+                        junit 'results/sauce/target/failsafe-reports/TEST-*.xml'
+                    }
+                }
             }
         } finally {
             withCredentials([
@@ -123,7 +123,7 @@ node {
                 stage('Perform SonarQube Analysis') {
                     def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.branch=${branch}"
                     if (branch != 'develop' && branch != 'master') {
-//                        sonarCmd += " -Dsonar.analysis.mode=preview"
+                        sonarCmd += " -Dsonar.analysis.mode=preview"
                         if (pullRequest) {
                             sonarCmd += "-Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
                         }
