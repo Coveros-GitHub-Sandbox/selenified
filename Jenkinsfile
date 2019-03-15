@@ -74,7 +74,7 @@ node {
                     "Execute Dependency Check": {
                         stage('Execute Dependency Check') {
                             try {
-                                sh 'mvn clean verify -Dskip.unit.tests -Dskip.integration.tests'
+                                sh 'mvn verify -Dskip.unit.tests -Dskip.integration.tests'
                             } catch (e) {
                                 throw e
                             } finally {
@@ -151,5 +151,10 @@ node {
                 }
             }
         }
+//        if (branch == 'develop' || branch == 'master') {  //commenting out for debugging purposes
+            stage('Deploy to Maven Central') {
+                sh "mvn clean deploy -Dskip.unit.tests -Ddependency-check.skip -Dskip.integration.tests"
+            }
+//        }
     }
 }
