@@ -35,39 +35,56 @@ node {
                 } catch (e) {
                     throw e
                 } finally {
-                    sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec;"
+                    sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec"
                     sh "mkdir -p results/unit; mv target results/unit/"
                     archiveArtifacts artifacts: 'results/unit/target/surefire-reports/**'
                     junit 'results/unit/target/surefire-reports/TEST-*.xml'
                 }
             }
-            wrap([$class: 'Xvfb']) {
-                stage('Execute HTMLUnit Tests') {
-                    try {
-                        // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                        sh 'mvn clean verify -Dskip.unit.tests -Dfailsafe.groups.exclude="browser,coveros"'
-                    } catch (e) {
-                        throw e
-                    } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                        sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
-                        archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
-                        junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
+            parallel(
+                    "Execute Local Tests": {
+                        wrap([$class: 'Xvfb']) {
+                            stage('Execute HTMLUnit Tests') {
+                                try {
+                                    // commenting out coveros tests, as site is too slow to run properly in htmlunit
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros"'
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
+                                    archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
+                                    junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
+                                }
+                            }
+                            stage('Execute Chrome Tests') {
+                                try {
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless -DgeneratePDF'
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    sh "mkdir -p results/chrome; mv target results/chrome/"
+                                    archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
+                                    junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
+                                }
+                            }
+                        }
+                    },
+                    "Execute Dependency Check": {
+                        stage('Execute Dependency Check') {
+                            try {
+                                sh 'mvn clean verify -Dskip.unit.tests -Dskip.integration.tests'
+                            } catch (e) {
+                                throw e
+                            } finally {
+                                sh "mv target/dependency-check-report.* ."
+                                archiveArtifacts artifacts: 'dependency-check-report.html'
+                                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
+                            }
+                        }
                     }
-                }
-                stage('Execute Local Tests') {
-                    try {
-                        sh 'mvn clean verify -Dskip.unit.tests -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -Dheadless -DgeneratePDF'
-                    } catch (e) {
-                        throw e
-                    } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                        sh "mkdir -p results/browserLocal; mv target results/browserLocal/"
-                        archiveArtifacts artifacts: 'results/browserLocal/target/failsafe-reports/**'
-                        junit 'results/browserLocal/target/failsafe-reports/TEST-*.xml'
-                    }
-                }
-            }
+            )
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
@@ -81,14 +98,14 @@ node {
                 stage('Execute Hub Tests') {
                     try {
 //                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-                        sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec;"
-                        sh "mkdir -p results/browserRemote; mv target results/browserRemote/"
-                        archiveArtifacts artifacts: 'results/browserRemote/target/failsafe-reports/**'
-                        junit 'results/browserRemote/target/failsafe-reports/TEST-*.xml'
+                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                        sh "mkdir -p results/sauce; mv target results/sauce/"
+                        archiveArtifacts artifacts: 'results/sauce/target/failsafe-reports/**'
+                        junit 'results/sauce/target/failsafe-reports/TEST-*.xml'
                     }
                 }
             }
@@ -104,16 +121,14 @@ node {
                     )
             ]) {
                 stage('Perform SonarQube Analysis') {
-                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.junit.reportPaths='results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/browserLocal/target/failsafe-reports,results/browserRemote/target/failsafe-reports' -Dsonar.jacoco.reportPaths=jacoco-ut.exec,jacoco-it.exec"
-                    if (branch == 'develop' || branch == 'master') {
-                        sh "${sonarCmd} -Dsonar.branch=${branch}"
-                    } else {
+                    def sonarCmd = "mvn clean compile sonar:sonar -Dsonar.login=${env.sonartoken} -Dsonar.branch=${branch}"
+                    if (branch != 'develop' && branch != 'master') {
+                        sonarCmd += " -Dsonar.analysis.mode=preview"
                         if (pullRequest) {
-                            sh "${sonarCmd} -Dsonar.analysis.mode=preview -Dsonar.branch=${branch} -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
-                        } else {
-                            sh "${sonarCmd} -Dsonar.analysis.mode=preview"
+                            sonarCmd += " -Dsonar.github.pullRequest=${pullRequest} -Dsonar.github.repository=Coveros/${env.PROJECT} -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN}"
                         }
                     }
+                    sh "${sonarCmd}"
                 }
             }
             stage('Publish Coverage Results') {
