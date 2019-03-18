@@ -74,7 +74,8 @@ node {
                     "Execute Dependency Check": {
                         stage('Execute Dependency Check') {
                             try {
-                                sh 'mvn clean verify -Dskip.unit.tests -Dskip.integration.tests'
+                                sh 'sleep 60'
+                                sh 'mvn verify -Dskip.unit.tests -Dskip.integration.tests'
                             } catch (e) {
                                 throw e
                             } finally {
@@ -149,6 +150,11 @@ node {
                         sh "curl -s -X POST 'https://slack.com/api/chat.postMessage?token=${env.botToken}&channel=%23selenified&text=${message}'"
                     }
                 }
+            }
+        }
+        if (branch == 'develop' || branch == 'master') {
+            stage('Deploy to Maven Central') {
+                sh "mvn clean deploy -Dskip.unit.tests -Ddependency-check.skip -Dskip.integration.tests"
             }
         }
     }
