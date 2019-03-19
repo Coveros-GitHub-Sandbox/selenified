@@ -28,7 +28,8 @@ import java.util.Arrays;
 import java.util.Set;
 
 import static com.coveros.selenified.element.check.Constants.*;
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * AssertExcludes implements Excludes to provide some additional assertion
@@ -131,13 +132,11 @@ public class AssertExcludes implements Excludes {
     @SuppressWarnings("squid:S2259")
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
-        if (value == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "Element not input";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (value == null && getElement().is().present()) {
+            reason = "Element not input";
         }
+        assertNotNull(reason, value);
         assertFalse("Value found: element value of '" + value + CONTAINS + expectedValue + "'", value.contains(expectedValue));
     }
 
@@ -151,13 +150,11 @@ public class AssertExcludes implements Excludes {
      */
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
-        if (options == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (options == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, options);
         assertFalse("Option found: element options of '" + String.join(",", options) +
                 CONTAINS + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
     }
@@ -172,13 +169,11 @@ public class AssertExcludes implements Excludes {
      */
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
-        if (values == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (values == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, values);
         assertFalse("Value found: element values of '" + String.join(",", values) +
                 CONTAINS + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
     }
