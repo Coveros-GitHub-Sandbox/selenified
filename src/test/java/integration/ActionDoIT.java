@@ -1244,8 +1244,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "offscreen_div").scrollTo(-10);
-        // verify no issues
-        finish();
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "action", "do", "scroll", "browser"},
