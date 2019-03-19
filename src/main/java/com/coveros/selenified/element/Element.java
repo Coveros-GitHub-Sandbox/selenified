@@ -121,12 +121,12 @@ public class Element {
      * are defined to indicate which element to interact with on the current
      * page
      *
-     * @param driver  - the selenium web driver, the underlying way all actions and
-     *                assertions are controlled
-     * @param reporter    - the TestOutput file. This is provided by the
-     *                SeleniumTestBase functionality
-     * @param type    - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
+     * @param type     - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator  - the locator string e.g. login, //input[@id='login']
      */
     public Element(WebDriver driver, Reporter reporter, Locator type, String locator) {
         this.type = type;
@@ -141,13 +141,13 @@ public class Element {
      * are defined to indicate which element to interact with on the current
      * page
      *
-     * @param driver  - the selenium web driver, the underlying way all actions and
-     *                assertions are controlled
-     * @param reporter    - the TestOutput file. This is provided by the
-     *                SeleniumTestBase functionality
-     * @param type    - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator - the locator string e.g. login, //input[@id='login']
-     * @param parent  - the parent element to the searched for element
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
+     * @param type     - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator  - the locator string e.g. login, //input[@id='login']
+     * @param parent   - the parent element to the searched for element
      */
     public Element(WebDriver driver, Reporter reporter, Locator type, String locator, Element parent) {
         this.type = type;
@@ -163,14 +163,14 @@ public class Element {
      * the element's uniqueness match are defined to indicate which element to
      * interact with on the current page
      *
-     * @param driver  - the selenium web driver, the underlying way all actions and
-     *                assertions are controlled
-     * @param reporter    - the TestOutput file. This is provided by the
-     *                SeleniumTestBase functionality
-     * @param type    - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator - the locator string e.g. login, //input[@id='login']
-     * @param match   - if there are multiple matches of the selector, this is which
-     *                match (starting at 0) to interact with
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
+     * @param type     - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator  - the locator string e.g. login, //input[@id='login']
+     * @param match    - if there are multiple matches of the selector, this is which
+     *                 match (starting at 0) to interact with
      */
     public Element(WebDriver driver, Reporter reporter, Locator type, String locator, int match) {
         this.type = type;
@@ -186,15 +186,15 @@ public class Element {
      * the element's uniqueness match are defined to indicate which element to
      * interact with on the current page
      *
-     * @param driver  - the selenium web driver, the underlying way all actions and
-     *                assertions are controlled
-     * @param reporter    - the TestOutput file. This is provided by the
-     *                SeleniumTestBase functionality
-     * @param type    - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator - the locator string e.g. login, //input[@id='login']
-     * @param match   - if there are multiple matches of the selector, this is which
-     *                match (starting at 0) to interact with
-     * @param parent  - the parent element to the searched for element
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
+     * @param type     - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator  - the locator string e.g. login, //input[@id='login']
+     * @param match    - if there are multiple matches of the selector, this is which
+     *                 match (starting at 0) to interact with
+     * @param parent   - the parent element to the searched for element
      */
     public Element(WebDriver driver, Reporter reporter, Locator type, String locator, int match, Element parent) {
         this.type = type;
@@ -207,10 +207,10 @@ public class Element {
     /**
      * A private method to finish setting up each element
      *
-     * @param driver - the selenium web driver, the underlying way all actions and
-     *               assertions are controlled
-     * @param reporter   - the TestOutput file. This is provided by the
-     *               SeleniumTestBase functionality
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
      */
     private void init(WebDriver driver, Reporter reporter) {
         this.driver = driver;

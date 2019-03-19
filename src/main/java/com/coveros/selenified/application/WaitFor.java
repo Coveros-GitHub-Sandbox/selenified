@@ -52,7 +52,7 @@ public class WaitFor implements Check {
     /**
      * The default constructor passing in the app and output file
      *
-     * @param app  - the application under test
+     * @param app      - the application under test
      * @param reporter - the file to write all logging out to
      */
     public WaitFor(App app, Reporter reporter) {

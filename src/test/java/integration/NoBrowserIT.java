@@ -1,14 +1,13 @@
 package integration;
 
 import com.coveros.selenified.application.App;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 
 import static com.coveros.selenified.Browser.BrowserUse;
 import static org.testng.Assert.assertNull;
@@ -16,7 +15,7 @@ import static org.testng.Assert.assertNull;
 public class NoBrowserIT extends WebBase {
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }
 

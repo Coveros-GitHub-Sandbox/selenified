@@ -24,6 +24,7 @@ import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.google.gson.Gson;
@@ -107,10 +108,18 @@ public class Reporter {
      */
     @SuppressWarnings("squid:S00107")
     public Reporter(String directory, String test, Capabilities capabilities, String url, String suite, String group,
-                    String author, String version, String objectives) {
-        this.directory = directory;
+                    String author, String version, String objectives) throws InvalidBrowserException {
+        if (directory == null) {
+            this.directory = ".";
+        } else {
+            this.directory = directory;
+        }
         this.test = test;
-        this.capabilities = capabilities;
+        if (capabilities == null) {
+            this.capabilities = new Capabilities(new Browser("None"));
+        } else {
+            this.capabilities = capabilities;
+        }
         this.url = url;
         this.suite = suite;
         this.group = group;
@@ -191,7 +200,7 @@ public class Reporter {
      */
     private String generateFilename() {
         String counter = "";
-        if (capabilities.getInstance() > 0) {
+        if (capabilities != null && capabilities.getInstance() > 0) {
             counter = "_" + capabilities.getInstance();
         }
         return test + counter;
@@ -728,7 +737,7 @@ public class Reporter {
      *               hashmap
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
-    public String outputRequestProperties(Request params, File file) {
+    public static String outputRequestProperties(Request params, File file) {
         StringBuilder output = new StringBuilder();
         if (params != null && params.isPayload()) {
             output.append("<br/> with parameters: ");
@@ -760,7 +769,7 @@ public class Reporter {
      * @param response - the http response to be formatted.
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
-    public String formatResponse(Response response) {
+    public static String formatResponse(Response response) {
         if (response == null) {
             return "";
         }
@@ -787,7 +796,7 @@ public class Reporter {
      *               rendering string
      * @return String : the replaced result
      */
-    public String formatHTML(String string) {
+    public static String formatHTML(String string) {
         if (string == null) {
             return "";
         }

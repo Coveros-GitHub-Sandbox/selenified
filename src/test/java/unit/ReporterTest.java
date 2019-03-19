@@ -42,6 +42,12 @@ public class ReporterTest {
     }
 
     @Test
+    public void constructorNullTest() throws InvalidBrowserException {
+        // just verify no errors are thrown
+        new Reporter(null, null, null, null, null, null, null, null, null);
+    }
+
+    @Test
     public void setupFileFreshTest() throws InvalidBrowserException {
         new Reporter("somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File file = new File("somenewdir", "file.html");
@@ -284,31 +290,31 @@ public class ReporterTest {
 
     @Test
     public void outputRequestPropertiesNullTest() {
-        assertEquals(reporter.outputRequestProperties(null, null), "");
+        assertEquals(Reporter.outputRequestProperties(null, null), "");
     }
 
     @Test
     public void outputRequestPropertiesNullNullTest() {
         Request request = new Request();
-        assertEquals(reporter.outputRequestProperties(request, null), "");
+        assertEquals(Reporter.outputRequestProperties(request, null), "");
     }
 
     @Test
     public void outputRequestPropertiesNullNullFileTest() {
-        assertEquals(reporter.outputRequestProperties(null, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(null, new File("Jenkinsfile")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesNullNullBadFileTest() {
-        assertEquals(reporter.outputRequestProperties(null, new File("Jenkinsfi")),
+        assertEquals(Reporter.outputRequestProperties(null, new File("Jenkinsfi")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfi</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyJsonObjectTest() {
         Request request = new Request().setJsonPayload(new JsonObject());
-        assertEquals(reporter.outputRequestProperties(request, null),
+        assertEquals(Reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div>");
     }
 
@@ -317,14 +323,14 @@ public class ReporterTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         Request request = new Request().setJsonPayload(json);
-        assertEquals(reporter.outputRequestProperties(request, null),
+        assertEquals(Reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyJsonArrayTest() {
         Request request = new Request().setJsonPayload(new JsonArray());
-        assertEquals(reporter.outputRequestProperties(request, null),
+        assertEquals(Reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[]</i></div>");
     }
 
@@ -334,7 +340,7 @@ public class ReporterTest {
         json.add("hello");
         json.add("world");
         Request request = new Request().setJsonPayload(json);
-        assertEquals(reporter.outputRequestProperties(request, null),
+        assertEquals(Reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
                         "\"world\"<br/>]</i></div>");
     }
@@ -342,7 +348,7 @@ public class ReporterTest {
     @Test
     public void outputRequestPropertiesEmptyMultipartTest() {
         Request request = new Request().setMultipartData(new HashMap<>());
-        assertEquals(reporter.outputRequestProperties(request, null),
+        assertEquals(Reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>");
     }
 
@@ -351,14 +357,14 @@ public class ReporterTest {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request().setMultipartData(map);
-        assertEquals(reporter.outputRequestProperties(request, null),
+        assertEquals(Reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyParamsTest() {
         Request request = new Request().setUrlParams(new HashMap<>());
-        assertEquals(reporter.outputRequestProperties(request, null), "");
+        assertEquals(Reporter.outputRequestProperties(request, null), "");
     }
 
     @Test
@@ -366,7 +372,7 @@ public class ReporterTest {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request().setUrlParams(map);
-        assertEquals(reporter.outputRequestProperties(request, null), "");
+        assertEquals(Reporter.outputRequestProperties(request, null), "");
     }
 
     @Test
@@ -377,7 +383,7 @@ public class ReporterTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         request.setJsonPayload(json);
-        assertEquals(reporter.outputRequestProperties(request, null),
+        assertEquals(Reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
@@ -390,7 +396,7 @@ public class ReporterTest {
         json.add("hello");
         json.add("world");
         request.setJsonPayload(json);
-        assertEquals(reporter.outputRequestProperties(request, null),
+        assertEquals(Reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
                         "\"world\"<br/>]</i></div>");
     }
@@ -398,7 +404,7 @@ public class ReporterTest {
     @Test
     public void outputRequestPropertiesEmptyJsonObjectAndFileTest() {
         Request request = new Request().setJsonPayload(new JsonObject());
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -408,7 +414,7 @@ public class ReporterTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         Request request = new Request().setJsonPayload(json);
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i>" +
                         "</div><div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") +
                         "/Jenkinsfile</i></div>");
@@ -417,7 +423,7 @@ public class ReporterTest {
     @Test
     public void outputRequestPropertiesEmptyJsonArrayAndFileTest() {
         Request request = new Request().setJsonPayload(new JsonArray());
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -428,7 +434,7 @@ public class ReporterTest {
         json.add("hello");
         json.add("world");
         Request request = new Request().setJsonPayload(json);
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
                         "\"world\"<br/>]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
@@ -437,7 +443,7 @@ public class ReporterTest {
     @Test
     public void outputRequestPropertiesEmptyMultipartAndFileTest() {
         Request request = new Request().setMultipartData(new HashMap<>());
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -447,7 +453,7 @@ public class ReporterTest {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request().setMultipartData(map);
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -455,7 +461,7 @@ public class ReporterTest {
     @Test
     public void outputRequestPropertiesEmptyParamsAndFileTest() {
         Request request = new Request().setUrlParams(new HashMap<>());
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
@@ -464,7 +470,7 @@ public class ReporterTest {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request().setUrlParams(map);
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
@@ -476,7 +482,7 @@ public class ReporterTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         request.setJsonPayload(json);
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -490,7 +496,7 @@ public class ReporterTest {
         json.add("hello");
         json.add("world");
         request.setJsonPayload(json);
-        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(Reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
                         "\"world\"<br/>]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
@@ -498,7 +504,7 @@ public class ReporterTest {
 
     @Test
     public void formatResponseNullTest() {
-        assertEquals(reporter.formatResponse(null), "");
+        assertEquals(Reporter.formatResponse(null), "");
     }
 
     @Test
@@ -506,14 +512,14 @@ public class ReporterTest {
         JsonObject json = new JsonObject();
         Response response = new Response(0, json, null);
         response.setObjectData(null);
-        assertEquals(reporter.formatResponse(response), "");
+        assertEquals(Reporter.formatResponse(response), "");
     }
 
     @Test
     public void formatResponseEmptyObjectTest() {
         JsonObject json = new JsonObject();
         Response response = new Response(0, json, null);
-        assertEquals(reporter.formatResponse(response), "<div><i>{}</i></div>");
+        assertEquals(Reporter.formatResponse(response), "<div><i>{}</i></div>");
     }
 
     @Test
@@ -521,7 +527,7 @@ public class ReporterTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         Response response = new Response(0, json, null);
-        assertEquals(reporter.formatResponse(response),
+        assertEquals(Reporter.formatResponse(response),
                 "<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
@@ -529,7 +535,7 @@ public class ReporterTest {
     public void formatResponseEmptyArrayTest() {
         JsonArray json = new JsonArray();
         Response response = new Response(0, json, null);
-        assertEquals(reporter.formatResponse(response), "<div><i>[]</i></div>");
+        assertEquals(Reporter.formatResponse(response), "<div><i>[]</i></div>");
     }
 
     @Test
@@ -537,7 +543,7 @@ public class ReporterTest {
         JsonArray json = new JsonArray();
         json.add("world");
         Response response = new Response(0, json, null);
-        assertEquals(reporter.formatResponse(response), "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]</i></div>");
+        assertEquals(Reporter.formatResponse(response), "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]</i></div>");
     }
 
     @Test
@@ -548,33 +554,33 @@ public class ReporterTest {
         JsonObject object = new JsonObject();
         object.addProperty("hello", "world");
         response.setObjectData(object);
-        assertEquals(reporter.formatResponse(response),
+        assertEquals(Reporter.formatResponse(response),
                 "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
     @Test
     public void formatHTMLNullTest() {
-        assertEquals(reporter.formatHTML(null), "");
+        assertEquals(Reporter.formatHTML(null), "");
     }
 
     @Test
     public void formatHTMLEmptyTest() {
-        assertEquals(reporter.formatHTML(""), "");
+        assertEquals(Reporter.formatHTML(""), "");
     }
 
     @Test
     public void formatHTMLNewlineTest() {
-        assertEquals(reporter.formatHTML("\n"), "<br/>");
+        assertEquals(Reporter.formatHTML("\n"), "<br/>");
     }
 
     @Test
     public void formatHTMLSpaceTest() {
-        assertEquals(reporter.formatHTML(" "), "&nbsp;");
+        assertEquals(Reporter.formatHTML(" "), "&nbsp;");
     }
 
     @Test
     public void formatHTMLFullTest() {
-        assertEquals(reporter.formatHTML("hello world\nhello world"), "hello&nbsp;world<br/>hello&nbsp;world");
+        assertEquals(Reporter.formatHTML("hello world\nhello world"), "hello&nbsp;world<br/>hello&nbsp;world");
     }
 
     @Test
