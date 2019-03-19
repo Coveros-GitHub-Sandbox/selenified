@@ -34,7 +34,7 @@ import com.coveros.selenified.utilities.Reporter;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public class VerifyState implements State {
 

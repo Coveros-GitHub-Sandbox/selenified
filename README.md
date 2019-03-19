@@ -587,9 +587,9 @@ reports. To do this, retrieve the `reporter` object from the `app` object, and c
 method.
 ```java
     Reporter reporter = app.getReporter();
-    file.pass(action, expectedResult, actualResult);
-    file.check(action, expectedResult, actualResult);
-    file.fail(action, expectedResult, actualResult);
+    reporter.pass(action, expectedResult, actualResult);
+    reporter.check(action, expectedResult, actualResult);
+    reporter.fail(action, expectedResult, actualResult);
 ```
 
 Of course, if this is something that you believe others can benefit from, feel free to 

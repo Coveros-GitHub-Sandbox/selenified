@@ -45,7 +45,7 @@ import static com.coveros.selenified.Selenified.SESSION_ID;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 1/12/2019
+ * @lastupdate 3/19/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
