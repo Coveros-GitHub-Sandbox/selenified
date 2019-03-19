@@ -41,7 +41,7 @@ import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INT
 public class WaitFor implements Check {
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // this is the driver that will be used for all selenium actions
     private final App app;
@@ -53,11 +53,11 @@ public class WaitFor implements Check {
      * The default constructor passing in the app and output file
      *
      * @param app  - the application under test
-     * @param file - the file to write all logging out to
+     * @param reporter - the file to write all logging out to
      */
-    public WaitFor(App app, Reporter file) {
+    public WaitFor(App app, Reporter reporter) {
         this.app = app;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
@@ -65,7 +65,7 @@ public class WaitFor implements Check {
      */
     @Override
     public Reporter getReporter() {
-        return file;
+        return reporter;
     }
 
     /**

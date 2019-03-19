@@ -57,7 +57,7 @@ public class App {
     private static final Logger log = Logger.getLogger(Capabilities.class);
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
@@ -94,7 +94,7 @@ public class App {
      * control actions and all logging and records
      *
      * @param capabilities - what browser capabilities are desired
-     * @param file         - the TestOutput file. This is provided by the
+     * @param reporter         - the TestOutput file. This is provided by the
      *                     SeleniumTestBase functionality
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
@@ -102,13 +102,13 @@ public class App {
      *                                 be thrown
      */
     public App(Capabilities capabilities,
-               Reporter file) throws InvalidBrowserException, MalformedURLException {
+               Reporter reporter) throws InvalidBrowserException, MalformedURLException {
         if (capabilities == null) {
             capabilities = new Capabilities(new Browser("None"));
         }
         this.browser = capabilities.getBrowser();
         this.desiredCapabilities = capabilities.getDesiredCapabilities();
-        this.file = file;
+        this.reporter = reporter;
         // if we want to test remotely
         if (System.getProperty("hub") != null) {
             driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.desiredCapabilities);
@@ -117,9 +117,9 @@ public class App {
         }
         is = new Is(driver);
         get = new Get(driver);
-        waitFor = new WaitFor(this, file);
-        azzert = new Assert(this, file);
-        verify = new Verify(this, file);
+        waitFor = new WaitFor(this, reporter);
+        azzert = new Assert(this, reporter);
+        verify = new Verify(this, reporter);
     }
 
     /**
@@ -130,7 +130,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator) {
-        return new Element(driver, file, type, locator);
+        return new Element(driver, reporter, type, locator);
     }
 
     /**
@@ -143,7 +143,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, int match) {
-        return new Element(driver, file, type, locator, match);
+        return new Element(driver, reporter, type, locator, match);
     }
 
     /**
@@ -155,7 +155,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, Element parent) {
-        return new Element(driver, file, type, locator, parent);
+        return new Element(driver, reporter, type, locator, parent);
     }
 
     /**
@@ -169,7 +169,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, int match, Element parent) {
-        return new Element(driver, file, type, locator, match, parent);
+        return new Element(driver, reporter, type, locator, match, parent);
     }
 
     ///////////////////////////////////////////////////////
@@ -259,7 +259,7 @@ public class App {
      * @return Reporter: the file recording all actions
      */
     public Reporter getReporter() {
-        return file;
+        return reporter;
     }
 
     /**
@@ -301,11 +301,11 @@ public class App {
             Thread.sleep((long) (seconds * 1000));
         } catch (InterruptedException e) {
             log.warn(e);
-            file.fail(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage());
+            reporter.fail(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage());
             Thread.currentThread().interrupt();
             return;
         }
-        file.pass(action, expected, WAITED + seconds + SECONDS);
+        reporter.pass(action, expected, WAITED + seconds + SECONDS);
     }
 
     /**
@@ -321,12 +321,12 @@ public class App {
             driver.get(url);
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, "Fail to Load " + url + ". " + e.getMessage());
+            reporter.fail(action, expected, "Fail to Load " + url + ". " + e.getMessage());
             return;
         }
         double timeTook = System.currentTimeMillis() - start;
         timeTook = timeTook / 1000;
-        file.pass(action, expected, "Loaded " + url + " in " + timeTook + SECONDS);
+        reporter.pass(action, expected, "Loaded " + url + " in " + timeTook + SECONDS);
         acceptCertificate();
     }
 
@@ -365,11 +365,11 @@ public class App {
         try {
             driver.navigate().back();
         } catch (Exception e) {
-            file.fail(action, expected, "Browser was unable to go back one page. " + e.getMessage());
+            reporter.fail(action, expected, "Browser was unable to go back one page. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -381,11 +381,11 @@ public class App {
         try {
             driver.navigate().forward();
         } catch (Exception e) {
-            file.fail(action, expected, "Browser was unable to go forward one page. " + e.getMessage());
+            reporter.fail(action, expected, "Browser was unable to go forward one page. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -397,11 +397,11 @@ public class App {
         try {
             driver.navigate().refresh();
         } catch (Exception e) {
-            file.fail(action, expected, "Browser was unable to be refreshed. " + e.getMessage());
+            reporter.fail(action, expected, "Browser was unable to be refreshed. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -418,11 +418,11 @@ public class App {
             driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
             driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
         } catch (Exception e) {
-            file.fail(action, expected,
+            reporter.fail(action, expected,
                     "There was a problem clearing the cache and reloading the page. " + e.getMessage());
             log.warn(e);
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -445,11 +445,11 @@ public class App {
         try {
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
-            file.fail(action, expected, "Unable to add cookie. " + e.getMessage());
+            reporter.fail(action, expected, "Unable to add cookie. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -465,17 +465,17 @@ public class App {
         try {
             Cookie cookie = driver.manage().getCookieNamed(cookieName);
             if (cookie == null) {
-                file.fail(action, expected,
+                reporter.fail(action, expected,
                         "Unable to remove cookie <i>" + cookieName + "</i> as it doesn't exist.");
                 return;
             }
             driver.manage().deleteCookieNamed(cookieName);
         } catch (Exception e) {
-            file.fail(action, expected, "Unable to remove cookie <i>" + cookieName + "</i>. " + e.getMessage());
+            reporter.fail(action, expected, "Unable to remove cookie <i>" + cookieName + "</i>. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -488,11 +488,11 @@ public class App {
         try {
             driver.manage().deleteAllCookies();
         } catch (Exception e) {
-            file.fail(action, expected, "Unable to remove all cookies. " + e.getMessage());
+            reporter.fail(action, expected, "Unable to remove all cookies. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -505,11 +505,11 @@ public class App {
         try {
             driver.manage().window().maximize();
         } catch (Exception e) {
-            file.fail(action, expected, "Browser was unable to be maximized. " + e.getMessage());
+            reporter.fail(action, expected, "Browser was unable to be maximized. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -525,11 +525,11 @@ public class App {
             Dimension dimension = new Dimension(width, height);
             driver.manage().window().setSize(dimension);
         } catch (Exception e) {
-            file.fail(action, expected, "Browser was unable to be resized. " + e.getMessage());
+            reporter.fail(action, expected, "Browser was unable to be resized. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -555,15 +555,15 @@ public class App {
 
             newPosition = (Long) jse.executeScript("return window.scrollY;");
         } catch (Exception e) {
-            file.fail(action, expected, "Unable to scroll on the page. " + e.getMessage());
+            reporter.fail(action, expected, "Unable to scroll on the page. " + e.getMessage());
             log.warn(e);
             return;
         }
         if (newPosition != desiredPosition) {
-            file.fail(action, expected, "Page is set at position " + newPosition);
+            reporter.fail(action, expected, "Page is set at position " + newPosition);
             return; // indicates page didn't scroll properly
         }
-        file.pass(action, expected, "Page is now set at position " + newPosition);
+        reporter.pass(action, expected, "Page is now set at position " + newPosition);
     }
 
     /**
@@ -578,17 +578,17 @@ public class App {
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("window.open('" + url + "','_blank');");
         } catch (Exception e) {
-            file.fail(action, expected, "Unable to open window tab. " + e.getMessage());
+            reporter.fail(action, expected, "Unable to open window tab. " + e.getMessage());
             log.warn(e);
             return;
         }
         switchToNewWindow();
         waitFor().urlEquals(url);
         if (!get().url().equals(url)) {
-            file.fail(action, expected, "Unable to open new window to " + url);
+            reporter.fail(action, expected, "Unable to open new window to " + url);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
         acceptCertificate();
     }
 
@@ -606,11 +606,11 @@ public class App {
                 driver.switchTo().window(winHandle);
             }
         } catch (Exception e) {
-            file.fail(action, expected, "New window was unable to be selected. " + e.getMessage());
+            reporter.fail(action, expected, "New window was unable to be selected. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -624,11 +624,11 @@ public class App {
         try {
             driver.switchTo().window(parentWindow);
         } catch (Exception e) {
-            file.fail(action, expected, "Parent window was unable to be selected. " + e.getMessage());
+            reporter.fail(action, expected, "Parent window was unable to be selected. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -643,11 +643,11 @@ public class App {
         try {
             driver.close();
         } catch (Exception e) {
-            file.fail(action, expected, "Current window was unable to be closed. " + e.getMessage());
+            reporter.fail(action, expected, "Current window was unable to be closed. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -661,11 +661,11 @@ public class App {
         try {
             driver.switchTo().defaultContent();
         } catch (Exception e) {
-            file.fail(action, expected, "Main window was not selected. " + e.getMessage());
+            reporter.fail(action, expected, "Main window was not selected. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -679,11 +679,11 @@ public class App {
         try {
             driver.switchTo().parentFrame();
         } catch (Exception e) {
-            file.fail(action, expected, "Parent frame was not selected. " + e.getMessage());
+            reporter.fail(action, expected, "Parent frame was not selected. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -700,11 +700,11 @@ public class App {
         try {
             driver.switchTo().frame(frameNumber);
         } catch (Exception e) {
-            file.fail(action, expected, FRAME + frameNumber + NOT_SELECTED + ". " + e.getMessage());
+            reporter.fail(action, expected, FRAME + frameNumber + NOT_SELECTED + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -719,11 +719,11 @@ public class App {
         try {
             driver.switchTo().frame(frameIdentifier);
         } catch (Exception e) {
-            file.fail(action, expected, FRAME + frameIdentifier + NOT_SELECTED + ". " + e.getMessage());
+            reporter.fail(action, expected, FRAME + frameIdentifier + NOT_SELECTED + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, expected);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -742,9 +742,9 @@ public class App {
                         newElement(Locator.ID, "moreInformationDropdownSpan").getWebElement().click();
                     }
                     overrideLink.getWebElement().click();
-                    file.pass(action, result, result);
+                    reporter.pass(action, result, result);
                 } catch (Exception e) {
-                    file.fail(action, result, "Unable to click override link. "
+                    reporter.fail(action, result, "Unable to click override link. "
                             + e.getMessage());
                     log.warn(e);
                 }
@@ -768,11 +768,11 @@ public class App {
             Alert alert = driver.switchTo().alert();
             alert.accept();
         } catch (Exception e) {
-            file.fail(action, expected, "Unable to click 'OK' on the " + popup + ". " + e.getMessage());
+            reporter.fail(action, expected, "Unable to click 'OK' on the " + popup + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, "Clicked 'OK' on the " + popup);
+        reporter.pass(action, expected, "Clicked 'OK' on the " + popup);
     }
 
     /**
@@ -788,10 +788,10 @@ public class App {
             alert.dismiss();
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, "Unable to click 'Cancel' on the " + popup + ". " + e.getMessage());
+            reporter.fail(action, expected, "Unable to click 'Cancel' on the " + popup + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Clicked 'Cancel' on the " + popup);
+        reporter.pass(action, expected, "Clicked 'Cancel' on the " + popup);
     }
 
     /**
@@ -809,7 +809,7 @@ public class App {
             waitFor.confirmationPresent();
         }
         if (!is.confirmationPresent()) {
-            file.fail(action, expected, "Unable to click confirmation as it is not present");
+            reporter.fail(action, expected, "Unable to click confirmation as it is not present");
             return true; // indicates element not present
         }
         return false;
@@ -831,7 +831,7 @@ public class App {
             waitFor.promptPresent();
         }
         if (!is.promptPresent()) {
-            file.fail(action, expected, "Unable to " + perform + " prompt as it is not present");
+            reporter.fail(action, expected, "Unable to " + perform + " prompt as it is not present");
             return true; // indicates element not present
         }
         return false;
@@ -848,7 +848,7 @@ public class App {
             waitFor.alertPresent();
         }
         if (!is.alertPresent()) {
-            file.fail(action, expected, "Unable to click alert as it is not present");
+            reporter.fail(action, expected, "Unable to click alert as it is not present");
             return; // indicates element not present
         }
         accept(action, expected, "alert");
@@ -917,10 +917,10 @@ public class App {
             Alert alert = driver.switchTo().alert();
             alert.sendKeys(text);
         } catch (Exception e) {
-            file.fail(action, expected, "Unable to type into prompt. " + e.getMessage());
+            reporter.fail(action, expected, "Unable to type into prompt. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, "Typed text '" + text + "' into prompt");
+        reporter.pass(action, expected, "Typed text '" + text + "' into prompt");
     }
 }

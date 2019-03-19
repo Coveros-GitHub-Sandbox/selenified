@@ -38,7 +38,7 @@ public class Call {
     private static final Logger log = Logger.getLogger(Call.class);
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // what services will we be interacting with
     private final HTTP http;
@@ -49,9 +49,9 @@ public class Call {
     private static final String PUT = "PUT";
     private static final String DELETE = "DELETE";
 
-    public Call(HTTP http, Reporter file, Map<String, String> headers) {
+    public Call(HTTP http, Reporter reporter, Map<String, String> headers) {
         this.http = http;
-        this.file = file;
+        this.reporter = reporter;
         if (headers != null) {
             addHeaders(headers);
         }
@@ -223,9 +223,9 @@ public class Call {
         action.append(http.getServiceBaseUrl()).append(endpoint).append(http.getRequestParams(params));
         action.append("</i>");
         action.append(getCredentialString());
-        action.append(file.outputRequestProperties(params, inputFile));
+        action.append(reporter.outputRequestProperties(params, inputFile));
         String expected = "<i>" + call + "</i> call was made successfully";
-        Response response = new Response(file);
+        Response response = new Response(reporter);
         try {
             switch (call) {
                 case GET:
@@ -243,13 +243,13 @@ public class Call {
                 default:
                     log.error("Unknown method call named");
             }
-            response.setReporter(file);
-            file.pass(action.toString(), expected, expected);
+            response.setReporter(reporter);
+            reporter.pass(action.toString(), expected, expected);
         } catch (Exception e) {
-            file.fail(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage());
+            reporter.fail(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage());
             log.warn(e);
             response = new Response(0);
-            response.setReporter(file);
+            response.setReporter(reporter);
             return response;
         }
         return response;

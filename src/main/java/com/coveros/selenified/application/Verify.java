@@ -36,7 +36,7 @@ import com.coveros.selenified.utilities.Reporter;
 public class Verify implements Check {
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // this is the driver that will be used for all selenium actions
     private final App app;
@@ -45,11 +45,11 @@ public class Verify implements Check {
      * The default constructor passing in the app and output file
      *
      * @param app  - the application under test
-     * @param file - the file to write all logging out to
+     * @param reporter - the file to write all logging out to
      */
-    public Verify(App app, Reporter file) {
+    public Verify(App app, Reporter reporter) {
         this.app = app;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
@@ -57,7 +57,7 @@ public class Verify implements Check {
      */
     @Override
     public Reporter getReporter() {
-        return file;
+        return reporter;
     }
 
     /**

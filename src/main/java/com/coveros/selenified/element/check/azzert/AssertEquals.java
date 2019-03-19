@@ -47,14 +47,14 @@ import static org.testng.AssertJUnit.fail;
 public class AssertEquals implements Equals {
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertEquals(Element element, Reporter file) {
+    public AssertEquals(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
@@ -62,7 +62,7 @@ public class AssertEquals implements Equals {
      */
     @Override
     public Reporter getReporter() {
-        return file;
+        return reporter;
     }
 
     /**

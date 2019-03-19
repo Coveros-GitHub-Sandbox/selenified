@@ -66,7 +66,7 @@ public class Element {
     private Element parent = null;
 
     // this will be the name of the file we write all commands out to
-    private Reporter file;
+    private Reporter reporter;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
@@ -123,15 +123,15 @@ public class Element {
      *
      * @param driver  - the selenium web driver, the underlying way all actions and
      *                assertions are controlled
-     * @param file    - the TestOutput file. This is provided by the
+     * @param reporter    - the TestOutput file. This is provided by the
      *                SeleniumTestBase functionality
      * @param type    - the locator type e.g. Locator.id, Locator.xpath
      * @param locator - the locator string e.g. login, //input[@id='login']
      */
-    public Element(WebDriver driver, Reporter file, Locator type, String locator) {
+    public Element(WebDriver driver, Reporter reporter, Locator type, String locator) {
         this.type = type;
         this.locator = locator;
-        init(driver, file);
+        init(driver, reporter);
     }
 
     /**
@@ -143,17 +143,17 @@ public class Element {
      *
      * @param driver  - the selenium web driver, the underlying way all actions and
      *                assertions are controlled
-     * @param file    - the TestOutput file. This is provided by the
+     * @param reporter    - the TestOutput file. This is provided by the
      *                SeleniumTestBase functionality
      * @param type    - the locator type e.g. Locator.id, Locator.xpath
      * @param locator - the locator string e.g. login, //input[@id='login']
      * @param parent  - the parent element to the searched for element
      */
-    public Element(WebDriver driver, Reporter file, Locator type, String locator, Element parent) {
+    public Element(WebDriver driver, Reporter reporter, Locator type, String locator, Element parent) {
         this.type = type;
         this.locator = locator;
         this.parent = parent;
-        init(driver, file);
+        init(driver, reporter);
     }
 
     /**
@@ -165,18 +165,18 @@ public class Element {
      *
      * @param driver  - the selenium web driver, the underlying way all actions and
      *                assertions are controlled
-     * @param file    - the TestOutput file. This is provided by the
+     * @param reporter    - the TestOutput file. This is provided by the
      *                SeleniumTestBase functionality
      * @param type    - the locator type e.g. Locator.id, Locator.xpath
      * @param locator - the locator string e.g. login, //input[@id='login']
      * @param match   - if there are multiple matches of the selector, this is which
      *                match (starting at 0) to interact with
      */
-    public Element(WebDriver driver, Reporter file, Locator type, String locator, int match) {
+    public Element(WebDriver driver, Reporter reporter, Locator type, String locator, int match) {
         this.type = type;
         this.locator = locator;
         this.setMatch(match);
-        init(driver, file);
+        init(driver, reporter);
     }
 
     /**
@@ -188,7 +188,7 @@ public class Element {
      *
      * @param driver  - the selenium web driver, the underlying way all actions and
      *                assertions are controlled
-     * @param file    - the TestOutput file. This is provided by the
+     * @param reporter    - the TestOutput file. This is provided by the
      *                SeleniumTestBase functionality
      * @param type    - the locator type e.g. Locator.id, Locator.xpath
      * @param locator - the locator string e.g. login, //input[@id='login']
@@ -196,12 +196,12 @@ public class Element {
      *                match (starting at 0) to interact with
      * @param parent  - the parent element to the searched for element
      */
-    public Element(WebDriver driver, Reporter file, Locator type, String locator, int match, Element parent) {
+    public Element(WebDriver driver, Reporter reporter, Locator type, String locator, int match, Element parent) {
         this.type = type;
         this.locator = locator;
         this.setMatch(match);
         this.parent = parent;
-        init(driver, file);
+        init(driver, reporter);
     }
 
     /**
@@ -209,32 +209,32 @@ public class Element {
      *
      * @param driver - the selenium web driver, the underlying way all actions and
      *               assertions are controlled
-     * @param file   - the TestOutput file. This is provided by the
+     * @param reporter   - the TestOutput file. This is provided by the
      *               SeleniumTestBase functionality
      */
-    private void init(WebDriver driver, Reporter file) {
+    private void init(WebDriver driver, Reporter reporter) {
         this.driver = driver;
-        this.file = file;
+        this.reporter = reporter;
 
         App app = null;
-        if (file != null) {
-            app = file.getApp();
+        if (reporter != null) {
+            app = reporter.getApp();
         }
 
         is = new Is(this);
         get = new Get(app, driver, this);
-        verifyState = new VerifyState(this, file);
-        assertState = new AssertState(this, file);
-        waitForState = new WaitForState(this, file);
-        verifyContains = new VerifyContains(this, file);
-        assertContains = new AssertContains(this, file);
-        verifyExcludes = new VerifyExcludes(this, file);
-        assertExcludes = new AssertExcludes(this, file);
-        verifyEquals = new VerifyEquals(this, file);
-        assertEquals = new AssertEquals(this, file);
-        waitForEquals = new WaitForEquals(this, file);
-        verifyMatches = new VerifyMatches(this, file);
-        assertMatches = new AssertMatches(this, file);
+        verifyState = new VerifyState(this, reporter);
+        assertState = new AssertState(this, reporter);
+        waitForState = new WaitForState(this, reporter);
+        verifyContains = new VerifyContains(this, reporter);
+        assertContains = new AssertContains(this, reporter);
+        verifyExcludes = new VerifyExcludes(this, reporter);
+        assertExcludes = new AssertExcludes(this, reporter);
+        verifyEquals = new VerifyEquals(this, reporter);
+        assertEquals = new AssertEquals(this, reporter);
+        waitForEquals = new WaitForEquals(this, reporter);
+        verifyMatches = new VerifyMatches(this, reporter);
+        assertMatches = new AssertMatches(this, reporter);
     }
 
     /**
@@ -584,7 +584,7 @@ public class Element {
      * @return Element: the full reference to the child element element
      */
     public Element findChild(Element child) {
-        return new Element(child.getDriver(), file, child.getType(), child.getLocator(), child.getMatch(), this);
+        return new Element(child.getDriver(), reporter, child.getType(), child.getLocator(), child.getMatch(), this);
     }
 
     //////////////////////////////////
@@ -606,7 +606,7 @@ public class Element {
             waitForState.present();
         }
         if (!is.present()) {
-            file.fail(action, expected, extra + prettyOutput() + NOT_PRESENT);
+            reporter.fail(action, expected, extra + prettyOutput() + NOT_PRESENT);
             // indicates element not present
             return true;
         }
@@ -628,7 +628,7 @@ public class Element {
             waitForState.displayed();
         }
         if (!is.displayed()) {
-            file.fail(action, expected, extra + prettyOutput() + NOT_DISPLAYED);
+            reporter.fail(action, expected, extra + prettyOutput() + NOT_DISPLAYED);
             // indicates element not displayed
             return true;
         }
@@ -650,7 +650,7 @@ public class Element {
             waitForState.enabled();
         }
         if (!is.enabled()) {
-            file.fail(action, expected, extra + prettyOutput() + NOT_ENABLED);
+            reporter.fail(action, expected, extra + prettyOutput() + NOT_ENABLED);
             // indicates element not enabled
             return true;
         }
@@ -668,7 +668,7 @@ public class Element {
     private boolean isNotInput(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.input()) {
-            file.fail(action, expected, extra + prettyOutput() + NOT_AN_INPUT);
+            reporter.fail(action, expected, extra + prettyOutput() + NOT_AN_INPUT);
             // indicates element not an input
             return true;
         }
@@ -685,7 +685,7 @@ public class Element {
     private boolean isSelect(String action, String expected) {
         // wait for element to be displayed
         if (!is.select()) {
-            file.fail(action, expected, Element.CANT_SELECT + prettyOutput() + NOT_A_SELECT);
+            reporter.fail(action, expected, Element.CANT_SELECT + prettyOutput() + NOT_A_SELECT);
             // indicates element not an input
             return false;
         }
@@ -796,11 +796,11 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.click();
         } catch (Exception e) {
-            file.fail(action, expected, cantClick + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantClick + prettyOutput() + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, "Clicked " + prettyOutputEnd());
+        reporter.pass(action, expected, "Clicked " + prettyOutputEnd());
     }
 
     /**
@@ -819,11 +819,11 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.submit();
         } catch (Exception e) {
-            file.fail(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.pass(action, expected, "Submitted " + prettyOutputEnd());
+        reporter.pass(action, expected, "Submitted " + prettyOutputEnd());
     }
 
     /**
@@ -849,10 +849,10 @@ public class Element {
             selAction.moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, cantHover + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantHover + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Hovered over " + prettyOutputEnd());
+        reporter.pass(action, expected, "Hovered over " + prettyOutputEnd());
     }
 
     /**
@@ -873,10 +873,10 @@ public class Element {
             new Actions(driver).moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Focused on " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused on " + prettyOutputEnd());
     }
 
     /**
@@ -897,10 +897,10 @@ public class Element {
             webElement.sendKeys(Keys.TAB);
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd());
     }
 
     /**
@@ -927,14 +927,14 @@ public class Element {
             webElement.sendKeys(text);
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
             return;
         }
         if (warning) {
-            file.check(action, expected, TYPED + text + IN + prettyOutput() +
+            reporter.check(action, expected, TYPED + text + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>");
         } else {
-            file.pass(action, expected, TYPED + text + IN + prettyOutputEnd());
+            reporter.pass(action, expected, TYPED + text + IN + prettyOutputEnd());
         }
     }
 
@@ -962,14 +962,14 @@ public class Element {
             webElement.sendKeys(key);
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
             return;
         }
         if (warning) {
-            file.check(action, expected, TYPED + key + IN + prettyOutput() +
+            reporter.check(action, expected, TYPED + key + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>");
         } else {
-            file.pass(action, expected, TYPED + key + IN + prettyOutputEnd());
+            reporter.pass(action, expected, TYPED + key + IN + prettyOutputEnd());
         }
     }
 
@@ -990,10 +990,10 @@ public class Element {
             webElement.clear();
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, cantClear + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantClear + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Cleared text in " + prettyOutputEnd());
+        reporter.pass(action, expected, "Cleared text in " + prettyOutputEnd());
     }
 
     /**
@@ -1014,7 +1014,7 @@ public class Element {
             }
             String[] options = get.selectOptions();
             if (index > options.length) {
-                file.fail(action, expected,
+                reporter.fail(action, expected,
                         "Unable to select the <i>" + index + "</i> option, as there are only <i>" + options.length +
                                 "</i> available.");
                 return;
@@ -1025,10 +1025,10 @@ public class Element {
             dropdown.selectByIndex(index);
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd());
     }
 
     /**
@@ -1048,7 +1048,7 @@ public class Element {
             }
             // ensure the option exists
             if (!Arrays.asList(get.selectOptions()).contains(option)) {
-                file.fail(action, expected, CANT_SELECT + option + " in " + prettyOutput() +
+                reporter.fail(action, expected, CANT_SELECT + option + " in " + prettyOutput() +
                         " as that option isn't present. Available options are:<i><br/>&nbsp;&nbsp;&nbsp;" +
                         String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>");
                 return;
@@ -1059,10 +1059,10 @@ public class Element {
             dropdown.selectByVisibleText(option);
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Selected <b>" + option + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected <b>" + option + INN + prettyOutputEnd());
     }
 
     /**
@@ -1082,7 +1082,7 @@ public class Element {
             }
             // ensure the value exists
             if (!Arrays.asList(get.selectValues()).contains(value)) {
-                file.fail(action, expected, CANT_SELECT + value + " in " + prettyOutput() +
+                reporter.fail(action, expected, CANT_SELECT + value + " in " + prettyOutput() +
                         " as that value isn't present. Available values are:<i><br/>&nbsp;&nbsp;&nbsp;" +
                         String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>");
                 return;
@@ -1093,10 +1093,10 @@ public class Element {
             dropdown.selectByValue(value);
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Selected <b>" + value + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected <b>" + value + INN + prettyOutputEnd());
     }
 
     /**
@@ -1109,7 +1109,7 @@ public class Element {
      */
     private void cantScroll(Exception e, String action, String expected) {
         log.warn(e);
-        file.fail(action, expected, CANT_SCROLL + prettyOutput() + ". " + e.getMessage());
+        reporter.fail(action, expected, CANT_SCROLL + prettyOutput() + ". " + e.getMessage());
     }
 
     /**
@@ -1127,9 +1127,9 @@ public class Element {
         int viewportHeight = ((Number) js.executeScript("return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);")).intValue();
 
         if (elementPosition < scrollHeight || elementPosition > viewportHeight + scrollHeight) {
-            file.fail(action, expected, prettyOutputStart() + " was scrolled to, but is not within the current viewport");
+            reporter.fail(action, expected, prettyOutputStart() + " was scrolled to, but is not within the current viewport");
         } else {
-            file.pass(action, expected, prettyOutputStart() + " is properly scrolled to and within the current viewport");
+            reporter.pass(action, expected, prettyOutputStart() + " is properly scrolled to and within the current viewport");
         }
     }
 
@@ -1196,7 +1196,7 @@ public class Element {
      */
     public void draw(List<Point<Integer, Integer>> points) {
         if (points.isEmpty()) {
-            file.fail("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
+            reporter.fail("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
                     "Unable to draw in " + prettyOutput() + " as no points were supplied");
             return;
         }
@@ -1227,10 +1227,10 @@ public class Element {
             drawAction.perform();
         } catch (Exception e) {
             log.error(e);
-            file.fail(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Drew object in " + prettyOutput() + getScreenshot());
+        reporter.pass(action, expected, "Drew object in " + prettyOutput() + getScreenshot());
     }
 
     /**
@@ -1256,10 +1256,10 @@ public class Element {
             driver.switchTo().frame(webElement);
         } catch (Exception e) {
             log.warn(e);
-            file.fail(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.pass(action, expected, "Focused on frame " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused on frame " + prettyOutputEnd());
     }
 
     /**
@@ -1274,8 +1274,8 @@ public class Element {
         String imageLink = "<b><font class='fail'>No Image Preview</font></b>";
         // capture an image of it
         try {
-            imageLink = file.captureEntirePageScreenshot();
-            File image = new File(file.getDirectory(), imageLink.split("\"")[1]);
+            imageLink = reporter.captureEntirePageScreenshot();
+            File image = new File(reporter.getDirectory(), imageLink.split("\"")[1]);
             BufferedImage fullImg = ImageIO.read(image);
             // Get the location of element on the page
             org.openqa.selenium.Point point = webElement.getLocation();

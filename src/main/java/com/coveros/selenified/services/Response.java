@@ -41,15 +41,15 @@ public class Response {
     private String message = null;
 
     // this will be the name of the file we write all commands out to
-    private Reporter file;
+    private Reporter reporter;
 
     // constants
     private static final String FOUND = "Found a response of: ";
     private static final String ENDI = "</i>'";
 
     // a basic response setup, just with an output file to write information to
-    public Response(Reporter file) {
-        this.file = file;
+    public Response(Reporter reporter) {
+        this.reporter = reporter;
     }
 
     public Response(int code) {
@@ -100,8 +100,8 @@ public class Response {
         this.message = message;
     }
 
-    public void setReporter(Reporter file) {
-        this.file = file;
+    public void setReporter(Reporter reporter) {
+        this.reporter = reporter;
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -116,9 +116,9 @@ public class Response {
      */
     public void assertEquals(int expectedCode) {
         if (code == expectedCode) {
-            file.pass("", "Expected to find a response code of <b>" + expectedCode + "</b>", "Found a response code of <b>" + code + "</b>");
+            reporter.pass("", "Expected to find a response code of <b>" + expectedCode + "</b>", "Found a response code of <b>" + code + "</b>");
         } else {
-            file.fail("", "Expected to find a response code of <b>" + expectedCode + "</b>", "Found a response code of <b>" + code + "</b>");
+            reporter.fail("", "Expected to find a response code of <b>" + expectedCode + "</b>", "Found a response code of <b>" + code + "</b>");
         }
     }
 
@@ -134,9 +134,9 @@ public class Response {
             pass = object.equals(expectedJson) ? true : false;
         }
         if (pass) {
-            file.pass("", "Expected to find a response of: " + file.formatResponse(new Response(0, expectedJson, null)), FOUND + file.formatResponse(this));
+            reporter.pass("", "Expected to find a response of: " + reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + reporter.formatResponse(this));
         } else {
-            file.fail("", "Expected to find a response of: " + file.formatResponse(new Response(0, expectedJson, null)), FOUND + file.formatResponse(this));
+            reporter.fail("", "Expected to find a response of: " + reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + reporter.formatResponse(this));
         }
     }
 
@@ -152,9 +152,9 @@ public class Response {
             pass = array.equals(expectedArray) ? true : false;
         }
         if (pass) {
-            file.pass("", "Expected to find a response of: " + file.formatResponse(new Response(0, expectedArray, null)), FOUND + file.formatResponse(this));
+            reporter.pass("", "Expected to find a response of: " + reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + reporter.formatResponse(this));
         } else {
-            file.fail("", "Expected to find a response of: " + file.formatResponse(new Response(0, expectedArray, null)), FOUND + file.formatResponse(this));
+            reporter.fail("", "Expected to find a response of: " + reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + reporter.formatResponse(this));
         }
     }
 
@@ -170,9 +170,9 @@ public class Response {
             pass = message.equals(expectedMessage) ? true : false;
         }
         if (pass) {
-            file.pass("", "Expected to find a response of: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
+            reporter.pass("", "Expected to find a response of: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
         } else {
-            file.fail("", "Expected to find a response of: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
+            reporter.fail("", "Expected to find a response of: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
         }
     }
 
@@ -229,7 +229,7 @@ public class Response {
             expectedString.append("<div>");
             expectedString.append(entry.getKey());
             expectedString.append(" : ");
-            expectedString.append(file.formatHTML(String.valueOf(entry.getValue())));
+            expectedString.append(reporter.formatHTML(String.valueOf(entry.getValue())));
             expectedString.append("</div>");
             if (object != null && object.has(entry.getKey())) {
                 Object objectVal = castObject(entry.getValue(), object.get(entry.getKey()));
@@ -241,9 +241,9 @@ public class Response {
             }
         }
         if (pass) {
-            file.pass("", "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>", FOUND + file.formatResponse(this));
+            reporter.pass("", "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>", FOUND + reporter.formatResponse(this));
         } else {
-            file.fail("", "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>", FOUND + file.formatResponse(this));
+            reporter.fail("", "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>", FOUND + reporter.formatResponse(this));
         }
     }
 
@@ -259,11 +259,11 @@ public class Response {
             pass = array.contains(expectedJson) ? true : false;
         }
         if (pass) {
-            file.pass("", "Expected to find a response containing:" +
-                    file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)), FOUND + file.formatResponse(this));
+            reporter.pass("", "Expected to find a response containing:" +
+                    reporter.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)), FOUND + reporter.formatResponse(this));
         } else {
-            file.fail("", "Expected to find a response containing:" +
-                    file.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)), FOUND + file.formatResponse(this));
+            reporter.fail("", "Expected to find a response containing:" +
+                    reporter.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)), FOUND + reporter.formatResponse(this));
         }
     }
 
@@ -279,9 +279,9 @@ public class Response {
             pass = message.contains(expectedMessage) ? true : false;
         }
         if (pass) {
-            file.pass("", "Expected to find a response containing: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
+            reporter.pass("", "Expected to find a response containing: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
         } else {
-            file.fail("", "Expected to find a response containing: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
+            reporter.fail("", "Expected to find a response containing: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
         }
     }
 }

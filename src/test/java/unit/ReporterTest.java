@@ -170,10 +170,10 @@ public class ReporterTest {
 
     @Test
     public void recordActionBadFile() throws InvalidBrowserException {
-        Reporter file =
+        Reporter reporter =
                 new Reporter("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
-        file.check("my action", "expected", "actual");
+        reporter.check("my action", "expected", "actual");
         // we are just verifying that no errors were thrown
     }
 

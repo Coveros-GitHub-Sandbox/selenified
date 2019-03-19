@@ -47,7 +47,7 @@ import static com.coveros.selenified.element.check.Constants.*;
 public class WaitForEquals implements Equals {
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
@@ -55,9 +55,9 @@ public class WaitForEquals implements Equals {
     // the default wait for the system
     private double defaultWait = 5.0;
 
-    public WaitForEquals(Element element, Reporter file) {
+    public WaitForEquals(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
@@ -65,7 +65,7 @@ public class WaitForEquals implements Equals {
      */
     @Override
     public Reporter getReporter() {
-        return file;
+        return reporter;
     }
 
     /**

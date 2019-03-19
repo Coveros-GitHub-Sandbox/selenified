@@ -42,7 +42,7 @@ import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INT
 public class WaitForState implements State {
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
@@ -50,9 +50,9 @@ public class WaitForState implements State {
     // the default wait for the system
     private double defaultWait = 5.0;
 
-    public WaitForState(Element element, Reporter file) {
+    public WaitForState(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
@@ -60,7 +60,7 @@ public class WaitForState implements State {
      */
     @Override
     public Reporter getReporter() {
-        return file;
+        return reporter;
     }
 
     /**

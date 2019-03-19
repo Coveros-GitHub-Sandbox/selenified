@@ -46,14 +46,14 @@ import static org.testng.AssertJUnit.*;
 public class AssertContains implements Contains {
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertContains(Element element, Reporter file) {
+    public AssertContains(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
@@ -61,7 +61,7 @@ public class AssertContains implements Contains {
      */
     @Override
     public Reporter getReporter() {
-        return file;
+        return reporter;
     }
 
     /**

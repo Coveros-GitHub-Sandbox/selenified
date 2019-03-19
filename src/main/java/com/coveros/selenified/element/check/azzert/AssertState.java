@@ -42,14 +42,14 @@ import static org.testng.AssertJUnit.assertTrue;
 public class AssertState implements State {
 
     // this will be the name of the file we write all commands out to
-    private final Reporter file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertState(Element element, Reporter file) {
+    public AssertState(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
@@ -57,7 +57,7 @@ public class AssertState implements State {
      */
     @Override
     public Reporter getReporter() {
-        return file;
+        return reporter;
     }
 
     /**

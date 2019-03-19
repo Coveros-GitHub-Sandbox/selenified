@@ -422,9 +422,9 @@ public class Selenified {
      *
      * @param app  - the application to be tested, contains all control elements
      * @param url  - the initial url to load
-     * @param file - the output file to write everything to
+     * @param reporter - the output file to write everything to
      */
-    private void loadInitialPage(App app, String url, Reporter file) {
+    private void loadInitialPage(App app, String url, Reporter reporter) {
         String startingPage = "The starting app <i>";
         String act = "Opening new browser and loading up starting app";
         String expected = startingPage + url + "</i> will successfully load";
@@ -433,14 +433,14 @@ public class Selenified {
             try {
                 app.getDriver().get(url);
                 if (!app.get().url().contains(url)) {
-                    file.fail(act, expected,
+                    reporter.fail(act, expected,
                             startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>");
                     return;
                 }
-                file.pass(act, expected, startingPage + url + "</i> loaded successfully");
+                reporter.pass(act, expected, startingPage + url + "</i> loaded successfully");
             } catch (Exception e) {
                 log.warn(e);
-                file.fail(act, expected, startingPage + url + "</i> did not load successfully");
+                reporter.fail(act, expected, startingPage + url + "</i> did not load successfully");
             }
             app.acceptCertificate();
         }
