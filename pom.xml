@@ -57,7 +57,10 @@
         <sonar.jacoco.reportPaths>jacoco-ut.exec,jacoco-it.exec</sonar.jacoco.reportPaths>
         <sonar.dependencyCheck.reportPath>dependency-check-report.xml</sonar.dependencyCheck.reportPath>
         <sonar.dependencyCheck.htmlReportPath>dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
-        <sonar.dependencyCheck.severity.minor>10.0</sonar.dependencyCheck.severity.minor>
+        <sonar.dependencyCheck.severity.blocker>-1</sonar.dependencyCheck.severity.blocker>
+        <sonar.dependencyCheck.severity.critical>-1</sonar.dependencyCheck.severity.critical>
+        <sonar.dependencyCheck.severity.major>-1</sonar.dependencyCheck.severity.major>
+        <sonar.dependencyCheck.severity.minor>-1</sonar.dependencyCheck.severity.minor>
         <sonar.dependencyCheck.summarize>true</sonar.dependencyCheck.summarize>
     </properties>
 
