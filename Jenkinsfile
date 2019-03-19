@@ -74,6 +74,7 @@ node {
                     "Execute Dependency Check": {
                         stage('Execute Dependency Check') {
                             try {
+                                sh 'sleep 60'
                                 sh 'mvn verify -Dskip.unit.tests -Dskip.integration.tests'
                             } catch (e) {
                                 throw e
