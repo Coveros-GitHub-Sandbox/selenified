@@ -1183,11 +1183,22 @@ public class ActionDoIT extends WebBase {
 
     @Test(groups = {"integration", "action", "do", "scroll", "browser"},
             description = "An integration negative test to check the scroll method")
-    public void scrollOffscreenTest() {
+    public void scrollOffscreenTopTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "offscreen_div").scrollTo();
+        app.newElement(Locator.ID, "offscreen_div_bottom").scrollTo();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "do", "scroll", "browser"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollOffscreenBottomTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "offscreen_div_top").scrollTo();
         // verify 1 issue
         finish(1);
     }
@@ -1239,11 +1250,22 @@ public class ActionDoIT extends WebBase {
 
     @Test(groups = {"integration", "action", "do", "scroll", "browser"},
             description = "An integration negative test to check the scroll method")
-    public void scrollAtOffscreenTest() {
+    public void scrollAtOffscreenTopTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "offscreen_div").scrollTo(-10);
+        app.newElement(Locator.ID, "offscreen_div_top").scrollTo(-10);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "do", "scroll", "browser"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollAtOffscreenBottomTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "offscreen_div_bottom").scrollTo(-10);
         // verify 1 issue
         finish(1);
     }

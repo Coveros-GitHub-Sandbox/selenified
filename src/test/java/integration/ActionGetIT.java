@@ -1029,7 +1029,7 @@ public class ActionGetIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        assertEquals(app.newElement(Locator.CLASSNAME, "overlay").get().matchCount(), 3);
+        assertEquals(app.newElement(Locator.CLASSNAME, "overlay").get().matchCount(), 4);
         // verify no issues
         finish();
     }
