@@ -103,6 +103,7 @@ public interface Excludes extends Check {
      * @param timeTook  - the amount of time it took for wait for something (assuming we had to wait)
      * @return String[]: all of the attributes of the element. null will be returned if the element isn't present
      */
+    @SuppressWarnings("squid:S1168")
     default Set<String> checkAttribute(String attribute, double waitFor, double timeTook) {
         // record the action and get the attributes
         Map<String, String> atts = getElement().get().allAttributes();

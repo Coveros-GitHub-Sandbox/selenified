@@ -1119,7 +1119,7 @@ public class Element {
      * @param action   - what is the action occurring
      * @param expected - what is the expected outcome of said action
      */
-    private void isScrolledTo(String action, String expected, long offset) {
+    private void isScrolledTo(String action, String expected) {
         WebElement webElement = getWebElement();
         long elementPosition = webElement.getLocation().getY();
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -1155,7 +1155,7 @@ public class Element {
             cantScroll(e, action, expected);
             return;
         }
-        isScrolledTo(action, expected, 0);
+        isScrolledTo(action, expected);
     }
 
     /**
@@ -1184,7 +1184,7 @@ public class Element {
             cantScroll(e, action, expected);
             return;
         }
-        isScrolledTo(action, expected, position);
+        isScrolledTo(action, expected);
     }
 
     /**

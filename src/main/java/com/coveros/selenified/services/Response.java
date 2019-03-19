@@ -35,6 +35,7 @@ import java.util.Map;
  * @lastupdate 8/29/2018
  */
 public class Response {
+    private static final String EXPECTED_TO_FIND = "Expected to find a response of: ";
     private int code;
     private JsonObject object = null;
     private JsonArray array = null;
@@ -131,12 +132,12 @@ public class Response {
     public void assertEquals(JsonObject expectedJson) {
         boolean pass = false;
         if (object != null) {
-            pass = object.equals(expectedJson) ? true : false;
+            pass = object.equals(expectedJson);
         }
         if (pass) {
-            reporter.pass("", "Expected to find a response of: " + reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + reporter.formatResponse(this));
+            reporter.pass("", EXPECTED_TO_FIND + reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + reporter.formatResponse(this));
         } else {
-            reporter.fail("", "Expected to find a response of: " + reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + reporter.formatResponse(this));
+            reporter.fail("", EXPECTED_TO_FIND + reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + reporter.formatResponse(this));
         }
     }
 
@@ -149,12 +150,12 @@ public class Response {
     public void assertEquals(JsonArray expectedArray) {
         boolean pass = false;
         if (array != null) {
-            pass = array.equals(expectedArray) ? true : false;
+            pass = array.equals(expectedArray);
         }
         if (pass) {
-            reporter.pass("", "Expected to find a response of: " + reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + reporter.formatResponse(this));
+            reporter.pass("", EXPECTED_TO_FIND + reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + reporter.formatResponse(this));
         } else {
-            reporter.fail("", "Expected to find a response of: " + reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + reporter.formatResponse(this));
+            reporter.fail("", EXPECTED_TO_FIND + reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + reporter.formatResponse(this));
         }
     }
 
@@ -167,7 +168,7 @@ public class Response {
     public void assertEquals(String expectedMessage) {
         boolean pass = false;
         if (message != null) {
-            pass = message.equals(expectedMessage) ? true : false;
+            pass = message.equals(expectedMessage);
         }
         if (pass) {
             reporter.pass("", "Expected to find a response of: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
@@ -224,7 +225,7 @@ public class Response {
      */
     public void assertContains(Map<String, Object> expectedPairs) {
         StringBuilder expectedString = new StringBuilder();
-        boolean pass = (object == null) ? false : true;
+        boolean pass = (object == null);
         for (Map.Entry<String, Object> entry : expectedPairs.entrySet()) {
             expectedString.append("<div>");
             expectedString.append(entry.getKey());
@@ -256,7 +257,7 @@ public class Response {
     public void assertContains(JsonElement expectedJson) {
         boolean pass = false;
         if (array != null) {
-            pass = array.contains(expectedJson) ? true : false;
+            pass = array.contains(expectedJson);
         }
         if (pass) {
             reporter.pass("", "Expected to find a response containing:" +
@@ -276,7 +277,7 @@ public class Response {
     public void assertContains(String expectedMessage) {
         boolean pass = false;
         if (message != null) {
-            pass = message.contains(expectedMessage) ? true : false;
+            pass = message.contains(expectedMessage);
         }
         if (pass) {
             reporter.pass("", "Expected to find a response containing: '<i>" + expectedMessage + ENDI, FOUND + "'<i>" + message + ENDI);
