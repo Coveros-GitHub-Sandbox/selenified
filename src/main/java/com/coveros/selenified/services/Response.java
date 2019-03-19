@@ -225,7 +225,7 @@ public class Response {
      */
     public void assertContains(Map<String, Object> expectedPairs) {
         StringBuilder expectedString = new StringBuilder();
-        boolean pass = (object == null);
+        boolean pass = (object != null);
         for (Map.Entry<String, Object> entry : expectedPairs.entrySet()) {
             expectedString.append("<div>");
             expectedString.append(entry.getKey());
