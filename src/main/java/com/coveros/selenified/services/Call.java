@@ -20,8 +20,7 @@
 
 package com.coveros.selenified.services;
 
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Success;
+import com.coveros.selenified.utilities.Reporter;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
@@ -39,7 +38,7 @@ public class Call {
     private static final Logger log = Logger.getLogger(Call.class);
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // what services will we be interacting with
     private final HTTP http;
@@ -50,7 +49,7 @@ public class Call {
     private static final String PUT = "PUT";
     private static final String DELETE = "DELETE";
 
-    public Call(HTTP http, OutputFile file, Map<String, String> headers) {
+    public Call(HTTP http, Reporter file, Map<String, String> headers) {
         this.http = http;
         this.file = file;
         if (headers != null) {
@@ -244,15 +243,13 @@ public class Call {
                 default:
                     log.error("Unknown method call named");
             }
-            response.setOutputFile(file);
-            file.recordStep(action.toString(), expected, expected, Success.PASS);
+            response.setReporter(file);
+            file.pass(action.toString(), expected, expected);
         } catch (Exception e) {
-            file.recordStep(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            file.fail(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage());
             log.warn(e);
             response = new Response(0);
-            response.setOutputFile(file);
+            response.setReporter(file);
             return response;
         }
         return response;

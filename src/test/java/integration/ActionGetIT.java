@@ -28,7 +28,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         if (app.getBrowser().getName() == BrowserName.NONE) {
-            app.getOutputFile().addError();
+            app.getReporter().fail("", "", "");
         }
         // verify no issues
         finish();
@@ -41,7 +41,7 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         if (app.getDesiredCapabilities() == null) {
-            app.getOutputFile().addError();
+            app.getReporter().fail("", "", "");
         }
         // verify no issues
         finish();
@@ -811,7 +811,7 @@ public class ActionGetIT extends WebBase {
         // perform some actions
         Map<String, String> attributes = app.newElement(Locator.ID, "non-existent-name").get().allAttributes();
         assertNull(attributes);
-        // verify 0 issue
+        // verify no issues
         finish();
     }
 

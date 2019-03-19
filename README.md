@@ -583,13 +583,13 @@ If you need to perform the custom action, use the `app` object to retrieve the d
     WebDriver driver = app.getDriver();
 ```
 Then perform the action that you need to. You'll want to ensure this action is recorded in the Selenified
-reports. To do this, retrieve the `outputfile` object from the `app` object, and call the recordAction
-method on. If you need to record custom verifications, you can use recordExpected and recordActual.
+reports. To do this, retrieve the `reporter` object from the `app` object, and call the `pass`/`fail`/`check`
+method.
 ```java
-    OutputFile file = app.getOutputFile();
-    file.recordAction(action, expectedResult, actualResult, result);
-    file.recordExpected(expectedOutcome);
-    file.recordActual(actualOutcome, result);
+    Reporter reporter = app.getReporter();
+    file.pass(action, expectedResult, actualResult);
+    file.check(action, expectedResult, actualResult);
+    file.fail(action, expectedResult, actualResult);
 ```
 
 Of course, if this is something that you believe others can benefit from, feel free to 

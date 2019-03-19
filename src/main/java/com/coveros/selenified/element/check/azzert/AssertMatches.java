@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.element.check.azzert;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Matches;
 
@@ -43,12 +43,12 @@ import static org.testng.AssertJUnit.*;
 public class AssertMatches implements Matches {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertMatches(Element element, OutputFile file) {
+    public AssertMatches(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -57,7 +57,7 @@ public class AssertMatches implements Matches {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 

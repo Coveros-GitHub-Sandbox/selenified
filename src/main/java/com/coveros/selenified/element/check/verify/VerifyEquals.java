@@ -20,11 +20,9 @@
 
 package com.coveros.selenified.element.check.verify;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Equals;
-
-import java.util.Arrays;
 
 /**
  * VerifyEquals implements Equals to provide some additional verification capabilities.
@@ -42,12 +40,12 @@ import java.util.Arrays;
 public class VerifyEquals implements Equals {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public VerifyEquals(Element element, OutputFile file) {
+    public VerifyEquals(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -56,7 +54,7 @@ public class VerifyEquals implements Equals {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 
@@ -82,7 +80,7 @@ public class VerifyEquals implements Equals {
      * @param expectedMatches the expected number of elements matching the locator
      */
     public void matches(int expectedMatches) {
-        file.verify(checkMatches(expectedMatches, 0, 0) == expectedMatches);
+        checkMatches(expectedMatches, 0, 0);
     }
 
     /**
@@ -96,7 +94,7 @@ public class VerifyEquals implements Equals {
      * @param expectedValue the expected css value of the passed attribute of the element
      */
     public void cssValue(String attribute, String expectedValue) {
-        file.verify(expectedValue.equals(checkCssValue(attribute, expectedValue, 0, 0)));
+        checkCssValue(attribute, expectedValue, 0, 0);
     }
 
     /**
@@ -108,8 +106,7 @@ public class VerifyEquals implements Equals {
      * @param expectedClass - the full expected class value
      */
     public void clazz(String expectedClass) {
-        String clazz = checkClazz(expectedClass, 0, 0);
-        file.verify(expectedClass == null ? clazz == null : expectedClass.equals(clazz));
+        checkClazz(expectedClass, 0, 0);
     }
 
     /**
@@ -123,7 +120,7 @@ public class VerifyEquals implements Equals {
      * @param expectedValue the expected value of the passed attribute of the element
      */
     public void attribute(String attribute, String expectedValue) {
-        file.verify(expectedValue.equals(checkAttribute(attribute, expectedValue, 0, 0)));
+        checkAttribute(attribute, expectedValue, 0, 0);
     }
 
     /**
@@ -135,7 +132,7 @@ public class VerifyEquals implements Equals {
      * @param expectedText the expected value of the element
      */
     public void text(String expectedText) {
-        file.verify(expectedText.equals(checkText(expectedText, 0, 0)));
+        checkText(expectedText, 0, 0);
     }
 
     /**
@@ -152,7 +149,7 @@ public class VerifyEquals implements Equals {
      * @param text - what text do we expect to be in the table cell
      */
     public void text(int row, int col, String text) {
-        file.verify(text.equals(checkText(row, col, text, 0, 0)));
+        checkText(row, col, text, 0, 0);
     }
 
     /**
@@ -164,7 +161,7 @@ public class VerifyEquals implements Equals {
      * @param expectedValue the expected input value of the element
      */
     public void value(String expectedValue) {
-        file.verify(expectedValue.equals(checkValue(expectedValue, 0, 0)));
+        checkValue(expectedValue, 0, 0);
     }
 
     /**
@@ -176,7 +173,7 @@ public class VerifyEquals implements Equals {
      * @param expectedText the expected input text of the element
      */
     public void selectedOption(String expectedText) {
-        file.verify(expectedText.equals(checkSelectedOption(expectedText, 0, 0)));
+        checkSelectedOption(expectedText, 0, 0);
     }
 
     /**
@@ -188,7 +185,7 @@ public class VerifyEquals implements Equals {
      * @param expectedValue the expected input value of the element
      */
     public void selectedValue(String expectedValue) {
-        file.verify(expectedValue.equals(checkSelectedValue(expectedValue, 0, 0)));
+        checkSelectedValue(expectedValue, 0, 0);
     }
 
     /**
@@ -200,7 +197,7 @@ public class VerifyEquals implements Equals {
      * @param expectedOptions the expected input value of the element
      */
     public void selectOptions(String... expectedOptions) {
-        file.verify(Arrays.toString(checkSelectOptions(expectedOptions, 0, 0)).equals(Arrays.toString(expectedOptions)));
+        checkSelectOptions(expectedOptions, 0, 0);
     }
 
     /**
@@ -212,6 +209,6 @@ public class VerifyEquals implements Equals {
      * @param expectedValues the expected input value of the element
      */
     public void selectValues(String... expectedValues) {
-        file.verify(Arrays.toString(checkSelectValues(expectedValues, 0, 0)).equals(Arrays.toString(expectedValues)));
+        checkSelectValues(expectedValues, 0, 0);
     }
 }

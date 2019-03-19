@@ -20,11 +20,9 @@
 
 package com.coveros.selenified.element.check.verify;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Excludes;
-
-import java.util.Arrays;
 
 /**
  * VerifyExcludes implements Excludes to provide some additional verification
@@ -42,12 +40,12 @@ import java.util.Arrays;
 public class VerifyExcludes implements Excludes {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public VerifyExcludes(Element element, OutputFile file) {
+    public VerifyExcludes(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -56,7 +54,7 @@ public class VerifyExcludes implements Excludes {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 
@@ -82,8 +80,7 @@ public class VerifyExcludes implements Excludes {
      * @param unexpectedClass - the unexpected class value
      */
     public void clazz(String unexpectedClass) {
-        String clazz = checkClazz(unexpectedClass, 0, 0);
-        file.verify(clazz != null && !clazz.contains(unexpectedClass));
+        checkClazz(unexpectedClass, 0, 0);
     }
 
     /**
@@ -95,8 +92,7 @@ public class VerifyExcludes implements Excludes {
      * @param expectedAttribute - the attribute to check for
      */
     public void attribute(String expectedAttribute) {
-        String[] attributes = checkAttribute(expectedAttribute, 0, 0);
-        file.verify(attributes != null && !Arrays.asList(attributes).contains(expectedAttribute));
+        checkAttribute(expectedAttribute, 0, 0);
     }
 
     /**
@@ -108,8 +104,7 @@ public class VerifyExcludes implements Excludes {
      * @param expectedText the expected text of the element
      */
     public void text(String expectedText) {
-        String text = checkText(expectedText, 0, 0);
-        file.verify(text != null && !text.contains(expectedText));
+        checkText(expectedText, 0, 0);
     }
 
     /**
@@ -121,8 +116,7 @@ public class VerifyExcludes implements Excludes {
      * @param expectedValue the expected value of the element
      */
     public void value(String expectedValue) {
-        String value = checkValue(expectedValue, 0, 0);
-        file.verify(value != null && !value.contains(expectedValue));
+        checkValue(expectedValue, 0, 0);
     }
 
     /**
@@ -134,8 +128,7 @@ public class VerifyExcludes implements Excludes {
      * @param expectedOption the option not expected in the list
      */
     public void selectOption(String expectedOption) {
-        String[] options = checkSelectOption(expectedOption, 0, 0);
-        file.verify(options != null && !Arrays.asList(options).contains(expectedOption));
+        checkSelectOption(expectedOption, 0, 0);
     }
 
     /**
@@ -147,7 +140,6 @@ public class VerifyExcludes implements Excludes {
      * @param expectedValue the unexpected input value of the element
      */
     public void selectValue(String expectedValue) {
-        String[] values = checkSelectValue(expectedValue, 0, 0);
-        file.verify(values != null && !Arrays.asList(values).contains(expectedValue));
+        checkSelectValue(expectedValue, 0, 0);
     }
 }

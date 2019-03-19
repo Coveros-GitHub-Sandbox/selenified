@@ -20,11 +20,12 @@
 
 package com.coveros.selenified.element.check.azzert;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Contains;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import static com.coveros.selenified.element.check.Constants.*;
 import static org.testng.AssertJUnit.*;
@@ -45,12 +46,12 @@ import static org.testng.AssertJUnit.*;
 public class AssertContains implements Contains {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertContains(Element element, OutputFile file) {
+    public AssertContains(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -59,7 +60,7 @@ public class AssertContains implements Contains {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 
@@ -98,10 +99,10 @@ public class AssertContains implements Contains {
      * @param expectedAttribute - the attribute to check for
      */
     public void attribute(String expectedAttribute) {
-        String[] attributes = checkAttribute(expectedAttribute, 0, 0);
+        Set<String> attributes = checkAttribute(expectedAttribute, 0, 0);
         assertNotNull(NO_ELEMENT_FOUND, attributes);
         assertTrue("Attribute not found: element attributes of '" + String.join(",", attributes) +
-                DOES_NOT_CONTAIN + expectedAttribute + "'", Arrays.asList(attributes).contains(expectedAttribute));
+                DOES_NOT_CONTAIN + expectedAttribute + "'", attributes.contains(expectedAttribute));
     }
 
     /**

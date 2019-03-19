@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.element.check.azzert;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Equals;
 
@@ -47,12 +47,12 @@ import static org.testng.AssertJUnit.fail;
 public class AssertEquals implements Equals {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertEquals(Element element, OutputFile file) {
+    public AssertEquals(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -61,7 +61,7 @@ public class AssertEquals implements Equals {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 

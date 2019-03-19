@@ -1,6 +1,5 @@
 package unit;
 
-import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.Selenified;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -55,15 +54,5 @@ public class SelenifiedTest extends Selenified {
         System.setProperty("appURL", "http://www.yahoo.com");
         setTestSite(this, context, "google");
         assertEquals(getTestSite(this.getClass().getName(), context), "http://www.yahoo.com");
-    }
-
-    @Test
-    public void errorsForPassTest() {
-        assertEquals(OutputFile.Success.PASS.getErrors(), 0);
-    }
-
-    @Test
-    public void errorsForFailTest() {
-        assertEquals(OutputFile.Success.FAIL.getErrors(), 1);
     }
 }

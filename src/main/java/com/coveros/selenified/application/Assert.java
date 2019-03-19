@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.application;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 
 import static com.coveros.selenified.element.check.Constants.DOES_NOT_MATCH_PATTERN;
 import static org.testng.AssertJUnit.assertEquals;
@@ -40,7 +40,7 @@ import static org.testng.AssertJUnit.assertTrue;
 public class Assert implements Check {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the driver that will be used for all selenium actions
     private final App app;
@@ -51,7 +51,7 @@ public class Assert implements Check {
      * @param app  - the application under test
      * @param file - the file to write all logging out to
      */
-    public Assert(App app, OutputFile file) {
+    public Assert(App app, Reporter file) {
         this.app = app;
         this.file = file;
     }
@@ -60,7 +60,7 @@ public class Assert implements Check {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 
@@ -109,7 +109,7 @@ public class Assert implements Check {
      */
     @Override
     public void titleMatches(String expectedTitlePattern) {
-        String title = checkTitleEquals(expectedTitlePattern, 0, 0);
+        String title = checkTitleMatches(expectedTitlePattern, 0, 0);
         assertTrue("Title Mismatch: title of '" + title + DOES_NOT_MATCH_PATTERN + expectedTitlePattern + "'", title.matches(expectedTitlePattern));
     }
 

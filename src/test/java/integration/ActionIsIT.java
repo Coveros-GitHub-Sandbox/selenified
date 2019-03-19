@@ -294,7 +294,7 @@ public class ActionIsIT extends WebBase {
         // perform some actions
         assertFalse(app.newElement(Locator.ID, "table", 0).is().editable());
         // verify no issues
-        finish(0);
+        finish();
     }
 
     @Test(groups = {"integration", "action", "is"},

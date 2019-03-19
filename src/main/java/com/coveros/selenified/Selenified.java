@@ -22,11 +22,11 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Browser.BrowserUse;
-import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.utilities.Sauce;
 import com.coveros.selenified.utilities.TestCase;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -55,7 +55,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * system variables are gathered, to set the browser, test site, proxy, hub,
  * etc. This class should be extended by each test class to allow for simple
  * execution of tests.
- *
+ * <p>
  * By default each test run will launch a selenium browser, and open the defined
  * test site. If no browser is needed for the test, override the startTest
  * method. Similarly, if you don't want a URL to initially load, override the
@@ -79,13 +79,13 @@ public class Selenified {
     // for individual tests
     private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
     private final ThreadLocal<DesiredCapabilities> desiredCapabilitiesThreadLocal = new ThreadLocal<>();
-    private final ThreadLocal<OutputFile> outputFileThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<Reporter> reporterThreadLocal = new ThreadLocal<>();
     protected final ThreadLocal<App> apps = new ThreadLocal<>();
     protected final ThreadLocal<Call> calls = new ThreadLocal<>();
 
     // constants
     public static final String SESSION_ID = "SessionId";
-    public static final String OUTPUT_FILE = "outputFile";
+    public static final String REPORTER = "reporter";
     private static final String APP_INPUT = "appURL";
     private static final String INVOCATION_COUNT = "InvocationCount";
     private static final String ERRORS_CHECK = " errors";
@@ -196,7 +196,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, String>) context.getAttribute(clazz + "Headers");
@@ -388,16 +388,16 @@ public class Selenified {
         desiredCapabilities.setCapability("name", testName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
 
-        OutputFile outputFile =
-                new OutputFile(outputDir, testName, capabilities, getTestSite(extClass, test), test.getName(), group,
+        Reporter reporter =
+                new Reporter(outputDir, testName, capabilities, getTestSite(extClass, test), test.getName(), group,
                         getAuthor(extClass, test), getVersion(extClass, test), description);
         if (selenium.useBrowser()) {
-            App app = new App(capabilities, outputFile);
+            App app = new App(capabilities, reporter);
             this.apps.set(app);
-            outputFile.setApp(app);
+            reporter.setApp(app);
             setupScreenSize(app);
             if (selenium.loadPage()) {
-                loadInitialPage(app, getTestSite(extClass, test), outputFile);
+                loadInitialPage(app, getTestSite(extClass, test), reporter);
             }
             if (Sauce.isSauce()) {
                 result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
@@ -407,13 +407,13 @@ public class Selenified {
         }
         HTTP http = new HTTP(getTestSite(extClass, test), getServiceUserCredential(extClass, test),
                 getServicePassCredential(extClass, test));
-        Call call = new Call(http, outputFile, getExtraHeaders(extClass, test));
+        Call call = new Call(http, reporter, getExtraHeaders(extClass, test));
         this.calls.set(call);
 
         this.browserThreadLocal.set(browser);
         result.setAttribute(BROWSER_INPUT, browser);
-        this.outputFileThreadLocal.set(outputFile);
-        result.setAttribute(OUTPUT_FILE, outputFile);
+        this.reporterThreadLocal.set(reporter);
+        result.setAttribute(REPORTER, reporter);
     }
 
     /**
@@ -424,7 +424,7 @@ public class Selenified {
      * @param url  - the initial url to load
      * @param file - the output file to write everything to
      */
-    private void loadInitialPage(App app, String url, OutputFile file) {
+    private void loadInitialPage(App app, String url, Reporter file) {
         String startingPage = "The starting app <i>";
         String act = "Opening new browser and loading up starting app";
         String expected = startingPage + url + "</i> will successfully load";
@@ -433,17 +433,14 @@ public class Selenified {
             try {
                 app.getDriver().get(url);
                 if (!app.get().url().contains(url)) {
-                    file.recordStep(act, expected,
-                            startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>",
-                            Success.FAIL);
-                    file.addError();
+                    file.fail(act, expected,
+                            startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>");
                     return;
                 }
-                file.recordStep(act, expected, startingPage + url + "</i> loaded successfully", Success.PASS);
+                file.pass(act, expected, startingPage + url + "</i> loaded successfully");
             } catch (Exception e) {
                 log.warn(e);
-                file.recordStep(act, expected, startingPage + url + "</i> did not load successfully", Success.FAIL);
-                file.addError();
+                file.fail(act, expected, startingPage + url + "</i> did not load successfully");
             }
             app.acceptCertificate();
         }
@@ -482,9 +479,9 @@ public class Selenified {
      * errors were encountered
      */
     protected void finish() {
-        OutputFile outputFile = this.outputFileThreadLocal.get();
-        assertEquals("Detailed results found at: " + outputFile.getFileName(), "0 errors",
-                Integer.toString(outputFile.getErrors()) + ERRORS_CHECK);
+        Reporter reporter = this.reporterThreadLocal.get();
+        assertEquals("Detailed results found at: " + reporter.getFileName(), "0 errors",
+                Integer.toString(reporter.getFails()) + ERRORS_CHECK);
     }
 
     /**
@@ -496,9 +493,9 @@ public class Selenified {
      * @param errors - number of expected errors from the test
      */
     protected void finish(int errors) {
-        OutputFile outputFile = this.outputFileThreadLocal.get();
-        assertEquals("Detailed results found at: " + outputFile.getFileName(), errors + ERRORS_CHECK,
-                Integer.toString(outputFile.getErrors()) + ERRORS_CHECK);
+        Reporter reporter = this.reporterThreadLocal.get();
+        assertEquals("Detailed results found at: " + reporter.getFileName(), errors + ERRORS_CHECK,
+                Integer.toString(reporter.getFails()) + ERRORS_CHECK);
     }
 
     /**

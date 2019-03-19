@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.element.check.verify;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.State;
 
@@ -39,12 +39,12 @@ import com.coveros.selenified.element.check.State;
 public class VerifyState implements State {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public VerifyState(Element element, OutputFile file) {
+    public VerifyState(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -53,7 +53,7 @@ public class VerifyState implements State {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 
@@ -74,7 +74,7 @@ public class VerifyState implements State {
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void present() {
-        file.verify(checkPresent(0, 0));
+        checkPresent(0, 0);
     }
 
     /**
@@ -83,7 +83,7 @@ public class VerifyState implements State {
      * debugging support.
      */
     public void notPresent() {
-        file.verify(checkNotPresent(0, 0));
+        checkNotPresent(0, 0);
     }
 
     /**
@@ -91,7 +91,7 @@ public class VerifyState implements State {
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void displayed() {
-        file.verify(checkDisplayed(0, 0));
+        checkDisplayed(0, 0);
     }
 
     /**
@@ -100,7 +100,7 @@ public class VerifyState implements State {
      * support.
      */
     public void notDisplayed() {
-        file.verify(checkNotDisplayed(0, 0));
+        checkNotDisplayed(0, 0);
     }
 
     /**
@@ -108,7 +108,7 @@ public class VerifyState implements State {
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void checked() {
-        file.verify(checkChecked(0, 0));
+        checkChecked(0, 0);
     }
 
     /**
@@ -117,7 +117,7 @@ public class VerifyState implements State {
      * support.
      */
     public void notChecked() {
-        file.verify(checkNotChecked(0, 0));
+        checkNotChecked(0, 0);
     }
 
     /**
@@ -127,7 +127,7 @@ public class VerifyState implements State {
      * debugging support.
      */
     public void editable() {
-        file.verify(checkEditable(0, 0));
+        checkEditable(0, 0);
     }
 
     /**
@@ -137,7 +137,7 @@ public class VerifyState implements State {
      * traceability and added debugging support.
      */
     public void notEditable() {
-        file.verify(checkNotEditable(0, 0));
+        checkNotEditable(0, 0);
     }
 
     /**
@@ -145,7 +145,7 @@ public class VerifyState implements State {
      * a screenshot for traceability and added debugging support.
      */
     public void enabled() {
-        file.verify(checkEnabled(0, 0));
+        checkEnabled(0, 0);
     }
 
     /**
@@ -153,6 +153,6 @@ public class VerifyState implements State {
      * a screenshot for traceability and added debugging support.
      */
     public void notEnabled() {
-        file.verify(checkNotEnabled(0, 0));
+        checkNotEnabled(0, 0);
     }
 }

@@ -20,14 +20,10 @@
 
 package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Success;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.Map;
-import java.util.Set;
 
 import static com.coveros.selenified.element.check.Constants.*;
 
@@ -47,9 +43,9 @@ interface Check {
     /**
      * Retrieves the output file that we write all details out to
      *
-     * @return OutputFile
+     * @return Reporter
      */
-    OutputFile getOutputFile();
+    Reporter getReporter();
 
     /**
      * Retrieves the element that is used for all selenium actions and checks
@@ -65,11 +61,13 @@ interface Check {
     /**
      * Determines if the element is present, and if it is not writes a failure out to the detailed log
      *
+     * @param check - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is present or not
      */
-    default boolean isPresent(double waitFor) {
+    default boolean isPresent(String check, double waitFor) {
         if (!getElement().is().present()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_PRESENT, waitFor, Success.FAIL);
+            getReporter().fail(check, waitFor, getElement().prettyOutputStart() + IS_NOT_PRESENT, waitFor);
             return false;
         }
         return true;
@@ -78,11 +76,13 @@ interface Check {
     /**
      * Determines if the element is an input element, and if it is not writes a failure out to the detailed log
      *
+     * @param check - the check being performed
+      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an input or not
      */
-    default boolean isInput(double waitFor) {
+    default boolean isInput(String check, double waitFor) {
         if (!getElement().is().input()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_INPUT, waitFor, Success.FAIL);
+            getReporter().fail(check, waitFor, getElement().prettyOutputStart() + IS_NOT_INPUT, waitFor);
             return false;
         }
         return true;
@@ -91,11 +91,13 @@ interface Check {
     /**
      * Determines if the element is a select element, and if it is not writes a failure out to the detailed log
      *
+     * @param check - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an select or not
      */
-    default boolean isSelect(double waitFor) {
+    default boolean isSelect(String check, double waitFor) {
         if (!getElement().is().select()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_SELECT, waitFor, Success.FAIL);
+            getReporter().fail(check, waitFor, getElement().prettyOutputStart() + IS_NOT_SELECT, waitFor);
             return false;
         }
         return true;
@@ -104,11 +106,13 @@ interface Check {
     /**
      * Determines if the element is a table element, and if it is not writes a failure out to the detailed log
      *
+     * @param check - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */
-    default boolean isTable(double waitFor) {
+    default boolean isTable(String check, double waitFor) {
         if (!getElement().is().table()) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_TABLE, waitFor, Success.FAIL);
+            getReporter().fail(check, waitFor, getElement().prettyOutputStart() + IS_NOT_TABLE, waitFor);
             return false;
         }
         return true;
@@ -119,13 +123,13 @@ interface Check {
      * Writes out the action and expected outcome to the detailed log. Action is only logged
      * if waitFor is greater than 0 (implying we are waiting)
      *
-     * @param expected - the expected outcome
+     * @param check - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
-    default boolean isPresentInput(String expected, double waitFor) {
-        getOutputFile().recordAction(expected, waitFor);
+    default boolean isPresentInput(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(waitFor) && isInput(waitFor));
+        return (isPresent(check, waitFor) && isInput(check, waitFor));
     }
 
     /**
@@ -133,13 +137,13 @@ interface Check {
      * Writes out the action and expected outcome to the detailed log. Action is only logged
      * if waitFor is greater than 0 (implying we are waiting)
      *
-     * @param expected - the expected outcome
+     * @param check - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
-    default boolean isPresentSelect(String expected, double waitFor) {
-        getOutputFile().recordAction(expected, waitFor);
+    default boolean isPresentSelect(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(waitFor) && isSelect(waitFor));
+        return (isPresent(check, waitFor) && isSelect(check, waitFor));
     }
 
     /**
@@ -147,59 +151,14 @@ interface Check {
      * Writes out the action and expected outcome to the detailed log. Action is only logged
      * if waitFor is greater than 0 (implying we are waiting)
      *
-     * @param expected - the expected outcome
+     * @param check - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */
-    default boolean isPresentTable(String expected, double waitFor) {
-        getOutputFile().recordAction(expected, waitFor);
+    default boolean isPresentTable(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(waitFor) && isTable(waitFor));
+        return (isPresent(check, waitFor) && isTable(check, waitFor));
     }
-
-    /**
-     * Retrieves all attributes of an element, and writes out the action and expected
-     * result of checking for one particular attribute. Action is only logged
-     * if waitFor is greater than 0 (implying we are waiting). If the element isn't
-     * present, or the attributes can't be determined an error will be logged
-     * and null will be returned
-     *
-     * @param attribute - the attribute to check for
-     * @param expected  - is the attribute expected to be present, or not present
-     * @return String[]: the list of all attributes from the element;
-     */
-    @SuppressWarnings("squid:S1168")
-    default String[] getAttributes(String attribute, String expected, double waitFor) {
-        getOutputFile().recordAction(getElement().prettyOutput() + " " + expected + " attribute <b>" + attribute + "</b>", waitFor);
-        // check our attributes
-        Map<String, String> attributes = getElement().get().allAttributes();
-        if (attributes == null) {
-            return null;    // returning an empty array could be confused with no attributes
-        }
-        Set<String> keys = attributes.keySet();
-        return keys.toArray(new String[keys.size()]);
-    }
-
-    /**
-     * Retrieves the value from the element, and writes out the action and value that is
-     * being expected. Action is only logged if waitFor is greater than 0 (implying we
-     * are waiting). If the element isn't present or an input, an error will
-     * be logged and null will be returned
-     *
-     * @param value    the expected value of the element
-     * @param expected - is the attribute expected to be present, or not present
-     * @return String: the actual value from the input element
-     */
-    default String getValue(String value, String expected, double waitFor) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + expected + value + "</b>", waitFor);
-        // verify this is an input element
-        if (!getElement().is().input()) {
-            return null;        //return null, as it's not an input element
-        }
-        // check for the object to the present on the page
-        return getElement().get().value();
-    }
-
 
     /**
      * Performs a simple check for the element to be present. The provided wait time will be used

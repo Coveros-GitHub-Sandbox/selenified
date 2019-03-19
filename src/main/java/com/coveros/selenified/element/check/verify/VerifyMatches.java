@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.element.check.verify;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Matches;
 
@@ -40,12 +40,12 @@ import com.coveros.selenified.element.check.Matches;
 public class VerifyMatches implements Matches {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public VerifyMatches(Element element, OutputFile file) {
+    public VerifyMatches(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -54,7 +54,7 @@ public class VerifyMatches implements Matches {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 
@@ -79,8 +79,7 @@ public class VerifyMatches implements Matches {
      * @param expectedPattern the expected pattern of the text of the element
      */
     public void text(String expectedPattern) {
-        String text = checkText(expectedPattern, 0, 0);
-        file.verify(text != null && text.matches(expectedPattern));
+        checkText(expectedPattern, 0, 0);
     }
 
     /**
@@ -97,8 +96,7 @@ public class VerifyMatches implements Matches {
      * @param pattern - what pattern do we expect to be in the table cell
      */
     public void text(int row, int col, String pattern) {
-        String text = checkText(row, col, pattern, 0, 0);
-        file.verify(text != null && text.matches(pattern));
+        checkText(row, col, pattern, 0, 0);
     }
 
     /**
@@ -110,8 +108,7 @@ public class VerifyMatches implements Matches {
      * @param expectedPattern the expected input value of the element
      */
     public void value(String expectedPattern) {
-        String value = checkValue(expectedPattern, 0, 0);
-        file.verify(value != null && value.matches(expectedPattern));
+        checkValue(expectedPattern, 0, 0);
     }
 
     /**
@@ -123,8 +120,7 @@ public class VerifyMatches implements Matches {
      * @param expectedPattern the expected input text of the element
      */
     public void selectedOption(String expectedPattern) {
-        String selectedOption = checkSelectedOption(expectedPattern, 0, 0);
-        file.verify(selectedOption != null && selectedOption.matches(expectedPattern));
+        checkSelectedOption(expectedPattern, 0, 0);
     }
 
     /**
@@ -136,7 +132,6 @@ public class VerifyMatches implements Matches {
      * @param expectedPattern the expected input value of the element
      */
     public void selectedValue(String expectedPattern) {
-        String selectedValue = checkSelectedValue(expectedPattern, 0, 0);
-        file.verify(selectedValue != null && selectedValue.matches(expectedPattern));
+        checkSelectedValue(expectedPattern, 0, 0);
     }
 }

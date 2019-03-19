@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.application;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -41,7 +41,7 @@ import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INT
 public class WaitFor implements Check {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the driver that will be used for all selenium actions
     private final App app;
@@ -55,7 +55,7 @@ public class WaitFor implements Check {
      * @param app  - the application under test
      * @param file - the file to write all logging out to
      */
-    public WaitFor(App app, OutputFile file) {
+    public WaitFor(App app, Reporter file) {
         this.app = app;
         this.file = file;
     }
@@ -64,7 +64,7 @@ public class WaitFor implements Check {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 
@@ -353,7 +353,6 @@ public class WaitFor implements Check {
             checkUrlEquals(expectedURL, seconds, timeTook);
         } catch (TimeoutException e) {
             checkUrlEquals(expectedURL, seconds, seconds);
-            file.addError();
         }
     }
 
@@ -374,7 +373,6 @@ public class WaitFor implements Check {
             checkTitleEquals(expectedTitle, seconds, timeTook);
         } catch (TimeoutException e) {
             checkTitleEquals(expectedTitle, seconds, seconds);
-            file.addError();
         }
     }
 
@@ -391,9 +389,6 @@ public class WaitFor implements Check {
         while (!app.get().title().matches(expectedTitle) && System.currentTimeMillis() < end) ;
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
         checkTitleMatches(expectedTitle, seconds, timeTook);
-        if (!app.get().title().matches(expectedTitle)) {
-            file.addError();
-        }
     }
 
     /**
@@ -466,7 +461,6 @@ public class WaitFor implements Check {
             checkAlertPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkAlertPresent(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -483,7 +477,6 @@ public class WaitFor implements Check {
             checkAlertNotPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkAlertNotPresent(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -500,12 +493,8 @@ public class WaitFor implements Check {
             double timeTook = popup(seconds);
             timeTook = popupEquals(seconds - timeTook, expectedAlertText);
             checkAlertEquals(expectedAlertText, seconds, timeTook);
-            if (!app.get().alert().equals(expectedAlertText)) {
-                file.addError();
-            }
         } catch (TimeoutException e) {
             checkAlertEquals(expectedAlertText, seconds, seconds);
-            file.addError();
         }
     }
 
@@ -522,12 +511,8 @@ public class WaitFor implements Check {
             double timeTook = popup(seconds);
             timeTook = popupMatches(seconds - timeTook, expectedAlertPattern);
             checkAlertMatches(expectedAlertPattern, seconds, timeTook);
-            if (!app.get().alert().matches(expectedAlertPattern)) {
-                file.addError();
-            }
         } catch (TimeoutException e) {
             checkAlertMatches(expectedAlertPattern, seconds, seconds);
-            file.addError();
         }
     }
 
@@ -544,7 +529,6 @@ public class WaitFor implements Check {
             checkConfirmationPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkConfirmationPresent(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -561,7 +545,6 @@ public class WaitFor implements Check {
             checkConfirmationNotPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkConfirmationNotPresent(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -578,12 +561,8 @@ public class WaitFor implements Check {
             double timeTook = popup(seconds);
             timeTook = popupEquals(seconds - timeTook, expectedConfirmationText);
             checkConfirmationEquals(expectedConfirmationText, seconds, timeTook);
-            if (!app.get().confirmation().equals(expectedConfirmationText)) {
-                file.addError();
-            }
         } catch (TimeoutException e) {
             checkConfirmationEquals(expectedConfirmationText, seconds, seconds);
-            file.addError();
         }
     }
 
@@ -600,12 +579,8 @@ public class WaitFor implements Check {
             double timeTook = popup(seconds);
             timeTook = popupMatches(seconds - timeTook, expectedConfirmationPattern);
             checkConfirmationMatches(expectedConfirmationPattern, seconds, timeTook);
-            if (!app.get().confirmation().matches(expectedConfirmationPattern)) {
-                file.addError();
-            }
         } catch (TimeoutException e) {
             checkConfirmationMatches(expectedConfirmationPattern, seconds, seconds);
-            file.addError();
         }
     }
 
@@ -622,7 +597,6 @@ public class WaitFor implements Check {
             checkPromptPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkPromptPresent(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -639,7 +613,6 @@ public class WaitFor implements Check {
             checkPromptNotPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkPromptNotPresent(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -656,12 +629,8 @@ public class WaitFor implements Check {
             double timeTook = popup(seconds);
             timeTook = popupEquals(seconds - timeTook, expectedPromptText);
             checkPromptEquals(expectedPromptText, seconds, timeTook);
-            if (!app.get().prompt().equals(expectedPromptText)) {
-                file.addError();
-            }
         } catch (TimeoutException e) {
             checkPromptEquals(expectedPromptText, seconds, seconds);
-            file.addError();
         }
     }
 
@@ -678,12 +647,8 @@ public class WaitFor implements Check {
             double timeTook = popup(seconds);
             timeTook = popupMatches(seconds - timeTook, expectedPromptPattern);
             checkPromptMatches(expectedPromptPattern, seconds, timeTook);
-            if (!app.get().prompt().matches(expectedPromptPattern)) {
-                file.addError();
-            }
         } catch (TimeoutException e) {
             checkPromptMatches(expectedPromptPattern, seconds, seconds);
-            file.addError();
         }
     }
 
@@ -700,9 +665,6 @@ public class WaitFor implements Check {
         while (!app.is().textPresent(expectedText) && System.currentTimeMillis() < end) ;
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
         checkTextPresent(expectedText, seconds, timeTook);
-        if (!app.is().textPresent(expectedText)) {
-            file.addError();
-        }
     }
 
     /**
@@ -718,9 +680,6 @@ public class WaitFor implements Check {
         while (app.is().textPresent(expectedText) && System.currentTimeMillis() < end) ;
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
         checkTextNotPresent(expectedText, seconds, timeTook);
-        if (app.is().textPresent(expectedText)) {
-            file.addError();
-        }
     }
 
     /**
@@ -736,9 +695,6 @@ public class WaitFor implements Check {
         while (!app.is().cookiePresent(expectedCookieName) && System.currentTimeMillis() < end) ;
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
         checkCookieExists(expectedCookieName, seconds, timeTook);
-        if (!app.is().cookiePresent(expectedCookieName)) {
-            file.addError();
-        }
     }
 
     /**
@@ -754,9 +710,6 @@ public class WaitFor implements Check {
         while (app.is().cookiePresent(unexpectedCookieName) && System.currentTimeMillis() < end) ;
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
         checkCookieNotExists(unexpectedCookieName, seconds, timeTook);
-        if (app.is().cookiePresent(unexpectedCookieName)) {
-            file.addError();
-        }
     }
 
     /**
@@ -776,9 +729,6 @@ public class WaitFor implements Check {
         }
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
         checkCookieEquals(cookieName, expectedCookieValue, seconds, timeTook);
-        if (!app.is().cookiePresent(cookieName) || !app.get().cookieValue(cookieName).equals(expectedCookieValue)) {
-            file.addError();
-        }
     }
 
     /**
@@ -794,14 +744,10 @@ public class WaitFor implements Check {
         double end = System.currentTimeMillis() + (seconds * 1000);
         while (app.is().cookiePresent(cookieName) && System.currentTimeMillis() < end) ;
         if (app.is().cookiePresent(cookieName)) {
-            while (!app.get().cookieValue(cookieName).matches(expectedCookiePattern) && System.currentTimeMillis() < end)
-                ;
+            while (!app.get().cookieValue(cookieName).matches(expectedCookiePattern) && System.currentTimeMillis() < end) ;
         }
         double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        checkCookieEquals(cookieName, expectedCookiePattern, seconds, timeTook);
-        if (!app.is().cookiePresent(cookieName) || !app.get().cookieValue(cookieName).matches(expectedCookiePattern)) {
-            file.addError();
-        }
+        checkCookieMatches(cookieName, expectedCookiePattern, seconds, timeTook);
     }
 
 }

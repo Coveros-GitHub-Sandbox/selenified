@@ -20,8 +20,6 @@
 
 package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.OutputFile.Success;
-
 import static com.coveros.selenified.element.check.Constants.*;
 
 /**
@@ -65,15 +63,13 @@ public interface Matches extends Check {
      * @return String: the actual text of the element. null will be returned if the element isn't present
      */
     default String checkText(String expectedPattern, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>", waitFor);
         // check for the object to the present on the page
         String elementText = getElement().get().text();
         // record the result
         if (elementText == null || !elementText.matches(expectedPattern)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + MATCH_PATTERN + expectedPattern + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook);
         }
         return elementText;
     }
@@ -121,12 +117,14 @@ public interface Matches extends Check {
         String actualText = getElement().get().tableCell(row, col).get().text();
         // record the result
         if (!actualText.matches(pattern)) {
-            getOutputFile().recordActual("Cell at row " + row + column + col + within + getElement().prettyOutput() +
-                    " has the value of <b>" + actualText + "</b>", timeTook, Success.FAIL);
+            getReporter().fail("Expected to find cell at row " + row + column + col + within + getElement().prettyOutput() +
+                    MATCH_PATTERN + pattern + "</b>", waitFor, "Cell at row " + row + column + col + within + getElement().prettyOutput() +
+                    " has the value of <b>" + actualText + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(
+            getReporter().pass("Expected to find cell at row " + row + column + col + within + getElement().prettyOutput() +
+                            MATCH_PATTERN + pattern + "</b>", waitFor,
                     "Cell at row " + row + column + col + within + getElement().prettyOutput() + " has the text of <b>" +
-                            actualText + "</b>", timeTook, Success.PASS);
+                            actualText + "</b>", timeTook);
         }
         return actualText;
     }
@@ -161,9 +159,9 @@ public interface Matches extends Check {
         String elementValue = getElement().get().value();
         // record the result
         if (!elementValue.matches(expectedPattern)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutputStart() + " is not an input on the page", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutputStart() + " is not an input on the page", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         }
         return elementValue;
     }
@@ -200,9 +198,11 @@ public interface Matches extends Check {
         String elementText = getElement().get().selectedOption();
         // record the result
         if (!elementText.matches(expectedPattern)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having a selected option to match a pattern " +
+                    "of <b>" + expectedPattern + "</b>", waitFor, getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " having a selected option to match a pattern " +
+                    "of <b>" + expectedPattern + "</b>", waitFor, getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook);
         }
         return elementText;
     }
@@ -239,9 +239,11 @@ public interface Matches extends Check {
         String elementValue = getElement().get().selectedValue();
         // record the result
         if (!elementValue.matches(expectedPattern)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having a selected value to match a pattern " +
+                    "of <b>" + expectedPattern + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " having a selected value to match a pattern " +
+                    "of <b>" + expectedPattern + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         }
         return elementValue;
     }

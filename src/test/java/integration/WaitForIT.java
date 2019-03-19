@@ -613,8 +613,8 @@ public class WaitForIT extends WebBase {
         // perform some actions
         app.wait(6.0);
         app.newElement(Locator.ID, "five_second_button").click();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "wait"},

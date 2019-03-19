@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.element.check.azzert;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.State;
 
@@ -42,12 +42,12 @@ import static org.testng.AssertJUnit.assertTrue;
 public class AssertState implements State {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertState(Element element, OutputFile file) {
+    public AssertState(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -56,7 +56,7 @@ public class AssertState implements State {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 

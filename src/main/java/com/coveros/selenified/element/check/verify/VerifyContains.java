@@ -20,11 +20,9 @@
 
 package com.coveros.selenified.element.check.verify;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Contains;
-
-import java.util.Arrays;
 
 /**
  * VerifyContains implements Contains to provide some additional verification
@@ -42,12 +40,12 @@ import java.util.Arrays;
 public class VerifyContains implements Contains {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter file;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public VerifyContains(Element element, OutputFile file) {
+    public VerifyContains(Element element, Reporter file) {
         this.element = element;
         this.file = file;
     }
@@ -56,7 +54,7 @@ public class VerifyContains implements Contains {
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
+    public Reporter getReporter() {
         return file;
     }
 
@@ -81,8 +79,7 @@ public class VerifyContains implements Contains {
      * @param expectedClass - the expected class value
      */
     public void clazz(String expectedClass) {
-        String clazz = checkClazz(expectedClass, 0, 0);
-        file.verify(clazz != null && clazz.contains(expectedClass));
+        checkClazz(expectedClass, 0, 0);
     }
 
     /**
@@ -94,8 +91,7 @@ public class VerifyContains implements Contains {
      * @param expectedAttribute - the attribute to check for
      */
     public void attribute(String expectedAttribute) {
-        String[] attributes = checkAttribute(expectedAttribute, 0, 0);
-        file.verify(attributes != null && Arrays.asList(attributes).contains(expectedAttribute));
+        checkAttribute(expectedAttribute, 0, 0);
     }
 
     /**
@@ -107,8 +103,7 @@ public class VerifyContains implements Contains {
      * @param expectedText the expected value of the element
      */
     public void text(String expectedText) {
-        String text = checkText(expectedText, 0, 0);
-        file.verify(text != null && text.contains(expectedText));
+        checkText(expectedText, 0, 0);
     }
 
     /**
@@ -120,8 +115,7 @@ public class VerifyContains implements Contains {
      * @param expectedValue the expected value of the element
      */
     public void value(String expectedValue) {
-        String value = checkValue(expectedValue, 0, 0);
-        file.verify(value != null && value.contains(expectedValue));
+        checkValue(expectedValue, 0, 0);
     }
 
     /**
@@ -133,8 +127,7 @@ public class VerifyContains implements Contains {
      * @param expectedOption the option expected in the list
      */
     public void selectOption(String expectedOption) {
-        String[] options = checkSelectOption(expectedOption, 0, 0);
-        file.verify(options != null && Arrays.asList(options).contains(expectedOption));
+        checkSelectOption(expectedOption, 0, 0);
     }
 
     /**
@@ -146,8 +139,7 @@ public class VerifyContains implements Contains {
      * @param expectedValue the expected input value of the element
      */
     public void selectValue(String expectedValue) {
-        String[] values = checkSelectValue(expectedValue, 0, 0);
-        file.verify(values != null && Arrays.asList(values).contains(expectedValue));
+        checkSelectValue(expectedValue, 0, 0);
     }
 
     /**
@@ -159,7 +151,7 @@ public class VerifyContains implements Contains {
      * @param numOfOptions the expected number of options in the select element
      */
     public void selectOptions(int numOfOptions) {
-        file.verify(checkSelectOptions(numOfOptions, 0, 0) == numOfOptions);
+        checkSelectOptions(numOfOptions, 0, 0);
     }
 
     /**
@@ -171,7 +163,7 @@ public class VerifyContains implements Contains {
      * @param numOfColumns the expected number of column elements of a table
      */
     public void columns(int numOfColumns) {
-        file.verify(checkColumns(numOfColumns, 0, 0) == numOfColumns);
+        checkColumns(numOfColumns, 0, 0);
     }
 
     /**
@@ -183,6 +175,6 @@ public class VerifyContains implements Contains {
      * @param numOfRows the expected number of row elements of a table
      */
     public void rows(int numOfRows) {
-        file.verify(checkRows(numOfRows, 0, 0) == numOfRows);
+        checkRows(numOfRows, 0, 0);
     }
 }

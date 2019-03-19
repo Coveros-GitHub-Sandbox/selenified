@@ -2,8 +2,7 @@ package unit;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Success;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
@@ -22,15 +21,15 @@ import java.util.Map;
 
 import static org.testng.Assert.*;
 
-public class OutputFileTest {
+public class ReporterTest {
 
-    private OutputFile outputFile;
+    private Reporter reporter;
     private File directory;
     private File file;
 
     @BeforeMethod
     public void createFile() throws InvalidBrowserException {
-        outputFile = new OutputFile("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
+        reporter = new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                 null);
         directory = new File("directory");
         file = new File("directory", "file.html");
@@ -44,7 +43,7 @@ public class OutputFileTest {
 
     @Test
     public void setupFileFreshTest() throws InvalidBrowserException {
-        new OutputFile("somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
+        new Reporter("somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File file = new File("somenewdir", "file.html");
         assertTrue(file.exists());
         file.delete();
@@ -58,7 +57,7 @@ public class OutputFileTest {
         assertTrue(file.exists());
 
         // do it again, ensure nothing breaks when it already exists
-        new OutputFile("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
+        new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         assertNotEquals(file.length(), 0);
         assertTrue(directory.exists());
         assertTrue(file.exists());
@@ -66,36 +65,18 @@ public class OutputFileTest {
 
     @Test
     public void fileNameTest() {
-        assertEquals(outputFile.getFileName(), "file");
+        assertEquals(reporter.getFileName(), "file");
     }
 
     @Test
     public void captureEntirePageScreenshotTest() {
-        assertEquals(outputFile.captureEntirePageScreenshot(),
+        assertEquals(reporter.captureEntirePageScreenshot(),
                 "<br/><b><font class='fail'>No Screenshot Available</font></b>");
     }
 
     @Test
-    public void addErrorTest() {
-        assertEquals(outputFile.getErrors(), 0);
-        outputFile.addError();
-        assertEquals(outputFile.getErrors(), 1);
-        outputFile.addError();
-        assertEquals(outputFile.getErrors(), 2);
-    }
-
-    @Test
-    public void addErrorsTest() {
-        assertEquals(outputFile.getErrors(), 0);
-        outputFile.addErrors(2);
-        assertEquals(outputFile.getErrors(), 2);
-        outputFile.addErrors(99999);
-        assertEquals(outputFile.getErrors(), 100001);
-    }
-
-    @Test
     public void createOutputHeaderSuiteTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, "My Suite", null, null, null,
+        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, "My Suite", null, null, null,
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -107,7 +88,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderGroupTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, "My Group", null, null,
+        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, "My Group", null, null,
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -119,7 +100,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderAuthorTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, "My Author", null,
+        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, "My Author", null,
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -131,7 +112,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderVersionTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, "My Version",
+        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, "My Version",
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -143,7 +124,7 @@ public class OutputFileTest {
 
     @Test
     public void createOutputHeaderObjectivesTest() throws IOException {
-        new OutputFile("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
+        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                 "My Objectives");
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -162,7 +143,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionSuccess() throws IOException {
-        outputFile.recordStep("my action", "expected", "actual", Success.PASS);
+        reporter.pass("my action", "expected", "actual");
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -171,7 +152,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionFailure() throws IOException {
-        outputFile.recordStep("my action", "expected", "actual", Success.FAIL);
+        reporter.fail("my action", "expected", "actual");
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -180,7 +161,7 @@ public class OutputFileTest {
 
     @Test
     public void recordActionFailureCheck() throws IOException {
-        outputFile.recordStep("my action", "expected", "actual", Success.CHECK);
+        reporter.check("my action", "expected", "actual");
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -189,148 +170,67 @@ public class OutputFileTest {
 
     @Test
     public void recordActionBadFile() throws InvalidBrowserException {
-        OutputFile file =
-                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
+        Reporter file =
+                new Reporter("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
-        file.recordStep("my action", "expected", "actual", Success.CHECK);
+        file.check("my action", "expected", "actual");
         // we are just verifying that no errors were thrown
     }
 
     @Test
-    public void recordExpected() throws IOException {
-        outputFile.recordExpected("expected");
-        assertNotEquals(file.length(), 0);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(
-                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>expected</td>\n"));
-    }
-
-    @Test
-    public void recordExpectedBadFile() throws InvalidBrowserException {
-        OutputFile file =
-                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
-                        null);
-        file.recordExpected("expected");
-        // we are just verifying that no errors were thrown
-    }
-
-    @Test
-    public void recordAction() throws IOException {
-        outputFile.recordAction("action", "expected");
-        assertNotEquals(file.length(), 0);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(
-                content.contains("   <tr>\n    <td align='center'>1.</td>\n    <td>action</td>\n    <td>expected</td>\n"));
-    }
-
-    @Test
-    public void recordAction1BadFile() throws InvalidBrowserException {
-        OutputFile file =
-                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
-                        null);
-        file.recordAction("action", "expected");
-        // we are just verifying that no errors were thrown
-    }
-
-    @Test
-    public void recordActualPass() throws IOException {
-        outputFile.recordActual("actual", Success.PASS);
-        assertNotEquals(file.length(), 0);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.matches(
-                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
-    }
-
-    @Test
-    public void recordActualFail() throws IOException {
-        outputFile.recordActual("actual", Success.FAIL);
-        assertNotEquals(file.length(), 0);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.matches(
-                "[.\\s\\S]+    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
-    }
-
-    @Test
-    public void recordActualBadFile() throws InvalidBrowserException {
-        OutputFile file =
-                new OutputFile("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
-                        null);
-        file.recordActual("actual", Success.FAIL);
-        // we are just verifying that no errors were thrown
-    }
-
-    @Test
-    public void endTestTemplateOutputFileTest() throws IOException {
-        outputFile.finalizeOutputFile(0);
+    public void endTestTemplateReporterTest() throws IOException {
+        reporter.finalizeReporter(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.contains("  </table>\r\n </body>\r\n</html>\r\n"));
     }
 
     @Test
-    public void endTestTemplateOutputFileNoErrorsPassTest() throws IOException {
-        outputFile.finalizeOutputFile(0);
+    public void endTestTemplateReporterNoErrorsPassTest() throws IOException {
+        reporter.finalizeReporter(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
     }
 
     @Test
-    public void endTestTemplateOutputFileNoErrorsWarningTest() throws IOException {
-        outputFile.finalizeOutputFile(1);
+    public void endTestTemplateReporterNoErrorsWarningTest() throws IOException {
+        reporter.finalizeReporter(1);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.contains("<font size='+2' class='check'><b>CHECK</b></font>"));
     }
 
     @Test
-    public void endTestTemplateOutputFileNoErrorsFailureTest() throws IOException {
-        outputFile.finalizeOutputFile(2);
+    public void endTestTemplateReporterNoErrorsFailureTest() throws IOException {
+        reporter.finalizeReporter(2);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.contains("<font size='+2' class='check'><b>CHECK</b></font>"));
     }
 
     @Test
-    public void endTestTemplateOutputFileErrorsTest() throws IOException {
-        outputFile.addError();
-        outputFile.finalizeOutputFile(0);
+    public void endTestTemplateReporterActionFailTest() throws IOException {
+        reporter.fail("Something", "Something", "Something");
+        reporter.finalizeReporter(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.contains("<font size='+2' class='fail'><b>FAIL</b></font>"));
     }
 
     @Test
-    public void endTestTemplateOutputFileLoggedTest() throws IOException {
-        outputFile.recordActual("Something", Success.FAIL);
-        outputFile.finalizeOutputFile(0);
-        assertNotEquals(file.length(), 0);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='fail'><b>FAIL</b></font>"));
-    }
-
-    @Test
-    public void endTestTemplateOutputFileActualNotLoggedTest() throws IOException {
-        outputFile.recordActual("Something", Success.PASS);
-        outputFile.finalizeOutputFile(0);
+    public void endTestTemplateReporterActionNotLoggedTest() throws IOException {
+        reporter.pass("Something", "Something", "Something");
+        reporter.finalizeReporter(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
     }
 
     @Test
-    public void endTestTemplateOutputFileActionNotLoggedTest() throws IOException {
-        outputFile.recordStep("Something", "Something", "Something", Success.PASS);
-        outputFile.finalizeOutputFile(0);
-        assertNotEquals(file.length(), 0);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<font size='+2' class='pass'><b>PASS</b></font>"));
-    }
-
-    @Test
-    public void endTestTemplateOutputFileActionNotLoggedWarningTest() throws IOException {
-        outputFile.recordStep("Something", "Something", "Something", Success.CHECK);
-        outputFile.finalizeOutputFile(0);
+    public void endTestTemplateReporterActionNotLoggedWarningTest() throws IOException {
+        reporter.check("Something", "Something", "Something");
+        reporter.finalizeReporter(0);
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.contains("<font size='+2' class='check'><b>CHECK</b></font>"));
@@ -338,7 +238,7 @@ public class OutputFileTest {
 
     @Test
     public void packageResultsTest() throws IOException {
-        outputFile.finalizeOutputFile(1);
+        reporter.finalizeReporter(1);
         assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
     }
 
@@ -348,13 +248,13 @@ public class OutputFileTest {
         if (System.getProperty("packageResults") != null) {
             packageResults = System.getProperty("packageResults");
         }
-        OutputFile outputFile =
-                new OutputFile("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
+        Reporter reporter =
+                new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");
         File file = new File("results", "file");
 
         System.setProperty("packageResults", "true");
-        outputFile.finalizeOutputFile(1);
+        reporter.finalizeReporter(1);
         File results = new File("results", file.getName() + "_RESULTS.zip");
         assertTrue(results.exists());
 
@@ -374,7 +274,7 @@ public class OutputFileTest {
             packageResults = System.getProperty("packageResults");
         }
         System.setProperty("packageResults", "false");
-        outputFile.finalizeOutputFile(1);
+        reporter.finalizeReporter(1);
         assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
         System.clearProperty("packageResults");
         if (packageResults != null) {
@@ -384,31 +284,31 @@ public class OutputFileTest {
 
     @Test
     public void outputRequestPropertiesNullTest() {
-        assertEquals(outputFile.outputRequestProperties(null, null), "");
+        assertEquals(reporter.outputRequestProperties(null, null), "");
     }
 
     @Test
     public void outputRequestPropertiesNullNullTest() {
         Request request = new Request();
-        assertEquals(outputFile.outputRequestProperties(request, null), "");
+        assertEquals(reporter.outputRequestProperties(request, null), "");
     }
 
     @Test
     public void outputRequestPropertiesNullNullFileTest() {
-        assertEquals(outputFile.outputRequestProperties(null, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(null, new File("Jenkinsfile")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesNullNullBadFileTest() {
-        assertEquals(outputFile.outputRequestProperties(null, new File("Jenkinsfi")),
+        assertEquals(reporter.outputRequestProperties(null, new File("Jenkinsfi")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfi</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyJsonObjectTest() {
         Request request = new Request().setJsonPayload(new JsonObject());
-        assertEquals(outputFile.outputRequestProperties(request, null),
+        assertEquals(reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div>");
     }
 
@@ -417,14 +317,14 @@ public class OutputFileTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         Request request = new Request().setJsonPayload(json);
-        assertEquals(outputFile.outputRequestProperties(request, null),
+        assertEquals(reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyJsonArrayTest() {
         Request request = new Request().setJsonPayload(new JsonArray());
-        assertEquals(outputFile.outputRequestProperties(request, null),
+        assertEquals(reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[]</i></div>");
     }
 
@@ -434,7 +334,7 @@ public class OutputFileTest {
         json.add("hello");
         json.add("world");
         Request request = new Request().setJsonPayload(json);
-        assertEquals(outputFile.outputRequestProperties(request, null),
+        assertEquals(reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
                         "\"world\"<br/>]</i></div>");
     }
@@ -442,7 +342,7 @@ public class OutputFileTest {
     @Test
     public void outputRequestPropertiesEmptyMultipartTest() {
         Request request = new Request().setMultipartData(new HashMap<>());
-        assertEquals(outputFile.outputRequestProperties(request, null),
+        assertEquals(reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div>");
     }
 
@@ -451,14 +351,14 @@ public class OutputFileTest {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request().setMultipartData(map);
-        assertEquals(outputFile.outputRequestProperties(request, null),
+        assertEquals(reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div>");
     }
 
     @Test
     public void outputRequestPropertiesEmptyParamsTest() {
         Request request = new Request().setUrlParams(new HashMap<>());
-        assertEquals(outputFile.outputRequestProperties(request, null), "");
+        assertEquals(reporter.outputRequestProperties(request, null), "");
     }
 
     @Test
@@ -466,7 +366,7 @@ public class OutputFileTest {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request().setUrlParams(map);
-        assertEquals(outputFile.outputRequestProperties(request, null), "");
+        assertEquals(reporter.outputRequestProperties(request, null), "");
     }
 
     @Test
@@ -477,7 +377,7 @@ public class OutputFileTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         request.setJsonPayload(json);
-        assertEquals(outputFile.outputRequestProperties(request, null),
+        assertEquals(reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
@@ -490,7 +390,7 @@ public class OutputFileTest {
         json.add("hello");
         json.add("world");
         request.setJsonPayload(json);
-        assertEquals(outputFile.outputRequestProperties(request, null),
+        assertEquals(reporter.outputRequestProperties(request, null),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
                         "\"world\"<br/>]</i></div>");
     }
@@ -498,7 +398,7 @@ public class OutputFileTest {
     @Test
     public void outputRequestPropertiesEmptyJsonObjectAndFileTest() {
         Request request = new Request().setJsonPayload(new JsonObject());
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{}</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -508,7 +408,7 @@ public class OutputFileTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         Request request = new Request().setJsonPayload(json);
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i>" +
                         "</div><div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") +
                         "/Jenkinsfile</i></div>");
@@ -517,7 +417,7 @@ public class OutputFileTest {
     @Test
     public void outputRequestPropertiesEmptyJsonArrayAndFileTest() {
         Request request = new Request().setJsonPayload(new JsonArray());
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -528,7 +428,7 @@ public class OutputFileTest {
         json.add("hello");
         json.add("world");
         Request request = new Request().setJsonPayload(json);
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
                         "\"world\"<br/>]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
@@ -537,7 +437,7 @@ public class OutputFileTest {
     @Test
     public void outputRequestPropertiesEmptyMultipartAndFileTest() {
         Request request = new Request().setMultipartData(new HashMap<>());
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i></i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -547,7 +447,7 @@ public class OutputFileTest {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request().setMultipartData(map);
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i><div>hello&nbsp;:&nbsp;world</div></i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -555,7 +455,7 @@ public class OutputFileTest {
     @Test
     public void outputRequestPropertiesEmptyParamsAndFileTest() {
         Request request = new Request().setUrlParams(new HashMap<>());
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
@@ -564,7 +464,7 @@ public class OutputFileTest {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
         Request request = new Request().setUrlParams(map);
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<div>&nbsp;with&nbsp;file:&nbsp;<i>" + System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
 
@@ -576,7 +476,7 @@ public class OutputFileTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         request.setJsonPayload(json);
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
     }
@@ -590,7 +490,7 @@ public class OutputFileTest {
         json.add("hello");
         json.add("world");
         request.setJsonPayload(json);
-        assertEquals(outputFile.outputRequestProperties(request, new File("Jenkinsfile")),
+        assertEquals(reporter.outputRequestProperties(request, new File("Jenkinsfile")),
                 "<br/>&nbsp;with&nbsp;parameters:&nbsp;<div><i>[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;" +
                         "\"world\"<br/>]</i></div><div>&nbsp;with&nbsp;file:&nbsp;<i>" +
                         System.getProperty("user.dir") + "/Jenkinsfile</i></div>");
@@ -598,7 +498,7 @@ public class OutputFileTest {
 
     @Test
     public void formatResponseNullTest() {
-        assertEquals(outputFile.formatResponse(null), "");
+        assertEquals(reporter.formatResponse(null), "");
     }
 
     @Test
@@ -606,14 +506,14 @@ public class OutputFileTest {
         JsonObject json = new JsonObject();
         Response response = new Response(0, json, null);
         response.setObjectData(null);
-        assertEquals(outputFile.formatResponse(response), "");
+        assertEquals(reporter.formatResponse(response), "");
     }
 
     @Test
     public void formatResponseEmptyObjectTest() {
         JsonObject json = new JsonObject();
         Response response = new Response(0, json, null);
-        assertEquals(outputFile.formatResponse(response), "<div><i>{}</i></div>");
+        assertEquals(reporter.formatResponse(response), "<div><i>{}</i></div>");
     }
 
     @Test
@@ -621,7 +521,7 @@ public class OutputFileTest {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
         Response response = new Response(0, json, null);
-        assertEquals(outputFile.formatResponse(response),
+        assertEquals(reporter.formatResponse(response),
                 "<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
@@ -629,7 +529,7 @@ public class OutputFileTest {
     public void formatResponseEmptyArrayTest() {
         JsonArray json = new JsonArray();
         Response response = new Response(0, json, null);
-        assertEquals(outputFile.formatResponse(response), "<div><i>[]</i></div>");
+        assertEquals(reporter.formatResponse(response), "<div><i>[]</i></div>");
     }
 
     @Test
@@ -637,7 +537,7 @@ public class OutputFileTest {
         JsonArray json = new JsonArray();
         json.add("world");
         Response response = new Response(0, json, null);
-        assertEquals(outputFile.formatResponse(response), "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]</i></div>");
+        assertEquals(reporter.formatResponse(response), "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]</i></div>");
     }
 
     @Test
@@ -648,33 +548,33 @@ public class OutputFileTest {
         JsonObject object = new JsonObject();
         object.addProperty("hello", "world");
         response.setObjectData(object);
-        assertEquals(outputFile.formatResponse(response),
+        assertEquals(reporter.formatResponse(response),
                 "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
 
     @Test
     public void formatHTMLNullTest() {
-        assertEquals(outputFile.formatHTML(null), "");
+        assertEquals(reporter.formatHTML(null), "");
     }
 
     @Test
     public void formatHTMLEmptyTest() {
-        assertEquals(outputFile.formatHTML(""), "");
+        assertEquals(reporter.formatHTML(""), "");
     }
 
     @Test
     public void formatHTMLNewlineTest() {
-        assertEquals(outputFile.formatHTML("\n"), "<br/>");
+        assertEquals(reporter.formatHTML("\n"), "<br/>");
     }
 
     @Test
     public void formatHTMLSpaceTest() {
-        assertEquals(outputFile.formatHTML(" "), "&nbsp;");
+        assertEquals(reporter.formatHTML(" "), "&nbsp;");
     }
 
     @Test
     public void formatHTMLFullTest() {
-        assertEquals(outputFile.formatHTML("hello world\nhello world"), "hello&nbsp;world<br/>hello&nbsp;world");
+        assertEquals(reporter.formatHTML("hello world\nhello world"), "hello&nbsp;world<br/>hello&nbsp;world");
     }
 
     @Test
@@ -683,13 +583,13 @@ public class OutputFileTest {
         if (System.getProperty("generatePDF") != null) {
             generatePDF = System.getProperty("generatePDF");
         }
-        OutputFile outputFile =
-                new OutputFile("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
+        Reporter reporter =
+                new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");
         File file = new File("results", "file");
 
         System.setProperty("generatePDF", "true");
-        outputFile.finalizeOutputFile(1);
+        reporter.finalizeReporter(1);
         File results = new File("results", file.getName() + ".pdf");
         assertTrue(results.exists());
 

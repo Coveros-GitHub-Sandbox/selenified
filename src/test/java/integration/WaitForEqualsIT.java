@@ -17,8 +17,8 @@ public class WaitForEqualsIT extends WebBase {
         Element element = app.newElement(Locator.ID, "five_second_button");
         element.waitForEquals().changeDefaultWait(0.5);
         element.click();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "wait", "equals"}, description = "An integration test to check the matchCount method")
