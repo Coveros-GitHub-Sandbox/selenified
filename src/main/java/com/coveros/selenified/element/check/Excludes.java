@@ -118,7 +118,7 @@ public interface Excludes extends Check {
             getReporter().pass(getElement().prettyOutput() + " without attribute <b>" + attribute + "</b>", waitFor, getElement().prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
                     ONLY_VALUE + String.join(", ", allAttributes) + "</b>", timeTook);
         }
-        if( atts == null ) {
+        if (atts == null) {
             return null;
         } else {
             return allAttributes;

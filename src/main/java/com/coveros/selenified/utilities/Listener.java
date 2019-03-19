@@ -21,9 +21,9 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.utilities.Reporter.Success;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
+import com.coveros.selenified.utilities.Reporter.Success;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.ITestResult;

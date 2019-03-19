@@ -20,9 +20,9 @@
 
 package com.coveros.selenified.element.check.verify;
 
-import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Equals;
+import com.coveros.selenified.utilities.Reporter;
 
 /**
  * VerifyEquals implements Equals to provide some additional verification capabilities.

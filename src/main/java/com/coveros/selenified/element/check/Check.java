@@ -20,8 +20,8 @@
 
 package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
+import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -61,7 +61,7 @@ interface Check {
     /**
      * Determines if the element is present, and if it is not writes a failure out to the detailed log
      *
-     * @param check - the check being performed
+     * @param check   - the check being performed
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is present or not
      */
@@ -76,8 +76,8 @@ interface Check {
     /**
      * Determines if the element is an input element, and if it is not writes a failure out to the detailed log
      *
-     * @param check - the check being performed
-      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param check   - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an input or not
      */
     default boolean isInput(String check, double waitFor) {
@@ -91,7 +91,7 @@ interface Check {
     /**
      * Determines if the element is a select element, and if it is not writes a failure out to the detailed log
      *
-     * @param check - the check being performed
+     * @param check   - the check being performed
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an select or not
      */
@@ -106,7 +106,7 @@ interface Check {
     /**
      * Determines if the element is a table element, and if it is not writes a failure out to the detailed log
      *
-     * @param check - the check being performed
+     * @param check   - the check being performed
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */
@@ -123,7 +123,7 @@ interface Check {
      * Writes out the action and expected outcome to the detailed log. Action is only logged
      * if waitFor is greater than 0 (implying we are waiting)
      *
-     * @param check - the check being performed
+     * @param check   - the check being performed
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
@@ -137,7 +137,7 @@ interface Check {
      * Writes out the action and expected outcome to the detailed log. Action is only logged
      * if waitFor is greater than 0 (implying we are waiting)
      *
-     * @param check - the check being performed
+     * @param check   - the check being performed
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
@@ -151,7 +151,7 @@ interface Check {
      * Writes out the action and expected outcome to the detailed log. Action is only logged
      * if waitFor is greater than 0 (implying we are waiting)
      *
-     * @param check - the check being performed
+     * @param check   - the check being performed
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */

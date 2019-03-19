@@ -20,9 +20,9 @@
 
 package com.coveros.selenified.element.check.azzert;
 
-import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Contains;
+import com.coveros.selenified.utilities.Reporter;
 
 import java.util.Arrays;
 import java.util.Set;

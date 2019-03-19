@@ -20,9 +20,9 @@
 
 package com.coveros.selenified.element.check.wait;
 
-import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Equals;
+import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -489,8 +489,7 @@ public class WaitForEquals implements Equals {
             if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
-            while (!Arrays.toString(element.get().selectOptions()).equals(Arrays.toString(expectedOptions)) && System.currentTimeMillis() < end)
-                ;
+            while (!Arrays.toString(element.get().selectOptions()).equals(Arrays.toString(expectedOptions)) && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkSelectOptions(expectedOptions, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -516,8 +515,7 @@ public class WaitForEquals implements Equals {
             if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
-            while (!Arrays.toString(element.get().selectValues()).equals(Arrays.toString(expectedValues)) && System.currentTimeMillis() < end)
-                ;
+            while (!Arrays.toString(element.get().selectValues()).equals(Arrays.toString(expectedValues)) && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkSelectValues(expectedValues, seconds, timeTook);
         } catch (TimeoutException e) {

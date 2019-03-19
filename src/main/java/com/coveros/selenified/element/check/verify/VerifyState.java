@@ -20,9 +20,9 @@
 
 package com.coveros.selenified.element.check.verify;
 
-import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.State;
+import com.coveros.selenified.utilities.Reporter;
 
 /**
  * VerifyState implements State to provide some additional verification capabilities.

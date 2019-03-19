@@ -2,9 +2,9 @@ package unit;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
-import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Response;
+import com.coveros.selenified.utilities.Reporter;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
