@@ -813,6 +813,6 @@ public class Reporter {
      * @author Max Saperstone
      */
     protected enum Success {
-        PASS, FAIL, CHECK;
+        PASS, FAIL, CHECK
     }
 }
