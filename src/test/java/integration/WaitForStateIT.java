@@ -16,8 +16,8 @@ public class WaitForStateIT extends WebBase {
         Element element = app.newElement(Locator.ID, "five_second_button");
         element.waitForState().changeDefaultWait(0.5);
         element.click();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "state", "wait"},

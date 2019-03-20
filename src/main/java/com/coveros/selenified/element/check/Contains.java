@@ -20,9 +20,10 @@
 
 package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.OutputFile.Success;
-
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import static com.coveros.selenified.element.check.Constants.*;
 
@@ -37,7 +38,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public interface Contains extends Check {
 
@@ -67,16 +68,14 @@ public interface Contains extends Check {
      * @return String: the actual class of the element. null will be returned if the element isn't present
      */
     default String checkClazz(String expectedClass, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + " containing class <b>" + expectedClass + "</b>", waitFor);
         // get the value
         String actualClass = getElement().get().attribute(CLASS);
         // record the result
         if (actualClass == null || !actualClass.contains(expectedClass)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " containing class <b>" + expectedClass + "</b>", waitFor, getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
-                    expectedClass + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " containing class <b>" + expectedClass + "</b>", waitFor, getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
+                    expectedClass + "</b>", timeTook);
         }
         return actualClass;
     }
@@ -102,17 +101,21 @@ public interface Contains extends Check {
      * @param timeTook          - the amount of time it took for wait for something (assuming we had to wait)
      * @return String[]: all of the attributes of the element. null will be returned if the element isn't present
      */
-    default String[] checkAttribute(String expectedAttribute, double waitFor, double timeTook) {
+    default Set<String> checkAttribute(String expectedAttribute, double waitFor, double timeTook) {
         // record the action and get the attributes
-        String[] allAttributes = getAttributes(expectedAttribute, "with", waitFor);
+        Map<String, String> atts = getElement().get().allAttributes();
+        Set<String> allAttributes = new HashSet<>();
+        if (atts != null) {
+            allAttributes = atts.keySet();
+        }
         // record the result
-        if (allAttributes == null || !Arrays.asList(allAttributes).contains(expectedAttribute)) {
-            getOutputFile().recordActual(
+        if (atts == null || !allAttributes.contains(expectedAttribute)) {
+            getReporter().fail(getElement().prettyOutput() + " with attribute <b>" + expectedAttribute + "</b>", waitFor,
                     getElement().prettyOutputStart() + " does not contain the attribute of <b>" + expectedAttribute + "</b>" +
-                            ONLY_VALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.FAIL);
+                            ONLY_VALUE + String.join(", " + allAttributes) + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " contains the attribute of <b>" + expectedAttribute + "</b>",
-                    timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " with attribute <b>" + expectedAttribute + "</b>", waitFor,
+                    getElement().prettyOutputStart() + " contains the attribute of <b>" + expectedAttribute + "</b>", timeTook);
         }
         return allAttributes;
     }
@@ -139,15 +142,13 @@ public interface Contains extends Check {
      * @return String: the actual text of the element. null will be returned if the element isn't present
      */
     default String checkText(String expectedText, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + CONTAINS_TEXT + expectedText + "</b>", waitFor);
         // get the value
         String elementValue = getElement().get().text();
         // record the result
         if (elementValue == null || !elementValue.contains(expectedText)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + CONTAINS_TEXT + expectedText + "</b>", waitFor, getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + CONTAINS_TEXT + expectedText + "</b>", waitFor, getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook);
         }
         return elementValue;
     }
@@ -175,12 +176,12 @@ public interface Contains extends Check {
      */
     default String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and get the attributes
-        String elementValue = getValue(expectedValue, CONTAINS_VALUE, waitFor);
+        String elementValue = getElement().get().value();
         // record the expected
         if (elementValue == null || !elementValue.contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + expectedValue + elementValue + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + expectedValue + elementValue + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         }
         return elementValue;
     }
@@ -217,12 +218,13 @@ public interface Contains extends Check {
         String[] allOptions = getElement().get().selectOptions();
         // record the expected
         if (!Arrays.asList(allOptions).contains(expectedOption)) {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " is present but does not contain the option <b>" + expectedOption + "</b>",
-                    timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " with the option <b>" + expectedOption +
+                    "</b> available to be selected on the page", waitFor, getElement().prettyOutputStart() +
+                    " is present but does not contain the option <b>" + expectedOption + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " is present and contains the option <b>" + expectedOption + "</b>",
-                    timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " with the option <b>" + expectedOption +
+                    "</b> available to be selected on the page", waitFor, getElement().prettyOutputStart() +
+                    " is present and contains the option <b>" + expectedOption + "</b>", timeTook);
         }
         return allOptions;
     }
@@ -259,10 +261,12 @@ public interface Contains extends Check {
         String[] allValues = getElement().get().selectValues();
         // record the expected
         if (!Arrays.asList(allValues).contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + EXCLUDES_VALUE + expectedValue + "</b>" + ONLY_VALUE +
-                    Arrays.toString(allValues) + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having a select value of <b>" + expectedValue +
+                    "</b> available to be selected on the page", waitFor, getElement().prettyOutputStart() + EXCLUDES_VALUE + expectedValue + "</b>" + ONLY_VALUE +
+                    Arrays.toString(allValues) + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CONTAINS_VALUE + expectedValue + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " having a select value of <b>" + expectedValue +
+                    "</b> available to be selected on the page", waitFor, getElement().prettyOutputStart() + CONTAINS_VALUE + expectedValue + "</b>", timeTook);
         }
         return allValues;
     }
@@ -297,11 +301,11 @@ public interface Contains extends Check {
         int elementValues = getElement().get().numOfSelectOptions();
         // record the expected
         if (elementValues != numOfOptions) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options",
-                    timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " with number of select values equal to <b>" + numOfOptions + "</b>",
+                    waitFor, getElement().prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options",
-                    timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " with number of select values equal to <b>" + numOfOptions + "</b>",
+                    waitFor, getElement().prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options", timeTook);
         }
         return elementValues;
     }
@@ -336,10 +340,12 @@ public interface Contains extends Check {
         int actualNumOfCols = getElement().get().numOfTableColumns();
         // record the expected
         if (actualNumOfCols != numOfColumns) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " does not have the number of columns <b>" + numOfColumns +
-                    "</b>. Instead, " + actualNumOfCols + " columns were found", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " with the number of table columns equal to <b>" + numOfColumns + "</b>", waitFor,
+                    getElement().prettyOutputStart() + " does not have the number of columns <b>" + numOfColumns +
+                            "</b>. Instead, " + actualNumOfCols + " columns were found", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " has " + actualNumOfCols + "</b> columns", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " with the number of table columns equal to <b>" + numOfColumns + "</b>", waitFor,
+                    getElement().prettyOutputStart() + " has " + actualNumOfCols + "</b> columns", timeTook);
         }
         return actualNumOfCols;
     }
@@ -374,10 +380,12 @@ public interface Contains extends Check {
         int actualNumOfRows = getElement().get().numOfTableRows();
         // record the expected
         if (actualNumOfRows != numOfRows) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " does not have the number of rows <b>" + numOfRows +
-                    "</b>. Instead, " + actualNumOfRows + " rows were found", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " with the number of table rows equal to <b>" + numOfRows + "</b>", waitFor,
+                    getElement().prettyOutputStart() + " does not have the number of rows <b>" + numOfRows +
+                            "</b>. Instead, " + actualNumOfRows + " rows were found", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " has " + actualNumOfRows + "</b> rows", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " with the number of table rows equal to <b>" + numOfRows + "</b>", waitFor,
+                    getElement().prettyOutputStart() + " has " + actualNumOfRows + "</b> rows", timeTook);
         }
         return actualNumOfRows;
     }

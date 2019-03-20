@@ -20,12 +20,13 @@
 
 package com.coveros.selenified.element.check.azzert;
 
-import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Matches;
+import com.coveros.selenified.utilities.Reporter;
 
 import static com.coveros.selenified.element.check.Constants.*;
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * AssertMatches implements Matches to provide some additional assertion capabilities.
@@ -38,27 +39,27 @@ import static org.testng.AssertJUnit.*;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public class AssertMatches implements Matches {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertMatches(Element element, OutputFile file) {
+    public AssertMatches(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
-        return file;
+    public Reporter getReporter() {
+        return reporter;
     }
 
     /**
@@ -117,13 +118,11 @@ public class AssertMatches implements Matches {
     @SuppressWarnings("squid:S2259")
     public void value(String expectedPattern) {
         String value = checkValue(expectedPattern, 0, 0);
-        if (value == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "Element not input";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (value == null && getElement().is().present()) {
+            reason = "Element not input";
         }
+        assertNotNull(reason, value);
         assertTrue("Value Mismatch: value of '" + value + DOES_NOT_MATCH_PATTERN + expectedPattern + "'", value.matches(expectedPattern));
     }
 
@@ -138,13 +137,11 @@ public class AssertMatches implements Matches {
     @SuppressWarnings("squid:S2259")
     public void selectedOption(String expectedPattern) {
         String selectedOption = checkSelectedOption(expectedPattern, 0, 0);
-        if (selectedOption == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (selectedOption == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, selectedOption);
         assertTrue("Selected Option Mismatch: option of '" + selectedOption + DOES_NOT_MATCH_PATTERN + expectedPattern + "'",
                 selectedOption.matches(expectedPattern));
     }
@@ -160,13 +157,11 @@ public class AssertMatches implements Matches {
     @SuppressWarnings("squid:S2259")
     public void selectedValue(String expectedPattern) {
         String selectedValue = checkSelectedValue(expectedPattern, 0, 0);
-        if (selectedValue == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (selectedValue == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, selectedValue);
         assertTrue("Selected Value Mismatch: value of '" + selectedValue + DOES_NOT_MATCH_PATTERN + expectedPattern + "'",
                 selectedValue.matches(expectedPattern));
     }

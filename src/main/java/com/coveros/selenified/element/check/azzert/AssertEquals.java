@@ -20,16 +20,15 @@
 
 package com.coveros.selenified.element.check.azzert;
 
-import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Equals;
+import com.coveros.selenified.utilities.Reporter;
 
 import java.util.Arrays;
 
 import static com.coveros.selenified.element.check.Constants.ELEMENT_NOT_SELECT;
 import static com.coveros.selenified.element.check.Constants.NO_ELEMENT_FOUND;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.fail;
+import static org.testng.AssertJUnit.*;
 
 /**
  * AssertEquals implements Equals to provide some additional assertion capabilities.
@@ -42,27 +41,27 @@ import static org.testng.AssertJUnit.fail;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public class AssertEquals implements Equals {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertEquals(Element element, OutputFile file) {
+    public AssertEquals(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
-        return file;
+    public Reporter getReporter() {
+        return reporter;
     }
 
     /**
@@ -102,13 +101,11 @@ public class AssertEquals implements Equals {
      */
     public void cssValue(String attribute, String expectedValue) {
         String cssValue = checkCssValue(attribute, expectedValue, 0, 0);
-        if (cssValue == null && expectedValue != null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "CSS attribute not found";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (cssValue == null && expectedValue != null && getElement().is().present()) {
+            reason = "CSS attribute not found";
         }
+        assertFalse(reason, cssValue == null && expectedValue != null);
         assertEquals("CSS Value Mismatch", expectedValue, cssValue);
     }
 
@@ -136,13 +133,11 @@ public class AssertEquals implements Equals {
      */
     public void attribute(String attribute, String expectedValue) {
         String value = checkAttribute(attribute, expectedValue, 0, 0);
-        if (value == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "Attribute doesn't exist";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (value == null && getElement().is().present()) {
+            reason = "Attribute doesn't exist";
         }
+        assertNotNull(reason, value);
         assertEquals("Attribute Mismatch", expectedValue, value);
     }
 
@@ -156,9 +151,7 @@ public class AssertEquals implements Equals {
      */
     public void text(String expectedText) {
         String text = checkText(expectedText, 0, 0);
-        if (text == null) {
-            fail(NO_ELEMENT_FOUND);
-        }
+        assertNotNull(NO_ELEMENT_FOUND, text);
         assertEquals("Text Mismatch", expectedText, text);
     }
 
@@ -177,13 +170,11 @@ public class AssertEquals implements Equals {
      */
     public void text(int row, int col, String expectedText) {
         String text = checkText(row, col, expectedText, 0, 0);
-        if (text == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "Element not table";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (text == null && getElement().is().present()) {
+            reason = "Element not table";
         }
+        assertNotNull(reason, text);
         assertEquals("Text Mismatch", expectedText, text);
     }
 
@@ -197,13 +188,11 @@ public class AssertEquals implements Equals {
      */
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
-        if (value == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "Element not input";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (value == null && getElement().is().present()) {
+            reason = "Element not input";
         }
+        assertNotNull(reason, value);
         assertEquals("Value Mismatch", expectedValue, value);
     }
 
@@ -217,13 +206,11 @@ public class AssertEquals implements Equals {
      */
     public void selectedOption(String expectedText) {
         String option = checkSelectedOption(expectedText, 0, 0);
-        if (option == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (option == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, option);
         assertEquals("Selected Option Mismatch", expectedText, option);
     }
 
@@ -237,13 +224,11 @@ public class AssertEquals implements Equals {
      */
     public void selectedValue(String expectedValue) {
         String value = checkSelectedValue(expectedValue, 0, 0);
-        if (value == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (value == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, value);
         assertEquals("Selected Value Mismatch", expectedValue, value);
     }
 
@@ -257,13 +242,11 @@ public class AssertEquals implements Equals {
      */
     public void selectOptions(String... expectedOptions) {
         String[] options = checkSelectOptions(expectedOptions, 0, 0);
-        if (options == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (options == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, options);
         assertEquals("Selected Options Mismatch", Arrays.asList(expectedOptions), Arrays.asList(options));
     }
 
@@ -277,13 +260,11 @@ public class AssertEquals implements Equals {
      */
     public void selectValues(String... expectedValues) {
         String[] values = checkSelectValues(expectedValues, 0, 0);
-        if (values == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (values == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, values);
         assertEquals("Selected Values Mismatch", Arrays.asList(expectedValues), Arrays.asList(values));
     }
 }

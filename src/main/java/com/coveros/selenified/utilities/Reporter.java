@@ -18,13 +18,14 @@
  * under the License.
  */
 
-package com.coveros.selenified;
+package com.coveros.selenified.utilities;
 
+import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
+import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
-import com.coveros.selenified.utilities.TestCase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
@@ -52,12 +53,12 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
-public class OutputFile {
+public class Reporter {
 
     private static final String PASSORFAIL = "PASSORFAIL";
-    private static final Logger log = Logger.getLogger(OutputFile.class);
+    private static final Logger log = Logger.getLogger(Reporter.class);
     // constants
     private static final String START_ROW = "   <tr>\n";
     private static final String START_CELL = "    <td>";
@@ -77,18 +78,20 @@ public class OutputFile {
     private final File file;
     private final String filename;
     private final List<String> screenshots = new ArrayList<>();
-    private App app = null;
     private final Capabilities capabilities;
+    private App app = null;
     // timing of the test
     private long startTime;
     private long lastTime = 0;
     // this will track the step numbers
     private int stepNum = 0;
-    // this will keep track of the errors
-    private int errors = 0;
+    // this will keep track of step successes
+    private int passes = 0;
+    private int fails = 0;
+    private int checks = 0;
 
     /**
-     * Creates a new instance of the OutputFile, which will serve as the
+     * Creates a new instance of the Reporter, which will serve as the
      * detailed log
      *
      * @param directory    - a string of the directory holding the files
@@ -103,8 +106,8 @@ public class OutputFile {
      * @param objectives   - the test objectives, taken from the testng description
      */
     @SuppressWarnings("squid:S00107")
-    public OutputFile(String directory, String test, Capabilities capabilities, String url, String suite, String group,
-                      String author, String version, String objectives) {
+    public Reporter(String directory, String test, Capabilities capabilities, String url, String suite, String group,
+                    String author, String version, String objectives) {
         this.directory = directory;
         this.test = test;
         this.capabilities = capabilities;
@@ -145,71 +148,8 @@ public class OutputFile {
      * @return Integer: the number of errors current encountered on the current
      * test
      */
-    public int getErrors() {
-        return errors;
-    }
-
-    /**
-     * Increments the current error count of the test by one
-     */
-    public void addError() {
-        errors++;
-    }
-
-    /**
-     * Increments the current error count of the test by the provided amount
-     *
-     * @param errorsToAdd - the number of errors to add
-     */
-    public void addErrors(int errorsToAdd) {
-        errors += errorsToAdd;
-    }
-
-    /////////////////////////////////////
-    // For our checking functions
-    /////////////////////////////////////
-
-
-    /**
-     * Write the action and expected into the output file. If this is a wait, an action will be provided, otherwise, action
-     * will be left empty
-     *
-     * @param check   - the check being performed
-     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
-     */
-    public void recordAction(String check, double waitFor) {
-        String action = "";
-        if (waitFor > 0) {
-            action = "Waiting up to " + waitFor + " seconds " + check;
-        }
-        recordAction(action, "Expected " + check);
-    }
-
-    /**
-     * Write the actual results into the output file. If something was waited for, that will be prepended to the actual event
-     *
-     * @param check    - the check being performed
-     * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
-     * @param success  - was this a success or failure
-     */
-    public void recordActual(String check, double timeTook, Success success) {
-        String actual = check;
-        if (timeTook > 0) {
-            String lowercase = actual.substring(0, 1).toLowerCase();
-            actual = "After waiting for " + timeTook + " seconds, " + lowercase + actual.substring(1);
-        }
-        recordActual(actual, success);
-    }
-
-    /**
-     * If the check fails, adds an error, otherwise, proceed
-     *
-     * @param check - a basic check for passing or failing
-     */
-    public void verify(boolean check) {
-        if (!check) {
-            addError();
-        }
+    public int getFails() {
+        return fails;
     }
 
     //////////////////////////////////////
@@ -277,28 +217,6 @@ public class OutputFile {
                 log.error(e);
             }
         }
-    }
-
-    /**
-     * Counts the number of occurrence of a string within a file
-     *
-     * @param textToFind - the text to count
-     * @return Integer: the number of times the text was found in the file
-     * provided
-     */
-    private int countInstancesOf(String textToFind) {
-        int count = 0;
-        try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.contains(textToFind)) {
-                    count++;
-                }
-            }
-        } catch (IOException ioe) {
-            log.error(ioe);
-        }
-        return count;
     }
 
     /**
@@ -390,23 +308,140 @@ public class OutputFile {
      * A simple method to allow posting a screenshot of the app in it's current state into the detailed report
      */
     public void recordScreenshot() {
-        recordStep("", "", "", Success.CHECK);
+        check("", "", "");
     }
 
     /**
-     * Writes an action that was performed out to the output file. If the action
-     * is considered a failure, and a 'real' browser is being used (not NONE or
-     * HTMLUNIT), then a screenshot will automatically be taken
+     * Helper to recordStep, which takes in a check being performed, and determines if a wait is
+     * occuring or not. If no wait, no action is recorded. If a wait was performed, that wait is
+     * added to the check, and provided back as the action
+     *
+     * @param check   - the check being performed
+     * @param waitFor - how long was something waited for. Provide 0 if no wait, and therefore no action
+     * @return String: the wait being performed as the check, or nothing
+     */
+    private String getAction(String check, double waitFor) {
+        String action = "";
+        if (waitFor > 0) {
+            action = "Waiting up to " + waitFor + " seconds " + check;
+        }
+        return action;
+    }
+
+    /**
+     * Helper to recordStep, which takes in some result, and appends a time waited, if
+     * appropriate. If timeTook is greater than zero, some time was waited along with
+     * the action, and the returned result will reflect that
+     *
+     * @param actual   - the actual outcome from the check
+     * @param timeTook - how long something took to run, provide 0 if it was an immediate check, and actual
+     *                 will be returned unaltered
+     * @return String: the actual response, prepended with a wait time if appropriate
+     */
+    private String getActual(String actual, double timeTook) {
+        if (timeTook > 0) {
+            String lowercase = actual.substring(0, 1).toLowerCase();
+            actual = "After waiting for " + timeTook + " seconds, " + lowercase + actual.substring(1);
+        }
+        return actual;
+    }
+
+    /**
+     * Records the performed check as a pass to the output file. A screenshot will be taken for traceability
+     * This method takes in a check being performed, and determines if a wait is
+     * occurring or not. If no wait, no action is recorded. If a wait was performed, that wait is
+     * added to the check, and recorded as the action. The check is used as the expected outcome, and the actual
+     * input is used for actual. If it took some time (timeTook greater than zero), than the actual result will
+     * be updated to reflect the time took.
+     * If a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param check    - the check being performed
+     * @param waitFor  - how long was something waited for. Provide 0 if no wait, and therefore no action
+     * @param actual   - the actual outcome from the check
+     * @param timeTook - how long something took to run, provide 0 if it was an immediate check, and actual
+     *                 will be returned unaltered
+     */
+    public void pass(String check, double waitFor, String actual, double timeTook) {
+        passes++;
+        recordStep(getAction(check, waitFor), "Expected " + check, getActual(actual, timeTook), true, Success.PASS);
+    }
+
+    /**
+     * Records the performed check as a fail to the output file. A screenshot will be taken for traceability
+     * This method takes in a check being performed, and determines if a wait is
+     * occurring or not. If no wait, no action is recorded. If a wait was performed, that wait is
+     * added to the check, and recorded as the action. The check is used as the expected outcome, and the actual
+     * input is used for actual. If it took some time (timeTook greater than zero), than the actual result will
+     * be updated to reflect the time took.
+     * If a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param check    - the check being performed
+     * @param waitFor  - how long was something waited for. Provide 0 if no wait, and therefore no action
+     * @param actual   - the actual outcome from the check
+     * @param timeTook - how long something took to run, provide 0 if it was an immediate check, and actual
+     *                 will be returned unaltered
+     */
+    public void fail(String check, double waitFor, String actual, double timeTook) {
+        fails++;
+        recordStep(getAction(check, waitFor), "Expected " + check, getActual(actual, timeTook), true, Success.FAIL);
+    }
+
+    /**
+     * Records the performed step as a pass to the output file. This includes the
+     * action taken if any, the expected result, and the actual result.
      *
      * @param action         - the step that was performed
      * @param expectedResult - the result that was expected to occur
      * @param actualResult   - the result that actually occurred
+     */
+    public void pass(String action, String expectedResult, String actualResult) {
+        passes++;
+        recordStep(action, expectedResult, actualResult, false, Success.PASS);
+    }
+
+    /**
+     * Records the performed step as a check to the output file. A screenshot will be taken for traceability and debugging purposes.
+     * This includes the action taken if any, the expected result, and the actual result.
+     * If a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param action         - the step that was performed
+     * @param expectedResult - the result that was expected to occur
+     * @param actualResult   - the result that actually occurred
+     */
+    public void check(String action, String expectedResult, String actualResult) {
+        checks++;
+        recordStep(action, expectedResult, actualResult, true, Success.CHECK);
+    }
+
+    /**
+     * Records the performed step as a fail to the output file. A screenshot will be taken for traceability and debugging purposes.
+     * This includes the action taken if any, the expected result, and the actual result.
+     * If a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param action         - the step that was performed
+     * @param expectedResult - the result that was expected to occur
+     * @param actualResult   - the result that actually occurred
+     */
+    public void fail(String action, String expectedResult, String actualResult) {
+        fails++;
+        recordStep(action, expectedResult, actualResult, true, Success.FAIL);
+    }
+
+    /**
+     * Records the performed step to the output file. This includes the action taken if any, the
+     * expected result, and the actual result. If a screenshot is desired, indicate as such. If
+     * a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param action         - the step that was performed
+     * @param expectedResult - the result that was expected to occur
+     * @param actualResult   - the result that actually occurred
+     * @param screenshot     - should a screenshot be taken
      * @param success        - the result of the action
      */
-    public void recordStep(String action, String expectedResult, String actualResult, Success success) {
+    private void recordStep(String action, String expectedResult, String actualResult, Boolean screenshot, Success success) {
         stepNum++;
         String imageLink = "";
-        if (success != Success.PASS && isRealBrowser()) {
+        if (screenshot && isRealBrowser()) {
             // get a screen shot of the action
             imageLink = captureEntirePageScreenshot();
         }
@@ -430,77 +465,6 @@ public class OutputFile {
         } catch (IOException e) {
             log.error(e);
         }
-    }
-
-    /**
-     * Writes to the output file the actual outcome of an event. A screenshot is
-     * automatically taken to provide tracability for and proof of success or
-     * failure. This method should only be used after first writing the expected
-     * result, using the recordExpected method.
-     *
-     * @param actualOutcome - what the actual outcome was
-     * @param success       - whether this result is a pass or a failure
-     */
-    public void recordActual(String actualOutcome, Success success) {
-        try (
-                // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
-            // get a screen shot of the action
-            String imageLink = "";
-            if (isRealBrowser()) {
-                imageLink = captureEntirePageScreenshot();
-            }
-            // determine time differences
-            Date currentTime = new Date();
-            long dTime = currentTime.getTime() - lastTime;
-            long tTime = currentTime.getTime() - startTime;
-            lastTime = currentTime.getTime();
-            // write out the actual outcome
-            out.write(START_CELL + actualOutcome + imageLink + END_CELL);
-            out.write(START_CELL + dTime + "ms / " + tTime + "ms</td>\n");
-            out.write("    <td class='" + success.toString().toLowerCase() + "'>" + success + END_CELL);
-            // end the row
-            out.write(END_ROW);
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    /**
-     * Writes to the output file the expected outcome of an event. This method
-     * should always be followed the recordActual method to record what actually
-     * happened.
-     *
-     * @param action          - what is the action being performed
-     * @param expectedOutcome - what the expected outcome is
-     */
-    public void recordAction(String action, String expectedOutcome) {
-        stepNum++;
-        try (
-                // reopen the log file
-                FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
-            // start the row
-            out.write(START_ROW);
-            // log the step number
-            out.write("    <td align='center'>" + stepNum + ".</td>\n");
-            // write out the action being performed
-            out.write(START_CELL + action + END_CELL);
-            // write out the expected outcome
-            out.write(START_CELL + expectedOutcome + END_CELL);
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    /**
-     * Writes to the output file the expected outcome of an event. This method
-     * should always be followed the recordActual method to record what actually
-     * happened.
-     *
-     * @param expectedOutcome - what the expected outcome is
-     */
-    public void recordExpected(String expectedOutcome) {
-        recordAction("", expectedOutcome);
     }
 
     /**
@@ -686,7 +650,7 @@ public class OutputFile {
      * file is analyzed to determine if the test passed or failed, and that
      * information is updated, along with the overall timing of the test
      */
-    public void finalizeOutputFile(int testStatus) {
+    public void finalizeReporter(int testStatus) {
         // reopen the file
         try (FileWriter fw = new FileWriter(file, true); BufferedWriter out = new BufferedWriter(fw)) {
             out.write("  </table>\n");
@@ -696,21 +660,21 @@ public class OutputFile {
             log.error(e);
         }
         // Record the metrics
-        int passes = countInstancesOf("<td class='pass'>PASS</td>");
-        int fails = countInstancesOf("<td class='fail'>FAIL</td>");
-        int checks = countInstancesOf("<td class='check'>CHECK</td>");
+        if ((fails + passes + checks) != stepNum) {
+            log.error("There was some error recording your test steps. Step results don't equal steps performed");
+        }
         replaceInFile("STEPSPERFORMED", Integer.toString(fails + passes + checks));
         replaceInFile("STEPSPASSED", Integer.toString(passes));
         replaceInFile("STEPSFAILED", Integer.toString(fails));
-        if (fails == 0 && checks == 0 && errors == 0 && testStatus == 0) {
+        if (fails == 0 && checks == 0 && testStatus == 0) {
             replaceInFile(PASSORFAIL, "<font size='+2' class='pass'><b>PASS</b></font>");
-        } else if (fails == 0 && errors == 0) {
+        } else if (fails == 0) {
             replaceInFile(PASSORFAIL, "<font size='+2' class='check'><b>CHECK</b" +
                     "></font>");
         } else {
             replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAIL</b></font>");
         }
-        addTimeToOutputFile();
+        addTimeToReport();
         if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
             packageTestResults();
         }
@@ -719,7 +683,10 @@ public class OutputFile {
         }
     }
 
-    private void addTimeToOutputFile() {
+    /**
+     * Updates the output file with timing information, including run time, and finish time
+     */
+    private void addTimeToReport() {
         // record the time
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
         String timeNow = stf.format(new Date());
@@ -915,24 +882,7 @@ public class OutputFile {
      *
      * @author Max Saperstone
      */
-    public enum Success {
+    protected enum Success {
         PASS, FAIL, CHECK;
-
-        static {
-            PASS.errors = 0;
-            FAIL.errors = 1;
-            CHECK.errors = 0;
-        }
-
-        int errors;
-
-        /**
-         * Retrieves the errors associated with the enumeration
-         *
-         * @return Integer: the errors associated with the enumeration
-         */
-        public int getErrors() {
-            return this.errors;
-        }
     }
 }

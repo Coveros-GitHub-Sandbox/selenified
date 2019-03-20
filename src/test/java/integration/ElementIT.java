@@ -22,6 +22,8 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(null, "table");
         table.getWebElement();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "element"},

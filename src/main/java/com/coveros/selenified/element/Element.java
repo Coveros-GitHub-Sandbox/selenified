@@ -21,8 +21,6 @@
 package com.coveros.selenified.element;
 
 import com.coveros.selenified.Locator;
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.check.*;
 import com.coveros.selenified.element.check.azzert.*;
@@ -30,6 +28,7 @@ import com.coveros.selenified.element.check.verify.*;
 import com.coveros.selenified.element.check.wait.WaitForEquals;
 import com.coveros.selenified.element.check.wait.WaitForState;
 import com.coveros.selenified.utilities.Point;
+import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -53,7 +52,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public class Element {
 
@@ -67,7 +66,7 @@ public class Element {
     private Element parent = null;
 
     // this will be the name of the file we write all commands out to
-    private OutputFile file;
+    private Reporter reporter;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
@@ -108,7 +107,7 @@ public class Element {
     private static final String NOT_A_SELECT = " as it is not a select";
 
     private static final String CANT_TYPE = "Unable to type in ";
-    private static final String CANT_MOVE = "Unable to move to ";
+    private static final String CANT_SCROLL = "Unable to scroll to ";
     private static final String CANT_SELECT = "Unable to select ";
 
     private static final String SELECTING = "Selecting ";
@@ -124,15 +123,15 @@ public class Element {
      *
      * @param driver  - the selenium web driver, the underlying way all actions and
      *                assertions are controlled
-     * @param file    - the TestOutput file. This is provided by the
+     * @param reporter    - the TestOutput file. This is provided by the
      *                SeleniumTestBase functionality
      * @param type    - the locator type e.g. Locator.id, Locator.xpath
      * @param locator - the locator string e.g. login, //input[@id='login']
      */
-    public Element(WebDriver driver, OutputFile file, Locator type, String locator) {
+    public Element(WebDriver driver, Reporter reporter, Locator type, String locator) {
         this.type = type;
         this.locator = locator;
-        init(driver, file);
+        init(driver, reporter);
     }
 
     /**
@@ -144,17 +143,17 @@ public class Element {
      *
      * @param driver  - the selenium web driver, the underlying way all actions and
      *                assertions are controlled
-     * @param file    - the TestOutput file. This is provided by the
+     * @param reporter    - the TestOutput file. This is provided by the
      *                SeleniumTestBase functionality
      * @param type    - the locator type e.g. Locator.id, Locator.xpath
      * @param locator - the locator string e.g. login, //input[@id='login']
      * @param parent  - the parent element to the searched for element
      */
-    public Element(WebDriver driver, OutputFile file, Locator type, String locator, Element parent) {
+    public Element(WebDriver driver, Reporter reporter, Locator type, String locator, Element parent) {
         this.type = type;
         this.locator = locator;
         this.parent = parent;
-        init(driver, file);
+        init(driver, reporter);
     }
 
     /**
@@ -166,18 +165,18 @@ public class Element {
      *
      * @param driver  - the selenium web driver, the underlying way all actions and
      *                assertions are controlled
-     * @param file    - the TestOutput file. This is provided by the
+     * @param reporter    - the TestOutput file. This is provided by the
      *                SeleniumTestBase functionality
      * @param type    - the locator type e.g. Locator.id, Locator.xpath
      * @param locator - the locator string e.g. login, //input[@id='login']
      * @param match   - if there are multiple matches of the selector, this is which
      *                match (starting at 0) to interact with
      */
-    public Element(WebDriver driver, OutputFile file, Locator type, String locator, int match) {
+    public Element(WebDriver driver, Reporter reporter, Locator type, String locator, int match) {
         this.type = type;
         this.locator = locator;
         this.setMatch(match);
-        init(driver, file);
+        init(driver, reporter);
     }
 
     /**
@@ -189,7 +188,7 @@ public class Element {
      *
      * @param driver  - the selenium web driver, the underlying way all actions and
      *                assertions are controlled
-     * @param file    - the TestOutput file. This is provided by the
+     * @param reporter    - the TestOutput file. This is provided by the
      *                SeleniumTestBase functionality
      * @param type    - the locator type e.g. Locator.id, Locator.xpath
      * @param locator - the locator string e.g. login, //input[@id='login']
@@ -197,12 +196,12 @@ public class Element {
      *                match (starting at 0) to interact with
      * @param parent  - the parent element to the searched for element
      */
-    public Element(WebDriver driver, OutputFile file, Locator type, String locator, int match, Element parent) {
+    public Element(WebDriver driver, Reporter reporter, Locator type, String locator, int match, Element parent) {
         this.type = type;
         this.locator = locator;
         this.setMatch(match);
         this.parent = parent;
-        init(driver, file);
+        init(driver, reporter);
     }
 
     /**
@@ -210,32 +209,32 @@ public class Element {
      *
      * @param driver - the selenium web driver, the underlying way all actions and
      *               assertions are controlled
-     * @param file   - the TestOutput file. This is provided by the
+     * @param reporter   - the TestOutput file. This is provided by the
      *               SeleniumTestBase functionality
      */
-    private void init(WebDriver driver, OutputFile file) {
+    private void init(WebDriver driver, Reporter reporter) {
         this.driver = driver;
-        this.file = file;
+        this.reporter = reporter;
 
         App app = null;
-        if (file != null) {
-            app = file.getApp();
+        if (reporter != null) {
+            app = reporter.getApp();
         }
 
         is = new Is(this);
         get = new Get(app, driver, this);
-        verifyState = new VerifyState(this, file);
-        assertState = new AssertState(this, file);
-        waitForState = new WaitForState(this, file);
-        verifyContains = new VerifyContains(this, file);
-        assertContains = new AssertContains(this, file);
-        verifyExcludes = new VerifyExcludes(this, file);
-        assertExcludes = new AssertExcludes(this, file);
-        verifyEquals = new VerifyEquals(this, file);
-        assertEquals = new AssertEquals(this, file);
-        waitForEquals = new WaitForEquals(this, file);
-        verifyMatches = new VerifyMatches(this, file);
-        assertMatches = new AssertMatches(this, file);
+        verifyState = new VerifyState(this, reporter);
+        assertState = new AssertState(this, reporter);
+        waitForState = new WaitForState(this, reporter);
+        verifyContains = new VerifyContains(this, reporter);
+        assertContains = new AssertContains(this, reporter);
+        verifyExcludes = new VerifyExcludes(this, reporter);
+        assertExcludes = new AssertExcludes(this, reporter);
+        verifyEquals = new VerifyEquals(this, reporter);
+        assertEquals = new AssertEquals(this, reporter);
+        waitForEquals = new WaitForEquals(this, reporter);
+        verifyMatches = new VerifyMatches(this, reporter);
+        assertMatches = new AssertMatches(this, reporter);
     }
 
     /**
@@ -585,7 +584,7 @@ public class Element {
      * @return Element: the full reference to the child element element
      */
     public Element findChild(Element child) {
-        return new Element(child.getDriver(), file, child.getType(), child.getLocator(), child.getMatch(), this);
+        return new Element(child.getDriver(), reporter, child.getType(), child.getLocator(), child.getMatch(), this);
     }
 
     //////////////////////////////////
@@ -607,7 +606,7 @@ public class Element {
             waitForState.present();
         }
         if (!is.present()) {
-            file.recordStep(action, expected, extra + prettyOutput() + NOT_PRESENT, Success.FAIL);
+            reporter.fail(action, expected, extra + prettyOutput() + NOT_PRESENT);
             // indicates element not present
             return true;
         }
@@ -629,7 +628,7 @@ public class Element {
             waitForState.displayed();
         }
         if (!is.displayed()) {
-            file.recordStep(action, expected, extra + prettyOutput() + NOT_DISPLAYED, Success.FAIL);
+            reporter.fail(action, expected, extra + prettyOutput() + NOT_DISPLAYED);
             // indicates element not displayed
             return true;
         }
@@ -651,7 +650,7 @@ public class Element {
             waitForState.enabled();
         }
         if (!is.enabled()) {
-            file.recordStep(action, expected, extra + prettyOutput() + NOT_ENABLED, Success.FAIL);
+            reporter.fail(action, expected, extra + prettyOutput() + NOT_ENABLED);
             // indicates element not enabled
             return true;
         }
@@ -669,8 +668,7 @@ public class Element {
     private boolean isNotInput(String action, String expected, String extra) {
         // wait for element to be displayed
         if (!is.input()) {
-            file.recordStep(action, expected, extra + prettyOutput() + NOT_AN_INPUT, Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, extra + prettyOutput() + NOT_AN_INPUT);
             // indicates element not an input
             return true;
         }
@@ -687,8 +685,7 @@ public class Element {
     private boolean isSelect(String action, String expected) {
         // wait for element to be displayed
         if (!is.select()) {
-            file.recordStep(action, expected, Element.CANT_SELECT + prettyOutput() + NOT_A_SELECT, Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, Element.CANT_SELECT + prettyOutput() + NOT_A_SELECT);
             // indicates element not an input
             return false;
         }
@@ -799,12 +796,11 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.click();
         } catch (Exception e) {
-            file.recordStep(action, expected, cantClick + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, cantClick + prettyOutput() + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, "Clicked " + prettyOutputEnd(), Success.PASS);
+        reporter.pass(action, expected, "Clicked " + prettyOutputEnd());
     }
 
     /**
@@ -823,12 +819,11 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.submit();
         } catch (Exception e) {
-            file.recordStep(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, "Submitted " + prettyOutputEnd(), Success.PASS);
+        reporter.pass(action, expected, "Submitted " + prettyOutputEnd());
     }
 
     /**
@@ -854,11 +849,10 @@ public class Element {
             selAction.moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, cantHover + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, cantHover + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Hovered over " + prettyOutputEnd(), Success.PASS);
+        reporter.pass(action, expected, "Hovered over " + prettyOutputEnd());
     }
 
     /**
@@ -879,12 +873,10 @@ public class Element {
             new Actions(driver).moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Focused on " + prettyOutputEnd(),
-                Success.PASS);
+        reporter.pass(action, expected, "Focused on " + prettyOutputEnd());
     }
 
     /**
@@ -905,12 +897,10 @@ public class Element {
             webElement.sendKeys(Keys.TAB);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd(),
-                Success.PASS);
+        reporter.pass(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd());
     }
 
     /**
@@ -937,15 +927,14 @@ public class Element {
             webElement.sendKeys(text);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
             return;
         }
         if (warning) {
-            file.recordStep(action, expected, TYPED + text + IN + prettyOutput() +
-                    ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Success.CHECK);
+            reporter.check(action, expected, TYPED + text + IN + prettyOutput() +
+                    ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>");
         } else {
-            file.recordStep(action, expected, TYPED + text + IN + prettyOutputEnd(), Success.PASS);
+            reporter.pass(action, expected, TYPED + text + IN + prettyOutputEnd());
         }
     }
 
@@ -973,15 +962,14 @@ public class Element {
             webElement.sendKeys(key);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
             return;
         }
         if (warning) {
-            file.recordStep(action, expected, TYPED + key + IN + prettyOutput() +
-                    ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>", Success.CHECK);
+            reporter.check(action, expected, TYPED + key + IN + prettyOutput() +
+                    ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>");
         } else {
-            file.recordStep(action, expected, TYPED + key + IN + prettyOutputEnd(), Success.PASS);
+            reporter.pass(action, expected, TYPED + key + IN + prettyOutputEnd());
         }
     }
 
@@ -1002,11 +990,10 @@ public class Element {
             webElement.clear();
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, cantClear + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, cantClear + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Cleared text in " + prettyOutputEnd(), Success.PASS);
+        reporter.pass(action, expected, "Cleared text in " + prettyOutputEnd());
     }
 
     /**
@@ -1027,10 +1014,9 @@ public class Element {
             }
             String[] options = get.selectOptions();
             if (index > options.length) {
-                file.recordStep(action, expected,
+                reporter.fail(action, expected,
                         "Unable to select the <i>" + index + "</i> option, as there are only <i>" + options.length +
-                                "</i> available.", Success.FAIL);
-                file.addError();
+                                "</i> available.");
                 return;
             }
             // do the select
@@ -1039,11 +1025,10 @@ public class Element {
             dropdown.selectByIndex(index);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd(), Success.PASS);
+        reporter.pass(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd());
     }
 
     /**
@@ -1063,10 +1048,9 @@ public class Element {
             }
             // ensure the option exists
             if (!Arrays.asList(get.selectOptions()).contains(option)) {
-                file.recordStep(action, expected, CANT_SELECT + option + " in " + prettyOutput() +
+                reporter.fail(action, expected, CANT_SELECT + option + " in " + prettyOutput() +
                         " as that option isn't present. Available options are:<i><br/>&nbsp;&nbsp;&nbsp;" +
-                        String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>", Success.FAIL);
-                file.addError();
+                        String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectOptions()) + "</i>");
                 return;
             }
             // do the select
@@ -1075,11 +1059,10 @@ public class Element {
             dropdown.selectByVisibleText(option);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Selected <b>" + option + INN + prettyOutputEnd(), Success.PASS);
+        reporter.pass(action, expected, "Selected <b>" + option + INN + prettyOutputEnd());
     }
 
     /**
@@ -1099,10 +1082,9 @@ public class Element {
             }
             // ensure the value exists
             if (!Arrays.asList(get.selectValues()).contains(value)) {
-                file.recordStep(action, expected, CANT_SELECT + value + " in " + prettyOutput() +
+                reporter.fail(action, expected, CANT_SELECT + value + " in " + prettyOutput() +
                         " as that value isn't present. Available values are:<i><br/>&nbsp;&nbsp;&nbsp;" +
-                        String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>", Success.FAIL);
-                file.addError();
+                        String.join("<br/>&nbsp;&nbsp;&nbsp;", get.selectValues()) + "</i>");
                 return;
             }
             // do the select
@@ -1111,57 +1093,58 @@ public class Element {
             dropdown.selectByValue(value);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Selected <b>" + value + INN + prettyOutputEnd(), Success.PASS);
+        reporter.pass(action, expected, "Selected <b>" + value + INN + prettyOutputEnd());
     }
 
     /**
      * Generates and logs an error (with a screenshot), stating that the element
-     * was unable to me moved to
+     * was unable to be scrolled to
      *
      * @param e        - the exception that was thrown
      * @param action   - what is the action occurring
      * @param expected - what is the expected outcome of said action
      */
-    private void cantMove(Exception e, String action, String expected) {
+    private void cantScroll(Exception e, String action, String expected) {
         log.warn(e);
-        file.recordStep(action, expected, CANT_MOVE + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-        file.addError();
+        reporter.fail(action, expected, CANT_SCROLL + prettyOutput() + ". " + e.getMessage());
     }
 
     /**
-     * Determines if the element moved towards is now currently displayed on the
+     * Determines if the element scrolled towards is now currently displayed on the
      * screen
      *
      * @param action   - what is the action occurring
      * @param expected - what is the expected outcome of said action
      */
-    private void isMoved(String action, String expected) {
-        if (!is.displayed()) {
-            file.recordStep(action, expected, prettyOutputStart() + " is not displayed within the current viewport",
-                    Success.FAIL);
-            file.addError();
-            return; // indicates element not on displayed screen
+    private void isScrolledTo(String action, String expected) {
+        WebElement webElement = getWebElement();
+        long elementPosition = webElement.getLocation().getY();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        int scrollHeight = ((Number) js.executeScript("return document.documentElement.scrollTop || document.body.scrollTop;")).intValue();
+        int viewportHeight = ((Number) js.executeScript("return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);")).intValue();
+
+        if (elementPosition < scrollHeight || elementPosition > viewportHeight + scrollHeight) {
+            reporter.fail(action, expected, prettyOutputStart() + " was scrolled to, but is not within the current viewport");
+        } else {
+            reporter.pass(action, expected, prettyOutputStart() + " is properly scrolled to and within the current viewport");
         }
-        file.recordStep(action, expected, prettyOutputStart() + " is displayed within the current viewport",
-                Success.PASS);
     }
 
     /**
      * Scrolls the page to the element, making it displayed on the current
      * viewport, but only if the element is present. If that condition is not
-     * met, the move action will be logged, but skipped and the test will
+     * met, the scroll action will be logged, but skipped and the test will
      * continue.
      */
-    public void move() {
-        String action = "Moving screen to " + prettyOutput();
-        String expected = prettyOutput() + " is now displayed within the current viewport";
+    public void scrollTo() {
+        String action = "Scrolling screen to " + prettyOutput();
+        String expected = prettyOutput() + " is now within the current viewport";
         try {
             // wait for element to be present
-            if (isNotPresent(action, expected, CANT_MOVE)) {
+            if (isNotPresent(action, expected, CANT_SCROLL)) {
                 return;
             }
             // perform the move action
@@ -1169,26 +1152,26 @@ public class Element {
             Actions builder = new Actions(driver);
             builder.moveToElement(webElement);
         } catch (Exception e) {
-            cantMove(e, action, expected);
+            cantScroll(e, action, expected);
             return;
         }
-        isMoved(action, expected);
+        isScrolledTo(action, expected);
     }
 
     /**
      * Scrolls the page to the element, leaving X pixels at the top of the
      * viewport above it, making it displayed on the current viewport, but only
-     * if the element is present. If that condition is not met, the move action
+     * if the element is present. If that condition is not met, the scroll action
      * will be logged, but skipped and the test will continue.
      *
      * @param position - how many pixels above the element to scroll to
      */
-    public void move(long position) {
-        String action = "Moving screen to " + position + " pixels above " + prettyOutput();
-        String expected = prettyOutput() + " is now displayed within the current viewport";
+    public void scrollTo(long position) {
+        String action = "Scrolling screen to " + position + " pixels above " + prettyOutput();
+        String expected = prettyOutput() + " is now within the current viewport";
         try {
             // wait for element to be present
-            if (isNotPresent(action, expected, CANT_MOVE)) {
+            if (isNotPresent(action, expected, CANT_SCROLL)) {
                 return;
             }
             // perform the move action
@@ -1198,10 +1181,10 @@ public class Element {
             long newPosition = elementPosition - position;
             jse.executeScript("window.scrollBy(0, " + newPosition + ")");
         } catch (Exception e) {
-            cantMove(e, action, expected);
+            cantScroll(e, action, expected);
             return;
         }
-        isMoved(action, expected);
+        isScrolledTo(action, expected);
     }
 
     /**
@@ -1213,9 +1196,8 @@ public class Element {
      */
     public void draw(List<Point<Integer, Integer>> points) {
         if (points.isEmpty()) {
-            file.recordStep("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
-                    "Unable to draw in " + prettyOutput() + " as no points were supplied", Success.FAIL);
-            file.addError();
+            reporter.fail("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
+                    "Unable to draw in " + prettyOutput() + " as no points were supplied");
             return;
         }
         StringBuilder pointString = new StringBuilder();
@@ -1245,12 +1227,10 @@ public class Element {
             drawAction.perform();
         } catch (Exception e) {
             log.error(e);
-            file.recordStep(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Drew object in " + prettyOutput() + getScreenshot(), Success.PASS);
+        reporter.pass(action, expected, "Drew object in " + prettyOutput() + getScreenshot());
     }
 
     /**
@@ -1276,11 +1256,10 @@ public class Element {
             driver.switchTo().frame(webElement);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Focused on frame " + prettyOutputEnd(), Success.PASS);
+        reporter.pass(action, expected, "Focused on frame " + prettyOutputEnd());
     }
 
     /**
@@ -1295,8 +1274,8 @@ public class Element {
         String imageLink = "<b><font class='fail'>No Image Preview</font></b>";
         // capture an image of it
         try {
-            imageLink = file.captureEntirePageScreenshot();
-            File image = new File(file.getDirectory(), imageLink.split("\"")[1]);
+            imageLink = reporter.captureEntirePageScreenshot();
+            File image = new File(reporter.getDirectory(), imageLink.split("\"")[1]);
             BufferedImage fullImg = ImageIO.read(image);
             // Get the location of element on the page
             org.openqa.selenium.Point point = webElement.getLocation();

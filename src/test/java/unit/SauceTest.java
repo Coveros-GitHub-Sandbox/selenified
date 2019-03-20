@@ -9,22 +9,22 @@ public class SauceTest {
 
     private String hub = null;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void saveHub() {
         if (System.getProperty("hub") != null) {
             hub = System.getProperty("hub");
         }
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void restoreHub() {
         if (hub != null) {
             System.setProperty("hub", hub);
         }
     }
 
-    @BeforeMethod (alwaysRun = true)
-    @AfterMethod (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void clearHub() {
         System.clearProperty("hub");
     }

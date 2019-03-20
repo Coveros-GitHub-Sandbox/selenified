@@ -16,7 +16,7 @@ public class CapabilitiesTest {
     private String setProxy = null;
     private String setHub = null;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void saveHubProxy() {
         if (System.getProperty("proxy") != null) {
             setProxy = System.getProperty("proxy");
@@ -26,7 +26,7 @@ public class CapabilitiesTest {
         }
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void restoreHubProxy() {
         if (setProxy != null) {
             System.setProperty("proxy", setProxy);
@@ -36,8 +36,8 @@ public class CapabilitiesTest {
         }
     }
 
-    @BeforeMethod (alwaysRun = true)
-    @AfterMethod (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void clearHubProxy() {
         System.clearProperty("proxy");
         System.clearProperty("hub");

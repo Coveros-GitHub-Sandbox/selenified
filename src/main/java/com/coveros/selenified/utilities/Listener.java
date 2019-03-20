@@ -21,14 +21,12 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
+import com.coveros.selenified.utilities.Reporter.Success;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.ITestResult;
-import org.testng.Reporter;
 import org.testng.SkipException;
 import org.testng.TestListenerAdapter;
 import org.testng.log4testng.Logger;
@@ -36,7 +34,7 @@ import org.testng.log4testng.Logger;
 import java.io.File;
 
 import static com.coveros.selenified.Browser.BROWSER_INPUT;
-import static com.coveros.selenified.Selenified.OUTPUT_FILE;
+import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.Selenified.SESSION_ID;
 
 /**
@@ -47,7 +45,7 @@ import static com.coveros.selenified.Selenified.SESSION_ID;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 1/12/2019
+ * @lastupdate 3/19/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
@@ -154,15 +152,15 @@ public class Listener extends TestListenerAdapter {
      */
     private void recordResult(ITestResult result) {
         // finalize our output file
-        OutputFile outputFile = (OutputFile) result.getAttribute(OUTPUT_FILE);
+        Reporter reporter = (Reporter) result.getAttribute(REPORTER);
         String htmlFilename = "";
         String pdfFilename = "";
-        if (outputFile != null) {
+        if (reporter != null) {
             // subtracting one from the status ordinal to map ITestResult to Success
-            outputFile.finalizeOutputFile(result.getStatus() - 1);
-            htmlFilename = outputFile.getFileName() + ".html";
+            reporter.finalizeReporter(result.getStatus() - 1);
+            htmlFilename = reporter.getFileName() + ".html";
             if (System.getProperty("generatePDF") != null) {
-                pdfFilename = outputFile.getFileName() + ".pdf";
+                pdfFilename = reporter.getFileName() + ".pdf";
             }
         }
         // update our reporter logger
@@ -170,16 +168,16 @@ public class Listener extends TestListenerAdapter {
         Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
         if (browser != null) {
             // subtracting one from the status ordinal to map ITestResult to Success
-            Reporter.log(
+            org.testng.Reporter.log(
                     Success.values()[result.getStatus() - 1] + OUTPUT_BREAK + browser.getDetails() + OUTPUT_BREAK + LINK_START +
                             getFolderName(result) + "/" + htmlFilename + LINK_MIDDLE + testName + " HTML Report" +
                             LINK_END);
             if (!pdfFilename.isEmpty()) {
-                Reporter.log(OUTPUT_BREAK + LINK_START +
+                org.testng.Reporter.log(OUTPUT_BREAK + LINK_START +
                         getFolderName(result) + "/" + pdfFilename + LINK_MIDDLE + testName + " PDF" +
                         LINK_END);
             }
-            Reporter.log(OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
+            org.testng.Reporter.log(OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
         // update sauce labs
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {

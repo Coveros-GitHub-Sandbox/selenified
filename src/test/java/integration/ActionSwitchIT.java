@@ -88,8 +88,8 @@ public class ActionSwitchIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").selectFrame();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "switch", "frame"},
@@ -99,8 +99,8 @@ public class ActionSwitchIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "some_other_frame").selectFrame();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "switch", "frame"},
@@ -200,6 +200,8 @@ public class ActionSwitchIT extends WebBase {
         // perform some actions
         app.openNewWindow("https://www.google.com/");
         app.azzert().urlEquals("https://www.google.com/");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "switch", "tab", "browser"},
@@ -235,6 +237,8 @@ public class ActionSwitchIT extends WebBase {
         app.newElement(Locator.ID, "new_window").click();
         app.switchToNewWindow();
         app.azzert().textPresent("You're on the next page");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "switch", "window"},
@@ -261,6 +265,8 @@ public class ActionSwitchIT extends WebBase {
         app.azzert().textPresent("You're on the next page");
         app.switchToParentWindow();
         app.azzert().textNotPresent("You're on the next page");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "switch", "window", "browser"},
@@ -300,6 +306,8 @@ public class ActionSwitchIT extends WebBase {
         app.azzert().textPresent("You're on the next page");
         app.closeCurrentWindow();
         app.azzert().textNotPresent("You're on the next page");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "switch", "window"},

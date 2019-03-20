@@ -20,9 +20,9 @@
 
 package com.coveros.selenified.element.check.wait;
 
-import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.State;
+import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -37,12 +37,12 @@ import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INT
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public class WaitForState implements State {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
@@ -50,17 +50,17 @@ public class WaitForState implements State {
     // the default wait for the system
     private double defaultWait = 5.0;
 
-    public WaitForState(Element element, OutputFile file) {
+    public WaitForState(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
-        return file;
+    public Reporter getReporter() {
+        return reporter;
     }
 
     /**
@@ -196,7 +196,6 @@ public class WaitForState implements State {
             checkPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkPresent(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -216,7 +215,6 @@ public class WaitForState implements State {
             checkNotPresent(seconds, timeTook);
         } catch (TimeoutException e) {
             checkNotPresent(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -237,7 +235,6 @@ public class WaitForState implements State {
             checkDisplayed(seconds, timeTook);
         } catch (TimeoutException e) {
             checkDisplayed(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -258,7 +255,6 @@ public class WaitForState implements State {
             checkNotDisplayed(seconds, timeTook);
         } catch (TimeoutException e) {
             checkNotDisplayed(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -275,13 +271,9 @@ public class WaitForState implements State {
             elementPresent(seconds);
             while (!element.is().checked() && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            boolean isChecked = checkChecked(seconds, timeTook);
-            if (!isChecked) {
-                file.addError();
-            }
+            checkChecked(seconds, timeTook);
         } catch (TimeoutException e) {
             checkNotDisplayed(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -298,13 +290,9 @@ public class WaitForState implements State {
             elementPresent(seconds);
             while (element.is().checked() && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            boolean isNotChecked = checkNotChecked(seconds, timeTook);
-            if (!isNotChecked) {
-                file.addError();
-            }
+            checkNotChecked(seconds, timeTook);
         } catch (TimeoutException e) {
             checkNotDisplayed(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -323,13 +311,9 @@ public class WaitForState implements State {
             elementPresent(seconds);
             while (!element.is().editable() && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            boolean isEditable = checkEditable(seconds, timeTook);
-            if (!isEditable) {
-                file.addError();
-            }
+            checkEditable(seconds, timeTook);
         } catch (TimeoutException e) {
             checkEnabled(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -348,13 +332,9 @@ public class WaitForState implements State {
             elementPresent(seconds);
             while (element.is().editable() && System.currentTimeMillis() < end) ;
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-            boolean isNotEditable = checkNotEditable(seconds, timeTook);
-            if (!isNotEditable) {
-                file.addError();
-            }
+            checkNotEditable(seconds, timeTook);
         } catch (TimeoutException e) {
             checkEnabled(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -375,7 +355,6 @@ public class WaitForState implements State {
             checkEnabled(seconds, timeTook);
         } catch (TimeoutException e) {
             checkEnabled(seconds, seconds);
-            file.addError();
         }
     }
 
@@ -396,7 +375,6 @@ public class WaitForState implements State {
             checkNotEnabled(seconds, timeTook);
         } catch (TimeoutException e) {
             checkNotEnabled(seconds, seconds);
-            file.addError();
         }
     }
 }

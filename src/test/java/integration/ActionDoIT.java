@@ -61,6 +61,8 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.goToURL("https://www.google.com/");
         app.azzert().urlEquals("https://www.google.com/");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "url"},
@@ -96,6 +98,8 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#alert_button").click();
         app.acceptAlert();
         app.azzert().alertNotPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -105,8 +109,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.acceptAlert();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -118,6 +122,8 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#confirm_button").click();
         app.acceptConfirmation();
         app.azzert().confirmationNotPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -127,8 +133,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.acceptConfirmation();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -140,6 +146,8 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#confirm_button").click();
         app.dismissConfirmation();
         app.azzert().confirmationNotPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -149,8 +157,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.dismissConfirmation();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -162,6 +170,8 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#prompt_button").click();
         app.acceptPrompt();
         app.azzert().promptNotPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -171,8 +181,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.acceptPrompt();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -184,6 +194,8 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.CSS, "input#prompt_button").click();
         app.dismissPrompt();
         app.azzert().confirmationNotPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -193,8 +205,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.dismissPrompt();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "alert", "do"},
@@ -216,8 +228,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.typeIntoPrompt("yes!");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "click", "alert"},
@@ -228,6 +240,8 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.LINKTEXT, "I'M A LINK").click();
         app.azzert().confirmationPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "click", "browser", "alert"},
@@ -249,8 +263,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").click();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "click"},
@@ -260,8 +274,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").click();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "click"},
@@ -271,8 +285,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div").click();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "click", "browser"},
@@ -294,6 +308,8 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "submit_button").submit();
         app.azzert().textPresent("You're on the next page");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "submit", "browser"},
@@ -315,8 +331,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").submit();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "submit"},
@@ -326,8 +342,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").submit();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "submit"},
@@ -337,8 +353,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div").submit();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "submit"},
@@ -360,7 +376,7 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "hover_over_me").hover();
         app.newElement(Locator.ID, "displayed_when_hovered").assertState().displayed();
-        // verify 2 issues
+        // verify no issues
         finish();
     }
 
@@ -373,7 +389,7 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.ID, "hover_over_me").hover();
         app.newElement(Locator.ID, "scroll_button").hover();
         app.newElement(Locator.ID, "displayed_when_hovered").assertState().notDisplayed();
-        // verify 2 issues
+        // verify no issues
         finish();
     }
 
@@ -384,8 +400,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").hover();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "hover"},
@@ -395,8 +411,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div").hover();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "hover", "browser", "alert"},
@@ -419,7 +435,7 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "focus_box").focus();
         // verify no issues
-        finish(0);
+        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "focus", "browser", "alert"},
@@ -441,8 +457,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").focus();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "focus", "do"},
@@ -452,8 +468,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").focus();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "focus", "browser"},
@@ -463,8 +479,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "transparent_input").focus();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "focus"},
@@ -474,7 +490,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CLASSNAME, "click").focus();
-        // verify 2 issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -487,6 +503,8 @@ public class ActionDoIT extends WebBase {
         app.newElement(Locator.ID, "blur_box").blur();
         app.waitFor().alertPresent();
         app.azzert().alertPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "do", "blur", "browser", "alert"},
@@ -508,8 +526,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").blur();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "blur", "do"},
@@ -519,8 +537,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").blur();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "blur", "browser"},
@@ -530,8 +548,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "transparent_input").blur();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "blur"},
@@ -600,8 +618,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.TAGNAME, "non-existent-element").type("This is a test");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "type", "do"},
@@ -611,8 +629,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").type("This is a test");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     // TODO fix this to make it useful across everywhere
@@ -725,8 +743,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").type(Keys.SPACE);
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "type", "do"},
@@ -736,8 +754,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").type(Keys.SPACE);
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "type", "browser"},
@@ -843,8 +861,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").clear();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "clear", "do"},
@@ -854,8 +872,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").clear();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "clear"},
@@ -865,8 +883,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div").clear();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "clear"},
@@ -876,7 +894,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CLASSNAME, "click").clear();
-        // verify 2 issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -900,7 +918,7 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "car_list").select(listItem);
         app.newElement(Locator.ID, "car_list").assertEquals().selectedOption(listValue);
-        // close out the test
+        // verify no issues
         finish();
     }
 
@@ -935,7 +953,7 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "car_list").selectOption(listItem);
         app.newElement(Locator.ID, "car_list").assertEquals().selectedOption(listItem);
-        // close out the test
+        // verify no issues
         finish();
     }
 
@@ -946,7 +964,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "car_list").selectOption("option");
-        // verify 2 issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -957,8 +975,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.PARTIALLINKTEXT, "non-existent-element").selectOption("option");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "select", "do"},
@@ -968,8 +986,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").selectOption("option");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "select"},
@@ -979,8 +997,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div").selectOption("option");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "select"},
@@ -1025,7 +1043,7 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "car_list").selectValue(listItem.toLowerCase());
         app.newElement(Locator.ID, "car_list").assertEquals().selectedValue(listItem.toLowerCase());
-        // close out the test
+        // verify no issues
         finish();
     }
 
@@ -1048,7 +1066,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "car_list").selectValue("option");
-        // verify 2 issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -1059,8 +1077,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.PARTIALLINKTEXT, "non-existent-element").selectValue("option");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "select", "do"},
@@ -1070,8 +1088,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").selectValue("option");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "select"},
@@ -1081,8 +1099,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div").selectValue("option");
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "select"},
@@ -1118,114 +1136,136 @@ public class ActionDoIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "do", "move"},
-            description = "An integration test to check the move method")
-    public void moveTest() {
+    @Test(groups = {"integration", "action", "do", "scroll"},
+            description = "An integration test to check the scroll method")
+    public void scrollToTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "table_no_header").move();
+        app.newElement(Locator.ID, "table_no_header").scrollTo();
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "do", "move", "browser"},
-            description = "An integration test to check the move method")
-    public void moveAlertTest() {
+    @Test(groups = {"integration", "action", "do", "scroll", "browser"},
+            description = "An integration test to check the scroll method")
+    public void scrollAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "confirm_button").click();
-        app.newElement(Locator.ID, "table_no_header").move();
+        app.newElement(Locator.ID, "table_no_header").scrollTo();
         // verify 1 issue
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "do", "move"},
-            description = "An integration negative test to check the move method")
-    public void moveNotExistTest() {
+    @Test(groups = {"integration", "action", "do", "scroll"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").move();
-        // verify 1 issue
-        finish(1);
+        app.newElement(Locator.ID, "non-existent-element").scrollTo();
+        // verify 2 issues
+        finish(2);
     }
 
-    @Test(groups = {"integration", "action", "do", "move"},
-            description = "An integration negative test to check the move method")
-    public void moveNotVisibleTest() {
+    @Test(groups = {"integration", "action", "do", "scroll"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollNotVisibleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div").move();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "action", "do", "move", "browser"},
-            description = "An integration negative test to check the move method")
-    public void moveOffscreenTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "offscreen_div").move();
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "action", "do", "move"},
-            description = "An integration test to check the move method")
-    public void moveAtTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "table_no_header").move(10);
+        app.newElement(Locator.ID, "hidden_div").scrollTo();
         // verify no issues
         finish();
     }
 
-    @Test(groups = {"integration", "action", "do", "move", "browser"},
-            description = "An integration negative test to check the move method")
-    public void moveAtAlertTest() {
+    @Test(groups = {"integration", "action", "do", "scroll", "browser"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollOffscreenTopTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "offscreen_div_bottom").scrollTo();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "do", "scroll", "browser"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollOffscreenBottomTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "offscreen_div_top").scrollTo();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "action", "do", "scroll"},
+            description = "An integration test to check the scroll method")
+    public void scrollAtTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table_no_header").scrollTo(10);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "do", "scroll", "browser"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollAtAlertTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "confirm_button").click();
-        app.newElement(Locator.ID, "table_no_header").move(10);
+        app.newElement(Locator.ID, "table_no_header").scrollTo(10);
         // verify 1 issue
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "do", "move"},
-            description = "An integration negative test to check the move method")
-    public void moveAtNotExistTest() {
+    @Test(groups = {"integration", "action", "do", "scroll"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollAtNotExistTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").move(10);
+        app.newElement(Locator.ID, "non-existent-element").scrollTo(10);
+        // verify 2 issues
+        finish(2);
+    }
+
+    @Test(groups = {"integration", "action", "do", "scroll"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollAtNotVisibleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div").scrollTo(10);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "do", "scroll", "browser"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollAtOffscreenTopTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "offscreen_div_top").scrollTo(-10);
         // verify 1 issue
         finish(1);
     }
 
-    @Test(groups = {"integration", "action", "do", "move"},
-            description = "An integration negative test to check the move method")
-    public void moveAtNotVisibleTest() {
+    @Test(groups = {"integration", "action", "do", "scroll", "browser"},
+            description = "An integration negative test to check the scroll method")
+    public void scrollAtOffscreenBottomTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "hidden_div").move(10);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "action", "do", "move", "browser"},
-            description = "An integration negative test to check the move method")
-    public void moveAtOffscreenTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "offscreen_div").move(-10);
+        app.newElement(Locator.ID, "offscreen_div_bottom").scrollTo(-10);
         // verify 1 issue
         finish(1);
     }
@@ -1261,6 +1301,8 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.killDriver();
         app.scroll(50);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "action", "do", "draw", "browser"},
@@ -1298,7 +1340,7 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.LINKTEXT, "I'M A LINK").draw(new ArrayList<>());
-        // verify no issues
+        // verify 1 issue
         finish(1);
     }
 
@@ -1327,8 +1369,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.CSS, "input#alert_button").draw(points);
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "draw"},
@@ -1341,8 +1383,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").draw(points);
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "action", "do", "draw"},
@@ -1355,8 +1397,8 @@ public class ActionDoIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "hidden_div").draw(points);
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
 
@@ -1366,7 +1408,7 @@ public class ActionDoIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.getOutputFile().recordScreenshot();
+        app.getReporter().recordScreenshot();
         // verify no issues
         finish();
     }
@@ -1431,7 +1473,7 @@ public class ActionDoIT extends WebBase {
         // perform some actions
         app.goToURL("https://expired.badssl.com/");
         app.newElement(Locator.ID, "content").assertEquals().text("expired.\nbadssl.com");
-        // verify 1 issue
-        finish(0);
+        // verify no issues
+        finish();
     }
 }

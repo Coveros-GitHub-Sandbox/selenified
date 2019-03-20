@@ -2,9 +2,9 @@ package unit;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
-import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Response;
+import com.coveros.selenified.utilities.Reporter;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
@@ -23,14 +23,14 @@ import static org.testng.Assert.*;
 
 public class ResponseTest {
 
-    private OutputFile outputFile;
+    private Reporter reporter;
     private File directory;
     private File file;
 
     @BeforeMethod
     public void createFile() throws InvalidBrowserException {
-        outputFile =
-                new OutputFile("directory", "file", new Capabilities(new Browser("None")), null, null, null, null, null, null);
+        reporter =
+                new Reporter("directory", "file", new Capabilities(new Browser("None")), null, null, null, null, null, null);
         directory = new File("directory");
         file = new File("directory", "file.html");
     }
@@ -43,26 +43,26 @@ public class ResponseTest {
 
     @Test
     public void checkNewResponseFileCodeTest() {
-        Response response = new Response(outputFile);
+        Response response = new Response(reporter);
         assertEquals(response.getCode(), 0);
     }
 
     @Test
     public void checkNewResponseFileObjectTest() {
-        Response response = new Response(outputFile);
+        Response response = new Response(reporter);
         assertNull(response.getObjectData());
     }
 
     @Test
     public void checkNewResponseFileArrayTest() {
-        Response response = new Response(outputFile);
+        Response response = new Response(reporter);
         assertNull(response.getArrayData());
     }
 
     @Test
     public void checkNewResponseFileMessageTest() throws InvalidBrowserException {
         Response response = new Response(
-                new OutputFile("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
+                new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null));
         assertNull(response.getMessage());
     }
@@ -180,8 +180,8 @@ public class ResponseTest {
 
     @Test
     public void checkSetFileTest() {
-        Response response = new Response(outputFile);
-        response.setOutputFile(outputFile);
+        Response response = new Response(reporter);
+        response.setReporter(reporter);
         // just ensure no errors are thrown
     }
 
@@ -190,7 +190,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals(5);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -202,7 +202,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals(6);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -214,7 +214,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -228,7 +228,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals(new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -242,7 +242,7 @@ public class ResponseTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals(new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -256,7 +256,7 @@ public class ResponseTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -270,7 +270,7 @@ public class ResponseTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals(new JsonArray());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -284,7 +284,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals(new JsonArray());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -296,7 +296,7 @@ public class ResponseTest {
     @Test
     public void confirmEqualsMessagePassTest() throws IOException {
         Response response = new Response(5, new JsonObject(), "Some message");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals("Some message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -309,7 +309,7 @@ public class ResponseTest {
     @Test
     public void confirmEqualsMessageFailTest() throws IOException {
         Response response = new Response(5, new JsonObject(), "SOME MESSAGE");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals("Some message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -322,7 +322,7 @@ public class ResponseTest {
     @Test
     public void confirmEqualsMessageNullTest() throws IOException {
         Response response = new Response(5, new JsonObject(), null);
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertEquals("");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -337,7 +337,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john");
         response.assertContains(pairs);
@@ -352,7 +352,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
         response.assertContains(pairs);
@@ -367,7 +367,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john1");
         response.assertContains(pairs);
@@ -383,7 +383,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
         response.assertContains(pairs);
@@ -400,7 +400,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5);
         response.assertContains(pairs);
@@ -417,7 +417,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6);
         response.assertContains(pairs);
@@ -434,7 +434,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5);
         response.assertContains(pairs);
@@ -451,7 +451,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5);
         response.assertContains(pairs);
@@ -468,7 +468,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5);
         response.assertContains(pairs);
@@ -485,7 +485,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5f);
         response.assertContains(pairs);
@@ -502,7 +502,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5f);
         response.assertContains(pairs);
@@ -519,7 +519,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5f);
         response.assertContains(pairs);
@@ -536,7 +536,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5L);
         response.assertContains(pairs);
@@ -553,7 +553,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5L);
         response.assertContains(pairs);
@@ -570,7 +570,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6L);
         response.assertContains(pairs);
@@ -587,7 +587,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", true);
         response.assertContains(pairs);
@@ -604,7 +604,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", true);
         response.assertContains(pairs);
@@ -621,7 +621,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", false);
         response.assertContains(pairs);
@@ -638,7 +638,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 0);
         response.assertContains(pairs);
@@ -655,7 +655,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", (byte) 0);
         response.assertContains(pairs);
@@ -672,7 +672,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 1);
         response.assertContains(pairs);
@@ -689,7 +689,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'a');
         response.assertContains(pairs);
@@ -706,7 +706,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 'a');
         response.assertContains(pairs);
@@ -723,7 +723,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'b');
         response.assertContains(pairs);
@@ -745,7 +745,7 @@ public class ResponseTest {
         Map<String, Object> map = new HashMap();
         map.put("name", child);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertContains(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -764,7 +764,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.add("name", child);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
         Map<String, Object> map = new HashMap();
@@ -785,7 +785,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.add("name", child);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> map = new HashMap();
         map.put("name1", child);
         response.assertContains(map);
@@ -807,7 +807,7 @@ public class ResponseTest {
         Map<String, Object> map = new HashMap();
         map.put("name", child);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertContains(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -826,7 +826,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.add("name", child);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         JsonArray badChild = new JsonArray();
         badChild.add("john");
         Map<String, Object> map = new HashMap();
@@ -850,7 +850,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.add("name", child);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> map = new HashMap();
         map.put("name1", child);
         response.assertContains(map);
@@ -870,7 +870,7 @@ public class ResponseTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
         response.assertContains(pairs);
@@ -885,7 +885,7 @@ public class ResponseTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
         response.assertContains(pairs);
@@ -905,7 +905,7 @@ public class ResponseTest {
         JsonArray json = new JsonArray();
         json.add(child);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertContains(child);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -921,7 +921,7 @@ public class ResponseTest {
         JsonArray json = new JsonArray();
         json.add(child);
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
         response.assertContains(badChild);
@@ -937,7 +937,7 @@ public class ResponseTest {
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(5, json, "");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertContains(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -948,7 +948,7 @@ public class ResponseTest {
     @Test
     public void confirmContainsMessagePassTest() throws IOException {
         Response response = new Response(5, new JsonObject(), "Some message");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertContains("message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -961,7 +961,7 @@ public class ResponseTest {
     @Test
     public void confirmContainsMessageFailTest() throws IOException {
         Response response = new Response(5, new JsonObject(), "Some message");
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertContains("message ");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -974,7 +974,7 @@ public class ResponseTest {
     @Test
     public void confirmContainsMessageNullTest() throws IOException {
         Response response = new Response(5, new JsonObject(), null);
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertContains("");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -987,7 +987,7 @@ public class ResponseTest {
     @Test
     public void confirmContainsMessageNull2Test() throws IOException {
         Response response = new Response(5, new JsonObject(), null);
-        response.setOutputFile(outputFile);
+        response.setReporter(reporter);
         response.assertContains("null");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(

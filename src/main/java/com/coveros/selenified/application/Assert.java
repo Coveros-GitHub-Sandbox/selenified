@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.application;
 
-import com.coveros.selenified.OutputFile;
+import com.coveros.selenified.utilities.Reporter;
 
 import static com.coveros.selenified.element.check.Constants.DOES_NOT_MATCH_PATTERN;
 import static org.testng.AssertJUnit.assertEquals;
@@ -35,12 +35,12 @@ import static org.testng.AssertJUnit.assertTrue;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public class Assert implements Check {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter reporter;
 
     // this is the driver that will be used for all selenium actions
     private final App app;
@@ -49,19 +49,19 @@ public class Assert implements Check {
      * The default constructor passing in the app and output file
      *
      * @param app  - the application under test
-     * @param file - the file to write all logging out to
+     * @param reporter - the file to write all logging out to
      */
-    public Assert(App app, OutputFile file) {
+    public Assert(App app, Reporter reporter) {
         this.app = app;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
-        return file;
+    public Reporter getReporter() {
+        return reporter;
     }
 
     /**
@@ -109,7 +109,7 @@ public class Assert implements Check {
      */
     @Override
     public void titleMatches(String expectedTitlePattern) {
-        String title = checkTitleEquals(expectedTitlePattern, 0, 0);
+        String title = checkTitleMatches(expectedTitlePattern, 0, 0);
         assertTrue("Title Mismatch: title of '" + title + DOES_NOT_MATCH_PATTERN + expectedTitlePattern + "'", title.matches(expectedTitlePattern));
     }
 

@@ -20,11 +20,12 @@
 
 package com.coveros.selenified.element.check.azzert;
 
-import com.coveros.selenified.OutputFile;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Contains;
+import com.coveros.selenified.utilities.Reporter;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import static com.coveros.selenified.element.check.Constants.*;
 import static org.testng.AssertJUnit.*;
@@ -40,27 +41,27 @@ import static org.testng.AssertJUnit.*;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public class AssertContains implements Contains {
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter reporter;
 
     // this is the element that all actions will be performed on
     private final Element element;
 
-    public AssertContains(Element element, OutputFile file) {
+    public AssertContains(Element element, Reporter reporter) {
         this.element = element;
-        this.file = file;
+        this.reporter = reporter;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OutputFile getOutputFile() {
-        return file;
+    public Reporter getReporter() {
+        return reporter;
     }
 
     /**
@@ -98,10 +99,10 @@ public class AssertContains implements Contains {
      * @param expectedAttribute - the attribute to check for
      */
     public void attribute(String expectedAttribute) {
-        String[] attributes = checkAttribute(expectedAttribute, 0, 0);
+        Set<String> attributes = checkAttribute(expectedAttribute, 0, 0);
         assertNotNull(NO_ELEMENT_FOUND, attributes);
         assertTrue("Attribute not found: element attributes of '" + String.join(",", attributes) +
-                DOES_NOT_CONTAIN + expectedAttribute + "'", Arrays.asList(attributes).contains(expectedAttribute));
+                DOES_NOT_CONTAIN + expectedAttribute + "'", attributes.contains(expectedAttribute));
     }
 
     /**
@@ -129,13 +130,11 @@ public class AssertContains implements Contains {
     @SuppressWarnings("squid:S2259")
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
-        if (value == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "Element not input";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (value == null && getElement().is().present()) {
+            reason = "Element not input";
         }
+        assertNotNull(reason, value);
         assertTrue("Value not found: element value of '" + value + DOES_NOT_CONTAIN + expectedValue + "'", value.contains(expectedValue));
     }
 
@@ -149,13 +148,11 @@ public class AssertContains implements Contains {
      */
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
-        if (options == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (options == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, options);
         assertTrue("Option not found: element options of '" + String.join(",", options) +
                 DOES_NOT_CONTAIN + expectedOption + "'", Arrays.asList(options).contains(expectedOption));
     }
@@ -170,13 +167,11 @@ public class AssertContains implements Contains {
      */
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
-        if (values == null) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (values == null && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertNotNull(reason, values);
         assertTrue("Value not found: element values of '" + String.join(",", values) +
                 DOES_NOT_CONTAIN + expectedValue + "'", Arrays.asList(values).contains(expectedValue));
     }
@@ -191,13 +186,11 @@ public class AssertContains implements Contains {
      */
     public void selectOptions(int numOfOptions) {
         int options = checkSelectOptions(numOfOptions, 0, 0);
-        if (options < 0) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = ELEMENT_NOT_SELECT;
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (options < 0 && getElement().is().present()) {
+            reason = ELEMENT_NOT_SELECT;
         }
+        assertTrue(reason, options >= 0);
         assertEquals("Number of options mismatch", numOfOptions, options);
     }
 
@@ -211,14 +204,13 @@ public class AssertContains implements Contains {
      */
     public void columns(int numOfColumns) {
         int columns = checkColumns(numOfColumns, 0, 0);
-        if (columns < 0) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "Element not table";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (columns < 0 && getElement().is().present()) {
+            reason = "Element not table";
         }
+        assertTrue(reason, columns >= 0);
         assertEquals("Number of columns mismatch", numOfColumns, columns);
+
     }
 
     /**
@@ -231,13 +223,11 @@ public class AssertContains implements Contains {
      */
     public void rows(int numOfRows) {
         int rows = checkRows(numOfRows, 0, 0);
-        if (rows < 0) {
-            String reason = NO_ELEMENT_FOUND;
-            if (getElement().is().present()) {
-                reason = "Element not table";
-            }
-            fail(reason);
+        String reason = NO_ELEMENT_FOUND;
+        if (rows < 0 && getElement().is().present()) {
+            reason = "Element not table";
         }
+        assertTrue(reason, rows >= 0);
         assertEquals("Number of rows mismatch", numOfRows, rows);
     }
 }

@@ -20,8 +20,6 @@
 
 package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.OutputFile.Success;
-
 import java.util.Arrays;
 
 import static com.coveros.selenified.element.check.Constants.*;
@@ -37,7 +35,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/7/2019
+ * @lastupdate 3/19/2019
  */
 public interface Equals extends Check {
 
@@ -69,18 +67,15 @@ public interface Equals extends Check {
      * @return Integer: the number of elements matching the locator
      */
     default int checkMatches(int expectedMatches, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + " having a match count of <b>" + expectedMatches +
-                "</b>", waitFor);
         // get the value
         int matchCount = getElement().get().matchCount();
         // record the result
         if (matchCount != expectedMatches) {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having a match count of <b>" + expectedMatches +
+                    "</b>", waitFor, getElement().prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " having a match count of <b>" + expectedMatches +
+                    "</b>", waitFor, getElement().prettyOutputStart() + " has a match count of <b>" + matchCount + "</b>", timeTook);
         }
         return matchCount;
     }
@@ -111,22 +106,22 @@ public interface Equals extends Check {
      * @return String: the css value of the attribute passed in. null will be returned if the element's css isn't accessible
      */
     default String checkCssValue(String attribute, String expectedValue, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + " having a css attribute of <i>" + attribute +
-                "</i> with a value of <b>" + expectedValue + "</b>", waitFor);
         // get the actual css element value
         String elementCssValue = getElement().get().css(attribute);
         // record the result
         if (elementCssValue == null) {
-            getOutputFile().recordActual("Unable to assess the css of " + getElement().prettyOutputEnd(), timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having a css attribute of <i>" + attribute +
+                    "</i> with a value of <b>" + expectedValue + "</b>", waitFor, "Unable to assess the css of " + getElement().prettyOutputEnd(), timeTook);
         } else if (!expectedValue.equals(elementCssValue)) {
-            getOutputFile().recordActual(
+            getReporter().fail(getElement().prettyOutput() + " having a css attribute of <i>" + attribute +
+                            "</i> with a value of <b>" + expectedValue + "</b>", waitFor,
                     getElement().prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + elementCssValue +
-                            "</b>", timeTook, Success.FAIL);
+                            "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(
+            getReporter().pass(getElement().prettyOutput() + " having a css attribute of <i>" + attribute +
+                            "</i> with a value of <b>" + expectedValue + "</b>", waitFor,
                     getElement().prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + elementCssValue +
-                            "</b>", timeTook, Success.PASS);
+                            "</b>", timeTook);
         }
         return elementCssValue;
     }
@@ -153,15 +148,13 @@ public interface Equals extends Check {
      * @return String: the actual class of the element. null will be returned if the element isn't present
      */
     default String checkClazz(String expectedClass, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + " with class <b>" + expectedClass + "</b>", waitFor);
         // get the actual class value
         String actualClass = getElement().get().attribute(CLASS);
         // record the result
         if (expectedClass == null ? actualClass != null : !expectedClass.equals(actualClass)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " with class <b>" + expectedClass + "</b>", waitFor, getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + expectedClass + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " with class <b>" + expectedClass + "</b>", waitFor, getElement().prettyOutputStart() + CLASS_VALUE + expectedClass + "</b>", timeTook);
         }
         return actualClass;
     }
@@ -192,24 +185,20 @@ public interface Equals extends Check {
      * @return String: the attribute value of the attribute specified from the element. null will be returned if the element isn't present
      */
     default String checkAttribute(String attribute, String expectedValue, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(
-                getElement().prettyOutput() + " having an attribute of <i>" + attribute + " with a value of <b>" +
-                        expectedValue + "</b>", waitFor);
         // get the actual attribute value
         String elementValue = getElement().get().attribute(attribute);
         // record the result
         if (elementValue == null) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " does not have an attribute of <i>" + attribute + "</i>",
-                    timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having an attribute of <i>" + attribute + " with a value of <b>" +
+                    expectedValue + "</b>", waitFor, getElement().prettyOutputStart() + " does not have an attribute of <i>" + attribute + "</i>", timeTook);
         } else if (!elementValue.equals(expectedValue)) {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + "</b>",
-                    timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having an attribute of <i>" + attribute + " with a value of <b>" +
+                            expectedValue + "</b>", waitFor,
+                    getElement().prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + "</b>",
-                    timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " having an attribute of <i>" + attribute + " with a value of <b>" +
+                            expectedValue + "</b>", waitFor,
+                    getElement().prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + "</b>", timeTook);
         }
         return elementValue;
     }
@@ -236,15 +225,13 @@ public interface Equals extends Check {
      * @return String: the actual text of the element. null will be returned if the element isn't present
      */
     default String checkText(String expectedText, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + " having text of <b>" + expectedText + "</b>", waitFor);
         // check for the object to the present on the page
         String elementText = getElement().get().text();
         // record the result
         if (!expectedText.equals(elementText)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having text of <b>" + expectedText + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " having text of <b>" + expectedText + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementText + "</b>", timeTook);
         }
         return elementText;
     }
@@ -293,12 +280,14 @@ public interface Equals extends Check {
         String actualText = getElement().get().tableCell(row, col).get().text();
         // record the result
         if (!actualText.equals(expectedText)) {
-            getOutputFile().recordActual("Cell at row " + row + column + col + within + getElement().prettyOutput() +
-                    " has the text value of <b>" + actualText + "</b>", timeTook, Success.FAIL);
+            getReporter().fail("cell at row " + row + column + col + within + getElement().prettyOutput() +
+                    " to have the text value of <b>" + expectedText + "</b>", waitFor, "Cell at row " + row + column + col + within + getElement().prettyOutput() +
+                    " has the text value of <b>" + actualText + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(
+            getReporter().pass("cell at row " + row + column + col + within + getElement().prettyOutput() +
+                            " to have the text value of <b>" + expectedText + "</b>", waitFor,
                     "Cell at row " + row + column + col + within + getElement().prettyOutput() + " has the text value of <b>" +
-                            actualText + "</b>", timeTook, Success.PASS);
+                            actualText + "</b>", timeTook);
         }
         return actualText;
     }
@@ -334,9 +323,9 @@ public interface Equals extends Check {
         String elementValue = getElement().get().value();
         // record the result
         if (!elementValue.equals(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutputStart() + " is not an input on the page", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutputStart() + " is not an input on the page", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         }
         return elementValue;
     }
@@ -373,9 +362,9 @@ public interface Equals extends Check {
         String elementText = getElement().get().selectedOption();
         // record the result
         if (!elementText.equals(expectedText)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having a selected option of <b>" + expectedText + "</b>", waitFor, getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " having a selected option of <b>" + expectedText + "</b>", waitFor, getElement().prettyOutputStart() + HAS_OPTION + elementText + "</b>", timeTook);
         }
         return elementText;
     }
@@ -412,9 +401,9 @@ public interface Equals extends Check {
         String elementValue = getElement().get().selectedValue();
         // record the result
         if (!elementValue.equals(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " having a selected value of <b>" + expectedValue + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " having a selected value of <b>" + expectedValue + "</b>", waitFor, getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
         }
         return elementValue;
     }
@@ -451,11 +440,9 @@ public interface Equals extends Check {
         String[] elementOptions = getElement().get().selectOptions();
         // record the result
         if (!Arrays.toString(elementOptions).equals(Arrays.toString(expectedOptions))) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + "</b>",
-                    timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " with select options of <b>" + String.join("</b>, <b>" + expectedOptions) + "</b>", waitFor, getElement().prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + "</b>",
-                    timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " with select options of <b>" + String.join("</b>, <b>" + expectedOptions) + "</b>", waitFor, getElement().prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + "</b>", timeTook);
         }
         return elementOptions;
     }
@@ -493,10 +480,11 @@ public interface Equals extends Check {
         String[] elementValues = getElement().get().selectValues();
         // record the result
         if (!Arrays.toString(elementValues).equals(Arrays.toString(expectedValues))) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUES + Arrays.toString(elementValues) + "</b>",
-                    timeTook, Success.FAIL);
+            getReporter().fail(getElement().prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) +
+                    "</b>", waitFor, getElement().prettyOutputStart() + VALUES + Arrays.toString(elementValues) + "</b>", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + VALUES + Arrays.toString(elementValues) + "</b>", timeTook, Success.PASS);
+            getReporter().pass(getElement().prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) +
+                    "</b>", waitFor, getElement().prettyOutputStart() + VALUES + Arrays.toString(elementValues) + "</b>", timeTook);
         }
         return elementValues;
     }

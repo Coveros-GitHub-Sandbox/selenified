@@ -33,7 +33,7 @@ public class NoLoadIT extends WebBase {
         // verify a selenium actions class was setup
         assertNotNull(app);
         String directory = context.getOutputDirectory();
-        String file = app.getOutputFile().getFileName();
+        String file = app.getReporter().getFileName();
         assertFalse(FileUtils.readFileToString(new File(directory, file + ".html"))
                 .contains("Opening new browser and loading up starting app"));
         // verify the app wasn't attempted to load
