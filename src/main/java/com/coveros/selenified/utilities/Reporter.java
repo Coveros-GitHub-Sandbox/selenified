@@ -78,8 +78,8 @@ public class Reporter {
     private final File file;
     private final String filename;
     private final List<String> screenshots = new ArrayList<>();
-    private App app = null;
     private final Capabilities capabilities;
+    private App app = null;
     // timing of the test
     private long startTime;
     private long lastTime = 0;
@@ -311,6 +311,15 @@ public class Reporter {
         check("", "", "");
     }
 
+    /**
+     * Helper to recordStep, which takes in a check being performed, and determines if a wait is
+     * occuring or not. If no wait, no action is recorded. If a wait was performed, that wait is
+     * added to the check, and provided back as the action
+     *
+     * @param check   - the check being performed
+     * @param waitFor - how long was something waited for. Provide 0 if no wait, and therefore no action
+     * @return String: the wait being performed as the check, or nothing
+     */
     private String getAction(String check, double waitFor) {
         String action = "";
         if (waitFor > 0) {
@@ -319,6 +328,16 @@ public class Reporter {
         return action;
     }
 
+    /**
+     * Helper to recordStep, which takes in some result, and appends a time waited, if
+     * appropriate. If timeTook is greater than zero, some time was waited along with
+     * the action, and the returned result will reflect that
+     *
+     * @param actual   - the actual outcome from the check
+     * @param timeTook - how long something took to run, provide 0 if it was an immediate check, and actual
+     *                 will be returned unaltered
+     * @return String: the actual response, prepended with a wait time if appropriate
+     */
     private String getActual(String actual, double timeTook) {
         if (timeTook > 0) {
             String lowercase = actual.substring(0, 1).toLowerCase();
@@ -327,39 +346,96 @@ public class Reporter {
         return actual;
     }
 
+    /**
+     * Records the performed check as a pass to the output file. A screenshot will be taken for traceability
+     * This method takes in a check being performed, and determines if a wait is
+     * occurring or not. If no wait, no action is recorded. If a wait was performed, that wait is
+     * added to the check, and recorded as the action. The check is used as the expected outcome, and the actual
+     * input is used for actual. If it took some time (timeTook greater than zero), than the actual result will
+     * be updated to reflect the time took.
+     * If a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param check    - the check being performed
+     * @param waitFor  - how long was something waited for. Provide 0 if no wait, and therefore no action
+     * @param actual   - the actual outcome from the check
+     * @param timeTook - how long something took to run, provide 0 if it was an immediate check, and actual
+     *                 will be returned unaltered
+     */
     public void pass(String check, double waitFor, String actual, double timeTook) {
         passes++;
         recordStep(getAction(check, waitFor), "Expected " + check, getActual(actual, timeTook), true, Success.PASS);
     }
 
+    /**
+     * Records the performed check as a fail to the output file. A screenshot will be taken for traceability
+     * This method takes in a check being performed, and determines if a wait is
+     * occurring or not. If no wait, no action is recorded. If a wait was performed, that wait is
+     * added to the check, and recorded as the action. The check is used as the expected outcome, and the actual
+     * input is used for actual. If it took some time (timeTook greater than zero), than the actual result will
+     * be updated to reflect the time took.
+     * If a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param check    - the check being performed
+     * @param waitFor  - how long was something waited for. Provide 0 if no wait, and therefore no action
+     * @param actual   - the actual outcome from the check
+     * @param timeTook - how long something took to run, provide 0 if it was an immediate check, and actual
+     *                 will be returned unaltered
+     */
     public void fail(String check, double waitFor, String actual, double timeTook) {
         fails++;
         recordStep(getAction(check, waitFor), "Expected " + check, getActual(actual, timeTook), true, Success.FAIL);
     }
 
+    /**
+     * Records the performed step as a pass to the output file. This includes the
+     * action taken if any, the expected result, and the actual result.
+     *
+     * @param action         - the step that was performed
+     * @param expectedResult - the result that was expected to occur
+     * @param actualResult   - the result that actually occurred
+     */
     public void pass(String action, String expectedResult, String actualResult) {
         passes++;
         recordStep(action, expectedResult, actualResult, false, Success.PASS);
     }
 
+    /**
+     * Records the performed step as a check to the output file. A screenshot will be taken for traceability and debugging purposes.
+     * This includes the action taken if any, the expected result, and the actual result.
+     * If a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param action         - the step that was performed
+     * @param expectedResult - the result that was expected to occur
+     * @param actualResult   - the result that actually occurred
+     */
     public void check(String action, String expectedResult, String actualResult) {
         checks++;
         recordStep(action, expectedResult, actualResult, true, Success.CHECK);
     }
 
+    /**
+     * Records the performed step as a fail to the output file. A screenshot will be taken for traceability and debugging purposes.
+     * This includes the action taken if any, the expected result, and the actual result.
+     * If a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
+     *
+     * @param action         - the step that was performed
+     * @param expectedResult - the result that was expected to occur
+     * @param actualResult   - the result that actually occurred
+     */
     public void fail(String action, String expectedResult, String actualResult) {
         fails++;
         recordStep(action, expectedResult, actualResult, true, Success.FAIL);
     }
 
     /**
-     * Writes an action that was performed out to the output file. If the action
-     * is considered a failure, and a 'real' browser is being used (not NONE or
-     * HTMLUNIT), then a screenshot will automatically be taken
+     * Records the performed step to the output file. This includes the action taken if any, the
+     * expected result, and the actual result. If a screenshot is desired, indicate as such. If
+     * a 'real' browser is not being used (not NONE or HTMLUNIT), then no screenshot will be taken
      *
      * @param action         - the step that was performed
      * @param expectedResult - the result that was expected to occur
      * @param actualResult   - the result that actually occurred
+     * @param screenshot     - should a screenshot be taken
      * @param success        - the result of the action
      */
     private void recordStep(String action, String expectedResult, String actualResult, Boolean screenshot, Success success) {
@@ -598,7 +674,7 @@ public class Reporter {
         } else {
             replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAIL</b></font>");
         }
-        addTimeToReporter();
+        addTimeToReport();
         if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
             packageTestResults();
         }
@@ -607,7 +683,10 @@ public class Reporter {
         }
     }
 
-    private void addTimeToReporter() {
+    /**
+     * Updates the output file with timing information, including run time, and finish time
+     */
+    private void addTimeToReport() {
         // record the time
         SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
         String timeNow = stf.format(new Date());
