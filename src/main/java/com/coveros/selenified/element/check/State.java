@@ -32,7 +32,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 public interface State extends Check {
 

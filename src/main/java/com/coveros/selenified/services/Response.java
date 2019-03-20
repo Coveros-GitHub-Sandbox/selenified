@@ -32,7 +32,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 public class Response {
     private static final String EXPECTED_TO_FIND = "Expected to find a response of: ";
