@@ -138,7 +138,7 @@ public class ElementTest {
     @Test
     public void checkPrettyOutputEndTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
-        assertEquals(element.prettyOutputEnd(), "1st element with <i>ID</i> of <i>myId</i>.");
+        assertEquals(element.prettyOutputEnd(), "1st element with <i>ID</i> of <i>myId</i>. ");
     }
 
     @Test
@@ -168,6 +168,6 @@ public class ElementTest {
     @Test
     public void checkPrettyOutputMatchEndTest() {
         Element element = new Element(null, null, Locator.ID, "myId", 10);
-        assertEquals(element.prettyOutputEnd(), "11th element with <i>ID</i> of <i>myId</i>.");
+        assertEquals(element.prettyOutputEnd(), "11th element with <i>ID</i> of <i>myId</i>. ");
     }
 }
