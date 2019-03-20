@@ -30,7 +30,7 @@ import com.coveros.selenified.utilities.Reporter;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/19/2019
  */
 public class Verify implements Check {

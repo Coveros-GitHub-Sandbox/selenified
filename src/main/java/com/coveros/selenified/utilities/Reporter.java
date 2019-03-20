@@ -52,7 +52,7 @@ import java.util.zip.ZipOutputStream;
  * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/19/2019
  */
 public class Reporter {
