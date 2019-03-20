@@ -200,7 +200,7 @@ public class Reporter {
      */
     private String generateFilename() {
         String counter = "";
-        if (capabilities != null && capabilities.getInstance() > 0) {
+        if (capabilities.getInstance() > 0) {
             counter = "_" + capabilities.getInstance();
         }
         return test + counter;

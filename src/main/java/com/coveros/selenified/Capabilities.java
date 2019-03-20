@@ -64,7 +64,7 @@ public class Capabilities {
     private static final String HEADLESS_INPUT = "headless";
 
     private Browser browser;
-    private int instance;
+    private int instance = 0;
     private DesiredCapabilities desiredCapabilities;
 
     /**
