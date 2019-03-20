@@ -298,7 +298,7 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     public String prettyOutputStart() {
-        return prettyOutputStart("Element with ");
+        return prettyOutputStart("");
     }
 
     /**
@@ -310,22 +310,11 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     private String prettyOutputStart(String initialString) {
-        initialString += "<i>" + type.toString() + "</i> of <i>" + locator + "</i>";
+        initialString += Reporter.ordinal(match+1) + " element with <i>" + type.toString() + "</i> of <i>" + locator + "</i>";
         if (parent != null) {
             initialString = parent.prettyOutputStart(initialString + " and parent of ");
         }
         return initialString;
-    }
-
-    /**
-     * Retrieves a nicely HTML formatted output which identifies the element by
-     * locator and selector, which can be used anywhere in a sentence
-     *
-     * @return String: text identifying how the element was located
-     */
-    public String prettyOutputLowercase() {
-        String output = prettyOutputStart();
-        return Character.toLowerCase(output.charAt(0)) + output.substring(1);
     }
 
     /**
@@ -336,7 +325,7 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     public String prettyOutput() {
-        return " " + prettyOutputLowercase() + " ";
+        return " " + prettyOutputStart() + " ";
     }
 
     /**
@@ -346,7 +335,7 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     public String prettyOutputEnd() {
-        return prettyOutputLowercase() + ".";
+        return prettyOutputStart() + ".";
     }
 
     ///////////////////////////////////////////////////////
@@ -788,7 +777,7 @@ public class Element {
     public void click() {
         String cantClick = "Unable to click ";
         String action = "Clicking " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to be clicked";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to be clicked";
         try {
             if (isNotPresentDisplayedEnabled(action, expected, cantClick)) {
                 return;
@@ -811,7 +800,7 @@ public class Element {
     public void submit() {
         String cantSubmit = "Unable to submit ";
         String action = "Submitting " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to be submitted    ";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to be submitted    ";
         try {
             if (isNotPresentDisplayedEnabled(action, expected, cantSubmit)) {
                 return;
@@ -834,7 +823,7 @@ public class Element {
     public void hover() {
         String cantHover = "Unable to hover over ";
         String action = "Hovering over " + prettyOutput();
-        String expected = prettyOutput() + " is present, and displayed to be hovered over";
+        String expected = prettyOutputStart() + " is present, and displayed to be hovered over";
         try {
             // wait for element to be present
             if (isNotPresent(action, expected, cantHover)) {
@@ -864,7 +853,7 @@ public class Element {
     public void focus() {
         String cantFocus = "Unable to focus on ";
         String action = "Focusing on " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to be focused";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to be focused";
         try {
             if (isNotPresentDisplayedEnabledInput(action, expected, cantFocus)) {
                 return;
@@ -888,7 +877,7 @@ public class Element {
     public void blur() {
         String cantFocus = "Unable to focus on ";
         String action = "Focusing, then unfocusing (blurring) on " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to be blurred";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to be blurred";
         try {
             if (isNotPresentDisplayedEnabledInput(action, expected, cantFocus)) {
                 return;
@@ -914,7 +903,7 @@ public class Element {
      */
     public void type(String text) {
         String action = "Typing text '" + text + IN + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to have text " + text + " typed in";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to have text " + text + " typed in";
         boolean warning = false;
         try {
             if (isNotPresentEnabledInput(action, expected)) {
@@ -949,7 +938,7 @@ public class Element {
      */
     public void type(Keys key) {
         String action = "Typing key '" + key + IN + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to have text " + key + " entered";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to have text " + key + " entered";
         boolean warning = false;
         try {
             if (isNotPresentEnabledInput(action, expected)) {
@@ -981,7 +970,7 @@ public class Element {
     public void clear() {
         String cantClear = "Unable to clear ";
         String action = "Clearing text in " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to have text cleared";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to have text cleared";
         try {
             if (isNotPresentDisplayedEnabledInput(action, expected, cantClear)) {
                 return;
@@ -1007,7 +996,7 @@ public class Element {
      */
     public void select(int index) {
         String action = SELECTING + index + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + index + SELECTED;
+        String expected = prettyOutputStart() + PRESENT_DISPLAYED_AND_ENABLED + index + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
@@ -1041,7 +1030,7 @@ public class Element {
      */
     public void selectOption(String option) {
         String action = SELECTING + option + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + option + SELECTED;
+        String expected = prettyOutputStart() + PRESENT_DISPLAYED_AND_ENABLED + option + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
@@ -1075,7 +1064,7 @@ public class Element {
      */
     public void selectValue(String value) {
         String action = SELECTING + value + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + value + SELECTED;
+        String expected = prettyOutputStart() + PRESENT_DISPLAYED_AND_ENABLED + value + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
@@ -1141,7 +1130,7 @@ public class Element {
      */
     public void scrollTo() {
         String action = "Scrolling screen to " + prettyOutput();
-        String expected = prettyOutput() + " is now within the current viewport";
+        String expected = prettyOutputStart() + " is now within the current viewport";
         try {
             // wait for element to be present
             if (isNotPresent(action, expected, CANT_SCROLL)) {
@@ -1168,7 +1157,7 @@ public class Element {
      */
     public void scrollTo(long position) {
         String action = "Scrolling screen to " + position + " pixels above " + prettyOutput();
-        String expected = prettyOutput() + " is now within the current viewport";
+        String expected = prettyOutputStart() + " is now within the current viewport";
         try {
             // wait for element to be present
             if (isNotPresent(action, expected, CANT_SCROLL)) {
@@ -1208,7 +1197,7 @@ public class Element {
             pointString.append("<i>").append(point.getX()).append("x").append(point.getY()).append("</i>");
         }
         String action = "Drawing object from " + pointString.toString() + " in " + prettyOutput();
-        String expected = prettyOutput() + " now has object drawn on it from " + pointString.toString();
+        String expected = prettyOutputStart() + " now has object drawn on it from " + pointString.toString();
         try {
             // wait for element to be present, displayed, and enabled
             if (isNotPresentDisplayedEnabled(action, expected, "Unable to drawn in ")) {

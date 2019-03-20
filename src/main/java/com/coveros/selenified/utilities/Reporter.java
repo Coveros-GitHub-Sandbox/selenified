@@ -792,7 +792,7 @@ public class Reporter {
      * Takes a generic string and replaces spaces and new lines with HTML
      * friendly pieces for display purposes
      *
-     * @param string : the regular string to be formatted into an HTML pretty
+     * @param string - the regular string to be formatted into an HTML pretty
      *               rendering string
      * @return String : the replaced result
      */
@@ -801,6 +801,24 @@ public class Reporter {
             return "";
         }
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
+    }
+
+    /**
+     * Converts an integer, and retrieves it's ordinal. 1 becomes 1st, 11 becomes 11th, etc
+     *
+     * @param i - the integer to convert
+     * @return String: the ordinal of the integer
+     */
+    public static String ordinal(int i) {
+        String[] suffixes = new String[]{"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"};
+        switch (i % 100) {
+            case 11:
+            case 12:
+            case 13:
+                return i + "th";
+            default:
+                return i + suffixes[i % 10];
+        }
     }
 
     ///////////////////////////////////////////////////////////////////

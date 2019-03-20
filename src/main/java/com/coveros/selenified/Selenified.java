@@ -425,8 +425,8 @@ public class Selenified {
      * @param reporter - the output file to write everything to
      */
     private void loadInitialPage(App app, String url, Reporter reporter) {
-        String startingPage = "The starting app <i>";
-        String act = "Opening new browser and loading up starting app";
+        String startingPage = "The initial url of <i>";
+        String act = "Opening new browser and loading up initial url";
         String expected = startingPage + url + "</i> will successfully load";
 
         if (app != null) {

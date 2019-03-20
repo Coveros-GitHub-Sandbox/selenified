@@ -12,6 +12,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -606,5 +607,41 @@ public class ReporterTest {
         if (generatePDF != null) {
             System.setProperty("generatePDF", generatePDF);
         }
+    }
+
+    @DataProvider(name = "ordinals", parallel = true)
+    public Object[][] DataSetOptions() {
+        return new Object[][]{
+                new Object[]{0, "0th"},
+                new Object[]{1, "1st"},
+                new Object[]{2, "2nd"},
+                new Object[]{3, "3rd"},
+                new Object[]{4, "4th"},
+                new Object[]{5, "5th"},
+                new Object[]{10, "10th"},
+                new Object[]{11, "11th"},
+                new Object[]{12, "12th"},
+                new Object[]{13, "13th"},
+                new Object[]{14, "14th"},
+                new Object[]{20, "20th"},
+                new Object[]{21, "21st"},
+                new Object[]{22, "22nd"},
+                new Object[]{23, "23rd"},
+                new Object[]{24, "24th"},
+                new Object[]{100, "100th"},
+                new Object[]{101, "101st"},
+                new Object[]{102, "102nd"},
+                new Object[]{103, "103rd"},
+                new Object[]{104, "104th"},
+                new Object[]{111, "111th"},
+                new Object[]{112, "112th"},
+                new Object[]{113, "113th"},
+                new Object[]{114, "114th"}
+        };
+    }
+
+    @Test(dataProvider = "ordinals")
+    public void ordinalTest(int number, String output) {
+        assertEquals(Reporter.ordinal(number), output);
     }
 }
