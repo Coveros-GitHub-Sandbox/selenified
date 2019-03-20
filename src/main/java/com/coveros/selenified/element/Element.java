@@ -335,7 +335,7 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     public String prettyOutputEnd() {
-        return prettyOutputStart() + ".";
+        return prettyOutputStart() + ". ";
     }
 
     ///////////////////////////////////////////////////////
@@ -785,11 +785,11 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.click();
         } catch (Exception e) {
-            reporter.fail(action, expected, cantClick + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantClick + prettyOutputEnd() + e.getMessage());
             log.warn(e);
             return;
         }
-        reporter.pass(action, expected, "Clicked " + prettyOutputEnd());
+        reporter.pass(action, expected, "Clicked " + prettyOutputEnd().trim());
     }
 
     /**
@@ -808,11 +808,11 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.submit();
         } catch (Exception e) {
-            reporter.fail(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantSubmit + prettyOutputEnd() + e.getMessage());
             log.warn(e);
             return;
         }
-        reporter.pass(action, expected, "Submitted " + prettyOutputEnd());
+        reporter.pass(action, expected, "Submitted " + prettyOutputEnd().trim());
     }
 
     /**
@@ -838,10 +838,10 @@ public class Element {
             selAction.moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantHover + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantHover + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Hovered over " + prettyOutputEnd());
+        reporter.pass(action, expected, "Hovered over " + prettyOutputEnd().trim());
     }
 
     /**
@@ -862,10 +862,10 @@ public class Element {
             new Actions(driver).moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantFocus + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Focused on " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused on " + prettyOutputEnd().trim());
     }
 
     /**
@@ -886,10 +886,10 @@ public class Element {
             webElement.sendKeys(Keys.TAB);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantFocus + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd().trim());
     }
 
     /**
@@ -916,14 +916,14 @@ public class Element {
             webElement.sendKeys(text);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_TYPE + prettyOutputEnd() + e.getMessage());
             return;
         }
         if (warning) {
             reporter.check(action, expected, TYPED + text + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>");
         } else {
-            reporter.pass(action, expected, TYPED + text + IN + prettyOutputEnd());
+            reporter.pass(action, expected, TYPED + text + IN + prettyOutputEnd().trim());
         }
     }
 
@@ -951,14 +951,14 @@ public class Element {
             webElement.sendKeys(key);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_TYPE + prettyOutputEnd() + e.getMessage());
             return;
         }
         if (warning) {
             reporter.check(action, expected, TYPED + key + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>");
         } else {
-            reporter.pass(action, expected, TYPED + key + IN + prettyOutputEnd());
+            reporter.pass(action, expected, TYPED + key + IN + prettyOutputEnd().trim());
         }
     }
 
@@ -979,10 +979,10 @@ public class Element {
             webElement.clear();
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantClear + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantClear + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Cleared text in " + prettyOutputEnd());
+        reporter.pass(action, expected, "Cleared text in " + prettyOutputEnd().trim());
     }
 
     /**
@@ -1014,10 +1014,10 @@ public class Element {
             dropdown.selectByIndex(index);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd().trim());
     }
 
     /**
@@ -1048,10 +1048,10 @@ public class Element {
             dropdown.selectByVisibleText(option);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Selected <b>" + option + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected <b>" + option + INN + prettyOutputEnd().trim());
     }
 
     /**
@@ -1082,10 +1082,10 @@ public class Element {
             dropdown.selectByValue(value);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Selected <b>" + value + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected <b>" + value + INN + prettyOutputEnd().trim());
     }
 
     /**
@@ -1098,7 +1098,7 @@ public class Element {
      */
     private void cantScroll(Exception e, String action, String expected) {
         log.warn(e);
-        reporter.fail(action, expected, CANT_SCROLL + prettyOutput() + ". " + e.getMessage());
+        reporter.fail(action, expected, CANT_SCROLL + prettyOutputEnd() + e.getMessage());
     }
 
     /**
@@ -1216,7 +1216,7 @@ public class Element {
             drawAction.perform();
         } catch (Exception e) {
             log.error(e);
-            reporter.fail(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, "Unable to draw in " + prettyOutputEnd() + e.getMessage());
             return;
         }
         reporter.pass(action, expected, "Drew object in " + prettyOutput() + getScreenshot());
@@ -1245,10 +1245,10 @@ public class Element {
             driver.switchTo().frame(webElement);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantSelect + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Focused on frame " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused on frame " + prettyOutputEnd().trim());
     }
 
     /**
