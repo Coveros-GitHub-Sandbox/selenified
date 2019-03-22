@@ -690,7 +690,7 @@ public class PropertyTest {
 
     @Test
     public void defaultGetBrowserFileTrueTest() throws IOException {
-        createPropertiesFile(BROWSER+ "=somebrowser");
+        createPropertiesFile(BROWSER + "=somebrowser");
         assertEquals(Property.getBrowser(), "somebrowser");
     }
 
@@ -707,9 +707,6 @@ public class PropertyTest {
         createPropertiesFile(BROWSER + "=");
         assertEquals(Property.getBrowser(), "somebrowser");
     }
-
-
-
 
 
     @Test
@@ -922,7 +919,7 @@ public class PropertyTest {
         createPropertiesFile(OPTIONS + "=");
         assertEquals(Property.getOptions(), "someoptions");
     }
-    
+
 
     private void createPropertiesFile(String content) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));

@@ -51,7 +51,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static com.coveros.selenified.utilities.Property.HEADLESS;
-import static com.coveros.selenified.utilities.Property.OPTIONS;
 
 /**
  * Assists with Selenified class in setting up proxy, hub, and browser details

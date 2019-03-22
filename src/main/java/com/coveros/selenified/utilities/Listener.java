@@ -33,9 +33,9 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 
-import static com.coveros.selenified.utilities.Property.BROWSER;
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.Selenified.SESSION_ID;
+import static com.coveros.selenified.utilities.Property.BROWSER;
 
 /**
  * Appends additional test links and information into the TestNG report file,

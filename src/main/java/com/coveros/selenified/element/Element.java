@@ -310,7 +310,7 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     private String prettyOutputStart(String initialString) {
-        initialString += Reporter.ordinal(match+1) + " element with <i>" + type.toString() + "</i> of <i>" + locator + "</i>";
+        initialString += Reporter.ordinal(match + 1) + " element with <i>" + type.toString() + "</i> of <i>" + locator + "</i>";
         if (parent != null) {
             initialString = parent.prettyOutputStart(initialString + " and parent of ");
         }
