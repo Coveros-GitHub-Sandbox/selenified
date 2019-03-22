@@ -1320,6 +1320,23 @@ public class ActionDoIT extends WebBase {
     }
 
     @Test(groups = {"integration", "action", "do", "draw", "browser"},
+            description = "An integration negative test to check the draw method")
+    public void drawMultipointTest() {
+        List<Point<Integer, Integer>> points = new ArrayList<>();
+        points.add(new Point<>(10, 10));
+        points.add(new Point<>(100, 0));
+        points.add(new Point<>(0, 100));
+        points.add(new Point<>(-100, 0));
+        points.add(new Point<>(0, -100));
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "can").draw(points);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "do", "draw", "browser"},
             description = "An integration test to check the draw method")
     public void drawTestNotCanvas() {
         List<Point<Integer, Integer>> points = new ArrayList<>();

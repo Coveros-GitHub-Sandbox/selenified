@@ -32,7 +32,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 public interface State extends Check {
 
@@ -58,10 +58,10 @@ public interface State extends Check {
         // perform the check
         boolean isPresent = getElement().is().present();
         // record the result
-        if (isPresent) {
-            getReporter().pass(getElement().prettyOutput() + IS_PRESENT, waitFor, getElement().prettyOutputStart() + IS_PRESENT, timeTook);
-        } else {
+        if (!isPresent) {
             getReporter().fail(getElement().prettyOutput() + IS_PRESENT, waitFor, getElement().prettyOutputStart() + IS_NOT_PRESENT, timeTook);
+        } else {
+            getReporter().pass(getElement().prettyOutput() + IS_PRESENT, waitFor, getElement().prettyOutputStart() + IS_PRESENT, timeTook);
         }
         return isPresent;
     }
@@ -149,9 +149,9 @@ public interface State extends Check {
         boolean isDisplayed = getElement().is().displayed();
         // record the result
         if (isDisplayed) {
-            getReporter().fail(getElement().prettyOutput() + IS_NOT_DISPLAYED, waitFor, getElement().prettyOutputStart() + IS_NOT_DISPLAYED, timeTook);
+            getReporter().fail(getElement().prettyOutput() + IS_NOT_DISPLAYED, waitFor, getElement().prettyOutputStart() + IS_DISPLAYED, timeTook);
         } else {
-            getReporter().pass(getElement().prettyOutput() + IS_NOT_DISPLAYED, waitFor, getElement().prettyOutputStart() + IS_DISPLAYED, timeTook);
+            getReporter().pass(getElement().prettyOutput() + IS_NOT_DISPLAYED, waitFor, getElement().prettyOutputStart() + IS_NOT_DISPLAYED, timeTook);
         }
         return !isDisplayed;
     }
@@ -213,9 +213,9 @@ public interface State extends Check {
         boolean isChecked = getElement().is().checked();
         // record the result
         if (isChecked) {
-            getReporter().fail(getElement().prettyOutput() + IS_NOT_CHECKED, waitFor, getElement().prettyOutputStart() + IS_NOT_CHECKED, timeTook);
+            getReporter().fail(getElement().prettyOutput() + IS_NOT_CHECKED, waitFor, getElement().prettyOutputStart() + IS_CHECKED, timeTook);
         } else {
-            getReporter().pass(getElement().prettyOutput() + IS_NOT_CHECKED, waitFor, getElement().prettyOutputStart() + IS_CHECKED, timeTook);
+            getReporter().pass(getElement().prettyOutput() + IS_NOT_CHECKED, waitFor, getElement().prettyOutputStart() + IS_NOT_CHECKED, timeTook);
         }
         return !isChecked;
     }
@@ -284,9 +284,9 @@ public interface State extends Check {
         boolean isEditable = getElement().is().editable();
         // record the result
         if (isEditable) {
-            getReporter().fail(getElement().prettyOutput() + IS_NOT_EDITABLE, waitFor, getElement().prettyOutputStart() + IS_NOT_EDITABLE, timeTook);
+            getReporter().fail(getElement().prettyOutput() + IS_NOT_EDITABLE, waitFor, getElement().prettyOutputStart() + IS_EDITABLE, timeTook);
         } else {
-            getReporter().pass(getElement().prettyOutput() + IS_NOT_EDITABLE, waitFor, getElement().prettyOutputStart() + IS_EDITABLE, timeTook);
+            getReporter().pass(getElement().prettyOutput() + IS_NOT_EDITABLE, waitFor, getElement().prettyOutputStart() + IS_NOT_EDITABLE, timeTook);
         }
         return !isEditable;
     }
@@ -344,9 +344,9 @@ public interface State extends Check {
         boolean isEnabled = getElement().is().enabled();
         // record the result
         if (isEnabled) {
-            getReporter().fail(getElement().prettyOutput() + IS_NOT_ENABLED, waitFor, getElement().prettyOutputStart() + IS_NOT_ENABLED, timeTook);
+            getReporter().fail(getElement().prettyOutput() + IS_NOT_ENABLED, waitFor, getElement().prettyOutputStart() + IS_ENABLED, timeTook);
         } else {
-            getReporter().pass(getElement().prettyOutput() + IS_NOT_ENABLED, waitFor, getElement().prettyOutputStart() + IS_ENABLED, timeTook);
+            getReporter().pass(getElement().prettyOutput() + IS_NOT_ENABLED, waitFor, getElement().prettyOutputStart() + IS_NOT_ENABLED, timeTook);
         }
         return !isEnabled;
     }

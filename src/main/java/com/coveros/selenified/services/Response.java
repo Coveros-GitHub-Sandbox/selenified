@@ -32,7 +32,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 public class Response {
     private static final String EXPECTED_TO_FIND = "Expected to find a response of: ";
@@ -135,9 +135,9 @@ public class Response {
             pass = object.equals(expectedJson);
         }
         if (pass) {
-            reporter.pass("", EXPECTED_TO_FIND + reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + reporter.formatResponse(this));
+            reporter.pass("", EXPECTED_TO_FIND + Reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + Reporter.formatResponse(this));
         } else {
-            reporter.fail("", EXPECTED_TO_FIND + reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + reporter.formatResponse(this));
+            reporter.fail("", EXPECTED_TO_FIND + Reporter.formatResponse(new Response(0, expectedJson, null)), FOUND + Reporter.formatResponse(this));
         }
     }
 
@@ -153,9 +153,9 @@ public class Response {
             pass = array.equals(expectedArray);
         }
         if (pass) {
-            reporter.pass("", EXPECTED_TO_FIND + reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + reporter.formatResponse(this));
+            reporter.pass("", EXPECTED_TO_FIND + Reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + Reporter.formatResponse(this));
         } else {
-            reporter.fail("", EXPECTED_TO_FIND + reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + reporter.formatResponse(this));
+            reporter.fail("", EXPECTED_TO_FIND + Reporter.formatResponse(new Response(0, expectedArray, null)), FOUND + Reporter.formatResponse(this));
         }
     }
 
@@ -230,7 +230,7 @@ public class Response {
             expectedString.append("<div>");
             expectedString.append(entry.getKey());
             expectedString.append(" : ");
-            expectedString.append(reporter.formatHTML(String.valueOf(entry.getValue())));
+            expectedString.append(Reporter.formatHTML(String.valueOf(entry.getValue())));
             expectedString.append("</div>");
             if (object != null && object.has(entry.getKey())) {
                 Object objectVal = castObject(entry.getValue(), object.get(entry.getKey()));
@@ -242,9 +242,9 @@ public class Response {
             }
         }
         if (pass) {
-            reporter.pass("", "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>", FOUND + reporter.formatResponse(this));
+            reporter.pass("", "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>", FOUND + Reporter.formatResponse(this));
         } else {
-            reporter.fail("", "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>", FOUND + reporter.formatResponse(this));
+            reporter.fail("", "Expected to find a response containing: <div><i>" + expectedString.toString() + "</i></div>", FOUND + Reporter.formatResponse(this));
         }
     }
 
@@ -261,10 +261,10 @@ public class Response {
         }
         if (pass) {
             reporter.pass("", "Expected to find a response containing:" +
-                    reporter.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)), FOUND + reporter.formatResponse(this));
+                    Reporter.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)), FOUND + Reporter.formatResponse(this));
         } else {
             reporter.fail("", "Expected to find a response containing:" +
-                    reporter.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)), FOUND + reporter.formatResponse(this));
+                    Reporter.formatResponse(new Response(0, expectedJson.getAsJsonObject(), null)), FOUND + Reporter.formatResponse(this));
         }
     }
 

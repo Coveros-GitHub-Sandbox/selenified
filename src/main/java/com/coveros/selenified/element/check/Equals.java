@@ -111,7 +111,7 @@ public interface Equals extends Check {
         // record the result
         if (elementCssValue == null) {
             getReporter().fail(getElement().prettyOutput() + " having a css attribute of <i>" + attribute +
-                    "</i> with a value of <b>" + expectedValue + "</b>", waitFor, "Unable to assess the css of " + getElement().prettyOutputEnd(), timeTook);
+                    "</i> with a value of <b>" + expectedValue + "</b>", waitFor, "Unable to assess the css of " + getElement().prettyOutputEnd().trim(), timeTook);
         } else if (!expectedValue.equals(elementCssValue)) {
             getReporter().fail(getElement().prettyOutput() + " having a css attribute of <i>" + attribute +
                             "</i> with a value of <b>" + expectedValue + "</b>", waitFor,

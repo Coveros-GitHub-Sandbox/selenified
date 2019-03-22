@@ -2,7 +2,6 @@ package integration;
 
 import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.Selenified;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.google.gson.JsonObject;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Parameter;
@@ -15,7 +14,6 @@ import org.testng.annotations.BeforeSuite;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
@@ -81,7 +79,7 @@ public class ServicesBase extends Selenified {
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }
 
