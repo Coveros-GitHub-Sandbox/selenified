@@ -40,7 +40,7 @@ import static org.testng.AssertJUnit.*;
  * have a particular value associated to them.
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/19/2019
  */
 public class AssertContains implements Contains {

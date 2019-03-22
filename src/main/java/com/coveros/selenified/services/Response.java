@@ -31,7 +31,7 @@ import java.util.Map;
  * A class designed to hold data provided from the HTTP calls.
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/20/2019
  */
 public class Response {
