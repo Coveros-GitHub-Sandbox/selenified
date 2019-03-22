@@ -32,6 +32,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
+/**
+ * Reads in properties files provided by the user in order to execute tests. These
+ * files can be passed in via commandline, or set in a selenified.properties file.
+ * This file should reside in src/test/resources. If the property exists in the
+ * system properties, that is returned, overridding anything in the
+ * selenified.properties file.
+ */
 public class Property {
 
     private static final Logger log = Logger.getLogger(Property.class);
@@ -98,11 +105,23 @@ public class Property {
         return "true".equalsIgnoreCase(packageResults);
     }
 
+    /**
+     * Determines if a hub property is set. This could be to sauce, grid, or any other cloud tool.
+     * This should be provided with the protocol and address, but leaving out the /wd/hub
+     *
+     * @return boolean: is a hub location set
+     */
     public static boolean isHubSet() {
         String hub = getProgramProperty(HUB);
         return hub != null && !"".equals(hub);
     }
 
+    /**
+     * Retrieves the hub property if it is set. This could be to sauce, grid, or any other cloud tool.
+     * This should be provided with the protocol and address, but leaving out the /wd/hub
+     *
+     * @return String: the set hub address, null if none are set
+     */
     public static String getHub() {
         if (!isHubSet()) {
             return null;
@@ -110,11 +129,23 @@ public class Property {
         return getProgramProperty(HUB);
     }
 
+    /**
+     * Determines if a proxy property is set. This could be to something local, or in the cloud.
+     * Provide the protocol, address, and port
+     *
+     * @return boolean: is a proxy set
+     */
     public static boolean isProxySet() {
         String proxy = getProgramProperty(PROXY);
         return proxy != null && !"".equals(proxy);
     }
 
+    /**
+     * Retrieves the proxy property if it is set. This could be to something local, or in the cloud.
+     * Provide the protocol, address, and port
+     *
+     * @return String: the set proxy address, null if none are set
+     */
     public static String getProxy() {
         if (!isProxySet()) {
             return null;
@@ -136,25 +167,34 @@ public class Property {
      *                storing app url information
      * @return String: the URL of the application under test
      */
-    // TODO - we should align nomenclature. Either AppUrl (from CMD) or TestSite (from java code)
+    // TODO - should we align nomenclature? Either AppUrl (from CMD) or TestSite (from java code)
     public static String getAppURL(String clazz, ITestContext context) throws InvalidHTTPException {
         String appURL = null;
-        appURL = checkAppUrl(appURL, (String) context.getAttribute(clazz + APP_URL), "The provided app via test case setup '");
+        appURL = checkAppURL(appURL, (String) context.getAttribute(clazz + APP_URL), "The provided app via test case setup '");
         Properties prop = new Properties();
         try (InputStream input = new FileInputStream(SELENIFIED)) {
             prop.load(input);
         } catch (IOException e) {
             log.info(e);
         }
-        appURL = checkAppUrl(appURL, prop.getProperty(APP_URL), "The provided app via Properties file '");
-        appURL = checkAppUrl(appURL, System.getProperty(APP_URL), "The provided app via System Properties '");
+        appURL = checkAppURL(appURL, prop.getProperty(APP_URL), "The provided app via Properties file '");
+        appURL = checkAppURL(appURL, System.getProperty(APP_URL), "The provided app via System Properties '");
         if (appURL != null && !"http://".equals(appURL)) {
             return appURL;
         }
         throw new InvalidHTTPException("There was not a valid app provided to test. Please properly set the 'appURL'");
     }
 
-    private static String checkAppUrl(String originalAppURL, String newAppURL, String s) {
+    /**
+     * A helper method to getAppURL, which checks the provided URL, and if it is valid, overrides the initially
+     * provided one.
+     *
+     * @param originalAppURL - the original and currently set app url
+     * @param newAppURL      - the new app url to check
+     * @param s              - the location being checked (for reporting)
+     * @return String: the most valid URL, new if it is valid, original if not
+     */
+    private static String checkAppURL(String originalAppURL, String newAppURL, String s) {
         if (newAppURL != null) {
             if (!newAppURL.toLowerCase().startsWith("http") && !newAppURL.toLowerCase().startsWith("file")) {
                 newAppURL = "http://" + newAppURL;
@@ -169,6 +209,12 @@ public class Property {
         return originalAppURL;
     }
 
+    /**
+     * Retrieves the browser property if it is set. This can be a single browser name, or browser details. If it is
+     * not set, HTMLUnit will be returned as the default browser to use
+     *
+     * @return String: the set browser
+     */
     public static String getBrowser() {
         String browser = getProgramProperty(BROWSER);
         if (browser == null || "".equals(browser)) {
@@ -177,6 +223,12 @@ public class Property {
         return browser;
     }
 
+    /**
+     * Determines if the headless parameter was set, to have the browser run in headless mode. This only
+     * can be used for Chrome and Firefox.
+     *
+     * @return boolean: is headless set or not
+     */
     public static boolean headless() {
         String headless = getProgramProperty(HEADLESS);
         if (headless == null) {
@@ -188,11 +240,21 @@ public class Property {
         return "true".equalsIgnoreCase(headless);
     }
 
+    /**
+     * Determines if options are set.
+     *
+     * @return boolean: are options set or not
+     */
     public static boolean areOptionsSet() {
         String options = getProgramProperty(OPTIONS);
         return options != null && !"".equals(options);
     }
 
+    /**
+     * Retrieves the set options
+     *
+     * @return String: the options, null if none are set
+     */
     public static String getOptions() {
         if (!areOptionsSet()) {
             return null;
