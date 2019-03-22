@@ -46,7 +46,13 @@ public class Property {
     public static final String HEADLESS = "headless";
     public static final String OPTIONS = "options";
 
-
+    /**
+     * Retrieves the specified program property. if it exists from the system properties, that is returned, overridding
+     * all other values. Otherwise, if it exists from the properties file, that is returned, otherwise, null is returned
+     *
+     * @param property - what property value to return
+     * @return String: the property value, null if unset
+     */
     private static String getProgramProperty(String property) {
         if (System.getProperty(property) != null) {
             return System.getProperty(property);
@@ -60,6 +66,11 @@ public class Property {
         return prop.getProperty(property);
     }
 
+    /**
+     * Determines if we are supposed to generate a pdf of the results or not
+     *
+     * @return boolean: generate a pdf or not
+     */
     public static boolean generatePDF() {
         String generatePDF = getProgramProperty(GENERATE_PDF);
         if (generatePDF == null) {
@@ -71,6 +82,11 @@ public class Property {
         return "true".equalsIgnoreCase(generatePDF);
     }
 
+    /**
+     * Determines if we are supposed to zip up the results or not
+     *
+     * @return boolean: zip up the results or not
+     */
     public static boolean packageResults() {
         String packageResults = getProgramProperty(PACKAGE_RESULTS);
         if (packageResults == null) {
