@@ -1,7 +1,11 @@
 package unit;
 
+import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidReporterException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.utilities.Reporter;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -10,37 +14,52 @@ import static org.testng.Assert.assertEquals;
 
 public class CallTest {
 
-    @Test
-    public void constructorNullTest() {
+    HTTP http = new HTTP("SomeURL");
+    Reporter reporter = new Reporter(null, null, null, null, null, null, null, null, null);
+
+    public CallTest() throws InvalidBrowserException {
+    }
+
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void constructorNullTest() throws InvalidHTTPException, InvalidReporterException {
         // just verify no errors are thrown
         new Call(null, null, null);
     }
 
-    @Test
-    public void constructorHttpAndHeadersTest() {
-        HTTP http = new HTTP("SomeURL");
-        new Call(http, null, new HashMap<>());
+    @Test(expectedExceptions = InvalidReporterException.class)
+    public void constructorHttpTest() throws InvalidHTTPException, InvalidReporterException {
+        // just verify no errors are thrown
+        new Call(http, null, null);
     }
 
     @Test
-    public void appendCredentialsNull() {
-        HTTP http = new HTTP("SomeURL");
-        Call call = new Call(http, null, new HashMap<>());
+    public void constructorHttpAndReporterTest() throws InvalidHTTPException, InvalidReporterException {
+        new Call(http, reporter, null);
+    }
+
+    @Test
+    public void constructorTest() throws InvalidHTTPException, InvalidReporterException {
+        new Call(http, reporter, new HashMap<>());
+    }
+
+    @Test
+    public void appendCredentialsNull() throws InvalidHTTPException, InvalidReporterException {
+        Call call = new Call(http, reporter, new HashMap<>());
         assertEquals(call.getCredentialString(), "");
     }
 
     @Test
-    public void appendCredentials() {
+    public void appendCredentials() throws InvalidHTTPException, InvalidReporterException {
         HTTP http = new HTTP("SomeURL", "User", "Pass");
-        Call call = new Call(http, null, new HashMap<>());
+        Call call = new Call(http, reporter, new HashMap<>());
         assertEquals(call.getCredentialString(),
                 "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");
     }
 
     @Test
-    public void addCredentials() {
+    public void addCredentials() throws InvalidHTTPException, InvalidReporterException {
         HTTP http = new HTTP("SomeURL");
-        Call call = new Call(http, null, new HashMap<>());
+        Call call = new Call(http, reporter, new HashMap<>());
         call.addCredentials("User", "Pass");
         assertEquals(call.getCredentialString(),
                 "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");

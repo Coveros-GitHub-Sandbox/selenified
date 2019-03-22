@@ -24,6 +24,7 @@ import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.google.gson.Gson;
@@ -53,7 +54,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 public class Reporter {
 
@@ -107,10 +108,18 @@ public class Reporter {
      */
     @SuppressWarnings("squid:S00107")
     public Reporter(String directory, String test, Capabilities capabilities, String url, String suite, String group,
-                    String author, String version, String objectives) {
-        this.directory = directory;
+                    String author, String version, String objectives) throws InvalidBrowserException {
+        if (directory == null) {
+            this.directory = ".";
+        } else {
+            this.directory = directory;
+        }
         this.test = test;
-        this.capabilities = capabilities;
+        if (capabilities == null) {
+            this.capabilities = new Capabilities(new Browser("None"));
+        } else {
+            this.capabilities = capabilities;
+        }
         this.url = url;
         this.suite = suite;
         this.group = group;
@@ -807,7 +816,7 @@ public class Reporter {
      *               hashmap
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
-    public String outputRequestProperties(Request params, File file) {
+    public static String outputRequestProperties(Request params, File file) {
         StringBuilder output = new StringBuilder();
         if (params != null && params.isPayload()) {
             output.append("<br/> with parameters: ");
@@ -839,7 +848,7 @@ public class Reporter {
      * @param response - the http response to be formatted.
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
-    public String formatResponse(Response response) {
+    public static String formatResponse(Response response) {
         if (response == null) {
             return "";
         }
@@ -862,15 +871,33 @@ public class Reporter {
      * Takes a generic string and replaces spaces and new lines with HTML
      * friendly pieces for display purposes
      *
-     * @param string : the regular string to be formatted into an HTML pretty
+     * @param string - the regular string to be formatted into an HTML pretty
      *               rendering string
      * @return String : the replaced result
      */
-    public String formatHTML(String string) {
+    public static String formatHTML(String string) {
         if (string == null) {
             return "";
         }
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
+    }
+
+    /**
+     * Converts an integer, and retrieves it's ordinal. 1 becomes 1st, 11 becomes 11th, etc
+     *
+     * @param i - the integer to convert
+     * @return String: the ordinal of the integer
+     */
+    public static String ordinal(int i) {
+        String[] suffixes = new String[]{"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"};
+        switch (i % 100) {
+            case 11:
+            case 12:
+            case 13:
+                return i + "th";
+            default:
+                return i + suffixes[i % 10];
+        }
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -883,6 +910,6 @@ public class Reporter {
      * @author Max Saperstone
      */
     protected enum Success {
-        PASS, FAIL, CHECK;
+        PASS, FAIL, CHECK
     }
 }

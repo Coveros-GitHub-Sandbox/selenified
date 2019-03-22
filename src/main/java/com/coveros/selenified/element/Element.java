@@ -52,7 +52,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 public class Element {
 
@@ -121,12 +121,12 @@ public class Element {
      * are defined to indicate which element to interact with on the current
      * page
      *
-     * @param driver  - the selenium web driver, the underlying way all actions and
-     *                assertions are controlled
-     * @param reporter    - the TestOutput file. This is provided by the
-     *                SeleniumTestBase functionality
-     * @param type    - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator - the locator string e.g. login, //input[@id='login']
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
+     * @param type     - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator  - the locator string e.g. login, //input[@id='login']
      */
     public Element(WebDriver driver, Reporter reporter, Locator type, String locator) {
         this.type = type;
@@ -141,13 +141,13 @@ public class Element {
      * are defined to indicate which element to interact with on the current
      * page
      *
-     * @param driver  - the selenium web driver, the underlying way all actions and
-     *                assertions are controlled
-     * @param reporter    - the TestOutput file. This is provided by the
-     *                SeleniumTestBase functionality
-     * @param type    - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator - the locator string e.g. login, //input[@id='login']
-     * @param parent  - the parent element to the searched for element
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
+     * @param type     - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator  - the locator string e.g. login, //input[@id='login']
+     * @param parent   - the parent element to the searched for element
      */
     public Element(WebDriver driver, Reporter reporter, Locator type, String locator, Element parent) {
         this.type = type;
@@ -163,14 +163,14 @@ public class Element {
      * the element's uniqueness match are defined to indicate which element to
      * interact with on the current page
      *
-     * @param driver  - the selenium web driver, the underlying way all actions and
-     *                assertions are controlled
-     * @param reporter    - the TestOutput file. This is provided by the
-     *                SeleniumTestBase functionality
-     * @param type    - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator - the locator string e.g. login, //input[@id='login']
-     * @param match   - if there are multiple matches of the selector, this is which
-     *                match (starting at 0) to interact with
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
+     * @param type     - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator  - the locator string e.g. login, //input[@id='login']
+     * @param match    - if there are multiple matches of the selector, this is which
+     *                 match (starting at 0) to interact with
      */
     public Element(WebDriver driver, Reporter reporter, Locator type, String locator, int match) {
         this.type = type;
@@ -186,15 +186,15 @@ public class Element {
      * the element's uniqueness match are defined to indicate which element to
      * interact with on the current page
      *
-     * @param driver  - the selenium web driver, the underlying way all actions and
-     *                assertions are controlled
-     * @param reporter    - the TestOutput file. This is provided by the
-     *                SeleniumTestBase functionality
-     * @param type    - the locator type e.g. Locator.id, Locator.xpath
-     * @param locator - the locator string e.g. login, //input[@id='login']
-     * @param match   - if there are multiple matches of the selector, this is which
-     *                match (starting at 0) to interact with
-     * @param parent  - the parent element to the searched for element
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
+     * @param type     - the locator type e.g. Locator.id, Locator.xpath
+     * @param locator  - the locator string e.g. login, //input[@id='login']
+     * @param match    - if there are multiple matches of the selector, this is which
+     *                 match (starting at 0) to interact with
+     * @param parent   - the parent element to the searched for element
      */
     public Element(WebDriver driver, Reporter reporter, Locator type, String locator, int match, Element parent) {
         this.type = type;
@@ -207,10 +207,10 @@ public class Element {
     /**
      * A private method to finish setting up each element
      *
-     * @param driver - the selenium web driver, the underlying way all actions and
-     *               assertions are controlled
-     * @param reporter   - the TestOutput file. This is provided by the
-     *               SeleniumTestBase functionality
+     * @param driver   - the selenium web driver, the underlying way all actions and
+     *                 assertions are controlled
+     * @param reporter - the TestOutput file. This is provided by the
+     *                 SeleniumTestBase functionality
      */
     private void init(WebDriver driver, Reporter reporter) {
         this.driver = driver;
@@ -298,7 +298,7 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     public String prettyOutputStart() {
-        return prettyOutputStart("Element with ");
+        return prettyOutputStart("");
     }
 
     /**
@@ -310,22 +310,11 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     private String prettyOutputStart(String initialString) {
-        initialString += "<i>" + type.toString() + "</i> of <i>" + locator + "</i>";
+        initialString += Reporter.ordinal(match+1) + " element with <i>" + type.toString() + "</i> of <i>" + locator + "</i>";
         if (parent != null) {
             initialString = parent.prettyOutputStart(initialString + " and parent of ");
         }
         return initialString;
-    }
-
-    /**
-     * Retrieves a nicely HTML formatted output which identifies the element by
-     * locator and selector, which can be used anywhere in a sentence
-     *
-     * @return String: text identifying how the element was located
-     */
-    public String prettyOutputLowercase() {
-        String output = prettyOutputStart();
-        return Character.toLowerCase(output.charAt(0)) + output.substring(1);
     }
 
     /**
@@ -336,7 +325,7 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     public String prettyOutput() {
-        return " " + prettyOutputLowercase() + " ";
+        return " " + prettyOutputStart() + " ";
     }
 
     /**
@@ -346,7 +335,7 @@ public class Element {
      * @return String: text identifying how the element was located
      */
     public String prettyOutputEnd() {
-        return prettyOutputLowercase() + ".";
+        return prettyOutputStart() + ". ";
     }
 
     ///////////////////////////////////////////////////////
@@ -788,7 +777,7 @@ public class Element {
     public void click() {
         String cantClick = "Unable to click ";
         String action = "Clicking " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to be clicked";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to be clicked";
         try {
             if (isNotPresentDisplayedEnabled(action, expected, cantClick)) {
                 return;
@@ -796,11 +785,11 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.click();
         } catch (Exception e) {
-            reporter.fail(action, expected, cantClick + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantClick + prettyOutputEnd() + e.getMessage());
             log.warn(e);
             return;
         }
-        reporter.pass(action, expected, "Clicked " + prettyOutputEnd());
+        reporter.pass(action, expected, "Clicked " + prettyOutputEnd().trim());
     }
 
     /**
@@ -811,7 +800,7 @@ public class Element {
     public void submit() {
         String cantSubmit = "Unable to submit ";
         String action = "Submitting " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to be submitted    ";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to be submitted    ";
         try {
             if (isNotPresentDisplayedEnabled(action, expected, cantSubmit)) {
                 return;
@@ -819,11 +808,11 @@ public class Element {
             WebElement webElement = getWebElement();
             webElement.submit();
         } catch (Exception e) {
-            reporter.fail(action, expected, cantSubmit + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantSubmit + prettyOutputEnd() + e.getMessage());
             log.warn(e);
             return;
         }
-        reporter.pass(action, expected, "Submitted " + prettyOutputEnd());
+        reporter.pass(action, expected, "Submitted " + prettyOutputEnd().trim());
     }
 
     /**
@@ -834,7 +823,7 @@ public class Element {
     public void hover() {
         String cantHover = "Unable to hover over ";
         String action = "Hovering over " + prettyOutput();
-        String expected = prettyOutput() + " is present, and displayed to be hovered over";
+        String expected = prettyOutputStart() + " is present, and displayed to be hovered over";
         try {
             // wait for element to be present
             if (isNotPresent(action, expected, cantHover)) {
@@ -849,10 +838,10 @@ public class Element {
             selAction.moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantHover + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantHover + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Hovered over " + prettyOutputEnd());
+        reporter.pass(action, expected, "Hovered over " + prettyOutputEnd().trim());
     }
 
     /**
@@ -864,7 +853,7 @@ public class Element {
     public void focus() {
         String cantFocus = "Unable to focus on ";
         String action = "Focusing on " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to be focused";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to be focused";
         try {
             if (isNotPresentDisplayedEnabledInput(action, expected, cantFocus)) {
                 return;
@@ -873,10 +862,10 @@ public class Element {
             new Actions(driver).moveToElement(webElement).perform();
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantFocus + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Focused on " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused on " + prettyOutputEnd().trim());
     }
 
     /**
@@ -888,7 +877,7 @@ public class Element {
     public void blur() {
         String cantFocus = "Unable to focus on ";
         String action = "Focusing, then unfocusing (blurring) on " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to be blurred";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to be blurred";
         try {
             if (isNotPresentDisplayedEnabledInput(action, expected, cantFocus)) {
                 return;
@@ -897,10 +886,10 @@ public class Element {
             webElement.sendKeys(Keys.TAB);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantFocus + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantFocus + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused, then unfocused (blurred) on " + prettyOutputEnd().trim());
     }
 
     /**
@@ -914,7 +903,7 @@ public class Element {
      */
     public void type(String text) {
         String action = "Typing text '" + text + IN + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to have text " + text + " typed in";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to have text " + text + " typed in";
         boolean warning = false;
         try {
             if (isNotPresentEnabledInput(action, expected)) {
@@ -927,14 +916,14 @@ public class Element {
             webElement.sendKeys(text);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_TYPE + prettyOutputEnd() + e.getMessage());
             return;
         }
         if (warning) {
             reporter.check(action, expected, TYPED + text + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>");
         } else {
-            reporter.pass(action, expected, TYPED + text + IN + prettyOutputEnd());
+            reporter.pass(action, expected, TYPED + text + IN + prettyOutputEnd().trim());
         }
     }
 
@@ -949,7 +938,7 @@ public class Element {
      */
     public void type(Keys key) {
         String action = "Typing key '" + key + IN + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to have text " + key + " entered";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to have text " + key + " entered";
         boolean warning = false;
         try {
             if (isNotPresentEnabledInput(action, expected)) {
@@ -962,14 +951,14 @@ public class Element {
             webElement.sendKeys(key);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_TYPE + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_TYPE + prettyOutputEnd() + e.getMessage());
             return;
         }
         if (warning) {
             reporter.check(action, expected, TYPED + key + IN + prettyOutput() +
                     ". <b>THIS ELEMENT WAS NOT DISPLAYED. THIS MIGHT BE AN ISSUE.</b>");
         } else {
-            reporter.pass(action, expected, TYPED + key + IN + prettyOutputEnd());
+            reporter.pass(action, expected, TYPED + key + IN + prettyOutputEnd().trim());
         }
     }
 
@@ -981,7 +970,7 @@ public class Element {
     public void clear() {
         String cantClear = "Unable to clear ";
         String action = "Clearing text in " + prettyOutput();
-        String expected = prettyOutput() + " is present, displayed, and enabled to have text cleared";
+        String expected = prettyOutputStart() + " is present, displayed, and enabled to have text cleared";
         try {
             if (isNotPresentDisplayedEnabledInput(action, expected, cantClear)) {
                 return;
@@ -990,10 +979,10 @@ public class Element {
             webElement.clear();
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantClear + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantClear + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Cleared text in " + prettyOutputEnd());
+        reporter.pass(action, expected, "Cleared text in " + prettyOutputEnd().trim());
     }
 
     /**
@@ -1007,7 +996,7 @@ public class Element {
      */
     public void select(int index) {
         String action = SELECTING + index + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + index + SELECTED;
+        String expected = prettyOutputStart() + PRESENT_DISPLAYED_AND_ENABLED + index + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
@@ -1025,10 +1014,10 @@ public class Element {
             dropdown.selectByIndex(index);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected option <b>" + index + INN + prettyOutputEnd().trim());
     }
 
     /**
@@ -1041,7 +1030,7 @@ public class Element {
      */
     public void selectOption(String option) {
         String action = SELECTING + option + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + option + SELECTED;
+        String expected = prettyOutputStart() + PRESENT_DISPLAYED_AND_ENABLED + option + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
@@ -1059,10 +1048,10 @@ public class Element {
             dropdown.selectByVisibleText(option);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Selected <b>" + option + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected <b>" + option + INN + prettyOutputEnd().trim());
     }
 
     /**
@@ -1075,7 +1064,7 @@ public class Element {
      */
     public void selectValue(String value) {
         String action = SELECTING + value + " in " + prettyOutput();
-        String expected = prettyOutput() + PRESENT_DISPLAYED_AND_ENABLED + value + SELECTED;
+        String expected = prettyOutputStart() + PRESENT_DISPLAYED_AND_ENABLED + value + SELECTED;
         try {
             if (isNotPresentDisplayedEnabledSelect(action, expected)) {
                 return;
@@ -1093,10 +1082,10 @@ public class Element {
             dropdown.selectByValue(value);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, CANT_SELECT + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, CANT_SELECT + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Selected <b>" + value + INN + prettyOutputEnd());
+        reporter.pass(action, expected, "Selected <b>" + value + INN + prettyOutputEnd().trim());
     }
 
     /**
@@ -1109,7 +1098,7 @@ public class Element {
      */
     private void cantScroll(Exception e, String action, String expected) {
         log.warn(e);
-        reporter.fail(action, expected, CANT_SCROLL + prettyOutput() + ". " + e.getMessage());
+        reporter.fail(action, expected, CANT_SCROLL + prettyOutputEnd() + e.getMessage());
     }
 
     /**
@@ -1141,7 +1130,7 @@ public class Element {
      */
     public void scrollTo() {
         String action = "Scrolling screen to " + prettyOutput();
-        String expected = prettyOutput() + " is now within the current viewport";
+        String expected = prettyOutputStart() + " is now within the current viewport";
         try {
             // wait for element to be present
             if (isNotPresent(action, expected, CANT_SCROLL)) {
@@ -1168,7 +1157,7 @@ public class Element {
      */
     public void scrollTo(long position) {
         String action = "Scrolling screen to " + position + " pixels above " + prettyOutput();
-        String expected = prettyOutput() + " is now within the current viewport";
+        String expected = prettyOutputStart() + " is now within the current viewport";
         try {
             // wait for element to be present
             if (isNotPresent(action, expected, CANT_SCROLL)) {
@@ -1208,7 +1197,7 @@ public class Element {
             pointString.append("<i>").append(point.getX()).append("x").append(point.getY()).append("</i>");
         }
         String action = "Drawing object from " + pointString.toString() + " in " + prettyOutput();
-        String expected = prettyOutput() + " now has object drawn on it from " + pointString.toString();
+        String expected = prettyOutputStart() + " now has object drawn on it from " + pointString.toString();
         try {
             // wait for element to be present, displayed, and enabled
             if (isNotPresentDisplayedEnabled(action, expected, "Unable to drawn in ")) {
@@ -1227,7 +1216,7 @@ public class Element {
             drawAction.perform();
         } catch (Exception e) {
             log.error(e);
-            reporter.fail(action, expected, "Unable to draw in " + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, "Unable to draw in " + prettyOutputEnd() + e.getMessage());
             return;
         }
         reporter.pass(action, expected, "Drew object in " + prettyOutput() + getScreenshot());
@@ -1256,10 +1245,10 @@ public class Element {
             driver.switchTo().frame(webElement);
         } catch (Exception e) {
             log.warn(e);
-            reporter.fail(action, expected, cantSelect + prettyOutput() + ". " + e.getMessage());
+            reporter.fail(action, expected, cantSelect + prettyOutputEnd() + e.getMessage());
             return;
         }
-        reporter.pass(action, expected, "Focused on frame " + prettyOutputEnd());
+        reporter.pass(action, expected, "Focused on frame " + prettyOutputEnd().trim());
     }
 
     /**

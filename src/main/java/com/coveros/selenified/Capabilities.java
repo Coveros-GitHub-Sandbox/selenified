@@ -54,7 +54,7 @@ import java.util.logging.Level;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/4/2019
+ * @lastupdate 3/20/2019
  */
 public class Capabilities {
 
@@ -64,7 +64,7 @@ public class Capabilities {
     private static final String HEADLESS_INPUT = "headless";
 
     private Browser browser;
-    private int instance;
+    private int instance = 0;
     private DesiredCapabilities desiredCapabilities;
 
     /**

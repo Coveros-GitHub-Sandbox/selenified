@@ -36,8 +36,8 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +63,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
 public class Selenified {
@@ -340,7 +340,7 @@ public class Selenified {
      *                     be kept here
      */
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         startTest(dataProvider, method, test, result, BrowserUse.LOAD);
     }
 
@@ -360,7 +360,7 @@ public class Selenified {
      *                     be setup
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-                             BrowserUse selenium) throws InvalidBrowserException, MalformedURLException {
+                             BrowserUse selenium) throws IOException {
         String testName = TestCase.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
@@ -420,13 +420,13 @@ public class Selenified {
      * Loads the initial app specified by the url, and ensures the app loads
      * successfully
      *
-     * @param app  - the application to be tested, contains all control elements
-     * @param url  - the initial url to load
+     * @param app      - the application to be tested, contains all control elements
+     * @param url      - the initial url to load
      * @param reporter - the output file to write everything to
      */
     private void loadInitialPage(App app, String url, Reporter reporter) {
-        String startingPage = "The starting app <i>";
-        String act = "Opening new browser and loading up starting app";
+        String startingPage = "The initial url of <i>";
+        String act = "Opening new browser and loading up initial url";
         String expected = startingPage + url + "</i> will successfully load";
 
         if (app != null) {

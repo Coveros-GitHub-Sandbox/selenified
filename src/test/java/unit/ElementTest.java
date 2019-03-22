@@ -114,36 +114,60 @@ public class ElementTest {
     @Test
     public void checkPrettyOutputTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
-        assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> ");
+        assertEquals(element.prettyOutput(), " 1st element with <i>ID</i> of <i>myId</i> ");
     }
 
     @Test
     public void checkPrettyOutputParentTest() {
         Element element = new Element(null, null, Locator.ID, "myId", new Element(null, null, Locator.NAME, "parentId"));
-        assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> and parent of <i>NAME</i> of <i>parentId</i> ");
+        assertEquals(element.prettyOutput(), " 1st element with <i>ID</i> of <i>myId</i> and parent of 1st element with <i>NAME</i> of <i>parentId</i> ");
     }
 
     @Test
     public void checkPrettyOutputGrandParentTest() {
         Element element = new Element(null, null, Locator.ID, "myId", new Element(null, null, Locator.NAME, "parentId", new Element(null, null, Locator.TAGNAME, "grandParentId")));
-        assertEquals(element.prettyOutput(), " element with <i>ID</i> of <i>myId</i> and parent of <i>NAME</i> of <i>parentId</i> and parent of <i>TAGNAME</i> of <i>grandParentId</i> ");
+        assertEquals(element.prettyOutput(), " 1st element with <i>ID</i> of <i>myId</i> and parent of 1st element with <i>NAME</i> of <i>parentId</i> and parent of 1st element with <i>TAGNAME</i> of <i>grandParentId</i> ");
     }
 
     @Test
     public void checkPrettyOutputStartTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
-        assertEquals(element.prettyOutputStart(), "Element with <i>ID</i> of <i>myId</i>");
+        assertEquals(element.prettyOutputStart(), "1st element with <i>ID</i> of <i>myId</i>");
     }
 
     @Test
     public void checkPrettyOutputEndTest() {
         Element element = new Element(null, null, Locator.ID, "myId");
-        assertEquals(element.prettyOutputEnd(), "element with <i>ID</i> of <i>myId</i>.");
+        assertEquals(element.prettyOutputEnd(), "1st element with <i>ID</i> of <i>myId</i>. ");
     }
 
     @Test
-    public void checkPrettyOutputLowercaseTest() {
-        Element element = new Element(null, null, Locator.ID, "myId");
-        assertEquals(element.prettyOutputLowercase(), "element with <i>ID</i> of <i>myId</i>");
+    public void checkPrettyOutputMatchTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 0);
+        assertEquals(element.prettyOutput(), " 1st element with <i>ID</i> of <i>myId</i> ");
+    }
+
+    @Test
+    public void checkPrettyOutputMatchParentTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 1, new Element(null, null, Locator.NAME, "parentId", 2));
+        assertEquals(element.prettyOutput(), " 2nd element with <i>ID</i> of <i>myId</i> and parent of 3rd element with <i>NAME</i> of <i>parentId</i> ");
+    }
+
+    @Test
+    public void checkPrettyOutputMatchGrandParentTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 2, new Element(null, null, Locator.NAME, "parentId", new Element(null, null, Locator.TAGNAME, "grandParentId", 22)));
+        assertEquals(element.prettyOutput(), " 3rd element with <i>ID</i> of <i>myId</i> and parent of 1st element with <i>NAME</i> of <i>parentId</i> and parent of 23rd element with <i>TAGNAME</i> of <i>grandParentId</i> ");
+    }
+
+    @Test
+    public void checkPrettyOutputMatchStartTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 3);
+        assertEquals(element.prettyOutputStart(), "4th element with <i>ID</i> of <i>myId</i>");
+    }
+
+    @Test
+    public void checkPrettyOutputMatchEndTest() {
+        Element element = new Element(null, null, Locator.ID, "myId", 10);
+        assertEquals(element.prettyOutputEnd(), "11th element with <i>ID</i> of <i>myId</i>. ");
     }
 }
