@@ -1,6 +1,8 @@
 package unit;
 
+import com.coveros.selenified.exceptions.InvalidHTTPException;
 import com.coveros.selenified.utilities.Property;
+import org.testng.ITestContext;
 import org.testng.annotations.*;
 
 import java.io.BufferedWriter;
@@ -8,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static com.coveros.selenified.utilities.Property.*;
 import static junit.framework.TestCase.assertNull;
 import static org.testng.Assert.*;
 
@@ -24,6 +27,10 @@ public class PropertyTest {
     private String setPackageResults = null;
     private String setHub = null;
     private String setProxy = null;
+    private String setAppUrl = null;
+    private String setBrowser = null;
+    private String setHeadless = null;
+    private String setOptions = null;
 
     @BeforeClass(alwaysRun = true)
     public void saveProperties() {
@@ -38,6 +45,18 @@ public class PropertyTest {
         }
         if (System.getProperty(PROXY) != null) {
             setProxy = System.getProperty(PROXY);
+        }
+        if (System.getProperty(APP_URL) != null) {
+            setAppUrl = System.getProperty(APP_URL);
+        }
+        if (System.getProperty(BROWSER) != null) {
+            setBrowser = System.getProperty(BROWSER);
+        }
+        if (System.getProperty(HEADLESS) != null) {
+            setHeadless = System.getProperty(HEADLESS);
+        }
+        if (System.getProperty(OPTIONS) != null) {
+            setOptions = System.getProperty(OPTIONS);
         }
     }
 
@@ -55,15 +74,32 @@ public class PropertyTest {
         if (setProxy != null) {
             System.setProperty(PROXY, setProxy);
         }
+        if (setAppUrl != null) {
+            System.setProperty(APP_URL, setAppUrl);
+        }
+        if (setBrowser != null) {
+            System.setProperty(BROWSER, setBrowser);
+        }
+        if (setHeadless != null) {
+            System.setProperty(HEADLESS, setHeadless);
+        }
+        if (setOptions != null) {
+            System.setProperty(OPTIONS, setOptions);
+        }
     }
 
     @BeforeMethod(alwaysRun = true)
     @AfterMethod(alwaysRun = true)
-    public void clearProperties() {
+    public void clearProperties(ITestContext context) {
         System.clearProperty(GENERATE_PDF);
         System.clearProperty(PACKAGE_RESULTS);
         System.clearProperty(HUB);
         System.clearProperty(PROXY);
+        System.clearProperty(APP_URL);
+        context.removeAttribute(this.getClass().getName() + APP_URL);
+        System.clearProperty(BROWSER);
+        System.clearProperty(HEADLESS);
+        System.clearProperty(OPTIONS);
 
         if (new File(SELENIFIED).exists()) {
             new File(SELENIFIED).delete();
@@ -492,6 +528,401 @@ public class PropertyTest {
         assertEquals(Property.getProxy(), "someproxy");
     }
 
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void defaultGetAppUrlTest(ITestContext context) throws InvalidHTTPException {
+        Property.getAppURL(this.getClass().getName(), context);
+    }
+
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void defaultGetAppUrlSystemEmptyTest(ITestContext context) throws InvalidHTTPException {
+        System.setProperty(APP_URL, "");
+        Property.getAppURL(this.getClass().getName(), context);
+    }
+
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void defaultGetAppUrlSystemInvalidTest(ITestContext context) throws InvalidHTTPException {
+        System.setProperty(APP_URL, "httpsomeurl");
+        Property.getAppURL(this.getClass().getName(), context);
+    }
+
+    @Test
+    public void defaultGetAppUrlSystemTest(ITestContext context) throws InvalidHTTPException {
+        System.setProperty(APP_URL, "http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://www.google.com");
+        System.setProperty(APP_URL, "https://google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "https://google.com");
+        System.setProperty(APP_URL, "www.example.org");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://www.example.org");
+        System.setProperty(APP_URL, "google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://google.com");
+        System.setProperty(APP_URL, "https://www.google.com?s=4");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "https://www.google.com?s=4");
+        System.setProperty(APP_URL, "file:///path/to/file.html");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "file:///path/to/file.html");
+        System.setProperty(APP_URL, "192.168.1.1");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://192.168.1.1");
+        System.setProperty(APP_URL, "http://192.168.1.1");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://192.168.1.1");
+        System.setProperty(APP_URL, "mydomain");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://mydomain");
+    }
+
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void defaultGetAppUrlFileEmptyTest(ITestContext context) throws IOException {
+        createPropertiesFile(APP_URL);
+        Property.getAppURL(this.getClass().getName(), context);
+    }
+
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void defaultGetAppUrlFileEmpty2Test(ITestContext context) throws IOException {
+        createPropertiesFile(APP_URL + "=");
+        Property.getAppURL(this.getClass().getName(), context);
+    }
+
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void defaultGetAppUrlFileInvalidTest(ITestContext context) throws IOException {
+        createPropertiesFile(APP_URL + "=httpsomeurl");
+        Property.getAppURL(this.getClass().getName(), context);
+    }
+
+    @Test
+    public void defaultGetAppUrlFileTest(ITestContext context) throws IOException {
+        createPropertiesFile(APP_URL + "=http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://www.google.com");
+    }
+
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void defaultGetAppUrlContextEmptyTest(ITestContext context) throws IOException {
+        context.setAttribute(this.getClass().getName() + APP_URL, "");
+        Property.getAppURL(this.getClass().getName(), context);
+    }
+
+    @Test(expectedExceptions = InvalidHTTPException.class)
+    public void defaultGetAppUrlContextInvalidTest(ITestContext context) throws IOException {
+        context.setAttribute(this.getClass().getName() + APP_URL, "httpsomeurl");
+        Property.getAppURL(this.getClass().getName(), context);
+    }
+
+    @Test
+    public void defaultGetAppUrlContextTest(ITestContext context) throws IOException {
+        context.setAttribute(this.getClass().getName() + APP_URL, "http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://www.google.com");
+    }
+
+    @Test
+    public void defaultGetAppUrlFileOverrideInvalidTest(ITestContext context) throws IOException {
+        createPropertiesFile(APP_URL + "=httpsomeurl");
+        context.setAttribute(this.getClass().getName() + APP_URL, "http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://www.google.com");
+    }
+
+    @Test
+    public void defaultGetAppUrlFileOverrideTest(ITestContext context) throws IOException {
+        createPropertiesFile(APP_URL + "=yahoo.com");
+        context.setAttribute(this.getClass().getName() + APP_URL, "http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://yahoo.com");
+    }
+
+    @Test
+    public void defaultGetAppUrlSystemOverrideInvalidTest(ITestContext context) throws IOException {
+        System.setProperty(APP_URL, "httpsomeurl");
+        context.setAttribute(this.getClass().getName() + APP_URL, "http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://www.google.com");
+    }
+
+    @Test
+    public void defaultGetAppUrlSystemOverrideTest(ITestContext context) throws IOException {
+        System.setProperty(APP_URL, "yahoo.com");
+        context.setAttribute(this.getClass().getName() + APP_URL, "http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://yahoo.com");
+    }
+
+    @Test
+    public void defaultGetAppUrlAllOverrideInvalidTest(ITestContext context) throws IOException {
+        System.setProperty(APP_URL, "httpsomeurl");
+        createPropertiesFile(APP_URL + "=httpsomeurl");
+        context.setAttribute(this.getClass().getName() + APP_URL, "http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://www.google.com");
+    }
+
+    @Test
+    public void defaultGetAppUrlAllOverrideTest(ITestContext context) throws IOException {
+        System.setProperty(APP_URL, "yahoo.com");
+        createPropertiesFile(APP_URL + "=bing.com");
+        context.setAttribute(this.getClass().getName() + APP_URL, "http://www.google.com");
+        assertEquals(Property.getAppURL(this.getClass().getName(), context), "http://yahoo.com");
+    }
+
+    @Test
+    public void defaultGetBrowserTest() {
+        assertEquals(Property.getBrowser(), "HTMLUNIT");
+    }
+
+    @Test
+    public void defaultGetBrowserSystemEmptyTest() {
+        System.setProperty(BROWSER, "");
+        assertEquals(Property.getBrowser(), "HTMLUNIT");
+    }
+
+    @Test
+    public void defaultGetBrowserSystemTest() {
+        System.setProperty(BROWSER, "somebrowser");
+        assertEquals(Property.getBrowser(), "somebrowser");
+    }
+
+    @Test
+    public void defaultGetBrowserFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertEquals(Property.getBrowser(), "HTMLUNIT");
+    }
+
+    @Test
+    public void defaultGetBrowserFilePartialTest() throws IOException {
+        createPropertiesFile(BROWSER);
+        assertEquals(Property.getBrowser(), "HTMLUNIT");
+    }
+
+    @Test
+    public void defaultGetBrowserFileUnsetTest() throws IOException {
+        createPropertiesFile(BROWSER + "=");
+        assertEquals(Property.getBrowser(), "HTMLUNIT");
+    }
+
+    @Test
+    public void defaultGetBrowserFileTrueTest() throws IOException {
+        createPropertiesFile(BROWSER+ "=somebrowser");
+        assertEquals(Property.getBrowser(), "somebrowser");
+    }
+
+    @Test
+    public void defaultGetBrowserOverrideEmptyTest() throws IOException {
+        System.setProperty(BROWSER, "");
+        createPropertiesFile(BROWSER + "=somebrowser");
+        assertEquals(Property.getBrowser(), "HTMLUNIT");
+    }
+
+    @Test
+    public void defaultGetBrowserOverrideTrueTest() throws IOException {
+        System.setProperty(BROWSER, "somebrowser");
+        createPropertiesFile(BROWSER + "=");
+        assertEquals(Property.getBrowser(), "somebrowser");
+    }
+
+
+
+
+
+    @Test
+    public void defaultHeadlessTest() {
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessSystemTrueTest() {
+        System.setProperty(HEADLESS, "true");
+        assertTrue(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessSystemFalseTest() {
+        System.setProperty(HEADLESS, "false");
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessSystemOtherTest() {
+        System.setProperty(HEADLESS, "hello");
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessFilePartialTest() throws IOException {
+        createPropertiesFile(HEADLESS);
+        assertTrue(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessFileUnsetTest() throws IOException {
+        createPropertiesFile(HEADLESS + "=");
+        assertTrue(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessFileTrueTest() throws IOException {
+        createPropertiesFile(HEADLESS + "=true");
+        assertTrue(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessFileFalseTest() throws IOException {
+        createPropertiesFile(HEADLESS + "=false");
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessFileOtherTest() throws IOException {
+        createPropertiesFile(HEADLESS + "=hello");
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessOverrideEmptyTest() throws IOException {
+        System.setProperty(HEADLESS, "true");
+        createPropertiesFile("");
+        assertTrue(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessOverridePartialTest() throws IOException {
+        System.setProperty(HEADLESS, "false");
+        createPropertiesFile(HEADLESS);
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessOverrideUnsetTest() throws IOException {
+        System.setProperty(HEADLESS, "false");
+        createPropertiesFile(HEADLESS + "=");
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessOverrideTrueTest() throws IOException {
+        System.setProperty(HEADLESS, "false");
+        createPropertiesFile(HEADLESS + "=true");
+        assertFalse(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessOverrideFalseTest() throws IOException {
+        System.setProperty(HEADLESS, "true");
+        createPropertiesFile(HEADLESS + "=false");
+        assertTrue(Property.headless());
+    }
+
+    @Test
+    public void defaultHeadlessOverrideOtherTest() throws IOException {
+        System.setProperty(HEADLESS, "true");
+        createPropertiesFile(HEADLESS + "=hello");
+        assertTrue(Property.headless());
+    }
+
+    @Test
+    public void defaultIsOptionsTest() {
+        assertFalse(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultIsOptionsSystemEmptyTest() {
+        System.setProperty(OPTIONS, "");
+        assertFalse(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultIsOptionsSystemTest() {
+        System.setProperty(OPTIONS, "someoptions");
+        assertTrue(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultIsOptionsFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertFalse(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultIsOptionsFilePartialTest() throws IOException {
+        createPropertiesFile(OPTIONS);
+        assertFalse(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultIsOptionsFileUnsetTest() throws IOException {
+        createPropertiesFile(OPTIONS + "=");
+        assertFalse(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultIsOptionsFileTrueTest() throws IOException {
+        createPropertiesFile(OPTIONS + "=someoptions");
+        assertTrue(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultIsOptionsOverrideEmptyTest() throws IOException {
+        System.setProperty(OPTIONS, "");
+        createPropertiesFile(OPTIONS + "=someoptions");
+        assertFalse(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultIsOptionsOverrideTrueTest() throws IOException {
+        System.setProperty(OPTIONS, "someoptions");
+        createPropertiesFile(OPTIONS + "=");
+        assertTrue(Property.areOptionsSet());
+    }
+
+    @Test
+    public void defaultGetOptionsTest() {
+        assertNull(Property.getOptions());
+    }
+
+    @Test
+    public void defaultGetOptionsSystemEmptyTest() {
+        System.setProperty(OPTIONS, "");
+        assertNull(Property.getOptions());
+    }
+
+    @Test
+    public void defaultGetOptionsSystemTest() {
+        System.setProperty(OPTIONS, "someoptions");
+        assertEquals(Property.getOptions(), "someoptions");
+    }
+
+    @Test
+    public void defaultGetOptionsFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertNull(Property.getOptions());
+    }
+
+    @Test
+    public void defaultGetOptionsFilePartialTest() throws IOException {
+        createPropertiesFile(OPTIONS);
+        assertNull(Property.getOptions());
+    }
+
+    @Test
+    public void defaultGetOptionsFileUnsetTest() throws IOException {
+        createPropertiesFile(OPTIONS + "=");
+        assertNull(Property.getOptions());
+    }
+
+    @Test
+    public void defaultGetOptionsFileTrueTest() throws IOException {
+        createPropertiesFile(OPTIONS + "=someoptions");
+        assertEquals(Property.getOptions(), "someoptions");
+    }
+
+    @Test
+    public void defaultGetOptionsOverrideEmptyTest() throws IOException {
+        System.setProperty(OPTIONS, "");
+        createPropertiesFile(OPTIONS + "=someoptions");
+        assertNull(Property.getOptions());
+    }
+
+    @Test
+    public void defaultGetOptionsOverrideTrueTest() throws IOException {
+        System.setProperty(OPTIONS, "someoptions");
+        createPropertiesFile(OPTIONS + "=");
+        assertEquals(Property.getOptions(), "someoptions");
+    }
+    
 
     private void createPropertiesFile(String content) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));

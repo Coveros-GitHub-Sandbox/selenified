@@ -33,7 +33,7 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 
-import static com.coveros.selenified.Browser.BROWSER_INPUT;
+import static com.coveros.selenified.utilities.Property.BROWSER;
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.Selenified.SESSION_ID;
 
@@ -95,7 +95,7 @@ public class Listener extends TestListenerAdapter {
     public void onTestStart(ITestResult result) {
         super.onTestStart(result);
         // if a group indicates an invalid browser, skip the test
-        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
+        Browser browser = (Browser) result.getAttribute(BROWSER);
         if (browser != null) {
             String[] groups = result.getMethod().getGroups();
             for (String group : groups) {
@@ -165,7 +165,7 @@ public class Listener extends TestListenerAdapter {
         }
         // update our reporter logger
         String testName = getTestName(result);
-        Browser browser = (Browser) result.getAttribute(BROWSER_INPUT);
+        Browser browser = (Browser) result.getAttribute(BROWSER);
         if (browser != null) {
             // subtracting one from the status ordinal to map ITestResult to Success
             org.testng.Reporter.log(
