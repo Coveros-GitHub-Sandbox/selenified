@@ -55,14 +55,14 @@ public class ActionDoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "do", "url", "browser"},
+    @Test(groups = {"integration", "action", "do", "url"},
             description = "An integration test to check the goToURL method")
     public void goToURLTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.goToURL("https://www.google.com/");
-        app.azzert().urlEquals("https://www.google.com/");
+        app.goToURL("https://www.bing.com/");
+        app.azzert().urlEquals("https://www.bing.com/");
         // verify no issues
         finish();
     }
