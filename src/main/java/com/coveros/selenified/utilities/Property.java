@@ -38,6 +38,10 @@ import java.util.Properties;
  * This file should reside in src/test/resources. If the property exists in the
  * system properties, that is returned, overridding anything in the
  * selenified.properties file.
+ *
+ * @author Max Saperstone
+ * @version 3.2.0
+ * @lastupdate 3/22/2019
  */
 public class Property {
 
