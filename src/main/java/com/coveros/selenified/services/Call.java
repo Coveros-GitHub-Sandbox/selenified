@@ -20,6 +20,8 @@
 
 package com.coveros.selenified.services;
 
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidReporterException;
 import com.coveros.selenified.utilities.Reporter;
 import org.testng.log4testng.Logger;
 
@@ -32,7 +34,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 public class Call {
     private static final Logger log = Logger.getLogger(Call.class);
@@ -49,9 +51,17 @@ public class Call {
     private static final String PUT = "PUT";
     private static final String DELETE = "DELETE";
 
-    public Call(HTTP http, Reporter reporter, Map<String, String> headers) {
-        this.http = http;
-        this.reporter = reporter;
+    public Call(HTTP http, Reporter reporter, Map<String, String> headers) throws InvalidHTTPException, InvalidReporterException {
+        if (http == null) {
+            throw new InvalidHTTPException("Need to provide a valid HTTP to make calls against");
+        } else {
+            this.http = http;
+        }
+        if (reporter == null) {
+            throw new InvalidReporterException("Need to provide a valid reporter for logging");
+        } else {
+            this.reporter = reporter;
+        }
         if (headers != null) {
             addHeaders(headers);
         }
@@ -223,7 +233,7 @@ public class Call {
         action.append(http.getServiceBaseUrl()).append(endpoint).append(http.getRequestParams(params));
         action.append("</i>");
         action.append(getCredentialString());
-        action.append(reporter.outputRequestProperties(params, inputFile));
+        action.append(Reporter.outputRequestProperties(params, inputFile));
         String expected = "<i>" + call + "</i> call was made successfully";
         Response response = new Response(reporter);
         try {

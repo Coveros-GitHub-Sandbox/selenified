@@ -70,7 +70,7 @@ public class Constants {
     public static final String MATCH_PATTERN = " to match a pattern of <b>";
     public static final String OPTIONS = " has options of <b>";
     public static final String VALUES = " has values of <b>";
-    public static final String WITH = " with the value of <b>";
+    public static final String WITH = "</i> with the value of <b>";
     public static final String NO_ELEMENT_FOUND = "No element found";
     public static final String ELEMENT_NOT_SELECT = "Element not select";
     public static final String CONTAINS = "' contains '";

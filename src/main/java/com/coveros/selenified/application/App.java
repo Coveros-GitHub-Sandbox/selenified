@@ -50,7 +50,7 @@ import java.util.Date;
  *
  * @author Max Saperstone
  * @version 3.1.1
- * @lastupdate 3/19/2019
+ * @lastupdate 3/20/2019
  */
 public class App {
 
@@ -94,7 +94,7 @@ public class App {
      * control actions and all logging and records
      *
      * @param capabilities - what browser capabilities are desired
-     * @param reporter         - the TestOutput file. This is provided by the
+     * @param reporter     - the TestOutput file. This is provided by the
      *                     SeleniumTestBase functionality
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
