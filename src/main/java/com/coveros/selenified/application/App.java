@@ -26,6 +26,7 @@ import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -110,8 +111,8 @@ public class App {
         this.desiredCapabilities = capabilities.getDesiredCapabilities();
         this.reporter = reporter;
         // if we want to test remotely
-        if (System.getProperty("hub") != null) {
-            driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.desiredCapabilities);
+        if (Property.isHubSet()) {
+            driver = new RemoteWebDriver(new URL(Property.getHub() + "/wd/hub"), this.desiredCapabilities);
         } else {
             driver = capabilities.setupDriver();
         }
@@ -343,7 +344,7 @@ public class App {
         try {
             // take a screenshot
             File srcFile;
-            if (System.getProperty("hub") != null) {
+            if (Property.isHubSet()) {
                 WebDriver augemented = new Augmenter().augment(driver);
                 srcFile = ((TakesScreenshot) augemented).getScreenshotAs(OutputType.FILE);
             } else {

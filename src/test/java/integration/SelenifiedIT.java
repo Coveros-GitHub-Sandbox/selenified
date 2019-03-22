@@ -9,25 +9,6 @@ public class SelenifiedIT extends WebBase {
 
     private String setScreensize = null;
 
-    @BeforeClass
-    public void saveScreensize() {
-        if (System.getProperty("screensize") != null) {
-            setScreensize = System.getProperty("screensize");
-        }
-    }
-
-    @AfterClass
-    public void restoreScreensize() {
-        if (setScreensize != null) {
-            System.setProperty("screensize", setScreensize);
-        }
-    }
-
-    @AfterMethod
-    public void clearBrowser() {
-        System.clearProperty("screensize");
-    }
-
     @Test
     public void noAnnotationDetailsTest() {
         // verify no issues

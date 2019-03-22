@@ -22,6 +22,7 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Sauce;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Platform;
@@ -59,7 +60,6 @@ import java.util.logging.Level;
 public class Capabilities {
 
     // constants
-    private static final String PROXY_INPUT = "proxy";
     private static final String OPTIONS_INPUT = "options";
     private static final String HEADLESS_INPUT = "headless";
 
@@ -153,7 +153,7 @@ public class Capabilities {
      *
      * @param instance - the number instance of the test being run, to track capabilities
      */
-    public void setInstance(int instance) {
+    void setInstance(int instance) {
         this.instance = instance;
     }
 
@@ -173,10 +173,10 @@ public class Capabilities {
      */
     public void setupProxy() {
         // are we running through a proxy
-        if (System.getProperty(PROXY_INPUT) != null) {
+        if (Property.isProxySet()) {
             // set the proxy information
             Proxy proxy = new Proxy();
-            proxy.setHttpProxy(System.getProperty(PROXY_INPUT));
+            proxy.setHttpProxy(Property.getProxy());
             desiredCapabilities.setCapability(CapabilityType.PROXY, proxy);
         }
     }

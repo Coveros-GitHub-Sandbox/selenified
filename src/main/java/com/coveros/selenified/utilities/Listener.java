@@ -159,7 +159,7 @@ public class Listener extends TestListenerAdapter {
             // subtracting one from the status ordinal to map ITestResult to Success
             reporter.finalizeReporter(result.getStatus() - 1);
             htmlFilename = reporter.getFileName() + ".html";
-            if (System.getProperty("generatePDF") != null) {
+            if (Property.generatePDF()) {
                 pdfFilename = reporter.getFileName() + ".pdf";
             }
         }
