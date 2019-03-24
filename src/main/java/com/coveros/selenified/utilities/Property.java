@@ -45,7 +45,8 @@ import java.util.Properties;
  */
 public class Property {
 
-    private Property() {}
+    private Property() {
+    }
 
     private static final Logger log = Logger.getLogger(Property.class);
     private static final String SELENIFIED = "src/test/resources/selenified.properties";
@@ -200,7 +201,7 @@ public class Property {
      * @return String: the most valid URL, new if it is valid, original if not
      */
     private static String checkAppURL(String originalAppURL, String newAppURL, String s) {
-        if (newAppURL != null) {
+        if (newAppURL != null && !"".equals(newAppURL)) {
             if (!newAppURL.toLowerCase().startsWith("http") && !newAppURL.toLowerCase().startsWith("file")) {
                 newAppURL = "http://" + newAppURL;
             }
