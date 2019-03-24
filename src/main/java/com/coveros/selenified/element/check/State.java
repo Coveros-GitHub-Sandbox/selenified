@@ -31,7 +31,7 @@ import static com.coveros.selenified.element.check.Constants.*;
  * failing tests. State checks that elements are in a particular state.
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/20/2019
  */
 public interface State extends Check {

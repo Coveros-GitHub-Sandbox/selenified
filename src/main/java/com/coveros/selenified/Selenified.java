@@ -20,6 +20,7 @@
 
 package com.coveros.selenified;
 
+import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
@@ -63,7 +64,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/20/2019
  */
 @Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})

@@ -50,7 +50,7 @@ import java.util.Date;
  * elements directly out of your app.
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/20/2019
  */
 public class App {

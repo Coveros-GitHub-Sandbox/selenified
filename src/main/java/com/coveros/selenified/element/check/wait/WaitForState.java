@@ -36,7 +36,7 @@ import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INT
  * in a particular state.
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/19/2019
  */
 public class WaitForState implements State {

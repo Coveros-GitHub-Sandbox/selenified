@@ -31,7 +31,7 @@ import org.testng.log4testng.Logger;
  * object is present or not
  *
  * @author Max Saperstone
- * @version 3.1.1
+ * @version 3.2.0
  * @lastupdate 3/3/2019
  */
 public class Is {
