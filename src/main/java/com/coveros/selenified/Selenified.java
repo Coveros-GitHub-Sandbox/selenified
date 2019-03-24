@@ -566,11 +566,7 @@ public class Selenified {
          */
         private static List<Browser> getBrowserInput() throws InvalidBrowserException {
             List<Browser> browsers = new ArrayList<>();
-            // null input check
-            if (System.getProperty(BROWSER) == null) {
-                return browsers;
-            }
-            String[] browserInput = System.getProperty(BROWSER).split(",");
+            String[] browserInput = Property.getBrowser().split(",");
             for (String singleBrowserInput : browserInput) {
                 browsers.add(new Browser(singleBrowserInput));
             }
