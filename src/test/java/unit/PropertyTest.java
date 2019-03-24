@@ -711,103 +711,103 @@ public class PropertyTest {
 
     @Test
     public void defaultHeadlessTest() {
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessSystemTrueTest() {
         System.setProperty(HEADLESS, "true");
-        assertTrue(Property.headless());
+        assertTrue(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessSystemFalseTest() {
         System.setProperty(HEADLESS, "false");
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessSystemOtherTest() {
         System.setProperty(HEADLESS, "hello");
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessFileEmptyTest() throws IOException {
         createPropertiesFile("");
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessFilePartialTest() throws IOException {
         createPropertiesFile(HEADLESS);
-        assertTrue(Property.headless());
+        assertTrue(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessFileUnsetTest() throws IOException {
         createPropertiesFile(HEADLESS + "=");
-        assertTrue(Property.headless());
+        assertTrue(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessFileTrueTest() throws IOException {
         createPropertiesFile(HEADLESS + "=true");
-        assertTrue(Property.headless());
+        assertTrue(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessFileFalseTest() throws IOException {
         createPropertiesFile(HEADLESS + "=false");
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessFileOtherTest() throws IOException {
         createPropertiesFile(HEADLESS + "=hello");
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessOverrideEmptyTest() throws IOException {
         System.setProperty(HEADLESS, "true");
         createPropertiesFile("");
-        assertTrue(Property.headless());
+        assertTrue(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessOverridePartialTest() throws IOException {
         System.setProperty(HEADLESS, "false");
         createPropertiesFile(HEADLESS);
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessOverrideUnsetTest() throws IOException {
         System.setProperty(HEADLESS, "false");
         createPropertiesFile(HEADLESS + "=");
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessOverrideTrueTest() throws IOException {
         System.setProperty(HEADLESS, "false");
         createPropertiesFile(HEADLESS + "=true");
-        assertFalse(Property.headless());
+        assertFalse(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessOverrideFalseTest() throws IOException {
         System.setProperty(HEADLESS, "true");
         createPropertiesFile(HEADLESS + "=false");
-        assertTrue(Property.headless());
+        assertTrue(Property.runHeadless());
     }
 
     @Test
     public void defaultHeadlessOverrideOtherTest() throws IOException {
         System.setProperty(HEADLESS, "true");
         createPropertiesFile(HEADLESS + "=hello");
-        assertTrue(Property.headless());
+        assertTrue(Property.runHeadless());
     }
 
     @Test

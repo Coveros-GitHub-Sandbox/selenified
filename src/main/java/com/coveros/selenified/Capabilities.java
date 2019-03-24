@@ -217,7 +217,7 @@ public class Capabilities {
                 WebDriverManager.firefoxdriver().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(desiredCapabilities);
                 firefoxOptions.addArguments(getBrowserOptions());
-                if (Property.headless()) {
+                if (Property.runHeadless()) {
                     firefoxOptions.setHeadless(true);
                 }
                 driver = new FirefoxDriver(firefoxOptions);
@@ -227,7 +227,7 @@ public class Capabilities {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(desiredCapabilities);
                 chromeOptions.addArguments(getBrowserOptions());
-                if (Property.headless()) {
+                if (Property.runHeadless()) {
                     chromeOptions.setHeadless(true);
                 }
                 driver = new ChromeDriver(chromeOptions);

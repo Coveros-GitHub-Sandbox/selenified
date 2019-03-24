@@ -20,7 +20,6 @@
 
 package com.coveros.selenified;
 
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
@@ -103,7 +102,7 @@ public class Selenified {
      *                storing app url information
      * @param siteURL - the URL of the application under test
      */
-    protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
+    protected static void setAppURL(Selenified clazz, ITestContext context, String siteURL) {
         context.setAttribute(clazz.getClass().getName() + APP_URL, siteURL);
     }
 
@@ -567,7 +566,11 @@ public class Selenified {
          */
         private static List<Browser> getBrowserInput() throws InvalidBrowserException {
             List<Browser> browsers = new ArrayList<>();
-            String[] browserInput = Property.getBrowser().split(",");
+            // null input check
+            if (System.getProperty(BROWSER) == null) {
+                return browsers;
+            }
+            String[] browserInput = System.getProperty(BROWSER).split(",");
             for (String singleBrowserInput : browserInput) {
                 browsers.add(new Browser(singleBrowserInput));
             }

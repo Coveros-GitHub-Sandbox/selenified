@@ -18,7 +18,7 @@ public class ReadmeSampleIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "https://www.coveros.com/");
+        setAppURL(this, test, "https://www.coveros.com/");
     }
 
     @DataProvider(name = "coveros search terms", parallel = true)

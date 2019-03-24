@@ -45,6 +45,8 @@ import java.util.Properties;
  */
 public class Property {
 
+    private Property() {}
+
     private static final Logger log = Logger.getLogger(Property.class);
     private static final String SELENIFIED = "src/test/resources/selenified.properties";
 
@@ -171,7 +173,6 @@ public class Property {
      *                storing app url information
      * @return String: the URL of the application under test
      */
-    // TODO - should we align nomenclature? Either AppUrl (from CMD) or TestSite (from java code)
     public static String getAppURL(String clazz, ITestContext context) throws InvalidHTTPException {
         String appURL = null;
         appURL = checkAppURL(appURL, (String) context.getAttribute(clazz + APP_URL), "The provided app via test case setup '");
@@ -233,7 +234,7 @@ public class Property {
      *
      * @return boolean: is headless set or not
      */
-    public static boolean headless() {
+    public static boolean runHeadless() {
         String headless = getProgramProperty(HEADLESS);
         if (headless == null) {
             return false;
