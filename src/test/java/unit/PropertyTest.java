@@ -32,6 +32,9 @@ public class PropertyTest {
     private String setHeadless = null;
     private String setOptions = null;
 
+    File propertiesFile = new File(SELENIFIED);
+    File savePropertiesFile = new File(SELENIFIED + ".tmp");
+
     @BeforeClass(alwaysRun = true)
     public void saveProperties() {
         if (System.getProperty(GENERATE_PDF) != null) {
@@ -58,6 +61,7 @@ public class PropertyTest {
         if (System.getProperty(OPTIONS) != null) {
             setOptions = System.getProperty(OPTIONS);
         }
+        propertiesFile.renameTo(savePropertiesFile);
     }
 
     @AfterClass(alwaysRun = true)
@@ -86,6 +90,7 @@ public class PropertyTest {
         if (setOptions != null) {
             System.setProperty(OPTIONS, setOptions);
         }
+        savePropertiesFile.renameTo(propertiesFile);
     }
 
     @BeforeMethod(alwaysRun = true)
