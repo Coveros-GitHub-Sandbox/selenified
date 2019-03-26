@@ -1,10 +1,9 @@
 package unit;
 
 import com.coveros.selenified.utilities.Sauce;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
-import static unit.PropertyTest.HUB;
 
 public class SauceTest extends SaveProperties {
 

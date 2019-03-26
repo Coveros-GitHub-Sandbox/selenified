@@ -5,12 +5,11 @@ import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import org.openqa.selenium.WebDriverException;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 
 import static org.testng.Assert.fail;
-import static unit.PropertyTest.HUB;
 
 public class AppTest extends SaveProperties {
 

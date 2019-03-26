@@ -3,7 +3,7 @@ package unit;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
 import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

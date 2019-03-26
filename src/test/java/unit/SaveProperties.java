@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import java.io.File;
 
 import static com.coveros.selenified.utilities.Property.*;
-import static com.coveros.selenified.utilities.Property.OPTIONS;
 
 public class SaveProperties {
     protected static final String SELENIFIED = "src/test/resources/selenified.properties";

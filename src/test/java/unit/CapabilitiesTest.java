@@ -7,11 +7,9 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
-import static unit.PropertyTest.HUB;
-import static unit.PropertyTest.PROXY;
 
 public class CapabilitiesTest extends SaveProperties {
 
