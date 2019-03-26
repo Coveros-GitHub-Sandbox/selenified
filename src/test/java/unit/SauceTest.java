@@ -6,7 +6,7 @@ import org.testng.annotations.*;
 import static org.testng.Assert.*;
 import static unit.PropertyTest.HUB;
 
-public class SauceTest extends PropertyTest {
+public class SauceTest extends SaveProperties {
 
     @Test
     public void isSauceNoHubTest() {

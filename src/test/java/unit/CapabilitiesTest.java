@@ -13,7 +13,7 @@ import static org.testng.Assert.*;
 import static unit.PropertyTest.HUB;
 import static unit.PropertyTest.PROXY;
 
-public class CapabilitiesTest extends PropertyTest {
+public class CapabilitiesTest extends SaveProperties {
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullTest() throws InvalidBrowserException {

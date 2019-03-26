@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import static org.testng.Assert.fail;
 import static unit.PropertyTest.HUB;
 
-public class AppTest extends PropertyTest {
+public class AppTest extends SaveProperties {
 
     @Test(expectedExceptions = WebDriverException.class)
     public void checkElementTypeTest() throws InvalidBrowserException, MalformedURLException {
