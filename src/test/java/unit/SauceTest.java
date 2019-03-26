@@ -6,29 +6,7 @@ import org.testng.annotations.*;
 import static org.testng.Assert.*;
 import static unit.PropertyTest.HUB;
 
-public class SauceTest {
-
-    private String hub = null;
-
-    @BeforeClass(alwaysRun = true)
-    public void saveHub() {
-        if (System.getProperty(HUB) != null) {
-            hub = System.getProperty(HUB);
-        }
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void restoreHub() {
-        if (hub != null) {
-            System.setProperty(HUB, hub);
-        }
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    @AfterMethod(alwaysRun = true)
-    public void clearHub() {
-        System.clearProperty(HUB);
-    }
+public class SauceTest extends PropertyTest {
 
     @Test
     public void isSauceNoHubTest() {

@@ -253,10 +253,6 @@ public class ReporterTest {
 
     @Test
     public void packageResultsPositiveTest() throws IOException {
-        String packageResults = null;
-        if (System.getProperty(PACKAGE_RESULTS) != null) {
-            packageResults = System.getProperty(PACKAGE_RESULTS);
-        }
         Reporter reporter =
                 new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");
@@ -270,25 +266,13 @@ public class ReporterTest {
         file.delete();
         results.delete();
         directory.delete();
-        System.clearProperty(PACKAGE_RESULTS);
-        if (packageResults != null) {
-            System.setProperty(PACKAGE_RESULTS, packageResults);
-        }
     }
 
     @Test
     public void packageResultsNegativeTest() {
-        String packageResults = null;
-        if (System.getProperty(PACKAGE_RESULTS) != null) {
-            packageResults = System.getProperty(PACKAGE_RESULTS);
-        }
         System.setProperty(PACKAGE_RESULTS, "false");
         reporter.finalizeReporter(1);
         assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
-        System.clearProperty(PACKAGE_RESULTS);
-        if (packageResults != null) {
-            System.setProperty(PACKAGE_RESULTS, packageResults);
-        }
     }
 
     @Test
@@ -588,10 +572,6 @@ public class ReporterTest {
 
     @Test
     public void generatePDFTest() throws InvalidBrowserException {
-        String generatePDF = null;
-        if (System.getProperty(GENERATE_PDF) != null) {
-            generatePDF = System.getProperty(GENERATE_PDF);
-        }
         Reporter reporter =
                 new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");
@@ -605,10 +585,6 @@ public class ReporterTest {
         file.delete();
         results.delete();
         directory.delete();
-        System.clearProperty(GENERATE_PDF);
-        if (generatePDF != null) {
-            System.setProperty(GENERATE_PDF, generatePDF);
-        }
     }
 
     @DataProvider(name = "ordinals", parallel = true)

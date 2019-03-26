@@ -13,37 +13,7 @@ import static org.testng.Assert.*;
 import static unit.PropertyTest.HUB;
 import static unit.PropertyTest.PROXY;
 
-public class CapabilitiesTest {
-
-    private String setProxy = null;
-    private String setHub = null;
-
-    @BeforeClass(alwaysRun = true)
-    public void saveHubProxy() {
-        if (System.getProperty(PROXY) != null) {
-            setProxy = System.getProperty(PROXY);
-        }
-        if (System.getProperty(HUB) != null) {
-            setHub = System.getProperty(HUB);
-        }
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void restoreHubProxy() {
-        if (setProxy != null) {
-            System.setProperty(PROXY, setProxy);
-        }
-        if (setHub != null) {
-            System.setProperty(HUB, setHub);
-        }
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    @AfterMethod(alwaysRun = true)
-    public void clearHubProxy() {
-        System.clearProperty(PROXY);
-        System.clearProperty(HUB);
-    }
+public class CapabilitiesTest extends PropertyTest {
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullTest() throws InvalidBrowserException {

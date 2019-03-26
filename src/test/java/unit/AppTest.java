@@ -12,29 +12,7 @@ import java.net.MalformedURLException;
 import static org.testng.Assert.fail;
 import static unit.PropertyTest.HUB;
 
-public class AppTest {
-
-    private String setHub = null;
-
-    @BeforeClass(alwaysRun = true)
-    public void saveHub() {
-        if (System.getProperty(HUB) != null) {
-            setHub = System.getProperty(HUB);
-        }
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void restoreHub() {
-        if (setHub != null) {
-            System.setProperty(HUB, setHub);
-        }
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    @AfterMethod(alwaysRun = true)
-    public void clearHub() {
-        System.clearProperty(HUB);
-    }
+public class AppTest extends PropertyTest {
 
     @Test(expectedExceptions = WebDriverException.class)
     public void checkElementTypeTest() throws InvalidBrowserException, MalformedURLException {
