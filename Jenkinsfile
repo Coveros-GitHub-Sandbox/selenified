@@ -50,7 +50,7 @@ node {
                             stage('Execute HTMLUnit Tests') {
                                 try {
                                     // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="service,browser,coveros"'
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros"'
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -62,7 +62,7 @@ node {
                             }
                             stage('Execute Chrome Tests Through Proxy') {
                                 try {
-                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="" -DgeneratePDF'
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https" -DgeneratePDF'
                                 } catch (e) {
                                     throw e
                                 } finally {

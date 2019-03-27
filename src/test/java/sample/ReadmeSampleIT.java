@@ -55,7 +55,7 @@ public class ReadmeSampleIT extends Selenified {
         finish();
     }
 
-    @Test(groups = {"sample", "service", "coveros"}, description = "A sample web services test to verify the response code")
+    @Test(groups = {"sample", "service", "coveros", "https"}, description = "A sample web services test to verify the response code")
     public void sampleServicesSearchTest() {
         HashMap<String, Object> params = new HashMap<>();
         params.put("s", "Max+Saperstone");

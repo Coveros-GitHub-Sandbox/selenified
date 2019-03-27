@@ -641,6 +641,9 @@ address and port in the parameter
 ```
 -Dproxy=localhost:5013
 ```
+Note that this will pass both browser, and web services traffic through an http proxy. If you are passing web services
+traffic through this proxy, and testing with ssl (over HTTPS), ensure your proxy's certificate is added to your java 
+keystore
 
 #### Headless
 Currently, only Chrome and Firefox supports running in headless mode. To achieve this, simply pass in the parameter 
