@@ -71,11 +71,13 @@ node {
                                     dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
                                 }
                             }
+                        },
+                        "Stand Up Zap": {
+                            stage('Stand Up ZAP') {
+                                sh 'owasp-zap -daemon -port 9092 -host localhost &'
+                            }
                         }
                 )
-                stage('Stand Up ZAP') {
-                    sh 'owasp-zap -daemon -port 9092 -host localhost &'
-                }
                 try {
                     stage('Execute Chrome Tests Through Proxy') {
                         try {
