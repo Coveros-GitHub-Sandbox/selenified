@@ -1,6 +1,7 @@
 package unit;
 
 import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
@@ -383,20 +384,126 @@ public class PropertyTest extends SaveProperties {
     }
 
     @Test
-    public void defaultGetProxyTest() {
+    public void defaultGetProxyTest() throws InvalidProxyException {
         assertNull(Property.getProxy());
     }
 
     @Test
-    public void defaultGetProxySystemEmptyTest() {
+    public void defaultGetProxySystemEmptyTest() throws InvalidProxyException {
         System.setProperty(PROXY, "");
         assertNull(Property.getProxy());
     }
 
-    @Test
-    public void defaultGetProxySystemTest() {
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxySystemNoPortTest() throws InvalidProxyException {
         System.setProperty(PROXY, "someproxy");
-        assertEquals(Property.getProxy(), "someproxy");
+        Property.getProxy();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxySystemWithProtocolTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "http://someproxy:1234");
+        Property.getProxy();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxySystemBadPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:twelve");
+        Property.getProxy();
+    }
+
+    @Test
+    public void defaultGetProxySystemTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234");
+        assertEquals(Property.getProxy(), "someproxy:1234");
+    }
+
+    @Test
+    public void defaultGetProxySystemSpaceTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234 ");
+        assertEquals(Property.getProxy(), "someproxy:1234");
+    }
+
+    @Test
+    public void defaultGetProxyHostTest() throws InvalidProxyException {
+        assertNull(Property.getProxyHost());
+    }
+
+    @Test
+    public void defaultGetProxyHostSystemEmptyTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "");
+        assertNull(Property.getProxyHost());
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyHostSystemNoPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy");
+        Property.getProxyHost();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyHostSystemWithProtocolTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "http://someproxy:1234");
+        Property.getProxyHost();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyHostSystemBadPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:twelve");
+        Property.getProxyHost();
+    }
+
+    @Test
+    public void defaultGetProxyHostSystemTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234");
+        assertEquals(Property.getProxyHost(), "someproxy");
+    }
+
+    @Test
+    public void defaultGetProxyHostSystemSpaceTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234 ");
+        assertEquals(Property.getProxyHost(), "someproxy");
+    }
+
+    @Test
+    public void defaultGetProxyPortTest() throws InvalidProxyException {
+        assertEquals(Property.getProxyPort(), 0);
+    }
+
+    @Test
+    public void defaultGetProxyPortSystemEmptyTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "");
+        assertEquals(Property.getProxyPort(), 0);
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyPortSystemNoPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy");
+        Property.getProxyPort();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyPortSystemWithProtocolTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "http://someproxy:1234");
+        Property.getProxyPort();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyPortSystemBadPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:twelve");
+        Property.getProxyPort();
+    }
+
+    @Test
+    public void defaultGetProxyPortSystemTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234");
+        assertEquals(Property.getProxyPort(), 1234);
+    }
+
+    @Test
+    public void defaultGetProxyPortSystemSpaceTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234 ");
+        assertEquals(Property.getProxyPort(), 1234);
     }
 
     @Test
@@ -419,8 +526,14 @@ public class PropertyTest extends SaveProperties {
 
     @Test
     public void defaultGetProxyFileTrueTest() throws IOException {
-        createPropertiesFile(PROXY + "=someproxy");
-        assertEquals(Property.getProxy(), "someproxy");
+        createPropertiesFile(PROXY + "=someproxy:1234");
+        assertEquals(Property.getProxy(), "someproxy:1234");
+    }
+
+    @Test
+    public void defaultGetProxyFileTrueSpaceTest() throws IOException {
+        createPropertiesFile(PROXY + "=someproxy:1234 ");
+        assertEquals(Property.getProxy(), "someproxy:1234");
     }
 
     @Test
@@ -432,9 +545,9 @@ public class PropertyTest extends SaveProperties {
 
     @Test
     public void defaultGetProxyOverrideTrueTest() throws IOException {
-        System.setProperty(PROXY, "someproxy");
+        System.setProperty(PROXY, "someproxy:1234");
         createPropertiesFile(PROXY + "=");
-        assertEquals(Property.getProxy(), "someproxy");
+        assertEquals(Property.getProxy(), "someproxy:1234");
     }
 
     @Test(expectedExceptions = InvalidHTTPException.class)

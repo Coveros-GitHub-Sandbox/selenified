@@ -2,6 +2,7 @@ package unit;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.exceptions.InvalidReporterException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
@@ -17,7 +18,7 @@ public class CallTest {
     HTTP http = new HTTP("SomeURL");
     Reporter reporter = new Reporter(null, null, null, null, null, null, null, null, null);
 
-    public CallTest() throws InvalidBrowserException {
+    public CallTest() throws InvalidBrowserException, InvalidProxyException {
     }
 
     @Test(expectedExceptions = InvalidHTTPException.class)

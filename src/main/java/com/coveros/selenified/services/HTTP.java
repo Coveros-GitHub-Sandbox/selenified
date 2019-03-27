@@ -307,19 +307,7 @@ public class HTTP {
     private HttpURLConnection getConnection(URL url) throws IOException {
         Proxy proxy = Proxy.NO_PROXY;
         if (Property.isProxySet()) {
-            String setProxy = Property.getProxy();
-            String[] proxyParts = setProxy.split(":");
-            if (proxyParts.length != 2) {
-                throw new InvalidProxyException("Proxy '" + setProxy + "' isn't valid. Must contain address and port, without protocol");
-            }
-            String proxyIP = proxyParts[0];
-            int proxyPort;
-            try {
-                proxyPort = Integer.parseInt(proxyParts[1]);
-            } catch (NumberFormatException e) {
-                throw new InvalidProxyException("Proxy '" + setProxy + "' isn't valid. Must contain address and port, without protocol. Invalid port provided. " + e);
-            }
-            SocketAddress addr = new InetSocketAddress(proxyIP, proxyPort);
+            SocketAddress addr = new InetSocketAddress(Property.getProxyHost(), Property.getProxyPort());
             proxy = new Proxy(Proxy.Type.HTTP, addr);
         }
         return (HttpURLConnection) url.openConnection(proxy);

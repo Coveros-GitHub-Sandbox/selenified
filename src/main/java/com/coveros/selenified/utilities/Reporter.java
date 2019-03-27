@@ -25,6 +25,7 @@ import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.google.gson.Gson;
@@ -108,7 +109,7 @@ public class Reporter {
      */
     @SuppressWarnings("squid:S00107")
     public Reporter(String directory, String test, Capabilities capabilities, String url, String suite, String group,
-                    String author, String version, String objectives) throws InvalidBrowserException {
+                    String author, String version, String objectives) throws InvalidBrowserException, InvalidProxyException {
         if (directory == null) {
             this.directory = ".";
         } else {

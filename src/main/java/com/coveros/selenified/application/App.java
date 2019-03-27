@@ -26,6 +26,7 @@ import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.apache.commons.io.FileUtils;
@@ -103,7 +104,7 @@ public class App {
      *                                 be thrown
      */
     public App(Capabilities capabilities,
-               Reporter reporter) throws InvalidBrowserException, MalformedURLException {
+               Reporter reporter) throws InvalidBrowserException, MalformedURLException, InvalidProxyException {
         if (capabilities == null) {
             capabilities = new Capabilities(new Browser("None"));
         }
