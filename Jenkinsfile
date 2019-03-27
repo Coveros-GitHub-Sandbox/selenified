@@ -41,9 +41,9 @@ node {
                     junit 'results/unit/target/surefire-reports/TEST-*.xml'
                 }
             }
-            parallel(
-                    "Execute Local Tests": {
-                        wrap([$class: 'Xvfb']) {
+            wrap([$class: 'Xvfb']) {
+                parallel(
+                        "Execute Local Tests": {
                             stage('Execute HTMLUnit Tests') {
                                 try {
                                     // commenting out coveros tests, as site is too slow to run properly in htmlunit
@@ -57,50 +57,50 @@ node {
                                     junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
                                 }
                             }
-                            stage('Stand Up ZAP') {
-                                sh 'owasp-zap -daemon -port 9092 -host localhost &'
-                            }
-                            try {
-                                stage('Execute Chrome Tests Through Proxy') {
-                                    try {
-                                        sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https" -DgeneratePDF'
-                                    } catch (e) {
-                                        throw e
-                                    } finally {
-                                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                                        sh "mkdir -p results/chrome; mv target results/chrome/"
-                                        archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
-                                        junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
-                                    }
-                                }
-                                stage('Get ZAP Results') {
-                                    // get the results
-                                    sh 'wget -O zapresult.html http://localhost:9092/OTHER/core/other/htmlreport'
-                                    sh 'wget -O zapresult.xml http://localhost:9092/OTHER/core/other/xmlreport'
-                                    archiveArtifacts artifacts: 'zapresult.html'
-                                }
-                            } finally {
-                                stage('Terminate ZAP') {
-                                    sh 'export pid=$(ps -ef | grep owasp-zap | head -1 | awk \'{print $2}\'); kill $pid'
+                        },
+                        "Execute Dependency Check": {
+                            stage('Execute Dependency Check') {
+                                try {
+                                    sh 'sleep 60'
+                                    sh 'mvn verify -Dskip.unit.tests -Dskip.integration.tests'
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "mv target/dependency-check-report.* ."
+                                    archiveArtifacts artifacts: 'dependency-check-report.html'
+                                    dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
                                 }
                             }
                         }
-                    },
-                    "Execute Dependency Check": {
-                        stage('Execute Dependency Check') {
-                            try {
-                                sh 'sleep 60'
-                                sh 'mvn verify -Dskip.unit.tests -Dskip.integration.tests'
-                            } catch (e) {
-                                throw e
-                            } finally {
-                                sh "mv target/dependency-check-report.* ."
-                                archiveArtifacts artifacts: 'dependency-check-report.html'
-                                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
-                            }
+                )
+                stage('Stand Up ZAP') {
+                    sh 'owasp-zap -daemon -port 9092 -host localhost &'
+                }
+                try {
+                    stage('Execute Chrome Tests Through Proxy') {
+                        try {
+                            sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https" -DgeneratePDF'
+                        } catch (e) {
+                            throw e
+                        } finally {
+                            sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                            sh "mkdir -p results/chrome; mv target results/chrome/"
+                            archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
+                            junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
                         }
                     }
-            )
+                    stage('Get ZAP Results') {
+                        // get the results
+                        sh 'wget -O zapresult.html http://localhost:9092/OTHER/core/other/htmlreport'
+                        sh 'wget -O zapresult.xml http://localhost:9092/OTHER/core/other/xmlreport'
+                        archiveArtifacts artifacts: 'zapresult.html'
+                    }
+                } finally {
+                    stage('Terminate ZAP') {
+                        sh 'export pid=$(ps -ef | grep owasp-zap | head -1 | awk \'{print $2}\'); kill $pid'
+                    }
+                }
+            }
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
