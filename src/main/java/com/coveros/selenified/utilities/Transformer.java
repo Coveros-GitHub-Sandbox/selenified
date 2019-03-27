@@ -27,6 +27,8 @@ import org.testng.internal.annotations.IAnnotationTransformer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import static com.coveros.selenified.utilities.Property.getBrowser;
+
 /**
  * Programmatically sets an invocation count for each test, based on the number
  * of browsers desired to test on. This allows for simple looping of the same
@@ -47,6 +49,6 @@ public class Transformer implements IAnnotationTransformer {
     @SuppressWarnings("rawtypes")
     @Override
     public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
-        annotation.setInvocationCount(StringUtils.countMatches(System.getProperty("browser"), ",") + 1);
+        annotation.setInvocationCount(StringUtils.countMatches(getBrowser(), ",") + 1);
     }
 }

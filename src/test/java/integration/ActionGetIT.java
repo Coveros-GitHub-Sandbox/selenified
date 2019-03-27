@@ -4,6 +4,8 @@ import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.utilities.Property;
 import org.openqa.selenium.Cookie;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
@@ -142,12 +144,12 @@ public class ActionGetIT extends WebBase {
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
     @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
             description = "An integration test to check the getCookieDomain method")
-    public void getCookieDomainTest(ITestContext context) {
+    public void getCookieDomainTest(ITestContext context) throws InvalidHTTPException {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         String cookie = app.get().cookieDomain("cookie");
-        assertEquals(cookie, getTestSite(this.getClass().getName(), context).split("/")[2].split(":")[0]);
+        assertEquals(cookie, Property.getAppURL(this.getClass().getName(), context).split("/")[2].split(":")[0]);
         // verify no issues
         finish();
     }
@@ -829,12 +831,12 @@ public class ActionGetIT extends WebBase {
     }
 
     @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getEval method")
-    public void getEvalResultTest(Method method, ITestContext test) {
+    public void getEvalResultTest(Method method, ITestContext test) throws InvalidHTTPException {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         assertEquals(app.get().eval("return window.location.href;"),
-                getTestSite(method.getDeclaringClass().getName(), test));
+                Property.getAppURL(method.getDeclaringClass().getName(), test));
         // verify no issues
         finish();
     }
@@ -1078,11 +1080,11 @@ public class ActionGetIT extends WebBase {
 
     @Test(groups = {"integration", "action", "get"},
             description = "An integration test to check the get location method")
-    public void getLocationTest(Method method, ITestContext test) {
+    public void getLocationTest(Method method, ITestContext test) throws InvalidHTTPException {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        assertEquals(app.get().url(), getTestSite(method.getDeclaringClass().getName(), test));
+        assertEquals(app.get().url(), Property.getAppURL(method.getDeclaringClass().getName(), test));
         // verify no issues
         finish();
     }

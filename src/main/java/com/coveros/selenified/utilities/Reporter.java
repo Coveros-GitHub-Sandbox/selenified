@@ -684,10 +684,10 @@ public class Reporter {
             replaceInFile(PASSORFAIL, "<font size='+2' class='fail'><b>FAIL</b></font>");
         }
         addTimeToReport();
-        if (System.getProperty("packageResults") != null && "true".equals(System.getProperty("packageResults"))) {
+        if (Property.packageResults()) {
             packageTestResults();
         }
-        if (System.getProperty("generatePDF") != null && "true".equals(System.getProperty("generatePDF"))) {
+        if (Property.generatePDF()) {
             generatePdf();
         }
     }

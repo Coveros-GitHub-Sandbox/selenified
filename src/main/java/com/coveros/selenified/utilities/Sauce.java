@@ -32,7 +32,7 @@ public class Sauce {
     }
 
     public static Boolean isSauce() {
-        String hub = System.getProperty("hub");
+        String hub = Property.getHub();
         return hub != null && hub.contains("ondemand.saucelabs.com");
     }
 
@@ -52,7 +52,7 @@ public class Sauce {
         if (!isSauce()) {
             return null;
         }
-        String creds = getSauceCreds(System.getProperty("hub"));
+        String creds = getSauceCreds(Property.getHub());
         if (creds == null) {
             return null;
         }
@@ -67,7 +67,7 @@ public class Sauce {
         if (!isSauce()) {
             return null;
         }
-        String creds = getSauceCreds(System.getProperty("hub"));
+        String creds = getSauceCreds(Property.getHub());
         if (creds == null) {
             return null;
         }

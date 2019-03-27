@@ -74,7 +74,6 @@ public class Browser {
     }
 
     public static final String SCREENSIZE_INPUT = "screensize";
-    public static final String BROWSER_INPUT = "browser";
     public static final String NAME_INPUT = "name";
     public static final String VERSION_INPUT = "version";
     public static final String PLATFORM_INPUT = "platform";

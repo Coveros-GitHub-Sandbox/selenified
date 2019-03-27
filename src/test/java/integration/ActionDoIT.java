@@ -5,7 +5,9 @@ import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
 import com.coveros.selenified.utilities.Point;
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Sauce;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Platform;
@@ -67,12 +69,12 @@ public class ActionDoIT extends WebBase {
 
     @Test(groups = {"integration", "action", "do", "url"},
             description = "An integration negative test to check the goToURL method")
-    public void negativeGoToURLTest(ITestContext test) {
+    public void negativeGoToURLTest(ITestContext test) throws InvalidHTTPException {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.goToURL("https://www.bing.com/");
-        app.verify().urlEquals(getTestSite(this.getClass().getName(), test));
+        app.verify().urlEquals(Property.getAppURL(this.getClass().getName(), test));
         // verify 1 issue
         finish(1);
     }

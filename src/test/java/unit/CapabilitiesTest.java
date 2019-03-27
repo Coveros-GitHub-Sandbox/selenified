@@ -7,41 +7,11 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class CapabilitiesTest {
-
-    private String setProxy = null;
-    private String setHub = null;
-
-    @BeforeClass(alwaysRun = true)
-    public void saveHubProxy() {
-        if (System.getProperty("proxy") != null) {
-            setProxy = System.getProperty("proxy");
-        }
-        if (System.getProperty("hub") != null) {
-            setHub = System.getProperty("hub");
-        }
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void restoreHubProxy() {
-        if (setProxy != null) {
-            System.setProperty("proxy", setProxy);
-        }
-        if (setHub != null) {
-            System.setProperty("hub", setHub);
-        }
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    @AfterMethod(alwaysRun = true)
-    public void clearHubProxy() {
-        System.clearProperty("proxy");
-        System.clearProperty("hub");
-    }
+public class CapabilitiesTest extends SaveProperties {
 
     @Test(expectedExceptions = InvalidBrowserException.class)
     public void setupDriverNullTest() throws InvalidBrowserException {
@@ -218,7 +188,7 @@ public class CapabilitiesTest {
         DesiredCapabilities capability = capabilities.getDesiredCapabilities();
         assertFalse(capability.is(CapabilityType.PROXY));
 
-        System.setProperty("proxy", "localhost");
+        System.setProperty(PROXY, "localhost");
         capabilities.setupProxy();
         capability = capabilities.getDesiredCapabilities();
         Proxy export = (Proxy) capability.getCapability(CapabilityType.PROXY);
@@ -243,7 +213,7 @@ public class CapabilitiesTest {
 
     @Test
     public void setupSauceCapabilitiesChromeTest() throws InvalidBrowserException {
-        System.setProperty("hub", "ondemand.saucelabs.com");
+        System.setProperty(HUB, "ondemand.saucelabs.com");
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -261,7 +231,7 @@ public class CapabilitiesTest {
 
     @Test
     public void setupSauceCapabilitiesIETest() throws InvalidBrowserException {
-        System.setProperty("hub", "ondemand.saucelabs.com");
+        System.setProperty(HUB, "ondemand.saucelabs.com");
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("internet explorer");

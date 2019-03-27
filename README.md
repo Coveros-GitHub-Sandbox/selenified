@@ -67,7 +67,7 @@ public class ReadmeSampleIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "https://www.coveros.com/");
+        setAppURL(this, test, "https://www.coveros.com/");
     }
 
     @DataProvider(name = "coveros search terms", parallel = true)
@@ -201,15 +201,15 @@ more Java classes. Name the class something descriptive following the test suite
 ### Structuring the Test Suite
 Have each class extend the Selenified class which is contained within the 
 selenified.jar. Each should contain a method setting up some details to 
-be used in each test, Only the testSite is required, if the URL is passed in from
-the commandline, even this can be excluded. Additional optional parameters are 
+be used in each test, Only the AppURL is required, and if the URL is passed in from
+the commandline or properties file, even this can be excluded. Additional optional parameters are 
 the author of the tests, and the version of tests or software under test. 
 See below for an example:
 ```java
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setAppURL(this, test, "http://172.31.2.65/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
@@ -598,10 +598,15 @@ implemented.
 
 ## Running Tests
 ### Parameters
-The testing framework requires no parameters, but takes several optional input parameters.
+The testing framework requires no parameters, but takes several optional input parameters. Each of these paramters
+can be passed in either via commandline (through System Properties), or they can be set in a properties file. The
+Selenified framework looks for a properties file named `selenified.properties` in the `src/test/resources` directory.
+Any of the below value can be set in either. If they are set in both location, the System Properties will override
+anything set in the properties file.
+
 #### Application URL
-This is the default URL that all tests should run against. This value can be overridden in each test, class, or 
-even suite (see below).
+This is the default URL that all tests should run against. As mentioned above, this value can be provided in each test, class, or 
+even suite, but setting the value in this fashion will override anything set in the code itself.
 ```
 -DappURL=www.example.org
 -DappURL=192.168.1.1

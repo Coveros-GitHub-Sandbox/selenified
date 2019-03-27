@@ -2,6 +2,7 @@ package integration;
 
 import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.utilities.Property;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -35,7 +36,7 @@ public class NoLoadIT extends WebBase {
         assertFalse(FileUtils.readFileToString(new File(directory, file + ".html"))
                 .contains("Opening new browser and loading up starting app"));
         // verify the app wasn't attempted to load
-        app.verify().urlEquals(getTestSite(this.getClass().getName(), context));
+        app.verify().urlEquals(Property.getAppURL(this.getClass().getName(), context));
         // verify one issue from the above check
         finish(1);
     }
