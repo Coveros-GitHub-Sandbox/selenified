@@ -91,8 +91,8 @@ node {
                     }
                     stage('Get ZAP Results') {
                         // get the results
-                        sh 'wget -O zapresult.html http://localhost:9092/OTHER/core/other/htmlreport'
-                        sh 'wget -O zapresult.xml http://localhost:9092/OTHER/core/other/xmlreport'
+                        sh 'wget -O zapresult.html -U "Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36" http://localhost:9092/OTHER/core/other/htmlreport'
+                        sh 'wget -O zapresult.xml -U "Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36" http://localhost:9092/OTHER/core/other/xmlreport'
                         archiveArtifacts artifacts: 'zapresult.html'
                     }
                 } finally {
