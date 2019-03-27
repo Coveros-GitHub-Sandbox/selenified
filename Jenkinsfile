@@ -44,10 +44,13 @@ node {
             parallel(
                     "Execute Local Tests": {
                         wrap([$class: 'Xvfb']) {
+                            stage('Stand Up ZAP') {
+                                sh 'owasp-zap -daemon -port 9092 -host localhost &'
+                            }
                             stage('Execute HTMLUnit Tests') {
                                 try {
                                     // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros"'
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="service,browser,coveros"'
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -57,9 +60,9 @@ node {
                                     junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
                                 }
                             }
-                            stage('Execute Chrome Tests') {
+                            stage('Execute Chrome Tests Through Proxy') {
                                 try {
-                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -DgeneratePDF'
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="" -DgeneratePDF'
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -111,6 +114,14 @@ node {
                 }
             }
         } finally {
+            stage('Finalize ZAP') {
+                // get the results
+                sh 'wget -O zapresult.html http://localhost:9092/OTHER/core/other/htmlreport'
+                sh 'wget -O zapresult.xml http://localhost:9092/OTHER/core/other/xmlreport'
+                archiveArtifacts artifacts: 'zapresult.html'
+                // kill zap
+                sh 'export pid=$(ps -ef | grep owasp-zap | head -1 | awk \'{print $2}\'); kill $pid'
+            }
             withCredentials([
                     string(
                             credentialsId: 'sonar-token',

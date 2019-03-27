@@ -20,6 +20,7 @@
 
 package com.coveros.selenified.services;
 
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -307,9 +308,18 @@ public class HTTP {
         Proxy proxy = Proxy.NO_PROXY;
         if (Property.isProxySet()) {
             String setProxy = Property.getProxy();
-            String proxyIP = setProxy.split(":")[0];
-            String proxyPort = setProxy.split(":")[1];
-            SocketAddress addr = new InetSocketAddress(proxyIP, Integer.parseInt(proxyPort));
+            String[] proxyParts = setProxy.split(":");
+            if (proxyParts.length != 2) {
+                throw new InvalidProxyException("Proxy '" + setProxy + "' isn't valid. Must contain address and port, without protocol");
+            }
+            String proxyIP = proxyParts[0];
+            int proxyPort;
+            try {
+                proxyPort = Integer.parseInt(proxyParts[1]);
+            } catch (NumberFormatException e) {
+                throw new InvalidProxyException("Proxy '" + setProxy + "' isn't valid. Must contain address and port, without protocol. Invalid port provided. " + e);
+            }
+            SocketAddress addr = new InetSocketAddress(proxyIP, proxyPort);
             proxy = new Proxy(Proxy.Type.HTTP, addr);
         }
         return (HttpURLConnection) url.openConnection(proxy);

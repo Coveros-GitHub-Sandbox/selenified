@@ -157,7 +157,7 @@ public class Property {
         if (!isProxySet()) {
             return null;
         }
-        return getProgramProperty(PROXY);
+        return getProgramProperty(PROXY).trim();
     }
 
 
