@@ -383,15 +383,15 @@ public class PropertyTest extends SaveProperties {
         assertTrue(Property.isProxySet());
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyTest() throws InvalidProxyException {
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxySystemEmptyTest() throws InvalidProxyException {
         System.setProperty(PROXY, "");
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
     @Test(expectedExceptions = InvalidProxyException.class)
@@ -424,15 +424,15 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getProxy(), "someproxy:1234");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyHostTest() throws InvalidProxyException {
-        assertNull(Property.getProxyHost());
+        Property.getProxyHost();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyHostSystemEmptyTest() throws InvalidProxyException {
         System.setProperty(PROXY, "");
-        assertNull(Property.getProxyHost());
+        Property.getProxyHost();
     }
 
     @Test(expectedExceptions = InvalidProxyException.class)
@@ -465,15 +465,15 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getProxyHost(), "someproxy");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyPortTest() throws InvalidProxyException {
-        assertEquals(Property.getProxyPort(), 0);
+        Property.getProxyPort();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyPortSystemEmptyTest() throws InvalidProxyException {
         System.setProperty(PROXY, "");
-        assertEquals(Property.getProxyPort(), 0);
+        Property.getProxyPort();
     }
 
     @Test(expectedExceptions = InvalidProxyException.class)
@@ -506,22 +506,22 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getProxyPort(), 1234);
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyFileEmptyTest() throws IOException {
         createPropertiesFile("");
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyFilePartialTest() throws IOException {
         createPropertiesFile(PROXY);
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyFileUnsetTest() throws IOException {
         createPropertiesFile(PROXY + "=");
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
     @Test
@@ -536,11 +536,11 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getProxy(), "someproxy:1234");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyOverrideEmptyTest() throws IOException {
         System.setProperty(PROXY, "");
         createPropertiesFile(PROXY + "=someproxy");
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
     @Test
