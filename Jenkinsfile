@@ -93,9 +93,16 @@ node {
                     }
                     stage('Get ZAP Results') {
                         // get the results
-                        sh 'wget -O zapresult.html http://localhost:9092/OTHER/core/other/htmlreport'
-                        sh 'wget -O zapresult.xml http://localhost:9092/OTHER/core/other/xmlreport'
+                        sh 'wget -q -O zapresult.html http://localhost:9092/OTHER/core/other/htmlreport'
+                        sh 'wget -q -O zapresult.xml http://localhost:9092/OTHER/core/other/xmlreport'
                         archiveArtifacts artifacts: 'zapresult.html'
+                        publishHTML([
+                                allowMissing         : false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll              : true,
+                                reportFiles          : 'zapresult.html',
+                                reportName           : 'ZAP Report'
+                        ])
                     }
                 } finally {
                     stage('Terminate ZAP') {
