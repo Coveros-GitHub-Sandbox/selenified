@@ -181,7 +181,7 @@ public class Listener extends TestListenerAdapter {
             org.testng.Reporter.log(OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
         // update sauce labs
-        if (Property.isHubSet() && Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
+        if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();
             JsonObject json = new JsonObject();
             json.addProperty("passed", result.getStatus() == 1);

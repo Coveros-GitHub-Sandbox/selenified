@@ -190,7 +190,7 @@ public class Capabilities {
      * Finally, the default platform for edge is set to windows 10
      */
     public void setupSauceCapabilities() throws InvalidHubException {
-        if (Property.isHubSet() && Sauce.isSauce()) {
+        if (Sauce.isSauce()) {
             // set the selenium version
             desiredCapabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
             // set the ie driver if needed

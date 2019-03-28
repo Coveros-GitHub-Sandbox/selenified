@@ -378,7 +378,7 @@ public class Selenified {
             if (selenium.loadPage()) {
                 loadInitialPage(app, Property.getAppURL(extClass, test), reporter);
             }
-            if (Property.isHubSet() && Sauce.isSauce()) {
+            if (Sauce.isSauce()) {
                 result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
             }
         } else {
