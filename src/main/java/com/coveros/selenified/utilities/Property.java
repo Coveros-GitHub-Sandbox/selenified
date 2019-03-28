@@ -48,6 +48,8 @@ import java.util.Properties;
  */
 public class Property {
 
+    private static final String PROXY_ISNT_SET = "Proxy isn't set";
+
     private Property() {
     }
 
@@ -162,7 +164,7 @@ public class Property {
      */
     public static String getProxy() throws InvalidProxyException {
         if (!isProxySet()) {
-            throw new InvalidProxyException("Proxy isn't set");
+            throw new InvalidProxyException(PROXY_ISNT_SET);
         }
         String proxy = getProgramProperty(PROXY);
         String[] proxyParts = proxy.split(":");
@@ -179,7 +181,7 @@ public class Property {
 
     public static String getProxyHost() throws InvalidProxyException {
         if (!isProxySet()) {
-            throw new InvalidProxyException("Proxy isn't set");
+            throw new InvalidProxyException(PROXY_ISNT_SET);
         }
         String proxy = getProxy();
         return proxy.split(":")[0];
@@ -187,7 +189,7 @@ public class Property {
 
     public static int getProxyPort() throws InvalidProxyException {
         if (!isProxySet()) {
-            throw new InvalidProxyException("Proxy isn't set");
+            throw new InvalidProxyException(PROXY_ISNT_SET);
         }
         String proxy = getProxy();
         return Integer.parseInt(proxy.split(":")[1]);
