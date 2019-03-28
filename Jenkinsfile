@@ -72,13 +72,15 @@ node {
                                 }
                             }
                         },
-                        "Stand Up Zap": {
-                            stage('Stand Up ZAP') {
-                                sh 'owasp-zap -daemon -config api.disablekey=true -port 9092 -host localhost &'
-                            }
-                        }
                 )
                 try {
+                    stage('Start ZAP') {
+                        startZap(
+                                host: "localhost",
+                                port: 9092,
+                                zapHome: "/var/lib/zap"
+                        )
+                    }
                     stage('Execute Chrome Tests Through Proxy') {
                         try {
                             sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https" -DgeneratePDF'
@@ -91,22 +93,9 @@ node {
                             junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
                         }
                     }
-                    stage('Get ZAP Results') {
-                        // get the results
-                        sh 'wget -q -O zapresult.html http://localhost:9092/OTHER/core/other/htmlreport'
-                        sh 'wget -q -O zapresult.xml http://localhost:9092/OTHER/core/other/xmlreport'
-                        archiveArtifacts artifacts: 'zapresult.html'
-                        publishHTML([
-                                allowMissing         : false,
-                                alwaysLinkToLastBuild: true,
-                                keepAll              : true,
-                                reportFiles          : 'zapresult.html',
-                                reportName           : 'ZAP Report'
-                        ])
-                    }
                 } finally {
-                    stage('Terminate ZAP') {
-                        sh 'export pid=$(ps -ef | grep owasp-zap | head -1 | awk \'{print $2}\'); kill $pid'
+                    stage('Get ZAP Results') {
+                        archiveZap()
                     }
                 }
             }
