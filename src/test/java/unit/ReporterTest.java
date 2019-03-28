@@ -3,6 +3,7 @@ package unit;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
@@ -32,7 +33,7 @@ public class ReporterTest {
     private File file;
 
     @BeforeMethod
-    public void createFile() throws InvalidBrowserException, InvalidProxyException {
+    public void createFile() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         reporter = new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                 null);
         directory = new File("directory");
@@ -46,13 +47,13 @@ public class ReporterTest {
     }
 
     @Test
-    public void constructorNullTest() throws InvalidBrowserException, InvalidProxyException {
+    public void constructorNullTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         // just verify no errors are thrown
         new Reporter(null, null, null, null, null, null, null, null, null);
     }
 
     @Test
-    public void setupFileFreshTest() throws InvalidBrowserException, InvalidProxyException {
+    public void setupFileFreshTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         new Reporter("somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File file = new File("somenewdir", "file.html");
         assertTrue(file.exists());
@@ -61,7 +62,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void setupFileTest() throws InvalidBrowserException, InvalidProxyException {
+    public void setupFileTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         assertNotEquals(file.length(), 0);
         assertTrue(directory.exists());
         assertTrue(file.exists());
@@ -179,7 +180,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void recordActionBadFile() throws InvalidBrowserException, InvalidProxyException {
+    public void recordActionBadFile() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         Reporter reporter =
                 new Reporter("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
@@ -572,7 +573,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void generatePDFTest() throws InvalidBrowserException, InvalidProxyException {
+    public void generatePDFTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         Reporter reporter =
                 new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");

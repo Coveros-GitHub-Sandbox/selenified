@@ -22,6 +22,8 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
+import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Sauce;
@@ -70,7 +72,7 @@ public class Capabilities {
      * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
      * passed in from the command line
      */
-    public Capabilities(Browser browser) throws InvalidBrowserException, InvalidProxyException {
+    public Capabilities(Browser browser) throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         if (browser == null) {
             throw new InvalidBrowserException("A valid browser was not provided");
         }
@@ -79,7 +81,7 @@ public class Capabilities {
         setDesiredCapabilities();
     }
 
-    private void setDesiredCapabilities() throws InvalidProxyException {
+    private void setDesiredCapabilities() throws InvalidProxyException, InvalidHubException {
         if (browser.getName() == BrowserName.NONE) {
             return;
         }
@@ -187,8 +189,8 @@ public class Capabilities {
      * Additionally, the iedriverVersion is set to match the selenium version as suggested, if ie is the chosen browser
      * Finally, the default platform for edge is set to windows 10
      */
-    public void setupSauceCapabilities() {
-        if (Sauce.isSauce()) {
+    public void setupSauceCapabilities() throws InvalidHubException {
+        if (Property.isHubSet() && Sauce.isSauce()) {
             // set the selenium version
             desiredCapabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
             // set the ie driver if needed
@@ -266,7 +268,7 @@ public class Capabilities {
         return driver;
     }
 
-    private List<String> getBrowserOptions() {
+    private List<String> getBrowserOptions() throws InvalidBrowserOptionsException {
         ArrayList<String> browserOptions = new ArrayList<>();
         if (Property.areOptionsSet()) {
             browserOptions = new ArrayList(Arrays.asList(Property.getOptions().split("\\s*,\\s*")));

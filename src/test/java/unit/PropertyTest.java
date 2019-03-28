@@ -1,6 +1,8 @@
 package unit;
 
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
@@ -273,39 +275,39 @@ public class PropertyTest extends SaveProperties {
         assertTrue(Property.isHubSet());
     }
 
-    @Test
-    public void defaultGetHubTest() {
-        assertNull(Property.getHub());
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubTest() throws InvalidHubException {
+        Property.getHub();
     }
 
-    @Test
-    public void defaultGetHubSystemEmptyTest() {
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubSystemEmptyTest() throws InvalidHubException {
         System.setProperty(HUB, "");
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
     @Test
-    public void defaultGetHubSystemTest() {
+    public void defaultGetHubSystemTest() throws InvalidHubException {
         System.setProperty(HUB, "somehub");
-        assertEquals(Property.getHub(), "somehub");
+        assertEquals(Property.getHub(),"somehub");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidHubException.class)
     public void defaultGetHubFileEmptyTest() throws IOException {
         createPropertiesFile("");
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidHubException.class)
     public void defaultGetHubFilePartialTest() throws IOException {
         createPropertiesFile(HUB);
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidHubException.class)
     public void defaultGetHubFileUnsetTest() throws IOException {
         createPropertiesFile(HUB + "=");
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
     @Test
@@ -314,11 +316,11 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getHub(), "somehub");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidHubException.class)
     public void defaultGetHubOverrideEmptyTest() throws IOException {
         System.setProperty(HUB, "");
         createPropertiesFile(HUB + "=somehub");
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
     @Test
@@ -887,39 +889,39 @@ public class PropertyTest extends SaveProperties {
         assertTrue(Property.areOptionsSet());
     }
 
-    @Test
-    public void defaultGetOptionsTest() {
-        assertNull(Property.getOptions());
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
+    public void defaultGetOptionsTest() throws InvalidBrowserOptionsException {
+        Property.getOptions();
     }
 
-    @Test
-    public void defaultGetOptionsSystemEmptyTest() {
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
+    public void defaultGetOptionsSystemEmptyTest() throws InvalidBrowserOptionsException {
         System.setProperty(OPTIONS, "");
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
     @Test
-    public void defaultGetOptionsSystemTest() {
+    public void defaultGetOptionsSystemTest() throws InvalidBrowserOptionsException {
         System.setProperty(OPTIONS, "someoptions");
         assertEquals(Property.getOptions(), "someoptions");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
     public void defaultGetOptionsFileEmptyTest() throws IOException {
         createPropertiesFile("");
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
     public void defaultGetOptionsFilePartialTest() throws IOException {
         createPropertiesFile(OPTIONS);
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
     public void defaultGetOptionsFileUnsetTest() throws IOException {
         createPropertiesFile(OPTIONS + "=");
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
     @Test
@@ -928,11 +930,11 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getOptions(), "someoptions");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
     public void defaultGetOptionsOverrideEmptyTest() throws IOException {
         System.setProperty(OPTIONS, "");
         createPropertiesFile(OPTIONS + "=someoptions");
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
     @Test

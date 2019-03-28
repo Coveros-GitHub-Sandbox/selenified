@@ -21,7 +21,9 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import org.testng.ITestContext;
 import org.testng.log4testng.Logger;
@@ -134,9 +136,9 @@ public class Property {
      *
      * @return String: the set hub address, null if none are set
      */
-    public static String getHub() {
+    public static String getHub() throws InvalidHubException {
         if (!isHubSet()) {
-            return null;
+            throw new InvalidHubException("Hub isn't set");
         }
         return getProgramProperty(HUB);
     }
@@ -292,9 +294,9 @@ public class Property {
      *
      * @return String: the options, null if none are set
      */
-    public static String getOptions() {
+    public static String getOptions() throws InvalidBrowserOptionsException {
         if (!areOptionsSet()) {
-            return null;
+            throw new InvalidBrowserOptionsException("Browser options aren't set");
         }
         return getProgramProperty(OPTIONS);
     }

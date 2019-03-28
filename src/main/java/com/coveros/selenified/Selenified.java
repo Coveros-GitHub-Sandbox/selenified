@@ -23,6 +23,7 @@ package com.coveros.selenified;
 import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
@@ -300,7 +301,7 @@ public class Selenified {
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
     @BeforeSuite(alwaysRun = true)
-    protected void beforeSuite() throws InvalidBrowserException, InvalidProxyException {
+    protected void beforeSuite() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         MasterSuiteSetupConfigurator.getInstance().doSetup();
     }
 
@@ -377,7 +378,7 @@ public class Selenified {
             if (selenium.loadPage()) {
                 loadInitialPage(app, Property.getAppURL(extClass, test), reporter);
             }
-            if (Sauce.isSauce()) {
+            if (Property.isHubSet() && Sauce.isSauce()) {
                 result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
             }
         } else {
@@ -532,7 +533,7 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        void doSetup() throws InvalidBrowserException, InvalidProxyException {
+        void doSetup() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
             if (wasInvoked) {
                 return;
             }
@@ -550,7 +551,7 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException {
+        private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
             List<Browser> browsers = getBrowserInput();
             for (Browser browser : browsers) {
                 Selenified.CAPABILITIES.add(new Capabilities(browser));

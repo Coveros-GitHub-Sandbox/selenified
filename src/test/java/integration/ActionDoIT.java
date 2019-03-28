@@ -6,6 +6,7 @@ import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Point;
 import com.coveros.selenified.utilities.Property;
@@ -1435,7 +1436,7 @@ public class ActionDoIT extends WebBase {
 
     @Test(groups = {"integration", "action", "screenshot", "do", "local"},
             description = "An integration test to check the takeScreenshot method")
-    public void takeScreenshotFirefoxLocalTest() throws InvalidBrowserException, MalformedURLException, InvalidProxyException {
+    public void takeScreenshotFirefoxLocalTest() throws InvalidBrowserException, MalformedURLException, InvalidProxyException, InvalidHubException {
         // use this object to manipulate the app
         App app = new App(new Capabilities(new Browser("Firefox")), null);
         System.setProperty("hubAddress", "LOCAL");
@@ -1449,7 +1450,7 @@ public class ActionDoIT extends WebBase {
 
     @Test(groups = {"integration", "action", "screenshot", "do", "local"},
             description = "An integration test to check the takeScreenshot method")
-    public void takeScreenshotFirefoxHubTest() throws InvalidBrowserException, MalformedURLException, InvalidProxyException {
+    public void takeScreenshotFirefoxHubTest() throws InvalidBrowserException, MalformedURLException, InvalidProxyException, InvalidHubException {
         // use this object to manipulate the app
         App app = new App(new Capabilities(new Browser("Firefox")), null);
         System.setProperty("hubAddress", "HUB");
@@ -1463,7 +1464,7 @@ public class ActionDoIT extends WebBase {
 
     @Test(groups = {"integration", "action", "screenshot", "do", "local"},
             description = "An integration test to check the takeScreenshot method")
-    public void takeScreenshotHtmlUnitTest() throws InvalidBrowserException, MalformedURLException, InvalidProxyException {
+    public void takeScreenshotHtmlUnitTest() throws InvalidBrowserException, MalformedURLException, InvalidProxyException, InvalidHubException {
         // use this object to manipulate the app
         App app = new App(new Capabilities(new Browser("HtmlUnit")), null);
         // perform some actions
@@ -1475,7 +1476,7 @@ public class ActionDoIT extends WebBase {
 
     @Test(groups = {"integration", "action", "screenshot", "do", "local"},
             description = "An integration negative test to check the takeScreenshot method")
-    public void takeScreenshotBadDriverTest() throws InvalidBrowserException, MalformedURLException, InvalidProxyException {
+    public void takeScreenshotBadDriverTest() throws InvalidBrowserException, MalformedURLException, InvalidProxyException, InvalidHubException {
         // use this object to manipulate the app
         App app = new App(new Capabilities(new Browser("Firefox")), null);
         // perform some actions
