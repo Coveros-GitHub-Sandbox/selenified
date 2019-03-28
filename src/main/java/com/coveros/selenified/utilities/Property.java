@@ -79,7 +79,7 @@ public class Property {
             log.info(e);
         }
         String fullProperty = prop.getProperty(property);
-        if( fullProperty != null) {
+        if (fullProperty != null) {
             fullProperty = fullProperty.trim();
         }
         return fullProperty;
@@ -160,7 +160,7 @@ public class Property {
      */
     public static String getProxy() throws InvalidProxyException {
         if (!isProxySet()) {
-            return null;
+            throw new InvalidProxyException("Proxy isn't set");
         }
         String proxy = getProgramProperty(PROXY);
         String[] proxyParts = proxy.split(":");
@@ -177,7 +177,7 @@ public class Property {
 
     public static String getProxyHost() throws InvalidProxyException {
         if (!isProxySet()) {
-            return null;
+            throw new InvalidProxyException("Proxy isn't set");
         }
         String proxy = getProxy();
         return proxy.split(":")[0];
@@ -185,7 +185,7 @@ public class Property {
 
     public static int getProxyPort() throws InvalidProxyException {
         if (!isProxySet()) {
-            return 0;
+            throw new InvalidProxyException("Proxy isn't set");
         }
         String proxy = getProxy();
         return Integer.parseInt(proxy.split(":")[1]);

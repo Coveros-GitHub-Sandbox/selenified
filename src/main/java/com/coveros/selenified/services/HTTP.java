@@ -20,7 +20,6 @@
 
 package com.coveros.selenified.services;
 
-import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
