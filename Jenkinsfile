@@ -95,6 +95,15 @@ node {
                     }
                 } finally {
                     stage('Get ZAP Results') {
+                        sh 'wget -q -O zapreport.html http://localhost:9092/OTHER/core/other/htmlreport'
+                        sh 'wget -q -O zapreport.xml http://localhost:9092/OTHER/core/other/xmlreport'
+                        publishHTML([
+                                allowMissing         : false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll              : true,
+                                reportFiles          : 'zapreport.html',
+                                reportName           : 'ZAP Report'
+                        ])
                         archiveZap()
                     }
                 }
