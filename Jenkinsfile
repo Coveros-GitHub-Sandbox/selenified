@@ -96,15 +96,15 @@ node {
                 } finally {
                     stage('Get ZAP Results') {
                         sh 'mkdir -p results/zap'
-                        sh 'wget -q -O results/zap/zapreport.html http://localhost:9092/OTHER/core/other/htmlreport'
-                        sh 'wget -q -O results/zap/zapreport.xml http://localhost:9092/OTHER/core/other/xmlreport'
+                        sh 'wget -q -O results/zap/report.html http://localhost:9092/OTHER/core/other/htmlreport'
+                        sh 'wget -q -O results/zap/report.xml http://localhost:9092/OTHER/core/other/xmlreport'
                         archiveArtifacts artifacts: 'results/zap/**'
                         publishHTML([
                                 allowMissing         : false,
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
                                 reportDir            : 'results/zap',
-                                reportFiles          : 'zapreport.html',
+                                reportFiles          : 'report.html',
                                 reportName           : 'ZAP Report'
                         ])
                         archiveZap()
