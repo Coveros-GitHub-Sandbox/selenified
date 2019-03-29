@@ -23,7 +23,6 @@ package com.coveros.selenified;
 import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
@@ -301,7 +300,7 @@ public class Selenified {
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
     @BeforeSuite(alwaysRun = true)
-    protected void beforeSuite() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+    protected void beforeSuite() throws InvalidBrowserException, InvalidProxyException {
         MasterSuiteSetupConfigurator.getInstance().doSetup();
     }
 
@@ -533,7 +532,7 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        void doSetup() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+        void doSetup() throws InvalidBrowserException, InvalidProxyException {
             if (wasInvoked) {
                 return;
             }
@@ -551,7 +550,7 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+        private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException {
             List<Browser> browsers = getBrowserInput();
             for (Browser browser : browsers) {
                 Selenified.CAPABILITIES.add(new Capabilities(browser));

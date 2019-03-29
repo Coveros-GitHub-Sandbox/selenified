@@ -128,7 +128,7 @@ documentation [here](https://coveros.github.io/selenified).
 
 ### Test Execution
 To execute these tests, either do that directly from your IDE, or you can execute the below commands. More 
-details on test execution and setup is located [here](##Running_Tests).
+details on test execution and setup is located [here](#running-tests).
 #### Maven
 If following the setup indicated, you'll need to use the failsafe plugin in order to execute the tests.
 Update your `pom.xml` file to include
