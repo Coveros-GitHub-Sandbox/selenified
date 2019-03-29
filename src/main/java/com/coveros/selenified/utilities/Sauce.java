@@ -45,7 +45,7 @@ public class Sauce {
             log.info(e);
             return false;
         }
-        return hub != null && hub.contains("ondemand.saucelabs.com");
+        return hub.contains("ondemand.saucelabs.com");
     }
 
     private static String getSauceCreds(String hub) throws InvalidSauceException {

@@ -23,7 +23,6 @@ package com.coveros.selenified;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
-import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Sauce;
@@ -72,7 +71,7 @@ public class Capabilities {
      * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
      * passed in from the command line
      */
-    public Capabilities(Browser browser) throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+    public Capabilities(Browser browser) throws InvalidBrowserException, InvalidProxyException {
         if (browser == null) {
             throw new InvalidBrowserException("A valid browser was not provided");
         }
@@ -81,7 +80,7 @@ public class Capabilities {
         setDesiredCapabilities();
     }
 
-    private void setDesiredCapabilities() throws InvalidProxyException, InvalidHubException {
+    private void setDesiredCapabilities() throws InvalidProxyException {
         if (browser.getName() == BrowserName.NONE) {
             return;
         }
