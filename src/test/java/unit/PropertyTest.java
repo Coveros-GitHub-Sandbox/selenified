@@ -13,7 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import static com.coveros.selenified.utilities.Property.*;
-import static junit.framework.TestCase.assertNull;
 import static org.testng.Assert.*;
 
 public class PropertyTest extends SaveProperties {

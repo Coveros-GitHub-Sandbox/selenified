@@ -60,7 +60,7 @@ import static com.coveros.selenified.utilities.Property.HEADLESS;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/20/2019
+ * @lastupdate 3/29/2019
  */
 public class Capabilities {
 
@@ -189,7 +189,7 @@ public class Capabilities {
      * Additionally, the iedriverVersion is set to match the selenium version as suggested, if ie is the chosen browser
      * Finally, the default platform for edge is set to windows 10
      */
-    public void setupSauceCapabilities() throws InvalidHubException {
+    public void setupSauceCapabilities() {
         if (Sauce.isSauce()) {
             // set the selenium version
             desiredCapabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));

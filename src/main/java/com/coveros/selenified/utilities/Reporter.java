@@ -56,7 +56,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/20/2019
+ * @lastupdate 3/29/2019
  */
 public class Reporter {
 

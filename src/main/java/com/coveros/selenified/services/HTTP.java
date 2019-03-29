@@ -41,7 +41,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 9/18/2018
+ * @lastupdate 3/29/2019
  */
 public class HTTP {
 
