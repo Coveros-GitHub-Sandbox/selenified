@@ -62,6 +62,7 @@
         <sonar.dependencyCheck.severity.major>-1</sonar.dependencyCheck.severity.major>
         <sonar.dependencyCheck.severity.minor>-1</sonar.dependencyCheck.severity.minor>
         <sonar.dependencyCheck.summarize>true</sonar.dependencyCheck.summarize>
+        <sonar.zaproxy.reportPath>results/zap/report.xml</sonar.zaproxy.reportPath>
     </properties>
 
     <name>Selenified Testing Framework</name>

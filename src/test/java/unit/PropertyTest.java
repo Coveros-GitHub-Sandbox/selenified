@@ -1,6 +1,9 @@
 package unit;
 
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
@@ -10,7 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import static com.coveros.selenified.utilities.Property.*;
-import static junit.framework.TestCase.assertNull;
 import static org.testng.Assert.*;
 
 public class PropertyTest extends SaveProperties {
@@ -272,39 +274,39 @@ public class PropertyTest extends SaveProperties {
         assertTrue(Property.isHubSet());
     }
 
-    @Test
-    public void defaultGetHubTest() {
-        assertNull(Property.getHub());
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubTest() throws InvalidHubException {
+        Property.getHub();
     }
 
-    @Test
-    public void defaultGetHubSystemEmptyTest() {
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubSystemEmptyTest() throws InvalidHubException {
         System.setProperty(HUB, "");
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
     @Test
-    public void defaultGetHubSystemTest() {
+    public void defaultGetHubSystemTest() throws InvalidHubException {
         System.setProperty(HUB, "somehub");
-        assertEquals(Property.getHub(), "somehub");
+        assertEquals(Property.getHub(),"somehub");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidHubException.class)
     public void defaultGetHubFileEmptyTest() throws IOException {
         createPropertiesFile("");
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidHubException.class)
     public void defaultGetHubFilePartialTest() throws IOException {
         createPropertiesFile(HUB);
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidHubException.class)
     public void defaultGetHubFileUnsetTest() throws IOException {
         createPropertiesFile(HUB + "=");
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
     @Test
@@ -313,11 +315,11 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getHub(), "somehub");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidHubException.class)
     public void defaultGetHubOverrideEmptyTest() throws IOException {
         System.setProperty(HUB, "");
         createPropertiesFile(HUB + "=somehub");
-        assertNull(Property.getHub());
+        Property.getHub();
     }
 
     @Test
@@ -382,59 +384,171 @@ public class PropertyTest extends SaveProperties {
         assertTrue(Property.isProxySet());
     }
 
-    @Test
-    public void defaultGetProxyTest() {
-        assertNull(Property.getProxy());
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyTest() throws InvalidProxyException {
+        Property.getProxy();
     }
 
-    @Test
-    public void defaultGetProxySystemEmptyTest() {
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxySystemEmptyTest() throws InvalidProxyException {
         System.setProperty(PROXY, "");
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
-    @Test
-    public void defaultGetProxySystemTest() {
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxySystemNoPortTest() throws InvalidProxyException {
         System.setProperty(PROXY, "someproxy");
-        assertEquals(Property.getProxy(), "someproxy");
+        Property.getProxy();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxySystemWithProtocolTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "http://someproxy:1234");
+        Property.getProxy();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxySystemBadPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:twelve");
+        Property.getProxy();
     }
 
     @Test
+    public void defaultGetProxySystemTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234");
+        assertEquals(Property.getProxy(), "someproxy:1234");
+    }
+
+    @Test
+    public void defaultGetProxySystemSpaceTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234 ");
+        assertEquals(Property.getProxy(), "someproxy:1234");
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyHostTest() throws InvalidProxyException {
+        Property.getProxyHost();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyHostSystemEmptyTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "");
+        Property.getProxyHost();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyHostSystemNoPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy");
+        Property.getProxyHost();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyHostSystemWithProtocolTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "http://someproxy:1234");
+        Property.getProxyHost();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyHostSystemBadPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:twelve");
+        Property.getProxyHost();
+    }
+
+    @Test
+    public void defaultGetProxyHostSystemTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234");
+        assertEquals(Property.getProxyHost(), "someproxy");
+    }
+
+    @Test
+    public void defaultGetProxyHostSystemSpaceTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234 ");
+        assertEquals(Property.getProxyHost(), "someproxy");
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyPortTest() throws InvalidProxyException {
+        Property.getProxyPort();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyPortSystemEmptyTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "");
+        Property.getProxyPort();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyPortSystemNoPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy");
+        Property.getProxyPort();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyPortSystemWithProtocolTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "http://someproxy:1234");
+        Property.getProxyPort();
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void defaultGetProxyPortSystemBadPortTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:twelve");
+        Property.getProxyPort();
+    }
+
+    @Test
+    public void defaultGetProxyPortSystemTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234");
+        assertEquals(Property.getProxyPort(), 1234);
+    }
+
+    @Test
+    public void defaultGetProxyPortSystemSpaceTest() throws InvalidProxyException {
+        System.setProperty(PROXY, "someproxy:1234 ");
+        assertEquals(Property.getProxyPort(), 1234);
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyFileEmptyTest() throws IOException {
         createPropertiesFile("");
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyFilePartialTest() throws IOException {
         createPropertiesFile(PROXY);
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyFileUnsetTest() throws IOException {
         createPropertiesFile(PROXY + "=");
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
     @Test
     public void defaultGetProxyFileTrueTest() throws IOException {
-        createPropertiesFile(PROXY + "=someproxy");
-        assertEquals(Property.getProxy(), "someproxy");
+        createPropertiesFile(PROXY + "=someproxy:1234");
+        assertEquals(Property.getProxy(), "someproxy:1234");
     }
 
     @Test
+    public void defaultGetProxyFileTrueSpaceTest() throws IOException {
+        createPropertiesFile(PROXY + "=someproxy:1234 ");
+        assertEquals(Property.getProxy(), "someproxy:1234");
+    }
+
+    @Test(expectedExceptions = InvalidProxyException.class)
     public void defaultGetProxyOverrideEmptyTest() throws IOException {
         System.setProperty(PROXY, "");
         createPropertiesFile(PROXY + "=someproxy");
-        assertNull(Property.getProxy());
+        Property.getProxy();
     }
 
     @Test
     public void defaultGetProxyOverrideTrueTest() throws IOException {
-        System.setProperty(PROXY, "someproxy");
+        System.setProperty(PROXY, "someproxy:1234");
         createPropertiesFile(PROXY + "=");
-        assertEquals(Property.getProxy(), "someproxy");
+        assertEquals(Property.getProxy(), "someproxy:1234");
     }
 
     @Test(expectedExceptions = InvalidHTTPException.class)
@@ -774,39 +888,39 @@ public class PropertyTest extends SaveProperties {
         assertTrue(Property.areOptionsSet());
     }
 
-    @Test
-    public void defaultGetOptionsTest() {
-        assertNull(Property.getOptions());
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
+    public void defaultGetOptionsTest() throws InvalidBrowserOptionsException {
+        Property.getOptions();
     }
 
-    @Test
-    public void defaultGetOptionsSystemEmptyTest() {
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
+    public void defaultGetOptionsSystemEmptyTest() throws InvalidBrowserOptionsException {
         System.setProperty(OPTIONS, "");
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
     @Test
-    public void defaultGetOptionsSystemTest() {
+    public void defaultGetOptionsSystemTest() throws InvalidBrowserOptionsException {
         System.setProperty(OPTIONS, "someoptions");
         assertEquals(Property.getOptions(), "someoptions");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
     public void defaultGetOptionsFileEmptyTest() throws IOException {
         createPropertiesFile("");
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
     public void defaultGetOptionsFilePartialTest() throws IOException {
         createPropertiesFile(OPTIONS);
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
     public void defaultGetOptionsFileUnsetTest() throws IOException {
         createPropertiesFile(OPTIONS + "=");
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
     @Test
@@ -815,11 +929,11 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getOptions(), "someoptions");
     }
 
-    @Test
+    @Test(expectedExceptions = InvalidBrowserOptionsException.class)
     public void defaultGetOptionsOverrideEmptyTest() throws IOException {
         System.setProperty(OPTIONS, "");
         createPropertiesFile(OPTIONS + "=someoptions");
-        assertNull(Property.getOptions());
+        Property.getOptions();
     }
 
     @Test

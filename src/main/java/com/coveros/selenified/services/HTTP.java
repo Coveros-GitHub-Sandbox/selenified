@@ -20,6 +20,7 @@
 
 package com.coveros.selenified.services;
 
+import com.coveros.selenified.utilities.Property;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,8 +29,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.testng.log4testng.Logger;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +41,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 9/18/2018
+ * @lastupdate 3/29/2019
  */
 public class HTTP {
 
@@ -260,7 +260,7 @@ public class HTTP {
         HttpURLConnection connection = null;
         try {
             URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
-            connection = (HttpURLConnection) url.openConnection();
+            connection = getConnection(url);
             connection.setRequestMethod(call);
             setupHeaders(connection);
             if (useCredentials()) {
@@ -294,6 +294,22 @@ public class HTTP {
             }
         }
         return null;
+    }
+
+    /**
+     * Opens the URL connection, and if a proxy is provided, uses the proxy to establish the connection
+     *
+     * @param url - the url to connect to
+     * @return HttpURLConnection: our established http connection
+     * @throws IOException: if the connection can't be established, an IOException is thrown
+     */
+    private HttpURLConnection getConnection(URL url) throws IOException {
+        Proxy proxy = Proxy.NO_PROXY;
+        if (Property.isProxySet()) {
+            SocketAddress addr = new InetSocketAddress(Property.getProxyHost(), Property.getProxyPort());
+            proxy = new Proxy(Proxy.Type.HTTP, addr);
+        }
+        return (HttpURLConnection) url.openConnection(proxy);
     }
 
     /**

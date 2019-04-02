@@ -3,6 +3,8 @@ package unit;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
@@ -31,7 +33,7 @@ public class ReporterTest {
     private File file;
 
     @BeforeMethod
-    public void createFile() throws InvalidBrowserException {
+    public void createFile() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         reporter = new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                 null);
         directory = new File("directory");
@@ -45,13 +47,13 @@ public class ReporterTest {
     }
 
     @Test
-    public void constructorNullTest() throws InvalidBrowserException {
+    public void constructorNullTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         // just verify no errors are thrown
         new Reporter(null, null, null, null, null, null, null, null, null);
     }
 
     @Test
-    public void setupFileFreshTest() throws InvalidBrowserException {
+    public void setupFileFreshTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         new Reporter("somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File file = new File("somenewdir", "file.html");
         assertTrue(file.exists());
@@ -60,7 +62,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void setupFileTest() throws InvalidBrowserException {
+    public void setupFileTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         assertNotEquals(file.length(), 0);
         assertTrue(directory.exists());
         assertTrue(file.exists());
@@ -151,6 +153,51 @@ public class ReporterTest {
     }
 
     @Test
+    public void recordScreenshot() throws IOException {
+        reporter.recordScreenshot();
+        assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td></td>\n    <td><br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>CHECK</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void recordActionPass() throws IOException {
+        reporter.pass("my check", 0, "actual", 0);
+        assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected my check</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void recordActionPassWait() throws IOException {
+        reporter.pass("my check", 5, "actual", 2);
+        assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>Waiting up to 5.0 seconds my check</td>\n    <td>Expected my check</td>\n    <td>After waiting for 2.0 seconds, actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void recordActionFail() throws IOException {
+        reporter.fail("my check", 0, "actual", 0);
+        assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected my check</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
+    }
+
+    @Test
+    public void recordActionFailWait() throws IOException {
+        reporter.fail("my check", 5, "actual", 2);
+        assertNotEquals(file.length(), 0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>Waiting up to 5.0 seconds my check</td>\n    <td>Expected my check</td>\n    <td>After waiting for 2.0 seconds, actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
+    }
+
+    @Test
     public void recordActionSuccess() throws IOException {
         reporter.pass("my action", "expected", "actual");
         assertNotEquals(file.length(), 0);
@@ -178,7 +225,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void recordActionBadFile() throws InvalidBrowserException {
+    public void recordActionBadFile() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         Reporter reporter =
                 new Reporter("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
@@ -571,7 +618,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void generatePDFTest() throws InvalidBrowserException {
+    public void generatePDFTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         Reporter reporter =
                 new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");

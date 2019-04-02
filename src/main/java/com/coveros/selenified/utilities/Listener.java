@@ -21,6 +21,7 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.utilities.Reporter.Success;
@@ -45,7 +46,7 @@ import static com.coveros.selenified.utilities.Property.BROWSER;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 3/29/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
@@ -189,10 +190,14 @@ public class Listener extends TestListenerAdapter {
                 tags.add(tag);
             }
             json.add("tags", tags);
-            HTTP http =
-                    new HTTP("https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
-                            Sauce.getSauceKey());
-            http.put(sessionId, new Request().setJsonPayload(json), null);
+            try {
+                HTTP http = new HTTP("https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
+                        Sauce.getSauceKey());
+                http.put(sessionId, new Request().setJsonPayload(json), null);
+            } catch (InvalidHubException e) {
+                log.error("Unable to connect to sauce, due to credential problems");
+            }
+
         }
     }
 }

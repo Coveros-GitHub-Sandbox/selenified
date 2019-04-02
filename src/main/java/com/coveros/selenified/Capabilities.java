@@ -22,6 +22,8 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Sauce;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -57,7 +59,7 @@ import static com.coveros.selenified.utilities.Property.HEADLESS;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/20/2019
+ * @lastupdate 3/29/2019
  */
 public class Capabilities {
 
@@ -69,7 +71,7 @@ public class Capabilities {
      * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
      * passed in from the command line
      */
-    public Capabilities(Browser browser) throws InvalidBrowserException {
+    public Capabilities(Browser browser) throws InvalidBrowserException, InvalidProxyException {
         if (browser == null) {
             throw new InvalidBrowserException("A valid browser was not provided");
         }
@@ -78,7 +80,7 @@ public class Capabilities {
         setDesiredCapabilities();
     }
 
-    private void setDesiredCapabilities() {
+    private void setDesiredCapabilities() throws InvalidProxyException {
         if (browser.getName() == BrowserName.NONE) {
             return;
         }
@@ -169,7 +171,7 @@ public class Capabilities {
      * Obtains the set system values for the proxy, and adds them to the desired
      * desiredCapabilities
      */
-    public void setupProxy() {
+    public void setupProxy() throws InvalidProxyException {
         // are we running through a proxy
         if (Property.isProxySet()) {
             // set the proxy information
@@ -265,7 +267,7 @@ public class Capabilities {
         return driver;
     }
 
-    private List<String> getBrowserOptions() {
+    private List<String> getBrowserOptions() throws InvalidBrowserOptionsException {
         ArrayList<String> browserOptions = new ArrayList<>();
         if (Property.areOptionsSet()) {
             browserOptions = new ArrayList(Arrays.asList(Property.getOptions().split("\\s*,\\s*")));

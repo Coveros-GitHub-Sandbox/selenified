@@ -21,7 +21,10 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import org.testng.ITestContext;
 import org.testng.log4testng.Logger;
 
@@ -41,9 +44,11 @@ import java.util.Properties;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/22/2019
+ * @lastupdate 3/29/2019
  */
 public class Property {
+
+    private static final String PROXY_ISNT_SET = "Proxy isn't set";
 
     private Property() {
     }
@@ -69,7 +74,7 @@ public class Property {
      */
     private static String getProgramProperty(String property) {
         if (System.getProperty(property) != null) {
-            return System.getProperty(property);
+            return System.getProperty(property).trim();
         }
         Properties prop = new Properties();
         try (InputStream input = new FileInputStream(SELENIFIED)) {
@@ -77,7 +82,11 @@ public class Property {
         } catch (IOException e) {
             log.info(e);
         }
-        return prop.getProperty(property);
+        String fullProperty = prop.getProperty(property);
+        if (fullProperty != null) {
+            fullProperty = fullProperty.trim();
+        }
+        return fullProperty;
     }
 
     /**
@@ -129,11 +138,12 @@ public class Property {
      *
      * @return String: the set hub address, null if none are set
      */
-    public static String getHub() {
-        if (!isHubSet()) {
-            return null;
+    public static String getHub() throws InvalidHubException {
+        String hub = getProgramProperty(HUB);
+        if (hub == null || "".equals(hub)) {
+            throw new InvalidHubException("Hub isn't set");
         }
-        return getProgramProperty(HUB);
+        return hub;
     }
 
     /**
@@ -153,11 +163,29 @@ public class Property {
      *
      * @return String: the set proxy address, null if none are set
      */
-    public static String getProxy() {
-        if (!isProxySet()) {
-            return null;
+    public static String getProxy() throws InvalidProxyException {
+        String proxy = getProgramProperty(PROXY);
+        if (proxy == null) {
+            throw new InvalidProxyException(PROXY_ISNT_SET);
         }
-        return getProgramProperty(PROXY);
+        String[] proxyParts = proxy.split(":");
+        if (proxyParts.length != 2) {
+            throw new InvalidProxyException("Proxy '" + proxy + "' isn't valid. Must contain address and port, without protocol");
+        }
+        try {
+            Integer.parseInt(proxyParts[1]);
+        } catch (NumberFormatException e) {
+            throw new InvalidProxyException("Proxy '" + proxy + "' isn't valid. Must contain address and port, without protocol. Invalid port provided. " + e);
+        }
+        return proxy;
+    }
+
+    public static String getProxyHost() throws InvalidProxyException {
+        return getProxy().split(":")[0];
+    }
+
+    public static int getProxyPort() throws InvalidProxyException {
+        return Integer.parseInt(getProxy().split(":")[1]);
     }
 
 
@@ -175,8 +203,7 @@ public class Property {
      * @return String: the URL of the application under test
      */
     public static String getAppURL(String clazz, ITestContext context) throws InvalidHTTPException {
-        String appURL = null;
-        appURL = checkAppURL(appURL, (String) context.getAttribute(clazz + APP_URL), "The provided app via test case setup '");
+        String appURL = checkAppURL(null, (String) context.getAttribute(clazz + APP_URL), "The provided app via test case setup '");
         Properties prop = new Properties();
         try (InputStream input = new FileInputStream(SELENIFIED)) {
             prop.load(input);
@@ -185,7 +212,7 @@ public class Property {
         }
         appURL = checkAppURL(appURL, prop.getProperty(APP_URL), "The provided app via Properties file '");
         appURL = checkAppURL(appURL, System.getProperty(APP_URL), "The provided app via System Properties '");
-        if (appURL != null && !"http://".equals(appURL)) {
+        if (appURL != null) {
             return appURL;
         }
         throw new InvalidHTTPException("There was not a valid app provided to test. Please properly set the 'appURL'");
@@ -261,10 +288,11 @@ public class Property {
      *
      * @return String: the options, null if none are set
      */
-    public static String getOptions() {
-        if (!areOptionsSet()) {
-            return null;
+    public static String getOptions() throws InvalidBrowserOptionsException {
+        String options = getProgramProperty(OPTIONS);
+        if (options == null || "".equals(options)) {
+            throw new InvalidBrowserOptionsException("Browser options aren't set");
         }
-        return getProgramProperty(OPTIONS);
+        return options;
     }
 }

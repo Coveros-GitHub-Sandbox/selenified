@@ -3,6 +3,8 @@ package unit;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
 import com.google.common.base.Charsets;
@@ -28,7 +30,7 @@ public class ResponseTest {
     private File file;
 
     @BeforeMethod
-    public void createFile() throws InvalidBrowserException {
+    public void createFile() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         reporter =
                 new Reporter("directory", "file", new Capabilities(new Browser("None")), null, null, null, null, null, null);
         directory = new File("directory");
@@ -60,7 +62,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void checkNewResponseFileMessageTest() throws InvalidBrowserException {
+    public void checkNewResponseFileMessageTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         Response response = new Response(
                 new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null));

@@ -41,9 +41,9 @@ node {
                     junit 'results/unit/target/surefire-reports/TEST-*.xml'
                 }
             }
-            parallel(
-                    "Execute Local Tests": {
-                        wrap([$class: 'Xvfb']) {
+            wrap([$class: 'Xvfb']) {
+                parallel(
+                        "Execute Local Tests": {
                             stage('Execute HTMLUnit Tests') {
                                 try {
                                     // commenting out coveros tests, as site is too slow to run properly in htmlunit
@@ -57,35 +57,60 @@ node {
                                     junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
                                 }
                             }
-                            stage('Execute Chrome Tests') {
+                        },
+                        "Execute Dependency Check": {
+                            stage('Execute Dependency Check') {
                                 try {
-                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dfailsafe.groups.exclude="service" -DgeneratePDF'
+                                    sh 'sleep 60'
+                                    sh 'mvn verify -Dskip.unit.tests -Dskip.integration.tests'
                                 } catch (e) {
                                     throw e
                                 } finally {
-                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                                    sh "mkdir -p results/chrome; mv target results/chrome/"
-                                    archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
-                                    junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
+                                    sh "mv target/dependency-check-report.* ."
+                                    archiveArtifacts artifacts: 'dependency-check-report.html'
+                                    dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
                                 }
                             }
-                        }
-                    },
-                    "Execute Dependency Check": {
-                        stage('Execute Dependency Check') {
-                            try {
-                                sh 'sleep 60'
-                                sh 'mvn verify -Dskip.unit.tests -Dskip.integration.tests'
-                            } catch (e) {
-                                throw e
-                            } finally {
-                                sh "mv target/dependency-check-report.* ."
-                                archiveArtifacts artifacts: 'dependency-check-report.html'
-                                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
-                            }
+                        },
+                )
+                try {
+                    stage('Start ZAP') {
+                        startZap(
+                                host: "localhost",
+                                port: 9092,
+                                zapHome: "/var/lib/zap"
+                        )
+                    }
+                    stage('Execute Chrome Tests Through Proxy') {
+                        try {
+                            sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https" -DgeneratePDF'
+                        } catch (e) {
+                            throw e
+                        } finally {
+                            sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                            sh "mkdir -p results/chrome; mv target results/chrome/"
+                            archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
+                            junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
                         }
                     }
-            )
+                } finally {
+                    stage('Get ZAP Results') {
+                        sh 'mkdir -p results/zap'
+                        sh 'wget -q -O results/zap/report.html http://localhost:9092/OTHER/core/other/htmlreport'
+                        sh 'wget -q -O results/zap/report.xml http://localhost:9092/OTHER/core/other/xmlreport'
+                        archiveArtifacts artifacts: 'results/zap/**'
+                        publishHTML([
+                                allowMissing         : false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll              : true,
+                                reportDir            : 'results/zap',
+                                reportFiles          : 'report.html',
+                                reportName           : 'ZAP Report'
+                        ])
+                        archiveZap()
+                    }
+                }
+            }
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
