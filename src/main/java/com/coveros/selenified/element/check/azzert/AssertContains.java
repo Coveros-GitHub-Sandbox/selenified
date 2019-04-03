@@ -27,7 +27,7 @@ import com.coveros.selenified.utilities.Reporter;
 import java.util.Arrays;
 import java.util.Set;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 import static org.testng.AssertJUnit.*;
 
 /**

@@ -2,6 +2,7 @@ package integration;
 
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Request;
+import com.coveros.selenified.services.Response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.annotations.Test;
@@ -9,6 +10,8 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.testng.Assert.assertNull;
 
 public class ServicesIT extends ServicesBase {
 
@@ -22,7 +25,7 @@ public class ServicesIT extends ServicesBase {
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions
-        call.get("sample/").assertEquals(200);
+        call.get("sample/").verify().equals(200);
         // verify no issues
         finish();
     }
@@ -37,7 +40,7 @@ public class ServicesIT extends ServicesBase {
         headers.put("Accept", "no-check");
         call.addHeaders(headers);
         // perform some actions
-        call.get("sample/").assertEquals(200);
+        call.get("sample/").verify().equals(200);
         // verify no issues
         finish();
     }
@@ -50,7 +53,7 @@ public class ServicesIT extends ServicesBase {
         //set some custom credentials
         call.addCredentials("hello", "world");
         // perform some actions
-        call.get("sample/").assertEquals(200);
+        call.get("sample/").verify().equals(200);
         // verify no issues
         finish();
     }
@@ -70,9 +73,10 @@ public class ServicesIT extends ServicesBase {
         headers.put("Content-Type", "application/xml");
         call.addHeaders(headers);
         // perform some actions
-        call.post("posts/", new Request().setJsonPayload(request)).assertEquals(201);
-        // verify 2 issues
-        finish(2);
+        Response response = call.post("posts/", new Request().setJsonPayload(request));
+        assertNull(response);
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "service", "headers"},
@@ -81,7 +85,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request(), new File("Jenkins")).assertEquals(200);
+        call.post("post/4", new Request(), new File("Jenkins")).verify().equals(200);
         // verify no issues
         finish();
     }
@@ -94,7 +98,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").assertEquals(200);
+        call.get("posts/").verify().equals(200);
         // verify no issues
         finish();
     }
@@ -107,7 +111,7 @@ public class ServicesIT extends ServicesBase {
         // perform some actions
         Map<String, Object> params = new HashMap<>();
         params.put("id", 4);
-        call.get("posts/", new Request().setUrlParams(params)).assertEquals(200);
+        call.get("posts/", new Request().setUrlParams(params)).verify().equals(200);
         // verify no issues
         finish();
     }
@@ -118,7 +122,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").assertEquals(200);
+        call.get("posts/?id=4").verify().equals(200);
         // verify no issues
         finish();
     }
@@ -134,7 +138,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").assertEquals(json);
+        call.get("posts/").verify().equals(json);
         // verify no issues
         finish();
     }
@@ -150,7 +154,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").assertEquals(json.toString());
+        call.get("posts/").verify().equals(json.toString());
         // verify no issues
         finish();
     }
@@ -163,7 +167,7 @@ public class ServicesIT extends ServicesBase {
         // perform some actions
         Map<String, Object> params = new HashMap<>();
         params.put("id", 4);
-        call.get("posts/", new Request().setUrlParams(params)).assertEquals(json4);
+        call.get("posts/", new Request().setUrlParams(params)).verify().equals(json4);
         // verify no issues
         finish();
     }
@@ -176,7 +180,7 @@ public class ServicesIT extends ServicesBase {
         // perform some actions
         Map<String, Object> params = new HashMap<>();
         params.put("id", 4);
-        call.get("posts/", new Request().setUrlParams(params)).assertEquals(json4.toString());
+        call.get("posts/", new Request().setUrlParams(params)).verify().equals(json4.toString());
         // verify no issues
         finish();
     }
@@ -187,7 +191,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").assertEquals(json4);
+        call.get("posts/?id=4").verify().equals(json4);
         // verify no issues
         finish();
     }
@@ -198,7 +202,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").assertEquals(json4.toString());
+        call.get("posts/?id=4").verify().equals(json4.toString());
         // verify no issues
         finish();
     }
@@ -209,7 +213,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("null/").assertEquals("We encountered an error, no page was found");
+        call.get("null/").verify().equals("We encountered an error, no page was found");
         // verify no issues
         finish();
     }
@@ -222,7 +226,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request()).assertEquals(200);
+        call.post("post/4", new Request()).verify().equals(200);
         // verify no issues
         finish();
     }
@@ -235,7 +239,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request().setUrlParams(params)).assertEquals(simJson4);
+        call.post("post/4", new Request().setUrlParams(params)).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -246,7 +250,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request()).assertEquals(simJson4);
+        call.post("post/4", new Request()).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -257,7 +261,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request().setJsonPayload(null)).assertEquals(simJson4);
+        call.post("post/4", new Request().setJsonPayload(null)).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -268,7 +272,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals(simJson4);
+        call.post("post/4", new Request().setJsonPayload(new JsonObject())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -279,7 +283,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals(simJson4);
+        call.post("post/4", new Request().setJsonPayload(new JsonArray())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -290,7 +294,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        call.post("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -303,7 +307,7 @@ public class ServicesIT extends ServicesBase {
         // perform some actions
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
-        call.post("post/4", new Request().setMultipartData(map)).assertEquals(simJson4);
+        call.post("post/4", new Request().setMultipartData(map)).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -315,7 +319,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.post("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -327,7 +331,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.post("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -341,7 +345,7 @@ public class ServicesIT extends ServicesBase {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
-        call.post("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        call.post("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -356,7 +360,7 @@ public class ServicesIT extends ServicesBase {
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.post("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -371,7 +375,7 @@ public class ServicesIT extends ServicesBase {
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.post("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -382,7 +386,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals(simJson4);
+        call.post("post/4", new Request().setUrlParams(new HashMap<>())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -393,7 +397,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("post/4", new Request(), new File("Jenkinsfile")).assertEquals(simJson4);
+        call.post("post/4", new Request(), new File("Jenkinsfile")).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -405,7 +409,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.post("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -417,7 +421,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.post("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -429,7 +433,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.post("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -441,7 +445,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.post("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -452,7 +456,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("null/", new Request()).assertEquals("We encountered an error, no page was found");
+        call.post("null/", new Request()).verify().equals("We encountered an error, no page was found");
         // verify no issues
         finish();
     }
@@ -465,7 +469,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request()).assertEquals(200);
+        call.put("post/4", new Request()).verify().equals(200);
         // verify no issues
         finish();
     }
@@ -478,7 +482,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setUrlParams(params)).assertEquals("");
+        call.put("post/4", new Request().setUrlParams(params)).verify().equals("");
         // verify no issues
         finish();
     }
@@ -489,7 +493,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request()).assertEquals("");
+        call.put("post/4", new Request()).verify().equals("");
         // verify no issues
         finish();
     }
@@ -500,7 +504,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals("");
+        call.put("post/4", new Request().setJsonPayload(new JsonObject())).verify().equals("");
         // verify no issues
         finish();
     }
@@ -511,7 +515,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals("");
+        call.put("post/4", new Request().setJsonPayload(new JsonArray())).verify().equals("");
         // verify no issues
         finish();
     }
@@ -522,7 +526,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals("");
+        call.put("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals("");
         // verify no issues
         finish();
     }
@@ -535,7 +539,7 @@ public class ServicesIT extends ServicesBase {
         // perform some actions
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
-        call.put("post/4", new Request().setMultipartData(map)).assertEquals("");
+        call.put("post/4", new Request().setMultipartData(map)).verify().equals("");
         // verify no issues
         finish();
     }
@@ -547,7 +551,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.put("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals("");
+                .verify().equals("");
         // verify no issues
         finish();
     }
@@ -559,7 +563,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.put("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals("");
+                .verify().equals("");
         // verify no issues
         finish();
     }
@@ -573,7 +577,7 @@ public class ServicesIT extends ServicesBase {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
-        call.put("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals("");
+        call.put("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals("");
         // verify no issues
         finish();
     }
@@ -588,7 +592,7 @@ public class ServicesIT extends ServicesBase {
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.put("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals("");
+                .verify().equals("");
         // verify no issues
         finish();
     }
@@ -603,7 +607,7 @@ public class ServicesIT extends ServicesBase {
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.put("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals("");
+                .verify().equals("");
         // verify no issues
         finish();
     }
@@ -614,7 +618,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals("");
+        call.put("post/4", new Request().setUrlParams(new HashMap<>())).verify().equals("");
         // verify no issues
         finish();
     }
@@ -625,7 +629,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request(), new File("Jenkinsfile")).assertEquals("");
+        call.put("post/4", new Request(), new File("Jenkinsfile")).verify().equals("");
         // verify no issues
         finish();
     }
@@ -636,7 +640,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile")).assertEquals("");
+        call.put("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile")).verify().equals("");
         // verify no issues
         finish();
     }
@@ -647,7 +651,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile")).assertEquals("");
+        call.put("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile")).verify().equals("");
         // verify no issues
         finish();
     }
@@ -658,7 +662,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile")).assertEquals("");
+        call.put("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile")).verify().equals("");
         // verify no issues
         finish();
     }
@@ -669,7 +673,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile")).assertEquals("");
+        call.put("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile")).verify().equals("");
         // verify no issues
         finish();
     }
@@ -680,7 +684,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("null/", new Request()).assertEquals("We encountered an error, no page was found");
+        call.put("null/", new Request()).verify().equals("We encountered an error, no page was found");
         // verify no issues
         finish();
     }
@@ -693,7 +697,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4", new Request()).assertEquals(200);
+        call.delete("post/4", new Request()).verify().equals(200);
         // verify no issues
         finish();
     }
@@ -704,7 +708,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4").assertEquals(simJson4);
+        call.delete("post/4").verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -717,7 +721,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4", new Request().setUrlParams(params)).assertEquals(simJson4);
+        call.delete("post/4", new Request().setUrlParams(params)).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -728,7 +732,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4", new Request()).assertEquals(simJson4);
+        call.delete("post/4", new Request()).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -739,7 +743,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4", new Request().setJsonPayload(new JsonObject())).assertEquals(simJson4);
+        call.delete("post/4", new Request().setJsonPayload(new JsonObject())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -750,7 +754,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4", new Request().setJsonPayload(new JsonArray())).assertEquals(simJson4);
+        call.delete("post/4", new Request().setJsonPayload(new JsonArray())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -761,7 +765,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        call.delete("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -774,7 +778,7 @@ public class ServicesIT extends ServicesBase {
         // perform some actions
         Map<String, Object> map = new HashMap<>();
         map.put("hello", "world");
-        call.delete("post/4", new Request().setMultipartData(map)).assertEquals(simJson4);
+        call.delete("post/4", new Request().setMultipartData(map)).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -786,7 +790,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.delete("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -798,7 +802,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.delete("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -812,7 +816,7 @@ public class ServicesIT extends ServicesBase {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
-        call.delete("post/4", new Request().setMultipartData(new HashMap<>())).assertEquals(simJson4);
+        call.delete("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -827,7 +831,7 @@ public class ServicesIT extends ServicesBase {
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.delete("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -842,7 +846,7 @@ public class ServicesIT extends ServicesBase {
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.delete("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -853,7 +857,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4", new Request().setUrlParams(new HashMap<>())).assertEquals(simJson4);
+        call.delete("post/4", new Request().setUrlParams(new HashMap<>())).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -864,7 +868,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("post/4", new Request(), new File("Jenkinsfile")).assertEquals(simJson4);
+        call.delete("post/4", new Request(), new File("Jenkinsfile")).verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -876,7 +880,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.delete("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -888,7 +892,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.delete("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -900,7 +904,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.delete("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -912,7 +916,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         call.delete("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile"))
-                .assertEquals(simJson4);
+                .verify().equals(simJson4);
         // verify no issues
         finish();
     }
@@ -923,7 +927,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("null/", new Request()).assertEquals("We encountered an error, no page was found");
+        call.delete("null/", new Request()).verify().equals("We encountered an error, no page was found");
         // verify no issues
         finish();
     }

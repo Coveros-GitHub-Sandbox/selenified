@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.element.check;
+package com.coveros.selenified.utilities;
 
 /**
  * Constants simply holds constant variables to be used through out the application for checks
@@ -77,6 +77,12 @@ public class Constants {
     public static final String DOES_NOT_MATCH_PATTERN = "' doesn't match pattern '";
     public static final String DOES_NOT_CONTAIN = "' doesn't contain '";
     public static final String EXPECTED_ELEMENT_NOT_PRESENT = "Expected Element Not Present";
+
+    public static final String EXPECTED_TO_FIND = "Expected to find a response of: ";
+    public static final String FOUND = "Found a response of: ";
+    public static final String STARTI = "'<i>";
+    public static final String ENDI = "</i>'";
+    public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
 
     private Constants() {
     }

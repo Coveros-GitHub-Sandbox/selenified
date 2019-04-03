@@ -66,7 +66,8 @@ public class Reporter {
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
-    private static final String END_IDIV = "</i></div>";
+    public static final String DIV_I = "<div><i>";
+    public static final String END_IDIV = "</i></div>";
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
     private final String url;
@@ -821,7 +822,7 @@ public class Reporter {
         StringBuilder output = new StringBuilder();
         if (params != null && params.isPayload()) {
             output.append("<br/> with parameters: ");
-            output.append("<div><i>");
+            output.append(DIV_I);
             if (params.getJsonPayload() != null) {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 output.append(gson.toJson(params.getJsonPayload()));
@@ -855,7 +856,7 @@ public class Reporter {
         }
         StringBuilder output = new StringBuilder();
         if (response.isData()) {
-            output.append("<div><i>");
+            output.append(DIV_I);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             if (response.getArrayData() != null) {
                 output.append(gson.toJson(response.getArrayData()));
@@ -881,6 +882,21 @@ public class Reporter {
             return "";
         }
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
+    }
+
+    public static String formatKeyPair(Map<String, Object> keyPairs) {
+        if( keyPairs == null ) {
+            return "";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<String, Object> entry : keyPairs.entrySet()) {
+            stringBuilder.append("<div>");
+            stringBuilder.append(entry.getKey());
+            stringBuilder.append(" : ");
+            stringBuilder.append(Reporter.formatHTML(String.valueOf(entry.getValue())));
+            stringBuilder.append("</div>");
+        }
+        return stringBuilder.toString();
     }
 
     /**

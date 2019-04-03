@@ -29,7 +29,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Arrays;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * WaitForEquals implements Equals to provide some additional wait capabilities.

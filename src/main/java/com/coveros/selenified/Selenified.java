@@ -383,9 +383,9 @@ public class Selenified {
         } else {
             this.apps.set(null);
         }
-        HTTP http = new HTTP(Property.getAppURL(extClass, test), getServiceUserCredential(extClass, test),
+        HTTP http = new HTTP(reporter, Property.getAppURL(extClass, test), getServiceUserCredential(extClass, test),
                 getServicePassCredential(extClass, test));
-        Call call = new Call(http, reporter, getExtraHeaders(extClass, test));
+        Call call = new Call(http, getExtraHeaders(extClass, test));
         this.calls.set(call);
 
         this.browserThreadLocal.set(browser);

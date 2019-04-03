@@ -20,7 +20,10 @@
 
 package com.coveros.selenified.services;
 
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.services.Call.Method;
 import com.coveros.selenified.utilities.Property;
+import com.coveros.selenified.utilities.Reporter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -52,6 +55,7 @@ public class HTTP {
 
     private static final String CONTENT_TYPE = "Content-Type";
 
+    private final Reporter reporter;
     private final String serviceBaseUrl;
     private String user = "";
     private String pass = "";
@@ -63,9 +67,11 @@ public class HTTP {
      * Instantiates a HTTP session for making web service calls without any
      * authentication
      *
+     * @param reporter       - the output file to write everything to
      * @param serviceBaseUrl - the base url of the services location
      */
-    public HTTP(String serviceBaseUrl) {
+    public HTTP(Reporter reporter, String serviceBaseUrl) {
+        this.reporter = reporter;
         this.serviceBaseUrl = serviceBaseUrl;
     }
 
@@ -73,11 +79,13 @@ public class HTTP {
      * Instantiates a HTTP session for making web service calls with basic
      * username/password authentication
      *
+     * @param reporter       - the output file to write everything to
      * @param serviceBaseUrl - the base url of the services location
      * @param user           - the username required for authentication
      * @param pass           - the password required for authentication
      */
-    public HTTP(String serviceBaseUrl, String user, String pass) {
+    public HTTP(Reporter reporter, String serviceBaseUrl, String user, String pass) {
+        this.reporter = reporter;
         this.serviceBaseUrl = serviceBaseUrl;
         this.user = user;
         this.pass = pass;
@@ -110,6 +118,15 @@ public class HTTP {
     public void addCredentials(String user, String pass) {
         this.user = user;
         this.pass = pass;
+    }
+
+    /**
+     * Retrieves the reporter set in the HTTP object, to be used for custom logging
+     *
+     * @return Reporter
+     */
+    public Reporter getReporter() {
+        return reporter;
     }
 
     /**
@@ -159,8 +176,8 @@ public class HTTP {
      *                call
      * @return Response: the response provided from the http call
      */
-    public Response get(String service, Request request) {
-        return call("GET", service, request, null);
+    public Response get(String service, Request request) throws IOException {
+        return call(Method.GET, service, request, null);
     }
 
     /**
@@ -172,11 +189,11 @@ public class HTTP {
      * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response post(String service, Request request, File file) {
+    public Response post(String service, Request request, File file) throws IOException {
         if (file != null) {
             this.contentType = MULTIPART + BOUNDARY;
         }
-        return call("POST", service, request, file);
+        return call(Method.POST, service, request, file);
     }
 
     /**
@@ -188,11 +205,11 @@ public class HTTP {
      * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response put(String service, Request request, File file) {
+    public Response put(String service, Request request, File file) throws IOException {
         if (file != null) {
             this.contentType = MULTIPART + BOUNDARY;
         }
-        return call("PUT", service, request, file);
+        return call(Method.PUT, service, request, file);
     }
 
     /**
@@ -204,11 +221,11 @@ public class HTTP {
      * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response delete(String service, Request request, File file) {
+    public Response delete(String service, Request request, File file) throws IOException {
         if (file != null) {
             this.contentType = MULTIPART + BOUNDARY;
         }
-        return call("DELETE", service, request, file);
+        return call(Method.DELETE, service, request, file);
     }
 
     /**
@@ -249,51 +266,38 @@ public class HTTP {
     /**
      * A basic generic http call
      *
-     * @param call    - what method are we calling
+     * @param method  - what method are we calling
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
      * @param file    - is there a file to upload as well
      * @return Response: the response provided from the http call
      */
-    private Response call(String call, String service, Request request, File file) {
+    private Response call(Method method, String service, Request request, File file) throws IOException {
         HttpURLConnection connection = null;
-        try {
-            URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
-            connection = getConnection(url);
-            connection.setRequestMethod(call);
-            setupHeaders(connection);
-            if (useCredentials()) {
-                String userpass = user + ":" + pass;
-                String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
-                connection.setRequestProperty("Authorization", "Basic " + encoding);
-            }
-            connection.connect();
-            if ((request != null && request.isPayload()) || file != null) {
-                if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data") ||
-                        (request != null && request.getMultipartData() != null) || file != null) {
-                    writeMultipartDataRequest(connection, request, file);
-                } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json")) {
-                    writeJsonDataRequest(connection, request);
-                } else {
-                    throw new IOException("Content-Type '" + connection.getRequestProperty(CONTENT_TYPE) +
-                            "' not currently supported by Selenified. Current supported types are " +
-                            "'application/json' and 'multipart/form-data'.");
-                }
-            }
-            return getResponse(connection);
-        } catch (IOException e) {
-            log.error(e);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception e) {
-                    log.error(e);
-                }
+        URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
+        connection = getConnection(url);
+        connection.setRequestMethod(method.toString());
+        setupHeaders(connection);
+        if (useCredentials()) {
+            String userpass = user + ":" + pass;
+            String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
+            connection.setRequestProperty("Authorization", "Basic " + encoding);
+        }
+        connection.connect();
+        if ((request != null && request.isPayload()) || file != null) {
+            if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data") ||
+                    (request != null && request.getMultipartData() != null) || file != null) {
+                writeMultipartDataRequest(connection, request, file);
+            } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json")) {
+                writeJsonDataRequest(connection, request);
+            } else {
+                throw new InvalidHTTPException("Content-Type '" + connection.getRequestProperty(CONTENT_TYPE) +
+                        "' not currently supported by Selenified. Current supported types are " +
+                        "'application/json' and 'multipart/form-data'.");
             }
         }
-        return null;
+        return getResponse(connection);
     }
 
     /**
@@ -388,10 +392,9 @@ public class HTTP {
             log.error(e);
             return null;
         }
-        Response response = new Response(status);
-        JsonObject object;
-        JsonArray array;
-        String data;
+        JsonObject object = null;
+        JsonArray array = null;
+        String data = null;
         BufferedReader rd = null;
         // unable to use the try-with-resources block, as the rd needs to be read in the finally, and can't be closed
         try {
@@ -420,22 +423,19 @@ public class HTTP {
                     log.error(e);
                 }
                 data = sb.toString();
-                response.setMessage(data);
                 JsonParser parser = new JsonParser();
                 try {
                     object = (JsonObject) parser.parse(data);
-                    response.setObjectData(object);
                 } catch (JsonSyntaxException | ClassCastException e) {
                     log.debug(e);
                     try {
                         array = (JsonArray) parser.parse(data);
-                        response.setArrayData(array);
                     } catch (JsonSyntaxException | ClassCastException ee) {
                         log.debug(ee);
                     }
                 }
             }
         }
-        return response;
+        return new Response(reporter, status, object, array, data);
     }
 }

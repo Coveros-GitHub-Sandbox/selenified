@@ -33,6 +33,7 @@ import org.testng.TestListenerAdapter;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
+import java.io.IOException;
 
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.Selenified.SESSION_ID;
@@ -191,11 +192,13 @@ public class Listener extends TestListenerAdapter {
             }
             json.add("tags", tags);
             try {
-                HTTP http = new HTTP("https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
+                HTTP http = new HTTP(null, "https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
                         Sauce.getSauceKey());
                 http.put(sessionId, new Request().setJsonPayload(json), null);
             } catch (InvalidHubException e) {
                 log.error("Unable to connect to sauce, due to credential problems");
+            } catch (IOException e) {
+                log.error(e);
             }
 
         }

@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * Contains extends Check to provide some additional checking
