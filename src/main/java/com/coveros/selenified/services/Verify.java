@@ -28,7 +28,10 @@ import com.google.gson.JsonObject;
 import java.util.Map;
 
 /**
- * A class designed to hold data provided from the HTTP calls.
+ * Verify will handle all verifications performed on the actual web services
+ * calls themselves. These asserts are custom to the framework, and in addition to
+ * providing easy object oriented capabilities, they assist in
+ * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
  * @version 3.2.0
@@ -76,8 +79,7 @@ public class Verify implements Check {
 
     /**
      * Verifies the actual response code is equals to the expected response
-     * code, and writes that out to the output file. If this fails, the code will
-     * immediately exit, and record the error.
+     * code, and writes that out to the output file.
      *
      * @param expectedCode - the expected response code
      */
@@ -88,8 +90,7 @@ public class Verify implements Check {
 
     /**
      * Verifies the actual response json payload is equal to the expected
-     * response json payload, and writes that out to the output file. If this fails, the code will
-     * immediately exit, and record the error.
+     * response json payload, and writes that out to the output file.
      *
      * @param expectedJson - the expected response json object
      */
@@ -100,8 +101,7 @@ public class Verify implements Check {
 
     /**
      * Verifies the actual response json payload is equal to the expected
-     * response json payload, and writes that out to the output file. If this fails, the code will
-     * immediately exit, and record the error.
+     * response json payload, and writes that out to the output file.
      *
      * @param expectedJson - the expected response json array
      */
@@ -112,8 +112,7 @@ public class Verify implements Check {
 
     /**
      * Verifies the actual response payload is equal to the expected
-     * response payload, and writes that out to the output file. If this fails, the code will
-     * immediately exit, and record the error.
+     * response payload, and writes that out to the output file.
      *
      * @param expectedMessage - the expected response message
      */
@@ -124,8 +123,7 @@ public class Verify implements Check {
 
     /**
      * Verifies the actual response json payload contains each of the pair
-     * values provided, and writes that to the output file. If this fails, the code will
-     * immediately exit, and record the error.
+     * values provided, and writes that to the output file.
      *
      * @param expectedPairs a hashmap with string key value pairs expected in the json
      *                      response
@@ -137,8 +135,7 @@ public class Verify implements Check {
 
     /**
      * Verifies the actual response json payload contains to the expected json
-     * element, and writes that out to the output file. If this fails, the code will
-     * immediately exit, and record the error.
+     * element, and writes that out to the output file.
      *
      * @param expectedJson - the expected response json array
      */
@@ -149,8 +146,7 @@ public class Verify implements Check {
 
     /**
      * Verifies the actual response json payload contains to the expected json
-     * element, and writes that out to the output file. If this fails, the code will
-     * immediately exit, and record the error.
+     * element, and writes that out to the output file.
      *
      * @param expectedMessage - the expected response json array
      */

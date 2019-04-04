@@ -31,7 +31,10 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 /**
- * A class designed to hold data provided from the HTTP calls.
+ * Assert will handle all verifications performed on the actual web services
+ * calls themselves. These asserts are custom to the framework, and in addition to
+ * providing easy object oriented capabilities, they assist in
+ * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
  * @version 3.2.0

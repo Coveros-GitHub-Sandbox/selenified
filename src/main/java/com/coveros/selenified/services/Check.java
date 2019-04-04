@@ -30,7 +30,10 @@ import static com.coveros.selenified.utilities.Reporter.DIV_I;
 import static com.coveros.selenified.utilities.Reporter.END_IDIV;
 
 /**
- * A class designed to hold data provided from the HTTP calls.
+ * Check will handle all verifications performed on the actual web services
+ * calls themselves. These asserts are custom to the framework, and in addition to
+ * providing easy object oriented capabilities, they assist in
+ * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
  * @version 3.2.0
