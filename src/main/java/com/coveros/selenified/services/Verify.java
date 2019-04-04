@@ -84,6 +84,7 @@ public class Verify implements Check {
      * @param expectedCode - the expected response code
      */
     @Override
+    @SuppressWarnings("squid:S1201")
     public void equals(int expectedCode) {
         checkEquals(expectedCode);
     }
@@ -95,6 +96,7 @@ public class Verify implements Check {
      * @param expectedJson - the expected response json object
      */
     @Override
+    @SuppressWarnings("squid:S1201")
     public void equals(JsonObject expectedJson) {
         checkEquals(expectedJson);
     }
@@ -106,6 +108,7 @@ public class Verify implements Check {
      * @param expectedJson - the expected response json array
      */
     @Override
+    @SuppressWarnings("squid:S1201")
     public void equals(JsonArray expectedJson) {
         checkEquals(expectedJson);
     }
@@ -117,6 +120,7 @@ public class Verify implements Check {
      * @param expectedMessage - the expected response message
      */
     @Override
+    @SuppressWarnings("squid:S1201")
     public void equals(String expectedMessage) {
         checkEquals(expectedMessage);
     }

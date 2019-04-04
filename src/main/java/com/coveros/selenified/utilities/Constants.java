@@ -20,6 +20,9 @@
 
 package com.coveros.selenified.utilities;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 /**
  * Constants simply holds constant variables to be used through out the application for checks
  *
@@ -82,8 +85,11 @@ public class Constants {
     public static final String FOUND = "Found a response of: ";
     public static final String STARTI = "'<i>";
     public static final String ENDI = "</i>'";
+    public static final String DIV_I = "<div><i>";
+    public static final String END_IDIV = "</i></div>";
     public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
 
-    private Constants() {
-    }
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    private Constants() {}
 }

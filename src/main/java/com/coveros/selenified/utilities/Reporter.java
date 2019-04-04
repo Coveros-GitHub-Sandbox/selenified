@@ -47,6 +47,9 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static com.coveros.selenified.utilities.Constants.DIV_I;
+import static com.coveros.selenified.utilities.Constants.END_IDIV;
+
 /**
  * A custom output file, recording all details of every step performed, both
  * actions and app. Actions, expected results, and actual results are captured.
@@ -66,8 +69,7 @@ public class Reporter {
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
-    public static final String DIV_I = "<div><i>";
-    public static final String END_IDIV = "</i></div>";
+
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
     private final String url;

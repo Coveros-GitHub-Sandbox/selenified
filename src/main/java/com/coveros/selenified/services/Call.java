@@ -37,7 +37,6 @@ import java.util.Map;
  * @lastupdate 4/4/2019
  */
 public class Call {
-    private static final Logger log = Logger.getLogger(Call.class);
 
     // this will be the name of the file we write all commands out to
     private final Reporter reporter;

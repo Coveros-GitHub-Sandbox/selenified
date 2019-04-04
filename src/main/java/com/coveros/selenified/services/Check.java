@@ -26,8 +26,6 @@ import com.google.gson.*;
 import java.util.Map;
 
 import static com.coveros.selenified.utilities.Constants.*;
-import static com.coveros.selenified.utilities.Reporter.DIV_I;
-import static com.coveros.selenified.utilities.Reporter.END_IDIV;
 
 /**
  * Check will handle all verifications performed on the actual web services
@@ -40,8 +38,6 @@ import static com.coveros.selenified.utilities.Reporter.END_IDIV;
  * @lastupdate 4/4/2019
  */
 public interface Check {
-
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
      * Retrieves the output file that we write all details out to
@@ -106,6 +102,7 @@ public interface Check {
      *
      * @param expectedCode - the expected response code
      */
+    @SuppressWarnings("squid:S1201")
     void equals(int expectedCode);
 
     /**
@@ -130,6 +127,7 @@ public interface Check {
      *
      * @param expectedJson - the expected response json object
      */
+    @SuppressWarnings("squid:S1201")
     void equals(JsonObject expectedJson);
 
     /**
@@ -146,9 +144,9 @@ public interface Check {
             pass = actualJson.equals(expectedJson);
         }
         if (pass) {
-            getReporter().pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(gson.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            getReporter().pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
         } else {
-            getReporter().fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(gson.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            getReporter().fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
         }
         return actualJson;
     }
@@ -159,6 +157,7 @@ public interface Check {
      *
      * @param expectedJson - the expected response json array
      */
+    @SuppressWarnings("squid:S1201")
     void equals(JsonArray expectedJson);
 
     /**
@@ -175,9 +174,9 @@ public interface Check {
             pass = actualJson.equals(expectedJson);
         }
         if (pass) {
-            getReporter().pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(gson.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            getReporter().pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
         } else {
-            getReporter().fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(gson.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            getReporter().fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
         }
         return actualJson;
     }
@@ -188,6 +187,7 @@ public interface Check {
      *
      * @param expectedMessage - the expected response message
      */
+    @SuppressWarnings("squid:S1201")
     void equals(String expectedMessage);
 
     /**
@@ -268,10 +268,10 @@ public interface Check {
         }
         if (pass) {
             getReporter().pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
-                    DIV_I + Reporter.formatHTML(gson.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+                    DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
         } else {
             getReporter().fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
-                    DIV_I + Reporter.formatHTML(gson.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+                    DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
         }
         return pass;
     }

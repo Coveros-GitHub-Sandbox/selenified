@@ -30,6 +30,8 @@ import java.util.Map;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import static com.coveros.selenified.utilities.Constants.GSON;
+
 /**
  * Assert will handle all verifications performed on the actual web services
  * calls themselves. These asserts are custom to the framework, and in addition to
@@ -88,6 +90,7 @@ public class Assert implements Check {
      * @param expectedCode - the expected response code
      */
     @Override
+    @SuppressWarnings("squid:S1201")
     public void equals(int expectedCode) {
         assertEquals("Code Mismatch", expectedCode, checkEquals(expectedCode));
     }
@@ -100,6 +103,7 @@ public class Assert implements Check {
      * @param expectedJson - the expected response json object
      */
     @Override
+    @SuppressWarnings("squid:S1201")
     public void equals(JsonObject expectedJson) {
         assertEquals("JsonObject Response Mismatch", expectedJson, checkEquals(expectedJson));
     }
@@ -112,6 +116,7 @@ public class Assert implements Check {
      * @param expectedJson - the expected response json array
      */
     @Override
+    @SuppressWarnings("squid:S1201")
     public void equals(JsonArray expectedJson) {
         assertEquals("JsonArray Response Mismatch", expectedJson, checkEquals(expectedJson));
     }
@@ -123,7 +128,9 @@ public class Assert implements Check {
      *
      * @param expectedMessage - the expected response message
      */
+
     @Override
+    @SuppressWarnings("squid:S1201")
     public void equals(String expectedMessage) {
         assertEquals("Response Message Mismatch", expectedMessage, checkEquals(expectedMessage));
     }
@@ -150,7 +157,7 @@ public class Assert implements Check {
      */
     @Override
     public void contains(JsonElement expectedJson) {
-        assertTrue("Expected to find " + gson.toJson(expectedJson), checkContains(expectedJson));
+        assertTrue("Expected to find " + GSON.toJson(expectedJson), checkContains(expectedJson));
     }
 
     /**
