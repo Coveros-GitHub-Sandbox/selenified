@@ -29,7 +29,7 @@ import com.google.gson.JsonObject;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/20/2019
+ * @lastupdate 4/4/2019
  */
 public class Response {
 

@@ -37,7 +37,7 @@ import static com.coveros.selenified.utilities.Reporter.END_IDIV;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/20/2019
+ * @lastupdate 4/4/2019
  */
 public interface Check {
 

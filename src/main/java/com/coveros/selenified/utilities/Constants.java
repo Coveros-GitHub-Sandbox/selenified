@@ -25,7 +25,7 @@ package com.coveros.selenified.utilities;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/7/2019
+ * @lastupdate 4/4/2019
  */
 public class Constants {
 

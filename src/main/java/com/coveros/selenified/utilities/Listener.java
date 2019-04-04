@@ -47,7 +47,7 @@ import static com.coveros.selenified.utilities.Property.BROWSER;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/29/2019
+ * @lastupdate 4/4/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
