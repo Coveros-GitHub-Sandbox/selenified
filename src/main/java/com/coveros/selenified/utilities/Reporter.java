@@ -26,6 +26,7 @@ import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
+import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.google.gson.Gson;
@@ -531,14 +532,18 @@ public class Reporter {
             out.write("    color:green;\n");
             out.write(boldFont);
             out.write(endBracket3);
+            out.write("   .indent {\n");
+            out.write("    position:relative;\n");
+            out.write("    left:10px;\n");
+            out.write(endBracket3);
             out.write("  </style>\n");
             out.write("  <script type='text/javascript'>\n");
-            out.write("   function toggleImage( imageName ) {\n");
+            out.write("   function toggle( imageName ) {\n");
             out.write("    var element = document.getElementById( imageName );\n");
             out.write("    element.src = location.href.match(/^.*\\//) + imageName;\n");
             out.write("    element.style.display = (element.style.display != 'none' ? 'none' : '' );\n");
             out.write(endBracket3);
-            out.write("   function displayImage( imageName ) {\n");
+            out.write("   function display( imageName ) {\n");
             out.write("    window.open( location.href.match(/^.*\\//) + imageName )\n");
             out.write(endBracket3);
             out.write("   function toggleVis(col_no, do_show) {\n");
@@ -775,19 +780,25 @@ public class Reporter {
      * html file
      */
     private String generateImageLink(String imageName) {
-        String imageLink = "<br/>";
+        StringBuilder imageLink = new StringBuilder("<br/>");
         if (imageName.length() >= directory.length() + 1) {
-            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\"" +
-                    imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
-            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\"" +
-                    imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
-            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
-                    imageName.substring(directory.length() + 1) + "' width='" + EMBEDDED_IMAGE_WIDTH +
-                    "px' style='display:none;'></img>";
+            imageLink.append("<a href='javascript:void(0)' onclick='toggle(\"").
+                    append(imageName.substring(directory.length() + 1)).
+                    append("\")'>Toggle Screenshot Thumbnail</a>");
+            imageLink.append(" <a href='javascript:void(0)' onclick='display(\"").
+                    append(imageName.substring(directory.length() + 1)).
+                    append("\")'>View Screenshot Fullscreen</a>");
+            imageLink.append("<br/><img id='").
+                    append(imageName.substring(directory.length() + 1)).
+                    append("' border='1px' src='").
+                    append(imageName.substring(directory.length() + 1)).
+                    append("' width='").
+                    append(EMBEDDED_IMAGE_WIDTH).
+                    append("px' style='display:none;'></img>");
         } else {
-            imageLink += "<b><font class='fail'>No Image Preview</font></b>";
+            imageLink.append("<b><font class='fail'>No Image Preview</font></b>");
         }
-        return imageLink;
+        return imageLink.toString();
     }
 
     /**
@@ -796,9 +807,7 @@ public class Reporter {
      * @return String: the name of the image file as a PNG
      */
     private String generateImageName() {
-        long timeInSeconds = new Date().getTime();
-        String randomChars = TestCase.getRandomString(10);
-        return directory + "/" + timeInSeconds + "_" + randomChars + ".png";
+        return directory + "/" + getUUID() + ".png";
     }
 
     /**
@@ -809,10 +818,6 @@ public class Reporter {
         lastTime = startTime;
     }
 
-    ///////////////////////////////////////////////////////////////////
-    // some comparisons for our services
-    ///////////////////////////////////////////////////////////////////
-
     /**
      * Formats the request parameters to be 'prettily' printed out in HTML
      *
@@ -820,30 +825,34 @@ public class Reporter {
      *               hashmap
      * @return String: a 'prettily' formatted string that is HTML safe to output
      */
-    public static String outputRequestProperties(Request params, File file) {
-        StringBuilder output = new StringBuilder();
-        if (params != null && params.isPayload()) {
-            output.append("<br/> with parameters: ");
-            output.append(DIV_I);
-            if (params.getJsonPayload() != null) {
+    public static String getRequestPayloadOutput(Request params, File file) {
+        StringBuilder payload = new StringBuilder();
+        if ((params != null && params.isPayload()) || file != null) {
+            String uuid = getUUID();
+            payload.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Payload</a> ");
+            payload.append("<span id='").append(uuid).append("' style='display:none;'>");
+            if (params != null && params.getJsonPayload() != null) {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                output.append(gson.toJson(params.getJsonPayload()));
+                payload.append("<div>");
+                payload.append(formatHTML(gson.toJson(params.getJsonPayload())));
+                payload.append("</div>");
             }
-            if (params.getMultipartData() != null) {
+            if (params != null && params.getMultipartData() != null) {
                 for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
-                    output.append("<div>");
-                    output.append(entry.getKey());
-                    output.append(" : ");
-                    output.append(entry.getValue());
-                    output.append("</div>");
+                    payload.append("<div>");
+                    payload.append(entry.getKey());
+                    payload.append(" : ");
+                    payload.append(entry.getValue());
+                    payload.append("</div>");
                 }
             }
-            output.append(END_IDIV);
+            if (file != null) {
+                payload.append("<div> with file: <a href='file:///").append(file.getAbsoluteFile()).append("'>").append(file.getName()).append("</a></div>");
+            }
+            payload.append("</span>");
         }
-        if (file != null) {
-            output.append("<div> with file: <i>").append(file.getAbsoluteFile()).append(END_IDIV);
-        }
-        return formatHTML(output.toString());
+
+        return payload.toString();
     }
 
     /**
@@ -886,8 +895,15 @@ public class Reporter {
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
     }
 
+    /**
+     * From an object map passed in, building a key value set, properly html
+     * formatted for used in reporting
+     *
+     * @param keyPairs - the key value set
+     * @return String: an html formatting string
+     */
     public static String formatKeyPair(Map<String, Object> keyPairs) {
-        if( keyPairs == null ) {
+        if (keyPairs == null) {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -899,6 +915,53 @@ public class Reporter {
             stringBuilder.append("</div>");
         }
         return stringBuilder.toString();
+    }
+
+    /**
+     * Looks for the simple login credentials, username and password, and if
+     * they are both set, turns that into a string which will be formatted for
+     * HTML to be printed into the output file
+     *
+     * @return String: an HTML formatted string with the username and password -
+     * if they are both set
+     */
+    public static String getCredentialStringOutput(HTTP http) {
+        StringBuilder credentials = new StringBuilder();
+        if (http.useCredentials()) {
+            String uuid = getUUID();
+            credentials.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Credentials</a> ");
+            credentials.append("<span id='").append(uuid).append("' style='display:none;'>");
+            credentials.append("<div><i>");
+            credentials.append("Username: ");
+            credentials.append(http.getUser());
+            credentials.append("</div><div>");
+            credentials.append("Password: ");
+            credentials.append(http.getPass());
+            credentials.append("</i></div>");
+            credentials.append("</span>");
+        }
+        return credentials.toString();
+    }
+
+    public static String getRequestHeadersOutput(HTTP http) {
+        StringBuilder requestHeaders = new StringBuilder();
+        String uuid = getUUID();
+        requestHeaders.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Headers</a> ");
+        requestHeaders.append("<span id='").append(uuid).append("' style='display:none;'>");
+        requestHeaders.append(formatKeyPair(http.getHeaders()));
+        requestHeaders.append("</span>");
+        return requestHeaders.toString();
+    }
+
+    /**
+     * Generates a unique id
+     *
+     * @return String: a random string with timestamp
+     */
+    public static String getUUID() {
+        long timeInSeconds = new Date().getTime();
+        String randomChars = TestCase.getRandomString(10);
+        return timeInSeconds + "_" + randomChars;
     }
 
     /**

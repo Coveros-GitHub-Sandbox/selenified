@@ -23,7 +23,6 @@ package com.coveros.selenified.services;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
 import com.coveros.selenified.exceptions.InvalidReporterException;
 import com.coveros.selenified.utilities.Reporter;
-import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class Call {
 
     protected enum Method {GET, POST, PUT, DELETE}
 
-    public Call(HTTP http, Map<String, String> headers) throws InvalidHTTPException, InvalidReporterException {
+    public Call(HTTP http, Map<String, Object> headers) throws InvalidHTTPException, InvalidReporterException {
         if (http == null) {
             throw new InvalidHTTPException("Need to provide a valid HTTP to make calls against");
         } else {
@@ -68,7 +67,7 @@ public class Call {
      *
      * @param headers - the key-value pair of headers to set
      */
-    public void addHeaders(Map<String, String> headers) {
+    public void addHeaders(Map<String, Object> headers) {
         http.addHeaders(headers);
     }
 
@@ -227,8 +226,11 @@ public class Call {
         action.append("</i> call to <i>");
         action.append(http.getServiceBaseUrl()).append(endpoint).append(http.getRequestParams(params));
         action.append("</i>");
-        action.append(getCredentialString());
-        action.append(Reporter.outputRequestProperties(params, inputFile));
+        action.append("<div class='indent'>");
+        action.append(Reporter.getCredentialStringOutput(http));
+        action.append(Reporter.getRequestHeadersOutput(http));
+        action.append(Reporter.getRequestPayloadOutput(params, inputFile));
+        action.append("</div>");
         String expected = "<i>" + method + "</i> call was made successfully";
         Response response = null;
         try {
@@ -251,28 +253,5 @@ public class Call {
             reporter.fail(action.toString(), expected, "<i>" + method + "</i> call failed. " + e.getMessage());
         }
         return response;
-    }
-
-    /**
-     * Looks for the simple login credentials, username and password, and if
-     * they are both set, turns that into a string which will be formatted for
-     * HTML to be printed into the output file
-     *
-     * @return String: an HTML formatted string with the username and password -
-     * if they are both set
-     */
-    public String getCredentialString() {
-        StringBuilder credentials = new StringBuilder();
-        if (http.useCredentials()) {
-            credentials.append("<br/> with credentials: ");
-            credentials.append("<div><i>");
-            credentials.append("Username: ");
-            credentials.append(http.getUser());
-            credentials.append("</div><div>");
-            credentials.append("Password: ");
-            credentials.append(http.getPass());
-            credentials.append("</i></div>");
-        }
-        return credentials.toString();
     }
 }

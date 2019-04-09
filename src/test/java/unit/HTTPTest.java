@@ -121,4 +121,66 @@ public class HTTPTest {
         HTTP http = new HTTP(null, "");
         assertEquals(http.getServiceBaseUrl(), "");
     }
+
+    @Test
+    public void getHeadersDefaultTest() {
+        HTTP http = new HTTP(null, "");
+        Map<String, String> map = new HashMap<>();
+        map.put("Accept", "application/json");
+        map.put("Content-length", "0");
+        map.put("Content-Type", "application/json; charset=UTF-8");
+        assertEquals(http.getHeaders(), map);
+    }
+
+    @Test
+    public void getHeadersExtraTest() {
+        HTTP http = new HTTP(null, "");
+        Map<String, Object> map = new HashMap<>();
+        map.put("Accept", "application/json");
+        map.put("Content-length", "0");
+        map.put("Content-Type", "application/json; charset=UTF-8");
+        map.put("Age", 1234);
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("Age", 1234);
+        http.addHeaders(headers);
+        assertEquals(http.getHeaders(), map);
+    }
+
+    @Test
+    public void getHeadersOverrideTest() {
+        HTTP http = new HTTP(null, "");
+        Map<String, String> map = new HashMap<>();
+        map.put("Accept", "application/xml");
+        map.put("Content-length", "0");
+        map.put("Content-Type", "application/json; charset=UTF-8");
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("Accept", "application/xml");
+        http.addHeaders(headers);
+        assertEquals(http.getHeaders(), map);
+    }
+
+    @Test
+    public void addHeadersDefaultTest() {
+        HTTP http = new HTTP(null, "");
+        Map<String, String> map = new HashMap<>();
+        map.put("Accept", "application/json");
+        map.put("Content-length", "0");
+        map.put("Content-Type", "application/json; charset=UTF-8");
+        http.addHeaders(new HashMap<>());
+        assertEquals(http.getHeaders(), map);
+    }
+
+    @Test
+    public void addHeadersResetTest() {
+        HTTP http = new HTTP(null, "");
+        Map<String, String> map = new HashMap<>();
+        map.put("Accept", "application/json");
+        map.put("Content-length", "0");
+        map.put("Content-Type", "application/json; charset=UTF-8");
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("Accept", "application/xml");
+        http.addHeaders(headers);
+        http.resetHeaders();
+        assertEquals(http.getHeaders(), map);
+    }
 }

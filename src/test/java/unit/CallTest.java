@@ -9,9 +9,11 @@ import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.utilities.Reporter;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.HashMap;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class CallTest {
 
@@ -42,28 +44,5 @@ public class CallTest {
     @Test
     public void constructorTest() throws InvalidHTTPException, InvalidReporterException {
         new Call(http, new HashMap<>());
-    }
-
-    @Test
-    public void appendCredentialsNull() throws InvalidHTTPException, InvalidReporterException {
-        Call call = new Call(http, new HashMap<>());
-        assertEquals(call.getCredentialString(), "");
-    }
-
-    @Test
-    public void appendCredentials() throws InvalidHTTPException, InvalidReporterException {
-        HTTP http = new HTTP(reporter, "SomeURL", "User", "Pass");
-        Call call = new Call(http, new HashMap<>());
-        assertEquals(call.getCredentialString(),
-                "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");
-    }
-
-    @Test
-    public void addCredentials() throws InvalidHTTPException, InvalidReporterException {
-        HTTP http = new HTTP(reporter, "SomeURL");
-        Call call = new Call(http, new HashMap<>());
-        call.addCredentials("User", "Pass");
-        assertEquals(call.getCredentialString(),
-                "<br/> with credentials: <div><i>Username: User</div><div>Password: Pass</i></div>");
     }
 }

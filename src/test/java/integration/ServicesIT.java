@@ -21,7 +21,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         //set some custom headers
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions
@@ -36,7 +36,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         //set some custom headers
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Accept", "no-check");
         call.addHeaders(headers);
         // perform some actions
@@ -69,7 +69,7 @@ public class ServicesIT extends ServicesBase {
         Call call = this.calls.get();
         // set some custom headers
         // as application/xml is not currently supported, the initial post call will also fail
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "application/xml");
         call.addHeaders(headers);
         // perform some actions
@@ -342,7 +342,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.post("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals(simJson4);
@@ -356,7 +356,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.post("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
@@ -371,7 +371,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.post("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
@@ -574,7 +574,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.put("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals("");
@@ -588,7 +588,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.put("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
@@ -603,7 +603,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.put("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
@@ -813,7 +813,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.delete("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals(simJson4);
@@ -827,7 +827,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.delete("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
@@ -842,7 +842,7 @@ public class ServicesIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data;");
         call.addHeaders(headers);
         call.delete("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
