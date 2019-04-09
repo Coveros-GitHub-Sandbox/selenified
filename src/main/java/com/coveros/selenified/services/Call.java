@@ -231,7 +231,7 @@ public class Call {
         action.append(Reporter.getRequestHeadersOutput(http));
         action.append(Reporter.getRequestPayloadOutput(params, inputFile));
         action.append("</div>");
-        String expected = "<i>" + method + "</i> call was made successfully";
+        String expected = "<i>" + method + "</i> call was performed";
         Response response = null;
         try {
             switch (method) {
@@ -248,7 +248,13 @@ public class Call {
                     response = http.delete(endpoint, params, inputFile);
                     break;
             }
-            reporter.pass(action.toString(), expected, expected);
+            String actual = expected;
+            actual += "<div class='indent'>";
+            actual += Reporter.getResponseHeadersOutput(response);
+            actual += Reporter.getResponseCodeOutput(response);
+            actual += Reporter.getResponseOutput(response);
+            actual += "</div>";
+            reporter.pass(action.toString(), expected, actual);
         } catch (Exception e) {
             reporter.fail(action.toString(), expected, "<i>" + method + "</i> call failed. " + e.getMessage());
         }

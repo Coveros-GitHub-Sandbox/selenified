@@ -266,6 +266,11 @@ public class HTTP {
         return params.toString();
     }
 
+    /**
+     * Setups up the header and basic connection information
+     *
+     * @param connection - the connection to add headers to
+     */
     private void setupHeaders(HttpURLConnection connection) {
         for (Map.Entry<String, Object> entry : getHeaders().entrySet()) {
             connection.setRequestProperty(entry.getKey(), String.valueOf(entry.getValue()));
@@ -287,9 +292,8 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     private Response call(Method method, String service, Request request, File file) throws IOException {
-        HttpURLConnection connection;
         URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
-        connection = getConnection(url);
+        HttpURLConnection connection = getConnection(url);
         connection.setRequestMethod(method.toString());
         setupHeaders(connection);
         if (useCredentials()) {
@@ -399,8 +403,10 @@ public class HTTP {
     @SuppressWarnings({"squid:S3776", "squid:S2093"})
     private Response getResponse(HttpURLConnection connection) {
         int status;
+        Map headers;
         try {
             status = connection.getResponseCode();
+            headers = connection.getHeaderFields();
         } catch (IOException e) {
             log.error(e);
             return null;
@@ -449,6 +455,6 @@ public class HTTP {
                 }
             }
         }
-        return new Response(reporter, status, object, array, data);
+        return new Response(reporter, headers, status, object, array, data);
     }
 }

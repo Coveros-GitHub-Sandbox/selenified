@@ -12,25 +12,25 @@ public class ResponseTest {
 
     @Test
     public void defaultIsDataTest() {
-        Response response = new Response(null, 0, null, null, null);
+        Response response = new Response(null, null, 0, null, null, null);
         assertFalse(response.isData());
     }
 
     @Test
     public void IsDataObjectTest() {
-        Response response = new Response(null, 0, new JsonObject(), null, null);
+        Response response = new Response(null, null, 0, new JsonObject(), null, null);
         assertTrue(response.isData());
     }
 
     @Test
     public void IsDataArrayTest() {
-        Response response = new Response(null, 0, null, new JsonArray(), null);
+        Response response = new Response(null, null, 0, null, new JsonArray(), null);
         assertTrue(response.isData());
     }
 
     @Test
     public void IsDataBothTest() {
-        Response response = new Response(null, 0, new JsonObject(), new JsonArray(), null);
+        Response response = new Response(null, null, 0, new JsonObject(), new JsonArray(), null);
         assertTrue(response.isData());
     }
 }

@@ -922,6 +922,7 @@ public class Reporter {
      * they are both set, turns that into a string which will be formatted for
      * HTML to be printed into the output file
      *
+     * @param http - the http object that is making the call
      * @return String: an HTML formatted string with the username and password -
      * if they are both set
      */
@@ -943,6 +944,13 @@ public class Reporter {
         return credentials.toString();
     }
 
+    /**
+     * Takes the headers set in the HTTP request, and writes them to the output
+     * file, in properly HTML formatted fashion
+     *
+     * @param http - the http object that is making the call
+     * @return String: an HTML formatted string with headers
+     */
     public static String getRequestHeadersOutput(HTTP http) {
         StringBuilder requestHeaders = new StringBuilder();
         String uuid = getUUID();
@@ -951,6 +959,57 @@ public class Reporter {
         requestHeaders.append(formatKeyPair(http.getHeaders()));
         requestHeaders.append("</span>");
         return requestHeaders.toString();
+    }
+
+    /**
+     * Takes the headers returned in the HTTP response, and writes them to the output
+     * file, in properly HTML formatted fashion
+     *
+     * @param response - the response object obtained from the call
+     * @return String: an HTML formatted string with headers
+     */
+    public static String getResponseHeadersOutput(Response response) {
+        StringBuilder responseHeaders = new StringBuilder();
+        String uuid = getUUID();
+        responseHeaders.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Headers</a> ");
+        responseHeaders.append("<span id='").append(uuid).append("' style='display:none;'>");
+        responseHeaders.append(formatKeyPair(response.getHeaders()));
+        responseHeaders.append("</span>");
+        return responseHeaders.toString();
+    }
+
+    /**
+     * Takes the response code returned in the HTTP response, and writes them to the output
+     * file, in properly HTML formatted fashion
+     *
+     * @param response - the response object obtained from the call
+     * @return String: an HTML formatted string with headers
+     */
+    public static String getResponseCodeOutput(Response response) {
+        StringBuilder responseOutput = new StringBuilder();
+        String uuid = getUUID();
+        responseOutput.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Response Code</a> ");
+        responseOutput.append("<span id='").append(uuid).append("' style='display:none;'>");
+        responseOutput.append("<br/>").append(response.getCode()).append("<br/>");
+        responseOutput.append("</span>");
+        return responseOutput.toString();
+    }
+
+    /**
+     * Takes the response returned from the HTTP call, and writes it to the output
+     * file, in properly HTML formatted fashion
+     *
+     * @param response - the response object obtained from the call
+     * @return String: an HTML formatted string with headers
+     */
+    public static String getResponseOutput(Response response) {
+        StringBuilder responseOutput = new StringBuilder();
+        String uuid = getUUID();
+        responseOutput.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Response</a> ");
+        responseOutput.append("<span id='").append(uuid).append("' style='display:none;'>");
+        responseOutput.append("<br/>").append(response.getMessage()).append("<br/>");
+        responseOutput.append("</span>");
+        return responseOutput.toString();
     }
 
     /**

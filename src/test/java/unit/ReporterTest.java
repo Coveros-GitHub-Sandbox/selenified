@@ -533,14 +533,14 @@ public class ReporterTest {
 
     @Test
     public void formatResponseNullNullTest() {
-        Response response = new Response(null, 0, null, null, null);
+        Response response = new Response(null, null, 0, null, null, null);
         assertEquals(Reporter.formatResponse(response), "");
     }
 
     @Test
     public void formatResponseEmptyObjectTest() {
         JsonObject json = new JsonObject();
-        Response response = new Response(null, 0, json, null, null);
+        Response response = new Response(null, null, 0, json, null, null);
         assertEquals(Reporter.formatResponse(response), "<div><i>{}</i></div>");
     }
 
@@ -548,7 +548,7 @@ public class ReporterTest {
     public void formatRequestObjectTest() {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
-        Response response = new Response(null, 0, json, null, null);
+        Response response = new Response(null, null, 0, json, null, null);
         assertEquals(Reporter.formatResponse(response),
                 "<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
@@ -556,7 +556,7 @@ public class ReporterTest {
     @Test
     public void formatResponseEmptyArrayTest() {
         JsonArray json = new JsonArray();
-        Response response = new Response(null, 0, null, json, null);
+        Response response = new Response(null, null, 0, null, json, null);
         assertEquals(Reporter.formatResponse(response), "<div><i>[]</i></div>");
     }
 
@@ -564,7 +564,7 @@ public class ReporterTest {
     public void formatResponseArrayTest() {
         JsonArray json = new JsonArray();
         json.add("world");
-        Response response = new Response(null, 0, null, json, null);
+        Response response = new Response(null, null, 0, null, json, null);
         assertEquals(Reporter.formatResponse(response), "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]</i></div>");
     }
 
@@ -574,7 +574,7 @@ public class ReporterTest {
         array.add("world");
         JsonObject object = new JsonObject();
         object.addProperty("hello", "world");
-        Response response = new Response(null, 0, object, array, null);
+        Response response = new Response(null, null, 0, object, array, null);
         assertEquals(Reporter.formatResponse(response),
                 "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
@@ -721,4 +721,6 @@ public class ReporterTest {
         String requestHeadersOutput = Reporter.getRequestHeadersOutput(http);
         assertTrue(requestHeadersOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Headers</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>Accept : application/json</div><div>Content-length : 0</div><div>Content-Type : application/json;&nbsp;charset=UTF-8</div></span>"));
     }
+
+    //TODO - need 3 response output methods tested
 }
