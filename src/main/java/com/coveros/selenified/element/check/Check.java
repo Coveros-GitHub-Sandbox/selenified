@@ -25,7 +25,7 @@ import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * Check will handle all verifications performed on the actual element. These

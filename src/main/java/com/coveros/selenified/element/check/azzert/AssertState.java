@@ -24,7 +24,7 @@ import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.State;
 import com.coveros.selenified.utilities.Reporter;
 
-import static com.coveros.selenified.element.check.Constants.EXPECTED_ELEMENT_NOT_PRESENT;
+import static com.coveros.selenified.utilities.Constants.EXPECTED_ELEMENT_NOT_PRESENT;
 import static org.testng.AssertJUnit.assertTrue;
 
 /**

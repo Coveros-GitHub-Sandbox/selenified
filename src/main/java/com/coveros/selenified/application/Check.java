@@ -22,7 +22,7 @@ package com.coveros.selenified.application;
 
 import com.coveros.selenified.utilities.Reporter;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * Assert will handle all verifications performed on the actual application

@@ -34,10 +34,9 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/20/2019
+ * @lastupdate 4/4/2019
  */
 public class Call {
-    private static final Logger log = Logger.getLogger(Call.class);
 
     // this will be the name of the file we write all commands out to
     private final Reporter reporter;
@@ -45,22 +44,18 @@ public class Call {
     // what services will we be interacting with
     private final HTTP http;
 
-    // constants
-    private static final String GET = "GET";
-    private static final String POST = "POST";
-    private static final String PUT = "PUT";
-    private static final String DELETE = "DELETE";
+    protected enum Method {GET, POST, PUT, DELETE}
 
-    public Call(HTTP http, Reporter reporter, Map<String, String> headers) throws InvalidHTTPException, InvalidReporterException {
+    public Call(HTTP http, Map<String, String> headers) throws InvalidHTTPException, InvalidReporterException {
         if (http == null) {
             throw new InvalidHTTPException("Need to provide a valid HTTP to make calls against");
         } else {
             this.http = http;
         }
-        if (reporter == null) {
+        if (http.getReporter() == null) {
             throw new InvalidReporterException("Need to provide a valid reporter for logging");
         } else {
-            this.reporter = reporter;
+            this.reporter = http.getReporter();
         }
         if (headers != null) {
             addHeaders(headers);
@@ -107,7 +102,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint) {
-        return call(GET, endpoint, null, null);
+        return call(Method.GET, endpoint, null, null);
     }
 
     /**
@@ -120,7 +115,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint, Request params) {
-        return call(GET, endpoint, params, null);
+        return call(Method.GET, endpoint, params, null);
     }
 
     /**
@@ -133,7 +128,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params) {
-        return call(POST, endpoint, params, null);
+        return call(Method.POST, endpoint, params, null);
     }
 
     /**
@@ -147,7 +142,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params, File file) {
-        return call(POST, endpoint, params, file);
+        return call(Method.POST, endpoint, params, file);
     }
 
     /**
@@ -160,7 +155,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params) {
-        return call(PUT, endpoint, params, null);
+        return call(Method.PUT, endpoint, params, null);
     }
 
     /**
@@ -174,7 +169,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params, File file) {
-        return call(PUT, endpoint, params, file);
+        return call(Method.PUT, endpoint, params, file);
     }
 
     /**
@@ -185,7 +180,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint) {
-        return call(DELETE, endpoint, null, null);
+        return call(Method.DELETE, endpoint, null, null);
     }
 
     /**
@@ -198,7 +193,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint, Request params) {
-        return call(DELETE, endpoint, params, null);
+        return call(Method.DELETE, endpoint, params, null);
     }
 
     /**
@@ -212,32 +207,32 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint, Request params, File file) {
-        return call(DELETE, endpoint, params, file);
+        return call(Method.DELETE, endpoint, params, file);
     }
 
     /**
      * Performs an http call and writes the call and response information to the
      * output file
      *
-     * @param call     - what http method call is being made. should be in all caps
+     * @param method     - what http method call is being made. should be in all caps
      * @param endpoint - the endpoint of the service under test
      * @param params   - the parameters to be passed to the endpoint for the service
      *                 call
      * @return Response: the response provided from the http call
      */
-    private Response call(String call, String endpoint, Request params, File inputFile) {
+    private Response call(Method method, String endpoint, Request params, File inputFile) {
         StringBuilder action = new StringBuilder();
         action.append("Making <i>");
-        action.append(call);
+        action.append(method.toString());
         action.append("</i> call to <i>");
         action.append(http.getServiceBaseUrl()).append(endpoint).append(http.getRequestParams(params));
         action.append("</i>");
         action.append(getCredentialString());
         action.append(Reporter.outputRequestProperties(params, inputFile));
-        String expected = "<i>" + call + "</i> call was made successfully";
-        Response response = new Response(reporter);
+        String expected = "<i>" + method + "</i> call was made successfully";
+        Response response = null;
         try {
-            switch (call) {
+            switch (method) {
                 case GET:
                     response = http.get(endpoint, params);
                     break;
@@ -250,17 +245,10 @@ public class Call {
                 case DELETE:
                     response = http.delete(endpoint, params, inputFile);
                     break;
-                default:
-                    log.error("Unknown method call named");
             }
-            response.setReporter(reporter);
             reporter.pass(action.toString(), expected, expected);
         } catch (Exception e) {
-            reporter.fail(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage());
-            log.warn(e);
-            response = new Response(0);
-            response.setReporter(reporter);
-            return response;
+            reporter.fail(action.toString(), expected, "<i>" + method + "</i> call failed. " + e.getMessage());
         }
         return response;
     }

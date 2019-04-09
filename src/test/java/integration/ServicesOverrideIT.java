@@ -16,7 +16,7 @@ public class ServicesOverrideIT extends ServicesBase {
     public void setupHeaders(ITestContext test) {
         // for this test, we want to change the default headers for each call
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/xml");
+        headers.put("Content-Type", "multipart/form-data");
         addHeaders(this, test, headers);
         // for this particular test, we want to set some bogus credentials
         setCredentials(this, test, "servicesUsername", "servicesPassword");
@@ -32,7 +32,7 @@ public class ServicesOverrideIT extends ServicesBase {
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions
-        call.get("posts/", new Request()).assertEquals(200);
+        call.get("posts/", new Request()).verify().equals(200);
         // verify no issues
         finish();
     }
@@ -47,9 +47,9 @@ public class ServicesOverrideIT extends ServicesBase {
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions - this will fail as application/xml isn't supported
-        call.post("posts/", new Request().setJsonPayload(new JsonObject())).assertEquals(201);
-        // verify 2 issues
-        finish(2);
+        call.post("posts/", new Request().setJsonPayload(new JsonObject())).verify().equals(201);
+        // verify one issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "service", "headers"},
@@ -63,7 +63,7 @@ public class ServicesOverrideIT extends ServicesBase {
         call.resetHeaders();
         call.addHeaders(headers);
         // perform some actions
-        call.get("posts/").assertEquals(200);
+        call.get("posts/").verify().equals(200);
         // verify no issues
         finish();
     }
@@ -76,7 +76,7 @@ public class ServicesOverrideIT extends ServicesBase {
         //set some custom credentials
         call.addCredentials("hello", "world");
         // perform some actions
-        call.get("posts/").assertEquals(200);
+        call.get("posts/").verify().equals(200);
         // verify no issues
         finish();
     }

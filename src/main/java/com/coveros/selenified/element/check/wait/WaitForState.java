@@ -27,7 +27,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.coveros.selenified.element.check.Constants.DEFAULT_POLLING_INTERVAL;
+import static com.coveros.selenified.utilities.Constants.DEFAULT_POLLING_INTERVAL;
 
 /**
  * WaitForState implements State to provide some additional wait capabilities.

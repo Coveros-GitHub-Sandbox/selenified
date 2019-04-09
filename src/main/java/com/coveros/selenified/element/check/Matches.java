@@ -20,7 +20,7 @@
 
 package com.coveros.selenified.element.check;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * Matches extends Check to provide some additional checking capabilities.

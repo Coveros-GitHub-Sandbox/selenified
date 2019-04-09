@@ -22,7 +22,7 @@ package com.coveros.selenified.application;
 
 import com.coveros.selenified.utilities.Reporter;
 
-import static com.coveros.selenified.element.check.Constants.DOES_NOT_MATCH_PATTERN;
+import static com.coveros.selenified.utilities.Constants.DOES_NOT_MATCH_PATTERN;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 

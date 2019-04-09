@@ -18,14 +18,17 @@
  * under the License.
  */
 
-package com.coveros.selenified.element.check;
+package com.coveros.selenified.utilities;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Constants simply holds constant variables to be used through out the application for checks
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/7/2019
+ * @lastupdate 4/4/2019
  */
 public class Constants {
 
@@ -78,6 +81,15 @@ public class Constants {
     public static final String DOES_NOT_CONTAIN = "' doesn't contain '";
     public static final String EXPECTED_ELEMENT_NOT_PRESENT = "Expected Element Not Present";
 
-    private Constants() {
-    }
+    public static final String EXPECTED_TO_FIND = "Expected to find a response of: ";
+    public static final String FOUND = "Found a response of: ";
+    public static final String STARTI = "'<i>";
+    public static final String ENDI = "</i>'";
+    public static final String DIV_I = "<div><i>";
+    public static final String END_IDIV = "</i></div>";
+    public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
+
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    private Constants() {}
 }

@@ -22,7 +22,7 @@ package com.coveros.selenified.element.check;
 
 import java.util.Arrays;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * Equals extends Check to provide some additional checking capabilities.

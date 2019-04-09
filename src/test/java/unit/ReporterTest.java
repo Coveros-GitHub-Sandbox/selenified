@@ -543,16 +543,14 @@ public class ReporterTest {
 
     @Test
     public void formatResponseNullNullTest() {
-        JsonObject json = new JsonObject();
-        Response response = new Response(0, json, null);
-        response.setObjectData(null);
+        Response response = new Response(null, 0, null, null, null);
         assertEquals(Reporter.formatResponse(response), "");
     }
 
     @Test
     public void formatResponseEmptyObjectTest() {
         JsonObject json = new JsonObject();
-        Response response = new Response(0, json, null);
+        Response response = new Response(null, 0, json, null, null);
         assertEquals(Reporter.formatResponse(response), "<div><i>{}</i></div>");
     }
 
@@ -560,7 +558,7 @@ public class ReporterTest {
     public void formatRequestObjectTest() {
         JsonObject json = new JsonObject();
         json.addProperty("hello", "world");
-        Response response = new Response(0, json, null);
+        Response response = new Response(null, 0, json, null, null);
         assertEquals(Reporter.formatResponse(response),
                 "<div><i>{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
@@ -568,7 +566,7 @@ public class ReporterTest {
     @Test
     public void formatResponseEmptyArrayTest() {
         JsonArray json = new JsonArray();
-        Response response = new Response(0, json, null);
+        Response response = new Response(null, 0, null, json, null);
         assertEquals(Reporter.formatResponse(response), "<div><i>[]</i></div>");
     }
 
@@ -576,7 +574,7 @@ public class ReporterTest {
     public void formatResponseArrayTest() {
         JsonArray json = new JsonArray();
         json.add("world");
-        Response response = new Response(0, json, null);
+        Response response = new Response(null, 0, null, json, null);
         assertEquals(Reporter.formatResponse(response), "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]</i></div>");
     }
 
@@ -584,10 +582,9 @@ public class ReporterTest {
     public void formatResponseBothTest() {
         JsonArray array = new JsonArray();
         array.add("world");
-        Response response = new Response(0, array, null);
         JsonObject object = new JsonObject();
         object.addProperty("hello", "world");
-        response.setObjectData(object);
+        Response response = new Response(null, 0, object, array, null);
         assertEquals(Reporter.formatResponse(response),
                 "<div><i>[<br/>&nbsp;&nbsp;\"world\"<br/>]{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>}</i></div>");
     }
@@ -668,5 +665,44 @@ public class ReporterTest {
     @Test(dataProvider = "ordinals")
     public void ordinalTest(int number, String output) {
         assertEquals(Reporter.ordinal(number), output);
+    }
+
+    @Test
+    public void formatKeyPairNullTest() {
+        assertEquals(Reporter.formatKeyPair(null), "");
+    }
+
+    @Test
+    public void formatKeyPairEmptyTest() {
+        assertEquals(Reporter.formatKeyPair(new HashMap<String, Object>()), "");
+    }
+
+    @Test
+    public void formatKeyPairSingleNullTest() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("hello", null);
+        assertEquals(Reporter.formatKeyPair(map), "<div>hello : null</div>");
+    }
+
+    @Test
+    public void formatKeyPairSingleJsonTest() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("hello", new JsonObject());
+        assertEquals(Reporter.formatKeyPair(map), "<div>hello : {}</div>");
+    }
+
+    @Test
+    public void formatKeyPairSingleTest() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("hello", "world");
+        assertEquals(Reporter.formatKeyPair(map), "<div>hello : world</div>");
+    }
+
+    @Test
+    public void formatKeyPairDoubleTest() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("hello", "world");
+        map.put("john", "smith");
+        assertEquals(Reporter.formatKeyPair(map), "<div>john : smith</div><div>hello : world</div>");
     }
 }

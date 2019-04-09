@@ -24,7 +24,7 @@ import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Matches;
 import com.coveros.selenified.utilities.Reporter;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
