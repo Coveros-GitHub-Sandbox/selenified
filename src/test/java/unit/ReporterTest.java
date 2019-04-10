@@ -385,7 +385,7 @@ public class ReporterTest {
     public void outputRequestPropertiesEmptyMultipartTest() {
         Request request = new Request().setMultipartData(new HashMap<>());
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, null);
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'></span>"));
+        assertEquals(requestPayloadOutput, "");
     }
 
     @Test
@@ -697,12 +697,17 @@ public class ReporterTest {
     }
 
     @Test
-    public void appendCredentialsNull() throws InvalidHTTPException, InvalidReporterException {
+    public void appendCredentialsNull() {
+        assertEquals(Reporter.getCredentialStringOutput(null), "");
+    }
+
+    @Test
+    public void appendCredentialsEmpty() {
         assertEquals(Reporter.getCredentialStringOutput(http), "");
     }
 
     @Test
-    public void appendCredentials() throws InvalidHTTPException, InvalidReporterException {
+    public void appendCredentials() {
         HTTP http = new HTTP(reporter, "SomeURL", "User", "Pass");
         String credentialStringOutput = Reporter.getCredentialStringOutput(http);
     }
@@ -717,10 +722,75 @@ public class ReporterTest {
     }
 
     @Test
+    public void getRequestHeadersOutputNullTest() {
+        assertEquals(Reporter.getRequestHeadersOutput(null), "");
+    }
+
+    @Test
     public void getRequestHeadersOutputDefaultTest() {
         String requestHeadersOutput = Reporter.getRequestHeadersOutput(http);
         assertTrue(requestHeadersOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Headers</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>Accept : application/json</div><div>Content-length : 0</div><div>Content-Type : application/json;&nbsp;charset=UTF-8</div></span>"));
     }
 
-    //TODO - need 3 response output methods tested
+    @Test
+    public void getUUIDTest() {
+        assertTrue(Reporter.getUUID().matches("[0-9]{13}_[a-zA-Z0-9]{10}"));
+    }
+
+    @Test
+    public void getResponseHeadersOutputNullTest() {
+        assertEquals(Reporter.getResponseHeadersOutput(null), "");
+    }
+
+    @Test
+    public void getResponseHeadersOutputEmptyTest() {
+        Response response = new Response(reporter, null, 200, null, null, null);
+        assertTrue(Reporter.getResponseHeadersOutput(response).matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Headers</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'></span>"));
+    }
+
+    @Test
+    public void getResponseHeadersOutputTest() {
+        Map<String, String> map = new HashMap<>();
+        map.put("", "Response");
+        map.put("hello", "world");
+        Response response = new Response(reporter, map, 200, null, null, null);
+        String responseHeadersOutput = Reporter.getResponseHeadersOutput(response);
+        assertTrue(responseHeadersOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Headers</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> : Response</div><div>hello : world</div></span>"));
+    }
+
+    @Test
+    public void getResponseCodeOutputNullTest() {
+        assertEquals(Reporter.getResponseCodeOutput(null), "");
+    }
+
+    @Test
+    public void getResponseCodeOutputTest() {
+        Response response = new Response(reporter, null, 200, null, null, null);
+        String responseCodeOutput = Reporter.getResponseCodeOutput(response);
+        assertTrue(responseCodeOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Response Status Code</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>200</div></span>"));
+    }
+
+    @Test
+    public void getResponseOutputNullTest() {
+        assertEquals(Reporter.getResponseOutput(null), "");
+    }
+
+    @Test
+    public void getResponseOutputNullMessageTest() {
+        Response response = new Response(reporter, null, 200, null, null, null);
+        assertEquals(Reporter.getResponseOutput(response), "");
+    }
+
+    @Test
+    public void getResponseOutputEmptyMessageTest() {
+        Response response = new Response(reporter, null, 200, null, null, "");
+        assertEquals(Reporter.getResponseOutput(response), "");
+    }
+
+    @Test
+    public void getResponseOutputTest() {
+        Response response = new Response(reporter, null, 200, null, null, "hello world");
+        String responseOutput = Reporter.getResponseOutput(response);
+        assertTrue(responseOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Raw Response</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>hello world</div></span>"));
+    }
 }

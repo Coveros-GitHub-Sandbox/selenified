@@ -819,43 +819,6 @@ public class Reporter {
     }
 
     /**
-     * Formats the request parameters to be 'prettily' printed out in HTML
-     *
-     * @param params - the parameters to be formatted. Either a JSON object, or a
-     *               hashmap
-     * @return String: a 'prettily' formatted string that is HTML safe to output
-     */
-    public static String getRequestPayloadOutput(Request params, File file) {
-        StringBuilder payload = new StringBuilder();
-        if ((params != null && params.isPayload()) || file != null) {
-            String uuid = getUUID();
-            payload.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Payload</a> ");
-            payload.append("<span id='").append(uuid).append("' style='display:none;'>");
-            if (params != null && params.getJsonPayload() != null) {
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                payload.append("<div>");
-                payload.append(formatHTML(gson.toJson(params.getJsonPayload())));
-                payload.append("</div>");
-            }
-            if (params != null && params.getMultipartData() != null) {
-                for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
-                    payload.append("<div>");
-                    payload.append(entry.getKey());
-                    payload.append(" : ");
-                    payload.append(entry.getValue());
-                    payload.append("</div>");
-                }
-            }
-            if (file != null) {
-                payload.append("<div> with file: <a href='file:///").append(file.getAbsoluteFile()).append("'>").append(file.getName()).append("</a></div>");
-            }
-            payload.append("</span>");
-        }
-
-        return payload.toString();
-    }
-
-    /**
      * Formats the response parameters to be 'prettily' printed out in HTML
      *
      * @param response - the http response to be formatted.
@@ -918,6 +881,46 @@ public class Reporter {
     }
 
     /**
+     * Formats the request parameters to be 'prettily' printed out in HTML
+     *
+     * @param params - the parameters to be formatted. Either a JSON object, or a
+     *               hashmap
+     * @return String: a 'prettily' formatted string that is HTML safe to output
+     */
+    public static String getRequestPayloadOutput(Request params, File file) {
+        StringBuilder payload = new StringBuilder();
+        String uuid = getUUID();
+        if ((params != null && params.isPayload()) || file != null) {
+            payload.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Payload</a> ");
+            payload.append("<span id='").append(uuid).append("' style='display:none;'>");
+            if (params != null && params.getJsonPayload() != null) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                payload.append("<div>");
+                payload.append(formatHTML(gson.toJson(params.getJsonPayload())));
+                payload.append("</div>");
+            }
+            if (params != null && params.getMultipartData() != null) {
+                for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
+                    payload.append("<div>");
+                    payload.append(entry.getKey());
+                    payload.append(" : ");
+                    payload.append(entry.getValue());
+                    payload.append("</div>");
+                }
+            }
+            if (file != null) {
+                payload.append("<div> with file: <a href='file:///").append(file.getAbsoluteFile()).append("'>").append(file.getName()).append("</a></div>");
+            }
+            payload.append("</span>");
+        }
+        if (payload.toString().equals("<a href='javascript:void(0)' onclick='toggle(\"" + uuid + "\")'>Toggle Payload</a> <span id='" + uuid + "' style='display:none;'></span>")) {
+            return "";
+        } else {
+            return payload.toString();
+        }
+    }
+
+    /**
      * Looks for the simple login credentials, username and password, and if
      * they are both set, turns that into a string which will be formatted for
      * HTML to be printed into the output file
@@ -927,20 +930,21 @@ public class Reporter {
      * if they are both set
      */
     public static String getCredentialStringOutput(HTTP http) {
-        StringBuilder credentials = new StringBuilder();
-        if (http.useCredentials()) {
-            String uuid = getUUID();
-            credentials.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Credentials</a> ");
-            credentials.append("<span id='").append(uuid).append("' style='display:none;'>");
-            credentials.append("<div><i>");
-            credentials.append("Username: ");
-            credentials.append(http.getUser());
-            credentials.append("</div><div>");
-            credentials.append("Password: ");
-            credentials.append(http.getPass());
-            credentials.append("</i></div>");
-            credentials.append("</span>");
+        if (http == null || !http.useCredentials()) {
+            return "";
         }
+        StringBuilder credentials = new StringBuilder();
+        String uuid = getUUID();
+        credentials.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Credentials</a> ");
+        credentials.append("<span id='").append(uuid).append("' style='display:none;'>");
+        credentials.append("<div><i>");
+        credentials.append("Username: ");
+        credentials.append(http.getUser());
+        credentials.append("</div><div>");
+        credentials.append("Password: ");
+        credentials.append(http.getPass());
+        credentials.append("</i></div>");
+        credentials.append("</span>");
         return credentials.toString();
     }
 
@@ -952,6 +956,9 @@ public class Reporter {
      * @return String: an HTML formatted string with headers
      */
     public static String getRequestHeadersOutput(HTTP http) {
+        if (http == null) {
+            return "";
+        }
         StringBuilder requestHeaders = new StringBuilder();
         String uuid = getUUID();
         requestHeaders.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Headers</a> ");
@@ -969,6 +976,9 @@ public class Reporter {
      * @return String: an HTML formatted string with headers
      */
     public static String getResponseHeadersOutput(Response response) {
+        if (response == null) {
+            return "";
+        }
         StringBuilder responseHeaders = new StringBuilder();
         String uuid = getUUID();
         responseHeaders.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Headers</a> ");
@@ -986,11 +996,14 @@ public class Reporter {
      * @return String: an HTML formatted string with headers
      */
     public static String getResponseCodeOutput(Response response) {
+        if (response == null) {
+            return "";
+        }
         StringBuilder responseOutput = new StringBuilder();
         String uuid = getUUID();
-        responseOutput.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Response Code</a> ");
+        responseOutput.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Response Status Code</a> ");
         responseOutput.append("<span id='").append(uuid).append("' style='display:none;'>");
-        responseOutput.append("<br/>").append(response.getCode()).append("<br/>");
+        responseOutput.append("<div>").append(response.getCode()).append("</div>");
         responseOutput.append("</span>");
         return responseOutput.toString();
     }
@@ -1003,11 +1016,14 @@ public class Reporter {
      * @return String: an HTML formatted string with headers
      */
     public static String getResponseOutput(Response response) {
+        if (response == null || response.getMessage() == null || "".equals(response.getMessage())) {
+            return "";
+        }
         StringBuilder responseOutput = new StringBuilder();
         String uuid = getUUID();
-        responseOutput.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Response</a> ");
+        responseOutput.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Raw Response</a> ");
         responseOutput.append("<span id='").append(uuid).append("' style='display:none;'>");
-        responseOutput.append("<br/>").append(response.getMessage()).append("<br/>");
+        responseOutput.append("<div>").append(response.getMessage()).append("</div>");
         responseOutput.append("</span>");
         return responseOutput.toString();
     }
