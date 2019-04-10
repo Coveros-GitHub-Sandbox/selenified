@@ -9,11 +9,7 @@ import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.utilities.Reporter;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.util.HashMap;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class CallTest {
 
