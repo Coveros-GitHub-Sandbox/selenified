@@ -70,9 +70,14 @@ public class Reporter {
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
+    private static final String ONCLICK_TOGGLE = "<a href='javascript:void(0)' onclick='toggle(\"";
 
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
+    public static final String END_SPAN = "</span>";
+    public static final String SPAN_ID = "<span id='";
+    public static final String DISPLAY_NONE = "' style='display:none;'>";
+
     private final String url;
     private final String suite;
     private final String group;
@@ -782,7 +787,7 @@ public class Reporter {
     private String generateImageLink(String imageName) {
         StringBuilder imageLink = new StringBuilder("<br/>");
         if (imageName.length() >= directory.length() + 1) {
-            imageLink.append("<a href='javascript:void(0)' onclick='toggle(\"").
+            imageLink.append(ONCLICK_TOGGLE).
                     append(imageName.substring(directory.length() + 1)).
                     append("\")'>Toggle Screenshot Thumbnail</a>");
             imageLink.append(" <a href='javascript:void(0)' onclick='display(\"").
@@ -890,30 +895,28 @@ public class Reporter {
     public static String getRequestPayloadOutput(Request params, File file) {
         StringBuilder payload = new StringBuilder();
         String uuid = getUUID();
-        if ((params != null && params.isPayload()) || file != null) {
-            payload.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Payload</a> ");
-            payload.append("<span id='").append(uuid).append("' style='display:none;'>");
-            if (params != null && params.getJsonPayload() != null) {
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        payload.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Payload</a> ");
+        payload.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
+        if (params != null && params.getJsonPayload() != null) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            payload.append("<div>");
+            payload.append(formatHTML(gson.toJson(params.getJsonPayload())));
+            payload.append("</div>");
+        }
+        if (params != null && params.getMultipartData() != null) {
+            for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
                 payload.append("<div>");
-                payload.append(formatHTML(gson.toJson(params.getJsonPayload())));
+                payload.append(entry.getKey());
+                payload.append(" : ");
+                payload.append(entry.getValue());
                 payload.append("</div>");
             }
-            if (params != null && params.getMultipartData() != null) {
-                for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
-                    payload.append("<div>");
-                    payload.append(entry.getKey());
-                    payload.append(" : ");
-                    payload.append(entry.getValue());
-                    payload.append("</div>");
-                }
-            }
-            if (file != null) {
-                payload.append("<div> with file: <a href='file:///").append(file.getAbsoluteFile()).append("'>").append(file.getName()).append("</a></div>");
-            }
-            payload.append("</span>");
         }
-        if (payload.toString().equals("<a href='javascript:void(0)' onclick='toggle(\"" + uuid + "\")'>Toggle Payload</a> <span id='" + uuid + "' style='display:none;'></span>")) {
+        if (file != null) {
+            payload.append("<div> with file: <a href='file:///").append(file.getAbsoluteFile()).append("'>").append(file.getName()).append("</a></div>");
+        }
+        payload.append(END_SPAN);
+        if (payload.toString().equals(ONCLICK_TOGGLE + uuid + "\")'>Toggle Payload</a> <span id='" + uuid + DISPLAY_NONE + END_SPAN)) {
             return "";
         } else {
             return payload.toString();
@@ -935,8 +938,8 @@ public class Reporter {
         }
         StringBuilder credentials = new StringBuilder();
         String uuid = getUUID();
-        credentials.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Credentials</a> ");
-        credentials.append("<span id='").append(uuid).append("' style='display:none;'>");
+        credentials.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Credentials</a> ");
+        credentials.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
         credentials.append("<div><i>");
         credentials.append("Username: ");
         credentials.append(http.getUser());
@@ -944,7 +947,7 @@ public class Reporter {
         credentials.append("Password: ");
         credentials.append(http.getPass());
         credentials.append("</i></div>");
-        credentials.append("</span>");
+        credentials.append(END_SPAN);
         return credentials.toString();
     }
 
@@ -961,10 +964,10 @@ public class Reporter {
         }
         StringBuilder requestHeaders = new StringBuilder();
         String uuid = getUUID();
-        requestHeaders.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Headers</a> ");
-        requestHeaders.append("<span id='").append(uuid).append("' style='display:none;'>");
+        requestHeaders.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Headers</a> ");
+        requestHeaders.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
         requestHeaders.append(formatKeyPair(http.getHeaders()));
-        requestHeaders.append("</span>");
+        requestHeaders.append(END_SPAN);
         return requestHeaders.toString();
     }
 
@@ -981,10 +984,10 @@ public class Reporter {
         }
         StringBuilder responseHeaders = new StringBuilder();
         String uuid = getUUID();
-        responseHeaders.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Headers</a> ");
-        responseHeaders.append("<span id='").append(uuid).append("' style='display:none;'>");
+        responseHeaders.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Headers</a> ");
+        responseHeaders.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
         responseHeaders.append(formatKeyPair(response.getHeaders()));
-        responseHeaders.append("</span>");
+        responseHeaders.append(END_SPAN);
         return responseHeaders.toString();
     }
 
@@ -1001,10 +1004,10 @@ public class Reporter {
         }
         StringBuilder responseOutput = new StringBuilder();
         String uuid = getUUID();
-        responseOutput.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Response Status Code</a> ");
-        responseOutput.append("<span id='").append(uuid).append("' style='display:none;'>");
+        responseOutput.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Response Status Code</a> ");
+        responseOutput.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
         responseOutput.append("<div>").append(response.getCode()).append("</div>");
-        responseOutput.append("</span>");
+        responseOutput.append(END_SPAN);
         return responseOutput.toString();
     }
 
@@ -1021,10 +1024,10 @@ public class Reporter {
         }
         StringBuilder responseOutput = new StringBuilder();
         String uuid = getUUID();
-        responseOutput.append("<a href='javascript:void(0)' onclick='toggle(\"").append(uuid).append("\")'>Toggle Raw Response</a> ");
-        responseOutput.append("<span id='").append(uuid).append("' style='display:none;'>");
+        responseOutput.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Raw Response</a> ");
+        responseOutput.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
         responseOutput.append("<div>").append(response.getMessage()).append("</div>");
-        responseOutput.append("</span>");
+        responseOutput.append(END_SPAN);
         return responseOutput.toString();
     }
 
