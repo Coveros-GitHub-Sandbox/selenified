@@ -71,13 +71,15 @@ public class Reporter {
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
     private static final String ONCLICK_TOGGLE = "<a href='javascript:void(0)' onclick='toggle(\"";
+    private static final String END_SPAN = "</span>";
+    private static final String SPAN_ID = "<span id='";
+    private static final String DISPLAY_NONE = "' style='display:none;'>";
+    private static final String DIV = "<div>";
+    private static final String END_DIV = "</div>";
+
 
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
-    public static final String END_SPAN = "</span>";
-    public static final String SPAN_ID = "<span id='";
-    public static final String DISPLAY_NONE = "' style='display:none;'>";
-
     private final String url;
     private final String suite;
     private final String group;
@@ -876,11 +878,11 @@ public class Reporter {
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<String, Object> entry : keyPairs.entrySet()) {
-            stringBuilder.append("<div>");
+            stringBuilder.append(DIV);
             stringBuilder.append(entry.getKey());
             stringBuilder.append(" : ");
             stringBuilder.append(Reporter.formatHTML(String.valueOf(entry.getValue())));
-            stringBuilder.append("</div>");
+            stringBuilder.append(END_DIV);
         }
         return stringBuilder.toString();
     }
@@ -899,24 +901,24 @@ public class Reporter {
         payload.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
         if (params != null && params.getJsonPayload() != null) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            payload.append("<div>");
+            payload.append(DIV);
             payload.append(formatHTML(gson.toJson(params.getJsonPayload())));
-            payload.append("</div>");
+            payload.append(END_DIV);
         }
         if (params != null && params.getMultipartData() != null) {
             for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
-                payload.append("<div>");
+                payload.append(DIV);
                 payload.append(entry.getKey());
                 payload.append(" : ");
                 payload.append(entry.getValue());
-                payload.append("</div>");
+                payload.append(END_DIV);
             }
         }
         if (file != null) {
             payload.append("<div> with file: <a href='file:///").append(file.getAbsoluteFile()).append("'>").append(file.getName()).append("</a></div>");
         }
         payload.append(END_SPAN);
-        if (payload.toString().equals(ONCLICK_TOGGLE + uuid + "\")'>Toggle Payload</a> <span id='" + uuid + DISPLAY_NONE + END_SPAN)) {
+        if (payload.toString().equals(ONCLICK_TOGGLE + uuid + "\")'>Toggle Payload</a> " + SPAN_ID + uuid + DISPLAY_NONE + END_SPAN)) {
             return "";
         } else {
             return payload.toString();
@@ -1006,7 +1008,7 @@ public class Reporter {
         String uuid = getUUID();
         responseOutput.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Response Status Code</a> ");
         responseOutput.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
-        responseOutput.append("<div>").append(response.getCode()).append("</div>");
+        responseOutput.append(DIV).append(response.getCode()).append(END_DIV);
         responseOutput.append(END_SPAN);
         return responseOutput.toString();
     }
@@ -1026,7 +1028,7 @@ public class Reporter {
         String uuid = getUUID();
         responseOutput.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Raw Response</a> ");
         responseOutput.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
-        responseOutput.append("<div>").append(response.getMessage()).append("</div>");
+        responseOutput.append(DIV).append(response.getMessage()).append(END_DIV);
         responseOutput.append(END_SPAN);
         return responseOutput.toString();
     }
