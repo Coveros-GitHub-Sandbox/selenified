@@ -163,6 +163,12 @@
             <artifactId>openhtmltopdf-pdfbox</artifactId>
             <version>${openhtml.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-guice</artifactId>
+            <version>3.1.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <distributionManagement>
