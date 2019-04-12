@@ -77,13 +77,24 @@ public class Listener extends TestListenerAdapter {
     private static String getTestName(ITestResult result) {
         String className;
         String packageName = "";
-        if (result.getTestClass().toString().contains(".")) {
-            packageName = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1)
-                    .split("\\.")[0];
-            className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1)
-                    .split("\\.")[1];
+        String testClass = result.getTestClass().toString();
+        // cleanup the class name
+        if (testClass.startsWith("[")) {
+            testClass = testClass.substring(1);
+        }
+        if (testClass.endsWith("]")) {
+            testClass = testClass.substring(0, testClass.length() - 1);
+        }
+        if (testClass.contains(" ")) {
+            String[] parts = testClass.split(" ");
+            testClass = parts[parts.length - 1];
+        }
+        // finally split into package and class
+        if (testClass.contains(".")) {
+            packageName = testClass.split("\\.")[0];
+            className = testClass.split("\\.")[1];
         } else {
-            className = result.getTestClass().toString().substring(22, result.getTestClass().toString().length() - 1);
+            className = testClass;
         }
         return TestCase.getTestName(packageName, className, result.getName(), result.getParameters());
     }
@@ -200,7 +211,6 @@ public class Listener extends TestListenerAdapter {
             } catch (IOException e) {
                 log.error(e);
             }
-
         }
     }
 }
