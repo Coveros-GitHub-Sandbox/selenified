@@ -15,7 +15,7 @@ public class ServicesOverrideIT extends ServicesBase {
     @BeforeClass(alwaysRun = true)
     public void setupHeaders(ITestContext test) {
         // for this test, we want to change the default headers for each call
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Content-Type", "multipart/form-data");
         addHeaders(this, test, headers);
         // for this particular test, we want to set some bogus credentials
@@ -28,7 +28,7 @@ public class ServicesOverrideIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         //set some custom headers
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions
@@ -43,7 +43,7 @@ public class ServicesOverrideIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         //set some custom headers
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions - this will fail as application/xml isn't supported
@@ -58,7 +58,7 @@ public class ServicesOverrideIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         //set some custom headers
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("Accept", "no-check");
         call.resetHeaders();
         call.addHeaders(headers);

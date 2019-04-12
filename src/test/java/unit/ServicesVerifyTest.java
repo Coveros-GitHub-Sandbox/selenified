@@ -45,7 +45,7 @@ public class ServicesVerifyTest {
     public void confirmEqualsCodePassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().equals(5);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -56,7 +56,7 @@ public class ServicesVerifyTest {
     public void confirmEqualsCodeFailTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().equals(6);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -67,7 +67,7 @@ public class ServicesVerifyTest {
     public void confirmEqualsObjectPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().equals(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -80,7 +80,7 @@ public class ServicesVerifyTest {
     public void confirmEqualsObjectFailTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().equals(new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -93,7 +93,7 @@ public class ServicesVerifyTest {
     public void confirmEqualsObjectNullTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         response.verify().equals(new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -106,7 +106,7 @@ public class ServicesVerifyTest {
     public void confirmEqualsArrayPassTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         response.verify().equals(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -119,7 +119,7 @@ public class ServicesVerifyTest {
     public void confirmEqualsArrayFailTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         response.verify().equals(new JsonArray());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -132,7 +132,7 @@ public class ServicesVerifyTest {
     public void confirmEqualsArrayNullTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().equals(new JsonArray());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -143,7 +143,7 @@ public class ServicesVerifyTest {
 
     @Test
     public void confirmEqualsMessagePassTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, "Some message");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
         response.verify().equals("Some message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -155,7 +155,7 @@ public class ServicesVerifyTest {
 
     @Test
     public void confirmEqualsMessageFailTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, "SOME MESSAGE");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "SOME MESSAGE");
         response.verify().equals("Some message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -167,7 +167,7 @@ public class ServicesVerifyTest {
 
     @Test
     public void confirmEqualsMessageNullTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         response.verify().equals("");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -181,7 +181,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsStringPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john");
         response.verify().contains(pairs);
@@ -195,7 +195,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsStringFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
         response.verify().contains(pairs);
@@ -209,7 +209,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsStringFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john1");
         response.verify().contains(pairs);
@@ -224,7 +224,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsIntegerPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
         response.verify().contains(pairs);
@@ -240,7 +240,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsIntegerFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5);
         response.verify().contains(pairs);
@@ -256,7 +256,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsIntegerFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6);
         response.verify().contains(pairs);
@@ -272,7 +272,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsDoublePassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5);
         response.verify().contains(pairs);
@@ -288,7 +288,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsDoubleFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5);
         response.verify().contains(pairs);
@@ -304,7 +304,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsDoubleFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5);
         response.verify().contains(pairs);
@@ -320,7 +320,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsFloatPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5f);
         response.verify().contains(pairs);
@@ -336,7 +336,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsFloatFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5f);
         response.verify().contains(pairs);
@@ -352,7 +352,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsFloatFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5f);
         response.verify().contains(pairs);
@@ -368,7 +368,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsLongPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5L);
         response.verify().contains(pairs);
@@ -384,7 +384,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsLongFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5L);
         response.verify().contains(pairs);
@@ -400,7 +400,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsLongFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6L);
         response.verify().contains(pairs);
@@ -416,7 +416,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsBooleanPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", true);
         response.verify().contains(pairs);
@@ -432,7 +432,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsBooleanFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", true);
         response.verify().contains(pairs);
@@ -448,7 +448,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsBooleanFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", false);
         response.verify().contains(pairs);
@@ -464,7 +464,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsBytePassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 0);
         response.verify().contains(pairs);
@@ -480,7 +480,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsByteFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", (byte) 0);
         response.verify().contains(pairs);
@@ -496,7 +496,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsByteFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 1);
         response.verify().contains(pairs);
@@ -512,7 +512,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsCharacterPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'a');
         response.verify().contains(pairs);
@@ -528,7 +528,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsCharacterFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 'a');
         response.verify().contains(pairs);
@@ -544,7 +544,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsCharacterFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'b');
         response.verify().contains(pairs);
@@ -565,7 +565,7 @@ public class ServicesVerifyTest {
         json.add("name", child);
         Map<String, Object> map = new HashMap();
         map.put("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().contains(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -583,7 +583,7 @@ public class ServicesVerifyTest {
         child.addProperty("last", "smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
         Map<String, Object> map = new HashMap();
@@ -603,7 +603,7 @@ public class ServicesVerifyTest {
         child.addProperty("last", "smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap();
         map.put("name1", child);
         response.verify().contains(map);
@@ -624,7 +624,7 @@ public class ServicesVerifyTest {
         json.add("name", child);
         Map<String, Object> map = new HashMap();
         map.put("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().contains(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -642,7 +642,7 @@ public class ServicesVerifyTest {
         child.add("smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         JsonArray badChild = new JsonArray();
         badChild.add("john");
         Map<String, Object> map = new HashMap();
@@ -665,7 +665,7 @@ public class ServicesVerifyTest {
         child.add("smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap();
         map.put("name1", child);
         response.verify().contains(map);
@@ -684,7 +684,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsNullTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
         response.verify().contains(pairs);
@@ -698,7 +698,7 @@ public class ServicesVerifyTest {
     public void confirmContainsPairsMismatchTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
         response.verify().contains(pairs);
@@ -717,7 +717,7 @@ public class ServicesVerifyTest {
         child.addProperty("last", "smith");
         JsonArray json = new JsonArray();
         json.add(child);
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         response.verify().contains(child);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -732,7 +732,7 @@ public class ServicesVerifyTest {
         child.addProperty("last", "smith");
         JsonArray json = new JsonArray();
         json.add(child);
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
         response.verify().contains(badChild);
@@ -747,7 +747,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().contains(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -757,7 +757,7 @@ public class ServicesVerifyTest {
 
     @Test
     public void confirmContainsMessagePassTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, "Some message");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
         response.verify().contains("message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -769,7 +769,7 @@ public class ServicesVerifyTest {
 
     @Test
     public void confirmContainsMessageFailTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, "Some message");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
         response.verify().contains("message ");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -781,7 +781,7 @@ public class ServicesVerifyTest {
 
     @Test
     public void confirmContainsMessageNullTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         response.verify().contains("");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
@@ -793,7 +793,7 @@ public class ServicesVerifyTest {
 
     @Test
     public void confirmContainsMessageNull2Test() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         response.verify().contains("null");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(

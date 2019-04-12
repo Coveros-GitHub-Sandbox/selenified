@@ -40,25 +40,25 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectNullNullTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         assertNull(response.azzert().castObject(null, null));
     }
 
     @Test
     public void castObjectNullTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         assertEquals(response.azzert().castObject(null, new JsonObject()), new JsonObject());
     }
 
     @Test
     public void castObjectMismatchTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         assertEquals(response.azzert().castObject("Hello", new JsonObject()), new JsonObject());
     }
 
     @Test
     public void castObjectStringTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", "World");
         assertEquals(response.azzert().castObject("Hello", json.get("name")), "World");
@@ -66,7 +66,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectIntegerTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         assertEquals(response.azzert().castObject(6, json.get("name")), 5);
@@ -74,7 +74,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectDoubleTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5d);
         assertEquals(response.azzert().castObject(6d, json.get("name")), 5d);
@@ -82,7 +82,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectFloatTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5f);
         assertEquals(response.azzert().castObject(6f, json.get("name")), 5f);
@@ -90,7 +90,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectLongTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         assertEquals(response.azzert().castObject(6L, json.get("name")), 5L);
@@ -98,7 +98,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectMixedNumberTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.0);
         assertEquals(response.azzert().castObject(6L, json.get("name")), 5L);
@@ -106,7 +106,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectMixedNumber2Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         assertEquals(response.azzert().castObject(6, json.get("name")), 5);
@@ -114,7 +114,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectMixedNumber3Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         assertEquals(response.azzert().castObject(6.0, json.get("name")), 5.0);
@@ -122,7 +122,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectMixedNumber4Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         assertEquals(response.azzert().castObject("Hello", json.get("name")), "5");
@@ -130,7 +130,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectBooleanTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         assertEquals(response.azzert().castObject(false, json.get("name")), true);
@@ -138,7 +138,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectBooleanMixedTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         assertEquals(response.azzert().castObject("Hello", json.get("name")), "true");
@@ -146,7 +146,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectBooleanMixed2Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         assertEquals(response.azzert().castObject(5, json.get("name")), new JsonPrimitive(true));
@@ -154,7 +154,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectByteTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
         assertEquals(response.azzert().castObject((byte) 0, json.get("name")), (byte) 9);
@@ -162,7 +162,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectByteMixedTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
         assertEquals(response.azzert().castObject("Hello", json.get("name")), "9");
@@ -170,7 +170,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectByteMixed2Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
         assertEquals(response.azzert().castObject(3, json.get("name")), 9);
@@ -178,7 +178,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectCharacterTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         assertEquals(response.azzert().castObject('b', json.get("name")), 'a');
@@ -186,7 +186,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectCharacterMixedTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         assertEquals(response.azzert().castObject("b", json.get("name")), "a");
@@ -194,7 +194,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectCharacterMixed2Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", '5');
         assertEquals(response.azzert().castObject(2, json.get("name")), 5);
@@ -202,7 +202,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectCharacterMixed3Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", '5');
         assertEquals(response.azzert().castObject(2.0, json.get("name")), 5.0);
@@ -210,7 +210,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectJsonObjectTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
         assertEquals(response.azzert().castObject(new JsonObject(), json.get("name")), new JsonObject());
@@ -218,7 +218,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectJsonObjectMixedTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
         assertEquals(response.azzert().castObject(new JsonArray(), json.get("name")), new JsonObject());
@@ -226,7 +226,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectJsonObjectMixed2Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
         assertEquals(response.azzert().castObject("Hello", json.get("name")), new JsonObject());
@@ -234,7 +234,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectJsonArrayTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
         assertEquals(response.azzert().castObject(new JsonArray(), json.get("name")), new JsonArray());
@@ -242,7 +242,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectJsonArrayMixedTest() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
         assertEquals(response.azzert().castObject(new JsonObject(), json.get("name")), new JsonArray());
@@ -250,7 +250,7 @@ public class ServicesCheckTest {
 
     @Test
     public void castObjectJsonArrayMixed2Test() {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
         assertEquals(response.azzert().castObject("Hello", json.get("name")), new JsonArray());

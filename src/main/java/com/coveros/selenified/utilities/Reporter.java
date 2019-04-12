@@ -26,6 +26,7 @@ import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
+import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
 import com.coveros.selenified.services.Response;
 import com.google.gson.Gson;
@@ -69,6 +70,13 @@ public class Reporter {
     private static final String START_CELL = "    <td>";
     private static final String END_CELL = "</td>\n";
     private static final String END_ROW = "   </tr>\n";
+    private static final String ONCLICK_TOGGLE = "<a href='javascript:void(0)' onclick='toggle(\"";
+    private static final String END_SPAN = "</span>";
+    private static final String SPAN_ID = "<span id='";
+    private static final String DISPLAY_NONE = "' style='display:none;'>";
+    private static final String DIV = "<div>";
+    private static final String END_DIV = "</div>";
+
 
     // the image width for reporting
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
@@ -531,14 +539,18 @@ public class Reporter {
             out.write("    color:green;\n");
             out.write(boldFont);
             out.write(endBracket3);
+            out.write("   .indent {\n");
+            out.write("    position:relative;\n");
+            out.write("    left:10px;\n");
+            out.write(endBracket3);
             out.write("  </style>\n");
             out.write("  <script type='text/javascript'>\n");
-            out.write("   function toggleImage( imageName ) {\n");
+            out.write("   function toggle( imageName ) {\n");
             out.write("    var element = document.getElementById( imageName );\n");
             out.write("    element.src = location.href.match(/^.*\\//) + imageName;\n");
             out.write("    element.style.display = (element.style.display != 'none' ? 'none' : '' );\n");
             out.write(endBracket3);
-            out.write("   function displayImage( imageName ) {\n");
+            out.write("   function display( imageName ) {\n");
             out.write("    window.open( location.href.match(/^.*\\//) + imageName )\n");
             out.write(endBracket3);
             out.write("   function toggleVis(col_no, do_show) {\n");
@@ -775,19 +787,25 @@ public class Reporter {
      * html file
      */
     private String generateImageLink(String imageName) {
-        String imageLink = "<br/>";
+        StringBuilder imageLink = new StringBuilder("<br/>");
         if (imageName.length() >= directory.length() + 1) {
-            imageLink += "<a href='javascript:void(0)' onclick='toggleImage(\"" +
-                    imageName.substring(directory.length() + 1) + "\")'>Toggle Screenshot Thumbnail</a>";
-            imageLink += " <a href='javascript:void(0)' onclick='displayImage(\"" +
-                    imageName.substring(directory.length() + 1) + "\")'>View Screenshot Fullscreen</a>";
-            imageLink += "<br/><img id='" + imageName.substring(directory.length() + 1) + "' border='1px' src='" +
-                    imageName.substring(directory.length() + 1) + "' width='" + EMBEDDED_IMAGE_WIDTH +
-                    "px' style='display:none;'></img>";
+            imageLink.append(ONCLICK_TOGGLE).
+                    append(imageName.substring(directory.length() + 1)).
+                    append("\")'>Toggle Screenshot Thumbnail</a>");
+            imageLink.append(" <a href='javascript:void(0)' onclick='display(\"").
+                    append(imageName.substring(directory.length() + 1)).
+                    append("\")'>View Screenshot Fullscreen</a>");
+            imageLink.append("<br/><img id='").
+                    append(imageName.substring(directory.length() + 1)).
+                    append("' border='1px' src='").
+                    append(imageName.substring(directory.length() + 1)).
+                    append("' width='").
+                    append(EMBEDDED_IMAGE_WIDTH).
+                    append("px' style='display:none;'></img>");
         } else {
-            imageLink += "<b><font class='fail'>No Image Preview</font></b>";
+            imageLink.append("<b><font class='fail'>No Image Preview</font></b>");
         }
-        return imageLink;
+        return imageLink.toString();
     }
 
     /**
@@ -796,9 +814,7 @@ public class Reporter {
      * @return String: the name of the image file as a PNG
      */
     private String generateImageName() {
-        long timeInSeconds = new Date().getTime();
-        String randomChars = TestCase.getRandomString(10);
-        return directory + "/" + timeInSeconds + "_" + randomChars + ".png";
+        return directory + "/" + getUUID() + ".png";
     }
 
     /**
@@ -807,43 +823,6 @@ public class Reporter {
     private void setStartTime() {
         startTime = (new Date()).getTime();
         lastTime = startTime;
-    }
-
-    ///////////////////////////////////////////////////////////////////
-    // some comparisons for our services
-    ///////////////////////////////////////////////////////////////////
-
-    /**
-     * Formats the request parameters to be 'prettily' printed out in HTML
-     *
-     * @param params - the parameters to be formatted. Either a JSON object, or a
-     *               hashmap
-     * @return String: a 'prettily' formatted string that is HTML safe to output
-     */
-    public static String outputRequestProperties(Request params, File file) {
-        StringBuilder output = new StringBuilder();
-        if (params != null && params.isPayload()) {
-            output.append("<br/> with parameters: ");
-            output.append(DIV_I);
-            if (params.getJsonPayload() != null) {
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                output.append(gson.toJson(params.getJsonPayload()));
-            }
-            if (params.getMultipartData() != null) {
-                for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
-                    output.append("<div>");
-                    output.append(entry.getKey());
-                    output.append(" : ");
-                    output.append(entry.getValue());
-                    output.append("</div>");
-                }
-            }
-            output.append(END_IDIV);
-        }
-        if (file != null) {
-            output.append("<div> with file: <i>").append(file.getAbsoluteFile()).append(END_IDIV);
-        }
-        return formatHTML(output.toString());
     }
 
     /**
@@ -886,19 +865,183 @@ public class Reporter {
         return string.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br/>");
     }
 
+    /**
+     * From an object map passed in, building a key value set, properly html
+     * formatted for used in reporting
+     *
+     * @param keyPairs - the key value set
+     * @return String: an html formatting string
+     */
     public static String formatKeyPair(Map<String, Object> keyPairs) {
-        if( keyPairs == null ) {
+        if (keyPairs == null) {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<String, Object> entry : keyPairs.entrySet()) {
-            stringBuilder.append("<div>");
+            stringBuilder.append(DIV);
             stringBuilder.append(entry.getKey());
             stringBuilder.append(" : ");
             stringBuilder.append(Reporter.formatHTML(String.valueOf(entry.getValue())));
-            stringBuilder.append("</div>");
+            stringBuilder.append(END_DIV);
         }
         return stringBuilder.toString();
+    }
+
+    /**
+     * Formats the request parameters to be 'prettily' printed out in HTML
+     *
+     * @param params - the parameters to be formatted. Either a JSON object, or a
+     *               hashmap
+     * @return String: a 'prettily' formatted string that is HTML safe to output
+     */
+    public static String getRequestPayloadOutput(Request params, File file) {
+        StringBuilder payload = new StringBuilder();
+        String uuid = getUUID();
+        payload.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Payload</a> ");
+        payload.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
+        if (params != null && params.getJsonPayload() != null) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            payload.append(DIV);
+            payload.append(formatHTML(gson.toJson(params.getJsonPayload())));
+            payload.append(END_DIV);
+        }
+        if (params != null && params.getMultipartData() != null) {
+            for (Map.Entry<String, Object> entry : params.getMultipartData().entrySet()) {
+                payload.append(DIV);
+                payload.append(entry.getKey());
+                payload.append(" : ");
+                payload.append(entry.getValue());
+                payload.append(END_DIV);
+            }
+        }
+        if (file != null) {
+            payload.append("<div> with file: <a href='file:///").append(file.getAbsoluteFile()).append("'>").append(file.getName()).append("</a></div>");
+        }
+        payload.append(END_SPAN);
+        if (payload.toString().equals(ONCLICK_TOGGLE + uuid + "\")'>Toggle Payload</a> " + SPAN_ID + uuid + DISPLAY_NONE + END_SPAN)) {
+            return "";
+        } else {
+            return payload.toString();
+        }
+    }
+
+    /**
+     * Looks for the simple login credentials, username and password, and if
+     * they are both set, turns that into a string which will be formatted for
+     * HTML to be printed into the output file
+     *
+     * @param http - the http object that is making the call
+     * @return String: an HTML formatted string with the username and password -
+     * if they are both set
+     */
+    public static String getCredentialStringOutput(HTTP http) {
+        if (http == null || !http.useCredentials()) {
+            return "";
+        }
+        StringBuilder credentials = new StringBuilder();
+        String uuid = getUUID();
+        credentials.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Credentials</a> ");
+        credentials.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
+        credentials.append("<div><i>");
+        credentials.append("Username: ");
+        credentials.append(http.getUser());
+        credentials.append("</div><div>");
+        credentials.append("Password: ");
+        credentials.append(http.getPass());
+        credentials.append("</i></div>");
+        credentials.append(END_SPAN);
+        return credentials.toString();
+    }
+
+    /**
+     * Takes the headers set in the HTTP request, and writes them to the output
+     * file, in properly HTML formatted fashion
+     *
+     * @param http - the http object that is making the call
+     * @return String: an HTML formatted string with headers
+     */
+    public static String getRequestHeadersOutput(HTTP http) {
+        if (http == null) {
+            return "";
+        }
+        StringBuilder requestHeaders = new StringBuilder();
+        String uuid = getUUID();
+        requestHeaders.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Headers</a> ");
+        requestHeaders.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
+        requestHeaders.append(formatKeyPair(http.getHeaders()));
+        requestHeaders.append(END_SPAN);
+        return requestHeaders.toString();
+    }
+
+    /**
+     * Takes the headers returned in the HTTP response, and writes them to the output
+     * file, in properly HTML formatted fashion
+     *
+     * @param response - the response object obtained from the call
+     * @return String: an HTML formatted string with headers
+     */
+    public static String getResponseHeadersOutput(Response response) {
+        if (response == null) {
+            return "";
+        }
+        StringBuilder responseHeaders = new StringBuilder();
+        String uuid = getUUID();
+        responseHeaders.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Headers</a> ");
+        responseHeaders.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
+        responseHeaders.append(formatKeyPair(response.getHeaders()));
+        responseHeaders.append(END_SPAN);
+        return responseHeaders.toString();
+    }
+
+    /**
+     * Takes the response code returned in the HTTP response, and writes them to the output
+     * file, in properly HTML formatted fashion
+     *
+     * @param response - the response object obtained from the call
+     * @return String: an HTML formatted string with headers
+     */
+    public static String getResponseCodeOutput(Response response) {
+        if (response == null) {
+            return "";
+        }
+        StringBuilder responseOutput = new StringBuilder();
+        String uuid = getUUID();
+        responseOutput.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Response Status Code</a> ");
+        responseOutput.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
+        responseOutput.append(DIV).append(response.getCode()).append(END_DIV);
+        responseOutput.append(END_SPAN);
+        return responseOutput.toString();
+    }
+
+    /**
+     * Takes the response returned from the HTTP call, and writes it to the output
+     * file, in properly HTML formatted fashion
+     *
+     * @param response - the response object obtained from the call
+     * @return String: an HTML formatted string with headers
+     */
+    public static String getResponseOutput(Response response) {
+        if (response == null || response.getMessage() == null || "".equals(response.getMessage())) {
+            return "";
+        }
+        StringBuilder responseOutput = new StringBuilder();
+        String uuid = getUUID();
+        responseOutput.append(ONCLICK_TOGGLE).append(uuid).append("\")'>Toggle Raw Response</a> ");
+        responseOutput.append(SPAN_ID).append(uuid).append(DISPLAY_NONE);
+        responseOutput.append(DIV).append(response.getMessage()).append(END_DIV);
+        responseOutput.append(END_SPAN);
+        return responseOutput.toString();
+    }
+
+    /**
+     * Generates a unique id
+     *
+     * @return String: a random string with timestamp
+     */
+    public static String getUUID() {
+        long timeInSeconds = new Date().getTime();
+        String randomChars = TestCase.getRandomString(10);
+        return timeInSeconds + "_" + randomChars;
     }
 
     /**

@@ -24,6 +24,8 @@ import com.coveros.selenified.utilities.Reporter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.Map;
+
 /**
  * A class designed to hold data provided from the HTTP calls.
  *
@@ -33,6 +35,7 @@ import com.google.gson.JsonObject;
  */
 public class Response {
 
+    private Map headers;
     private int code;
     private JsonObject object;
     private JsonArray array;
@@ -44,7 +47,8 @@ public class Response {
     // the verify class to check information about the response
     private Verify verify;
 
-    public Response(Reporter reporter, int code, JsonObject object, JsonArray array, String message) {
+    public Response(Reporter reporter, Map headers, int code, JsonObject object, JsonArray array, String message) {
+        this.headers = headers;
         this.code = code;
         this.object = object;
         this.array = array;
@@ -75,6 +79,10 @@ public class Response {
         return verify;
     }
 
+    public Map getHeaders() {
+        return headers;
+    }
+    
     public int getCode() {
         return code;
     }

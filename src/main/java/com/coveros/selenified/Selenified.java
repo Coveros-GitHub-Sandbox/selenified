@@ -176,8 +176,8 @@ public class Selenified {
      *                storing app url information
      * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
-    private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
-        return (Map<String, String>) context.getAttribute(clazz + "Headers");
+    private static Map<String, Object> getExtraHeaders(String clazz, ITestContext context) {
+        return (Map<String, Object>) context.getAttribute(clazz + "Headers");
     }
 
     /**
@@ -190,7 +190,7 @@ public class Selenified {
      *                storing app url information
      * @param headers - what headers do we want to set for this particular test suite
      */
-    protected static void addHeaders(Selenified clazz, ITestContext context, Map<String, String> headers) {
+    protected static void addHeaders(Selenified clazz, ITestContext context, Map<String, Object> headers) {
         context.setAttribute(clazz.getClass().getName() + "Headers", headers);
     }
 

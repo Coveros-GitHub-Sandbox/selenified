@@ -59,7 +59,7 @@ public class HTTP {
     private final String serviceBaseUrl;
     private String user = "";
     private String pass = "";
-    private Map<String, String> extraHeaders = new HashMap<>();
+    private Map<String, Object> extraHeaders = new HashMap<>();
 
     private String contentType = "application/json; charset=UTF-8";
 
@@ -97,7 +97,7 @@ public class HTTP {
      *
      * @param headers - the key-value pair of headers to set
      */
-    public void addHeaders(Map<String, String> headers) {
+    public void addHeaders(Map<String, Object> headers) {
         this.extraHeaders.putAll(headers);
     }
 
@@ -106,6 +106,22 @@ public class HTTP {
      */
     public void resetHeaders() {
         this.extraHeaders = new HashMap<>();
+    }
+
+    /**
+     * Builds the headers to be passed in the HTTP call
+     *
+     * @return Map: a mapping of the headers in key to values
+     */
+    public Map<String, Object> getHeaders() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Content-length", "0");
+        map.put(CONTENT_TYPE, contentType);
+        map.put("Accept", "application/json");
+        for (Map.Entry<String, Object> entry : extraHeaders.entrySet()) {
+            map.put(entry.getKey(), entry.getValue());
+        }
+        return map;
     }
 
     /**
@@ -250,12 +266,14 @@ public class HTTP {
         return params.toString();
     }
 
+    /**
+     * Setups up the header and basic connection information
+     *
+     * @param connection - the connection to add headers to
+     */
     private void setupHeaders(HttpURLConnection connection) {
-        connection.setRequestProperty("Content-length", "0");
-        connection.setRequestProperty(CONTENT_TYPE, contentType);
-        connection.setRequestProperty("Accept", "application/json");
-        for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-            connection.setRequestProperty(entry.getKey(), entry.getValue());
+        for (Map.Entry<String, Object> entry : getHeaders().entrySet()) {
+            connection.setRequestProperty(entry.getKey(), String.valueOf(entry.getValue()));
         }
         connection.setDoOutput(true);
         connection.setDoInput(true);
@@ -274,9 +292,8 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     private Response call(Method method, String service, Request request, File file) throws IOException {
-        HttpURLConnection connection = null;
         URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
-        connection = getConnection(url);
+        HttpURLConnection connection = getConnection(url);
         connection.setRequestMethod(method.toString());
         setupHeaders(connection);
         if (useCredentials()) {
@@ -386,8 +403,10 @@ public class HTTP {
     @SuppressWarnings({"squid:S3776", "squid:S2093"})
     private Response getResponse(HttpURLConnection connection) {
         int status;
+        Map headers;
         try {
             status = connection.getResponseCode();
+            headers = connection.getHeaderFields();
         } catch (IOException e) {
             log.error(e);
             return null;
@@ -436,6 +455,6 @@ public class HTTP {
                 }
             }
         }
-        return new Response(reporter, status, object, array, data);
+        return new Response(reporter, headers, status, object, array, data);
     }
 }

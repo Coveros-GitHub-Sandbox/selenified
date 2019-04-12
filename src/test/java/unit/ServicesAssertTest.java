@@ -45,7 +45,7 @@ public class ServicesAssertTest {
     public void confirmEqualsCodePassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.azzert().equals(5);
     }
 
@@ -53,7 +53,7 @@ public class ServicesAssertTest {
     public void confirmEqualsCodeFailTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.azzert().equals(6);
     }
 
@@ -61,7 +61,7 @@ public class ServicesAssertTest {
     public void confirmEqualsObjectPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.azzert().equals(json);
     }
 
@@ -69,7 +69,7 @@ public class ServicesAssertTest {
     public void confirmEqualsObjectFailTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.azzert().equals(new JsonObject());
     }
 
@@ -77,7 +77,7 @@ public class ServicesAssertTest {
     public void confirmEqualsObjectNullTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         response.azzert().equals(new JsonObject());
     }
 
@@ -85,7 +85,7 @@ public class ServicesAssertTest {
     public void confirmEqualsArrayPassTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         response.azzert().equals(json);
     }
 
@@ -93,7 +93,7 @@ public class ServicesAssertTest {
     public void confirmEqualsArrayFailTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         response.azzert().equals(new JsonArray());
     }
 
@@ -101,25 +101,25 @@ public class ServicesAssertTest {
     public void confirmEqualsArrayNullTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.azzert().equals(new JsonArray());
     }
 
     @Test
     public void confirmEqualsMessagePassTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, "Some message");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
         response.azzert().equals("Some message");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmEqualsMessageFailTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, "SOME MESSAGE");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "SOME MESSAGE");
         response.azzert().equals("Some message");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmEqualsMessageNullTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         response.azzert().equals("");
     }
 
@@ -127,7 +127,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsStringPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john");
         response.azzert().contains(pairs);
@@ -137,7 +137,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsStringFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
         response.azzert().contains(pairs);
@@ -147,7 +147,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsStringFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john1");
         response.azzert().contains(pairs);
@@ -157,7 +157,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsIntegerPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
         response.azzert().contains(pairs);
@@ -167,7 +167,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsIntegerFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5);
         response.azzert().contains(pairs);
@@ -177,7 +177,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsIntegerFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6);
         response.azzert().contains(pairs);
@@ -187,7 +187,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsDoublePassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5);
         response.azzert().contains(pairs);
@@ -197,7 +197,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsDoubleFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5);
         response.azzert().contains(pairs);
@@ -207,7 +207,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsDoubleFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5);
         response.azzert().contains(pairs);
@@ -217,7 +217,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsFloatPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5f);
         response.azzert().contains(pairs);
@@ -227,7 +227,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsFloatFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5f);
         response.azzert().contains(pairs);
@@ -237,7 +237,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsFloatFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5f);
         response.azzert().contains(pairs);
@@ -247,7 +247,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsLongPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5L);
         response.azzert().contains(pairs);
@@ -257,7 +257,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsLongFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5L);
         response.azzert().contains(pairs);
@@ -267,7 +267,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsLongFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6L);
         response.azzert().contains(pairs);
@@ -277,7 +277,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsBooleanPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", true);
         response.azzert().contains(pairs);
@@ -293,7 +293,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsBooleanFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", true);
         response.azzert().contains(pairs);
@@ -303,7 +303,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsBooleanFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", false);
         response.azzert().contains(pairs);
@@ -313,7 +313,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsBytePassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 0);
         response.azzert().contains(pairs);
@@ -323,7 +323,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsByteFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", (byte) 0);
         response.azzert().contains(pairs);
@@ -333,7 +333,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsByteFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 1);
         response.azzert().contains(pairs);
@@ -343,7 +343,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsCharacterPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'a');
         response.azzert().contains(pairs);
@@ -353,7 +353,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsCharacterFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 'a');
         response.azzert().contains(pairs);
@@ -363,7 +363,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsCharacterFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'b');
         response.azzert().contains(pairs);
@@ -378,7 +378,7 @@ public class ServicesAssertTest {
         json.add("name", child);
         Map<String, Object> map = new HashMap();
         map.put("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.azzert().contains(map);
     }
 
@@ -389,7 +389,7 @@ public class ServicesAssertTest {
         child.addProperty("last", "smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
         Map<String, Object> map = new HashMap();
@@ -404,7 +404,7 @@ public class ServicesAssertTest {
         child.addProperty("last", "smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap();
         map.put("name1", child);
         response.azzert().contains(map);
@@ -419,7 +419,7 @@ public class ServicesAssertTest {
         json.add("name", child);
         Map<String, Object> map = new HashMap();
         map.put("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.azzert().contains(map);
     }
 
@@ -430,7 +430,7 @@ public class ServicesAssertTest {
         child.add("smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         JsonArray badChild = new JsonArray();
         badChild.add("john");
         Map<String, Object> map = new HashMap();
@@ -445,7 +445,7 @@ public class ServicesAssertTest {
         child.add("smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap();
         map.put("name1", child);
         response.azzert().contains(map);
@@ -455,7 +455,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsNullTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
         response.azzert().contains(pairs);
@@ -465,7 +465,7 @@ public class ServicesAssertTest {
     public void confirmContainsPairsMismatchTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
         response.azzert().contains(pairs);
@@ -478,7 +478,7 @@ public class ServicesAssertTest {
         child.addProperty("last", "smith");
         JsonArray json = new JsonArray();
         json.add(child);
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         response.azzert().contains(child);
     }
 
@@ -489,7 +489,7 @@ public class ServicesAssertTest {
         child.addProperty("last", "smith");
         JsonArray json = new JsonArray();
         json.add(child);
-        Response response = new Response(reporter, 5, null, json, null);
+        Response response = new Response(reporter, null, 5, null, json, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
         response.azzert().contains(badChild);
@@ -500,31 +500,31 @@ public class ServicesAssertTest {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
-        Response response = new Response(reporter, 5, json, null, null);
+        Response response = new Response(reporter, null, 5, json, null, null);
         response.azzert().contains(json);
     }
 
     @Test
     public void confirmContainsMessagePassTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, "Some message");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
         response.azzert().contains("message");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmContainsMessageFailTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, "Some message");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
         response.azzert().contains("message ");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmContainsMessageNullTest() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         response.azzert().contains("");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmContainsMessageNull2Test() throws IOException {
-        Response response = new Response(reporter, 5, new JsonObject(), null, null);
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         response.azzert().contains("null");
     }
 }
