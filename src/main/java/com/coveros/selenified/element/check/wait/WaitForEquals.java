@@ -22,6 +22,7 @@ package com.coveros.selenified.element.check.wait;
 
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Equals;
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -53,7 +54,7 @@ public class WaitForEquals implements Equals {
     private final Element element;
 
     // the default wait for the system
-    private double defaultWait = 5.0;
+    private double defaultWait = Property.getDefaultWait();
 
     public WaitForEquals(Element element, Reporter reporter) {
         this.element = element;

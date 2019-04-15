@@ -943,6 +943,113 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getOptions(), "someoptions");
     }
 
+    @Test
+    public void defaultGetDefaultWaitTest() {
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitEmptyTest() {
+        System.setProperty(DEFAULT_WAIT, "");
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitBadValTest() {
+        System.setProperty(DEFAULT_WAIT, "hello");
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitFiveTest() {
+        System.setProperty(DEFAULT_WAIT, "5");
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitOneTest() {
+        System.setProperty(DEFAULT_WAIT, "1");
+        assertEquals(Property.getDefaultWait(), 1d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitFilePartialTest() throws IOException {
+        createPropertiesFile(DEFAULT_WAIT);
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitFileUnsetTest() throws IOException {
+        createPropertiesFile(DEFAULT_WAIT + "=");
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitBadValFileTest() throws IOException {
+        createPropertiesFile(DEFAULT_WAIT + "=hello");
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitFiveFileTest() throws IOException {
+        createPropertiesFile(DEFAULT_WAIT + "=5");
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitOneFileTest() throws IOException {
+        createPropertiesFile(DEFAULT_WAIT + "=1");
+        assertEquals(Property.getDefaultWait(), 1d);
+    }
+
+    @Test
+    public void defaultGetDefaultWaitOverrideEmptyTest() throws IOException {
+        System.setProperty(DEFAULT_WAIT, "1");
+        createPropertiesFile("");
+        assertEquals(Property.getDefaultWait(), 1d);
+    }
+
+    @Test
+    public void defaultGetDefaultOverrideFilePartialTest() throws IOException {
+        System.setProperty(DEFAULT_WAIT, "1");
+        createPropertiesFile(DEFAULT_WAIT);
+        assertEquals(Property.getDefaultWait(), 1d);
+    }
+
+    @Test
+    public void defaultGetDefaultOverrideFileUnsetTest() throws IOException {
+        System.setProperty(DEFAULT_WAIT, "1");
+        createPropertiesFile(DEFAULT_WAIT + "=");
+        assertEquals(Property.getDefaultWait(), 1d);
+    }
+
+    @Test
+    public void defaultGetDefaultOverrideBadValFileTest() throws IOException {
+        System.setProperty(DEFAULT_WAIT, "1");
+        createPropertiesFile(DEFAULT_WAIT + "=hello");
+        assertEquals(Property.getDefaultWait(), 1d);
+    }
+
+    @Test
+    public void defaultGetDefaultOverrideFiveFileTest() throws IOException {
+        System.setProperty(DEFAULT_WAIT, "1");
+        createPropertiesFile(DEFAULT_WAIT + "=5");
+        assertEquals(Property.getDefaultWait(), 1d);
+    }
+
+    @Test
+    public void defaultGetDefaultOverrideOneFileTest() throws IOException {
+        System.setProperty(DEFAULT_WAIT, "5");
+        createPropertiesFile(DEFAULT_WAIT + "=1");
+        assertEquals(Property.getDefaultWait(), 5d);
+    }
+
 
     private void createPropertiesFile(String content) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));

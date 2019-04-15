@@ -49,6 +49,7 @@ import java.util.Properties;
 public class Property {
 
     private static final String PROXY_ISNT_SET = "Proxy isn't set";
+    private static final double wait = 5;
 
     private Property() {
     }
@@ -56,6 +57,7 @@ public class Property {
     private static final Logger log = Logger.getLogger(Property.class);
     private static final String SELENIFIED = "src/test/resources/selenified.properties";
 
+    private static final String DEFAULT_WAIT = "defaultWait";
     private static final String GENERATE_PDF = "generatePDF";
     private static final String PACKAGE_RESULTS = "packageResults";
     private static final String HUB = "hub";
@@ -294,5 +296,18 @@ public class Property {
             throw new InvalidBrowserOptionsException("Browser options aren't set");
         }
         return options;
+    }
+
+    public static double getDefaultWait() {
+        String defaultWait = getProgramProperty(DEFAULT_WAIT);
+        if (defaultWait == null || "".equals(defaultWait)) {
+            return wait;
+        }
+        try {
+            return Double.valueOf(defaultWait);
+        } catch (Exception e) {
+            log.error("Provided default wait needs to be a double. " + e);
+            return wait;
+        }
     }
 }
