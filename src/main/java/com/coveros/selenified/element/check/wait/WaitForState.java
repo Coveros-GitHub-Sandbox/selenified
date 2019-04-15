@@ -38,7 +38,7 @@ import static com.coveros.selenified.utilities.Constants.DEFAULT_POLLING_INTERVA
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 4/15/2019
  */
 public class WaitForState implements State {
 
