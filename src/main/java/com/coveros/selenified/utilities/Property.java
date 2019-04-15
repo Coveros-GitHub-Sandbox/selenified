@@ -49,7 +49,7 @@ import java.util.Properties;
 public class Property {
 
     private static final String PROXY_ISNT_SET = "Proxy isn't set";
-    private static final double wait = 5;
+    private static final double WAIT = 5;
 
     private Property() {
     }
@@ -301,13 +301,13 @@ public class Property {
     public static double getDefaultWait() {
         String defaultWait = getProgramProperty(DEFAULT_WAIT);
         if (defaultWait == null || "".equals(defaultWait)) {
-            return wait;
+            return WAIT;
         }
         try {
             return Double.valueOf(defaultWait);
         } catch (Exception e) {
             log.error("Provided default wait needs to be a double. " + e);
-            return wait;
+            return WAIT;
         }
     }
 }
