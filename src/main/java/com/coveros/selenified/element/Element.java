@@ -545,7 +545,7 @@ public class Element {
             return elements.get(match);
         }
         String reason = this.prettyOutputStart() + " was not located on the page";
-        if( elements.size() > 0 ) {
+        if( !elements.isEmpty() ) {
             reason += ", but " + elements.size() + " elements matching the locator were. Try using a lower match";
         }
         throw new NoSuchElementException(reason);
