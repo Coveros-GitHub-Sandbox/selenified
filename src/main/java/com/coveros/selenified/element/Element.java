@@ -544,10 +544,11 @@ public class Element {
         if (elements.size() > match) {
             return elements.get(match);
         }
-        if (parent != null) {
-            return parent.getWebElement().findElement(defineByElement());
+        String reason = this.prettyOutputStart() + " was not located on the page";
+        if( elements.size() > 0 ) {
+            reason += ", but " + elements.size() + " elements matching the locator were. Try using a lower match";
         }
-        return driver.findElement(defineByElement());
+        throw new NoSuchElementException(reason);
     }
 
     /**

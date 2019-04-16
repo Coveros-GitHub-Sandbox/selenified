@@ -321,8 +321,20 @@ public class ActionGetIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Element rows = app.newElement(Locator.ID, "table", 1).get().tableRow(0);
+        Element rows = app.newElement(Locator.ID, "table", 0).get().tableRow(0);
         assertTrue(rows.get().text().matches("\\s*Company\\s*Contact\\s*Country"));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get", "table"},
+            description = "An integration test to check the getTableRow method")
+    public void getTableRowBadTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element rows = app.newElement(Locator.ID, "table", 1).get().tableRow(0);
+        assertNull(rows);
         // verify no issues
         finish();
     }
@@ -369,7 +381,7 @@ public class ActionGetIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Element rows = app.newElement(Locator.ID, "table", 1).get().tableRows();
+        Element rows = app.newElement(Locator.ID, "table", 0).get().tableRows();
         assertEquals(rows.get().matchCount(), 7);
         assertTrue(rows.get(0).get().text().matches("\\s*Company\\s*Contact\\s*Country"));
         assertTrue(
