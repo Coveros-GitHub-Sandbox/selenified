@@ -20,6 +20,7 @@
 
 package com.coveros.selenified.application;
 
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -36,7 +37,7 @@ import static com.coveros.selenified.utilities.Constants.DEFAULT_POLLING_INTERVA
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 4/15/2019
  */
 public class WaitFor implements Check {
 
@@ -47,7 +48,7 @@ public class WaitFor implements Check {
     private final App app;
 
     // the default wait for elements
-    private double defaultWait = 5.0;
+    private double defaultWait = Property.getDefaultWait();
 
     /**
      * The default constructor passing in the app and output file
