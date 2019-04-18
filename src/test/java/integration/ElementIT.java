@@ -130,7 +130,7 @@ public class ElementIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "element", "pdftest"},
+    @Test(groups = {"integration", "element"},
             description = "An integration test to check that an element can be retrieved")
     public void getMultipleWebElementsTest() {
         // use this object to manipulate the app

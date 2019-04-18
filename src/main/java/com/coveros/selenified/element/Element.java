@@ -52,7 +52,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/20/2019
+ * @lastupdate 4/16/2019
  */
 public class Element {
 
@@ -544,10 +544,11 @@ public class Element {
         if (elements.size() > match) {
             return elements.get(match);
         }
-        if (parent != null) {
-            return parent.getWebElement().findElement(defineByElement());
+        String reason = this.prettyOutputStart() + " was not located on the page";
+        if( !elements.isEmpty() ) {
+            reason += ", but " + elements.size() + " elements matching the locator were. Try using a lower match";
         }
-        return driver.findElement(defineByElement());
+        throw new NoSuchElementException(reason);
     }
 
     /**
