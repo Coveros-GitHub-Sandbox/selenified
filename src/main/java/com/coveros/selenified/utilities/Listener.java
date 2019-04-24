@@ -146,7 +146,7 @@ public class Listener extends TestListenerAdapter {
         Reporter reporter = (Reporter) result.getAttribute(REPORTER);
         if (reporter != null) {
             try {
-                Files.delete(Paths.get(new File(reporter.getDirectory(), reporter.getFileName() + ".html").getAbsolutePath()));
+                Files.deleteIfExists(Paths.get(new File(reporter.getDirectory(), reporter.getFileName() + ".html").getAbsolutePath()));
                 Files.deleteIfExists(Paths.get(new File(reporter.getDirectory(), reporter.getFileName() + ".pdf").getAbsolutePath()));
             } catch (IOException e) {
                 log.error("Unable to locate report. " + e);
