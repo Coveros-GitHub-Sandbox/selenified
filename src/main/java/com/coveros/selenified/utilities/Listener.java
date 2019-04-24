@@ -27,7 +27,9 @@ import com.coveros.selenified.services.Request;
 import com.coveros.selenified.utilities.Reporter.Success;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.testng.*;
+import org.testng.ITestResult;
+import org.testng.SkipException;
+import org.testng.TestListenerAdapter;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
@@ -35,9 +37,7 @@ import java.io.IOException;
 
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.Selenified.SESSION_ID;
-import static com.coveros.selenified.utilities.Constants.LINK_END;
-import static com.coveros.selenified.utilities.Constants.LINK_MIDDLE;
-import static com.coveros.selenified.utilities.Constants.LINK_START;
+import static com.coveros.selenified.utilities.Constants.*;
 import static com.coveros.selenified.utilities.Property.BROWSER;
 
 /**
