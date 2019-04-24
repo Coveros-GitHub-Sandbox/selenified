@@ -34,6 +34,8 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.Selenified.SESSION_ID;
@@ -143,9 +145,11 @@ public class Listener extends TestListenerAdapter {
         //cleanup unneeded files
         Reporter reporter = (Reporter) result.getAttribute(REPORTER);
         if (reporter != null) {
-            new File(reporter.getDirectory(), reporter.getFileName() + ".html").delete();
-            if (Property.generatePDF()) {
-                new File(reporter.getDirectory(), reporter.getFileName() + ".pdf").delete();
+            try {
+                Files.delete(Paths.get(new File(reporter.getDirectory(), reporter.getFileName() + ".html").getAbsolutePath()));
+                Files.deleteIfExists(Paths.get(new File(reporter.getDirectory(), reporter.getFileName() + ".pdf").getAbsolutePath()));
+            } catch (IOException e) {
+                log.error("Unable to locate report. " + e);
             }
         }
     }
