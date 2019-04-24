@@ -72,7 +72,7 @@ public class Listener extends TestListenerAdapter {
      * @param result - the testng itestresult object
      * @return String: a string version of the test name
      */
-    protected static String getTestName(ITestResult result) {
+    private static String getTestName(ITestResult result) {
         String className;
         String packageName = "";
         String testClass = result.getTestClass().toString();

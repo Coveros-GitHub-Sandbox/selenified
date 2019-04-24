@@ -5113,11 +5113,7 @@ public class ListenerTest extends SaveProperties {
         Listener listener = new Listener();
         listener.onTestSkipped(resultCheckChrome);
         File file = new File("directory", "fileC.html");
-        assertTrue(file.exists());
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.contains("<b>CHECK</b>"));
-        file.delete();
-        new File("directory").delete();
+        assertFalse(file.exists());
     }
 
     @Test
