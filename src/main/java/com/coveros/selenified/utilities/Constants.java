@@ -89,6 +89,10 @@ public class Constants {
     public static final String END_IDIV = "</i></div>";
     public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
 
+    public static final String LINK_START = "<a target='_blank' href='";
+    public static final String LINK_MIDDLE = "'>";
+    public static final String LINK_END = "</a>";
+
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private Constants() {}

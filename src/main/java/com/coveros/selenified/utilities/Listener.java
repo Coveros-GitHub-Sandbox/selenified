@@ -27,9 +27,7 @@ import com.coveros.selenified.services.Request;
 import com.coveros.selenified.utilities.Reporter.Success;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.testng.ITestResult;
-import org.testng.SkipException;
-import org.testng.TestListenerAdapter;
+import org.testng.*;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
@@ -37,6 +35,9 @@ import java.io.IOException;
 
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.Selenified.SESSION_ID;
+import static com.coveros.selenified.utilities.Constants.LINK_END;
+import static com.coveros.selenified.utilities.Constants.LINK_MIDDLE;
+import static com.coveros.selenified.utilities.Constants.LINK_START;
 import static com.coveros.selenified.utilities.Property.BROWSER;
 
 /**
@@ -53,9 +54,6 @@ public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
 
     private static final String OUTPUT_BREAK = " | ";
-    private static final String LINK_START = "<a target='_blank' href='";
-    private static final String LINK_MIDDLE = "'>";
-    private static final String LINK_END = "</a>";
     private static final String TIME_UNIT = " seconds";
 
     /**
@@ -74,7 +72,7 @@ public class Listener extends TestListenerAdapter {
      * @param result - the testng itestresult object
      * @return String: a string version of the test name
      */
-    private static String getTestName(ITestResult result) {
+    protected static String getTestName(ITestResult result) {
         String className;
         String packageName = "";
         String testClass = result.getTestClass().toString();
@@ -142,7 +140,14 @@ public class Listener extends TestListenerAdapter {
     @Override
     public void onTestSkipped(ITestResult result) {
         super.onTestSkipped(result);
-        recordResult(result);
+        //cleanup unneeded files
+        Reporter reporter = (Reporter) result.getAttribute(REPORTER);
+        if (reporter != null) {
+            new File(reporter.getDirectory(), reporter.getFileName() + ".html").delete();
+            if (Property.generatePDF()) {
+                new File(reporter.getDirectory(), reporter.getFileName() + ".pdf").delete();
+            }
+        }
     }
 
     /**
