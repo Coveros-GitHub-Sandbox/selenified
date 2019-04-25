@@ -34,9 +34,12 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.Selenified.SESSION_ID;
+import static com.coveros.selenified.utilities.Constants.*;
 import static com.coveros.selenified.utilities.Property.BROWSER;
 
 /**
@@ -53,9 +56,6 @@ public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
 
     private static final String OUTPUT_BREAK = " | ";
-    private static final String LINK_START = "<a target='_blank' href='";
-    private static final String LINK_MIDDLE = "'>";
-    private static final String LINK_END = "</a>";
     private static final String TIME_UNIT = " seconds";
 
     /**
@@ -142,7 +142,16 @@ public class Listener extends TestListenerAdapter {
     @Override
     public void onTestSkipped(ITestResult result) {
         super.onTestSkipped(result);
-        recordResult(result);
+        //cleanup unneeded files
+        Reporter reporter = (Reporter) result.getAttribute(REPORTER);
+        if (reporter != null) {
+            try {
+                Files.deleteIfExists(Paths.get(new File(reporter.getDirectory(), reporter.getFileName() + ".html").getAbsolutePath()));
+                Files.deleteIfExists(Paths.get(new File(reporter.getDirectory(), reporter.getFileName() + ".pdf").getAbsolutePath()));
+            } catch (IOException e) {
+                log.error("Unable to locate report. " + e);
+            }
+        }
     }
 
     /**
