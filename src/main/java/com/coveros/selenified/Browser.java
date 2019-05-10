@@ -21,6 +21,7 @@
 package com.coveros.selenified;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.utilities.TestCase;
 import org.openqa.selenium.Platform;
 
@@ -132,7 +133,7 @@ public class Browser {
     }
 
     public String getDetails() {
-        StringBuilder stringBuilder = new StringBuilder(TestCase.capitalizeFirstLetters(getName().toString().toLowerCase()));
+        StringBuilder stringBuilder = new StringBuilder(Reporter.capitalizeFirstLetters(getName().toString().toLowerCase()));
         if (getVersion() != null) {
             stringBuilder.append(" ").append(getVersion());
         }

@@ -32,17 +32,6 @@ public class TestCaseTest {
     }
 
     @Test
-    public void capitalizeFirstLettersTest() {
-        assertEquals(TestCase.capitalizeFirstLetters(null), null);
-        assertEquals(TestCase.capitalizeFirstLetters("hello world"), "Hello World");
-        assertEquals(TestCase.capitalizeFirstLetters("helloWorld"), "HelloWorld");
-        assertEquals(TestCase.capitalizeFirstLetters("hello_world"), "Hello_World");
-        assertEquals(TestCase.capitalizeFirstLetters("123helloWorld"), "123HelloWorld");
-        assertEquals(TestCase.capitalizeFirstLetters("hello123world"), "Hello123World");
-        assertEquals(TestCase.capitalizeFirstLetters("helloWorld123"), "HelloWorld123");
-    }
-
-    @Test
     public void getTestNameNullTest(Method method) {
         assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
         assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", null), "UnitTests_helloWorld");

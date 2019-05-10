@@ -33,7 +33,9 @@ public class ElementIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         Element table = app.newElement(Locator.ID, "table");
-        Element cell = table.findChild(app.newElement(Locator.TAGNAME, "th"));
+        Element cell = table.get().tableCell(5, 6);
+        Element link = cell.findChild(app.newElement(Locator.TAGNAME, "a"));
+//        Element cell = table.findChild(app.newElement(Locator.TAGNAME, "th"));
         cell.assertEquals().text("");
         // verify no issues
         finish();

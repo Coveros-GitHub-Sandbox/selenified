@@ -129,7 +129,7 @@ public class TestCase {
                 if (data == null || data.toString().startsWith(PUBLIC)) {
                     break;
                 }
-                testName.append(capitalizeFirstLetters(removeNonWordCharacters(data.toString())));
+                testName.append(Reporter.capitalizeFirstLetters(removeNonWordCharacters(data.toString())));
             }
             currentName = testName.toString();
             if (currentName.length() > MAXFILENAMELENGTH) {
@@ -144,32 +144,5 @@ public class TestCase {
             }
         }
         return currentName;
-    }
-
-    /**
-     * Capitalizes the first letter of each word in the provided string
-     *
-     * @param word - the string to be capitalized on
-     * @return String: the new string
-     */
-    public static String capitalizeFirstLetters(String word) {
-        if (word == null) {
-            return null;
-        }
-        String out = "";
-        for (int i = 0; i < word.length(); i++) {
-            if (i == 0) {
-                // Capitalize the first letter of the string.
-                out = String.format("%s%s", Character.toUpperCase(word.charAt(0)), word.substring(1));
-            }
-            // Is this character a non-letter? If so
-            // then this is probably a word boundary so let's capitalize
-            // the next character in the sequence.
-            if (!Character.isLetter(out.charAt(i)) && (i + 1) < out.length()) {
-                out = String.format("%s%s%s", out.subSequence(0, i + 1), Character.toUpperCase(out.charAt(i + 1)),
-                        out.substring(i + 2));
-            }
-        }
-        return out;
     }
 }

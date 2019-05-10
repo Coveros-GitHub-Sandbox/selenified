@@ -32,24 +32,29 @@ import com.coveros.selenified.services.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import org.testng.*;
 import org.testng.log4testng.Logger;
+import org.testng.xml.XmlSuite;
 
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import static com.coveros.selenified.utilities.Constants.DIV_I;
-import static com.coveros.selenified.utilities.Constants.END_IDIV;
+import static com.coveros.selenified.Selenified.REPORTER;
+import static com.coveros.selenified.utilities.Constants.*;
+import static com.coveros.selenified.utilities.Constants.LINK_END;
+import static com.coveros.selenified.utilities.Property.BROWSER;
+import static java.util.stream.Collectors.toList;
 
 /**
  * A custom output file, recording all details of every step performed, both
@@ -1060,6 +1065,33 @@ public class Reporter {
             default:
                 return i + suffixes[i % 10];
         }
+    }
+
+    /**
+     * Capitalizes the first letter of each word in the provided string
+     *
+     * @param word - the string to be capitalized on
+     * @return String: the new string
+     */
+    public static String capitalizeFirstLetters(String word) {
+        if (word == null) {
+            return null;
+        }
+        String out = "";
+        for (int i = 0; i < word.length(); i++) {
+            if (i == 0) {
+                // Capitalize the first letter of the string.
+                out = String.format("%s%s", Character.toUpperCase(word.charAt(0)), word.substring(1));
+            }
+            // Is this character a non-letter? If so
+            // then this is probably a word boundary so let's capitalize
+            // the next character in the sequence.
+            if (!Character.isLetter(out.charAt(i)) && (i + 1) < out.length()) {
+                out = String.format("%s%s%s", out.subSequence(0, i + 1), Character.toUpperCase(out.charAt(i + 1)),
+                        out.substring(i + 2));
+            }
+        }
+        return out;
     }
 
     ///////////////////////////////////////////////////////////////////

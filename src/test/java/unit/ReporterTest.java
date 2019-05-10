@@ -457,7 +457,7 @@ public class ReporterTest {
         Request request = new Request().setJsonPayload(new JsonArray());
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
         assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\[\\]</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
- }
+    }
 
     @Test
     public void outputRequestPropertiesJsonArrayAndFileTest() {
@@ -792,5 +792,16 @@ public class ReporterTest {
         Response response = new Response(reporter, null, 200, null, null, "hello world");
         String responseOutput = Reporter.getResponseOutput(response);
         assertTrue(responseOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Raw Response</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>hello world</div></span>"));
+    }
+
+    @Test
+    public void capitalizeFirstLettersTest() {
+        assertEquals(Reporter.capitalizeFirstLetters(null), null);
+        assertEquals(Reporter.capitalizeFirstLetters("hello world"), "Hello World");
+        assertEquals(Reporter.capitalizeFirstLetters("helloWorld"), "HelloWorld");
+        assertEquals(Reporter.capitalizeFirstLetters("hello_world"), "Hello_World");
+        assertEquals(Reporter.capitalizeFirstLetters("123helloWorld"), "123HelloWorld");
+        assertEquals(Reporter.capitalizeFirstLetters("hello123world"), "Hello123World");
+        assertEquals(Reporter.capitalizeFirstLetters("helloWorld123"), "HelloWorld123");
     }
 }
