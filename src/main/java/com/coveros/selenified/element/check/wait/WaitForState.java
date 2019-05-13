@@ -25,10 +25,11 @@ import com.coveros.selenified.element.check.State;
 import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.coveros.selenified.utilities.Constants.DEFAULT_POLLING_INTERVAL;
+import static com.coveros.selenified.utilities.Constants.ELEMENT_NOT_PRESENT;
 
 /**
  * WaitForState implements State to provide some additional wait capabilities.
@@ -50,6 +51,9 @@ public class WaitForState implements State {
 
     // the default wait for the system
     private double defaultWait = Property.getDefaultWait();
+
+    // the default poll for elements
+    private long defaultPoll = Property.getDefaultPoll();
 
     public WaitForState(Element element, Reporter reporter) {
         this.element = element;
@@ -80,6 +84,16 @@ public class WaitForState implements State {
      */
     public void changeDefaultWait(double seconds) {
         defaultWait = seconds;
+    }
+
+    /**
+     * Changes the default poll time from 500.0 milliseconds to some custom number.
+     *
+     * @param milliseconds - how many milliseconds should WaitFor wait between pollings
+     *                     for the condition to be met
+     */
+    public void changeDefaultPoll(long milliseconds) {
+        defaultPoll = milliseconds;
     }
 
     // ///////////////////////////////////////
@@ -192,12 +206,7 @@ public class WaitForState implements State {
      * @param seconds - how many seconds to wait for
      */
     public void present(double seconds) {
-        try {
-            double timeTook = elementPresent(seconds);
-            checkPresent(seconds, timeTook);
-        } catch (TimeoutException e) {
-            checkPresent(seconds, seconds);
-        }
+        checkPresent(seconds, elementPresent(seconds));
     }
 
     /**
@@ -210,7 +219,7 @@ public class WaitForState implements State {
     public void notPresent(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) seconds, defaultPoll);
             wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(element.defineByElement())));
             double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkNotPresent(seconds, timeTook);
@@ -230,7 +239,10 @@ public class WaitForState implements State {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             double timeTook = elementPresent(seconds);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), DEFAULT_POLLING_INTERVAL);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
             wait.until(ExpectedConditions.visibilityOfElementLocated(element.defineByElement()));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkDisplayed(seconds, timeTook);
@@ -250,7 +262,10 @@ public class WaitForState implements State {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             double timeTook = elementPresent(seconds);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), DEFAULT_POLLING_INTERVAL);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(element.defineByElement()));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkNotDisplayed(seconds, timeTook);
@@ -269,12 +284,16 @@ public class WaitForState implements State {
     public void checked(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
-            while (!element.is().checked() && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> element.is().checked());
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkChecked(seconds, timeTook);
         } catch (TimeoutException e) {
-            checkNotDisplayed(seconds, seconds);
+            checkChecked(seconds, seconds);
         }
     }
 
@@ -288,12 +307,16 @@ public class WaitForState implements State {
     public void notChecked(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
-            while (element.is().checked() && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> !element.is().checked());
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkNotChecked(seconds, timeTook);
         } catch (TimeoutException e) {
-            checkNotDisplayed(seconds, seconds);
+            checkNotChecked(seconds, seconds);
         }
     }
 
@@ -309,12 +332,16 @@ public class WaitForState implements State {
     public void editable(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
-            while (!element.is().editable() && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> element.is().editable());
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkEditable(seconds, timeTook);
         } catch (TimeoutException e) {
-            checkEnabled(seconds, seconds);
+            checkEditable(seconds, seconds);
         }
     }
 
@@ -330,12 +357,16 @@ public class WaitForState implements State {
     public void notEditable(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
-            while (element.is().editable() && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> !element.is().editable());
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkNotEditable(seconds, timeTook);
         } catch (TimeoutException e) {
-            checkEnabled(seconds, seconds);
+            checkNotEditable(seconds, seconds);
         }
     }
 
@@ -350,7 +381,10 @@ public class WaitForState implements State {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             double timeTook = elementPresent(seconds);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), DEFAULT_POLLING_INTERVAL);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
             wait.until(ExpectedConditions.elementToBeClickable(element.defineByElement()));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkEnabled(seconds, timeTook);
@@ -370,7 +404,10 @@ public class WaitForState implements State {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             double timeTook = elementPresent(seconds);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), DEFAULT_POLLING_INTERVAL);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
             wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.defineByElement())));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkNotEnabled(seconds, timeTook);

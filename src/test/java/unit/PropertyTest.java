@@ -1050,6 +1050,77 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getDefaultWait(), 5d);
     }
 
+    @Test
+    public void defaultGetDefaultPollTest() {
+        assertEquals(Property.getDefaultPoll(), 50);
+    }
+
+    @Test
+    public void defaultGetDefaultPollEmptyTest() {
+        System.setProperty(DEFAULT_POLL, "");
+        assertEquals(Property.getDefaultPoll(), 50);
+    }
+
+    @Test
+    public void defaultGetDefaultPollBadValTest() {
+        System.setProperty(DEFAULT_POLL, "hello");
+        assertEquals(Property.getDefaultPoll(), 50);
+    }
+
+    @Test
+    public void defaultGetDefaultPollFiveTest() {
+        System.setProperty(DEFAULT_POLL, "5");
+        assertEquals(Property.getDefaultPoll(), 5);
+    }
+
+    @Test
+    public void defaultGetDefaultPollOneTest() {
+        System.setProperty(DEFAULT_POLL, "1");
+        assertEquals(Property.getDefaultPoll(), 1);
+    }
+
+    @Test
+    public void defaultGetDefaultPollFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertEquals(Property.getDefaultPoll(), 50);
+    }
+
+    @Test
+    public void defaultGetDefaultPollFilePartialTest() throws IOException {
+        createPropertiesFile(DEFAULT_POLL);
+        assertEquals(Property.getDefaultPoll(), 50);
+    }
+
+    @Test
+    public void defaultGetDefaultPollFileUnsetTest() throws IOException {
+        createPropertiesFile(DEFAULT_POLL + "=");
+        assertEquals(Property.getDefaultPoll(), 50);
+    }
+
+    @Test
+    public void defaultGetDefaultPollBadValFileTest() throws IOException {
+        createPropertiesFile(DEFAULT_POLL + "=hello");
+        assertEquals(Property.getDefaultPoll(), 50);
+    }
+
+    @Test
+    public void defaultGetDefaultPollFiveFileTest() throws IOException {
+        createPropertiesFile(DEFAULT_POLL + "=5");
+        assertEquals(Property.getDefaultPoll(), 5);
+    }
+
+    @Test
+    public void defaultGetDefaultPollOneFileTest() throws IOException {
+        createPropertiesFile(DEFAULT_POLL + "=1");
+        assertEquals(Property.getDefaultPoll(), 1);
+    }
+
+    @Test
+    public void defaultGetDefaultPollOverrideEmptyTest() throws IOException {
+        System.setProperty(DEFAULT_POLL, "1");
+        createPropertiesFile("");
+        assertEquals(Property.getDefaultPoll(), 1);
+    }
 
     private void createPropertiesFile(String content) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));

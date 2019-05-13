@@ -14,11 +14,49 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        Element element = app.newElement(Locator.ID, "five_second_button");
+        Element element = app.newElement(Locator.ID, "changing_text");
         element.waitForEquals().changeDefaultWait(0.5);
-        element.click();
-        // verify 2 issues
-        finish(2);
+        element.waitForEquals().text("Some Changing Text");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "equals", "wait"},
+            description = "An integration test to check changing the default wait method")
+    public void setDefaultWait2ElementTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element element = app.newElement(Locator.ID, "changing_text");
+        element.waitForEquals().text("Some Changing Text", 0.5);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "state", "wait"},
+            description = "An integration test to check changing the default poll method")
+    public void setDefaultPollElementTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element element = app.newElement(Locator.ID, "changing_text");
+        element.waitForEquals().changeDefaultPoll(5);
+        element.waitForEquals().text("Some Changing Text");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "state", "wait"},
+            description = "An integration test to check changing the default poll method")
+    public void setDefaultPollNegativeElementTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element element = app.newElement(Locator.ID, "changing_text");
+        element.waitForEquals().changeDefaultPoll(10000);
+        element.waitForEquals().text("Some Changing Text");
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "wait", "equals"}, description = "An integration test to check the matchCount method")
@@ -258,6 +296,17 @@ public class WaitForEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").waitForEquals().text(0, 0, "", 1);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "An integration negative test to check the compareTableCellText method")
+    public void negativeCompareTableCellTextNotTableTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "hidden_div").waitForEquals().text(2, 1, "", 1);
         // verify 1 issue
         finish(1);
     }
@@ -615,6 +664,17 @@ public class WaitForEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "alert_button").waitForEquals().selectedOption("wrong value", 1);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "An integration negative test to check the compareSelectedText method")
+    public void negativeCompareSelectedTextNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "no_such_element").waitForEquals().selectedOption("wrong value", 1);
         // verify 1 issue
         finish(1);
     }

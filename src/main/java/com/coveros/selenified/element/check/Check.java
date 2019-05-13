@@ -21,7 +21,9 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -170,8 +172,12 @@ interface Check {
      */
     default double elementPresent(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        WebDriverWait wait = new WebDriverWait(getElement().getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(getElement().defineByElement()));
-        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        try {
+            WebDriverWait wait = new WebDriverWait(getElement().getDriver(), (long) seconds, Property.getDefaultPoll());
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(getElement().defineByElement()));
+            return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        } catch ( TimeoutException e) {
+            return seconds;
+        }
     }
 }
