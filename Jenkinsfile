@@ -55,6 +55,14 @@ node {
                                     sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
                                     archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
                                     junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'results/htmlunit/target/failsafe-reports',
+                                            reportFiles          : 'index.html.html',
+                                            reportName           : 'HTMLUnit Report'
+                                    ])
                                 }
                             }
                         },
@@ -91,6 +99,14 @@ node {
                             sh "mkdir -p results/chrome; mv target results/chrome/"
                             archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
                             junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
+                            publishHTML([
+                                    allowMissing         : false,
+                                    alwaysLinkToLastBuild: true,
+                                    keepAll              : true,
+                                    reportDir            : 'results/chrome/target/failsafe-reports',
+                                    reportFiles          : 'index.html.html',
+                                    reportName           : 'Chrome Report'
+                            ])
                         }
                     }
                 } finally {
@@ -132,6 +148,14 @@ node {
                         sh "mkdir -p results/sauce; mv target results/sauce/"
                         archiveArtifacts artifacts: 'results/sauce/target/failsafe-reports/**'
                         junit 'results/sauce/target/failsafe-reports/TEST-*.xml'
+                        publishHTML([
+                                allowMissing         : false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll              : true,
+                                reportDir            : 'results/sauce/target/failsafe-reports',
+                                reportFiles          : 'index.html.html',
+                                reportName           : 'Sauce Report'
+                        ])
                     }
                 }
             }

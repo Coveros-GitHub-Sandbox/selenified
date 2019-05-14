@@ -36,7 +36,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/15/2019
+ * @lastupdate 5/13/2019
  */
 public class WaitFor implements Check {
 
