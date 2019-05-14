@@ -60,7 +60,7 @@ node {
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
                                             reportDir            : 'results/htmlunit/target/failsafe-reports',
-                                            reportFiles          : 'index.html.html',
+                                            reportFiles          : 'index.html',
                                             reportName           : 'HTMLUnit Report'
                                     ])
                                 }
@@ -104,7 +104,7 @@ node {
                                     alwaysLinkToLastBuild: true,
                                     keepAll              : true,
                                     reportDir            : 'results/chrome/target/failsafe-reports',
-                                    reportFiles          : 'index.html.html',
+                                    reportFiles          : 'index.html',
                                     reportName           : 'Chrome Report'
                             ])
                         }
@@ -153,7 +153,7 @@ node {
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
                                 reportDir            : 'results/sauce/target/failsafe-reports',
-                                reportFiles          : 'index.html.html',
+                                reportFiles          : 'index.html',
                                 reportName           : 'Sauce Report'
                         ])
                     }
