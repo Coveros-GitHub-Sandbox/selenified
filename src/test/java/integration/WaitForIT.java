@@ -627,7 +627,7 @@ public class WaitForIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().changeDefaultPoll(5000);
+        app.waitFor().changeDefaultPoll(10000);
         app.waitFor().textPresent("Some Changing Text");
         // verify 1 issues
         finish(1);
