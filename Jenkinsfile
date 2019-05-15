@@ -55,6 +55,14 @@ node {
                                     sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
                                     archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
                                     junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'results/htmlunit/target/failsafe-reports',
+                                            reportFiles          : 'index.html',
+                                            reportName           : 'HTMLUnit Report'
+                                    ])
                                 }
                             }
                         },
@@ -91,6 +99,14 @@ node {
                             sh "mkdir -p results/chrome; mv target results/chrome/"
                             archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
                             junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
+                            publishHTML([
+                                    allowMissing         : false,
+                                    alwaysLinkToLastBuild: true,
+                                    keepAll              : true,
+                                    reportDir            : 'results/chrome/target/failsafe-reports',
+                                    reportFiles          : 'index.html',
+                                    reportName           : 'Chrome Report'
+                            ])
                         }
                     }
                 } finally {
@@ -121,6 +137,27 @@ node {
                 stage('Update Test Site') {
                     sh 'scp public/* ec2-user@34.233.135.10:/var/www/noindex/'
                 }
+                // this will be replaced by 'Execute Hub Tests' once #103 is completed. This is temporary to ensure all browser types can in fact run successfully
+                stage('Execute Some Hub Tests') {
+                    try {
+                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
+                    } catch (e) {
+                        throw e
+                    } finally {
+                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                        sh "mkdir -p results/compatibility; mv target results/compatibility/"
+                        archiveArtifacts artifacts: 'results/compatibility/target/failsafe-reports/**'
+                        junit 'results/compatibility/target/failsafe-reports/TEST-*.xml'
+                        publishHTML([
+                                allowMissing         : false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll              : true,
+                                reportDir            : 'results/compatibility/target/failsafe-reports',
+                                reportFiles          : 'index.html',
+                                reportName           : 'Compatibility Report'
+                        ])
+                    }
+                }
                 stage('Execute Hub Tests') {
                     try {
 //                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://34.233.135.10/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
@@ -132,6 +169,14 @@ node {
                         sh "mkdir -p results/sauce; mv target results/sauce/"
                         archiveArtifacts artifacts: 'results/sauce/target/failsafe-reports/**'
                         junit 'results/sauce/target/failsafe-reports/TEST-*.xml'
+                        publishHTML([
+                                allowMissing         : false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll              : true,
+                                reportDir            : 'results/sauce/target/failsafe-reports',
+                                reportFiles          : 'index.html',
+                                reportName           : 'Sauce Report'
+                        ])
                     }
                 }
             }
