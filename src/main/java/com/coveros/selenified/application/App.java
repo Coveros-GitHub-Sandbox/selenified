@@ -347,8 +347,8 @@ public class App {
             // take a screenshot
             File srcFile;
             if (Property.isHubSet()) {
-                WebDriver augemented = new Augmenter().augment(driver);
-                srcFile = ((TakesScreenshot) augemented).getScreenshotAs(OutputType.FILE);
+                WebDriver augmented = new Augmenter().augment(driver);
+                srcFile = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.FILE);
             } else {
                 srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             }
@@ -516,7 +516,7 @@ public class App {
     }
 
     /**
-     * Resizes the current window to the specified size
+     * Resize the current window to the specified size
      *
      * @param width  - the desired width of the browser
      * @param height - the desired height of the browser

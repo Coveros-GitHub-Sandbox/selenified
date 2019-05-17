@@ -14,12 +14,14 @@ public class SaveProperties {
     protected static final String SELENIFIED = "src/test/resources/selenified.properties";
 
     static final String DEFAULT_WAIT = "defaultWait";
+    static final String DEFAULT_POLL = "defaultPoll";
     static final String GENERATE_PDF = "generatePDF";
     static final String PACKAGE_RESULTS = "packageResults";
     static final String HUB = "hub";
     static final String PROXY = "proxy";
 
     private String setDefaultWait = null;
+    private String setDefaultPoll = null;
     private String setGeneratePDF = null;
     private String setPackageResults = null;
     private String setHub = null;
@@ -36,6 +38,9 @@ public class SaveProperties {
     public void saveProperties() {
         if (System.getProperty(DEFAULT_WAIT) != null) {
             setDefaultWait = System.getProperty(DEFAULT_WAIT);
+        }
+        if (System.getProperty(DEFAULT_POLL) != null) {
+            setDefaultPoll = System.getProperty(DEFAULT_POLL);
         }
         if (System.getProperty(GENERATE_PDF) != null) {
             setGeneratePDF = System.getProperty(GENERATE_PDF);
@@ -66,8 +71,11 @@ public class SaveProperties {
 
     @AfterClass(alwaysRun = true)
     public void restoreProperties() {
-        if (setDefaultWait!= null) {
+        if (setDefaultWait != null) {
             System.setProperty(DEFAULT_WAIT, setDefaultWait);
+        }
+        if (setDefaultPoll != null) {
+            System.setProperty(DEFAULT_POLL, setDefaultPoll);
         }
         if (setGeneratePDF != null) {
             System.setProperty(GENERATE_PDF, setGeneratePDF);
@@ -100,6 +108,7 @@ public class SaveProperties {
     @AfterMethod(alwaysRun = true)
     public void clearProperties(ITestContext context) {
         System.clearProperty(DEFAULT_WAIT);
+        System.clearProperty(DEFAULT_POLL);
         System.clearProperty(GENERATE_PDF);
         System.clearProperty(PACKAGE_RESULTS);
         System.clearProperty(HUB);

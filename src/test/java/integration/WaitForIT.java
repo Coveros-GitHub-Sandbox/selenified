@@ -225,6 +225,17 @@ public class WaitForIT extends WebBase {
     }
 
     @Test(groups = {"integration", "wait", "alert"},
+            description = "An integration test to check the checkConfirmation method")
+    public void negativeCheckNoConfirmationTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().confirmationEquals(2,"Enabled!");
+        // verify no issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "alert"},
             description = "An integration negative test to check the checkConfirmation method")
     public void negativeCheckConfirmationTest() {
         // use this object to manipulate the app
@@ -594,6 +605,32 @@ public class WaitForIT extends WebBase {
         app.newElement(Locator.ID, "delayed_alert_button").click();
         app.waitFor().alertPresent();
         app.azzert().alertNotPresent();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait"},
+            description = "An integration test to check changing the default poll method")
+    public void setDefaultPollAppTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().changeDefaultPoll(5);
+        app.waitFor().textPresent("Some Changing Text");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "wait"},
+            description = "An integration test to check changing the default poll method")
+    public void setDefaultPollAppNegativeTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().changeDefaultPoll(10000);
+        app.waitFor().textPresent("Some Changing Text");
+        // verify 1 issues
+        finish(1);
     }
 
     @Test(groups = {"integration", "wait", "alert"},
@@ -605,6 +642,8 @@ public class WaitForIT extends WebBase {
         app.newElement(Locator.ID, "delayed_alert_button").click();
         app.waitFor().alertPresent();
         app.azzert().alertPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "wait", "browser"},
