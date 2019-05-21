@@ -49,6 +49,11 @@
         <nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
         <openhtml.version>0.0.1-RC15</openhtml.version>
 
+        <!-- jacoco arglines -->
+        <argLine>${jacocoArgLine}</argLine>
+        <!--<surefireArgLine></surefireArgLine>-->
+        <!--<failsafeArgLine></failsafeArgLine>-->
+
         <!-- SonarQube properties -->
         <sonar.host.url>http://localhost:9000/sonar</sonar.host.url>
         <sonar.sources>src/main/java</sonar.sources>
@@ -189,9 +194,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
-                    <!-- Sets the VM argument line used when unit tests are run. -->
-                    <!--suppress UnresolvedMavenProperty -->
-                    <argLine>${surefireArgLine}</argLine>
                     <!-- Skips unit tests if the value of skip.unit.tests property is true -->
                     <skipTests>${skip.unit.tests}</skipTests>
                     <!-- Excludes integration tests when unit tests are run. -->
@@ -269,11 +271,7 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the VM argument line used when integration tests are run. -->
-                            <!--suppress UnresolvedMavenProperty -->
-                            <argLine>${failsafeArgLine}</argLine>
-                            <!-- Skips integration tests if the value of skip.integration.tests
-                                property is true -->
+                            <!-- Skips integration tests if the value of skip.integration.tests property is true -->
                             <skipTests>${skip.integration.tests}</skipTests>
                         </configuration>
                     </execution>
@@ -283,10 +281,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the VM argument line used when integration tests are run. -->
-                            <argLine>${failsafeArgLine}</argLine>
-                            <!-- Skips integration tests if the value of skip.integration.tests
-                                property is true -->
+                            <!-- Skips integration tests if the value of skip.integration.tests property is true -->
                             <skipTests>${skip.integration.tests}</skipTests>
                         </configuration>
                     </execution>
@@ -318,7 +313,7 @@
                             <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
                             <!-- Sets the name of the property containing the settings for JaCoCo
                                 runtime agent. -->
-                            <propertyName>surefireArgLine</propertyName>
+                            <propertyName>jacocoArgLine</propertyName>
                         </configuration>
                     </execution>
                     <!-- Ensures that the code coverage report for unit tests is created
@@ -350,7 +345,7 @@
                             <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
                             <!-- Sets the name of the property containing the settings for JaCoCo
                                 runtime agent. -->
-                            <propertyName>failsafeArgLine</propertyName>
+                            <propertyName>jacocoArgLine</propertyName>
                         </configuration>
                     </execution>
                     <!-- Ensures that the code coverage report for integration tests after
