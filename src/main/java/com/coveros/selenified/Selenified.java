@@ -26,6 +26,7 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.services.HTTP.ContentType;
 import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import com.coveros.selenified.utilities.Sauce;
@@ -163,6 +164,35 @@ public class Selenified {
      */
     protected static void setAuthor(Selenified clazz, ITestContext context, String author) {
         context.setAttribute(clazz.getClass().getName() + "Author", author);
+    }
+
+
+    /**
+     * Sets the content type for the web services calls for each instance of the test suite being executed.
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @return ContentType - the contentType we want to set for this particular test suite
+     */
+    protected static ContentType getContentType(String clazz, ITestContext context) {
+        return (ContentType) context.getAttribute(clazz + "ContentType");
+    }
+
+    /**
+     * Sets the content type for the web services calls for each instance of the test suite being executed.
+     *
+     * @param clazz       - the test suite class, used for making threadsafe storage of
+     *                    application, allowing suites to have independent applications
+     *                    under test, run at the same time
+     * @param context     - the TestNG context associated with the test suite, used for
+     *                    storing app url information
+     * @param contentType - what contentType do we want to set for this particular test suite
+     */
+    protected static void setContentType(Selenified clazz, ITestContext context, ContentType contentType) {
+        context.setAttribute(clazz.getClass().getName() + "ContentType", contentType);
     }
 
     /**
@@ -386,6 +416,9 @@ public class Selenified {
         HTTP http = new HTTP(reporter, Property.getAppURL(extClass, test), getServiceUserCredential(extClass, test),
                 getServicePassCredential(extClass, test));
         Call call = new Call(http, getExtraHeaders(extClass, test));
+        if (getContentType(extClass, test) != null) {
+            call.setContentType(getContentType(extClass, test));
+        }
         this.calls.set(call);
 
         this.browserThreadLocal.set(browser);

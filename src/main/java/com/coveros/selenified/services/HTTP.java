@@ -60,8 +60,24 @@ public class HTTP {
     private String user = "";
     private String pass = "";
     private Map<String, Object> extraHeaders = new HashMap<>();
+    private ContentType contentType = ContentType.JSON;
 
-    private String contentType = "application/json; charset=UTF-8";
+    /**
+     * An enum for handling multiple content types. This is specifically only capable for handling json
+     * and formdata currently
+     */
+    public enum ContentType {
+        JSON("application/json; charset=UTF-8"), FORMDATA(MULTIPART + BOUNDARY);
+        private String contentTypeString;
+
+        ContentType(String contentTypeString) {
+            this.contentTypeString = contentTypeString;
+        }
+
+        public String getContentType() {
+            return contentTypeString;
+        }
+    }
 
     /**
      * Instantiates a HTTP session for making web service calls without any
@@ -92,6 +108,16 @@ public class HTTP {
     }
 
     /**
+     * Sets the content type. Currently only application/json and multipart/form-data are supported, but we
+     * are looking to add support for several other forms in the future
+     *
+     * @param contentType - the content type to set
+     */
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
+    }
+
+    /**
      * Adds the desired headers via a map. These should just be key-value pairs, as many as are desired to set.
      * Content-length, Content-Type, and accept are already set, but can be overridden with these values
      *
@@ -116,7 +142,7 @@ public class HTTP {
     public Map<String, Object> getHeaders() {
         Map<String, Object> map = new HashMap<>();
         map.put("Content-length", "0");
-        map.put(CONTENT_TYPE, contentType);
+        map.put(CONTENT_TYPE, contentType.getContentType());
         map.put("Accept", "application/json");
         for (Map.Entry<String, Object> entry : extraHeaders.entrySet()) {
             map.put(entry.getKey(), entry.getValue());
@@ -206,9 +232,6 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response post(String service, Request request, File file) throws IOException {
-        if (file != null) {
-            this.contentType = MULTIPART + BOUNDARY;
-        }
         return call(Method.POST, service, request, file);
     }
 
@@ -222,9 +245,6 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response put(String service, Request request, File file) throws IOException {
-        if (file != null) {
-            this.contentType = MULTIPART + BOUNDARY;
-        }
         return call(Method.PUT, service, request, file);
     }
 
@@ -238,9 +258,6 @@ public class HTTP {
      * @return Response: the response provided from the http call
      */
     public Response delete(String service, Request request, File file) throws IOException {
-        if (file != null) {
-            this.contentType = MULTIPART + BOUNDARY;
-        }
         return call(Method.DELETE, service, request, file);
     }
 
@@ -303,10 +320,9 @@ public class HTTP {
         }
         connection.connect();
         if ((request != null && request.isPayload()) || file != null) {
-            if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data") ||
-                    (request != null && request.getMultipartData() != null) || file != null) {
+            if (this.contentType == ContentType.FORMDATA) {
                 writeMultipartDataRequest(connection, request, file);
-            } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json")) {
+            } else if (this.contentType == ContentType.JSON) {
                 writeJsonDataRequest(connection, request);
             } else {
                 throw new InvalidHTTPException("Content-Type '" + connection.getRequestProperty(CONTENT_TYPE) +
@@ -342,7 +358,9 @@ public class HTTP {
      */
     private void writeJsonDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream())) {
-            wr.write(request.getJsonPayload().toString());
+            if (request != null && request.getJsonPayload() != null) {
+                wr.write(request.getJsonPayload().toString());
+            }
             wr.flush();
         } catch (IOException e) {
             log.error(e);

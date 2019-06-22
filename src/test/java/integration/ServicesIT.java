@@ -1,8 +1,8 @@
 package integration;
 
 import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.Request;
-import com.coveros.selenified.services.Response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.annotations.Test;
@@ -10,8 +10,6 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.testng.Assert.assertNull;
 
 public class ServicesIT extends ServicesBase {
 
@@ -60,23 +58,18 @@ public class ServicesIT extends ServicesBase {
 
     @Test(groups = {"integration", "service", "headers"},
             description = "An integration negative test to verify we can successfully change header values")
-    public void setUnsupportedHeaderTest() {
+    public void overrideContentTypeTest() {
         JsonObject request = new JsonObject();
         request.addProperty("title", "foo");
         request.addProperty("body", "bar");
         request.addProperty("userId", 2);
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
-        // set some custom headers
-        // as application/xml is not currently supported, the initial post call will also fail
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("Content-Type", "application/xml");
-        call.addHeaders(headers);
+        call.setContentType(HTTP.ContentType.FORMDATA);
         // perform some actions
-        Response response = call.post("posts/", new Request().setJsonPayload(request));
-        assertNull(response);
-        // verify 1 issue
-        finish(1);
+        call.post("posts/", new Request().setJsonPayload(request)).verify().equals(404);
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "service", "headers"},
