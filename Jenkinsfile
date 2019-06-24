@@ -43,7 +43,6 @@ node {
                     junit 'results/unit/target/surefire-reports/TEST-*.xml'
                 }
             }
-//            wrap([$class: 'Xvfb']) {
             parallel(
                     "Execute Local Tests": {
                         stage('Execute HTMLUnit Tests') {
@@ -154,7 +153,6 @@ node {
                         ).trim()
                     },
             )
-//            }
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
