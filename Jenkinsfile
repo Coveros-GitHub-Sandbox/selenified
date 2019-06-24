@@ -163,7 +163,7 @@ node {
                     )
             ]) {
                 stage('Update Test Site') {
-                    sh "scp public/* ec2-user@${publicIp}:/var/www/noindex/"
+                    sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
                 }
                 // this will be replaced by 'Execute Hub Tests' once #103 is completed. This is temporary to ensure all browser types can in fact run successfully
                 stage('Execute Some Hub Tests') {
@@ -233,7 +233,7 @@ node {
                             }
                         },
                         "Terminate Selenified Test Server": {
-                            sh "terminate-instances --instance-ids ${instanceId}"
+                            sh "aws ec2 terminate-instances --instance-ids ${instanceId}"
                         },
                 )
             }
