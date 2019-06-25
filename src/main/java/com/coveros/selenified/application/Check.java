@@ -33,23 +33,15 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 6/25/2019
  */
-public interface Check {
+abstract class Check {
 
-    /**
-     * Retrieves the output file that we write all details out to
-     *
-     * @return Reporter
-     */
-    Reporter getReporter();
+    // this will be the name of the file we write all commands out to
+    Reporter reporter;
 
-    /**
-     * Retrieves the driver that is used for all selenium actions
-     *
-     * @return App
-     */
-    App getApp();
+    // this is the driver that will be used for all selenium actions
+    App app;
 
     ///////////////////////////////////////////////////////
     // checks about the page in general
@@ -62,7 +54,7 @@ public interface Check {
      *
      * @param expectedURL - the URL of the page
      */
-    void urlEquals(String expectedURL);
+    abstract void urlEquals(String expectedURL);
 
     /**
      * Checks that the provided URL equals the actual URL the application is
@@ -75,13 +67,13 @@ public interface Check {
      * @param timeTook    - the amount of time it took for wait for something (assuming we had to wait)
      * @return String - the actual URL
      */
-    default String checkUrlEquals(String expectedURL, double waitFor, double timeTook) {
-        String actualURL = getApp().get().url();
+    String checkUrlEquals(String expectedURL, double waitFor, double timeTook) {
+        String actualURL = this.app.get().url();
         if (!actualURL.equals(expectedURL)) {
-            getReporter().fail("to be on page with the URL of <b>" + expectedURL + "</b>", waitFor,
+            this.reporter.fail("to be on page with the URL of <b>" + expectedURL + "</b>", waitFor,
                     "The page URL reads <b>" + actualURL + "</b>", timeTook);
         } else {
-            getReporter().pass("to be on page with the URL of <b>" + expectedURL + "</b>", waitFor,
+            this.reporter.pass("to be on page with the URL of <b>" + expectedURL + "</b>", waitFor,
                     "The page URL reads <b>" + actualURL + "</b>", timeTook);
         }
         return actualURL;
@@ -94,7 +86,7 @@ public interface Check {
      *
      * @param expectedTitle the friendly name of the page
      */
-    void titleEquals(String expectedTitle);
+    abstract void titleEquals(String expectedTitle);
 
     /**
      * Checks the provided title equals the actual title of the current page
@@ -107,12 +99,12 @@ public interface Check {
      * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual title
      */
-    default String checkTitleEquals(String expectedTitle, double waitFor, double timeTook) {
-        String actualTitle = getApp().get().title();
+    String checkTitleEquals(String expectedTitle, double waitFor, double timeTook) {
+        String actualTitle = this.app.get().title();
         if (!actualTitle.equals(expectedTitle)) {
-            getReporter().fail("to be on page with the title of <b>" + expectedTitle + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
+            this.reporter.fail("to be on page with the title of <b>" + expectedTitle + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
         } else {
-            getReporter().pass("to be on page with the title of <b>" + expectedTitle + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
+            this.reporter.pass("to be on page with the title of <b>" + expectedTitle + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
         }
         return actualTitle;
     }
@@ -124,7 +116,7 @@ public interface Check {
      *
      * @param expectedTitlePattern - the friendly name of the page
      */
-    void titleMatches(String expectedTitlePattern);
+    abstract void titleMatches(String expectedTitlePattern);
 
     /**
      * Checks the provided title matches the actual title of the current page
@@ -137,12 +129,12 @@ public interface Check {
      * @param timeTook             - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual title
      */
-    default String checkTitleMatches(String expectedTitlePattern, double waitFor, double timeTook) {
-        String actualTitle = getApp().get().title();
+    String checkTitleMatches(String expectedTitlePattern, double waitFor, double timeTook) {
+        String actualTitle = this.app.get().title();
         if (!actualTitle.matches(expectedTitlePattern)) {
-            getReporter().fail("to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
+            this.reporter.fail("to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
         } else {
-            getReporter().pass("to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
+            this.reporter.pass("to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
         }
         return actualTitle;
     }
@@ -154,7 +146,7 @@ public interface Check {
      *
      * @param expectedText - the expected text to be present
      */
-    void textPresent(String expectedText);
+    abstract void textPresent(String expectedText);
 
     /**
      * Checks that provided text are on the current page. This information
@@ -167,14 +159,14 @@ public interface Check {
      * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether or not the text is actually present
      */
-    default boolean checkTextPresent(String expectedText, double waitFor, double timeTook) {
+    boolean checkTextPresent(String expectedText, double waitFor, double timeTook) {
         // check for the object to be present
-        boolean isPresent = getApp().is().textPresent(expectedText);
+        boolean isPresent = this.app.is().textPresent(expectedText);
         if (!isPresent) {
-            getReporter().fail("to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + "</b> is not present on the page", timeTook);
+            this.reporter.fail("to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + "</b> is not present on the page", timeTook);
             return false;
         } else {
-            getReporter().pass("to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + B_PRESENT, timeTook);
+            this.reporter.pass("to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + B_PRESENT, timeTook);
             return true;
         }
     }
@@ -186,7 +178,7 @@ public interface Check {
      *
      * @param expectedText - the expected text to be not present
      */
-    void textNotPresent(String expectedText);
+    abstract void textNotPresent(String expectedText);
 
     /**
      * Checks that provided text are not on the current page. This
@@ -199,14 +191,14 @@ public interface Check {
      * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether or not the text is actually present
      */
-    default boolean checkTextNotPresent(String expectedText, double waitFor, double timeTook) {
+    boolean checkTextNotPresent(String expectedText, double waitFor, double timeTook) {
         // check for the object to be present
-        boolean isPresent = getApp().is().textPresent(expectedText);
+        boolean isPresent = this.app.is().textPresent(expectedText);
         if (isPresent) {
-            getReporter().fail("not to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + B_PRESENT, timeTook);
+            this.reporter.fail("not to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + B_PRESENT, timeTook);
             return false;
         } else {
-            getReporter().pass("not to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + "</b> is not present on the page", timeTook);
+            this.reporter.pass("not to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + "</b> is not present on the page", timeTook);
             return true;
         }
     }
@@ -220,7 +212,7 @@ public interface Check {
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
-    void alertPresent();
+    abstract void alertPresent();
 
     /**
      * Checks that an alert is present on the page. This information will be
@@ -232,16 +224,16 @@ public interface Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether or not the alert is actually present
      */
-    default boolean checkAlertPresent(double waitFor, double timeTook) {
+    boolean checkAlertPresent(double waitFor, double timeTook) {
         // check for the object to be present
         String alert;
-        boolean isAlertPresent = getApp().is().alertPresent();
+        boolean isAlertPresent = this.app.is().alertPresent();
         if (isAlertPresent) {
-            alert = getApp().get().alert();
-            getReporter().pass("to find an alert on the page", waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            alert = this.app.get().alert();
+            this.reporter.pass("to find an alert on the page", waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
             return true;
         } else {
-            getReporter().fail("to find an alert on the page", waitFor, NO_ALERT, timeTook);
+            this.reporter.fail("to find an alert on the page", waitFor, NO_ALERT, timeTook);
             return false;
         }
     }
@@ -251,7 +243,7 @@ public interface Check {
      * be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
-    void alertNotPresent();
+    abstract void alertNotPresent();
 
     /**
      * Checks that an alert is not present on the page. This information will
@@ -263,14 +255,14 @@ public interface Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether or not the alert is actually present
      */
-    default boolean checkAlertNotPresent(double waitFor, double timeTook) {
+    boolean checkAlertNotPresent(double waitFor, double timeTook) {
         // check for the object to be present
-        boolean isAlertPresent = getApp().is().alertPresent();
+        boolean isAlertPresent = this.app.is().alertPresent();
         if (isAlertPresent) {
-            getReporter().fail("not to find an alert on the page", waitFor, "An alert is present on the page", timeTook);
+            this.reporter.fail("not to find an alert on the page", waitFor, "An alert is present on the page", timeTook);
             return false;
         } else {
-            getReporter().pass("not to find an alert on the page", waitFor, NO_ALERT, timeTook);
+            this.reporter.pass("not to find an alert on the page", waitFor, NO_ALERT, timeTook);
             return true;
         }
     }
@@ -282,7 +274,7 @@ public interface Check {
      *
      * @param expectedAlertText - the expected text of the alert
      */
-    void alertEquals(String expectedAlertText);
+    abstract void alertEquals(String expectedAlertText);
 
     /**
      * Checks that an alert present on the page has content equal to the
@@ -295,20 +287,20 @@ public interface Check {
      * @param timeTook          - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: if the alert is present, the text of the alert
      */
-    default String checkAlertEquals(String expectedAlertText, double waitFor, double timeTook) {
+    String checkAlertEquals(String expectedAlertText, double waitFor, double timeTook) {
         // check for the object to be present
         String alert;
-        boolean isAlertPresent = getApp().is().alertPresent();
+        boolean isAlertPresent = this.app.is().alertPresent();
         if (isAlertPresent) {
-            alert = getApp().get().alert();
+            alert = this.app.get().alert();
         } else {
-            getReporter().fail("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, NO_ALERT, timeTook);
+            this.reporter.fail("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, NO_ALERT, timeTook);
             return "";
         }
         if (!alert.equals(expectedAlertText)) {
-            getReporter().fail("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            this.reporter.fail("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
         } else {
-            getReporter().pass("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            this.reporter.pass("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
         }
         return alert;
     }
@@ -320,7 +312,7 @@ public interface Check {
      *
      * @param expectedAlertPattern - the expected text of the alert
      */
-    void alertMatches(String expectedAlertPattern);
+    abstract void alertMatches(String expectedAlertPattern);
 
     /**
      * Checks that an alert present on the page has content matching the
@@ -333,20 +325,20 @@ public interface Check {
      * @param timeTook             - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: if the alert is present, the text of the alert
      */
-    default String checkAlertMatches(String expectedAlertPattern, double waitFor, double timeTook) {
+    String checkAlertMatches(String expectedAlertPattern, double waitFor, double timeTook) {
         // check for the object to be present
         String alert;
-        boolean isAlertPresent = getApp().is().alertPresent();
+        boolean isAlertPresent = this.app.is().alertPresent();
         if (isAlertPresent) {
-            alert = getApp().get().alert();
+            alert = this.app.get().alert();
         } else {
-            getReporter().fail("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, NO_ALERT, timeTook);
+            this.reporter.fail("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, NO_ALERT, timeTook);
             return "";
         }
         if (!alert.matches(expectedAlertPattern)) {
-            getReporter().fail("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            this.reporter.fail("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
         } else {
-            getReporter().pass("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            this.reporter.pass("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
         }
         return alert;
     }
@@ -356,7 +348,7 @@ public interface Check {
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
-    void confirmationPresent();
+    abstract void confirmationPresent();
 
     /**
      * Checks that a confirmation is present on the page. This information
@@ -368,17 +360,17 @@ public interface Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether or not the confirmation is actually present
      */
-    default boolean checkConfirmationPresent(double waitFor, double timeTook) {
+    boolean checkConfirmationPresent(double waitFor, double timeTook) {
         // check for the object to be present
         String confirmation;
-        boolean isConfirmationPresent = getApp().is().confirmationPresent();
+        boolean isConfirmationPresent = this.app.is().confirmationPresent();
         if (isConfirmationPresent) {
-            confirmation = getApp().get().confirmation();
+            confirmation = this.app.get().confirmation();
         } else {
-            getReporter().fail("to find a confirmation on the page", waitFor, NO_CONFIRMATION, timeTook);
+            this.reporter.fail("to find a confirmation on the page", waitFor, NO_CONFIRMATION, timeTook);
             return false;
         }
-        getReporter().pass("to find a confirmation on the page", waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+        this.reporter.pass("to find a confirmation on the page", waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         return true;
     }
 
@@ -387,7 +379,7 @@ public interface Check {
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
-    void confirmationNotPresent();
+    abstract void confirmationNotPresent();
 
     /**
      * Checks that a confirmation is not present on the page. This information
@@ -399,14 +391,14 @@ public interface Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether or not the confirmation is actually present
      */
-    default boolean checkConfirmationNotPresent(double waitFor, double timeTook) {
+    boolean checkConfirmationNotPresent(double waitFor, double timeTook) {
         // check for the object to be present
-        boolean isConfirmationPresent = getApp().is().confirmationPresent();
+        boolean isConfirmationPresent = this.app.is().confirmationPresent();
         if (isConfirmationPresent) {
-            getReporter().fail("to find a confirmation on the page", waitFor, " confirmation is present on the page", timeTook);
+            this.reporter.fail("to find a confirmation on the page", waitFor, " confirmation is present on the page", timeTook);
             return false;
         }
-        getReporter().pass("to find a confirmation on the page", waitFor, NO_CONFIRMATION, timeTook);
+        this.reporter.pass("to find a confirmation on the page", waitFor, NO_CONFIRMATION, timeTook);
         return true;
     }
 
@@ -417,7 +409,7 @@ public interface Check {
      *
      * @param expectedConfirmationText - the expected text of the confirmation
      */
-    void confirmationEquals(String expectedConfirmationText);
+    abstract void confirmationEquals(String expectedConfirmationText);
 
     /**
      * Checks that a confirmation present on the page has content equal to the
@@ -430,20 +422,20 @@ public interface Check {
      * @param timeTook                 - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: if the confirmation is present, the text of the confirmation
      */
-    default String checkConfirmationEquals(String expectedConfirmationText, double waitFor, double timeTook) {
+    String checkConfirmationEquals(String expectedConfirmationText, double waitFor, double timeTook) {
         // check for the object to be present
         String confirmation;
-        boolean isConfirmationPresent = getApp().is().confirmationPresent();
+        boolean isConfirmationPresent = this.app.is().confirmationPresent();
         if (isConfirmationPresent) {
-            confirmation = getApp().get().confirmation();
+            confirmation = this.app.get().confirmation();
         } else {
-            getReporter().fail("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, NO_CONFIRMATION, timeTook);
+            this.reporter.fail("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, NO_CONFIRMATION, timeTook);
             return "";
         }
         if (!expectedConfirmationText.equals(confirmation)) {
-            getReporter().fail("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+            this.reporter.fail("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         } else {
-            getReporter().pass("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+            this.reporter.pass("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         }
         return confirmation;
     }
@@ -455,7 +447,7 @@ public interface Check {
      *
      * @param expectedConfirmationPattern - the expected text of the confirmation
      */
-    void confirmationMatches(String expectedConfirmationPattern);
+    abstract void confirmationMatches(String expectedConfirmationPattern);
 
     /**
      * Checks that a confirmation present on the page has content matching the
@@ -468,20 +460,20 @@ public interface Check {
      * @param timeTook                    - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: if the confirmation is present, the text of the confirmation
      */
-    default String checkConfirmationMatches(String expectedConfirmationPattern, double waitFor, double timeTook) {
+    String checkConfirmationMatches(String expectedConfirmationPattern, double waitFor, double timeTook) {
         // check for the object to be present
         String confirmation;
-        boolean isConfirmationPresent = getApp().is().confirmationPresent();
+        boolean isConfirmationPresent = this.app.is().confirmationPresent();
         if (isConfirmationPresent) {
-            confirmation = getApp().get().confirmation();
+            confirmation = this.app.get().confirmation();
         } else {
-            getReporter().fail("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, NO_CONFIRMATION, timeTook);
+            this.reporter.fail("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, NO_CONFIRMATION, timeTook);
             return "";
         }
         if (!confirmation.matches(expectedConfirmationPattern)) {
-            getReporter().fail("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+            this.reporter.fail("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         } else {
-            getReporter().pass("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+            this.reporter.pass("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         }
         return confirmation;
     }
@@ -491,7 +483,7 @@ public interface Check {
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
-    void promptPresent();
+    abstract void promptPresent();
 
     /**
      * Checks that a prompt is present on the page. This information will be
@@ -503,17 +495,17 @@ public interface Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether or not the prompt is actually present
      */
-    default boolean checkPromptPresent(double waitFor, double timeTook) {
+    boolean checkPromptPresent(double waitFor, double timeTook) {
         // check for the object to be present
         String prompt;
-        boolean isPromptPresent = getApp().is().promptPresent();
+        boolean isPromptPresent = this.app.is().promptPresent();
         if (isPromptPresent) {
-            prompt = getApp().get().prompt();
+            prompt = this.app.get().prompt();
         } else {
-            getReporter().fail("to find prompt on the page", waitFor, NO_PROMPT, timeTook);
+            this.reporter.fail("to find prompt on the page", waitFor, NO_PROMPT, timeTook);
             return false;
         }
-        getReporter().pass("to find prompt on the page", waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+        this.reporter.pass("to find prompt on the page", waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         return true;
     }
 
@@ -522,7 +514,7 @@ public interface Check {
      * be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
-    void promptNotPresent();
+    abstract void promptNotPresent();
 
     /**
      * Checks that a prompt is not present on the page. This information will
@@ -534,13 +526,13 @@ public interface Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether or not the prompt is actually present
      */
-    default boolean checkPromptNotPresent(double waitFor, double timeTook) {
+    boolean checkPromptNotPresent(double waitFor, double timeTook) {
         // check for the object to be present
-        boolean isPromptPresent = getApp().is().promptPresent();
+        boolean isPromptPresent = this.app.is().promptPresent();
         if (isPromptPresent) {
-            getReporter().fail("not to find prompt on the page", waitFor, " prompt is present on the page", timeTook);
+            this.reporter.fail("not to find prompt on the page", waitFor, " prompt is present on the page", timeTook);
         } else {
-            getReporter().pass("not to find prompt on the page", waitFor, NO_PROMPT, timeTook);
+            this.reporter.pass("not to find prompt on the page", waitFor, NO_PROMPT, timeTook);
         }
         return !isPromptPresent;
     }
@@ -552,7 +544,7 @@ public interface Check {
      *
      * @param expectedPromptText - the expected text of the prompt
      */
-    void promptEquals(String expectedPromptText);
+    abstract void promptEquals(String expectedPromptText);
 
     /**
      * Checks that a prompt present on the page has content equal to the
@@ -565,20 +557,20 @@ public interface Check {
      * @param timeTook           - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: if the prompt is present, the text of the prompt
      */
-    default String checkPromptEquals(String expectedPromptText, double waitFor, double timeTook) {
+    String checkPromptEquals(String expectedPromptText, double waitFor, double timeTook) {
         // check for the object to be present
         String prompt;
-        boolean isPromptPresent = getApp().is().promptPresent();
+        boolean isPromptPresent = this.app.is().promptPresent();
         if (isPromptPresent) {
-            prompt = getApp().get().prompt();
+            prompt = this.app.get().prompt();
         } else {
-            getReporter().fail("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, NO_PROMPT, timeTook);
+            this.reporter.fail("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, NO_PROMPT, timeTook);
             return "";
         }
         if (!expectedPromptText.equals(prompt)) {
-            getReporter().fail("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+            this.reporter.fail("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         } else {
-            getReporter().pass("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+            this.reporter.pass("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         }
         return prompt;
     }
@@ -590,7 +582,7 @@ public interface Check {
      *
      * @param expectedPromptPattern - the expected text of the prompt
      */
-    void promptMatches(String expectedPromptPattern);
+    abstract void promptMatches(String expectedPromptPattern);
 
     /**
      * Checks that a prompt present on the page has content matching the
@@ -603,20 +595,20 @@ public interface Check {
      * @param timeTook              - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: if the prompt is present, the text of the prompt
      */
-    default String checkPromptMatches(String expectedPromptPattern, double waitFor, double timeTook) {
+    String checkPromptMatches(String expectedPromptPattern, double waitFor, double timeTook) {
         // check for the object to be present
         String prompt;
-        boolean isPromptPresent = getApp().is().promptPresent();
+        boolean isPromptPresent = this.app.is().promptPresent();
         if (isPromptPresent) {
-            prompt = getApp().get().prompt();
+            prompt = this.app.get().prompt();
         } else {
-            getReporter().fail("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, NO_PROMPT, timeTook);
+            this.reporter.fail("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, NO_PROMPT, timeTook);
             return "";
         }
         if (!prompt.matches(expectedPromptPattern)) {
-            getReporter().fail("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+            this.reporter.fail("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         } else {
-            getReporter().pass("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+            this.reporter.pass("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         }
         return prompt;
     }
@@ -632,7 +624,7 @@ public interface Check {
      *
      * @param expectedCookieName - the name of the cookie
      */
-    void cookieExists(String expectedCookieName);
+    abstract void cookieExists(String expectedCookieName);
 
     /**
      * Checks that a cookie exists in the application with the provided
@@ -645,15 +637,15 @@ public interface Check {
      * @param timeTook           - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether the cookie is present or not
      */
-    default boolean checkCookieExists(String expectedCookieName, double waitFor, double timeTook) {
+    boolean checkCookieExists(String expectedCookieName, double waitFor, double timeTook) {
         // check for the object to be present
         String cookieValue;
-        boolean isCookiePresent = getApp().is().cookiePresent(expectedCookieName);
+        boolean isCookiePresent = this.app.is().cookiePresent(expectedCookieName);
         if (isCookiePresent) {
-            cookieValue = getApp().get().cookieValue(expectedCookieName);
-            getReporter().pass("to find cookie with the name <b>" + expectedCookieName + STORED, waitFor, COOKIE + expectedCookieName + VALUE_OF + cookieValue + STORED, timeTook);
+            cookieValue = this.app.get().cookieValue(expectedCookieName);
+            this.reporter.pass("to find cookie with the name <b>" + expectedCookieName + STORED, waitFor, COOKIE + expectedCookieName + VALUE_OF + cookieValue + STORED, timeTook);
         } else {
-            getReporter().fail("to find cookie with the name <b>" + expectedCookieName + STORED, waitFor, COOKIE + expectedCookieName + NOT_STORED, timeTook);
+            this.reporter.fail("to find cookie with the name <b>" + expectedCookieName + STORED, waitFor, COOKIE + expectedCookieName + NOT_STORED, timeTook);
         }
         return isCookiePresent;
     }
@@ -665,7 +657,7 @@ public interface Check {
      *
      * @param unexpectedCookieName - the name of the cookie
      */
-    void cookieNotExists(String unexpectedCookieName);
+    abstract void cookieNotExists(String unexpectedCookieName);
 
     /**
      * Checks that a cookie doesn't exist in the application with the provided
@@ -678,13 +670,13 @@ public interface Check {
      * @param timeTook             - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: whether the cookie is present or not
      */
-    default boolean checkCookieNotExists(String unexpectedCookieName, double waitFor, double timeTook) {
+    boolean checkCookieNotExists(String unexpectedCookieName, double waitFor, double timeTook) {
         // check for the object to be present
-        boolean isCookiePresent = getApp().is().cookiePresent(unexpectedCookieName);
+        boolean isCookiePresent = this.app.is().cookiePresent(unexpectedCookieName);
         if (isCookiePresent) {
-            getReporter().fail("to find no cookie with the name <b>" + unexpectedCookieName + STORED, waitFor, COOKIE + unexpectedCookieName + STORED, timeTook);
+            this.reporter.fail("to find no cookie with the name <b>" + unexpectedCookieName + STORED, waitFor, COOKIE + unexpectedCookieName + STORED, timeTook);
         } else {
-            getReporter().pass("to find no cookie with the name <b>" + unexpectedCookieName + STORED, waitFor, COOKIE + unexpectedCookieName + NOT_STORED, timeTook);
+            this.reporter.pass("to find no cookie with the name <b>" + unexpectedCookieName + STORED, waitFor, COOKIE + unexpectedCookieName + NOT_STORED, timeTook);
         }
         return !isCookiePresent;
     }
@@ -697,7 +689,7 @@ public interface Check {
      * @param cookieName          - the name of the cookie
      * @param expectedCookieValue - the expected value of the cookie
      */
-    void cookieEquals(String cookieName, String expectedCookieValue);
+    abstract void cookieEquals(String cookieName, String expectedCookieValue);
 
     /**
      * Checks that a cookies with the provided name has a value equal to the
@@ -711,21 +703,21 @@ public interface Check {
      * @param timeTook            - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: if the cookie is present, the value of the cookie, and null if the cookie isn't present
      */
-    default String checkCookieEquals(String cookieName, String expectedCookieValue, double waitFor, double timeTook) {
+    String checkCookieEquals(String cookieName, String expectedCookieValue, double waitFor, double timeTook) {
         // check for the object to be present
         String cookieValue;
-        boolean isCookiePresent = getApp().is().cookiePresent(cookieName);
+        boolean isCookiePresent = this.app.is().cookiePresent(cookieName);
         if (isCookiePresent) {
-            cookieValue = getApp().get().cookieValue(cookieName);
+            cookieValue = this.app.get().cookieValue(cookieName);
         } else {
-            getReporter().fail("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor, COOKIE + cookieName + NOT_STORED, timeTook);
+            this.reporter.fail("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor, COOKIE + cookieName + NOT_STORED, timeTook);
             return "";
         }
         if (!cookieValue.equals(expectedCookieValue)) {
-            getReporter().fail("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor,
+            this.reporter.fail("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor,
                     COOKIE + cookieName + "</b> is stored for the page, but the value of the cookie is " + cookieValue, timeTook);
         } else {
-            getReporter().pass("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor, COOKIE + cookieName + VALUE_OF + cookieValue + STORED, timeTook);
+            this.reporter.pass("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor, COOKIE + cookieName + VALUE_OF + cookieValue + STORED, timeTook);
         }
         return cookieValue;
     }
@@ -738,7 +730,7 @@ public interface Check {
      * @param cookieName            - the name of the cookie
      * @param expectedCookiePattern - the expected value of the cookie
      */
-    void cookieMatches(String cookieName, String expectedCookiePattern);
+    abstract void cookieMatches(String cookieName, String expectedCookiePattern);
 
     /**
      * Checks that a cookies with the provided name has a value matching the
@@ -752,22 +744,22 @@ public interface Check {
      * @param timeTook              - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: if the cookie is present, the value of the cookie, and null if the cookie isn't present
      */
-    default String checkCookieMatches(String cookieName, String expectedCookiePattern, double waitFor, double timeTook) {
+    String checkCookieMatches(String cookieName, String expectedCookiePattern, double waitFor, double timeTook) {
         // check for the object to be present
         String cookieValue;
-        boolean isCookiePresent = getApp().is().cookiePresent(cookieName);
+        boolean isCookiePresent = this.app.is().cookiePresent(cookieName);
         if (isCookiePresent) {
-            cookieValue = getApp().get().cookieValue(cookieName);
+            cookieValue = this.app.get().cookieValue(cookieName);
         } else {
-            getReporter().fail("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
+            this.reporter.fail("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
                     waitFor, COOKIE + cookieName + NOT_STORED, timeTook);
             return "";
         }
         if (!cookieValue.matches(expectedCookiePattern)) {
-            getReporter().fail("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
+            this.reporter.fail("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
                     waitFor, COOKIE + cookieName + "</b> is stored for the page, but the value of the cookie is " + cookieValue, timeTook);
         } else {
-            getReporter().pass("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
+            this.reporter.pass("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
                     waitFor, COOKIE + cookieName + VALUE_OF + cookieValue + STORED, timeTook);
         }
         return cookieValue;

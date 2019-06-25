@@ -36,15 +36,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 5/13/2019
+ * @lastupdate 6/25/2019
  */
-public class WaitFor implements Check {
-
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the driver that will be used for all selenium actions
-    private final App app;
+public class WaitFor extends Check {
 
     // the default wait for elements
     private double defaultWait = Property.getDefaultWait();
@@ -61,22 +55,6 @@ public class WaitFor implements Check {
     public WaitFor(App app, Reporter reporter) {
         this.app = app;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public App getApp() {
-        return app;
     }
 
     /**

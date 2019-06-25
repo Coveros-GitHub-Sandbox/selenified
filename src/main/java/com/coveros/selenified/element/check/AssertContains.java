@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.element.check.azzert;
+package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Contains;
@@ -41,35 +41,19 @@ import static org.testng.AssertJUnit.*;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 6/25/2019
  */
-public class AssertContains implements Contains {
+public class AssertContains extends Contains {
 
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the element that all actions will be performed on
-    private final Element element;
-
+    /**
+     * The default constructor passing in the element and output file
+     *
+     * @param element      - the element under test
+     * @param reporter - the file to write all logging out to
+     */
     public AssertContains(Element element, Reporter reporter) {
         this.element = element;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Element getElement() {
-        return element;
     }
 
     // ///////////////////////////////////////
@@ -131,7 +115,7 @@ public class AssertContains implements Contains {
     public void value(String expectedValue) {
         String value = checkValue(expectedValue, 0, 0);
         String reason = NO_ELEMENT_FOUND;
-        if (value == null && getElement().is().present()) {
+        if (value == null && this.element.is().present()) {
             reason = "Element not input";
         }
         assertNotNull(reason, value);
@@ -149,7 +133,7 @@ public class AssertContains implements Contains {
     public void selectOption(String expectedOption) {
         String[] options = checkSelectOption(expectedOption, 0, 0);
         String reason = NO_ELEMENT_FOUND;
-        if (options == null && getElement().is().present()) {
+        if (options == null && this.element.is().present()) {
             reason = ELEMENT_NOT_SELECT;
         }
         assertNotNull(reason, options);
@@ -168,7 +152,7 @@ public class AssertContains implements Contains {
     public void selectValue(String expectedValue) {
         String[] values = checkSelectValue(expectedValue, 0, 0);
         String reason = NO_ELEMENT_FOUND;
-        if (values == null && getElement().is().present()) {
+        if (values == null && this.element.is().present()) {
             reason = ELEMENT_NOT_SELECT;
         }
         assertNotNull(reason, values);
@@ -187,7 +171,7 @@ public class AssertContains implements Contains {
     public void selectOptions(int numOfOptions) {
         int options = checkSelectOptions(numOfOptions, 0, 0);
         String reason = NO_ELEMENT_FOUND;
-        if (options < 0 && getElement().is().present()) {
+        if (options < 0 && this.element.is().present()) {
             reason = ELEMENT_NOT_SELECT;
         }
         assertTrue(reason, options >= 0);
@@ -205,7 +189,7 @@ public class AssertContains implements Contains {
     public void columns(int numOfColumns) {
         int columns = checkColumns(numOfColumns, 0, 0);
         String reason = NO_ELEMENT_FOUND;
-        if (columns < 0 && getElement().is().present()) {
+        if (columns < 0 && this.element.is().present()) {
             reason = "Element not table";
         }
         assertTrue(reason, columns >= 0);
@@ -224,7 +208,7 @@ public class AssertContains implements Contains {
     public void rows(int numOfRows) {
         int rows = checkRows(numOfRows, 0, 0);
         String reason = NO_ELEMENT_FOUND;
-        if (rows < 0 && getElement().is().present()) {
+        if (rows < 0 && this.element.is().present()) {
             reason = "Element not table";
         }
         assertTrue(reason, rows >= 0);
