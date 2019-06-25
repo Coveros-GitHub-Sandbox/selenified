@@ -42,7 +42,7 @@
         <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
         <maven.surefire.plugin.version>2.21.0</maven.surefire.plugin.version>
         <clirr.maven.plugin.version>2.8</clirr.maven.plugin.version>
-        <dependency.check.maven.version>5.0.0</dependency.check.maven.version>
+        <dependency.check.maven.version>5.0.0-M3</dependency.check.maven.version>
         <jacoco.maven.plugin.version>0.8.3</jacoco.maven.plugin.version>
         <lint.maven.plugin.version>0.0.11</lint.maven.plugin.version>
         <mock.server.version>5.3.0</mock.server.version>
