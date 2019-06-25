@@ -131,7 +131,7 @@ node {
                         }
                     },
                     "Launch Selenified Test Server": {
-                        stage('Setup Up Selenified Test Site') {
+                        Stage("Launch Test Site") {
                             sh """
                                 aws ec2 run-instances \
                                     --image-id ami-ede06892 \
@@ -152,10 +152,8 @@ node {
                                     script: "cat instance.json | grep 'PublicIpAddress' | cut -d '\"' -f 4",
                                     returnStdout: true
                             ).trim()
-                            sh "ssh ec2-user@52.91.96.238 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
-                            sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
                         }
-                    }
+                    },
             )
             withCredentials([
                     usernamePassword(
@@ -164,6 +162,10 @@ node {
                             passwordVariable: 'saucekey'
                     )
             ]) {
+                stage('Update Test Site') {
+                    sh "ssh ec2-user@52.91.96.238 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
+                    sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
+                }
                 // this will be replaced by 'Execute Hub Tests' once #103 is completed. This is temporary to ensure all browser types can in fact run successfully
                 stage('Execute Some Hub Tests') {
                     try {
