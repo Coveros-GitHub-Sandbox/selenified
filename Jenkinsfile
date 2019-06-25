@@ -131,7 +131,7 @@ node {
                         }
                     },
                     "Launch Selenified Test Server": {
-                        Stage("Launch Test Site") {
+                        stage("Launch Test Site") {
                             sh """
                                 aws ec2 run-instances \
                                     --image-id ami-ede06892 \
