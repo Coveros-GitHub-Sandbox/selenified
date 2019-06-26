@@ -275,7 +275,7 @@ public class VerifyEqualsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "verify", "equals", "browser"},
+    @Test(groups = {"integration", "verify", "equals", "browser", "local"},
             description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedNullTest() {
         // use this object to manipulate the app
