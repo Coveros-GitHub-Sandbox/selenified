@@ -18,11 +18,9 @@
  * under the License.
  */
 
-package com.coveros.selenified.element.check.wait;
+package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Equals;
-import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -44,61 +42,19 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 5/13/2019
+ * @lastupdate 6/25/2019
  */
-public class WaitForEquals implements Equals {
+public class WaitForEquals extends Equals {
 
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the element that all actions will be performed on
-    private final Element element;
-
-    // the default wait for the system
-    private double defaultWait = Property.getDefaultWait();
-
-    // the default poll for elements
-    private long defaultPoll = Property.getDefaultPoll();
-
+    /**
+     * The default constructor passing in the element and output file
+     *
+     * @param element      - the element under test
+     * @param reporter - the file to write all logging out to
+     */
     public WaitForEquals(Element element, Reporter reporter) {
         this.element = element;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Element getElement() {
-        return element;
-    }
-
-    /**
-     * Changes the default wait time from 5.0 seconds to some custom number.
-     *
-     * @param seconds - how many seconds should WaitFor wait for the condition to be
-     *                met
-     */
-    public void changeDefaultWait(double seconds) {
-        defaultWait = seconds;
-    }
-
-    /**
-     * Changes the default poll time from 500.0 milliseconds to some custom number.
-     *
-     * @param milliseconds - how many milliseconds should WaitFor wait between pollings
-     *                     for the condition to be met
-     */
-    public void changeDefaultPoll(long milliseconds) {
-        defaultPoll = milliseconds;
     }
 
     // ///////////////////////////////////////
