@@ -601,7 +601,7 @@ public class WaitForIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().changeDefaultWait(0.5);
+        app.waitFor().changeDefaultWait(0.1);
         app.newElement(Locator.ID, "delayed_alert_button").click();
         app.waitFor().alertPresent();
         app.azzert().alertNotPresent();
@@ -609,7 +609,7 @@ public class WaitForIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "wait"},
+    @Test(groups = {"integration", "wait", "browser"},
             description = "An integration test to check changing the default poll method")
     public void setDefaultPollAppTest() {
         // use this object to manipulate the app

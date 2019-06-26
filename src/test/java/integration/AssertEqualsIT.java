@@ -308,7 +308,7 @@ public class AssertEqualsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "assert", "equals", "browser"},
+    @Test(groups = {"integration", "assert", "equals", "browser", "local"},
             description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedNullTest() {
         // use this object to manipulate the app
