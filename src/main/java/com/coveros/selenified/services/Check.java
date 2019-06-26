@@ -37,7 +37,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  * @version 3.2.0
  * @lastupdate 6/25/2019
  */
-public abstract class Check {
+abstract class Check {
 
     // this will be the name of the file we write all commands out to
     Reporter reporter;
@@ -52,7 +52,7 @@ public abstract class Check {
      * @param unknown - what JsonElement are we trying to cast
      * @return Object - the expected object, properly cast
      */
-    private Object castObject(Object known, JsonElement unknown) {
+    public Object castObject(Object known, JsonElement unknown) {
         Object objectVal;
         try {
             if (known instanceof String) {
