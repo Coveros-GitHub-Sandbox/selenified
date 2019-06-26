@@ -39,7 +39,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  */
 abstract class Equals extends Check {
 
-    private final static String WITH_VALUE = " with a value of <b>";
+    private static final String WITH_VALUE = " with a value of <b>";
 
     // ///////////////////////////////////////
     // assessing functionality
