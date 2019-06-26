@@ -316,7 +316,7 @@ public class VerifyContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "verify", "contains"},
+    @Test(groups = {"integration", "verify", "contains", "local"},
             description = "An integration test to check the compareTextValueContains method")
     public void compareTextValueContainsDelayedTest() {
         // use this object to manipulate the app
@@ -360,7 +360,7 @@ public class VerifyContainsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "verify", "contains"},
+    @Test(groups = {"integration", "verify", "contains", "local"},
             description = "An integration test to check the compareTextValueContains method")
     public void compareValueContainsDelayedTest() {
         // use this object to manipulate the app

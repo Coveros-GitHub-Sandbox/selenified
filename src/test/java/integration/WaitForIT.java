@@ -609,7 +609,7 @@ public class WaitForIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "wait"},
+    @Test(groups = {"integration", "wait", "browser"},
             description = "An integration test to check changing the default poll method")
     public void setDefaultPollAppTest() {
         // use this object to manipulate the app
