@@ -18,10 +18,9 @@
  * under the License.
  */
 
-package com.coveros.selenified.element.check.verify;
+package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Contains;
 import com.coveros.selenified.utilities.Reporter;
 
 /**
@@ -35,35 +34,19 @@ import com.coveros.selenified.utilities.Reporter;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 6/25/2019
  */
-public class VerifyContains implements Contains {
+public class VerifyContains extends Contains {
 
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the element that all actions will be performed on
-    private final Element element;
-
+    /**
+     * The default constructor passing in the element and output file
+     *
+     * @param element  - the element under test
+     * @param reporter - the file to write all logging out to
+     */
     public VerifyContains(Element element, Reporter reporter) {
         this.element = element;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Element getElement() {
-        return element;
     }
 
     // ///////////////////////////////////////

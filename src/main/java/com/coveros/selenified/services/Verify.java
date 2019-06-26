@@ -35,16 +35,9 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/4/2019
+ * @lastupdate 6/25/2019
  */
-public class Verify implements Check {
-
-
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the driver that will be used for all selenium actions
-    private final Response response;
+public class Verify extends Check {
 
     /**
      * The default constructor passing in the app and output file
@@ -55,22 +48,6 @@ public class Verify implements Check {
     public Verify(Response response, Reporter reporter) {
         this.response = response;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Response getResponse() {
-        return response;
     }
 
     ///////////////////////////////////////////////////////
