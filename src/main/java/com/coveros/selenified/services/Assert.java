@@ -40,16 +40,9 @@ import static com.coveros.selenified.utilities.Constants.GSON;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/4/2019
+ * @lastupdate 6/25/2019
  */
-public class Assert implements Check {
-
-
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the driver that will be used for all selenium actions
-    private final Response response;
+public class Assert extends Check {
 
     /**
      * The default constructor passing in the app and output file
@@ -60,22 +53,6 @@ public class Assert implements Check {
     public Assert(Response response, Reporter reporter) {
         this.response = response;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Response getResponse() {
-        return response;
     }
 
     ///////////////////////////////////////////////////////

@@ -18,7 +18,7 @@
  * under the License.
  */
 
-package com.coveros.selenified.element.check.azzert;
+package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.State;
@@ -37,37 +37,21 @@ import static org.testng.AssertJUnit.assertTrue;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 6/25/2019
  */
-public class AssertState implements State {
+public class AssertState extends State {
 
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the element that all actions will be performed on
-    private final Element element;
-
+    /**
+     * The default constructor passing in the element and output file
+     *
+     * @param element      - the element under test
+     * @param reporter - the file to write all logging out to
+     */
     public AssertState(Element element, Reporter reporter) {
         this.element = element;
         this.reporter = reporter;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Element getElement() {
-        return element;
-    }
-
+    
     // ///////////////////////////////////////
     // assessing functionality
     // ///////////////////////////////////////
@@ -100,7 +84,7 @@ public class AssertState implements State {
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void displayed() {
-        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, getElement().is().present());
+        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, this.element.is().present());
         assertTrue("Expected Element Not Displayed", checkDisplayed(0, 0));
     }
 
@@ -112,7 +96,7 @@ public class AssertState implements State {
      * support.
      */
     public void notDisplayed() {
-        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, getElement().is().present());
+        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, this.element.is().present());
         assertTrue("Expected Element Displayed", checkNotDisplayed(0, 0));
     }
 
@@ -123,7 +107,7 @@ public class AssertState implements State {
      * recorded, with a screenshot for traceability and added debugging support.
      */
     public void checked() {
-        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, getElement().is().present());
+        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, this.element.is().present());
         assertTrue("Expected Element Not Checked", checkChecked(0, 0));
     }
 
@@ -135,7 +119,7 @@ public class AssertState implements State {
      * support.
      */
     public void notChecked() {
-        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, getElement().is().present());
+        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, this.element.is().present());
         assertTrue("Expected Element Checked", checkNotChecked(0, 0));
     }
 
@@ -148,7 +132,7 @@ public class AssertState implements State {
      * debugging support.
      */
     public void editable() {
-        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, getElement().is().present());
+        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, this.element.is().present());
         assertTrue("Expected Element Not Editable", checkEditable(0, 0));
     }
 
@@ -161,7 +145,7 @@ public class AssertState implements State {
      * traceability and added debugging support.
      */
     public void notEditable() {
-        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, getElement().is().present());
+        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, this.element.is().present());
         assertTrue("Expected Element Editable", checkNotEditable(0, 0));
     }
 
@@ -172,7 +156,7 @@ public class AssertState implements State {
      * a screenshot for traceability and added debugging support.
      */
     public void enabled() {
-        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, getElement().is().present());
+        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, this.element.is().present());
         assertTrue("Expected Element Not Enabled", checkEnabled(0, 0));
     }
 
@@ -183,7 +167,7 @@ public class AssertState implements State {
      * a screenshot for traceability and added debugging support.
      */
     public void notEnabled() {
-        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, getElement().is().present());
+        assertTrue(EXPECTED_ELEMENT_NOT_PRESENT, this.element.is().present());
         assertTrue("Expected Element Enabled", checkNotEnabled(0, 0));
     }
 }

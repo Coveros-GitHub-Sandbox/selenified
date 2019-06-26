@@ -42,6 +42,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
+import static com.coveros.selenified.utilities.Constants.ENDB;
+
 /**
  * App is an instance of the browser based application that is under test.
  *
@@ -698,7 +700,7 @@ public class App {
      * @param frameNumber - the frame number, starts at 0
      */
     public void selectFrame(int frameNumber) {
-        String action = "Switching to frame <b>" + frameNumber + "</b>";
+        String action = "Switching to frame <b>" + frameNumber + ENDB;
         String expected = FRAME + frameNumber + AVAILABLE;
         try {
             driver.switchTo().frame(frameNumber);
@@ -717,7 +719,7 @@ public class App {
      * @param frameIdentifier - the frame name or ID
      */
     public void selectFrame(String frameIdentifier) {
-        String action = "Switching to frame <b>" + frameIdentifier + "</b>";
+        String action = "Switching to frame <b>" + frameIdentifier + ENDB;
         String expected = FRAME + frameIdentifier + AVAILABLE;
         try {
             driver.switchTo().frame(frameIdentifier);

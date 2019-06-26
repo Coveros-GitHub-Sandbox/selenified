@@ -21,7 +21,9 @@
 package com.coveros.selenified.services;
 
 import com.coveros.selenified.utilities.Reporter;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -35,23 +37,15 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/4/2019
+ * @lastupdate 6/25/2019
  */
-public interface Check {
+abstract class Check {
 
-    /**
-     * Retrieves the output file that we write all details out to
-     *
-     * @return Reporter
-     */
-    Reporter getReporter();
+    // this will be the name of the file we write all commands out to
+    Reporter reporter;
 
-    /**
-     * Retrieves the web services response  object, with all details
-     *
-     * @return Response
-     */
-    Response getResponse();
+    // this is the driver that will be used for all selenium actions
+    Response response;
 
     /**
      * Casts an unknown JsonElement into an object, based on the expected behavior of it
@@ -60,7 +54,7 @@ public interface Check {
      * @param unknown - what JsonElement are we trying to cast
      * @return Object - the expected object, properly cast
      */
-    default Object castObject(Object known, JsonElement unknown) {
+    public Object castObject(Object known, JsonElement unknown) {
         Object objectVal;
         try {
             if (known instanceof String) {
@@ -103,7 +97,7 @@ public interface Check {
      * @param expectedCode - the expected response code
      */
     @SuppressWarnings("squid:S1201")
-    void equals(int expectedCode);
+    abstract void equals(int expectedCode);
 
     /**
      * Checks the actual response code is equals to the expected response
@@ -111,12 +105,12 @@ public interface Check {
      *
      * @param expectedCode - the expected response code
      */
-    default int checkEquals(int expectedCode) {
-        int actualCode = getResponse().getCode();
+    int checkEquals(int expectedCode) {
+        int actualCode = this.response.getCode();
         if (actualCode == expectedCode) {
-            getReporter().pass("", "Expected to find a response code of <b>" + expectedCode + "</b>", "Found a response code of <b>" + actualCode + "</b>");
+            this.reporter.pass("", "Expected to find a response code of <b>" + expectedCode + ENDB, "Found a response code of <b>" + actualCode + ENDB);
         } else {
-            getReporter().fail("", "Expected to find a response code of <b>" + expectedCode + "</b>", "Found a response code of <b>" + actualCode + "</b>");
+            this.reporter.fail("", "Expected to find a response code of <b>" + expectedCode + ENDB, "Found a response code of <b>" + actualCode + ENDB);
         }
         return actualCode;
     }
@@ -128,7 +122,7 @@ public interface Check {
      * @param expectedJson - the expected response json object
      */
     @SuppressWarnings("squid:S1201")
-    void equals(JsonObject expectedJson);
+    abstract void equals(JsonObject expectedJson);
 
     /**
      * Checks the actual response json payload is equal to the expected
@@ -136,17 +130,17 @@ public interface Check {
      *
      * @param expectedJson - the expected response json object
      */
-    default JsonObject checkEquals(JsonObject expectedJson) {
+    JsonObject checkEquals(JsonObject expectedJson) {
         boolean pass = false;
         JsonObject actualJson = null;
-        if (getResponse().getObjectData() != null) {
-            actualJson = getResponse().getObjectData();
+        if (this.response.getObjectData() != null) {
+            actualJson = this.response.getObjectData();
             pass = actualJson.equals(expectedJson);
         }
         if (pass) {
-            getReporter().pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            this.reporter.pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
-            getReporter().fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            this.reporter.fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         }
         return actualJson;
     }
@@ -158,7 +152,7 @@ public interface Check {
      * @param expectedJson - the expected response json array
      */
     @SuppressWarnings("squid:S1201")
-    void equals(JsonArray expectedJson);
+    abstract void equals(JsonArray expectedJson);
 
     /**
      * Checks the actual response json payload is equal to the expected
@@ -166,17 +160,17 @@ public interface Check {
      *
      * @param expectedJson - the expected response json array
      */
-    default JsonArray checkEquals(JsonArray expectedJson) {
+    JsonArray checkEquals(JsonArray expectedJson) {
         boolean pass = false;
         JsonArray actualJson = null;
-        if (getResponse().getArrayData() != null) {
-            actualJson = getResponse().getArrayData();
+        if (this.response.getArrayData() != null) {
+            actualJson = this.response.getArrayData();
             pass = actualJson.equals(expectedJson);
         }
         if (pass) {
-            getReporter().pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            this.reporter.pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
-            getReporter().fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            this.reporter.fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         }
         return actualJson;
     }
@@ -188,7 +182,7 @@ public interface Check {
      * @param expectedMessage - the expected response message
      */
     @SuppressWarnings("squid:S1201")
-    void equals(String expectedMessage);
+    abstract void equals(String expectedMessage);
 
     /**
      * Checks the actual response payload is equal to the expected
@@ -196,17 +190,17 @@ public interface Check {
      *
      * @param expectedMessage - the expected response message
      */
-    default String checkEquals(String expectedMessage) {
+    String checkEquals(String expectedMessage) {
         boolean pass = false;
         String actualMessage = null;
-        if (getResponse().getMessage() != null) {
-            actualMessage = getResponse().getMessage();
+        if (this.response.getMessage() != null) {
+            actualMessage = this.response.getMessage();
             pass = actualMessage.equals(expectedMessage);
         }
         if (pass) {
-            getReporter().pass("", EXPECTED_TO_FIND + STARTI + expectedMessage + ENDI, FOUND + STARTI + getResponse().getMessage() + ENDI);
+            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
         } else {
-            getReporter().fail("", EXPECTED_TO_FIND + STARTI + expectedMessage + ENDI, FOUND + STARTI + getResponse().getMessage() + ENDI);
+            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
         }
         return actualMessage;
     }
@@ -218,7 +212,7 @@ public interface Check {
      * @param expectedPairs a hashmap with string key value pairs expected in the json
      *                      response
      */
-    void contains(Map<String, Object> expectedPairs);
+    abstract void contains(Map<String, Object> expectedPairs);
 
     /**
      * Checks the actual response json payload contains each of the pair
@@ -227,11 +221,11 @@ public interface Check {
      * @param expectedPairs a hashmap with string key value pairs expected in the json
      *                      response
      */
-    default boolean checkContains(Map<String, Object> expectedPairs) {
-        boolean pass = (getResponse().getObjectData() != null);
+    boolean checkContains(Map<String, Object> expectedPairs) {
+        boolean pass = (this.response.getObjectData() != null);
         for (Map.Entry<String, Object> entry : expectedPairs.entrySet()) {
-            if (getResponse().getObjectData() != null && getResponse().getObjectData().has(entry.getKey())) {
-                Object objectVal = castObject(entry.getValue(), getResponse().getObjectData().get(entry.getKey()));
+            if (this.response.getObjectData() != null && this.response.getObjectData().has(entry.getKey())) {
+                Object objectVal = castObject(entry.getValue(), this.response.getObjectData().get(entry.getKey()));
                 if (!entry.getValue().equals(objectVal)) {
                     pass = false;
                 }
@@ -240,9 +234,9 @@ public interface Check {
             }
         }
         if (pass) {
-            getReporter().pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
-            getReporter().fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         }
         return pass;
     }
@@ -253,7 +247,7 @@ public interface Check {
      *
      * @param expectedJson - the expected response json array
      */
-    void contains(JsonElement expectedJson);
+    abstract void contains(JsonElement expectedJson);
 
     /**
      * Checks the actual response json payload contains to the expected json
@@ -261,17 +255,17 @@ public interface Check {
      *
      * @param expectedJson - the expected response json array
      */
-    default boolean checkContains(JsonElement expectedJson) {
+    boolean checkContains(JsonElement expectedJson) {
         boolean pass = false;
-        if (getResponse().getArrayData() != null) {
-            pass = getResponse().getArrayData().contains(expectedJson);
+        if (this.response.getArrayData() != null) {
+            pass = this.response.getArrayData().contains(expectedJson);
         }
         if (pass) {
-            getReporter().pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
-                    DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
+                    DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
-            getReporter().fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
-                    DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(getResponse()));
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
+                    DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         }
         return pass;
     }
@@ -282,7 +276,7 @@ public interface Check {
      *
      * @param expectedMessage - the expected response json array
      */
-    void contains(String expectedMessage);
+    abstract void contains(String expectedMessage);
 
     /**
      * Checks the actual response json payload contains to the expected json
@@ -290,15 +284,15 @@ public interface Check {
      *
      * @param expectedMessage - the expected response json array
      */
-    default boolean checkContains(String expectedMessage) {
+    boolean checkContains(String expectedMessage) {
         boolean pass = false;
-        if (getResponse().getMessage() != null) {
-            pass = getResponse().getMessage().contains(expectedMessage);
+        if (this.response.getMessage() != null) {
+            pass = this.response.getMessage().contains(expectedMessage);
         }
         if (pass) {
-            getReporter().pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTI + expectedMessage + ENDI, FOUND + STARTI + getResponse().getMessage() + ENDI);
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
         } else {
-            getReporter().fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTI + expectedMessage + ENDI, FOUND + STARTI + getResponse().getMessage() + ENDI);
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
         }
         return pass;
     }

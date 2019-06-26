@@ -28,7 +28,7 @@ import com.google.gson.GsonBuilder;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 5/13/2019
+ * @lastupdate 6/25/2019
  */
 public class Constants {
 
@@ -85,6 +85,7 @@ public class Constants {
     public static final String FOUND = "Found a response of: ";
     public static final String STARTI = "'<i>";
     public static final String ENDI = "</i>'";
+    public static final String ENDB = "</b>";
     public static final String DIV_I = "<div><i>";
     public static final String END_IDIV = "</i></div>";
     public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
@@ -95,5 +96,6 @@ public class Constants {
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private Constants() {}
+    private Constants() {
+    }
 }
