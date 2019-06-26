@@ -41,6 +41,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  * @lastupdate 6/25/2019
  */
 abstract class Check {
+    static final String AVAILABLE_TO_BE_SELECTED = "</b> available to be selected on the page";
 
     // this will be the name of the file we write all commands out to
     Reporter reporter;
@@ -194,7 +195,7 @@ abstract class Check {
             WebDriverWait wait = new WebDriverWait(this.element.getDriver(), (long) seconds, Property.getDefaultPoll());
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(this.element.defineByElement()));
             return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
-        } catch ( TimeoutException e) {
+        } catch (TimeoutException e) {
             return seconds;
         }
     }

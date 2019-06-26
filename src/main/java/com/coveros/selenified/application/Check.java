@@ -37,6 +37,10 @@ import static com.coveros.selenified.utilities.Constants.*;
  */
 abstract class Check {
 
+    static final String FIND_CONFIRMATION = "to find a confirmation on the page";
+    public static final String COOKIE_WITH_NAME = "to find cookie with the name <b>";
+    public static final String PAGE_TITLE = "The page title reads <b>";
+
     // this will be the name of the file we write all commands out to
     Reporter reporter;
 
@@ -70,11 +74,11 @@ abstract class Check {
     String checkUrlEquals(String expectedURL, double waitFor, double timeTook) {
         String actualURL = this.app.get().url();
         if (!actualURL.equals(expectedURL)) {
-            this.reporter.fail("to be on page with the URL of <b>" + expectedURL + "</b>", waitFor,
-                    "The page URL reads <b>" + actualURL + "</b>", timeTook);
+            this.reporter.fail("to be on page with the URL of <b>" + expectedURL + ENDB, waitFor,
+                    "The page URL reads <b>" + actualURL + ENDB, timeTook);
         } else {
-            this.reporter.pass("to be on page with the URL of <b>" + expectedURL + "</b>", waitFor,
-                    "The page URL reads <b>" + actualURL + "</b>", timeTook);
+            this.reporter.pass("to be on page with the URL of <b>" + expectedURL + ENDB, waitFor,
+                    "The page URL reads <b>" + actualURL + ENDB, timeTook);
         }
         return actualURL;
     }
@@ -102,9 +106,9 @@ abstract class Check {
     String checkTitleEquals(String expectedTitle, double waitFor, double timeTook) {
         String actualTitle = this.app.get().title();
         if (!actualTitle.equals(expectedTitle)) {
-            this.reporter.fail("to be on page with the title of <b>" + expectedTitle + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
+            this.reporter.fail("to be on page with the title of <b>" + expectedTitle + ENDB, waitFor, PAGE_TITLE + actualTitle + ENDB, timeTook);
         } else {
-            this.reporter.pass("to be on page with the title of <b>" + expectedTitle + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
+            this.reporter.pass("to be on page with the title of <b>" + expectedTitle + ENDB, waitFor, PAGE_TITLE + actualTitle + ENDB, timeTook);
         }
         return actualTitle;
     }
@@ -132,9 +136,9 @@ abstract class Check {
     String checkTitleMatches(String expectedTitlePattern, double waitFor, double timeTook) {
         String actualTitle = this.app.get().title();
         if (!actualTitle.matches(expectedTitlePattern)) {
-            this.reporter.fail("to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
+            this.reporter.fail("to be on page with the title matching pattern <b>" + expectedTitlePattern + ENDB, waitFor, PAGE_TITLE + actualTitle + ENDB, timeTook);
         } else {
-            this.reporter.pass("to be on page with the title matching pattern <b>" + expectedTitlePattern + "</b>", waitFor, "The page title reads <b>" + actualTitle + "</b>", timeTook);
+            this.reporter.pass("to be on page with the title matching pattern <b>" + expectedTitlePattern + ENDB, waitFor, PAGE_TITLE + actualTitle + ENDB, timeTook);
         }
         return actualTitle;
     }
@@ -163,10 +167,10 @@ abstract class Check {
         // check for the object to be present
         boolean isPresent = this.app.is().textPresent(expectedText);
         if (!isPresent) {
-            this.reporter.fail("to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + "</b> is not present on the page", timeTook);
+            this.reporter.fail("to find text <b>" + expectedText + B_PRESENT, waitFor, TEXT_B + expectedText + "</b> is not present on the page", timeTook);
             return false;
         } else {
-            this.reporter.pass("to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + B_PRESENT, timeTook);
+            this.reporter.pass("to find text <b>" + expectedText + B_PRESENT, waitFor, TEXT_B + expectedText + B_PRESENT, timeTook);
             return true;
         }
     }
@@ -195,10 +199,10 @@ abstract class Check {
         // check for the object to be present
         boolean isPresent = this.app.is().textPresent(expectedText);
         if (isPresent) {
-            this.reporter.fail("not to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + B_PRESENT, timeTook);
+            this.reporter.fail("not to find text <b>" + expectedText + B_PRESENT, waitFor, TEXT_B + expectedText + B_PRESENT, timeTook);
             return false;
         } else {
-            this.reporter.pass("not to find text <b>" + expectedText + "</b> present on the page", waitFor, TEXT_B + expectedText + "</b> is not present on the page", timeTook);
+            this.reporter.pass("not to find text <b>" + expectedText + B_PRESENT, waitFor, TEXT_B + expectedText + "</b> is not present on the page", timeTook);
             return true;
         }
     }
@@ -288,19 +292,20 @@ abstract class Check {
      * @return String: if the alert is present, the text of the alert
      */
     String checkAlertEquals(String expectedAlertText, double waitFor, double timeTook) {
+        String alertWithText = "to find alert with the text <b>";
         // check for the object to be present
         String alert;
         boolean isAlertPresent = this.app.is().alertPresent();
         if (isAlertPresent) {
             alert = this.app.get().alert();
         } else {
-            this.reporter.fail("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, NO_ALERT, timeTook);
+            this.reporter.fail(alertWithText + expectedAlertText + ON_PAGE, waitFor, NO_ALERT, timeTook);
             return "";
         }
         if (!alert.equals(expectedAlertText)) {
-            this.reporter.fail("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            this.reporter.fail(alertWithText + expectedAlertText + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
         } else {
-            this.reporter.pass("to find alert with the text <b>" + expectedAlertText + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            this.reporter.pass(alertWithText + expectedAlertText + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
         }
         return alert;
     }
@@ -326,19 +331,20 @@ abstract class Check {
      * @return String: if the alert is present, the text of the alert
      */
     String checkAlertMatches(String expectedAlertPattern, double waitFor, double timeTook) {
+        String alertMatchingPattern = "to find alert with the text matching pattern <b>";
         // check for the object to be present
         String alert;
         boolean isAlertPresent = this.app.is().alertPresent();
         if (isAlertPresent) {
             alert = this.app.get().alert();
         } else {
-            this.reporter.fail("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, NO_ALERT, timeTook);
+            this.reporter.fail(alertMatchingPattern + expectedAlertPattern + ON_PAGE, waitFor, NO_ALERT, timeTook);
             return "";
         }
         if (!alert.matches(expectedAlertPattern)) {
-            this.reporter.fail("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            this.reporter.fail(alertMatchingPattern + expectedAlertPattern + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
         } else {
-            this.reporter.pass("to find alert with the text matching pattern <b>" + expectedAlertPattern + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
+            this.reporter.pass(alertMatchingPattern + expectedAlertPattern + ON_PAGE, waitFor, ALERT_TEXT + alert + B_PRESENT, timeTook);
         }
         return alert;
     }
@@ -367,10 +373,10 @@ abstract class Check {
         if (isConfirmationPresent) {
             confirmation = this.app.get().confirmation();
         } else {
-            this.reporter.fail("to find a confirmation on the page", waitFor, NO_CONFIRMATION, timeTook);
+            this.reporter.fail(FIND_CONFIRMATION, waitFor, NO_CONFIRMATION, timeTook);
             return false;
         }
-        this.reporter.pass("to find a confirmation on the page", waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+        this.reporter.pass(FIND_CONFIRMATION, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         return true;
     }
 
@@ -395,10 +401,10 @@ abstract class Check {
         // check for the object to be present
         boolean isConfirmationPresent = this.app.is().confirmationPresent();
         if (isConfirmationPresent) {
-            this.reporter.fail("to find a confirmation on the page", waitFor, " confirmation is present on the page", timeTook);
+            this.reporter.fail(FIND_CONFIRMATION, waitFor, " confirmation is present on the page", timeTook);
             return false;
         }
-        this.reporter.pass("to find a confirmation on the page", waitFor, NO_CONFIRMATION, timeTook);
+        this.reporter.pass(FIND_CONFIRMATION, waitFor, NO_CONFIRMATION, timeTook);
         return true;
     }
 
@@ -423,19 +429,20 @@ abstract class Check {
      * @return String: if the confirmation is present, the text of the confirmation
      */
     String checkConfirmationEquals(String expectedConfirmationText, double waitFor, double timeTook) {
+        String findConfirmationTest = "to find confirmation with the text <b>";
         // check for the object to be present
         String confirmation;
         boolean isConfirmationPresent = this.app.is().confirmationPresent();
         if (isConfirmationPresent) {
             confirmation = this.app.get().confirmation();
         } else {
-            this.reporter.fail("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, NO_CONFIRMATION, timeTook);
+            this.reporter.fail(findConfirmationTest + expectedConfirmationText + ON_PAGE, waitFor, NO_CONFIRMATION, timeTook);
             return "";
         }
         if (!expectedConfirmationText.equals(confirmation)) {
-            this.reporter.fail("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+            this.reporter.fail(findConfirmationTest + expectedConfirmationText + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         } else {
-            this.reporter.pass("to find confirmation with the text <b>" + expectedConfirmationText + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+            this.reporter.pass(findConfirmationTest + expectedConfirmationText + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         }
         return confirmation;
     }
@@ -461,19 +468,20 @@ abstract class Check {
      * @return String: if the confirmation is present, the text of the confirmation
      */
     String checkConfirmationMatches(String expectedConfirmationPattern, double waitFor, double timeTook) {
+        String confirmationMatchingPattern = "to find confirmation with the text matching pattern <b>";
         // check for the object to be present
         String confirmation;
         boolean isConfirmationPresent = this.app.is().confirmationPresent();
         if (isConfirmationPresent) {
             confirmation = this.app.get().confirmation();
         } else {
-            this.reporter.fail("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, NO_CONFIRMATION, timeTook);
+            this.reporter.fail(confirmationMatchingPattern + expectedConfirmationPattern + ON_PAGE, waitFor, NO_CONFIRMATION, timeTook);
             return "";
         }
         if (!confirmation.matches(expectedConfirmationPattern)) {
-            this.reporter.fail("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+            this.reporter.fail(confirmationMatchingPattern + expectedConfirmationPattern + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         } else {
-            this.reporter.pass("to find confirmation with the text matching pattern <b>" + expectedConfirmationPattern + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
+            this.reporter.pass(confirmationMatchingPattern + expectedConfirmationPattern + ON_PAGE, waitFor, CONFIRMATION_TEXT + confirmation + B_PRESENT, timeTook);
         }
         return confirmation;
     }
@@ -558,19 +566,20 @@ abstract class Check {
      * @return String: if the prompt is present, the text of the prompt
      */
     String checkPromptEquals(String expectedPromptText, double waitFor, double timeTook) {
+        String promptWithText = "to find prompt with the text <b>";
         // check for the object to be present
         String prompt;
         boolean isPromptPresent = this.app.is().promptPresent();
         if (isPromptPresent) {
             prompt = this.app.get().prompt();
         } else {
-            this.reporter.fail("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, NO_PROMPT, timeTook);
+            this.reporter.fail(promptWithText + expectedPromptText + ON_PAGE, waitFor, NO_PROMPT, timeTook);
             return "";
         }
         if (!expectedPromptText.equals(prompt)) {
-            this.reporter.fail("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+            this.reporter.fail(promptWithText + expectedPromptText + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         } else {
-            this.reporter.pass("to find prompt with the text <b>" + expectedPromptText + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+            this.reporter.pass(promptWithText + expectedPromptText + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         }
         return prompt;
     }
@@ -596,19 +605,20 @@ abstract class Check {
      * @return String: if the prompt is present, the text of the prompt
      */
     String checkPromptMatches(String expectedPromptPattern, double waitFor, double timeTook) {
+        String promptTextMatching = "to find prompt with the text matching pattern <b>";
         // check for the object to be present
         String prompt;
         boolean isPromptPresent = this.app.is().promptPresent();
         if (isPromptPresent) {
             prompt = this.app.get().prompt();
         } else {
-            this.reporter.fail("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, NO_PROMPT, timeTook);
+            this.reporter.fail(promptTextMatching + expectedPromptPattern + ON_PAGE, waitFor, NO_PROMPT, timeTook);
             return "";
         }
         if (!prompt.matches(expectedPromptPattern)) {
-            this.reporter.fail("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+            this.reporter.fail(promptTextMatching + expectedPromptPattern + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         } else {
-            this.reporter.pass("to find prompt with the text matching pattern <b>" + expectedPromptPattern + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
+            this.reporter.pass(promptTextMatching + expectedPromptPattern + ON_PAGE, waitFor, PROMPT_TEXT + prompt + B_PRESENT, timeTook);
         }
         return prompt;
     }
@@ -643,9 +653,9 @@ abstract class Check {
         boolean isCookiePresent = this.app.is().cookiePresent(expectedCookieName);
         if (isCookiePresent) {
             cookieValue = this.app.get().cookieValue(expectedCookieName);
-            this.reporter.pass("to find cookie with the name <b>" + expectedCookieName + STORED, waitFor, COOKIE + expectedCookieName + VALUE_OF + cookieValue + STORED, timeTook);
+            this.reporter.pass(COOKIE_WITH_NAME + expectedCookieName + STORED, waitFor, COOKIE + expectedCookieName + VALUE_OF + cookieValue + STORED, timeTook);
         } else {
-            this.reporter.fail("to find cookie with the name <b>" + expectedCookieName + STORED, waitFor, COOKIE + expectedCookieName + NOT_STORED, timeTook);
+            this.reporter.fail(COOKIE_WITH_NAME + expectedCookieName + STORED, waitFor, COOKIE + expectedCookieName + NOT_STORED, timeTook);
         }
         return isCookiePresent;
     }
@@ -710,14 +720,14 @@ abstract class Check {
         if (isCookiePresent) {
             cookieValue = this.app.get().cookieValue(cookieName);
         } else {
-            this.reporter.fail("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor, COOKIE + cookieName + NOT_STORED, timeTook);
+            this.reporter.fail(COOKIE_WITH_NAME + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor, COOKIE + cookieName + NOT_STORED, timeTook);
             return "";
         }
         if (!cookieValue.equals(expectedCookieValue)) {
-            this.reporter.fail("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor,
+            this.reporter.fail(COOKIE_WITH_NAME + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor,
                     COOKIE + cookieName + "</b> is stored for the page, but the value of the cookie is " + cookieValue, timeTook);
         } else {
-            this.reporter.pass("to find cookie with the name <b>" + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor, COOKIE + cookieName + VALUE_OF + cookieValue + STORED, timeTook);
+            this.reporter.pass(COOKIE_WITH_NAME + cookieName + VALUE_OF + expectedCookieValue + STORED, waitFor, COOKIE + cookieName + VALUE_OF + cookieValue + STORED, timeTook);
         }
         return cookieValue;
     }
@@ -745,21 +755,22 @@ abstract class Check {
      * @return String: if the cookie is present, the value of the cookie, and null if the cookie isn't present
      */
     String checkCookieMatches(String cookieName, String expectedCookiePattern, double waitFor, double timeTook) {
+        String valueMatchingPattern = "</b> and a value matching pattern of <b>";
         // check for the object to be present
         String cookieValue;
         boolean isCookiePresent = this.app.is().cookiePresent(cookieName);
         if (isCookiePresent) {
             cookieValue = this.app.get().cookieValue(cookieName);
         } else {
-            this.reporter.fail("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
+            this.reporter.fail(COOKIE_WITH_NAME + cookieName + valueMatchingPattern + expectedCookiePattern + STORED,
                     waitFor, COOKIE + cookieName + NOT_STORED, timeTook);
             return "";
         }
         if (!cookieValue.matches(expectedCookiePattern)) {
-            this.reporter.fail("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
+            this.reporter.fail(COOKIE_WITH_NAME + cookieName + valueMatchingPattern + expectedCookiePattern + STORED,
                     waitFor, COOKIE + cookieName + "</b> is stored for the page, but the value of the cookie is " + cookieValue, timeTook);
         } else {
-            this.reporter.pass("to find cookie with the name <b>" + cookieName + "</b> and a value matching pattern of <b>" + expectedCookiePattern + STORED,
+            this.reporter.pass(COOKIE_WITH_NAME + cookieName + valueMatchingPattern + expectedCookiePattern + STORED,
                     waitFor, COOKIE + cookieName + VALUE_OF + cookieValue + STORED, timeTook);
         }
         return cookieValue;

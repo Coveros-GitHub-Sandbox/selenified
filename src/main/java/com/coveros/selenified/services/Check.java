@@ -21,7 +21,9 @@
 package com.coveros.selenified.services;
 
 import com.coveros.selenified.utilities.Reporter;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -106,9 +108,9 @@ abstract class Check {
     int checkEquals(int expectedCode) {
         int actualCode = this.response.getCode();
         if (actualCode == expectedCode) {
-            this.reporter.pass("", "Expected to find a response code of <b>" + expectedCode + "</b>", "Found a response code of <b>" + actualCode + "</b>");
+            this.reporter.pass("", "Expected to find a response code of <b>" + expectedCode + ENDB, "Found a response code of <b>" + actualCode + ENDB);
         } else {
-            this.reporter.fail("", "Expected to find a response code of <b>" + expectedCode + "</b>", "Found a response code of <b>" + actualCode + "</b>");
+            this.reporter.fail("", "Expected to find a response code of <b>" + expectedCode + ENDB, "Found a response code of <b>" + actualCode + ENDB);
         }
         return actualCode;
     }

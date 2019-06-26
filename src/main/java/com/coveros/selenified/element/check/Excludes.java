@@ -72,12 +72,12 @@ abstract class Excludes extends Check {
         String actualClass = this.element.get().attribute(CLASS);
         // record the result
         if (actualClass != null && !actualClass.contains(unexpectedClass)) {
-            this.reporter.pass(this.element.prettyOutput() + " without class <b>" + unexpectedClass + "</b>", waitFor,
-                    this.element.prettyOutputStart() + " does not contain a class value of <b>" + unexpectedClass + "</b>",
+            this.reporter.pass(this.element.prettyOutput() + " without class <b>" + unexpectedClass + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " does not contain a class value of <b>" + unexpectedClass + ENDB,
                     timeTook);
         } else {
-            this.reporter.fail(this.element.prettyOutput() + " without class <b>" + unexpectedClass + "</b>", waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
-                    unexpectedClass + "</b>", timeTook);
+            this.reporter.fail(this.element.prettyOutput() + " without class <b>" + unexpectedClass + ENDB, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
+                    unexpectedClass + ENDB, timeTook);
         }
         return actualClass;
     }
@@ -113,11 +113,11 @@ abstract class Excludes extends Check {
         }
         // record the result
         if (atts == null || allAttributes.contains(attribute)) {
-            this.reporter.fail(this.element.prettyOutput() + " without attribute <b>" + attribute + "</b>", waitFor, this.element.prettyOutputStart() + " contains the attribute of <b>" + attribute + "</b>",
+            this.reporter.fail(this.element.prettyOutput() + " without attribute <b>" + attribute + ENDB, waitFor, this.element.prettyOutputStart() + " contains the attribute of <b>" + attribute + ENDB,
                     timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " without attribute <b>" + attribute + "</b>", waitFor, this.element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
-                    ONLY_VALUE + String.join(", ", allAttributes) + "</b>", timeTook);
+            this.reporter.pass(this.element.prettyOutput() + " without attribute <b>" + attribute + ENDB, waitFor, this.element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + ENDB +
+                    ONLY_VALUE + String.join(", ", allAttributes) + ENDB, timeTook);
         }
         if (atts == null) {
             return null;
@@ -152,9 +152,9 @@ abstract class Excludes extends Check {
         String elementValue = this.element.get().text();
         // record the result
         if (elementValue == null || elementValue.contains(expectedText)) {
-            this.reporter.fail(this.element.prettyOutput() + EXCLUDES_TEXT + expectedText + "</b>", waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook);
+            this.reporter.fail(this.element.prettyOutput() + EXCLUDES_TEXT + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementValue + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + EXCLUDES_TEXT + expectedText + "</b>", waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook);
+            this.reporter.pass(this.element.prettyOutput() + EXCLUDES_TEXT + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -184,9 +184,9 @@ abstract class Excludes extends Check {
         // record the action and get our value
         String elementValue = this.element.get().value();
         if (elementValue == null || elementValue.contains(expectedValue)) {
-            this.reporter.fail(this.element.prettyOutput() + expectedValue + elementValue + "</b>", waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
+            this.reporter.fail(this.element.prettyOutput() + expectedValue + elementValue + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + expectedValue + elementValue + "</b>", waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook);
+            this.reporter.pass(this.element.prettyOutput() + expectedValue + elementValue + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -214,24 +214,25 @@ abstract class Excludes extends Check {
      */
     @SuppressWarnings("squid:S1168")
     String[] checkSelectOption(String option, double waitFor, double timeTook) {
+        String withoutOption = " without the option <b>";
         // record the action, and check for select
-        if (!isPresentSelect(this.element.prettyOutput() + " without the option <b>" + option +
-                "</b> available to be selected on the page", waitFor)) {
+        if (!isPresentSelect(this.element.prettyOutput() + withoutOption + option +
+                AVAILABLE_TO_BE_SELECTED, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // check for the object to the editable
         String[] allOptions = this.element.get().selectOptions();
         // record the result
         if (Arrays.asList(allOptions).contains(option)) {
-            this.reporter.fail(this.element.prettyOutput() + " without the option <b>" + option +
-                            "</b> available to be selected on the page", waitFor,
+            this.reporter.fail(this.element.prettyOutput() + withoutOption + option +
+                            AVAILABLE_TO_BE_SELECTED, waitFor,
                     this.element.prettyOutputStart() + " is editable and present and contains the option <b>" + option +
-                            "</b>", timeTook);
+                            ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " without the option <b>" + option +
-                            "</b> available to be selected on the page", waitFor,
+            this.reporter.pass(this.element.prettyOutput() + withoutOption + option +
+                            AVAILABLE_TO_BE_SELECTED, waitFor,
                     this.element.prettyOutputStart() + " is editable and present but does not contain the option <b>" + option +
-                            "</b>", timeTook);
+                            ENDB, timeTook);
         }
         return allOptions;
     }
@@ -259,21 +260,22 @@ abstract class Excludes extends Check {
      */
     @SuppressWarnings("squid:S1168")
     String[] checkSelectValue(String selectValue, double waitFor, double timeTook) {
+        String withoutSelectValue = " without a select value of <b>";
         // record the action, and check for select
-        if (!isPresentSelect(this.element.prettyOutput() + " without a select value of <b>" + selectValue +
-                "</b> available to be selected on the page", waitFor)) {
+        if (!isPresentSelect(this.element.prettyOutput() + withoutSelectValue + selectValue +
+                AVAILABLE_TO_BE_SELECTED, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // check for the object to the present on the page
         String[] elementValues = this.element.get().selectValues();
         // record the result
         if (Arrays.asList(elementValues).contains(selectValue)) {
-            this.reporter.fail(this.element.prettyOutput() + " without a select value of <b>" + selectValue +
-                    "</b> available to be selected on the page", waitFor, this.element.prettyOutputStart() + CONTAINS_VALUE + selectValue + "</b>", timeTook);
+            this.reporter.fail(this.element.prettyOutput() + withoutSelectValue + selectValue +
+                    AVAILABLE_TO_BE_SELECTED, waitFor, this.element.prettyOutputStart() + CONTAINS_VALUE + selectValue + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " without a select value of <b>" + selectValue +
-                    "</b> available to be selected on the page", waitFor, this.element.prettyOutputStart() + EXCLUDES_VALUE + selectValue + "</b>, only the values <b>" +
-                    Arrays.toString(elementValues) + "</b>", timeTook);
+            this.reporter.pass(this.element.prettyOutput() + withoutSelectValue + selectValue +
+                    AVAILABLE_TO_BE_SELECTED, waitFor, this.element.prettyOutputStart() + EXCLUDES_VALUE + selectValue + "</b>, only the values <b>" +
+                    Arrays.toString(elementValues) + ENDB, timeTook);
         }
         return elementValues;
     }
