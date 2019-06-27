@@ -31,15 +31,9 @@ import com.coveros.selenified.utilities.Reporter;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 6/25/2019
  */
-public class Verify implements Check {
-
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the driver that will be used for all selenium actions
-    private final App app;
+public class Verify extends Check {
 
     /**
      * The default constructor passing in the app and output file
@@ -50,22 +44,6 @@ public class Verify implements Check {
     public Verify(App app, Reporter reporter) {
         this.app = app;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public App getApp() {
-        return app;
     }
 
     ///////////////////////////////////////////////////////

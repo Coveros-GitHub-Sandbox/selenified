@@ -35,17 +35,17 @@ import java.util.Map;
  */
 public class Response {
 
-    private Map headers;
-    private int code;
-    private JsonObject object;
-    private JsonArray array;
-    private String message;
+    private final Map headers;
+    private final int code;
+    private final JsonObject object;
+    private final JsonArray array;
+    private final String message;
 
     // the assert class to check information about the response
-    private Assert azzert;
+    private final Assert azzert;
 
     // the verify class to check information about the response
-    private Verify verify;
+    private final Verify verify;
 
     public Response(Reporter reporter, Map headers, int code, JsonObject object, JsonArray array, String message) {
         this.headers = headers;

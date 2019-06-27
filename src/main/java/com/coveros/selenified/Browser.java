@@ -155,6 +155,9 @@ public class Browser {
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public static BrowserName lookup(String b) throws InvalidBrowserException {
+        if("IE".equalsIgnoreCase(b)) {
+            return BrowserName.INTERNETEXPLORER;
+        }
         for (BrowserName browser : BrowserName.values()) {
             if (browser.name().equalsIgnoreCase(b)) {
                 return browser;

@@ -21,7 +21,9 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -36,23 +38,42 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 6/25/2019
  */
-interface Check {
+abstract class Check {
+    static final String AVAILABLE_TO_BE_SELECTED = "</b> available to be selected on the page";
+
+    // this will be the name of the file we write all commands out to
+    Reporter reporter;
+
+    // this is the driver that will be used for all selenium actions
+    Element element;
+
+    // the default wait for the system
+    double defaultWait = Property.getDefaultWait();
+
+    // the default poll for elements
+    long defaultPoll = Property.getDefaultPoll();
 
     /**
-     * Retrieves the output file that we write all details out to
+     * Changes the default wait time from 5.0 seconds to some custom number.
      *
-     * @return Reporter
+     * @param seconds - how many seconds should WaitFor wait for the condition to be
+     *                met
      */
-    Reporter getReporter();
+    public void changeDefaultWait(double seconds) {
+        defaultWait = seconds;
+    }
 
     /**
-     * Retrieves the element that is used for all selenium actions and checks
+     * Changes the default poll time from 500.0 milliseconds to some custom number.
      *
-     * @return Element
+     * @param milliseconds - how many milliseconds should WaitFor wait between pollings
+     *                     for the condition to be met
      */
-    Element getElement();
+    public void changeDefaultPoll(long milliseconds) {
+        defaultPoll = milliseconds;
+    }
 
     ///////////////////////////////////////////////////////
     // assertions about the element in general
@@ -65,9 +86,9 @@ interface Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is present or not
      */
-    default boolean isPresent(String check, double waitFor) {
-        if (!getElement().is().present()) {
-            getReporter().fail(check, waitFor, getElement().prettyOutputStart() + IS_NOT_PRESENT, waitFor);
+    boolean isPresent(String check, double waitFor) {
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, waitFor);
             return false;
         }
         return true;
@@ -80,9 +101,9 @@ interface Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an input or not
      */
-    default boolean isInput(String check, double waitFor) {
-        if (!getElement().is().input()) {
-            getReporter().fail(check, waitFor, getElement().prettyOutputStart() + IS_NOT_INPUT, waitFor);
+    boolean isInput(String check, double waitFor) {
+        if (!this.element.is().input()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor);
             return false;
         }
         return true;
@@ -95,9 +116,9 @@ interface Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an select or not
      */
-    default boolean isSelect(String check, double waitFor) {
-        if (!getElement().is().select()) {
-            getReporter().fail(check, waitFor, getElement().prettyOutputStart() + IS_NOT_SELECT, waitFor);
+    boolean isSelect(String check, double waitFor) {
+        if (!this.element.is().select()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_SELECT, waitFor);
             return false;
         }
         return true;
@@ -110,9 +131,9 @@ interface Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */
-    default boolean isTable(String check, double waitFor) {
-        if (!getElement().is().table()) {
-            getReporter().fail(check, waitFor, getElement().prettyOutputStart() + IS_NOT_TABLE, waitFor);
+    boolean isTable(String check, double waitFor) {
+        if (!this.element.is().table()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_TABLE, waitFor);
             return false;
         }
         return true;
@@ -127,7 +148,7 @@ interface Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
-    default boolean isPresentInput(String check, double waitFor) {
+    boolean isPresentInput(String check, double waitFor) {
         // verify this is a select element
         return (isPresent(check, waitFor) && isInput(check, waitFor));
     }
@@ -141,7 +162,7 @@ interface Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
-    default boolean isPresentSelect(String check, double waitFor) {
+    boolean isPresentSelect(String check, double waitFor) {
         // verify this is a select element
         return (isPresent(check, waitFor) && isSelect(check, waitFor));
     }
@@ -155,7 +176,7 @@ interface Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */
-    default boolean isPresentTable(String check, double waitFor) {
+    boolean isPresentTable(String check, double waitFor) {
         // verify this is a select element
         return (isPresent(check, waitFor) && isTable(check, waitFor));
     }
@@ -168,10 +189,14 @@ interface Check {
      * @param seconds - how many seconds to wait for
      * @return double: the time waited
      */
-    default double elementPresent(double seconds) {
+    double elementPresent(double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
-        WebDriverWait wait = new WebDriverWait(getElement().getDriver(), (long) seconds, DEFAULT_POLLING_INTERVAL);
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(getElement().defineByElement()));
-        return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        try {
+            WebDriverWait wait = new WebDriverWait(this.element.getDriver(), (long) seconds, Property.getDefaultPoll());
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(this.element.defineByElement()));
+            return Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+        } catch (TimeoutException e) {
+            return seconds;
+        }
     }
 }

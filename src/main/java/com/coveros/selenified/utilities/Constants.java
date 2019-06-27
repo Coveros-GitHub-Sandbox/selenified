@@ -28,11 +28,9 @@ import com.google.gson.GsonBuilder;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/4/2019
+ * @lastupdate 6/25/2019
  */
 public class Constants {
-
-    public static final long DEFAULT_POLLING_INTERVAL = 50;
 
     public static final String ON_PAGE = "</b> on the page";
     public static final String NO_ALERT = "An alert is not present on the page";
@@ -75,7 +73,9 @@ public class Constants {
     public static final String VALUES = " has values of <b>";
     public static final String WITH = "</i> with the value of <b>";
     public static final String NO_ELEMENT_FOUND = "No element found";
+    public static final String ELEMENT_NOT_PRESENT = "Element not present";
     public static final String ELEMENT_NOT_SELECT = "Element not select";
+    public static final String ELEMENT_NOT_TABLE = "Element not table";
     public static final String CONTAINS = "' contains '";
     public static final String DOES_NOT_MATCH_PATTERN = "' doesn't match pattern '";
     public static final String DOES_NOT_CONTAIN = "' doesn't contain '";
@@ -85,6 +85,7 @@ public class Constants {
     public static final String FOUND = "Found a response of: ";
     public static final String STARTI = "'<i>";
     public static final String ENDI = "</i>'";
+    public static final String ENDB = "</b>";
     public static final String DIV_I = "<div><i>";
     public static final String END_IDIV = "</i></div>";
     public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
@@ -95,5 +96,6 @@ public class Constants {
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private Constants() {}
+    private Constants() {
+    }
 }

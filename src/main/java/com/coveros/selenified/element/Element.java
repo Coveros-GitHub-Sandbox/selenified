@@ -23,10 +23,6 @@ package com.coveros.selenified.element;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.check.*;
-import com.coveros.selenified.element.check.azzert.*;
-import com.coveros.selenified.element.check.verify.*;
-import com.coveros.selenified.element.check.wait.WaitForEquals;
-import com.coveros.selenified.element.check.wait.WaitForState;
 import com.coveros.selenified.utilities.Point;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.*;
@@ -52,7 +48,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/16/2019
+ * @lastupdate 6/25/2019
  */
 public class Element {
 
@@ -77,22 +73,22 @@ public class Element {
     // the wait class to retrieve information about the element
     private Get get;
     // the is class to determine the state of an element
-    private State verifyState;
-    private State assertState;
+    private VerifyState verifyState;
+    private AssertState assertState;
     private WaitForState waitForState;
     // the is class to determine if an element contains something
-    private Contains verifyContains;
-    private Contains assertContains;
+    private VerifyContains verifyContains;
+    private AssertContains assertContains;
     // the is class to determine if an element doesn't contain something
-    private Excludes verifyExcludes;
-    private Excludes assertExcludes;
+    private VerifyExcludes verifyExcludes;
+    private AssertExcludes assertExcludes;
     // the is class to determine if an element has attributes equal to something
-    private Equals verifyEquals;
-    private Equals assertEquals;
+    private VerifyEquals verifyEquals;
+    private AssertEquals assertEquals;
     private WaitForEquals waitForEquals;
     // the is class to determine if an element has attributes matching to something
-    private Matches verifyMatches;
-    private Matches assertMatches;
+    private VerifyMatches verifyMatches;
+    private AssertMatches assertMatches;
 
 
     // constants
@@ -365,7 +361,7 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public State verifyState() {
+    public VerifyState verifyState() {
         return verifyState;
     }
 
@@ -376,7 +372,7 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public State assertState() {
+    public AssertState assertState() {
         return assertState;
     }
 
@@ -398,7 +394,7 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public Contains verifyContains() {
+    public VerifyContains verifyContains() {
         return verifyContains;
     }
 
@@ -409,7 +405,7 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public Contains assertContains() {
+    public AssertContains assertContains() {
         return assertContains;
     }
 
@@ -420,7 +416,7 @@ public class Element {
      * each verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public Excludes verifyExcludes() {
+    public VerifyExcludes verifyExcludes() {
         return verifyExcludes;
     }
 
@@ -431,7 +427,7 @@ public class Element {
      * each verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public Excludes assertExcludes() {
+    public AssertExcludes assertExcludes() {
         return assertExcludes;
     }
 
@@ -442,7 +438,7 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public Equals verifyEquals() {
+    public VerifyEquals verifyEquals() {
         return verifyEquals;
     }
 
@@ -453,7 +449,7 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public Equals assertEquals() {
+    public AssertEquals assertEquals() {
         return assertEquals;
     }
 
@@ -475,7 +471,7 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public Matches verifyMatches() {
+    public VerifyMatches verifyMatches() {
         return verifyMatches;
     }
 
@@ -486,7 +482,7 @@ public class Element {
      * verification to provide additional traceability, and assist in
      * troubleshooting and debugging failing tests.
      */
-    public Matches assertMatches() {
+    public AssertMatches assertMatches() {
         return assertMatches;
     }
 
@@ -545,7 +541,7 @@ public class Element {
             return elements.get(match);
         }
         String reason = this.prettyOutputStart() + " was not located on the page";
-        if( !elements.isEmpty() ) {
+        if (!elements.isEmpty()) {
             reason += ", but " + elements.size() + " elements matching the locator were. Try using a lower match";
         }
         throw new NoSuchElementException(reason);

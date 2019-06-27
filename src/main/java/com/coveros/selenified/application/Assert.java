@@ -35,15 +35,9 @@ import static org.testng.AssertJUnit.assertTrue;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/19/2019
+ * @lastupdate 6/25/2019
  */
-public class Assert implements Check {
-
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the driver that will be used for all selenium actions
-    private final App app;
+public class Assert extends Check {
 
     /**
      * The default constructor passing in the app and output file
@@ -54,22 +48,6 @@ public class Assert implements Check {
     public Assert(App app, Reporter reporter) {
         this.app = app;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public App getApp() {
-        return app;
     }
 
     ///////////////////////////////////////////////////////

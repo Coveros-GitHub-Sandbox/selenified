@@ -42,7 +42,7 @@
         <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
         <maven.surefire.plugin.version>2.21.0</maven.surefire.plugin.version>
         <clirr.maven.plugin.version>2.8</clirr.maven.plugin.version>
-        <dependency.check.maven.version>4.0.2</dependency.check.maven.version>
+        <dependency.check.maven.version>5.0.0</dependency.check.maven.version>
         <jacoco.maven.plugin.version>0.8.3</jacoco.maven.plugin.version>
         <lint.maven.plugin.version>0.0.11</lint.maven.plugin.version>
         <mock.server.version>5.3.0</mock.server.version>
@@ -53,7 +53,7 @@
         <sonar.host.url>http://localhost:9000/sonar</sonar.host.url>
         <sonar.sources>src/main/java</sonar.sources>
         <sonar.test>src/test/java</sonar.test>
-        <sonar.junit.reportPaths>results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/chrome/target/failsafe-reports,results/sauce/target/failsafe-reports</sonar.junit.reportPaths>
+        <sonar.junit.reportPaths>results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/chrome/target/failsafe-reports,results/compatibility/target/failsafe-reports,results/sauce/target/failsafe-reports</sonar.junit.reportPaths>
         <sonar.jacoco.reportPaths>jacoco-ut.exec,jacoco-it.exec</sonar.jacoco.reportPaths>
         <sonar.dependencyCheck.reportPath>dependency-check-report.xml</sonar.dependencyCheck.reportPath>
         <sonar.dependencyCheck.htmlReportPath>dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
@@ -189,9 +189,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
-                    <!-- Sets the VM argument line used when unit tests are run. -->
-                    <!--suppress UnresolvedMavenProperty -->
-                    <argLine>${surefireArgLine}</argLine>
                     <!-- Skips unit tests if the value of skip.unit.tests property is true -->
                     <skipTests>${skip.unit.tests}</skipTests>
                     <!-- Excludes integration tests when unit tests are run. -->
@@ -269,11 +266,7 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the VM argument line used when integration tests are run. -->
-                            <!--suppress UnresolvedMavenProperty -->
-                            <argLine>${failsafeArgLine}</argLine>
-                            <!-- Skips integration tests if the value of skip.integration.tests
-                                property is true -->
+                            <!-- Skips integration tests if the value of skip.integration.tests property is true -->
                             <skipTests>${skip.integration.tests}</skipTests>
                         </configuration>
                     </execution>
@@ -283,10 +276,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the VM argument line used when integration tests are run. -->
-                            <argLine>${failsafeArgLine}</argLine>
-                            <!-- Skips integration tests if the value of skip.integration.tests
-                                property is true -->
+                            <!-- Skips integration tests if the value of skip.integration.tests property is true -->
                             <skipTests>${skip.integration.tests}</skipTests>
                         </configuration>
                     </execution>
@@ -316,9 +306,6 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo
-                                runtime agent. -->
-                            <propertyName>surefireArgLine</propertyName>
                         </configuration>
                     </execution>
                     <!-- Ensures that the code coverage report for unit tests is created
@@ -348,9 +335,6 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo
-                                runtime agent. -->
-                            <propertyName>failsafeArgLine</propertyName>
                         </configuration>
                     </execution>
                     <!-- Ensures that the code coverage report for integration tests after

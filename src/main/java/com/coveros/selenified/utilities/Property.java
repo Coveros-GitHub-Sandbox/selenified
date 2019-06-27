@@ -44,12 +44,13 @@ import java.util.Properties;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/15/2019
+ * @lastupdate 5/13/2019
  */
 public class Property {
 
     private static final String PROXY_ISNT_SET = "Proxy isn't set";
-    private static final double WAIT = 5;
+    private static final double WAIT = 5;       //in seconds
+    private static final long POLL = 50;        //in milliseconds
 
     private Property() {
     }
@@ -58,6 +59,7 @@ public class Property {
     private static final String SELENIFIED = "src/test/resources/selenified.properties";
 
     private static final String DEFAULT_WAIT = "defaultWait";
+    private static final String DEFAULT_POLL = "defaultPoll";
     private static final String GENERATE_PDF = "generatePDF";
     private static final String PACKAGE_RESULTS = "packageResults";
     private static final String HUB = "hub";
@@ -296,6 +298,19 @@ public class Property {
             throw new InvalidBrowserOptionsException("Browser options aren't set");
         }
         return options;
+    }
+
+    public static long getDefaultPoll() {
+        String defaultPoll = getProgramProperty(DEFAULT_POLL);
+        if (defaultPoll == null || "".equals(defaultPoll)) {
+            return POLL;
+        }
+        try {
+            return Long.valueOf(defaultPoll);
+        } catch (Exception e) {
+            log.error("Provided default poll needs to be a long. " + e);
+            return POLL;
+        }
     }
 
     public static double getDefaultWait() {

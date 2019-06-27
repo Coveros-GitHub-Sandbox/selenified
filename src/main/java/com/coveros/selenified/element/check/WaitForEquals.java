@@ -18,13 +18,12 @@
  * under the License.
  */
 
-package com.coveros.selenified.element.check.wait;
+package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Equals;
-import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -43,48 +42,19 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/15/2019
+ * @lastupdate 6/25/2019
  */
-public class WaitForEquals implements Equals {
+public class WaitForEquals extends Equals {
 
-    // this will be the name of the file we write all commands out to
-    private final Reporter reporter;
-
-    // this is the element that all actions will be performed on
-    private final Element element;
-
-    // the default wait for the system
-    private double defaultWait = Property.getDefaultWait();
-
+    /**
+     * The default constructor passing in the element and output file
+     *
+     * @param element      - the element under test
+     * @param reporter - the file to write all logging out to
+     */
     public WaitForEquals(Element element, Reporter reporter) {
         this.element = element;
         this.reporter = reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Element getElement() {
-        return element;
-    }
-
-    /**
-     * Changes the default wait time from 5.0 seconds to some custom number.
-     *
-     * @param seconds - how many seconds should WaitFor wait for the condition to be
-     *                met
-     */
-    public void changeDefaultWait(double seconds) {
-        defaultWait = seconds;
     }
 
     // ///////////////////////////////////////
@@ -265,11 +235,13 @@ public class WaitForEquals implements Equals {
     public void matches(int expectedMatches, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
+            double timeTook = 0;
             if (expectedMatches > 0) {
-                elementPresent(seconds);
+                timeTook = elementPresent(seconds);
             }
-            while (element.get().matchCount() != expectedMatches && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().matchCount() == expectedMatches);
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkMatches(expectedMatches, seconds, timeTook);
         } catch (TimeoutException e) {
             checkMatches(expectedMatches, seconds, seconds);
@@ -291,9 +263,13 @@ public class WaitForEquals implements Equals {
     public void cssValue(String attribute, String expectedValue, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
-            while (!expectedValue.equals(element.get().css(attribute)) && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> expectedValue.equals(element.get().css(attribute)));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkCssValue(attribute, expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {
             checkCssValue(attribute, expectedValue, seconds, seconds);
@@ -313,9 +289,13 @@ public class WaitForEquals implements Equals {
     public void clazz(String expectedClass, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
-            while (!(expectedClass == null ? element.get().attribute(CLASS) == null : expectedClass.equals(element.get().attribute(CLASS))) && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedClass == null ? element.get().attribute(CLASS) == null : expectedClass.equals(element.get().attribute(CLASS))));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkClazz(expectedClass, seconds, timeTook);
         } catch (TimeoutException e) {
             checkClazz(expectedClass, seconds, seconds);
@@ -337,9 +317,13 @@ public class WaitForEquals implements Equals {
     public void attribute(String attribute, String expectedValue, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
-            while (!expectedValue.equals(element.get().attribute(attribute)) && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> expectedValue.equals(element.get().attribute(attribute)));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkAttribute(attribute, expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {
             checkAttribute(attribute, expectedValue, seconds, seconds);
@@ -360,7 +344,10 @@ public class WaitForEquals implements Equals {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             double timeTook = elementPresent(seconds);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), DEFAULT_POLLING_INTERVAL);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
             wait.until(ExpectedConditions.textToBePresentInElementLocated(element.defineByElement(), expectedText));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkText(expectedText, seconds, timeTook);
@@ -387,9 +374,16 @@ public class WaitForEquals implements Equals {
     public void text(int row, int col, String expectedText, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
-            while (!element.get().tableCell(row, col).get().text().equals(expectedText) && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            if (!element.is().table()) {
+                throw new TimeoutException(ELEMENT_NOT_TABLE);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().tableCell(row, col).get().text().equals(expectedText));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkText(row, col, expectedText, seconds, timeTook);
         } catch (TimeoutException e) {
             checkText(row, col, expectedText, seconds, seconds);
@@ -411,7 +405,10 @@ public class WaitForEquals implements Equals {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
             double timeTook = elementPresent(seconds);
-            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), DEFAULT_POLLING_INTERVAL);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
             wait.until(ExpectedConditions.textToBePresentInElementValue(element.defineByElement(), expectedValue));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkValue(expectedValue, seconds, timeTook);
@@ -434,12 +431,16 @@ public class WaitForEquals implements Equals {
     public void selectedOption(String expectedText, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
             if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
-            while (!element.get().selectedOption().equals(expectedText) && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().selectedOption().equals(expectedText));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkSelectedOption(expectedText, seconds, timeTook);
         } catch (TimeoutException e) {
             checkSelectedOption(expectedText, seconds, seconds);
@@ -460,12 +461,16 @@ public class WaitForEquals implements Equals {
     public void selectedValue(String expectedValue, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
             if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
-            while (!element.get().selectedValue().equals(expectedValue) && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().selectedValue().equals(expectedValue));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkSelectedValue(expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {
             checkSelectedValue(expectedValue, seconds, seconds);
@@ -486,12 +491,16 @@ public class WaitForEquals implements Equals {
     public void selectOptions(String[] expectedOptions, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
             if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
-            while (!Arrays.toString(element.get().selectOptions()).equals(Arrays.toString(expectedOptions)) && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> Arrays.toString(element.get().selectOptions()).equals(Arrays.toString(expectedOptions)));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkSelectOptions(expectedOptions, seconds, timeTook);
         } catch (TimeoutException e) {
             checkSelectOptions(expectedOptions, seconds, seconds);
@@ -512,12 +521,16 @@ public class WaitForEquals implements Equals {
     public void selectValues(String[] expectedValues, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
         try {
-            elementPresent(seconds);
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
             if (!element.is().select()) {
                 throw new TimeoutException(ELEMENT_NOT_SELECT);
             }
-            while (!Arrays.toString(element.get().selectValues()).equals(Arrays.toString(expectedValues)) && System.currentTimeMillis() < end) ;
-            double timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> !Arrays.toString(element.get().selectValues()).equals(Arrays.toString(expectedValues)));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkSelectValues(expectedValues, seconds, timeTook);
         } catch (TimeoutException e) {
             checkSelectValues(expectedValues, seconds, seconds);
