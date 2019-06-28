@@ -22,7 +22,6 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.utilities.Reporter;
-import com.coveros.selenified.utilities.TestCase;
 import org.openqa.selenium.Platform;
 
 import java.util.HashMap;
@@ -34,7 +33,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 2/27/2019
+ * @lastupdate 6/28/2019
  */
 public class Browser {
 
@@ -155,7 +154,7 @@ public class Browser {
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public static BrowserName lookup(String b) throws InvalidBrowserException {
-        if("IE".equalsIgnoreCase(b)) {
+        if ("IE".equalsIgnoreCase(b)) {
             return BrowserName.INTERNETEXPLORER;
         }
         for (BrowserName browser : BrowserName.values()) {

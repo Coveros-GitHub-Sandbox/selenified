@@ -51,6 +51,10 @@ import static java.nio.file.Files.newBufferedWriter;
 public class ReportOverview extends EmailableReporter2 {
 
     private static final Logger log = Logger.getLogger(ReportOverview.class);
+    public static final String WARNING = "warning";
+    public static final String SUCCESS = "success";
+    public static final String DANGER = "danger";
+    public static final String TR = "</tr>";
     private String outputDirectory;
     private String fileName = "report.html";
     private NumberFormat integerFormat = NumberFormat.getIntegerInstance();
@@ -156,12 +160,12 @@ public class ReportOverview extends EmailableReporter2 {
                 totalDuration += testResult.getDuration();
             }
         }
-        String overallCssClass = "success";
+        String overallCssClass = SUCCESS;
         if (totalSkippedTests > 0) {
-            overallCssClass = "warning";
+            overallCssClass = WARNING;
         }
         if (totalFailedTests > 0) {
-            overallCssClass = "danger";
+            overallCssClass = DANGER;
         }
 
         writer.println("        <div class='container' style='font-size:large;'>");
@@ -173,16 +177,16 @@ public class ReportOverview extends EmailableReporter2 {
         headerCell("Skipped");
         headerCell("Failed");
         headerCell("Time (ms)");
-        writer.println("</tr>");
+        writer.println(TR);
         writer.println("                </thead>");
         writer.println("                <tbody>");
         writer.print("                      <tr class='" + overallCssClass + "'>");
-        cell(integerFormat.format(totalPassedTests + totalSkippedTests + totalFailedTests));
+        cell(integerFormat.format((long) totalPassedTests + totalSkippedTests + totalFailedTests));
         cell(integerFormat.format(totalPassedTests));
         cell(integerFormat.format(totalSkippedTests));
         cell(integerFormat.format(totalFailedTests));
         cell(integerFormat.format(totalDuration));
-        writer.println("</tr>");
+        writer.println(TR);
         writer.println("                </tbody>");
         writer.println("            </table>");
         writer.println("        </div>");
@@ -203,16 +207,16 @@ public class ReportOverview extends EmailableReporter2 {
         headerCell("Report");
         headerCell("Status");
         headerCell("Time (ms)");
-        writer.println("</tr>");
+        writer.println(TR);
         writer.println("                </thead>");
         writer.println("                <tbody>");
         for (SuiteResult suiteResult : suiteResults) {
             for (TestResult testResult : suiteResult.getTestResults()) {
-                writeResults(testResult.getFailedConfigurationResults(), "Fail", "danger");
-                writeResults(testResult.getFailedTestResults(), "Fail", "danger");
-                writeResults(testResult.getSkippedConfigurationResults(), "Skip", "warning");
-                writeResults(testResult.getSkippedTestResults(), "Skip", "warning");
-                writeResults(testResult.getPassedTestResults(), "Pass", "success");
+                writeResults(testResult.getFailedConfigurationResults(), "Fail", DANGER);
+                writeResults(testResult.getFailedTestResults(), "Fail", DANGER);
+                writeResults(testResult.getSkippedConfigurationResults(), "Skip", WARNING);
+                writeResults(testResult.getSkippedTestResults(), "Skip", WARNING);
+                writeResults(testResult.getPassedTestResults(), "Pass", SUCCESS);
             }
         }
         writer.println("                </tbody>");
@@ -233,30 +237,42 @@ public class ReportOverview extends EmailableReporter2 {
             String className = classResult.getClassName();
             for (MethodResult methodResult : classResult.getMethodResults()) {
                 for (ITestResult iTestResult : methodResult.getResults()) {
-                    Browser browser = (Browser) iTestResult.getAttribute(BROWSER);
-                    Reporter reporter = (Reporter) iTestResult.getAttribute(REPORTER);
-                    String timeTook = "--";
-                    String link = "--";
-                    if (reporter != null && !"Skip".equals(status)) {
-                        timeTook = integerFormat.format(iTestResult.getEndMillis() - iTestResult.getStartMillis());
-                        String htmlFilename = reporter.getFileName() + ".html";
-                        link = LINK_START + getReportDir(iTestResult) + "/" + htmlFilename + LINK_MIDDLE + "HTML Report" + LINK_END;
-                        if (Property.generatePDF()) {
-                            String pdfFilename = reporter.getFileName() + ".pdf";
-                            link += " " + LINK_START + getReportDir(iTestResult) + "/" + pdfFilename + LINK_MIDDLE + "PDF Report" + LINK_END;
-                        }
-                    }
-                    writer.print("<tr class='" + cssClass + "'>");
-                    cell(browser.getDetails());
-                    cell(Utils.escapeHtml(className));
-                    cell(Utils.escapeHtml(Reporter.capitalizeFirstLetters(iTestResult.getName())));
-                    cell(link);
-                    cell(status);
-                    cell(timeTook);
-                    writer.println("</tr>");
+                    writeTestResult(status, cssClass, className, iTestResult);
                 }
             }
         }
+    }
+
+    /**
+     * Takes a test result, and writes out the information to the outputfile
+     *
+     * @param status      - did this test pass, fail, or was skipped
+     * @param cssClass    - what color do we want this row to be?
+     * @param className   - the package and classname of the test case
+     * @param iTestResult - the testng itestresult object
+     */
+    private void writeTestResult(String status, String cssClass, String className, ITestResult iTestResult) {
+        Browser browser = (Browser) iTestResult.getAttribute(BROWSER);
+        Reporter reporter = (Reporter) iTestResult.getAttribute(REPORTER);
+        String timeTook = "--";
+        String link = "--";
+        if (reporter != null && !"Skip".equals(status)) {
+            timeTook = integerFormat.format(iTestResult.getEndMillis() - iTestResult.getStartMillis());
+            String htmlFilename = reporter.getFileName() + ".html";
+            link = LINK_START + getReportDir(iTestResult) + "/" + htmlFilename + LINK_MIDDLE + "HTML Report" + LINK_END;
+            if (Property.generatePDF()) {
+                String pdfFilename = reporter.getFileName() + ".pdf";
+                link += " " + LINK_START + getReportDir(iTestResult) + "/" + pdfFilename + LINK_MIDDLE + "PDF Report" + LINK_END;
+            }
+        }
+        writer.print("<tr class='" + cssClass + "'>");
+        cell(browser.getDetails());
+        cell(Utils.escapeHtml(className));
+        cell(Utils.escapeHtml(Reporter.capitalizeFirstLetters(iTestResult.getName())));
+        cell(link);
+        cell(status);
+        cell(timeTook);
+        writer.println(TR);
     }
 
     /**
