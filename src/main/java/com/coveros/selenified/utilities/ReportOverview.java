@@ -55,7 +55,7 @@ public class ReportOverview extends EmailableReporter2 {
     private static final String SUCCESS = "success";
     private static final String DANGER = "danger";
     private static final String TR = "</tr>";
-    private static final String fileName = "report.html";
+    private static final String FILE_NAME = "report.html";
     private NumberFormat integerFormat = NumberFormat.getIntegerInstance();
     private String outputDirectory;
 
@@ -98,7 +98,7 @@ public class ReportOverview extends EmailableReporter2 {
     @Override
     protected PrintWriter createWriter(String outdir) throws IOException {
         new File(outdir).mkdirs();
-        return new PrintWriter(newBufferedWriter(new File(outdir, fileName).toPath(), UTF_8));
+        return new PrintWriter(newBufferedWriter(new File(outdir, FILE_NAME).toPath(), UTF_8));
     }
 
     /**
