@@ -1,6 +1,7 @@
 package integration;
 
 import com.coveros.selenified.services.Call;
+import com.coveros.selenified.services.HTTP.ContentType;
 import com.coveros.selenified.services.Request;
 import com.google.gson.JsonObject;
 import org.testng.ITestContext;
@@ -16,8 +17,9 @@ public class ServicesOverrideIT extends ServicesBase {
     public void setupHeaders(ITestContext test) {
         // for this test, we want to change the default headers for each call
         Map<String, Object> headers = new HashMap<>();
-        headers.put("Content-Type", "multipart/form-data");
+        headers.put("X-Atlassian-Token", "check");
         addHeaders(this, test, headers);
+        setContentType(this, test, ContentType.FORMDATA);
         // for this particular test, we want to set some bogus credentials
         setCredentials(this, test, "servicesUsername", "servicesPassword");
     }
