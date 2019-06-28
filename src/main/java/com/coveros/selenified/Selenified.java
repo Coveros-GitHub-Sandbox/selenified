@@ -27,10 +27,7 @@ import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.HTTP.ContentType;
-import com.coveros.selenified.utilities.Property;
-import com.coveros.selenified.utilities.Reporter;
-import com.coveros.selenified.utilities.Sauce;
-import com.coveros.selenified.utilities.TestCase;
+import com.coveros.selenified.utilities.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
@@ -66,9 +63,9 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 3/29/2019
+ * @lastupdate 6/28/2019
  */
-@Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
+@Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
 
     private static final Logger log = Logger.getLogger(Selenified.class);

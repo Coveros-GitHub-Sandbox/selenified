@@ -61,7 +61,7 @@ node {
                                         alwaysLinkToLastBuild: true,
                                         keepAll              : true,
                                         reportDir            : 'results/htmlunit/target/failsafe-reports',
-                                        reportFiles          : 'index.html',
+                                        reportFiles          : 'report.html',
                                         reportName           : 'HTMLUnit Report'
                                 ])
                             }
@@ -107,7 +107,7 @@ node {
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
                                             reportDir            : 'results/chrome/target/failsafe-reports',
-                                            reportFiles          : 'index.html',
+                                            reportFiles          : 'report.html',
                                             reportName           : 'Chrome Report'
                                     ])
                                 }
@@ -182,7 +182,7 @@ node {
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
                                 reportDir            : 'results/compatibility/target/failsafe-reports',
-                                reportFiles          : 'index.html',
+                                reportFiles          : 'report.html',
                                 reportName           : 'Compatibility Report'
                         ])
                     }
@@ -203,7 +203,7 @@ node {
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
                                 reportDir            : 'results/sauce/target/failsafe-reports',
-                                reportFiles          : 'index.html',
+                                reportFiles          : 'report.html',
                                 reportName           : 'Sauce Report'
                         ])
                     }

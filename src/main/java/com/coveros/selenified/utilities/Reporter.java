@@ -59,7 +59,7 @@ import static com.coveros.selenified.utilities.Constants.END_IDIV;
  *
  * @author Max Saperstone
  * @version 3.2.0
- * @lastupdate 4/4/2019
+ * @lastupdate 6/28/2019
  */
 public class Reporter {
 
@@ -1060,6 +1060,33 @@ public class Reporter {
             default:
                 return i + suffixes[i % 10];
         }
+    }
+
+    /**
+     * Capitalizes the first letter of each word in the provided string
+     *
+     * @param word - the string to be capitalized on
+     * @return String: the new string
+     */
+    public static String capitalizeFirstLetters(String word) {
+        if (word == null) {
+            return null;
+        }
+        String out = "";
+        for (int i = 0; i < word.length(); i++) {
+            if (i == 0) {
+                // Capitalize the first letter of the string.
+                out = String.format("%s%s", Character.toUpperCase(word.charAt(0)), word.substring(1));
+            }
+            // Is this character a non-letter? If so
+            // then this is probably a word boundary so let's capitalize
+            // the next character in the sequence.
+            if (!Character.isLetter(out.charAt(i)) && (i + 1) < out.length()) {
+                out = String.format("%s%s%s", out.subSequence(0, i + 1), Character.toUpperCase(out.charAt(i + 1)),
+                        out.substring(i + 2));
+            }
+        }
+        return out;
     }
 
     ///////////////////////////////////////////////////////////////////
