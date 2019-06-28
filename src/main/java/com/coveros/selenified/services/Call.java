@@ -23,6 +23,7 @@ package com.coveros.selenified.services;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
 import com.coveros.selenified.exceptions.InvalidReporterException;
 import com.coveros.selenified.utilities.Reporter;
+import com.coveros.selenified.services.HTTP.ContentType;
 
 import java.io.File;
 import java.util.Map;
@@ -59,6 +60,16 @@ public class Call {
         if (headers != null) {
             addHeaders(headers);
         }
+    }
+
+    /**
+     * Sets the content type. Currently only application/json and multipart/form-data are supported, but we
+     * are looking to add support for several other forms in the future
+     *
+     * @param contentType - the content type to set
+     */
+    public void setContentType(ContentType contentType) {
+        http.setContentType(contentType);
     }
 
     /**
