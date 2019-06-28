@@ -57,6 +57,7 @@ public class ReportOverview extends EmailableReporter2 {
     private static final String TR = "</tr>";
     private static final String FILE_NAME = "report.html";
     private NumberFormat integerFormat = NumberFormat.getIntegerInstance();
+
     private String outputDirectory;
 
     /**
@@ -150,14 +151,12 @@ public class ReportOverview extends EmailableReporter2 {
         int totalPassedTests = 0;
         int totalSkippedTests = 0;
         int totalFailedTests = 0;
-        long totalDuration = 0;
 
         for (SuiteResult suiteResult : suiteResults) {
             for (TestResult testResult : suiteResult.getTestResults()) {
                 totalPassedTests += testResult.getPassedTestCount();
                 totalSkippedTests += testResult.getSkippedTestCount();
                 totalFailedTests += testResult.getFailedTestCount();
-                totalDuration += testResult.getDuration();
             }
         }
         String overallCssClass = SUCCESS;
@@ -176,7 +175,6 @@ public class ReportOverview extends EmailableReporter2 {
         headerCell("Passed");
         headerCell("Skipped");
         headerCell("Failed");
-        headerCell("Time (ms)");
         writer.println(TR);
         writer.println("                </thead>");
         writer.println("                <tbody>");
@@ -185,7 +183,6 @@ public class ReportOverview extends EmailableReporter2 {
         cell(integerFormat.format(totalPassedTests));
         cell(integerFormat.format(totalSkippedTests));
         cell(integerFormat.format(totalFailedTests));
-        cell(integerFormat.format(totalDuration));
         writer.println(TR);
         writer.println("                </tbody>");
         writer.println("            </table>");
@@ -204,9 +201,8 @@ public class ReportOverview extends EmailableReporter2 {
         headerCell("Browser");
         headerCell("Test Suite");
         headerCell("Test Case");
-        headerCell("Report");
         headerCell("Status");
-        headerCell("Time (ms)");
+        headerCell("Report");
         writer.println(TR);
         writer.println("                </thead>");
         writer.println("                <tbody>");
@@ -254,10 +250,8 @@ public class ReportOverview extends EmailableReporter2 {
     private void writeTestResult(String status, String cssClass, String className, ITestResult iTestResult) {
         Browser browser = (Browser) iTestResult.getAttribute(BROWSER);
         Reporter reporter = (Reporter) iTestResult.getAttribute(REPORTER);
-        String timeTook = "--";
         String link = "--";
         if (reporter != null && !"Skip".equals(status)) {
-            timeTook = integerFormat.format(iTestResult.getEndMillis() - iTestResult.getStartMillis());
             String htmlFilename = reporter.getFileName() + ".html";
             link = LINK_START + getReportDir(iTestResult) + "/" + htmlFilename + LINK_MIDDLE + "HTML Report" + LINK_END;
             if (Property.generatePDF()) {
@@ -269,9 +263,8 @@ public class ReportOverview extends EmailableReporter2 {
         cell(browser.getDetails());
         cell(Utils.escapeHtml(className));
         cell(Utils.escapeHtml(Reporter.capitalizeFirstLetters(iTestResult.getName())));
-        cell(link);
         cell(status);
-        cell(timeTook);
+        cell(link);
         writer.println(TR);
     }
 
@@ -300,7 +293,7 @@ public class ReportOverview extends EmailableReporter2 {
      * @return String - the relative directory of the detailed reports
      */
     protected String getReportDir(ITestResult result) {
-        if( result == null || result.getTestContext() == null || result.getTestContext().getOutputDirectory() == null) {
+        if (result == null || result.getTestContext() == null || result.getTestContext().getOutputDirectory() == null) {
             return outputDirectory;
         }
         String workspace = System.getProperty("user.dir");
