@@ -51,13 +51,13 @@ import static java.nio.file.Files.newBufferedWriter;
 public class ReportOverview extends EmailableReporter2 {
 
     private static final Logger log = Logger.getLogger(ReportOverview.class);
-    public static final String WARNING = "warning";
-    public static final String SUCCESS = "success";
-    public static final String DANGER = "danger";
-    public static final String TR = "</tr>";
-    private String outputDirectory;
-    private String fileName = "report.html";
+    private static final String WARNING = "warning";
+    private static final String SUCCESS = "success";
+    private static final String DANGER = "danger";
+    private static final String TR = "</tr>";
+    private static final String fileName = "report.html";
     private NumberFormat integerFormat = NumberFormat.getIntegerInstance();
+    private String outputDirectory;
 
     /**
      * Creates a summary of the test run, with all xml suites and test information. extends emailable reporter,
@@ -299,13 +299,16 @@ public class ReportOverview extends EmailableReporter2 {
      * @param result - the testng itestresult object
      * @return String - the relative directory of the detailed reports
      */
-    private String getReportDir(ITestResult result) {
+    protected String getReportDir(ITestResult result) {
+        if( result == null || result.getTestContext() == null || result.getTestContext().getOutputDirectory() == null) {
+            return outputDirectory;
+        }
         String workspace = System.getProperty("user.dir");
         String outputDir = new File(result.getTestContext().getOutputDirectory()).getAbsolutePath();
-        if (outputDir.startsWith(outputDirectory)) {
+        if (outputDir.startsWith(outputDirectory + File.separator)) {
             outputDir = outputDir.substring(outputDirectory.length() + 1);
         }
-        if (outputDir.startsWith(workspace + File.separator + outputDirectory)) {
+        if (outputDir.startsWith(workspace + File.separator + outputDirectory + File.separator)) {
             outputDir = outputDir.substring(workspace.length() + outputDirectory.length() + 2);
         }
         return outputDir;
