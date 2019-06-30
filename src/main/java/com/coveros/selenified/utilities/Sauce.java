@@ -20,60 +20,66 @@
 
 package com.coveros.selenified.utilities;
 
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidSauceException;
+import org.testng.log4testng.Logger;
+
 /**
  * Utilities class to interact with sauce labs, retrieving information such as username, key, and test status
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 5/13/2018
+ * @version 3.2.0
+ * @lastupdate 3/29/2019
  */
 public class Sauce {
+    private static final Logger log = Logger.getLogger(Sauce.class);
+
     private Sauce() {
     }
 
     public static Boolean isSauce() {
-        String hub = System.getProperty("hub");
-        return hub != null && hub.contains("ondemand.saucelabs.com");
+        String hub;
+        try {
+            hub = Property.getHub();
+        } catch (InvalidHubException e) {
+            log.info(e);
+            return false;
+        }
+        return hub.contains("ondemand.saucelabs.com");
     }
 
-    private static String getSauceCreds(String hub) {
+    private static String getSauceCreds(String hub) throws InvalidSauceException {
         String[] parts = hub.split("@");
         if (parts.length != 2) {
-            return null;
+            throw new InvalidSauceException("Sauce labs hub '" + hub + "' isn't valid. Must contain protocol, credentials, and location");
         }
         String[] startParts = parts[0].split("/");
         if (startParts.length != 3) {
-            return null;
+            throw new InvalidSauceException("Sauce labs hub '" + hub + "' isn't valid. Must contain protocol, credentials and location");
         }
         return startParts[2];
     }
 
-    public static String getSauceUser() {
+    public static String getSauceUser() throws InvalidHubException {
         if (!isSauce()) {
-            return null;
+            throw new InvalidSauceException("Sauce hub isn't set");
         }
-        String creds = getSauceCreds(System.getProperty("hub"));
-        if (creds == null) {
-            return null;
-        }
-        String[] parts = creds.split(":");
+        String credentials = getSauceCreds(Property.getHub());
+        String[] parts = credentials.split(":");
         if (parts.length != 2) {
-            return null;
+            throw new InvalidSauceException("Sauce labs hub isn't valid. Credentials '" + credentials + "' must contain both username and password");
         }
         return parts[0];
     }
 
-    public static String getSauceKey() {
+    public static String getSauceKey() throws InvalidHubException {
         if (!isSauce()) {
-            return null;
+            throw new InvalidSauceException("Sauce hub isn't set");
         }
-        String creds = getSauceCreds(System.getProperty("hub"));
-        if (creds == null) {
-            return null;
-        }
-        String[] parts = creds.split(":");
+        String credentials = getSauceCreds(Property.getHub());
+        String[] parts = credentials.split(":");
         if (parts.length != 2) {
-            return null;
+            throw new InvalidSauceException("Sauce labs hub isn't valid. Credentials '" + credentials + "' must contain both username and password");
         }
         return parts[1];
     }

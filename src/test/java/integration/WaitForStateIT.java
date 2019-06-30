@@ -15,7 +15,33 @@ public class WaitForStateIT extends WebBase {
         // perform some actions
         Element element = app.newElement(Locator.ID, "five_second_button");
         element.waitForState().changeDefaultWait(0.5);
-        element.click();
+        element.waitForState().enabled();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "state", "wait"},
+            description = "An integration test to check changing the default poll method")
+    public void setDefaultPollElementTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element element = app.newElement(Locator.ID, "five_second_button");
+        element.waitForState().changeDefaultPoll(5);
+        element.waitForState().enabled();
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "state", "wait"},
+            description = "An integration test to check changing the default poll method")
+    public void setDefaultPollNegativeElementTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        Element element = app.newElement(Locator.ID, "five_second_button");
+        element.waitForState().changeDefaultPoll(10000);
+        element.waitForState().enabled();
         // verify 1 issue
         finish(1);
     }
@@ -382,6 +408,17 @@ public class WaitForStateIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.NAME, "alert_button", 0).waitForState().enabled(5.0);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "state", "wait"},
+            description = "An integration negative test to check the WaitForElementEnabled method")
+    public void negativeWaitForElementEnabledNotPresentTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "no_such_element", 0).waitForState().enabled(2.0);
         // verify 1 issue
         finish(1);
     }

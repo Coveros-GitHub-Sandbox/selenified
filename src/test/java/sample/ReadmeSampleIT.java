@@ -18,7 +18,7 @@ public class ReadmeSampleIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "https://www.coveros.com/");
+        setAppURL(this, test, "https://www.coveros.com/");
     }
 
     @DataProvider(name = "coveros search terms", parallel = true)
@@ -33,6 +33,8 @@ public class ReadmeSampleIT extends Selenified {
         App app = this.apps.get();
         // verify the correct page title
         app.azzert().titleEquals("Coveros | Bringing together agile and security to deliver superior software");
+        // verify no issues
+        finish();
     }
 
     @Test(dataProvider = "coveros search terms", groups = {"sample", "coveros"},
@@ -49,16 +51,18 @@ public class ReadmeSampleIT extends Selenified {
         app.newElement(Locator.ID, "recent-posts-4").waitForState().present();
         // verify the correct page title
         app.azzert().titleEquals("You searched for " + searchTerm + " - Coveros");
+        // verify no issues
+        finish();
     }
 
-    @Test(groups = {"sample", "service", "coveros"}, description = "A sample web services test to verify the response code")
+    @Test(groups = {"sample", "service", "coveros", "https"}, description = "A sample web services test to verify the response code")
     public void sampleServicesSearchTest() {
         HashMap<String, Object> params = new HashMap<>();
         params.put("s", "Max+Saperstone");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // retrieve the zip code and verify the return code
-        call.get("", new Request().setUrlParams(params)).assertEquals(403);
+        call.get("", new Request().setUrlParams(params)).azzert().equals(403);
         // verify no issues
         finish();
     }

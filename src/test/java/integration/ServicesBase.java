@@ -2,7 +2,6 @@ package integration;
 
 import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.Selenified;
-import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.google.gson.JsonObject;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Parameter;
@@ -15,7 +14,6 @@ import org.testng.annotations.BeforeSuite;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
@@ -33,11 +31,11 @@ public class ServicesBase extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://localhost:1080/");
+        setAppURL(this, test, "http://localhost:1080/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
-        setVersion(this, test, "3.1.0");
+        setVersion(this, test, "3.2.0");
 
         //test data
         json1.addProperty("userId", 1);
@@ -81,7 +79,7 @@ public class ServicesBase extends Selenified {
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }
 

@@ -2,17 +2,19 @@ package integration;
 
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 public class WaitForIT extends WebBase {
 
     @Test(groups = {"integration", "wait"}, description = "An integration test to check the url")
-    public void compareUrlTest(ITestContext test) {
+    public void compareUrlTest(ITestContext test) throws InvalidHTTPException {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform the verification
-        app.waitFor().urlEquals(getTestSite(this.getClass().getName(), test));
+        app.waitFor().urlEquals(Property.getAppURL(this.getClass().getName(), test));
         // perform the verification
         finish();
     }
@@ -220,6 +222,17 @@ public class WaitForIT extends WebBase {
         app.waitFor().confirmationEquals("Enabled!");
         // verify no issues
         finish();
+    }
+
+    @Test(groups = {"integration", "wait", "alert"},
+            description = "An integration test to check the checkConfirmation method")
+    public void negativeCheckNoConfirmationTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().confirmationEquals(2,"Enabled!");
+        // verify no issues
+        finish(1);
     }
 
     @Test(groups = {"integration", "wait", "alert"},
@@ -588,10 +601,36 @@ public class WaitForIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().changeDefaultWait(0.5);
+        app.waitFor().changeDefaultWait(0.1);
         app.newElement(Locator.ID, "delayed_alert_button").click();
         app.waitFor().alertPresent();
         app.azzert().alertNotPresent();
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "browser"},
+            description = "An integration test to check changing the default poll method")
+    public void setDefaultPollAppTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().changeDefaultPoll(5);
+        app.waitFor().textPresent("Some Changing Text");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "wait"},
+            description = "An integration test to check changing the default poll method")
+    public void setDefaultPollAppNegativeTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.waitFor().changeDefaultPoll(10000);
+        app.waitFor().textPresent("Some Changing Text");
+        // verify 1 issues
+        finish(1);
     }
 
     @Test(groups = {"integration", "wait", "alert"},
@@ -603,6 +642,8 @@ public class WaitForIT extends WebBase {
         app.newElement(Locator.ID, "delayed_alert_button").click();
         app.waitFor().alertPresent();
         app.azzert().alertPresent();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "wait", "browser"},
@@ -613,8 +654,8 @@ public class WaitForIT extends WebBase {
         // perform some actions
         app.wait(6.0);
         app.newElement(Locator.ID, "five_second_button").click();
-        // verify 1 issue
-        finish(1);
+        // verify 2 issues
+        finish(2);
     }
 
     @Test(groups = {"integration", "wait"},
@@ -631,11 +672,11 @@ public class WaitForIT extends WebBase {
 
     @Test(groups = {"integration", "wait", "location"},
             description = "An integration test to check the wait for location method")
-    public void waitLocationTest(ITestContext context) {
+    public void waitLocationTest(ITestContext context) throws InvalidHTTPException {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().urlEquals(getTestSite(this.getClass().getName(), context));
+        app.waitFor().urlEquals(Property.getAppURL(this.getClass().getName(), context));
         // verify no issues
         finish();
     }

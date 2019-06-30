@@ -22,6 +22,8 @@ public class ElementIT extends WebBase {
         // perform some actions
         Element table = app.newElement(null, "table");
         table.getWebElement();
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "element"},
@@ -128,7 +130,7 @@ public class ElementIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "element", "pdftest"},
+    @Test(groups = {"integration", "element"},
             description = "An integration test to check that an element can be retrieved")
     public void getMultipleWebElementsTest() {
         // use this object to manipulate the app

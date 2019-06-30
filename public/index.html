@@ -26,6 +26,7 @@
         var delayed_alert_button = document.getElementById("delayed_alert_button");
         var focus_box = document.getElementById("focus_box");
         var blur_box = document.getElementById("blur_box");
+        var changing_text = document.getElementById("changing_text");
 
         // Disable the button on initial page load
         alert_button.disabled = true;
@@ -61,7 +62,7 @@
             setTimeout(function() {
                 delayed_div.innerHTML += "<div id='added_div' name='added_div'>Something</div>";
                 delayed_hide_button.className = "";
-            }, 3000);
+            }, 1000);
             delayed_display_button.className = "hidden_div";
         });
 
@@ -70,7 +71,7 @@
                 delayed_div.innerHTML = "";
                 delayed_display_button.className = "";
                 delayed_hide_button.className = "hidden_div";
-            }, 3000);
+            }, 1000);
             delayed_hide_button.disabled = true;
         });
 
@@ -84,7 +85,7 @@
                     delayed_enable_button.value = "Enable Input";
                 }
                 delayed_enable_button.disabled = false;
-            }, 3000);
+            }, 1000);
             delayed_enable_button.disabled = true;
         });
 
@@ -105,21 +106,28 @@
 
         setTimeout(function() {
             delayed_checkbox_div.innerHTML = "<input id='check' type='checkbox'/>";
-        }, 3000);
+        }, 1000);
 
         setTimeout(function() {
             five_second_button.disabled = false;
-        }, 6000);
+        }, 4000);
 
         setTimeout(function() {
             five_second_button.disabled = true;
-        }, 6100);
+        }, 6000);
 
         delayed_alert_button.addEventListener('click', function(event) {
             setTimeout(function() {
                 alert('I alerted!');
             }, 3000);
         });
+
+        setTimeout(function() {
+            changing_text.innerHTML = "Some Changing Text";
+        }, 4000);
+        setTimeout(function() {
+            changing_text.innerHTML = "";
+        }, 6000);
 
         init();
     };
@@ -297,6 +305,7 @@ tr:nth-child(even) {
                      class="hidden_div">You Hovered!
                 </div>
             </div>
+            <div id="changing_text" name="changing_text"></div>
             <input name="delayed_alert_button" id="delayed_alert_button" type="button"
                    value="Delayed Alert"/>
         </td>
@@ -386,8 +395,13 @@ tr:nth-child(even) {
                 </div>
             </div>
 
-            <div id="offscreen_div" name="offscreen_div" class="overlay"
-                 style="left: -1000px; right: -1000px;">I'm Offscreen
+            <div style="height:100px; overflow:hidden; position:relative;">
+                <div id="offscreen_div_bottom" name="offscreen_div_bottom" class="overlay"
+                     style="top:100000px;">I'm Offscreen
+                </div>
+                <div id="offscreen_div_top" name="offscreen_div_top" class="overlay"
+                     style="bottom:100000px;">I'm Offscreen
+                </div>
             </div>
         </td>
     </tr>

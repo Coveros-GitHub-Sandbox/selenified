@@ -22,7 +22,7 @@ Update your `pom.xml` file to include (or add the `dependency` block to your cur
     <dependency>
         <groupId>com.coveros</groupId>
         <artifactId>selenified</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.0</version>
         <scope>test</scope>
     </dependency>
 </dependencies>
@@ -32,7 +32,7 @@ Update your `pom.xml` file to include (or add the `dependency` block to your cur
 Update your `ivy.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
 <dependencies>
-    <dependency org="com.coveros" name="selenified" rev="3.1.0" />
+    <dependency org="com.coveros" name="selenified" rev="3.2.0" />
 </dependencies>
 ```
 
@@ -40,7 +40,7 @@ Update your `ivy.xml` file to include (or add the `dependency` block to your cur
 Update your `build.gradle` file to include (or add the `testCompile` line to your current dependencies)
 ```groovy
 dependencies {
-    testCompile group: 'com.coveros', name: 'selenified', version: '3.1.0'
+    testCompile group: 'com.coveros', name: 'selenified', version: '3.2.0'
 }
 ```
 
@@ -67,7 +67,7 @@ public class ReadmeSampleIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "https://www.coveros.com/");
+        setAppURL(this, test, "https://www.coveros.com/");
     }
 
     @DataProvider(name = "coveros search terms", parallel = true)
@@ -128,7 +128,7 @@ documentation [here](https://coveros.github.io/selenified).
 
 ### Test Execution
 To execute these tests, either do that directly from your IDE, or you can execute the below commands. More 
-details on test execution and setup is located [here](##Running_Tests).
+details on test execution and setup is located [here](#running-tests).
 #### Maven
 If following the setup indicated, you'll need to use the failsafe plugin in order to execute the tests.
 Update your `pom.xml` file to include
@@ -201,20 +201,20 @@ more Java classes. Name the class something descriptive following the test suite
 ### Structuring the Test Suite
 Have each class extend the Selenified class which is contained within the 
 selenified.jar. Each should contain a method setting up some details to 
-be used in each test, Only the testSite is required, if the URL is passed in from
-the commandline, even this can be excluded. Additional optional parameters are 
+be used in each test, Only the AppURL is required, and if the URL is passed in from
+the commandline or properties file, even this can be excluded. Additional optional parameters are 
 the author of the tests, and the version of tests or software under test. 
 See below for an example:
 ```java
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://172.31.2.65/");
+        setAppURL(this, test, "http://172.31.2.65/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "3.1.0");
+        setVersion(this, test, "3.2.0");
     }
 ```
 
@@ -583,13 +583,13 @@ If you need to perform the custom action, use the `app` object to retrieve the d
     WebDriver driver = app.getDriver();
 ```
 Then perform the action that you need to. You'll want to ensure this action is recorded in the Selenified
-reports. To do this, retrieve the `outputfile` object from the `app` object, and call the recordAction
-method on. If you need to record custom verifications, you can use recordExpected and recordActual.
+reports. To do this, retrieve the `reporter` object from the `app` object, and call the `pass`/`fail`/`check`
+method.
 ```java
-    OutputFile file = app.getOutputFile();
-    file.recordAction(action, expectedResult, actualResult, result);
-    file.recordExpected(expectedOutcome);
-    file.recordActual(actualOutcome, result);
+    Reporter reporter = app.getReporter();
+    reporter.pass(action, expectedResult, actualResult);
+    reporter.check(action, expectedResult, actualResult);
+    reporter.fail(action, expectedResult, actualResult);
 ```
 
 Of course, if this is something that you believe others can benefit from, feel free to 
@@ -598,10 +598,15 @@ implemented.
 
 ## Running Tests
 ### Parameters
-The testing framework requires no parameters, but takes several optional input parameters.
+The testing framework requires no parameters, but takes several optional input parameters. Each of these paramters
+can be passed in either via commandline (through System Properties), or they can be set in a properties file. The
+Selenified framework looks for a properties file named `selenified.properties` in the `src/test/resources` directory.
+Any of the below value can be set in either. If they are set in both location, the System Properties will override
+anything set in the properties file.
+
 #### Application URL
-This is the default URL that all tests should run against. This value can be overridden in each test, class, or 
-even suite (see below).
+This is the default URL that all tests should run against. As mentioned above, this value can be provided in each test, class, or 
+even suite, but setting the value in this fashion will override anything set in the code itself.
 ```
 -DappURL=www.example.org
 -DappURL=192.168.1.1
@@ -636,6 +641,9 @@ address and port in the parameter
 ```
 -Dproxy=localhost:5013
 ```
+Note that this will pass both browser, and web services traffic through an http proxy. If you are passing web services
+traffic through this proxy, and testing with ssl (over HTTPS), ensure your proxy's certificate is added to your java 
+keystore
 
 #### Headless
 Currently, only Chrome and Firefox supports running in headless mode. To achieve this, simply pass in the parameter 
@@ -728,21 +736,25 @@ additional parameter, groups with the desired group to test
 gradle selenified -Pgroups=virtual
 ```
 ## Viewing Results
-To view test results, navigate to the newly created target-output folder within the framework directory. Within 
-SecureCI™ you can view these results through the browser. Open the index.html file: this is a file generated by 
-TestNG, and will list all of the test suites run. Each test suite will contain a link on the left side of the 
-table. Clicking each of these links will bring up a page showing the individual suite listed on a framed page. 
-Click the results link. The right frame will then show each test run within the suite. Red highlights indicate 
-failure, yellow a skip, and green a pass. Each test will have a description and other information about the test run. 
-Along with the general results listed under the suite, navigating to the ”reporter output link” will provide links 
-to detailed results for each test run. Clicking on each of these links will display a step by step procedure about 
-what was run, in addition to details about the test. These steps and information are also very useful for debugging. 
-They will alert if elements are missing, locators are bad, or anything else. Both locators and associated IDs are 
-listed to make fixing tests or the app easier.
+To view test results, navigate to the newly created output folder within the framework directory. This will 
+be either `target` if run with Gradle or Maven, `target-output` if run through an IDE, or a custom directory
+if run with Ant. 
+Navigate to the folder of the runner used to execute the tests, and locate the `reports.html` file. Open this 
+file in a browser. This will give an overview of the tests run, showing the number of tests executed, passed, 
+skipped and failed. Additionally each test is listed in a table, with high level information about it. Links 
+to detailed reports are provided, for more information on each step run.
+If running through a build tool such as Gradle, Maven, or Ant, they will produce an additional reports file. Open 
+the index.html file which will list all of the tests run. Clicking on the `Reports` link on the upper left frame,
+loads a frame with high level information about it. Links to detailed reports are provided, for more information 
+on each step run. 
+Clicking on each of these links will display a step by step procedure about what was run, in addition to details 
+about the test. These steps and information are also very useful for debugging. They will alert if elements are 
+missing, locators are bad, or anything else. Both locators and associated IDs are listed to make fixing tests or 
+the app easier.
 
-If running within SecureCI™ and Jenkins, TestNG produces a JUnit XML results file. This is great for storing 
-results/metrics within Jenkins, and tracking trends. Additionally, consider archiving testing results to go along 
-with these trending results.
+Additionally, a JUnit XML results file is produced. This is great for storing results/metrics within Jenkins, or
+other CI tools and tracking trends. Additionally, consider archiving testing results to go along with these 
+trending results.
 
 ### Packaging Results
 If you'd like to zip up your test reports along with screenshots, include the 'packageResults' system property

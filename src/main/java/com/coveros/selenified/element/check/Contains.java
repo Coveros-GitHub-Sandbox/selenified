@@ -20,11 +20,12 @@
 
 package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.OutputFile.Success;
-
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * Contains extends Check to provide some additional checking
@@ -36,10 +37,10 @@ import static com.coveros.selenified.element.check.Constants.*;
  * have a particular value associated to them.
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 3/7/2019
+ * @version 3.2.0
+ * @lastupdate 6/25/2019
  */
-public interface Contains extends Check {
+abstract class Contains extends Check {
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -53,7 +54,7 @@ public interface Contains extends Check {
      *
      * @param expectedClass - the expected class value
      */
-    void clazz(String expectedClass);
+    abstract void clazz(String expectedClass);
 
     /**
      * Checks that the element's class contains the provided expected class.
@@ -66,17 +67,15 @@ public interface Contains extends Check {
      * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual class of the element. null will be returned if the element isn't present
      */
-    default String checkClazz(String expectedClass, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + " containing class <b>" + expectedClass + "</b>", waitFor);
+    String checkClazz(String expectedClass, double waitFor, double timeTook) {
         // get the value
-        String actualClass = getElement().get().attribute(CLASS);
+        String actualClass = this.element.get().attribute(CLASS);
         // record the result
         if (actualClass == null || !actualClass.contains(expectedClass)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + " containing class <b>" + expectedClass + ENDB, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
-                    expectedClass + "</b>", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + " containing class <b>" + expectedClass + ENDB, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
+                    expectedClass + ENDB, timeTook);
         }
         return actualClass;
     }
@@ -89,7 +88,7 @@ public interface Contains extends Check {
      *
      * @param expectedAttribute - the attribute to check for
      */
-    void attribute(String expectedAttribute);
+    abstract void attribute(String expectedAttribute);
 
     /**
      * Checks that the element contains the provided expected attribute. If
@@ -102,17 +101,21 @@ public interface Contains extends Check {
      * @param timeTook          - the amount of time it took for wait for something (assuming we had to wait)
      * @return String[]: all of the attributes of the element. null will be returned if the element isn't present
      */
-    default String[] checkAttribute(String expectedAttribute, double waitFor, double timeTook) {
+    Set<String> checkAttribute(String expectedAttribute, double waitFor, double timeTook) {
         // record the action and get the attributes
-        String[] allAttributes = getAttributes(expectedAttribute, "with", waitFor);
+        Map<String, String> atts = this.element.get().allAttributes();
+        Set<String> allAttributes = new HashSet<>();
+        if (atts != null) {
+            allAttributes = atts.keySet();
+        }
         // record the result
-        if (allAttributes == null || !Arrays.asList(allAttributes).contains(expectedAttribute)) {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " does not contain the attribute of <b>" + expectedAttribute + "</b>" +
-                            ONLY_VALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.FAIL);
+        if (atts == null || !allAttributes.contains(expectedAttribute)) {
+            this.reporter.fail(this.element.prettyOutput() + " with attribute <b>" + expectedAttribute + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " does not contain the attribute of <b>" + expectedAttribute + ENDB +
+                            ONLY_VALUE + String.join(", " + allAttributes) + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " contains the attribute of <b>" + expectedAttribute + "</b>",
-                    timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + " with attribute <b>" + expectedAttribute + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " contains the attribute of <b>" + expectedAttribute + ENDB, timeTook);
         }
         return allAttributes;
     }
@@ -125,7 +128,7 @@ public interface Contains extends Check {
      *
      * @param expectedText - the expected value of the element
      */
-    void text(String expectedText);
+    abstract void text(String expectedText);
 
     /**
      * Checks that the element's text contains the provided expected text. If
@@ -138,16 +141,14 @@ public interface Contains extends Check {
      * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual text of the element. null will be returned if the element isn't present
      */
-    default String checkText(String expectedText, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + CONTAINS_TEXT + expectedText + "</b>", waitFor);
+    String checkText(String expectedText, double waitFor, double timeTook) {
         // get the value
-        String elementValue = getElement().get().text();
+        String elementValue = this.element.get().text();
         // record the result
         if (elementValue == null || !elementValue.contains(expectedText)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + CONTAINS_TEXT + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementValue + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + CONTAINS_TEXT + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -160,7 +161,7 @@ public interface Contains extends Check {
      *
      * @param expectedValue the expected value of the element
      */
-    void value(String expectedValue);
+    abstract void value(String expectedValue);
 
     /**
      * Checks that the element's value contains the provided expected value.
@@ -173,14 +174,14 @@ public interface Contains extends Check {
      * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual value of the element. null will be returned if the element isn't present or an input
      */
-    default String checkValue(String expectedValue, double waitFor, double timeTook) {
+    String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and get the attributes
-        String elementValue = getValue(expectedValue, CONTAINS_VALUE, waitFor);
+        String elementValue = this.element.get().value();
         // record the expected
         if (elementValue == null || !elementValue.contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + expectedValue + elementValue + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + expectedValue + elementValue + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -193,7 +194,7 @@ public interface Contains extends Check {
      *
      * @param expectedOption the option expected in the list
      */
-    void selectOption(String expectedOption);
+    abstract void selectOption(String expectedOption);
 
     /**
      * Checks that the element's options contains the provided expected
@@ -207,22 +208,24 @@ public interface Contains extends Check {
      * @return String[]: all of the select options of the element. null will be returned if the element isn't present or a select
      */
     @SuppressWarnings("squid:S1168")
-    default String[] checkSelectOption(String expectedOption, double waitFor, double timeTook) {
+    String[] checkSelectOption(String expectedOption, double waitFor, double timeTook) {
+        String withTheOption = " with the option <b>";
         // record the action, and check for select
-        if (!isPresentSelect(getElement().prettyOutput() + " with the option <b>" + expectedOption +
-                "</b> available to be selected on the page", waitFor)) {
+        if (!isPresentSelect(this.element.prettyOutput() + withTheOption + expectedOption +
+                AVAILABLE_TO_BE_SELECTED, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the select options
-        String[] allOptions = getElement().get().selectOptions();
+        String[] allOptions = this.element.get().selectOptions();
         // record the expected
         if (!Arrays.asList(allOptions).contains(expectedOption)) {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " is present but does not contain the option <b>" + expectedOption + "</b>",
-                    timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + withTheOption + expectedOption +
+                    AVAILABLE_TO_BE_SELECTED, waitFor, this.element.prettyOutputStart() +
+                    " is present but does not contain the option <b>" + expectedOption + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " is present and contains the option <b>" + expectedOption + "</b>",
-                    timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + withTheOption + expectedOption +
+                    AVAILABLE_TO_BE_SELECTED, waitFor, this.element.prettyOutputStart() +
+                    " is present and contains the option <b>" + expectedOption + ENDB, timeTook);
         }
         return allOptions;
     }
@@ -235,7 +238,7 @@ public interface Contains extends Check {
      *
      * @param expectedValue the expected input value of the element
      */
-    void selectValue(String expectedValue);
+    abstract void selectValue(String expectedValue);
 
     /**
      * Checks that the element's options contains the provided expected value.
@@ -249,20 +252,23 @@ public interface Contains extends Check {
      * @return String[]: all of the select values of the element. null will be returned if the element isn't present or a select
      */
     @SuppressWarnings("squid:S1168")
-    default String[] checkSelectValue(String expectedValue, double waitFor, double timeTook) {
+    String[] checkSelectValue(String expectedValue, double waitFor, double timeTook) {
+        String havingSelectValue = " having a select value of <b>";
         // record the action, and check for select
-        if (!isPresentSelect(getElement().prettyOutput() + " having a select value of <b>" + expectedValue +
-                "</b> available to be selected on the page", waitFor)) {
+        if (!isPresentSelect(this.element.prettyOutput() + havingSelectValue + expectedValue +
+                AVAILABLE_TO_BE_SELECTED, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the select values
-        String[] allValues = getElement().get().selectValues();
+        String[] allValues = this.element.get().selectValues();
         // record the expected
         if (!Arrays.asList(allValues).contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + EXCLUDES_VALUE + expectedValue + "</b>" + ONLY_VALUE +
-                    Arrays.toString(allValues) + "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + havingSelectValue + expectedValue +
+                    AVAILABLE_TO_BE_SELECTED, waitFor, this.element.prettyOutputStart() + EXCLUDES_VALUE + expectedValue + ENDB + ONLY_VALUE +
+                    Arrays.toString(allValues) + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CONTAINS_VALUE + expectedValue + "</b>", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + havingSelectValue + expectedValue +
+                    AVAILABLE_TO_BE_SELECTED, waitFor, this.element.prettyOutputStart() + CONTAINS_VALUE + expectedValue + ENDB, timeTook);
         }
         return allValues;
     }
@@ -275,7 +281,7 @@ public interface Contains extends Check {
      *
      * @param numOfOptions the expected number of options in the select element
      */
-    void selectOptions(int numOfOptions);
+    abstract void selectOptions(int numOfOptions);
 
     /**
      * Checks that the element has the expected number of options. If the
@@ -288,20 +294,21 @@ public interface Contains extends Check {
      * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
      * @return Integer: the number of select options of the element. -1 will be returned if the element isn't present or a select
      */
-    default int checkSelectOptions(int numOfOptions, double waitFor, double timeTook) {
+    int checkSelectOptions(int numOfOptions, double waitFor, double timeTook) {
+        String numberOfSelectValues = " with number of select values equal to <b>";
         // record the action, and check for select
-        if (!isPresentSelect(getElement().prettyOutput() + " with number of select values equal to <b>" + numOfOptions + "</b>", waitFor)) {
+        if (!isPresentSelect(this.element.prettyOutput() + numberOfSelectValues + numOfOptions + ENDB, waitFor)) {
             return -1;
         }
         // get the select options
-        int elementValues = getElement().get().numOfSelectOptions();
+        int elementValues = this.element.get().numOfSelectOptions();
         // record the expected
         if (elementValues != numOfOptions) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options",
-                    timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + numberOfSelectValues + numOfOptions + ENDB,
+                    waitFor, this.element.prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options",
-                    timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + numberOfSelectValues + numOfOptions + ENDB,
+                    waitFor, this.element.prettyOutputStart() + " has <b>" + numOfOptions + "</b> select options", timeTook);
         }
         return elementValues;
     }
@@ -314,7 +321,7 @@ public interface Contains extends Check {
      *
      * @param numOfColumns the expected number of column elements of a table
      */
-    void columns(int numOfColumns);
+    abstract void columns(int numOfColumns);
 
     /**
      * Checks that the element has the expected number of columns. If the
@@ -327,19 +334,22 @@ public interface Contains extends Check {
      * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
      * @return Integer: the number of columns of the element. -1 will be returned if the element isn't present or a table
      */
-    default int checkColumns(int numOfColumns, double waitFor, double timeTook) {
+    int checkColumns(int numOfColumns, double waitFor, double timeTook) {
+        String numberOfTableColumnsEqual = " with the number of table columns equal to <b>";
         // record the action, and check for table
-        if (!isPresentTable(getElement().prettyOutput() + " with the number of table columns equal to <b>" + numOfColumns + "</b>", waitFor)) {
+        if (!isPresentTable(this.element.prettyOutput() + numberOfTableColumnsEqual + numOfColumns + ENDB, waitFor)) {
             return -1;
         }
         // get the table columns
-        int actualNumOfCols = getElement().get().numOfTableColumns();
+        int actualNumOfCols = this.element.get().numOfTableColumns();
         // record the expected
         if (actualNumOfCols != numOfColumns) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " does not have the number of columns <b>" + numOfColumns +
-                    "</b>. Instead, " + actualNumOfCols + " columns were found", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + numberOfTableColumnsEqual + numOfColumns + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " does not have the number of columns <b>" + numOfColumns +
+                            "</b>. Instead, " + actualNumOfCols + " columns were found", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " has " + actualNumOfCols + "</b> columns", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + numberOfTableColumnsEqual + numOfColumns + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " has " + actualNumOfCols + "</b> columns", timeTook);
         }
         return actualNumOfCols;
     }
@@ -352,7 +362,7 @@ public interface Contains extends Check {
      *
      * @param numOfRows the expected number of row elements of a table
      */
-    void rows(int numOfRows);
+    abstract void rows(int numOfRows);
 
     /**
      * Checks that the element has the expected number of rows. If the element
@@ -365,19 +375,22 @@ public interface Contains extends Check {
      * @param timeTook  - the amount of time it took for wait for something (assuming we had to wait)
      * @return Integer: the number of columns of the element. -1 will be returned if the element isn't present or a table
      */
-    default int checkRows(int numOfRows, double waitFor, double timeTook) {
+    int checkRows(int numOfRows, double waitFor, double timeTook) {
+        String numberOfTableRows = " with the number of table rows equal to <b>";
         // record the action, and check for table
-        if (!isPresentTable(getElement().prettyOutput() + " with the number of table rows equal to <b>" + numOfRows + "</b>", waitFor)) {
+        if (!isPresentTable(this.element.prettyOutput() + numberOfTableRows + numOfRows + ENDB, waitFor)) {
             return -1;
         }
         // get the table columns
-        int actualNumOfRows = getElement().get().numOfTableRows();
+        int actualNumOfRows = this.element.get().numOfTableRows();
         // record the expected
         if (actualNumOfRows != numOfRows) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " does not have the number of rows <b>" + numOfRows +
-                    "</b>. Instead, " + actualNumOfRows + " rows were found", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + numberOfTableRows + numOfRows + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " does not have the number of rows <b>" + numOfRows +
+                            "</b>. Instead, " + actualNumOfRows + " rows were found", timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " has " + actualNumOfRows + "</b> rows", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + numberOfTableRows + numOfRows + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " has " + actualNumOfRows + "</b> rows", timeTook);
         }
         return actualNumOfRows;
     }

@@ -21,11 +21,11 @@ public class WebBase extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setTestSite(this, test, "http://localhost:1070/");
+        setAppURL(this, test, "http://localhost:1070/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
-        setVersion(this, test, "3.1.0");
+        setVersion(this, test, "3.2.0");
     }
 
     private static String readFile(String path) throws IOException {

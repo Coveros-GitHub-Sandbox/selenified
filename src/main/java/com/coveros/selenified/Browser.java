@@ -21,7 +21,7 @@
 package com.coveros.selenified;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.utilities.TestCase;
+import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.Platform;
 
 import java.util.HashMap;
@@ -32,8 +32,8 @@ import java.util.Map;
  * Safari, PhantomJS
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 2/27/2019
+ * @version 3.2.0
+ * @lastupdate 6/28/2019
  */
 public class Browser {
 
@@ -74,7 +74,6 @@ public class Browser {
     }
 
     public static final String SCREENSIZE_INPUT = "screensize";
-    public static final String BROWSER_INPUT = "browser";
     public static final String NAME_INPUT = "name";
     public static final String VERSION_INPUT = "version";
     public static final String PLATFORM_INPUT = "platform";
@@ -133,7 +132,7 @@ public class Browser {
     }
 
     public String getDetails() {
-        StringBuilder stringBuilder = new StringBuilder(TestCase.capitalizeFirstLetters(getName().toString().toLowerCase()));
+        StringBuilder stringBuilder = new StringBuilder(Reporter.capitalizeFirstLetters(getName().toString().toLowerCase()));
         if (getVersion() != null) {
             stringBuilder.append(" ").append(getVersion());
         }
@@ -155,6 +154,9 @@ public class Browser {
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
     public static BrowserName lookup(String b) throws InvalidBrowserException {
+        if ("IE".equalsIgnoreCase(b)) {
+            return BrowserName.INTERNETEXPLORER;
+        }
         for (BrowserName browser : BrowserName.values()) {
             if (browser.name().equalsIgnoreCase(b)) {
                 return browser;

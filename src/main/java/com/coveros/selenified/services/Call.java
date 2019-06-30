@@ -20,9 +20,10 @@
 
 package com.coveros.selenified.services;
 
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Success;
-import org.testng.log4testng.Logger;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidReporterException;
+import com.coveros.selenified.utilities.Reporter;
+import com.coveros.selenified.services.HTTP.ContentType;
 
 import java.io.File;
 import java.util.Map;
@@ -32,30 +33,43 @@ import java.util.Map;
  * to the HTTP class
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 3/5/2019
+ * @version 3.2.0
+ * @lastupdate 4/4/2019
  */
 public class Call {
-    private static final Logger log = Logger.getLogger(Call.class);
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter reporter;
 
     // what services will we be interacting with
     private final HTTP http;
 
-    // constants
-    private static final String GET = "GET";
-    private static final String POST = "POST";
-    private static final String PUT = "PUT";
-    private static final String DELETE = "DELETE";
+    protected enum Method {GET, POST, PUT, DELETE}
 
-    public Call(HTTP http, OutputFile file, Map<String, String> headers) {
-        this.http = http;
-        this.file = file;
+    public Call(HTTP http, Map<String, Object> headers) throws InvalidHTTPException, InvalidReporterException {
+        if (http == null) {
+            throw new InvalidHTTPException("Need to provide a valid HTTP to make calls against");
+        } else {
+            this.http = http;
+        }
+        if (http.getReporter() == null) {
+            throw new InvalidReporterException("Need to provide a valid reporter for logging");
+        } else {
+            this.reporter = http.getReporter();
+        }
         if (headers != null) {
             addHeaders(headers);
         }
+    }
+
+    /**
+     * Sets the content type. Currently only application/json and multipart/form-data are supported, but we
+     * are looking to add support for several other forms in the future
+     *
+     * @param contentType - the content type to set
+     */
+    public void setContentType(ContentType contentType) {
+        http.setContentType(contentType);
     }
 
     /**
@@ -64,7 +78,7 @@ public class Call {
      *
      * @param headers - the key-value pair of headers to set
      */
-    public void addHeaders(Map<String, String> headers) {
+    public void addHeaders(Map<String, Object> headers) {
         http.addHeaders(headers);
     }
 
@@ -98,7 +112,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint) {
-        return call(GET, endpoint, null, null);
+        return call(Method.GET, endpoint, null, null);
     }
 
     /**
@@ -111,7 +125,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response get(String endpoint, Request params) {
-        return call(GET, endpoint, params, null);
+        return call(Method.GET, endpoint, params, null);
     }
 
     /**
@@ -124,7 +138,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params) {
-        return call(POST, endpoint, params, null);
+        return call(Method.POST, endpoint, params, null);
     }
 
     /**
@@ -138,7 +152,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response post(String endpoint, Request params, File file) {
-        return call(POST, endpoint, params, file);
+        return call(Method.POST, endpoint, params, file);
     }
 
     /**
@@ -151,7 +165,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params) {
-        return call(PUT, endpoint, params, null);
+        return call(Method.PUT, endpoint, params, null);
     }
 
     /**
@@ -165,7 +179,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response put(String endpoint, Request params, File file) {
-        return call(PUT, endpoint, params, file);
+        return call(Method.PUT, endpoint, params, file);
     }
 
     /**
@@ -176,7 +190,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint) {
-        return call(DELETE, endpoint, null, null);
+        return call(Method.DELETE, endpoint, null, null);
     }
 
     /**
@@ -189,7 +203,7 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint, Request params) {
-        return call(DELETE, endpoint, params, null);
+        return call(Method.DELETE, endpoint, params, null);
     }
 
     /**
@@ -203,32 +217,35 @@ public class Call {
      * @return Response: the response provided from the http call
      */
     public Response delete(String endpoint, Request params, File file) {
-        return call(DELETE, endpoint, params, file);
+        return call(Method.DELETE, endpoint, params, file);
     }
 
     /**
      * Performs an http call and writes the call and response information to the
      * output file
      *
-     * @param call     - what http method call is being made. should be in all caps
+     * @param method     - what http method call is being made. should be in all caps
      * @param endpoint - the endpoint of the service under test
      * @param params   - the parameters to be passed to the endpoint for the service
      *                 call
      * @return Response: the response provided from the http call
      */
-    private Response call(String call, String endpoint, Request params, File inputFile) {
+    private Response call(Method method, String endpoint, Request params, File inputFile) {
         StringBuilder action = new StringBuilder();
         action.append("Making <i>");
-        action.append(call);
+        action.append(method.toString());
         action.append("</i> call to <i>");
         action.append(http.getServiceBaseUrl()).append(endpoint).append(http.getRequestParams(params));
         action.append("</i>");
-        action.append(getCredentialString());
-        action.append(file.outputRequestProperties(params, inputFile));
-        String expected = "<i>" + call + "</i> call was made successfully";
-        Response response = new Response(file);
+        action.append("<div class='indent'>");
+        action.append(Reporter.getCredentialStringOutput(http));
+        action.append(Reporter.getRequestHeadersOutput(http));
+        action.append(Reporter.getRequestPayloadOutput(params, inputFile));
+        action.append("</div>");
+        String expected = "<i>" + method + "</i> call was performed";
+        Response response = null;
         try {
-            switch (call) {
+            switch (method) {
                 case GET:
                     response = http.get(endpoint, params);
                     break;
@@ -241,43 +258,17 @@ public class Call {
                 case DELETE:
                     response = http.delete(endpoint, params, inputFile);
                     break;
-                default:
-                    log.error("Unknown method call named");
             }
-            response.setOutputFile(file);
-            file.recordStep(action.toString(), expected, expected, Success.PASS);
+            String actual = expected;
+            actual += "<div class='indent'>";
+            actual += Reporter.getResponseHeadersOutput(response);
+            actual += Reporter.getResponseCodeOutput(response);
+            actual += Reporter.getResponseOutput(response);
+            actual += "</div>";
+            reporter.pass(action.toString(), expected, actual);
         } catch (Exception e) {
-            file.recordStep(action.toString(), expected, "<i>" + call + "</i> call failed. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
-            log.warn(e);
-            response = new Response(0);
-            response.setOutputFile(file);
-            return response;
+            reporter.fail(action.toString(), expected, "<i>" + method + "</i> call failed. " + e.getMessage());
         }
         return response;
-    }
-
-    /**
-     * Looks for the simple login credentials, username and password, and if
-     * they are both set, turns that into a string which will be formatted for
-     * HTML to be printed into the output file
-     *
-     * @return String: an HTML formatted string with the username and password -
-     * if they are both set
-     */
-    public String getCredentialString() {
-        StringBuilder credentials = new StringBuilder();
-        if (http.useCredentials()) {
-            credentials.append("<br/> with credentials: ");
-            credentials.append("<div><i>");
-            credentials.append("Username: ");
-            credentials.append(http.getUser());
-            credentials.append("</div><div>");
-            credentials.append("Password: ");
-            credentials.append(http.getPass());
-            credentials.append("</i></div>");
-        }
-        return credentials.toString();
     }
 }

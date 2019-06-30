@@ -22,6 +22,9 @@ package com.coveros.selenified;
 
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Sauce;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Platform;
@@ -49,29 +52,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
+import static com.coveros.selenified.utilities.Property.HEADLESS;
+
 /**
  * Assists with Selenified class in setting up proxy, hub, and browser details
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 3/4/2019
+ * @version 3.2.0
+ * @lastupdate 3/29/2019
  */
 public class Capabilities {
 
-    // constants
-    private static final String PROXY_INPUT = "proxy";
-    private static final String OPTIONS_INPUT = "options";
-    private static final String HEADLESS_INPUT = "headless";
-
     private Browser browser;
-    private int instance;
+    private int instance = 0;
     private DesiredCapabilities desiredCapabilities;
 
     /**
      * A constructor which sets up the browser, and default desiredCapabilities, based on the browser, and information
      * passed in from the command line
      */
-    public Capabilities(Browser browser) throws InvalidBrowserException {
+    public Capabilities(Browser browser) throws InvalidBrowserException, InvalidProxyException {
         if (browser == null) {
             throw new InvalidBrowserException("A valid browser was not provided");
         }
@@ -80,7 +80,7 @@ public class Capabilities {
         setDesiredCapabilities();
     }
 
-    private void setDesiredCapabilities() {
+    private void setDesiredCapabilities() throws InvalidProxyException {
         if (browser.getName() == BrowserName.NONE) {
             return;
         }
@@ -153,7 +153,7 @@ public class Capabilities {
      *
      * @param instance - the number instance of the test being run, to track capabilities
      */
-    public void setInstance(int instance) {
+    void setInstance(int instance) {
         this.instance = instance;
     }
 
@@ -171,12 +171,12 @@ public class Capabilities {
      * Obtains the set system values for the proxy, and adds them to the desired
      * desiredCapabilities
      */
-    public void setupProxy() {
+    public void setupProxy() throws InvalidProxyException {
         // are we running through a proxy
-        if (System.getProperty(PROXY_INPUT) != null) {
+        if (Property.isProxySet()) {
             // set the proxy information
             Proxy proxy = new Proxy();
-            proxy.setHttpProxy(System.getProperty(PROXY_INPUT));
+            proxy.setHttpProxy(Property.getProxy());
             desiredCapabilities.setCapability(CapabilityType.PROXY, proxy);
         }
     }
@@ -219,7 +219,7 @@ public class Capabilities {
                 WebDriverManager.firefoxdriver().forceCache().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions(desiredCapabilities);
                 firefoxOptions.addArguments(getBrowserOptions());
-                if (runHeadless()) {
+                if (Property.runHeadless()) {
                     firefoxOptions.setHeadless(true);
                 }
                 driver = new FirefoxDriver(firefoxOptions);
@@ -229,7 +229,7 @@ public class Capabilities {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions = chromeOptions.merge(desiredCapabilities);
                 chromeOptions.addArguments(getBrowserOptions());
-                if (runHeadless()) {
+                if (Property.runHeadless()) {
                     chromeOptions.setHeadless(true);
                 }
                 driver = new ChromeDriver(chromeOptions);
@@ -267,22 +267,18 @@ public class Capabilities {
         return driver;
     }
 
-    private Boolean runHeadless() {
-        return System.getProperty(HEADLESS_INPUT) != null && "true".equals(System.getProperty(HEADLESS_INPUT));
-    }
-
-    private List<String> getBrowserOptions() {
+    private List<String> getBrowserOptions() throws InvalidBrowserOptionsException {
         ArrayList<String> browserOptions = new ArrayList<>();
-        if (System.getProperty(OPTIONS_INPUT) != null) {
-            browserOptions = new ArrayList(Arrays.asList(System.getProperty(OPTIONS_INPUT).split("\\s*,\\s*")));
+        if (Property.areOptionsSet()) {
+            browserOptions = new ArrayList(Arrays.asList(Property.getOptions().split("\\s*,\\s*")));
         }
         if (browser.getName() == BrowserName.CHROME && browserOptions.contains("--headless")) {
             browserOptions.remove("--headless");
-            System.setProperty(HEADLESS_INPUT, "true");
+            System.setProperty(HEADLESS, "true");
         }
         if (browser.getName() == BrowserName.FIREFOX && browserOptions.contains("-headless")) {
             browserOptions.remove("-headless");
-            System.setProperty(HEADLESS_INPUT, "true");
+            System.setProperty(HEADLESS, "true");
         }
         return browserOptions;
     }

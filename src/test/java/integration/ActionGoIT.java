@@ -2,6 +2,8 @@ package integration;
 
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.utilities.Property;
 import org.openqa.selenium.Cookie;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
@@ -25,6 +27,8 @@ public class ActionGoIT extends WebBase {
         app.azzert().textPresent("You're on the next page");
         app.goBack();
         app.azzert().textNotPresent("You're on the next page");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "go", "alert"},
@@ -62,6 +66,8 @@ public class ActionGoIT extends WebBase {
         app.azzert().textNotPresent("You're on the next page");
         app.goForward();
         app.azzert().textPresent("You're on the next page");
+        // verify no issues
+        finish();
     }
 
     @Test(groups = {"integration", "action", "go", "alert"},
@@ -135,12 +141,12 @@ public class ActionGoIT extends WebBase {
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
     @Test(groups = {"integration", "action", "cookie", "no-edge"}, description = "An integration test to check the setCookie method")
-    public void setCookieTest(ITestContext context) throws ParseException {
+    public void setCookieTest(ITestContext context) throws ParseException, InvalidHTTPException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         Cookie cookie = new Cookie("new_cookie", "this_cookie",
-                getTestSite(this.getClass().getName(), context).split("/")[2].split(":")[0], "/", df.parse(dateval));
+                Property.getAppURL(this.getClass().getName(), context).split("/")[2].split(":")[0], "/", df.parse(dateval));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -151,12 +157,12 @@ public class ActionGoIT extends WebBase {
 
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
     @Test(groups = {"integration", "action", "go", "cookie", "no-edge"}, description = "An integration test to check the setCookie method")
-    public void setCookieErrorTest(ITestContext context) throws ParseException {
+    public void setCookieErrorTest(ITestContext context) throws ParseException, InvalidHTTPException {
         String dateval = "2011-11-17T09:52:13";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         Cookie cookie = new Cookie("new_cookie", "this_cookie",
-                getTestSite(this.getClass().getName(), context).split("/")[2].split(":")[0], "/", df.parse(dateval));
+                Property.getAppURL(this.getClass().getName(), context).split("/")[2].split(":")[0], "/", df.parse(dateval));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions

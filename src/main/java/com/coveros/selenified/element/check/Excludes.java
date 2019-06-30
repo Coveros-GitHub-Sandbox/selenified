@@ -20,11 +20,12 @@
 
 package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.OutputFile.Success;
-
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * Excludes extends Check to provide some additional checking
@@ -36,10 +37,10 @@ import static com.coveros.selenified.element.check.Constants.*;
  * don't have a particular value associated to them.
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 3/7/2019
+ * @version 3.2.0
+ * @lastupdate 6/25/2019
  */
-public interface Excludes extends Check {
+abstract class Excludes extends Check {
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -53,7 +54,7 @@ public interface Excludes extends Check {
      *
      * @param unexpectedClass - the unexpected class value
      */
-    void clazz(String unexpectedClass);
+    abstract void clazz(String unexpectedClass);
 
     /**
      * Checks that the element's class does not contain the provided expected
@@ -66,19 +67,17 @@ public interface Excludes extends Check {
      * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual class of the element. null will be returned if the element isn't present
      */
-    default String checkClazz(String unexpectedClass, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + " without class <b>" + unexpectedClass + "</b>", waitFor);
+    String checkClazz(String unexpectedClass, double waitFor, double timeTook) {
         // check our classes
-        String actualClass = getElement().get().attribute(CLASS);
+        String actualClass = this.element.get().attribute(CLASS);
         // record the result
         if (actualClass != null && !actualClass.contains(unexpectedClass)) {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " does not contain a class value of <b>" + unexpectedClass + "</b>",
-                    timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + " without class <b>" + unexpectedClass + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " does not contain a class value of <b>" + unexpectedClass + ENDB,
+                    timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
-                    unexpectedClass + "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + " without class <b>" + unexpectedClass + ENDB, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + "</b>, which contains <b>" +
+                    unexpectedClass + ENDB, timeTook);
         }
         return actualClass;
     }
@@ -91,7 +90,7 @@ public interface Excludes extends Check {
      *
      * @param attribute - the attribute to check for
      */
-    void attribute(String attribute);
+    abstract void attribute(String attribute);
 
     /**
      * Checks that the element does not contain the provided expected
@@ -104,18 +103,27 @@ public interface Excludes extends Check {
      * @param timeTook  - the amount of time it took for wait for something (assuming we had to wait)
      * @return String[]: all of the attributes of the element. null will be returned if the element isn't present
      */
-    default String[] checkAttribute(String attribute, double waitFor, double timeTook) {
+    @SuppressWarnings("squid:S1168")
+    Set<String> checkAttribute(String attribute, double waitFor, double timeTook) {
         // record the action and get the attributes
-        String[] allAttributes = getAttributes(attribute, "without", waitFor);
-        // record the result
-        if (allAttributes == null || Arrays.asList(allAttributes).contains(attribute)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " contains the attribute of <b>" + attribute + "</b>",
-                    timeTook, Success.FAIL);
-        } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + " does not contain the attribute of <b>" + attribute + "</b>" +
-                    ONLY_VALUE + Arrays.toString(allAttributes) + "</b>", timeTook, Success.PASS);
+        Map<String, String> atts = this.element.get().allAttributes();
+        Set<String> allAttributes = new HashSet<>();
+        if (atts != null) {
+            allAttributes = atts.keySet();
         }
-        return allAttributes;
+        // record the result
+        if (atts == null || allAttributes.contains(attribute)) {
+            this.reporter.fail(this.element.prettyOutput() + " without attribute <b>" + attribute + ENDB, waitFor, this.element.prettyOutputStart() + " contains the attribute of <b>" + attribute + ENDB,
+                    timeTook);
+        } else {
+            this.reporter.pass(this.element.prettyOutput() + " without attribute <b>" + attribute + ENDB, waitFor, this.element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + ENDB +
+                    ONLY_VALUE + String.join(", ", allAttributes) + ENDB, timeTook);
+        }
+        if (atts == null) {
+            return null;
+        } else {
+            return allAttributes;
+        }
     }
 
     /**
@@ -126,7 +134,7 @@ public interface Excludes extends Check {
      *
      * @param expectedText the expected value of the element
      */
-    void text(String expectedText);
+    abstract void text(String expectedText);
 
     /**
      * Checks that the element's text does not contain the provided expected
@@ -139,16 +147,14 @@ public interface Excludes extends Check {
      * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual text of the element. null will be returned if the element isn't present
      */
-    default String checkText(String expectedText, double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + EXCLUDES_TEXT + expectedText + "</b>", waitFor);
+    String checkText(String expectedText, double waitFor, double timeTook) {
         // check for the object to the present on the page
-        String elementValue = getElement().get().text();
+        String elementValue = this.element.get().text();
         // record the result
         if (elementValue == null || elementValue.contains(expectedText)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + EXCLUDES_TEXT + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementValue + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_TEXT + elementValue + "</b>", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + EXCLUDES_TEXT + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -161,7 +167,7 @@ public interface Excludes extends Check {
      *
      * @param expectedValue the expected value of the element
      */
-    void value(String expectedValue);
+    abstract void value(String expectedValue);
 
     /**
      * Checks that the element's value does not contain the provided expected
@@ -174,13 +180,13 @@ public interface Excludes extends Check {
      * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual value of the element. null will be returned if the element isn't present or an input
      */
-    default String checkValue(String expectedValue, double waitFor, double timeTook) {
+    String checkValue(String expectedValue, double waitFor, double timeTook) {
         // record the action and get our value
-        String elementValue = getValue(expectedValue, EXCLUDES_VALUE, waitFor);
+        String elementValue = this.element.get().value();
         if (elementValue == null || elementValue.contains(expectedValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + expectedValue + elementValue + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + HAS_VALUE + elementValue + "</b>", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + expectedValue + elementValue + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -193,7 +199,7 @@ public interface Excludes extends Check {
      *
      * @param option the option not expected in the list
      */
-    void selectOption(String option);
+    abstract void selectOption(String option);
 
     /**
      * Checks that the element's options do not contain the provided expected
@@ -207,23 +213,26 @@ public interface Excludes extends Check {
      * @return String[]: all of the select options of the element. null will be returned if the element isn't present or a select
      */
     @SuppressWarnings("squid:S1168")
-    default String[] checkSelectOption(String option, double waitFor, double timeTook) {
+    String[] checkSelectOption(String option, double waitFor, double timeTook) {
+        String withoutOption = " without the option <b>";
         // record the action, and check for select
-        if (!isPresentSelect(getElement().prettyOutput() + " without the option <b>" + option +
-                "</b> available to be selected on the page", waitFor)) {
+        if (!isPresentSelect(this.element.prettyOutput() + withoutOption + option +
+                AVAILABLE_TO_BE_SELECTED, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // check for the object to the editable
-        String[] allOptions = getElement().get().selectOptions();
+        String[] allOptions = this.element.get().selectOptions();
         // record the result
         if (Arrays.asList(allOptions).contains(option)) {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " is editable and present and contains the option <b>" + option +
-                            "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + withoutOption + option +
+                            AVAILABLE_TO_BE_SELECTED, waitFor,
+                    this.element.prettyOutputStart() + " is editable and present and contains the option <b>" + option +
+                            ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(
-                    getElement().prettyOutputStart() + " is editable and present but does not contain the option <b>" + option +
-                            "</b>", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + withoutOption + option +
+                            AVAILABLE_TO_BE_SELECTED, waitFor,
+                    this.element.prettyOutputStart() + " is editable and present but does not contain the option <b>" + option +
+                            ENDB, timeTook);
         }
         return allOptions;
     }
@@ -236,7 +245,7 @@ public interface Excludes extends Check {
      *
      * @param selectValue the unexpected input value of the element
      */
-    void selectValue(String selectValue);
+    abstract void selectValue(String selectValue);
 
     /**
      * Checks that the element's options do not contain the provided expected
@@ -250,20 +259,23 @@ public interface Excludes extends Check {
      * @return String[]: all of the select values of the element. null will be returned if the element isn't present or a select
      */
     @SuppressWarnings("squid:S1168")
-    default String[] checkSelectValue(String selectValue, double waitFor, double timeTook) {
+    String[] checkSelectValue(String selectValue, double waitFor, double timeTook) {
+        String withoutSelectValue = " without a select value of <b>";
         // record the action, and check for select
-        if (!isPresentSelect(getElement().prettyOutput() + " without a select value of <b>" + selectValue +
-                "</b> available to be selected on the page", waitFor)) {
+        if (!isPresentSelect(this.element.prettyOutput() + withoutSelectValue + selectValue +
+                AVAILABLE_TO_BE_SELECTED, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // check for the object to the present on the page
-        String[] elementValues = getElement().get().selectValues();
+        String[] elementValues = this.element.get().selectValues();
         // record the result
         if (Arrays.asList(elementValues).contains(selectValue)) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + CONTAINS_VALUE + selectValue + "</b>", timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + withoutSelectValue + selectValue +
+                    AVAILABLE_TO_BE_SELECTED, waitFor, this.element.prettyOutputStart() + CONTAINS_VALUE + selectValue + ENDB, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + EXCLUDES_VALUE + selectValue + "</b>, only the values <b>" +
-                    Arrays.toString(elementValues) + "</b>", timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + withoutSelectValue + selectValue +
+                    AVAILABLE_TO_BE_SELECTED, waitFor, this.element.prettyOutputStart() + EXCLUDES_VALUE + selectValue + "</b>, only the values <b>" +
+                    Arrays.toString(elementValues) + ENDB, timeTook);
         }
         return elementValues;
     }

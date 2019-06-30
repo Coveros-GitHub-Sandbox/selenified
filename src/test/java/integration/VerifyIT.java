@@ -2,17 +2,19 @@ package integration;
 
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 public class VerifyIT extends WebBase {
 
     @Test(groups = {"integration", "verify"}, description = "An integration test to check the url")
-    public void compareUrlTest(ITestContext test) {
+    public void compareUrlTest(ITestContext test) throws InvalidHTTPException {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform the verification
-        app.verify().urlEquals(getTestSite(this.getClass().getName(), test));
+        app.verify().urlEquals(Property.getAppURL(this.getClass().getName(), test));
         // perform the verification
         finish();
     }

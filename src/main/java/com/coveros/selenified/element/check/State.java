@@ -20,9 +20,7 @@
 
 package com.coveros.selenified.element.check;
 
-import com.coveros.selenified.OutputFile.Success;
-
-import static com.coveros.selenified.element.check.Constants.*;
+import static com.coveros.selenified.utilities.Constants.*;
 
 /**
  * State extends Check to provide some additional checking capabilities.
@@ -33,10 +31,10 @@ import static com.coveros.selenified.element.check.Constants.*;
  * failing tests. State checks that elements are in a particular state.
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 3/7/2019
+ * @version 3.2.0
+ * @lastupdate 6/25/2019
  */
-public interface State extends Check {
+abstract class State extends Check {
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -46,7 +44,7 @@ public interface State extends Check {
      * Checks that the element is present. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      */
-    void present();
+    abstract void present();
 
     /**
      * Checks that the element is present. This information will be logged and
@@ -56,16 +54,14 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element present
      */
-    default boolean checkPresent(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_PRESENT, waitFor);
+    boolean checkPresent(double waitFor, double timeTook) {
         // perform the check
-        boolean isPresent = getElement().is().present();
+        boolean isPresent = this.element.is().present();
         // record the result
-        if (isPresent) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_PRESENT, timeTook, Success.PASS);
+        if (!isPresent) {
+            this.reporter.fail(this.element.prettyOutput() + IS_PRESENT, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_PRESENT, timeTook, Success.FAIL);
+            this.reporter.pass(this.element.prettyOutput() + IS_PRESENT, waitFor, this.element.prettyOutputStart() + IS_PRESENT, timeTook);
         }
         return isPresent;
     }
@@ -75,7 +71,7 @@ public interface State extends Check {
      * logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
-    void notPresent();
+    abstract void notPresent();
 
     /**
      * Checks that the element is not present. This information will be
@@ -86,16 +82,14 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not present
      */
-    default boolean checkNotPresent(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_PRESENT, waitFor);
+    boolean checkNotPresent(double waitFor, double timeTook) {
         // perform the check
-        boolean isPresent = getElement().is().present();
+        boolean isPresent = this.element.is().present();
         // record the result
         if (isPresent) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_PRESENT, timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + IS_NOT_PRESENT, waitFor, this.element.prettyOutputStart() + IS_PRESENT, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_PRESENT, timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + IS_NOT_PRESENT, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         }
         return !isPresent;
     }
@@ -104,7 +98,7 @@ public interface State extends Check {
      * Checks that the element is displayed. This information will be logged and
      * recorded, with a screenshot for traceability and added debugging support.
      */
-    void displayed();
+    abstract void displayed();
 
     /**
      * Checks that the element is displayed. This information will be logged and
@@ -114,20 +108,18 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element displayed. if the element is not present, false be sent
      */
-    default boolean checkDisplayed(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_DISPLAYED, waitFor);
+    boolean checkDisplayed(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(waitFor)) {
+        if (!isPresent(this.element.prettyOutput() + IS_DISPLAYED, waitFor)) {
             return false;
         }
         // perform the check
-        boolean isDisplayed = getElement().is().displayed();
+        boolean isDisplayed = this.element.is().displayed();
         // record the result
         if (!isDisplayed) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_DISPLAYED, timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + IS_DISPLAYED, waitFor, this.element.prettyOutputStart() + IS_NOT_DISPLAYED, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_DISPLAYED, timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + IS_DISPLAYED, waitFor, this.element.prettyOutputStart() + IS_DISPLAYED, timeTook);
         }
         return isDisplayed;
     }
@@ -137,7 +129,7 @@ public interface State extends Check {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      */
-    void notDisplayed();
+    abstract void notDisplayed();
 
     /**
      * Checks that the element is not displayed. This information will be logged
@@ -148,20 +140,18 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not displayed. if the element is not present, false be sent
      */
-    default boolean checkNotDisplayed(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_DISPLAYED, waitFor);
+    boolean checkNotDisplayed(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(waitFor)) {
+        if (!isPresent(this.element.prettyOutput() + IS_NOT_DISPLAYED, waitFor)) {
             return false;
         }
         // perform the check
-        boolean isDisplayed = getElement().is().displayed();
+        boolean isDisplayed = this.element.is().displayed();
         // record the result
-        if (!isDisplayed) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_DISPLAYED, timeTook, Success.PASS);
+        if (isDisplayed) {
+            this.reporter.fail(this.element.prettyOutput() + IS_NOT_DISPLAYED, waitFor, this.element.prettyOutputStart() + IS_DISPLAYED, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_DISPLAYED, timeTook, Success.FAIL);
+            this.reporter.pass(this.element.prettyOutput() + IS_NOT_DISPLAYED, waitFor, this.element.prettyOutputStart() + IS_NOT_DISPLAYED, timeTook);
         }
         return !isDisplayed;
     }
@@ -171,7 +161,7 @@ public interface State extends Check {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      */
-    void checked();
+    abstract void checked();
 
     /**
      * Check that the element is checked. This information will be logged
@@ -182,20 +172,18 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element checked. if the element is not present, false be sent
      */
-    default boolean checkChecked(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_CHECKED, waitFor);
+    boolean checkChecked(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(waitFor)) {
+        if (!isPresent(this.element.prettyOutput() + IS_CHECKED, waitFor)) {
             return false;
         }
         // perform the check
-        boolean isChecked = getElement().is().checked();
+        boolean isChecked = this.element.is().checked();
         // record the result
         if (!isChecked) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_CHECKED, timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + IS_CHECKED, waitFor, this.element.prettyOutputStart() + IS_NOT_CHECKED, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_CHECKED, timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + IS_CHECKED, waitFor, this.element.prettyOutputStart() + IS_CHECKED, timeTook);
         }
         return isChecked;
     }
@@ -205,7 +193,7 @@ public interface State extends Check {
      * and recorded, with a screenshot for traceability and added debugging
      * support.
      */
-    void notChecked();
+    abstract void notChecked();
 
     /**
      * Checks that the element is not checked. This information will be logged
@@ -216,20 +204,18 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not checked. if the element is not present, false be sent
      */
-    default boolean checkNotChecked(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_CHECKED, waitFor);
+    boolean checkNotChecked(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(waitFor)) {
+        if (!isPresent(this.element.prettyOutput() + IS_NOT_CHECKED, waitFor)) {
             return false;
         }
         // perform the check
-        boolean isChecked = getElement().is().checked();
+        boolean isChecked = this.element.is().checked();
         // record the result
-        if (!isChecked) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_CHECKED, timeTook, Success.PASS);
+        if (isChecked) {
+            this.reporter.fail(this.element.prettyOutput() + IS_NOT_CHECKED, waitFor, this.element.prettyOutputStart() + IS_CHECKED, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_CHECKED, timeTook, Success.FAIL);
+            this.reporter.pass(this.element.prettyOutput() + IS_NOT_CHECKED, waitFor, this.element.prettyOutputStart() + IS_NOT_CHECKED, timeTook);
         }
         return !isChecked;
     }
@@ -240,7 +226,7 @@ public interface State extends Check {
      * will be logged and recorded, with a screenshot for traceability and added
      * debugging support.
      */
-    void editable();
+    abstract void editable();
 
     /**
      * Checks that the element is editable. Editable means an input type, and enabled.
@@ -253,20 +239,18 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element editable. if the element is not present, false be sent
      */
-    default boolean checkEditable(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_EDITABLE, waitFor);
+    boolean checkEditable(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(waitFor)) {
+        if (!isPresent(this.element.prettyOutput() + IS_EDITABLE, waitFor)) {
             return false;
         }
         // perform the check
-        boolean isEditable = getElement().is().editable();
+        boolean isEditable = this.element.is().editable();
         // record the result
         if (!isEditable) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_EDITABLE, timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + IS_EDITABLE, waitFor, this.element.prettyOutputStart() + IS_NOT_EDITABLE, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_EDITABLE, timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + IS_EDITABLE, waitFor, this.element.prettyOutputStart() + IS_EDITABLE, timeTook);
         }
         return isEditable;
     }
@@ -278,7 +262,7 @@ public interface State extends Check {
      * information will be logged and recorded, with a screenshot for
      * traceability and added debugging support.
      */
-    void notEditable();
+    abstract void notEditable();
 
     /**
      * Checks that the element is not editable. Editable means an input type,
@@ -291,20 +275,18 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not editable. if the element is not present, false be sent
      */
-    default boolean checkNotEditable(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_EDITABLE, waitFor);
+    boolean checkNotEditable(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(waitFor)) {
+        if (!isPresent(this.element.prettyOutput() + IS_NOT_EDITABLE, waitFor)) {
             return false;
         }
         // perform the check
-        boolean isEditable = getElement().is().editable();
+        boolean isEditable = this.element.is().editable();
         // record the result
-        if (!isEditable) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_EDITABLE, timeTook, Success.PASS);
+        if (isEditable) {
+            this.reporter.fail(this.element.prettyOutput() + IS_NOT_EDITABLE, waitFor, this.element.prettyOutputStart() + IS_EDITABLE, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_EDITABLE, timeTook, Success.FAIL);
+            this.reporter.pass(this.element.prettyOutput() + IS_NOT_EDITABLE, waitFor, this.element.prettyOutputStart() + IS_NOT_EDITABLE, timeTook);
         }
         return !isEditable;
     }
@@ -313,7 +295,7 @@ public interface State extends Check {
      * Checks that the element is enabled. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      */
-    void enabled();
+    abstract void enabled();
 
     /**
      * Checks that the element is enabled. This information will be logged and recorded, with
@@ -323,20 +305,18 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element enabled. if the element is not present, false be sent
      */
-    default boolean checkEnabled(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_ENABLED, waitFor);
+    boolean checkEnabled(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(waitFor)) {
+        if (!isPresent(this.element.prettyOutput() + IS_ENABLED, waitFor)) {
             return false;
         }
         // perform the check
-        boolean isEnabled = getElement().is().enabled();
+        boolean isEnabled = this.element.is().enabled();
         // record the result
         if (!isEnabled) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_ENABLED, timeTook, Success.FAIL);
+            this.reporter.fail(this.element.prettyOutput() + IS_ENABLED, waitFor, this.element.prettyOutputStart() + IS_NOT_ENABLED, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_ENABLED, timeTook, Success.PASS);
+            this.reporter.pass(this.element.prettyOutput() + IS_ENABLED, waitFor, this.element.prettyOutputStart() + IS_ENABLED, timeTook);
         }
         return isEnabled;
     }
@@ -345,7 +325,7 @@ public interface State extends Check {
      * Checks that the element is not enabled. This information will be logged and recorded, with
      * a screenshot for traceability and added debugging support.
      */
-    void notEnabled();
+    abstract void notEnabled();
 
     /**
      * Checks that the element is not enabled. This information will be logged and recorded, with
@@ -355,20 +335,18 @@ public interface State extends Check {
      * @param timeTook - the amount of time it took for wait for something (assuming we had to wait)
      * @return Boolean: is the element not enabled. if the element is not present, false be sent
      */
-    default boolean checkNotEnabled(double waitFor, double timeTook) {
-        // record the action
-        getOutputFile().recordAction(getElement().prettyOutput() + IS_NOT_ENABLED, waitFor);
+    boolean checkNotEnabled(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(waitFor)) {
+        if (!isPresent(this.element.prettyOutput() + IS_NOT_ENABLED, waitFor)) {
             return false;
         }
         // perform the check
-        boolean isEnabled = getElement().is().enabled();
+        boolean isEnabled = this.element.is().enabled();
         // record the result
-        if (!isEnabled) {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_NOT_ENABLED, timeTook, Success.PASS);
+        if (isEnabled) {
+            this.reporter.fail(this.element.prettyOutput() + IS_NOT_ENABLED, waitFor, this.element.prettyOutputStart() + IS_ENABLED, timeTook);
         } else {
-            getOutputFile().recordActual(getElement().prettyOutputStart() + IS_ENABLED, timeTook, Success.FAIL);
+            this.reporter.pass(this.element.prettyOutput() + IS_NOT_ENABLED, waitFor, this.element.prettyOutputStart() + IS_NOT_ENABLED, timeTook);
         }
         return !isEnabled;
     }

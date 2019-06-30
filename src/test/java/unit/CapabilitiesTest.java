@@ -3,66 +3,38 @@ package unit;
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class CapabilitiesTest {
-
-    private String setProxy = null;
-    private String setHub = null;
-
-    @BeforeClass (alwaysRun = true)
-    public void saveHubProxy() {
-        if (System.getProperty("proxy") != null) {
-            setProxy = System.getProperty("proxy");
-        }
-        if (System.getProperty("hub") != null) {
-            setHub = System.getProperty("hub");
-        }
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void restoreHubProxy() {
-        if (setProxy != null) {
-            System.setProperty("proxy", setProxy);
-        }
-        if (setHub != null) {
-            System.setProperty("hub", setHub);
-        }
-    }
-
-    @BeforeMethod (alwaysRun = true)
-    @AfterMethod (alwaysRun = true)
-    public void clearHubProxy() {
-        System.clearProperty("proxy");
-        System.clearProperty("hub");
-    }
+public class CapabilitiesTest extends SaveProperties {
 
     @Test(expectedExceptions = InvalidBrowserException.class)
-    public void setupDriverNullTest() throws InvalidBrowserException {
+    public void setupDriverNullTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         new Capabilities(null);
         fail("Expected an InvalidBrowserException");
     }
 
     @Test
-    public void setupBrowserCapabilityNone() throws InvalidBrowserException {
+    public void setupBrowserCapabilityNone() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         Capabilities capabilities = new Capabilities(new Browser("None"));
         assertEquals(capabilities.getDesiredCapabilities(), new DesiredCapabilities());
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
-    public void setupBrowserCapabilityBadBrowser() throws InvalidBrowserException {
+    public void setupBrowserCapabilityBadBrowser() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         new Capabilities(new Browser("Android"));
         fail("Expected an InvalidBrowserException");
     }
 
     @Test
-    public void setupBrowserCapabilityChrome() throws InvalidBrowserException {
+    public void setupBrowserCapabilityChrome() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -77,7 +49,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilityEdge() throws InvalidBrowserException {
+    public void setupBrowserCapabilityEdge() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("MicrosoftEdge");
@@ -92,7 +64,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilityFirefox() throws InvalidBrowserException {
+    public void setupBrowserCapabilityFirefox() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("firefox");
@@ -107,7 +79,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilityHtmlUnit() throws InvalidBrowserException {
+    public void setupBrowserCapabilityHtmlUnit() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("htmlunit");
@@ -122,7 +94,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilityIE() throws InvalidBrowserException {
+    public void setupBrowserCapabilityIE() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("internet explorer");
@@ -137,7 +109,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilityOpera() throws InvalidBrowserException {
+    public void setupBrowserCapabilityOpera() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("opera");
@@ -152,7 +124,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilitySafari() throws InvalidBrowserException {
+    public void setupBrowserCapabilitySafari() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("safari");
@@ -167,7 +139,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilitySafari12() throws InvalidBrowserException {
+    public void setupBrowserCapabilitySafari12() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("safari");
@@ -182,7 +154,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilitySafari10() throws InvalidBrowserException {
+    public void setupBrowserCapabilitySafari10() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("safari");
@@ -197,7 +169,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupBrowserCapabilityPhantom() throws InvalidBrowserException {
+    public void setupBrowserCapabilityPhantom() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("phantomjs");
@@ -211,22 +183,33 @@ public class CapabilitiesTest {
         assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
     }
 
-    @Test
-    public void setupProxyTest() throws InvalidBrowserException {
+    @Test(expectedExceptions = InvalidProxyException.class)
+    public void setupInvalidProxyTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         Capabilities capabilities = new Capabilities(new Browser("Chrome"));
         capabilities.setupProxy();
         DesiredCapabilities capability = capabilities.getDesiredCapabilities();
         assertFalse(capability.is(CapabilityType.PROXY));
 
-        System.setProperty("proxy", "localhost");
+        System.setProperty(PROXY, "localhost");
         capabilities.setupProxy();
-        capability = capabilities.getDesiredCapabilities();
-        Proxy export = (Proxy) capability.getCapability(CapabilityType.PROXY);
-        assertEquals(export.getHttpProxy(), "localhost");
     }
 
     @Test
-    public void setupSauceCapabilitiesNoSauceTest() throws InvalidBrowserException {
+    public void setupProxyTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
+        Capabilities capabilities = new Capabilities(new Browser("Chrome"));
+        capabilities.setupProxy();
+        DesiredCapabilities capability = capabilities.getDesiredCapabilities();
+        assertFalse(capability.is(CapabilityType.PROXY));
+
+        System.setProperty(PROXY, "localhost:8080");
+        capabilities.setupProxy();
+        capability = capabilities.getDesiredCapabilities();
+        Proxy export = (Proxy) capability.getCapability(CapabilityType.PROXY);
+        assertEquals(export.getHttpProxy(), "localhost:8080");
+    }
+
+    @Test
+    public void setupSauceCapabilitiesNoSauceTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -242,8 +225,8 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupSauceCapabilitiesChromeTest() throws InvalidBrowserException {
-        System.setProperty("hub", "ondemand.saucelabs.com");
+    public void setupSauceCapabilitiesChromeTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
+        System.setProperty(HUB, "ondemand.saucelabs.com");
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -260,8 +243,8 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void setupSauceCapabilitiesIETest() throws InvalidBrowserException {
-        System.setProperty("hub", "ondemand.saucelabs.com");
+    public void setupSauceCapabilitiesIETest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
+        System.setProperty(HUB, "ondemand.saucelabs.com");
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("internet explorer");
@@ -279,7 +262,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void addExtraCapabilitiesNoneTest() throws InvalidBrowserException {
+    public void addExtraCapabilitiesNoneTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -296,7 +279,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void addExtraCapabilitiesNullTest() throws InvalidBrowserException {
+    public void addExtraCapabilitiesNullTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -312,14 +295,14 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void addExtraCapabilitiesNoBrowserTest() throws InvalidBrowserException {
+    public void addExtraCapabilitiesNoBrowserTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         Capabilities capabilities = new Capabilities(new Browser("None"));
         capabilities.addExtraCapabilities(new DesiredCapabilities());
         assertEquals(capabilities.getDesiredCapabilities(), new DesiredCapabilities());
     }
 
     @Test
-    public void addExtraCapabilitiesEmptyTest() throws InvalidBrowserException {
+    public void addExtraCapabilitiesEmptyTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -335,7 +318,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void addExtraCapabilitiesFullTest() throws InvalidBrowserException {
+    public void addExtraCapabilitiesFullTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -354,7 +337,7 @@ public class CapabilitiesTest {
     }
 
     @Test
-    public void addExtraCapabilitiesJSTest() throws InvalidBrowserException {
+    public void addExtraCapabilitiesJSTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         // what we expect
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities();
         expectedDesiredCapabilities.setBrowserName("chrome");
@@ -372,7 +355,7 @@ public class CapabilitiesTest {
     }
 
     @Test(expectedExceptions = InvalidBrowserException.class)
-    public void setupDriverNoneTest() throws InvalidBrowserException {
+    public void setupDriverNoneTest() throws InvalidProxyException, InvalidBrowserException, InvalidHubException {
         new Capabilities(new Browser("None")).setupDriver();
         fail("Expected an InvalidBrowserException");
     }

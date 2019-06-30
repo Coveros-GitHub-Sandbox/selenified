@@ -2,9 +2,6 @@ com.coveros.selenified
 com.coveros.selenified.application
 com.coveros.selenified.element
 com.coveros.selenified.element.check
-com.coveros.selenified.element.check.azzert
-com.coveros.selenified.element.check.verify
-com.coveros.selenified.element.check.wait
 com.coveros.selenified.exceptions
 com.coveros.selenified.services
 com.coveros.selenified.utilities

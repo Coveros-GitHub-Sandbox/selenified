@@ -20,15 +20,14 @@
 
 package com.coveros.selenified;
 
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Browser.BrowserUse;
-import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
-import com.coveros.selenified.utilities.Sauce;
-import com.coveros.selenified.utilities.TestCase;
+import com.coveros.selenified.services.HTTP.ContentType;
+import com.coveros.selenified.utilities.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
@@ -36,15 +35,16 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static com.coveros.selenified.Browser.BROWSER_INPUT;
+import static com.coveros.selenified.utilities.Property.APP_URL;
+import static com.coveros.selenified.utilities.Property.BROWSER;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
@@ -62,10 +62,10 @@ import static org.testng.AssertJUnit.assertEquals;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 3/7/2019
+ * @version 3.2.0
+ * @lastupdate 6/28/2019
  */
-@Listeners({com.coveros.selenified.utilities.Listener.class, com.coveros.selenified.utilities.Transformer.class})
+@Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
 
     private static final Logger log = Logger.getLogger(Selenified.class);
@@ -79,37 +79,15 @@ public class Selenified {
     // for individual tests
     private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
     private final ThreadLocal<DesiredCapabilities> desiredCapabilitiesThreadLocal = new ThreadLocal<>();
-    private final ThreadLocal<OutputFile> outputFileThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<Reporter> reporterThreadLocal = new ThreadLocal<>();
     protected final ThreadLocal<App> apps = new ThreadLocal<>();
     protected final ThreadLocal<Call> calls = new ThreadLocal<>();
 
     // constants
     public static final String SESSION_ID = "SessionId";
-    public static final String OUTPUT_FILE = "outputFile";
-    private static final String APP_INPUT = "appURL";
+    public static final String REPORTER = "reporter";
     private static final String INVOCATION_COUNT = "InvocationCount";
     private static final String ERRORS_CHECK = " errors";
-
-    /**
-     * Obtains the application under test, as a URL. If the site was provided as
-     * a system property, that value will override whatever was set in the
-     * particular test suite. If no site was set, null will be returned, which
-     * will causes the tests to error out
-     *
-     * @param clazz   - the test suite class, used for making threadsafe storage of
-     *                application, allowing suites to have independent applications
-     *                under test, run at the same time
-     * @param context - the TestNG context associated with the test suite, used for
-     *                storing app url information
-     * @return String: the URL of the application under test
-     */
-    protected String getTestSite(String clazz, ITestContext context) {
-        if (System.getProperty(APP_INPUT) == null) {
-            return (String) context.getAttribute(clazz + APP_INPUT);
-        } else {
-            return System.getProperty(APP_INPUT);
-        }
-    }
 
     /**
      * Sets the URL of the application under test. If the site was provided as a
@@ -123,10 +101,8 @@ public class Selenified {
      *                storing app url information
      * @param siteURL - the URL of the application under test
      */
-    protected static void setTestSite(Selenified clazz, ITestContext context, String siteURL) {
-        if (System.getProperty(APP_INPUT) == null) {
-            context.setAttribute(clazz.getClass().getName() + APP_INPUT, siteURL);
-        }
+    protected static void setAppURL(Selenified clazz, ITestContext context, String siteURL) {
+        context.setAttribute(clazz.getClass().getName() + APP_URL, siteURL);
     }
 
     /**
@@ -187,6 +163,35 @@ public class Selenified {
         context.setAttribute(clazz.getClass().getName() + "Author", author);
     }
 
+
+    /**
+     * Sets the content type for the web services calls for each instance of the test suite being executed.
+     *
+     * @param clazz   - the test suite class, used for making threadsafe storage of
+     *                application, allowing suites to have independent applications
+     *                under test, run at the same time
+     * @param context - the TestNG context associated with the test suite, used for
+     *                storing app url information
+     * @return ContentType - the contentType we want to set for this particular test suite
+     */
+    protected static ContentType getContentType(String clazz, ITestContext context) {
+        return (ContentType) context.getAttribute(clazz + "ContentType");
+    }
+
+    /**
+     * Sets the content type for the web services calls for each instance of the test suite being executed.
+     *
+     * @param clazz       - the test suite class, used for making threadsafe storage of
+     *                    application, allowing suites to have independent applications
+     *                    under test, run at the same time
+     * @param context     - the TestNG context associated with the test suite, used for
+     *                    storing app url information
+     * @param contentType - what contentType do we want to set for this particular test suite
+     */
+    protected static void setContentType(Selenified clazz, ITestContext context, ContentType contentType) {
+        context.setAttribute(clazz.getClass().getName() + "ContentType", contentType);
+    }
+
     /**
      * Obtains the additional headers of the current test suite being executed. If no additional headers
      * were set, null will be returned
@@ -198,8 +203,8 @@ public class Selenified {
      *                storing app url information
      * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
-    private static Map<String, String> getExtraHeaders(String clazz, ITestContext context) {
-        return (Map<String, String>) context.getAttribute(clazz + "Headers");
+    private static Map<String, Object> getExtraHeaders(String clazz, ITestContext context) {
+        return (Map<String, Object>) context.getAttribute(clazz + "Headers");
     }
 
     /**
@@ -212,7 +217,7 @@ public class Selenified {
      *                storing app url information
      * @param headers - what headers do we want to set for this particular test suite
      */
-    protected static void addHeaders(Selenified clazz, ITestContext context, Map<String, String> headers) {
+    protected static void addHeaders(Selenified clazz, ITestContext context, Map<String, Object> headers) {
         context.setAttribute(clazz.getClass().getName() + "Headers", headers);
     }
 
@@ -322,7 +327,7 @@ public class Selenified {
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
     @BeforeSuite(alwaysRun = true)
-    protected void beforeSuite() throws InvalidBrowserException {
+    protected void beforeSuite() throws InvalidBrowserException, InvalidProxyException {
         MasterSuiteSetupConfigurator.getInstance().doSetup();
     }
 
@@ -340,7 +345,7 @@ public class Selenified {
      *                     be kept here
      */
     @BeforeMethod(alwaysRun = true)
-    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws InvalidBrowserException, MalformedURLException {
+    protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         startTest(dataProvider, method, test, result, BrowserUse.LOAD);
     }
 
@@ -360,7 +365,7 @@ public class Selenified {
      *                     be setup
      */
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result,
-                             BrowserUse selenium) throws InvalidBrowserException, MalformedURLException {
+                             BrowserUse selenium) throws IOException {
         String testName = TestCase.getTestName(method, dataProvider);
         String outputDir = test.getOutputDirectory();
         String extClass = method.getDeclaringClass().getName();
@@ -388,16 +393,16 @@ public class Selenified {
         desiredCapabilities.setCapability("name", testName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
 
-        OutputFile outputFile =
-                new OutputFile(outputDir, testName, capabilities, getTestSite(extClass, test), test.getName(), group,
+        Reporter reporter =
+                new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test), test.getName(), group,
                         getAuthor(extClass, test), getVersion(extClass, test), description);
         if (selenium.useBrowser()) {
-            App app = new App(capabilities, outputFile);
+            App app = new App(capabilities, reporter);
             this.apps.set(app);
-            outputFile.setApp(app);
+            reporter.setApp(app);
             setupScreenSize(app);
             if (selenium.loadPage()) {
-                loadInitialPage(app, getTestSite(extClass, test), outputFile);
+                loadInitialPage(app, Property.getAppURL(extClass, test), reporter);
             }
             if (Sauce.isSauce()) {
                 result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
@@ -405,45 +410,45 @@ public class Selenified {
         } else {
             this.apps.set(null);
         }
-        HTTP http = new HTTP(getTestSite(extClass, test), getServiceUserCredential(extClass, test),
+        HTTP http = new HTTP(reporter, Property.getAppURL(extClass, test), getServiceUserCredential(extClass, test),
                 getServicePassCredential(extClass, test));
-        Call call = new Call(http, outputFile, getExtraHeaders(extClass, test));
+        Call call = new Call(http, getExtraHeaders(extClass, test));
+        if (getContentType(extClass, test) != null) {
+            call.setContentType(getContentType(extClass, test));
+        }
         this.calls.set(call);
 
         this.browserThreadLocal.set(browser);
-        result.setAttribute(BROWSER_INPUT, browser);
-        this.outputFileThreadLocal.set(outputFile);
-        result.setAttribute(OUTPUT_FILE, outputFile);
+        result.setAttribute(BROWSER, browser);
+        this.reporterThreadLocal.set(reporter);
+        result.setAttribute(REPORTER, reporter);
     }
 
     /**
      * Loads the initial app specified by the url, and ensures the app loads
      * successfully
      *
-     * @param app  - the application to be tested, contains all control elements
-     * @param url  - the initial url to load
-     * @param file - the output file to write everything to
+     * @param app      - the application to be tested, contains all control elements
+     * @param url      - the initial url to load
+     * @param reporter - the output file to write everything to
      */
-    private void loadInitialPage(App app, String url, OutputFile file) {
-        String startingPage = "The starting app <i>";
-        String act = "Opening new browser and loading up starting app";
+    private void loadInitialPage(App app, String url, Reporter reporter) {
+        String startingPage = "The initial url of <i>";
+        String act = "Opening new browser and loading up initial url";
         String expected = startingPage + url + "</i> will successfully load";
 
         if (app != null) {
             try {
                 app.getDriver().get(url);
                 if (!app.get().url().contains(url)) {
-                    file.recordStep(act, expected,
-                            startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>",
-                            Success.FAIL);
-                    file.addError();
+                    reporter.fail(act, expected,
+                            startingPage + app.get().url() + "</i> loaded instead of <i>" + url + "</i>");
                     return;
                 }
-                file.recordStep(act, expected, startingPage + url + "</i> loaded successfully", Success.PASS);
+                reporter.pass(act, expected, startingPage + url + "</i> loaded successfully");
             } catch (Exception e) {
                 log.warn(e);
-                file.recordStep(act, expected, startingPage + url + "</i> did not load successfully", Success.FAIL);
-                file.addError();
+                reporter.fail(act, expected, startingPage + url + "</i> did not load successfully");
             }
             app.acceptCertificate();
         }
@@ -482,9 +487,9 @@ public class Selenified {
      * errors were encountered
      */
     protected void finish() {
-        OutputFile outputFile = this.outputFileThreadLocal.get();
-        assertEquals("Detailed results found at: " + outputFile.getFileName(), "0 errors",
-                Integer.toString(outputFile.getErrors()) + ERRORS_CHECK);
+        Reporter reporter = this.reporterThreadLocal.get();
+        assertEquals("Detailed results found at: " + reporter.getFileName(), "0 errors",
+                Integer.toString(reporter.getFails()) + ERRORS_CHECK);
     }
 
     /**
@@ -496,9 +501,9 @@ public class Selenified {
      * @param errors - number of expected errors from the test
      */
     protected void finish(int errors) {
-        OutputFile outputFile = this.outputFileThreadLocal.get();
-        assertEquals("Detailed results found at: " + outputFile.getFileName(), errors + ERRORS_CHECK,
-                Integer.toString(outputFile.getErrors()) + ERRORS_CHECK);
+        Reporter reporter = this.reporterThreadLocal.get();
+        assertEquals("Detailed results found at: " + reporter.getFileName(), errors + ERRORS_CHECK,
+                Integer.toString(reporter.getFails()) + ERRORS_CHECK);
     }
 
     /**
@@ -557,7 +562,7 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        void doSetup() throws InvalidBrowserException {
+        void doSetup() throws InvalidBrowserException, InvalidProxyException {
             if (wasInvoked) {
                 return;
             }
@@ -575,12 +580,8 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        private static void setupTestParameters() throws InvalidBrowserException {
-            if (System.getProperty(BROWSER_INPUT) == null) {
-                System.setProperty(BROWSER_INPUT, BrowserName.HTMLUNIT.toString());
-            }
+        private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException {
             List<Browser> browsers = getBrowserInput();
-
             for (Browser browser : browsers) {
                 Selenified.CAPABILITIES.add(new Capabilities(browser));
             }
@@ -596,11 +597,7 @@ public class Selenified {
          */
         private static List<Browser> getBrowserInput() throws InvalidBrowserException {
             List<Browser> browsers = new ArrayList<>();
-            // null input check
-            if (System.getProperty(BROWSER_INPUT) == null) {
-                return browsers;
-            }
-            String[] browserInput = System.getProperty(BROWSER_INPUT).split(",");
+            String[] browserInput = Property.getBrowser().split(",");
             for (String singleBrowserInput : browserInput) {
                 browsers.add(new Browser(singleBrowserInput));
             }

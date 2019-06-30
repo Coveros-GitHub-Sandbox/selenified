@@ -20,6 +20,10 @@
 
 package com.coveros.selenified.services;
 
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.services.Call.Method;
+import com.coveros.selenified.utilities.Property;
+import com.coveros.selenified.utilities.Reporter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,8 +32,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.testng.log4testng.Logger;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,8 +43,8 @@ import java.util.Map;
  * accessed
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 9/18/2018
+ * @version 3.2.0
+ * @lastupdate 4/4/2019
  */
 public class HTTP {
 
@@ -52,20 +55,39 @@ public class HTTP {
 
     private static final String CONTENT_TYPE = "Content-Type";
 
+    private final Reporter reporter;
     private final String serviceBaseUrl;
     private String user = "";
     private String pass = "";
-    private Map<String, String> extraHeaders = new HashMap<>();
+    private Map<String, Object> extraHeaders = new HashMap<>();
+    private ContentType contentType = ContentType.JSON;
 
-    private String contentType = "application/json; charset=UTF-8";
+    /**
+     * An enum for handling multiple content types. This is specifically only capable for handling json
+     * and formdata currently
+     */
+    public enum ContentType {
+        JSON("application/json; charset=UTF-8"), FORMDATA(MULTIPART + BOUNDARY);
+        private String contentTypeString;
+
+        ContentType(String contentTypeString) {
+            this.contentTypeString = contentTypeString;
+        }
+
+        public String getContentType() {
+            return contentTypeString;
+        }
+    }
 
     /**
      * Instantiates a HTTP session for making web service calls without any
      * authentication
      *
+     * @param reporter       - the output file to write everything to
      * @param serviceBaseUrl - the base url of the services location
      */
-    public HTTP(String serviceBaseUrl) {
+    public HTTP(Reporter reporter, String serviceBaseUrl) {
+        this.reporter = reporter;
         this.serviceBaseUrl = serviceBaseUrl;
     }
 
@@ -73,14 +95,26 @@ public class HTTP {
      * Instantiates a HTTP session for making web service calls with basic
      * username/password authentication
      *
+     * @param reporter       - the output file to write everything to
      * @param serviceBaseUrl - the base url of the services location
      * @param user           - the username required for authentication
      * @param pass           - the password required for authentication
      */
-    public HTTP(String serviceBaseUrl, String user, String pass) {
+    public HTTP(Reporter reporter, String serviceBaseUrl, String user, String pass) {
+        this.reporter = reporter;
         this.serviceBaseUrl = serviceBaseUrl;
         this.user = user;
         this.pass = pass;
+    }
+
+    /**
+     * Sets the content type. Currently only application/json and multipart/form-data are supported, but we
+     * are looking to add support for several other forms in the future
+     *
+     * @param contentType - the content type to set
+     */
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
     }
 
     /**
@@ -89,7 +123,7 @@ public class HTTP {
      *
      * @param headers - the key-value pair of headers to set
      */
-    public void addHeaders(Map<String, String> headers) {
+    public void addHeaders(Map<String, Object> headers) {
         this.extraHeaders.putAll(headers);
     }
 
@@ -98,6 +132,22 @@ public class HTTP {
      */
     public void resetHeaders() {
         this.extraHeaders = new HashMap<>();
+    }
+
+    /**
+     * Builds the headers to be passed in the HTTP call
+     *
+     * @return Map: a mapping of the headers in key to values
+     */
+    public Map<String, Object> getHeaders() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Content-length", "0");
+        map.put(CONTENT_TYPE, contentType.getContentType());
+        map.put("Accept", "application/json");
+        for (Map.Entry<String, Object> entry : extraHeaders.entrySet()) {
+            map.put(entry.getKey(), entry.getValue());
+        }
+        return map;
     }
 
     /**
@@ -110,6 +160,15 @@ public class HTTP {
     public void addCredentials(String user, String pass) {
         this.user = user;
         this.pass = pass;
+    }
+
+    /**
+     * Retrieves the reporter set in the HTTP object, to be used for custom logging
+     *
+     * @return Reporter
+     */
+    public Reporter getReporter() {
+        return reporter;
     }
 
     /**
@@ -159,8 +218,8 @@ public class HTTP {
      *                call
      * @return Response: the response provided from the http call
      */
-    public Response get(String service, Request request) {
-        return call("GET", service, request, null);
+    public Response get(String service, Request request) throws IOException {
+        return call(Method.GET, service, request, null);
     }
 
     /**
@@ -172,11 +231,8 @@ public class HTTP {
      * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response post(String service, Request request, File file) {
-        if (file != null) {
-            this.contentType = MULTIPART + BOUNDARY;
-        }
-        return call("POST", service, request, file);
+    public Response post(String service, Request request, File file) throws IOException {
+        return call(Method.POST, service, request, file);
     }
 
     /**
@@ -188,11 +244,8 @@ public class HTTP {
      * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response put(String service, Request request, File file) {
-        if (file != null) {
-            this.contentType = MULTIPART + BOUNDARY;
-        }
-        return call("PUT", service, request, file);
+    public Response put(String service, Request request, File file) throws IOException {
+        return call(Method.PUT, service, request, file);
     }
 
     /**
@@ -204,11 +257,8 @@ public class HTTP {
      * @param file    - a file to upload, accompanied with the post
      * @return Response: the response provided from the http call
      */
-    public Response delete(String service, Request request, File file) {
-        if (file != null) {
-            this.contentType = MULTIPART + BOUNDARY;
-        }
-        return call("DELETE", service, request, file);
+    public Response delete(String service, Request request, File file) throws IOException {
+        return call(Method.DELETE, service, request, file);
     }
 
     /**
@@ -233,12 +283,14 @@ public class HTTP {
         return params.toString();
     }
 
+    /**
+     * Setups up the header and basic connection information
+     *
+     * @param connection - the connection to add headers to
+     */
     private void setupHeaders(HttpURLConnection connection) {
-        connection.setRequestProperty("Content-length", "0");
-        connection.setRequestProperty(CONTENT_TYPE, contentType);
-        connection.setRequestProperty("Accept", "application/json");
-        for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-            connection.setRequestProperty(entry.getKey(), entry.getValue());
+        for (Map.Entry<String, Object> entry : getHeaders().entrySet()) {
+            connection.setRequestProperty(entry.getKey(), String.valueOf(entry.getValue()));
         }
         connection.setDoOutput(true);
         connection.setDoInput(true);
@@ -249,51 +301,52 @@ public class HTTP {
     /**
      * A basic generic http call
      *
-     * @param call    - what method are we calling
+     * @param method  - what method are we calling
      * @param service - the endpoint of the service under test
      * @param request - the parameters to be passed to the endpoint for the service
      *                call
      * @param file    - is there a file to upload as well
      * @return Response: the response provided from the http call
      */
-    private Response call(String call, String service, Request request, File file) {
-        HttpURLConnection connection = null;
-        try {
-            URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod(call);
-            setupHeaders(connection);
-            if (useCredentials()) {
-                String userpass = user + ":" + pass;
-                String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
-                connection.setRequestProperty("Authorization", "Basic " + encoding);
-            }
-            connection.connect();
-            if ((request != null && request.isPayload()) || file != null) {
-                if (connection.getRequestProperty(CONTENT_TYPE).startsWith("multipart/form-data") ||
-                        (request != null && request.getMultipartData() != null) || file != null) {
-                    writeMultipartDataRequest(connection, request, file);
-                } else if (connection.getRequestProperty(CONTENT_TYPE).startsWith("application/json")) {
-                    writeJsonDataRequest(connection, request);
-                } else {
-                    throw new IOException("Content-Type '" + connection.getRequestProperty(CONTENT_TYPE) +
-                            "' not currently supported by Selenified. Current supported types are " +
-                            "'application/json' and 'multipart/form-data'.");
-                }
-            }
-            return getResponse(connection);
-        } catch (IOException e) {
-            log.error(e);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception e) {
-                    log.error(e);
-                }
+    private Response call(Method method, String service, Request request, File file) throws IOException {
+        URL url = new URL(this.serviceBaseUrl + service + getRequestParams(request));
+        HttpURLConnection connection = getConnection(url);
+        connection.setRequestMethod(method.toString());
+        setupHeaders(connection);
+        if (useCredentials()) {
+            String userpass = user + ":" + pass;
+            String encoding = new String(Base64.encodeBase64(userpass.getBytes()));
+            connection.setRequestProperty("Authorization", "Basic " + encoding);
+        }
+        connection.connect();
+        if ((request != null && request.isPayload()) || file != null) {
+            if (this.contentType == ContentType.FORMDATA) {
+                writeMultipartDataRequest(connection, request, file);
+            } else if (this.contentType == ContentType.JSON) {
+                writeJsonDataRequest(connection, request);
+            } else {
+                throw new InvalidHTTPException("Content-Type '" + connection.getRequestProperty(CONTENT_TYPE) +
+                        "' not currently supported by Selenified. Current supported types are " +
+                        "'application/json' and 'multipart/form-data'.");
             }
         }
-        return null;
+        return getResponse(connection);
+    }
+
+    /**
+     * Opens the URL connection, and if a proxy is provided, uses the proxy to establish the connection
+     *
+     * @param url - the url to connect to
+     * @return HttpURLConnection: our established http connection
+     * @throws IOException: if the connection can't be established, an IOException is thrown
+     */
+    private HttpURLConnection getConnection(URL url) throws IOException {
+        Proxy proxy = Proxy.NO_PROXY;
+        if (Property.isProxySet()) {
+            SocketAddress addr = new InetSocketAddress(Property.getProxyHost(), Property.getProxyPort());
+            proxy = new Proxy(Proxy.Type.HTTP, addr);
+        }
+        return (HttpURLConnection) url.openConnection(proxy);
     }
 
     /**
@@ -305,7 +358,9 @@ public class HTTP {
      */
     private void writeJsonDataRequest(HttpURLConnection connection, Request request) {
         try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream())) {
-            wr.write(request.getJsonPayload().toString());
+            if (request != null && request.getJsonPayload() != null) {
+                wr.write(request.getJsonPayload().toString());
+            }
             wr.flush();
         } catch (IOException e) {
             log.error(e);
@@ -366,16 +421,17 @@ public class HTTP {
     @SuppressWarnings({"squid:S3776", "squid:S2093"})
     private Response getResponse(HttpURLConnection connection) {
         int status;
+        Map headers;
         try {
             status = connection.getResponseCode();
+            headers = connection.getHeaderFields();
         } catch (IOException e) {
             log.error(e);
             return null;
         }
-        Response response = new Response(status);
-        JsonObject object;
-        JsonArray array;
-        String data;
+        JsonObject object = null;
+        JsonArray array = null;
+        String data = null;
         BufferedReader rd = null;
         // unable to use the try-with-resources block, as the rd needs to be read in the finally, and can't be closed
         try {
@@ -404,22 +460,19 @@ public class HTTP {
                     log.error(e);
                 }
                 data = sb.toString();
-                response.setMessage(data);
                 JsonParser parser = new JsonParser();
                 try {
                     object = (JsonObject) parser.parse(data);
-                    response.setObjectData(object);
                 } catch (JsonSyntaxException | ClassCastException e) {
                     log.debug(e);
                     try {
                         array = (JsonArray) parser.parse(data);
-                        response.setArrayData(array);
                     } catch (JsonSyntaxException | ClassCastException ee) {
                         log.debug(ee);
                     }
                 }
             }
         }
-        return response;
+        return new Response(reporter, headers, status, object, array, data);
     }
 }

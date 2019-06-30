@@ -24,10 +24,12 @@ import com.coveros.selenified.Browser;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
-import com.coveros.selenified.OutputFile;
-import com.coveros.selenified.OutputFile.Success;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
+import com.coveros.selenified.utilities.Property;
+import com.coveros.selenified.utilities.Reporter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;
@@ -40,6 +42,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
+import static com.coveros.selenified.utilities.Constants.ENDB;
+
 /**
  * App is an instance of the browser based application that is under test.
  *
@@ -50,15 +54,15 @@ import java.util.Date;
  * elements directly out of your app.
  *
  * @author Max Saperstone
- * @version 3.1.0
- * @lastupdate 3/7/2019
+ * @version 3.2.0
+ * @lastupdate 3/29/2019
  */
 public class App {
 
     private static final Logger log = Logger.getLogger(Capabilities.class);
 
     // this will be the name of the file we write all commands out to
-    private final OutputFile file;
+    private final Reporter reporter;
 
     // what locator actions are available in webdriver
     // this is the driver that will be used for all selenium actions
@@ -95,7 +99,7 @@ public class App {
      * control actions and all logging and records
      *
      * @param capabilities - what browser capabilities are desired
-     * @param file         - the TestOutput file. This is provided by the
+     * @param reporter     - the TestOutput file. This is provided by the
      *                     SeleniumTestBase functionality
      * @throws InvalidBrowserException If a browser that is not one specified in the
      *                                 Selenium.Browser class is used, this exception will be thrown
@@ -103,24 +107,24 @@ public class App {
      *                                 be thrown
      */
     public App(Capabilities capabilities,
-               OutputFile file) throws InvalidBrowserException, MalformedURLException {
+               Reporter reporter) throws InvalidBrowserException, MalformedURLException, InvalidProxyException, InvalidHubException {
         if (capabilities == null) {
             capabilities = new Capabilities(new Browser("None"));
         }
         this.browser = capabilities.getBrowser();
         this.desiredCapabilities = capabilities.getDesiredCapabilities();
-        this.file = file;
+        this.reporter = reporter;
         // if we want to test remotely
-        if (System.getProperty("hub") != null) {
-            driver = new RemoteWebDriver(new URL(System.getProperty("hub") + "/wd/hub"), this.desiredCapabilities);
+        if (Property.isHubSet()) {
+            driver = new RemoteWebDriver(new URL(Property.getHub() + "/wd/hub"), this.desiredCapabilities);
         } else {
             driver = capabilities.setupDriver();
         }
         is = new Is(driver);
         get = new Get(driver);
-        waitFor = new WaitFor(this, file);
-        azzert = new Assert(this, file);
-        verify = new Verify(this, file);
+        waitFor = new WaitFor(this, reporter);
+        azzert = new Assert(this, reporter);
+        verify = new Verify(this, reporter);
     }
 
     /**
@@ -131,7 +135,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator) {
-        return new Element(driver, file, type, locator);
+        return new Element(driver, reporter, type, locator);
     }
 
     /**
@@ -144,7 +148,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, int match) {
-        return new Element(driver, file, type, locator, match);
+        return new Element(driver, reporter, type, locator, match);
     }
 
     /**
@@ -156,7 +160,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, Element parent) {
-        return new Element(driver, file, type, locator, parent);
+        return new Element(driver, reporter, type, locator, parent);
     }
 
     /**
@@ -170,7 +174,7 @@ public class App {
      * @return Element: a page element to interact with
      */
     public Element newElement(Locator type, String locator, int match, Element parent) {
-        return new Element(driver, file, type, locator, match, parent);
+        return new Element(driver, reporter, type, locator, match, parent);
     }
 
     ///////////////////////////////////////////////////////
@@ -257,10 +261,10 @@ public class App {
      * Retrieves the output file responsible for logging all actions and
      * assertions associated with this particular test
      *
-     * @return OutputFile: the file recording all actions
+     * @return Reporter: the file recording all actions
      */
-    public OutputFile getOutputFile() {
-        return file;
+    public Reporter getReporter() {
+        return reporter;
     }
 
     /**
@@ -302,13 +306,11 @@ public class App {
             Thread.sleep((long) (seconds * 1000));
         } catch (InterruptedException e) {
             log.warn(e);
-            file.recordStep(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Failed to wait " + seconds + SECONDS + ". " + e.getMessage());
             Thread.currentThread().interrupt();
             return;
         }
-        file.recordStep(action, expected, WAITED + seconds + SECONDS, Success.PASS);
+        reporter.pass(action, expected, WAITED + seconds + SECONDS);
     }
 
     /**
@@ -324,13 +326,12 @@ public class App {
             driver.get(url);
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, "Fail to Load " + url + ". " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Fail to Load " + url + ". " + e.getMessage());
             return;
         }
         double timeTook = System.currentTimeMillis() - start;
         timeTook = timeTook / 1000;
-        file.recordStep(action, expected, "Loaded " + url + " in " + timeTook + SECONDS, Success.PASS);
+        reporter.pass(action, expected, "Loaded " + url + " in " + timeTook + SECONDS);
         acceptCertificate();
     }
 
@@ -347,9 +348,9 @@ public class App {
         try {
             // take a screenshot
             File srcFile;
-            if (System.getProperty("hub") != null) {
-                WebDriver augemented = new Augmenter().augment(driver);
-                srcFile = ((TakesScreenshot) augemented).getScreenshotAs(OutputType.FILE);
+            if (Property.isHubSet()) {
+                WebDriver augmented = new Augmenter().augment(driver);
+                srcFile = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.FILE);
             } else {
                 srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             }
@@ -369,13 +370,11 @@ public class App {
         try {
             driver.navigate().back();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Browser was unable to go back one page. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Browser was unable to go back one page. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -387,13 +386,11 @@ public class App {
         try {
             driver.navigate().forward();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Browser was unable to go forward one page. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Browser was unable to go forward one page. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -405,13 +402,11 @@ public class App {
         try {
             driver.navigate().refresh();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Browser was unable to be refreshed. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Browser was unable to be refreshed. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -428,12 +423,11 @@ public class App {
             driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.CONTROL, Keys.F5));
             driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.COMMAND, Keys.F5));
         } catch (Exception e) {
-            file.recordStep(action, expected,
-                    "There was a problem clearing the cache and reloading the page. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected,
+                    "There was a problem clearing the cache and reloading the page. " + e.getMessage());
             log.warn(e);
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -456,12 +450,11 @@ public class App {
         try {
             driver.manage().addCookie(cookie);
         } catch (Exception e) {
-            file.recordStep(action, expected, "Unable to add cookie. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to add cookie. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -477,20 +470,17 @@ public class App {
         try {
             Cookie cookie = driver.manage().getCookieNamed(cookieName);
             if (cookie == null) {
-                file.recordStep(action, expected,
-                        "Unable to remove cookie <i>" + cookieName + "</i> as it doesn't exist.", Success.FAIL);
-                file.addError();
+                reporter.fail(action, expected,
+                        "Unable to remove cookie <i>" + cookieName + "</i> as it doesn't exist.");
                 return;
             }
             driver.manage().deleteCookieNamed(cookieName);
         } catch (Exception e) {
-            file.recordStep(action, expected, "Unable to remove cookie <i>" + cookieName + "</i>. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to remove cookie <i>" + cookieName + "</i>. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -503,12 +493,11 @@ public class App {
         try {
             driver.manage().deleteAllCookies();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Unable to remove all cookies. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to remove all cookies. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -521,17 +510,15 @@ public class App {
         try {
             driver.manage().window().maximize();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Browser was unable to be maximized. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Browser was unable to be maximized. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
-     * Resizes the current window to the specified size
+     * Resize the current window to the specified size
      *
      * @param width  - the desired width of the browser
      * @param height - the desired height of the browser
@@ -543,12 +530,11 @@ public class App {
             Dimension dimension = new Dimension(width, height);
             driver.manage().window().setSize(dimension);
         } catch (Exception e) {
-            file.recordStep(action, expected, "Browser was unable to be resized. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Browser was unable to be resized. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -574,17 +560,15 @@ public class App {
 
             newPosition = (Long) jse.executeScript("return window.scrollY;");
         } catch (Exception e) {
-            file.recordStep(action, expected, "Unable to scroll on the page. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to scroll on the page. " + e.getMessage());
             log.warn(e);
             return;
         }
         if (newPosition != desiredPosition) {
-            file.recordStep(action, expected, "Page is set at position " + newPosition, Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Page is set at position " + newPosition);
             return; // indicates page didn't scroll properly
         }
-        file.recordStep(action, expected, "Page is now set at position " + newPosition, Success.PASS);
+        reporter.pass(action, expected, "Page is now set at position " + newPosition);
     }
 
     /**
@@ -599,19 +583,17 @@ public class App {
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("window.open('" + url + "','_blank');");
         } catch (Exception e) {
-            file.recordStep(action, expected, "Unable to open window tab. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to open window tab. " + e.getMessage());
             log.warn(e);
             return;
         }
         switchToNewWindow();
         waitFor().urlEquals(url);
         if (!get().url().equals(url)) {
-            file.recordStep(action, expected, "Unable to open new window to " + url, Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to open new window to " + url);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
         acceptCertificate();
     }
 
@@ -629,13 +611,11 @@ public class App {
                 driver.switchTo().window(winHandle);
             }
         } catch (Exception e) {
-            file.recordStep(action, expected, "New window was unable to be selected. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "New window was unable to be selected. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -649,13 +629,11 @@ public class App {
         try {
             driver.switchTo().window(parentWindow);
         } catch (Exception e) {
-            file.recordStep(action, expected, "Parent window was unable to be selected. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Parent window was unable to be selected. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -670,13 +648,11 @@ public class App {
         try {
             driver.close();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Current window was unable to be closed. " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Current window was unable to be closed. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -690,12 +666,11 @@ public class App {
         try {
             driver.switchTo().defaultContent();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Main window was not selected. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Main window was not selected. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -709,12 +684,11 @@ public class App {
         try {
             driver.switchTo().parentFrame();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Parent frame was not selected. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Parent frame was not selected. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -726,18 +700,16 @@ public class App {
      * @param frameNumber - the frame number, starts at 0
      */
     public void selectFrame(int frameNumber) {
-        String action = "Switching to frame <b>" + frameNumber + "</b>";
+        String action = "Switching to frame <b>" + frameNumber + ENDB;
         String expected = FRAME + frameNumber + AVAILABLE;
         try {
             driver.switchTo().frame(frameNumber);
         } catch (Exception e) {
-            file.recordStep(action, expected, FRAME + frameNumber + NOT_SELECTED + ". " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, FRAME + frameNumber + NOT_SELECTED + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -747,18 +719,16 @@ public class App {
      * @param frameIdentifier - the frame name or ID
      */
     public void selectFrame(String frameIdentifier) {
-        String action = "Switching to frame <b>" + frameIdentifier + "</b>";
+        String action = "Switching to frame <b>" + frameIdentifier + ENDB;
         String expected = FRAME + frameIdentifier + AVAILABLE;
         try {
             driver.switchTo().frame(frameIdentifier);
         } catch (Exception e) {
-            file.recordStep(action, expected, FRAME + frameIdentifier + NOT_SELECTED + ". " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, FRAME + frameIdentifier + NOT_SELECTED + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, expected, Success.PASS);
+        reporter.pass(action, expected, expected);
     }
 
     /**
@@ -777,11 +747,10 @@ public class App {
                         newElement(Locator.ID, "moreInformationDropdownSpan").getWebElement().click();
                     }
                     overrideLink.getWebElement().click();
-                    file.recordStep(action, result, result, Success.PASS);
+                    reporter.pass(action, result, result);
                 } catch (Exception e) {
-                    file.recordStep(action, result, "Unable to click override link. "
-                            + e.getMessage(), Success.FAIL);
-                    file.addError();
+                    reporter.fail(action, result, "Unable to click override link. "
+                            + e.getMessage());
                     log.warn(e);
                 }
             }
@@ -804,13 +773,11 @@ public class App {
             Alert alert = driver.switchTo().alert();
             alert.accept();
         } catch (Exception e) {
-            file.recordStep(action, expected, "Unable to click 'OK' on the " + popup + ". " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to click 'OK' on the " + popup + ". " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, "Clicked 'OK' on the " + popup, Success.PASS);
+        reporter.pass(action, expected, "Clicked 'OK' on the " + popup);
     }
 
     /**
@@ -826,12 +793,10 @@ public class App {
             alert.dismiss();
         } catch (Exception e) {
             log.warn(e);
-            file.recordStep(action, expected, "Unable to click 'Cancel' on the " + popup + ". " + e.getMessage(),
-                    Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to click 'Cancel' on the " + popup + ". " + e.getMessage());
             return;
         }
-        file.recordStep(action, expected, "Clicked 'Cancel' on the " + popup, Success.PASS);
+        reporter.pass(action, expected, "Clicked 'Cancel' on the " + popup);
     }
 
     /**
@@ -849,7 +814,7 @@ public class App {
             waitFor.confirmationPresent();
         }
         if (!is.confirmationPresent()) {
-            file.recordStep(action, expected, "Unable to click confirmation as it is not present", Success.FAIL);
+            reporter.fail(action, expected, "Unable to click confirmation as it is not present");
             return true; // indicates element not present
         }
         return false;
@@ -871,8 +836,7 @@ public class App {
             waitFor.promptPresent();
         }
         if (!is.promptPresent()) {
-            file.recordStep(action, expected, "Unable to " + perform + " prompt as it is not present",
-                    Success.FAIL);
+            reporter.fail(action, expected, "Unable to " + perform + " prompt as it is not present");
             return true; // indicates element not present
         }
         return false;
@@ -889,7 +853,7 @@ public class App {
             waitFor.alertPresent();
         }
         if (!is.alertPresent()) {
-            file.recordStep(action, expected, "Unable to click alert as it is not present", Success.FAIL);
+            reporter.fail(action, expected, "Unable to click alert as it is not present");
             return; // indicates element not present
         }
         accept(action, expected, "alert");
@@ -958,11 +922,10 @@ public class App {
             Alert alert = driver.switchTo().alert();
             alert.sendKeys(text);
         } catch (Exception e) {
-            file.recordStep(action, expected, "Unable to type into prompt. " + e.getMessage(), Success.FAIL);
-            file.addError();
+            reporter.fail(action, expected, "Unable to type into prompt. " + e.getMessage());
             log.warn(e);
             return;
         }
-        file.recordStep(action, expected, "Typed text '" + text + "' into prompt", Success.PASS);
+        reporter.pass(action, expected, "Typed text '" + text + "' into prompt");
     }
 }

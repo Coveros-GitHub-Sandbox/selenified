@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.coveros</groupId>
     <artifactId>selenified</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
 
     <prerequisites>
         <maven>3.0.4</maven>
@@ -42,8 +42,8 @@
         <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
         <maven.surefire.plugin.version>2.21.0</maven.surefire.plugin.version>
         <clirr.maven.plugin.version>2.8</clirr.maven.plugin.version>
-        <dependency.check.maven.version>3.0.2</dependency.check.maven.version>
-        <jacoco.maven.plugin.version>0.7.9</jacoco.maven.plugin.version>
+        <dependency.check.maven.version>5.0.0</dependency.check.maven.version>
+        <jacoco.maven.plugin.version>0.8.3</jacoco.maven.plugin.version>
         <lint.maven.plugin.version>0.0.11</lint.maven.plugin.version>
         <mock.server.version>5.3.0</mock.server.version>
         <nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
@@ -53,8 +53,16 @@
         <sonar.host.url>http://localhost:9000/sonar</sonar.host.url>
         <sonar.sources>src/main/java</sonar.sources>
         <sonar.test>src/test/java</sonar.test>
-        <sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports</sonar.junit.reportPaths>
-        <sonar.jacoco.reportPaths>target/coverage-reports/jacoco-ut.exec,target/coverage-reports/jacoco-it.exec</sonar.jacoco.reportPaths>
+        <sonar.junit.reportPaths>results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/chrome/target/failsafe-reports,results/compatibility/target/failsafe-reports,results/sauce/target/failsafe-reports</sonar.junit.reportPaths>
+        <sonar.jacoco.reportPaths>jacoco-ut.exec,jacoco-it.exec</sonar.jacoco.reportPaths>
+        <sonar.dependencyCheck.reportPath>dependency-check-report.xml</sonar.dependencyCheck.reportPath>
+        <sonar.dependencyCheck.htmlReportPath>dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
+        <sonar.dependencyCheck.severity.blocker>-1</sonar.dependencyCheck.severity.blocker>
+        <sonar.dependencyCheck.severity.critical>-1</sonar.dependencyCheck.severity.critical>
+        <sonar.dependencyCheck.severity.major>-1</sonar.dependencyCheck.severity.major>
+        <sonar.dependencyCheck.severity.minor>-1</sonar.dependencyCheck.severity.minor>
+        <sonar.dependencyCheck.summarize>true</sonar.dependencyCheck.summarize>
+        <sonar.zaproxy.reportPath>results/zap/report.xml</sonar.zaproxy.reportPath>
     </properties>
 
     <name>Selenified Testing Framework</name>
@@ -143,18 +151,24 @@
         </dependency>
 
         <dependency>
-        <!-- ALWAYS required. -->
-        <groupId>com.openhtmltopdf</groupId>
-        <artifactId>openhtmltopdf-core</artifactId>
-        <version>${openhtml.version}</version>
-    </dependency>
+            <!-- ALWAYS required. -->
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-core</artifactId>
+            <version>${openhtml.version}</version>
+        </dependency>
 
-    <dependency>
-        <!-- Required for PDF output. -->
-        <groupId>com.openhtmltopdf</groupId>
-        <artifactId>openhtmltopdf-pdfbox</artifactId>
-        <version>${openhtml.version}</version>
-    </dependency>
+        <dependency>
+            <!-- Required for PDF output. -->
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-pdfbox</artifactId>
+            <version>${openhtml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-guice</artifactId>
+            <version>3.1.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <distributionManagement>
@@ -175,9 +189,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
-                    <!-- Sets the VM argument line used when unit tests are run. -->
-                    <!--suppress UnresolvedMavenProperty -->
-                    <argLine>${surefireArgLine}</argLine>
                     <!-- Skips unit tests if the value of skip.unit.tests property is true -->
                     <skipTests>${skip.unit.tests}</skipTests>
                     <!-- Excludes integration tests when unit tests are run. -->
@@ -255,11 +266,7 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the VM argument line used when integration tests are run. -->
-                            <!--suppress UnresolvedMavenProperty -->
-                            <argLine>${failsafeArgLine}</argLine>
-                            <!-- Skips integration tests if the value of skip.integration.tests
-                                property is true -->
+                            <!-- Skips integration tests if the value of skip.integration.tests property is true -->
                             <skipTests>${skip.integration.tests}</skipTests>
                         </configuration>
                     </execution>
@@ -269,10 +276,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the VM argument line used when integration tests are run. -->
-                            <argLine>${failsafeArgLine}</argLine>
-                            <!-- Skips integration tests if the value of skip.integration.tests
-                                property is true -->
+                            <!-- Skips integration tests if the value of skip.integration.tests property is true -->
                             <skipTests>${skip.integration.tests}</skipTests>
                         </configuration>
                     </execution>
@@ -302,9 +306,6 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo
-                                runtime agent. -->
-                            <propertyName>surefireArgLine</propertyName>
                         </configuration>
                     </execution>
                     <!-- Ensures that the code coverage report for unit tests is created
@@ -334,9 +335,6 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo
-                                runtime agent. -->
-                            <propertyName>failsafeArgLine</propertyName>
                         </configuration>
                     </execution>
                     <!-- Ensures that the code coverage report for integration tests after
@@ -382,6 +380,21 @@
                         sync to Central Repository will follow -->
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency.check.maven.version}</version>
+                <configuration>
+                    <format>ALL</format>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
 
