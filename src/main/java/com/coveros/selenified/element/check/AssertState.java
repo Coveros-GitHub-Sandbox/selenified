@@ -36,7 +36,7 @@ import static org.testng.AssertJUnit.assertTrue;
  * failing tests. State checks that elements are in a particular state.
  *
  * @author Max Saperstone
- * @version 3.2.0
+ * @version 3.2.1
  * @lastupdate 6/25/2019
  */
 public class AssertState extends State {

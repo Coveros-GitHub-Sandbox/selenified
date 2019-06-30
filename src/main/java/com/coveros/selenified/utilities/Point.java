@@ -28,7 +28,7 @@ package com.coveros.selenified.utilities;
  * @param <X>
  * @param <Y>
  * @author Max Saperstone
- * @version 3.2.0
+ * @version 3.2.1
  * @lastupdate 5/13/2018
  */
 public class Point<X, Y> {

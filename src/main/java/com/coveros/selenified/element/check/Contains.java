@@ -37,7 +37,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  * have a particular value associated to them.
  *
  * @author Max Saperstone
- * @version 3.2.0
+ * @version 3.2.1
  * @lastupdate 6/25/2019
  */
 abstract class Contains extends Check {

@@ -58,7 +58,7 @@ import static com.coveros.selenified.utilities.Property.HEADLESS;
  * Assists with Selenified class in setting up proxy, hub, and browser details
  *
  * @author Max Saperstone
- * @version 3.2.0
+ * @version 3.2.1
  * @lastupdate 3/29/2019
  */
 public class Capabilities {

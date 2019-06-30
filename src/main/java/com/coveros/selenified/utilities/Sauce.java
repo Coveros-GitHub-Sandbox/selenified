@@ -28,7 +28,7 @@ import org.testng.log4testng.Logger;
  * Utilities class to interact with sauce labs, retrieving information such as username, key, and test status
  *
  * @author Max Saperstone
- * @version 3.2.0
+ * @version 3.2.1
  * @lastupdate 3/29/2019
  */
 public class Sauce {
