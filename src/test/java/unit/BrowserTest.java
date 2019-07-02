@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class BrowserTest {
+public class BrowserTest extends SaveProperties {
 
     @Test
     public void driverSetupTest() {
@@ -149,6 +149,13 @@ public class BrowserTest {
     }
 
     @Test
+    public void checkBrowserDetailsHeadlessTest() throws InvalidBrowserException {
+        System.setProperty("headless", "true");
+        Browser browser = new Browser("name=Firefox");
+        assertEquals(browser.getDetails(), "Firefox (Headless)");
+    }
+
+    @Test
     public void checkBrowserDetailsVersionTest() throws InvalidBrowserException {
         Browser browser = new Browser("name=Firefox&version=1.0.5");
         assertEquals(browser.getDetails(), "Firefox 1.0.5");
@@ -157,24 +164,49 @@ public class BrowserTest {
     @Test
     public void checkBrowserDetailsPlatformTest() throws InvalidBrowserException {
         Browser browser = new Browser("name=Firefox&platform=Windows 10");
-        assertEquals(browser.getDetails(), "Firefox WIN10");
+        assertEquals(browser.getDetails(), "Firefox on Windows 10");
+    }
+
+    @Test
+    public void checkBrowserDetailsWinPlatformTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&platform=Windows");
+        assertEquals(browser.getDetails(), "Firefox on Windows");
+    }
+
+    @Test
+    public void checkBrowserDetailsMacPlatformTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&platform=MacOS");
+        assertEquals(browser.getDetails(), "Firefox on Mac");
+    }
+
+    @Test
+    public void checkBrowserDetailsMavericksPlatformTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&platform=OS X 10.9");
+        assertEquals(browser.getDetails(), "Firefox on Mavericks");
+    }
+
+    @Test
+    public void checkBrowserDetailsWin8PlatformTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=Firefox&platform=Windows 8");
+        assertEquals(browser.getDetails(), "Firefox on Windows Server 2012");
     }
 
     @Test
     public void checkBrowserDetailsScreensizeTest() throws InvalidBrowserException {
         Browser browser = new Browser("name=Firefox&screensize=100x200");
-        assertEquals(browser.getDetails(), "Firefox 100x200");
+        assertEquals(browser.getDetails(), "Firefox (100x200)");
     }
 
     @Test
     public void checkBrowserDetailsScreensizeMaximumTest() throws InvalidBrowserException {
         Browser browser = new Browser("name=Firefox&screensize=maximum");
-        assertEquals(browser.getDetails(), "Firefox maximum");
+        assertEquals(browser.getDetails(), "Firefox (Maximum)");
     }
 
     @Test
     public void checkBrowserDetailsAllDetailsTest() throws InvalidBrowserException {
-        Browser browser = new Browser("name=Firefox&version=1.0.5&platform=Windows 10&screensize=100x200");
-        assertEquals(browser.getDetails(), "Firefox 1.0.5 WIN10 100x200");
+        System.setProperty("headless", "true");
+        Browser browser = new Browser("name=Safari&version=5&platform=Win7&screensize=600x200");
+        assertEquals(browser.getDetails(), "Safari 5 (600x200 Headless) on Windows Vista");
     }
 }
