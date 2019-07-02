@@ -139,21 +139,21 @@ public class Browser {
         }
         if (getScreensize() != null || Property.runHeadless()) {
             stringBuilder.append(" (");
-            if (getScreensize() != null ) {
+            if (getScreensize() != null) {
                 stringBuilder.append(getScreensize().substring(0, 1).toUpperCase() + getScreensize().substring(1)).append(" ");
             }
-            if(Property.runHeadless() ) {
+            if (Property.runHeadless()) {
                 stringBuilder.append("Headless ");
             }
             stringBuilder.setLength(stringBuilder.length() - 1);
             stringBuilder.append(")");
         }
         if (getPlatform() != null) {
-            String platform = getPlatform().getPartOfOsName()[0];
-            if ( "".equals(platform)) {
-                platform = getPlatform().toString().toLowerCase();
+            String platformName = getPlatform().getPartOfOsName()[0];
+            if ("".equals(platformName)) {
+                platformName = getPlatform().toString().toLowerCase();
             }
-            stringBuilder.append(" on ").append(Reporter.capitalizeFirstLetters(platform));
+            stringBuilder.append(" on ").append(Reporter.capitalizeFirstLetters(platformName));
         }
         return stringBuilder.toString();
     }
