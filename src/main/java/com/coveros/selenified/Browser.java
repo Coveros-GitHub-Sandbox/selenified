@@ -134,19 +134,23 @@ public class Browser {
 
     public String getDetails() {
         StringBuilder stringBuilder = new StringBuilder(Reporter.capitalizeFirstLetters(getName().toString().toLowerCase()));
-        if (getVersion() != null) {
-            stringBuilder.append(" ").append(getVersion());
-        }
-        if (getScreensize() != null || Property.runHeadless()) {
-            stringBuilder.append(" (");
-            if (getScreensize() != null) {
-                stringBuilder.append(getScreensize().substring(0, 1).toUpperCase() + getScreensize().substring(1)).append(" ");
+        if( getName() == BrowserName.NONE) {
+            stringBuilder = new StringBuilder("No Browser Used");
+        } else {
+            if (getVersion() != null) {
+                stringBuilder.append(" ").append(getVersion());
             }
-            if (Property.runHeadless()) {
-                stringBuilder.append("Headless ");
+            if (getScreensize() != null || Property.runHeadless()) {
+                stringBuilder.append(" (");
+                if (getScreensize() != null) {
+                    stringBuilder.append(getScreensize().substring(0, 1).toUpperCase() + getScreensize().substring(1)).append(" ");
+                }
+                if (Property.runHeadless()) {
+                    stringBuilder.append("Headless ");
+                }
+                stringBuilder.setLength(stringBuilder.length() - 1);
+                stringBuilder.append(")");
             }
-            stringBuilder.setLength(stringBuilder.length() - 1);
-            stringBuilder.append(")");
         }
         if (getPlatform() != null) {
             String platformName = getPlatform().getPartOfOsName()[0];
