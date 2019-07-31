@@ -37,12 +37,10 @@ import org.testng.log4testng.Logger;
 public class Is {
 
     private static final Logger log = Logger.getLogger(Is.class);
-
-    // what element are we trying to interact with on the page
-    private final Element element;
-
     // constants
     private static final String SELECT = "select";
+    // what element are we trying to interact with on the page
+    private final Element element;
 
     public Is(Element element) {
         this.element = element;
@@ -77,10 +75,10 @@ public class Is {
     public boolean input() {
         boolean isInput = false;
         try {
-            WebElement webElement = element.getWebElement();
-            if ("input".equalsIgnoreCase(webElement.getTagName()) ||
-                    "textarea".equalsIgnoreCase(webElement.getTagName()) ||
-                    SELECT.equalsIgnoreCase(webElement.getTagName())) {
+            String elementTag = element.get().tagName();
+            if ("input".equalsIgnoreCase(elementTag) ||
+                    "textarea".equalsIgnoreCase(elementTag) ||
+                    SELECT.equalsIgnoreCase(elementTag)) {
                 isInput = true;
             }
         } catch (NoSuchElementException e) {
@@ -97,8 +95,7 @@ public class Is {
     public boolean select() {
         boolean isSelect = false;
         try {
-            WebElement webElement = element.getWebElement();
-            if (SELECT.equalsIgnoreCase(webElement.getTagName())) {
+            if (SELECT.equalsIgnoreCase(element.get().tagName())) {
                 isSelect = true;
             }
         } catch (NoSuchElementException e) {
@@ -115,8 +112,7 @@ public class Is {
     public boolean table() {
         boolean isTable = false;
         try {
-            WebElement webElement = element.getWebElement();
-            if ("table".equalsIgnoreCase(webElement.getTagName())) {
+            if ("table".equalsIgnoreCase(element.get().tagName())) {
                 isTable = true;
             }
         } catch (NoSuchElementException e) {
@@ -192,10 +188,11 @@ public class Is {
     public boolean somethingSelected() {
         boolean isSelected = false;
         if (input()) {
+            String elementTag = element.get().tagName();
             WebElement webElement = element.getWebElement();
-            if ("input".equalsIgnoreCase(webElement.getTagName())) {
+            if ("input".equalsIgnoreCase(elementTag)) {
                 isSelected = webElement.isSelected();
-            } else if (SELECT.equalsIgnoreCase(webElement.getTagName())) {
+            } else if (SELECT.equalsIgnoreCase(elementTag)) {
                 Select dropdown = new Select(webElement);
                 isSelected = !dropdown.getAllSelectedOptions().isEmpty();
             }

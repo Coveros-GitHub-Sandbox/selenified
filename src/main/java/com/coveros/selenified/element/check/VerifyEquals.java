@@ -67,6 +67,16 @@ public class VerifyEquals extends Equals {
     }
 
     /**
+     * Asserts that the element's tag name equals the provided expected tag name. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void tagName(String expectedTagName) {
+        checkTagName(expectedTagName, 0, 0);
+    }
+
+    /**
      * Verifies that the element has a css attribute with a value equal to the
      * value provided. If the element isn't present, or the css doesn't contain
      * the desired attribute, this will constitute a failure, same as a

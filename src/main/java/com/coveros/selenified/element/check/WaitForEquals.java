@@ -49,7 +49,7 @@ public class WaitForEquals extends Equals {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public WaitForEquals(Element element, Reporter reporter) {
@@ -72,6 +72,17 @@ public class WaitForEquals extends Equals {
      */
     public void matches(int expectedMatches) {
         matches(expectedMatches, defaultWait);
+    }
+
+    /**
+     * Waits for the element's tag name equals the provided expected tag name. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. The default wait time will be used and if the element doesn't
+     * have the desired match count at that time, it will fail, and log
+     * the issue with a screenshot for traceability and added debugging support.
+     */
+    public void tagName(String expectedTagName) {
+        tagName(expectedTagName, defaultWait);
     }
 
     /**
@@ -245,6 +256,33 @@ public class WaitForEquals extends Equals {
             checkMatches(expectedMatches, seconds, timeTook);
         } catch (TimeoutException e) {
             checkMatches(expectedMatches, seconds, seconds);
+        }
+    }
+
+    /**
+     * Waits for the element has a tag name with a value equal to the
+     * value provided. If the element isn't present, or the css doesn't contain
+     * the desired attribute, this will constitute a failure, same as a
+     * mismatch. The provided wait time will be used and if the element doesn't
+     * have the desired match count at that time, it will fail, and log
+     * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedTagName - the expected tag name of the passed attribute of the element
+     * @param seconds       - how many seconds to wait for
+     */
+    public void tagName(String expectedTagName, double seconds) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        try {
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> expectedTagName.equals(element.get().tagName()));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            checkTagName(expectedTagName, seconds, timeTook);
+        } catch (TimeoutException e) {
+            checkTagName(expectedTagName, seconds, seconds);
         }
     }
 
