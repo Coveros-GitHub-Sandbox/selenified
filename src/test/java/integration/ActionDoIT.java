@@ -8,11 +8,11 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
 import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
-import com.coveros.selenified.utilities.Point;
 import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Sauce;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.Point;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -1312,9 +1312,9 @@ public class ActionDoIT extends WebBase {
     @Test(groups = {"integration", "action", "do", "draw", "browser"},
             description = "An integration negative test to check the draw method")
     public void drawTest() {
-        List<Point<Integer, Integer>> points = new ArrayList<>();
-        points.add(new Point<>(10, 10));
-        points.add(new Point<>(100, 10));
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(10, 10));
+        points.add(new Point(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1326,12 +1326,12 @@ public class ActionDoIT extends WebBase {
     @Test(groups = {"integration", "action", "do", "draw", "browser"},
             description = "An integration negative test to check the draw method")
     public void drawMultipointTest() {
-        List<Point<Integer, Integer>> points = new ArrayList<>();
-        points.add(new Point<>(10, 10));
-        points.add(new Point<>(100, 0));
-        points.add(new Point<>(0, 100));
-        points.add(new Point<>(-100, 0));
-        points.add(new Point<>(0, -100));
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(10, 10));
+        points.add(new Point(100, 0));
+        points.add(new Point(0, 100));
+        points.add(new Point(-100, 0));
+        points.add(new Point(0, -100));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1343,9 +1343,9 @@ public class ActionDoIT extends WebBase {
     @Test(groups = {"integration", "action", "do", "draw", "browser"},
             description = "An integration test to check the draw method")
     public void drawTestNotCanvas() {
-        List<Point<Integer, Integer>> points = new ArrayList<>();
-        points.add(new Point<>(10, 10));
-        points.add(new Point<>(100, 10));
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(10, 10));
+        points.add(new Point(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1368,9 +1368,9 @@ public class ActionDoIT extends WebBase {
     @Test(groups = {"integration", "action", "do", "draw", "alert"},
             description = "An integration negative test to check the draw method")
     public void drawAlertTest() {
-        List<Point<Integer, Integer>> points = new ArrayList<>();
-        points.add(new Point<>(10, 10));
-        points.add(new Point<>(100, 10));
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(10, 10));
+        points.add(new Point(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1383,9 +1383,9 @@ public class ActionDoIT extends WebBase {
     @Test(groups = {"integration", "action", "draw", "do"},
             description = "An integration negative test to check the draw method")
     public void drawDisabledTest() {
-        List<Point<Integer, Integer>> points = new ArrayList<>();
-        points.add(new Point<>(10, 10));
-        points.add(new Point<>(100, 10));
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(10, 10));
+        points.add(new Point(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1397,9 +1397,9 @@ public class ActionDoIT extends WebBase {
     @Test(groups = {"integration", "action", "do", "draw"},
             description = "An integration negative test to check the draw method")
     public void drawNotExistTest() {
-        List<Point<Integer, Integer>> points = new ArrayList<>();
-        points.add(new Point<>(10, 10));
-        points.add(new Point<>(100, 10));
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(10, 10));
+        points.add(new Point(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -1411,9 +1411,9 @@ public class ActionDoIT extends WebBase {
     @Test(groups = {"integration", "action", "do", "draw"},
             description = "An integration negative test to check the draw method")
     public void drawHiddenTest() {
-        List<Point<Integer, Integer>> points = new ArrayList<>();
-        points.add(new Point<>(10, 10));
-        points.add(new Point<>(100, 10));
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(10, 10));
+        points.add(new Point(100, 10));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions

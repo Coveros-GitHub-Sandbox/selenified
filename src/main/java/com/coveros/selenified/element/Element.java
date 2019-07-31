@@ -23,7 +23,6 @@ package com.coveros.selenified.element;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.check.*;
-import com.coveros.selenified.utilities.Point;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
@@ -1180,7 +1179,7 @@ public class Element {
      * @param points - a list of points to connect. At least one point must be
      *               provided in the list
      */
-    public void draw(List<Point<Integer, Integer>> points) {
+    public void draw(List<Point> points) {
         if (points.isEmpty()) {
             reporter.fail("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
                     "Unable to draw in " + prettyOutput() + " as no points were supplied");
@@ -1188,7 +1187,7 @@ public class Element {
         }
         StringBuilder pointString = new StringBuilder();
         String prefix = "";
-        for (Point<Integer, Integer> point : points) {
+        for (Point point : points) {
             pointString.append(prefix);
             prefix = " to ";
             pointString.append("<i>").append(point.getX()).append("x").append(point.getY()).append("</i>");
@@ -1203,10 +1202,10 @@ public class Element {
             WebElement webElement = getWebElement();
             // do our actions
             Actions builder = new Actions(driver);
-            Point<Integer, Integer> firstPoint = points.get(0);
+            Point firstPoint = points.get(0);
             points.remove(0);
             builder.moveToElement(webElement, firstPoint.getX(), firstPoint.getY()).clickAndHold();
-            for (Point<Integer, Integer> point : points) {
+            for (Point point : points) {
                 builder.moveByOffset(point.getX(), point.getY());
             }
             Action drawAction = builder.release().build();

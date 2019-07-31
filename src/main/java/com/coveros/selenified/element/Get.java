@@ -22,9 +22,7 @@ package com.coveros.selenified.element;
 
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
@@ -57,8 +55,17 @@ public class Get {
         this.element = element;
     }
 
+    /**
+     * Determines if the element is both present and a select.
+     *
+     * @return Boolean: is the element present AND an input
+     */
+    private boolean isNotPresentSelect() {
+        return !element.is().present() || !element.is().select();
+    }
+
     // ////////////////////////////////////
-    // checking element availability
+    // checking element information
     // ////////////////////////////////////
 
     /**
@@ -69,15 +76,6 @@ public class Get {
      */
     public int matchCount() {
         return element.getWebElements().size();
-    }
-
-    /**
-     * Determines if the element is both present and a select.
-     *
-     * @return Boolean: is the element present AND an input
-     */
-    private boolean isNotPresentSelect() {
-        return !element.is().present() || !element.is().select();
     }
 
     /**
@@ -431,5 +429,29 @@ public class Get {
     public String xPath() {
         return (String) eval(
                 "gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();");
+    }
+
+    public Point getLocation() {
+        if (!element.is().present()) {
+            return null;    // returning an empty array could be confused with no rows
+        }
+        WebElement webElement = element.getWebElement();
+        return webElement.getLocation();
+    }
+
+    public Dimension getDimension() {
+        if (!element.is().present()) {
+            return null;    // returning an empty array could be confused with no rows
+        }
+        WebElement webElement = element.getWebElement();
+        return webElement.getSize();
+    }
+
+    public Rectangle getRectangle() {
+        if (!element.is().present()) {
+            return null;    // returning an empty array could be confused with no rows
+        }
+        WebElement webElement = element.getWebElement();
+        return webElement.getRect();
     }
 }
