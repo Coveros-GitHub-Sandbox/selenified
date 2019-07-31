@@ -132,6 +132,12 @@ public class Browser {
         return screensize;
     }
 
+    /**
+     * Retrieves a pretty formatted browser name, including version and platform. If headless or
+     * screensizes are indicated, they are also displayed. If no browser is used, that will be
+     * stated, and platform will be appended
+     * @return String: the friendly string of the device capabilities
+     */
     public String getDetails() {
         StringBuilder stringBuilder = new StringBuilder(Reporter.capitalizeFirstLetters(getName().toString().toLowerCase()));
         if( getName() == BrowserName.NONE) {
@@ -140,17 +146,7 @@ public class Browser {
             if (getVersion() != null) {
                 stringBuilder.append(" ").append(getVersion());
             }
-            if (getScreensize() != null || Property.runHeadless()) {
-                stringBuilder.append(" (");
-                if (getScreensize() != null) {
-                    stringBuilder.append(getScreensize().substring(0, 1).toUpperCase() + getScreensize().substring(1)).append(" ");
-                }
-                if (Property.runHeadless()) {
-                    stringBuilder.append("Headless ");
-                }
-                stringBuilder.setLength(stringBuilder.length() - 1);
-                stringBuilder.append(")");
-            }
+            getScreenDetails(stringBuilder);
         }
         if (getPlatform() != null) {
             String platformName = getPlatform().getPartOfOsName()[0];
@@ -160,6 +156,20 @@ public class Browser {
             stringBuilder.append(" on ").append(Reporter.capitalizeFirstLetters(platformName));
         }
         return stringBuilder.toString();
+    }
+
+    private void getScreenDetails(StringBuilder stringBuilder) {
+        if (getScreensize() != null || Property.runHeadless()) {
+            stringBuilder.append(" (");
+            if (getScreensize() != null) {
+                stringBuilder.append(getScreensize().substring(0, 1).toUpperCase() + getScreensize().substring(1)).append(" ");
+            }
+            if (Property.runHeadless()) {
+                stringBuilder.append("Headless ");
+            }
+            stringBuilder.setLength(stringBuilder.length() - 1);
+            stringBuilder.append(")");
+        }
     }
 
     /**
