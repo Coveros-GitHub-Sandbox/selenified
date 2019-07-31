@@ -21,6 +21,7 @@
 package com.coveros.selenified;
 
 import com.coveros.selenified.exceptions.InvalidBrowserException;
+import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.Platform;
 
@@ -136,11 +137,23 @@ public class Browser {
         if (getVersion() != null) {
             stringBuilder.append(" ").append(getVersion());
         }
-        if (getPlatform() != null) {
-            stringBuilder.append(" ").append(getPlatform());
+        if (getScreensize() != null || Property.runHeadless()) {
+            stringBuilder.append(" (");
+            if (getScreensize() != null) {
+                stringBuilder.append(getScreensize().substring(0, 1).toUpperCase() + getScreensize().substring(1)).append(" ");
+            }
+            if (Property.runHeadless()) {
+                stringBuilder.append("Headless ");
+            }
+            stringBuilder.setLength(stringBuilder.length() - 1);
+            stringBuilder.append(")");
         }
-        if (getScreensize() != null) {
-            stringBuilder.append(" ").append(getScreensize());
+        if (getPlatform() != null) {
+            String platformName = getPlatform().getPartOfOsName()[0];
+            if ("".equals(platformName)) {
+                platformName = getPlatform().toString().toLowerCase();
+            }
+            stringBuilder.append(" on ").append(Reporter.capitalizeFirstLetters(platformName));
         }
         return stringBuilder.toString();
     }
