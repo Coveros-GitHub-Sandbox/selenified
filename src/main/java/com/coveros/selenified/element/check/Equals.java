@@ -83,6 +83,37 @@ abstract class Equals extends Check {
     }
 
     /**
+     * Checks that the element's tag name equals the provided expected tag name. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    abstract void tagName(String expectedTagName);
+
+    /**
+     * Checks that the element's tag name equals the provided expected tag name. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedTagName - the full expected tag name
+     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual tag name of the element. null will be returned if the element isn't present
+     */
+    String checkTagName(String expectedTagName, double waitFor, double timeTook) {
+        // get the actual class value
+        String actualTagName = this.element.get().tagName();
+        // record the result
+        if (expectedTagName == null ? actualTagName != null : !expectedTagName.equals(actualTagName)) {
+            this.reporter.fail(this.element.prettyOutput() + " with tag name <b>" + expectedTagName + ENDB, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + actualTagName + ENDB, timeTook);
+        } else {
+            this.reporter.pass(this.element.prettyOutput() + " with tag name <b>" + expectedTagName + ENDB, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + expectedTagName + ENDB, timeTook);
+        }
+        return actualTagName;
+    }
+
+    /**
      * Checks that the element has a css attribute with a value equal to the
      * value provided. If the element isn't present, or the css doesn't contain
      * the desired attribute, this will constitute a failure, same as a

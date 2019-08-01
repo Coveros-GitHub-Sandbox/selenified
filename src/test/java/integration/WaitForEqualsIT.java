@@ -548,7 +548,7 @@ public class WaitForEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "wait", "equals"},
             description = "An integration negative test to check the compareSelectedValue method")
-    public void negativeCompareSelectedValueNotInputTest() throws Exception {
+    public void negativeCompareSelectedValueNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -676,6 +676,50 @@ public class WaitForEqualsIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "no_such_element").waitForEquals().selectedOption("wrong value", 1);
         // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "An integration test to check the assert tag name method")
+    public void compareTagNameTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]").waitForEquals().tagName("td");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "A negative integration test to check the tag name method")
+    public void negativeCompareTagNameTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").waitForEquals().tagName("td");
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "A negative integration test to check the tag name method")
+    public void compareTagNameDelayedTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "tag_switch").waitForEquals().tagName("span", 5);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "wait", "equals"},
+            description = "An integration test to check the tag name method")
+    public void negativeCompareTagNameNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").waitForEquals().tagName("input");
+        // verify one issue
         finish(1);
     }
 }

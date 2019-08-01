@@ -476,12 +476,45 @@ public class AssertEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "assert", "equals"},
             description = "An integration negative test to check the compareSelectedValue method", expectedExceptions = AssertionError.class)
-    public void negativeCompareSelectedValueNotInputTest() throws Exception {
+    public void negativeCompareSelectedValueNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "table").assertEquals().selectedValue("wrong value");
         // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the assert tag name method")
+    public void compareTagNameTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]").assertEquals().tagName("td");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "A negative integration test to check the tag name method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTagNameTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().tagName("td");
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the tag name method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTagNameNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").assertEquals().tagName("input");
+        // verify one issue
         finish(1);
     }
 
