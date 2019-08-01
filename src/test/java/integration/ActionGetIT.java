@@ -7,6 +7,9 @@ import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
 import com.coveros.selenified.utilities.Property;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
@@ -1075,6 +1078,72 @@ public class ActionGetIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         assertEquals(app.newElement(Locator.TAGNAME, "tr").get().xPath(), "id(\"align_table\")/tbody[1]/tr[1]");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get"},
+            description = "An integration test to check the get location method")
+    public void getElementLocationTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertEquals(app.newElement(Locator.ID, "fixed_element").get().location(), new Point(5,5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get"},
+            description = "An integration negative test to check the get location method")
+    public void getElementLocationNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertNull(app.newElement(Locator.ID, "non-existent-name").get().location());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get"},
+            description = "An integration test to check the get dimension method")
+    public void getElementDimensionTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertEquals(app.newElement(Locator.ID, "fixed_element").get().size(), new Dimension(5, 5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get"},
+            description = "An integration negative test to check the get dimension method")
+    public void getElementDimensionNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertNull(app.newElement(Locator.ID, "non-existent-name").get().size());
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get"},
+            description = "An integration test to check the get rectangle method")
+    public void getElementRectangleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertEquals(app.newElement(Locator.ID, "fixed_element").get().rectangle(), new Rectangle(5, 5, 5, 5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get"},
+            description = "An integration negative test to check the get rectangle method")
+    public void getElementRectangleNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertNull(app.newElement(Locator.ID, "non-existent-name").get().rectangle());
         // verify no issues
         finish();
     }

@@ -431,7 +431,7 @@ public class Get {
                 "gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();");
     }
 
-    public Point getLocation() {
+    public Point location() {
         if (!element.is().present()) {
             return null;    // returning an empty array could be confused with no rows
         }
@@ -439,7 +439,7 @@ public class Get {
         return webElement.getLocation();
     }
 
-    public Dimension getDimension() {
+    public Dimension size() {
         if (!element.is().present()) {
             return null;    // returning an empty array could be confused with no rows
         }
@@ -447,7 +447,7 @@ public class Get {
         return webElement.getSize();
     }
 
-    public Rectangle getRectangle() {
+    public Rectangle rectangle() {
         if (!element.is().present()) {
             return null;    // returning an empty array could be confused with no rows
         }

@@ -1105,8 +1105,7 @@ public class Element {
      * @param expected - what is the expected outcome of said action
      */
     private void isScrolledTo(String action, String expected) {
-        WebElement webElement = getWebElement();
-        long elementPosition = webElement.getLocation().getY();
+        long elementPosition = get().location().getY();
         JavascriptExecutor js = (JavascriptExecutor) driver;
         int scrollHeight = ((Number) js.executeScript("return document.documentElement.scrollTop || document.body.scrollTop;")).intValue();
         int viewportHeight = ((Number) js.executeScript("return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);")).intValue();
@@ -1161,8 +1160,7 @@ public class Element {
             }
             // perform the move action
             JavascriptExecutor jse = (JavascriptExecutor) driver;
-            WebElement webElement = getWebElement();
-            long elementPosition = webElement.getLocation().getY();
+            long elementPosition = get().location().getY();
             long newPosition = elementPosition - position;
             jse.executeScript("window.scrollBy(0, " + newPosition + ")");
         } catch (Exception e) {
@@ -1255,20 +1253,15 @@ public class Element {
      * @return String the location of the screenshot
      */
     private String getScreenshot() {
-        WebElement webElement = getWebElement();
         String imageLink = "<b><font class='fail'>No Image Preview</font></b>";
         // capture an image of it
         try {
             imageLink = reporter.captureEntirePageScreenshot();
             File image = new File(reporter.getDirectory(), imageLink.split("\"")[1]);
             BufferedImage fullImg = ImageIO.read(image);
-            // Get the location of element on the page
-            org.openqa.selenium.Point point = webElement.getLocation();
-            // Get width and height of the element
-            int eleWidth = webElement.getSize().getWidth();
-            int eleHeight = webElement.getSize().getHeight();
+            Rectangle rectangle = get().rectangle();
             // Crop the entire page screenshot to get only element screenshot
-            BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
+            BufferedImage eleScreenshot = fullImg.getSubimage(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
             ImageIO.write(eleScreenshot, "png", image);
         } catch (WebDriverException | RasterFormatException | IOException e) {
             log.error(e);
