@@ -81,7 +81,7 @@ public class AssertEquals extends Equals {
     public void tagName(String expectedTagName) {
         String tagName = checkTagName(expectedTagName, 0, 0);
         assertNotNull(NO_ELEMENT_FOUND, tagName);
-        assertEquals("Text Mismatch", expectedTagName, tagName);
+        assertEquals("Tag Name Mismatch", expectedTagName, tagName);
     }
 
     /**
