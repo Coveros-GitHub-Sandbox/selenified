@@ -132,11 +132,33 @@ public class Browser {
         return screensize;
     }
 
+    /**
+     * Retrieves a pretty formatted browser name, including version and platform. If headless or
+     * screensizes are indicated, they are also displayed. If no browser is used, that will be
+     * stated, and platform will be appended
+     * @return String: the friendly string of the device capabilities
+     */
     public String getDetails() {
         StringBuilder stringBuilder = new StringBuilder(Reporter.capitalizeFirstLetters(getName().toString().toLowerCase()));
-        if (getVersion() != null) {
-            stringBuilder.append(" ").append(getVersion());
+        if( getName() == BrowserName.NONE) {
+            stringBuilder = new StringBuilder("No Browser Used");
+        } else {
+            if (getVersion() != null) {
+                stringBuilder.append(" ").append(getVersion());
+            }
+            getScreenDetails(stringBuilder);
         }
+        if (getPlatform() != null) {
+            String platformName = getPlatform().getPartOfOsName()[0];
+            if ("".equals(platformName)) {
+                platformName = getPlatform().toString().toLowerCase();
+            }
+            stringBuilder.append(" on ").append(Reporter.capitalizeFirstLetters(platformName));
+        }
+        return stringBuilder.toString();
+    }
+
+    private void getScreenDetails(StringBuilder stringBuilder) {
         if (getScreensize() != null || Property.runHeadless()) {
             stringBuilder.append(" (");
             if (getScreensize() != null) {
@@ -148,14 +170,6 @@ public class Browser {
             stringBuilder.setLength(stringBuilder.length() - 1);
             stringBuilder.append(")");
         }
-        if (getPlatform() != null) {
-            String platformName = getPlatform().getPartOfOsName()[0];
-            if ("".equals(platformName)) {
-                platformName = getPlatform().toString().toLowerCase();
-            }
-            stringBuilder.append(" on ").append(Reporter.capitalizeFirstLetters(platformName));
-        }
-        return stringBuilder.toString();
     }
 
     /**

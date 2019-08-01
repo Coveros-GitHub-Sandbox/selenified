@@ -209,4 +209,18 @@ public class BrowserTest extends SaveProperties {
         Browser browser = new Browser("name=Safari&version=5&platform=Win7&screensize=600x200");
         assertEquals(browser.getDetails(), "Safari 5 (600x200 Headless) on Windows Vista");
     }
+
+
+    @Test
+    public void checkBrowserDetailsNoBrowserTest() throws InvalidBrowserException {
+        Browser browser = new Browser("name=None");
+        assertEquals(browser.getDetails(), "No Browser Used");
+    }
+
+    @Test
+    public void checkBrowserDetailsNoBrowserDetailsTest() throws InvalidBrowserException {
+        System.setProperty("headless", "true");
+        Browser browser = new Browser("name=None&version=5&platform=Win7&screensize=600x200");
+        assertEquals(browser.getDetails(), "No Browser Used on Windows Vista");
+    }
 }
