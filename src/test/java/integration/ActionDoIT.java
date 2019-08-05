@@ -1328,10 +1328,10 @@ public class ActionDoIT extends WebBase {
     public void drawMultipointTest() {
         List<Point> points = new ArrayList<>();
         points.add(new Point(10, 10));
-        points.add(new Point(100, 0));
-        points.add(new Point(0, 100));
-        points.add(new Point(-100, 0));
-        points.add(new Point(0, -100));
+        points.add(new Point(50, 0));
+        points.add(new Point(0, 50));
+        points.add(new Point(-50, 0));
+        points.add(new Point(0, -50));
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
