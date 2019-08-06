@@ -21,6 +21,7 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
+import org.apache.commons.lang3.StringUtils;
 import org.testng.ISuite;
 import org.testng.ITestResult;
 import org.testng.internal.Utils;
@@ -259,11 +260,18 @@ public class ReportOverview extends EmailableReporter2 {
                 link += " " + LINK_START + getReportDir(iTestResult) + "/" + pdfFilename + LINK_MIDDLE + "PDF Report" + LINK_END;
             }
         }
+        String failure = "";
+        if (!"Pass".equals(status) && iTestResult.getThrowable() != null) {
+            String messageId = TestCase.getRandomString(10);
+            String message = iTestResult.getThrowable().getMessage() != null ? iTestResult.getThrowable().getMessage() : iTestResult.getThrowable().getCause().toString();
+            failure = ": <a data-toggle='collapse' href='#" + messageId + "' role='button' aria-expanded='false' aria-controls='" + messageId + "'>" + message + "</a>";
+            failure += "<div style='padding-left:20px; font-size:small;' class='collapse' id='" + messageId + "'>" + StringUtils.join(iTestResult.getThrowable().getStackTrace(), "<br/>") + "</div>";
+        }
         writer.print("<tr class='" + cssClass + "'>");
         cell(browser.getDetails());
         cell(Utils.escapeHtml(className));
         cell(Utils.escapeHtml(Reporter.capitalizeFirstLetters(iTestResult.getName())));
-        cell(status);
+        cell(status + failure);
         cell(link);
         writer.println(TR);
     }
