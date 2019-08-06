@@ -1111,7 +1111,7 @@ public class ActionGetIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        assertEquals(app.newElement(Locator.ID, "fixed_element").get().location(), new Point(5,5));
+        assertEquals(app.newElement(Locator.ID, "fixed_element").get().location(), new Point(5, 5));
         // verify no issues
         finish();
     }

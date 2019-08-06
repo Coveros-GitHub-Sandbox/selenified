@@ -76,7 +76,9 @@ public class Constants {
     public static final String ELEMENT_NOT_PRESENT = "Element not present";
     public static final String ELEMENT_NOT_SELECT = "Element not select";
     public static final String ELEMENT_NOT_TABLE = "Element not table";
+    public static final String CELL_OUT_OF_BOUNDS = "Cell out of bounds";
     public static final String CONTAINS = "' contains '";
+    public static final String HAS_ATTRIBUTE = " has the attribute of <i>";
     public static final String DOES_NOT_MATCH_PATTERN = "' doesn't match pattern '";
     public static final String DOES_NOT_CONTAIN = "' doesn't contain '";
     public static final String EXPECTED_ELEMENT_NOT_PRESENT = "Expected Element Not Present";

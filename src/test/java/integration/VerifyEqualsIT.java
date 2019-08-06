@@ -3,6 +3,9 @@ package integration;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.testng.annotations.Test;
 
 public class VerifyEqualsIT extends WebBase {
@@ -170,6 +173,18 @@ public class VerifyEqualsIT extends WebBase {
         app.newElement(Locator.ID, "table").verifyEquals().text(2, 2, "Francisco Chang");
         // verify no issues
         finish();
+    }
+
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellTextOutOfBoundsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table", 0).assertEquals().text(99, 99, "Bad-Value");
+        // verify 1 issue
+        finish(1);
     }
 
     @Test(groups = {"integration", "verify", "equals"},
@@ -580,6 +595,105 @@ public class VerifyEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existant-id").verifyEquals().tagName("input");
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "An integration test to check the verify location method")
+    public void compareLocationTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "fixed_element").verifyEquals().location(new Point(5, 5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "A negative integration test to check the location method")
+    public void negativeCompareLocationTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").verifyEquals().location(new Point(5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "An integration test to check the location method")
+    public void negativeCompareLocationNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").verifyEquals().location(new Point(5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "An integration test to check the verify size method")
+    public void compareSizeTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "fixed_element").verifyEquals().size(new Dimension(5, 5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "A negative integration test to check the size method")
+    public void negativeCompareSizeTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").verifyEquals().size(new Dimension(5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "An integration test to check the size method")
+    public void negativeCompareSizeNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").verifyEquals().size(new Dimension(5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "An integration test to check the verify tag name method")
+    public void compareRectangleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "fixed_element").verifyEquals().rectangle(new Rectangle(5, 5, 5, 5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "A negative integration test to check the rectangle method")
+    public void negativeCompareRectangleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").verifyEquals().rectangle(new Rectangle(5, 5, 5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "An integration test to check the rectangle method")
+    public void negativeCompareRectangleNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").verifyEquals().rectangle(new Rectangle(5, 5, 5, 5));
         // verify one issue
         finish(1);
     }

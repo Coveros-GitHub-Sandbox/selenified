@@ -29,8 +29,7 @@ import org.openqa.selenium.Rectangle;
 
 import java.util.Arrays;
 
-import static com.coveros.selenified.utilities.Constants.ELEMENT_NOT_SELECT;
-import static com.coveros.selenified.utilities.Constants.NO_ELEMENT_FOUND;
+import static com.coveros.selenified.utilities.Constants.*;
 import static org.testng.AssertJUnit.*;
 
 /**
@@ -205,8 +204,10 @@ public class AssertEquals extends Equals {
     public void text(int row, int col, String expectedText) {
         String text = checkText(row, col, expectedText, 0, 0);
         String reason = NO_ELEMENT_FOUND;
-        if (text == null && this.element.is().present()) {
-            reason = "Element not table";
+        if (text == null && this.element.is().present() && this.element.is().table()) {
+            reason = CELL_OUT_OF_BOUNDS;
+        } else if (text == null && this.element.is().present()) {
+            reason = ELEMENT_NOT_TABLE;
         }
         assertNotNull(reason, text);
         assertEquals("Text Mismatch", expectedText, text);

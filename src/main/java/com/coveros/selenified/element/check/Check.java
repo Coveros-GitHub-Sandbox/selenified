@@ -181,6 +181,14 @@ abstract class Check {
         return (isPresent(check, waitFor) && isTable(check, waitFor));
     }
 
+    boolean doesCellExist(int row, int col, String check, double waitFor) {
+        if (this.element.get().tableCell(row, col) == null) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " doesn't exist. These cell coordinates are out of bounds", waitFor);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Performs a simple check for the element to be present. The provided wait time will be used
      * and the total time the action took will be returned. Nohing will be logged, but this will

@@ -314,7 +314,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedTagName.equals(element.get().tagName()));
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().tagName().equals(expectedTagName));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkTagName(expectedTagName, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -341,7 +341,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedLocation.equals(element.get().location()));
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().location().equals(expectedLocation));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkLocation(expectedLocation, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -368,8 +368,8 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedSize.equals(element.get().size()));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().size().equals(expectedSize));
             checkSize(expectedSize, seconds, timeTook);
         } catch (TimeoutException e) {
             checkSize(expectedSize, seconds, seconds);
@@ -395,7 +395,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedRectangle.equals(element.get().rectangle()));
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().rectangle().equals(expectedRectangle));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkRectangle(expectedRectangle, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -423,7 +423,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedValue.equals(element.get().css(attribute)));
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedValue == null ? element.get().css(attribute) == null : expectedValue.equals(element.get().css(attribute))));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkCssValue(attribute, expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -477,7 +477,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedValue.equals(element.get().attribute(attribute)));
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedValue == null ? element.get().attribute(attribute) == null : expectedValue.equals(element.get().attribute(attribute))));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkAttribute(attribute, expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -535,6 +535,9 @@ public class WaitForEquals extends Equals {
             }
             if (!element.is().table()) {
                 throw new TimeoutException(ELEMENT_NOT_TABLE);
+            }
+            if (element.get().tableCell(row, col) == null) {
+                throw new TimeoutException(CELL_OUT_OF_BOUNDS);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
             wait.until((ExpectedCondition<Boolean>) d -> element.get().tableCell(row, col).get().text().equals(expectedText));

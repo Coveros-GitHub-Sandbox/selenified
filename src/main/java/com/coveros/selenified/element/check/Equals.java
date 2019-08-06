@@ -20,7 +20,6 @@
 
 package com.coveros.selenified.element.check;
 
-import org.mozilla.javascript.tools.debugger.Dim;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
@@ -45,6 +44,13 @@ import static com.coveros.selenified.utilities.Constants.*;
 abstract class Equals extends Check {
 
     private static final String WITH_VALUE = " with a value of <b>";
+
+    private String getString(Object object) {
+        if (object == null) {
+            return "null";
+        }
+        return object.toString();
+    }
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -133,8 +139,8 @@ abstract class Equals extends Check {
      * for traceability and added debugging support.
      *
      * @param expectedLocation - the full expected tag name
-     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor          - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook         - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     Point checkLocation(Point expectedLocation, double waitFor, double timeTook) {
@@ -142,9 +148,9 @@ abstract class Equals extends Check {
         Point actualLocation = this.element.get().location();
         // record the result
         if (expectedLocation == null ? actualLocation != null : !expectedLocation.equals(actualLocation)) {
-            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + expectedLocation.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + actualLocation.toString() + ENDB, timeTook);
+            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + getString(expectedLocation) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualLocation) + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + expectedLocation.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + expectedLocation.toString() + ENDB, timeTook);
+            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + getString(expectedLocation) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedLocation) + ENDB, timeTook);
         }
         return actualLocation;
     }
@@ -164,8 +170,8 @@ abstract class Equals extends Check {
      * for traceability and added debugging support.
      *
      * @param expectedSize - the full expected tag name
-     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor      - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook     - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     Dimension checkSize(Dimension expectedSize, double waitFor, double timeTook) {
@@ -173,9 +179,9 @@ abstract class Equals extends Check {
         Dimension actualSize = this.element.get().size();
         // record the result
         if (expectedSize == null ? actualSize != null : !expectedSize.equals(actualSize)) {
-            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + expectedSize.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + actualSize.toString() + ENDB, timeTook);
+            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + getString(expectedSize) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualSize) + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + expectedSize.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + expectedSize.toString() + ENDB, timeTook);
+            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + getString(expectedSize) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedSize) + ENDB, timeTook);
         }
         return actualSize;
     }
@@ -195,8 +201,8 @@ abstract class Equals extends Check {
      * for traceability and added debugging support.
      *
      * @param expectedRectangle - the full expected tag name
-     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @param waitFor           - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook          - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     Rectangle checkRectangle(Rectangle expectedRectangle, double waitFor, double timeTook) {
@@ -204,9 +210,9 @@ abstract class Equals extends Check {
         Rectangle actualRectangle = this.element.get().rectangle();
         // record the result
         if (expectedRectangle == null ? actualRectangle != null : !expectedRectangle.equals(actualRectangle)) {
-            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + expectedRectangle.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + actualRectangle.toString() + ENDB, timeTook);
+            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + getString(expectedRectangle) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualRectangle) + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + expectedRectangle.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + expectedRectangle.toString() + ENDB, timeTook);
+            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + getString(expectedRectangle) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedRectangle) + ENDB, timeTook);
         }
         return actualRectangle;
     }
@@ -230,32 +236,32 @@ abstract class Equals extends Check {
      * mismatch. This information will be logged and recorded, with a screenshot
      * for traceability and added debugging support.
      *
-     * @param attribute     - the css attribute to be checked
-     * @param expectedValue the expected css value of the passed attribute of the element
-     * @param waitFor       - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @param timeTook      - the amount of time it took for wait for something (assuming we had to wait)
+     * @param attribute        - the css attribute to be checked
+     * @param expectedCssValue the expected css value of the passed attribute of the element
+     * @param waitFor          - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook         - the amount of time it took for wait for something (assuming we had to wait)
      * @return String: the css value of the attribute passed in. null will be returned if the element's css isn't accessible
      */
-    String checkCssValue(String attribute, String expectedValue, double waitFor, double timeTook) {
+    String checkCssValue(String attribute, String expectedCssValue, double waitFor, double timeTook) {
         String havingCssAttribute = " having a css attribute of <i>";
         // get the actual css element value
-        String elementCssValue = this.element.get().css(attribute);
+        String actualCssValue = this.element.get().css(attribute);
         // record the result
-        if (elementCssValue == null) {
+        if (actualCssValue == null && this.element.is().present()) {
             this.reporter.fail(this.element.prettyOutput() + havingCssAttribute + attribute +
-                    "</i>" + WITH_VALUE + expectedValue + ENDB, waitFor, "Unable to assess the css of " + this.element.prettyOutputEnd().trim(), timeTook);
-        } else if (!expectedValue.equals(elementCssValue)) {
+                    "</i>" + WITH_VALUE + expectedCssValue + ENDB, waitFor, "Unable to assess the css of " + this.element.prettyOutputEnd().trim(), timeTook);
+        } else if (expectedCssValue == null ? actualCssValue != null : !expectedCssValue.equals(actualCssValue)) {
             this.reporter.fail(this.element.prettyOutput() + havingCssAttribute + attribute +
-                            "</i>" + WITH_VALUE + expectedValue + ENDB, waitFor,
-                    this.element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + elementCssValue +
+                            "</i>" + WITH_VALUE + expectedCssValue + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + actualCssValue +
                             ENDB, timeTook);
         } else {
             this.reporter.pass(this.element.prettyOutput() + havingCssAttribute + attribute +
-                            "</i>" + WITH_VALUE + expectedValue + ENDB, waitFor,
-                    this.element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + elementCssValue +
+                            "</i>" + WITH_VALUE + expectedCssValue + ENDB, waitFor,
+                    this.element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + actualCssValue +
                             ENDB, timeTook);
         }
-        return elementCssValue;
+        return actualCssValue;
     }
 
     /**
@@ -283,7 +289,10 @@ abstract class Equals extends Check {
         // get the actual class value
         String actualClass = this.element.get().attribute(CLASS);
         // record the result
-        if (expectedClass == null ? actualClass != null : !expectedClass.equals(actualClass)) {
+        if (actualClass == null && this.element.is().present()) {
+            this.reporter.fail(this.element.prettyOutput() + "has the class of <i>" +
+                    "</i>" + WITH_VALUE + expectedClass + ENDB, waitFor, "Unable to assess the class of " + this.element.prettyOutputEnd().trim(), timeTook);
+        } else if (expectedClass == null ? actualClass != null : !expectedClass.equals(actualClass)) {
             this.reporter.fail(this.element.prettyOutput() + " with class <b>" + expectedClass + ENDB, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + ENDB, timeTook);
         } else {
             this.reporter.pass(this.element.prettyOutput() + " with class <b>" + expectedClass + ENDB, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + expectedClass + ENDB, timeTook);
@@ -321,10 +330,10 @@ abstract class Equals extends Check {
         // get the actual attribute value
         String elementValue = this.element.get().attribute(attribute);
         // record the result
-        if (elementValue == null) {
+        if (elementValue == null && this.element.is().present()) {
             this.reporter.fail(this.element.prettyOutput() + havingAttribute + attribute + WITH_VALUE +
                     expectedValue + ENDB, waitFor, this.element.prettyOutputStart() + " does not have an attribute of <i>" + attribute + "</i>", timeTook);
-        } else if (!elementValue.equals(expectedValue)) {
+        } else if (elementValue == null ? elementValue != null : !elementValue.equals(expectedValue)) {
             this.reporter.fail(this.element.prettyOutput() + havingAttribute + attribute + WITH_VALUE +
                             expectedValue + ENDB, waitFor,
                     this.element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + ENDB, timeTook);
@@ -361,7 +370,7 @@ abstract class Equals extends Check {
         // check for the object to the present on the page
         String elementText = this.element.get().text();
         // record the result
-        if (!expectedText.equals(elementText)) {
+        if (expectedText == null ? elementText != null : !expectedText.equals(elementText)) {
             this.reporter.fail(this.element.prettyOutput() + " having text of <b>" + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementText + ENDB, timeTook);
         } else {
             this.reporter.pass(this.element.prettyOutput() + " having text of <b>" + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementText + ENDB, timeTook);
@@ -408,7 +417,8 @@ abstract class Equals extends Check {
         String within = " within element ";
         // record the action, and check for table
         if (!isPresentTable(cellRow + row + column + col + within + this.element.prettyOutput() +
-                haveTextValue + expectedText + ENDB, waitFor)) {
+                haveTextValue + expectedText + ENDB, waitFor) || !doesCellExist(row, col, cellRow + row + column +
+                col + within + this.element.prettyOutput() + haveTextValue + expectedText + ENDB, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the table cell text

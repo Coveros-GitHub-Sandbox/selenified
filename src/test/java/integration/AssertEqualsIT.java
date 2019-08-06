@@ -3,6 +3,9 @@ package integration;
 import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.testng.annotations.Test;
 
 public class AssertEqualsIT extends WebBase {
@@ -201,6 +204,17 @@ public class AssertEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "table", 0).assertEquals().text(1, 1, "Bad-Value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellTextOutOfBoundsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table", 0).assertEquals().text(99, 99, "Bad-Value");
         // verify 1 issue
         finish(1);
     }
@@ -498,6 +512,17 @@ public class AssertEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "assert", "equals"},
             description = "A negative integration test to check the tag name method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTagNameNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().tagName(null);
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "A negative integration test to check the tag name method", expectedExceptions = AssertionError.class)
     public void negativeCompareTagNameTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -514,6 +539,138 @@ public class AssertEqualsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existant-id").assertEquals().tagName("input");
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the assert location method")
+    public void compareLocationTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "fixed_element").assertEquals().location(new Point(5, 5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "A negative integration test to check the location method", expectedExceptions = AssertionError.class)
+    public void negativeCompareLocationNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().location(null);
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "A negative integration test to check the location method", expectedExceptions = AssertionError.class)
+    public void negativeCompareLocationTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().location(new Point(5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the location method", expectedExceptions = AssertionError.class)
+    public void negativeCompareLocationNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").assertEquals().location(new Point(5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the assert size method")
+    public void compareSizeTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "fixed_element").assertEquals().size(new Dimension(5, 5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "A negative integration test to check the size method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSizeNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().size(null);
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "A negative integration test to check the size method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSizeTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().size(new Dimension(5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the size method", expectedExceptions = AssertionError.class)
+    public void negativeCompareSizeNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").assertEquals().size(new Dimension(5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the assert rectangle method")
+    public void compareRectangleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "fixed_element").assertEquals().rectangle(new Rectangle(5, 5, 5, 5));
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "A negative integration test to check the rectangle method", expectedExceptions = AssertionError.class)
+    public void negativeCompareRectangleNullTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().rectangle(null);
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "A negative integration test to check the rectangle method", expectedExceptions = AssertionError.class)
+    public void negativeCompareRectangleTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").assertEquals().rectangle(new Rectangle(5, 5, 5, 5));
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "equals"},
+            description = "An integration test to check the rectangle method", expectedExceptions = AssertionError.class)
+    public void negativeCompareRectangleNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").assertEquals().rectangle(new Rectangle(5, 5, 5, 5));
         // verify one issue
         finish(1);
     }
