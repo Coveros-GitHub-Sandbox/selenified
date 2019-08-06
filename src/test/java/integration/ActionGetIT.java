@@ -1062,6 +1062,29 @@ public class ActionGetIT extends WebBase {
         finish();
     }
 
+
+    @Test(groups = {"integration", "action", "get"},
+            description = "An integration test to check the get tag name method")
+    public void getElementTagNameTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertEquals(app.newElement(Locator.ID, "submit_button").get().tagName(), "input");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "action", "get"},
+            description = "An integration negative test to check the get tag name method")
+    public void getElementTagNameNotExistTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        assertNull(app.newElement(Locator.ID, "non-existent-name").get().tagName());
+        // verify no issues
+        finish();
+    }
+
     @Test(groups = {"integration", "action", "get"}, description = "An integration test to check the getXPath method")
     public void getElementXPathTest() {
         // use this object to manipulate the app

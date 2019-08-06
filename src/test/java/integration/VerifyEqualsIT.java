@@ -431,7 +431,7 @@ public class VerifyEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "verify", "equals"},
             description = "An integration negative test to check the compareSelectedValue method")
-    public void negativeCompareSelectedValueNotInputTest() throws Exception {
+    public void negativeCompareSelectedValueNotInputTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
@@ -548,6 +548,39 @@ public class VerifyEqualsIT extends WebBase {
         // perform some actions
         app.newElement(Locator.ID, "alert_button").verifyEquals().selectedOption("wrong value");
         // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "An integration test to check the assert tag name method")
+    public void compareTagNameTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.XPATH, "//*[@id=\"table\"]/tbody/tr[2]/td[1]").verifyEquals().tagName("td");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "A negative integration test to check the tag name method")
+    public void negativeCompareTagNameTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.NAME, "blur_box").verifyEquals().tagName("td");
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "equals"},
+            description = "An integration test to check the tag name method")
+    public void negativeCompareTagNameNonExistantTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existant-id").verifyEquals().tagName("input");
+        // verify one issue
         finish(1);
     }
 }

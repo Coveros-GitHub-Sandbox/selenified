@@ -23,6 +23,9 @@ package com.coveros.selenified.element.check;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Equals;
 import com.coveros.selenified.utilities.Reporter;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 
 /**
  * VerifyEquals implements Equals to provide some additional verification capabilities.
@@ -64,6 +67,46 @@ public class VerifyEquals extends Equals {
      */
     public void matches(int expectedMatches) {
         checkMatches(expectedMatches, 0, 0);
+    }
+
+    /**
+     * Asserts that the element's tag name equals the provided expected tag name. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void tagName(String expectedTagName) {
+        checkTagName(expectedTagName, 0, 0);
+    }
+
+    /**
+     * Asserts that the element's location equals the provided expected location. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void location(Point expectedLocation) {
+        checkLocation(expectedLocation, 0, 0);
+    }
+
+    /**
+     * Asserts that the element's size equals the provided expected size. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void size(Dimension expectedSize) {
+        checkSize(expectedSize, 0, 0);
+    }
+
+    /**
+     * Asserts that the element's rectangle equals the provided expected rectangle. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void rectangle(Rectangle expectedRectangle) {
+        checkRectangle(expectedRectangle, 0, 0);
     }
 
     /**

@@ -79,6 +79,20 @@ public class Get {
     }
 
     /**
+     * Retrieves the tagName of the element. If the element isn't
+     * present, a null value will be returned.
+     *
+     * @return String: the tag name of the element
+     */
+    public String tagName() {
+        if (!element.is().present()) {
+            return null;
+        }
+        WebElement webElement = element.getWebElement();
+        return webElement.getTagName();
+    }
+
+    /**
      * Retrieves the selected option for the element. If the element isn't
      * present or a select, a null value will be returned.
      *

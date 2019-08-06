@@ -101,7 +101,7 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an input or not
      */
-    boolean isInput(String check, double waitFor) {
+    private boolean isInput(String check, double waitFor) {
         if (!this.element.is().input()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor);
             return false;
@@ -116,7 +116,7 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an select or not
      */
-    boolean isSelect(String check, double waitFor) {
+    private boolean isSelect(String check, double waitFor) {
         if (!this.element.is().select()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_SELECT, waitFor);
             return false;
@@ -131,7 +131,7 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */
-    boolean isTable(String check, double waitFor) {
+    private boolean isTable(String check, double waitFor) {
         if (!this.element.is().table()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_TABLE, waitFor);
             return false;

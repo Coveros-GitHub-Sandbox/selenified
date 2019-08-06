@@ -20,6 +20,11 @@
 
 package com.coveros.selenified.element.check;
 
+import org.mozilla.javascript.tools.debugger.Dim;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
+
 import java.util.Arrays;
 
 import static com.coveros.selenified.utilities.Constants.*;
@@ -80,6 +85,130 @@ abstract class Equals extends Check {
                     ENDB, waitFor, this.element.prettyOutputStart() + " has a match count of <b>" + matchCount + ENDB, timeTook);
         }
         return matchCount;
+    }
+
+    /**
+     * Checks that the element's tag name equals the provided expected tag name. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    abstract void tagName(String expectedTagName);
+
+    /**
+     * Checks that the element's tag name equals the provided expected tag name. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedTagName - the full expected tag name
+     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual tag name of the element. null will be returned if the element isn't present
+     */
+    String checkTagName(String expectedTagName, double waitFor, double timeTook) {
+        // get the actual tag name value
+        String actualTagName = this.element.get().tagName();
+        // record the result
+        if (expectedTagName == null ? actualTagName != null : !expectedTagName.equals(actualTagName)) {
+            this.reporter.fail(this.element.prettyOutput() + " with tag name <b>" + expectedTagName + ENDB, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + actualTagName + ENDB, timeTook);
+        } else {
+            this.reporter.pass(this.element.prettyOutput() + " with tag name <b>" + expectedTagName + ENDB, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + expectedTagName + ENDB, timeTook);
+        }
+        return actualTagName;
+    }
+
+    /**
+     * Checks that the element's location equals the provided expected location. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    abstract void location(Point expectedLocation);
+
+    /**
+     * Checks that the element's location equals the provided expected location. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedLocation - the full expected tag name
+     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual tag name of the element. null will be returned if the element isn't present
+     */
+    Point checkLocation(Point expectedLocation, double waitFor, double timeTook) {
+        // get the actual location value
+        Point actualLocation = this.element.get().location();
+        // record the result
+        if (expectedLocation == null ? actualLocation != null : !expectedLocation.equals(actualLocation)) {
+            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + expectedLocation.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + actualLocation.toString() + ENDB, timeTook);
+        } else {
+            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + expectedLocation.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + expectedLocation.toString() + ENDB, timeTook);
+        }
+        return actualLocation;
+    }
+
+    /**
+     * Checks that the element's size equals the provided expected size. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    abstract void size(Dimension expectedSize);
+
+    /**
+     * Checks that the element's size equals the provided expected size. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedSize - the full expected tag name
+     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual tag name of the element. null will be returned if the element isn't present
+     */
+    Dimension checkSize(Dimension expectedSize, double waitFor, double timeTook) {
+        // get the actual location value
+        Dimension actualSize = this.element.get().size();
+        // record the result
+        if (expectedSize == null ? actualSize != null : !expectedSize.equals(actualSize)) {
+            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + expectedSize.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + actualSize.toString() + ENDB, timeTook);
+        } else {
+            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + expectedSize.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + expectedSize.toString() + ENDB, timeTook);
+        }
+        return actualSize;
+    }
+
+    /**
+     * Checks that the element's rectangle equals the provided expected rectangle. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    abstract void rectangle(Rectangle expectedRectangle);
+
+    /**
+     * Checks that the element's rectangle equals the provided expected rectangle. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param expectedRectangle - the full expected tag name
+     * @param waitFor         - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @param timeTook        - the amount of time it took for wait for something (assuming we had to wait)
+     * @return String: the actual tag name of the element. null will be returned if the element isn't present
+     */
+    Rectangle checkRectangle(Rectangle expectedRectangle, double waitFor, double timeTook) {
+        // get the actual location value
+        Rectangle actualRectangle = this.element.get().rectangle();
+        // record the result
+        if (expectedRectangle == null ? actualRectangle != null : !expectedRectangle.equals(actualRectangle)) {
+            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + expectedRectangle.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + actualRectangle.toString() + ENDB, timeTook);
+        } else {
+            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + expectedRectangle.toString() + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + expectedRectangle.toString() + ENDB, timeTook);
+        }
+        return actualRectangle;
     }
 
     /**

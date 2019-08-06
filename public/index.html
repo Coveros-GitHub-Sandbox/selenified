@@ -27,6 +27,7 @@
         var focus_box = document.getElementById("focus_box");
         var blur_box = document.getElementById("blur_box");
         var changing_text = document.getElementById("changing_text");
+        var delayed_tag_switch = document.getElementById("delayed_tag_switch");
 
         // Disable the button on initial page load
         alert_button.disabled = true;
@@ -106,6 +107,10 @@
 
         setTimeout(function() {
             delayed_checkbox_div.innerHTML = "<input id='check' type='checkbox'/>";
+        }, 1000);
+
+        setTimeout(function() {
+            delayed_tag_switch.innerHTML = "<span id='tag_switch' name='tag_switch'>I'm Some Text</span>";
         }, 1000);
 
         setTimeout(function() {
@@ -306,6 +311,9 @@ tr:nth-child(even) {
             <br/>
             <div id="delayed_checkbox_div" name="delayed_checkbox_div">
                 <input id='nocheck' type='radio'/>
+            </div>
+            <div id="delayed_tag_switch" name="delayed_tag_switch">
+                <div id="tag_switch" name="tag_switch">I'm Some Text</div>
             </div>
             <br/>
             <div id="hover_over_me" name="hover_over_me" class="showup">

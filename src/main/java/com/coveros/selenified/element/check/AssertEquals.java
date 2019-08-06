@@ -23,6 +23,9 @@ package com.coveros.selenified.element.check;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.element.check.Equals;
 import com.coveros.selenified.utilities.Reporter;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 
 import java.util.Arrays;
 
@@ -70,6 +73,54 @@ public class AssertEquals extends Equals {
      */
     public void matches(int expectedMatches) {
         assertEquals("Element Match Mismatch", expectedMatches, checkMatches(expectedMatches, 0, 0));
+    }
+
+    /**
+     * Asserts that the element's tag name equals the provided expected tag name. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void tagName(String expectedTagName) {
+        String tagName = checkTagName(expectedTagName, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, tagName);
+        assertEquals("Tag Name Mismatch", expectedTagName, tagName);
+    }
+
+    /**
+     * Asserts that the element's location equals the provided expected location. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void location(Point expectedLocation) {
+        Point point = checkLocation(expectedLocation, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, point);
+        assertEquals("Point Mismatch", expectedLocation, point);
+    }
+
+    /**
+     * Asserts that the element's size equals the provided expected size. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void size(Dimension expectedSize) {
+        Dimension size = checkSize(expectedSize, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, size);
+        assertEquals("Size Mismatch", expectedSize, size);
+    }
+
+    /**
+     * Asserts that the element's rectangle equals the provided expected rectangle. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void rectangle(Rectangle expectedRectangle) {
+        Rectangle rectangle = checkRectangle(expectedRectangle, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, rectangle);
+        assertEquals("Rectangle Mismatch", expectedRectangle, rectangle);
     }
 
     /**
