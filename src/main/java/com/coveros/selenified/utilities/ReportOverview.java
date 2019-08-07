@@ -263,7 +263,7 @@ public class ReportOverview extends EmailableReporter2 {
         String failure = "";
         if (!"Pass".equals(status) && iTestResult.getThrowable() != null) {
             String messageId = TestCase.getRandomString(10);
-            String message = iTestResult.getThrowable().getMessage() != null ? iTestResult.getThrowable().getMessage() : iTestResult.getThrowable().getCause().toString();
+            String message = getErrorMessage(iTestResult.getThrowable());
             failure = ": <a data-toggle='collapse' href='#" + messageId + "' role='button' aria-expanded='false' aria-controls='" + messageId + "'>" + message + "</a>";
             failure += "<div style='padding-left:20px; font-size:small;' class='collapse' id='" + messageId + "'>" + StringUtils.join(iTestResult.getThrowable().getStackTrace(), "<br/>") + "</div>";
         }
@@ -274,6 +274,18 @@ public class ReportOverview extends EmailableReporter2 {
         cell(status + failure);
         cell(link);
         writer.println(TR);
+    }
+
+    private String getErrorMessage(Throwable threw) {
+        String errorMessage = "Unknown Error";
+        if( threw.getMessage() != null ) {
+            errorMessage = threw.getMessage();
+        } else if (threw.getLocalizedMessage() != null ) {
+            errorMessage = threw.getLocalizedMessage();
+        } else if ( threw.getCause() != null ) {
+            errorMessage = threw.getCause().toString();
+        }
+        return errorMessage;
     }
 
     /**
