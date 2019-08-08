@@ -117,12 +117,12 @@ abstract class Excludes extends Check {
         // record the result
         if (!this.element.is().present()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
-        } else if (allAttributes.contains(attribute)) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " contains the attribute of <b>" + attribute + ENDB,
-                    timeTook);
-        } else {
+        } else if (atts == null || !allAttributes.contains(attribute)) {
             this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + ENDB +
                     " only the attributes " + String.join(", ", allAttributes) + ENDB, timeTook);
+        } else {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " contains the attribute of <b>" + attribute + ENDB,
+                    timeTook);
         }
         if (atts == null) {
             return null;

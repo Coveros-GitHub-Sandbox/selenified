@@ -406,7 +406,7 @@ public class AssertContainsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "contains"},
-            description = "An integration negative test to check the compareTableCellText method")
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
     public void negativeCompareTableCellTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -417,7 +417,7 @@ public class AssertContainsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "contains"},
-            description = "An integration negative test to check the compareTableCellText method")
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
     public void negativeCompareTableCellTextNotPresetTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
