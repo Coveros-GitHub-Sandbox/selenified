@@ -35,7 +35,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 3/7/2019
+ * @lastupdate 8/08/2019
  */
 public class Get {
     private static final Logger log = Logger.getLogger(Get.class);

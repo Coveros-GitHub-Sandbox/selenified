@@ -27,9 +27,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 import static com.coveros.selenified.utilities.Constants.*;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.*;
 
 /**
  * AssertExcludes implements Excludes to provide some additional assertion
@@ -42,7 +40,7 @@ import static org.testng.AssertJUnit.assertTrue;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 public class AssertExcludes extends Excludes {
 
@@ -72,7 +70,7 @@ public class AssertExcludes extends Excludes {
     public void clazz(String unexpectedClass) {
         String clazz = checkClazz(unexpectedClass, 0, 0);
         assertTrue(NO_ELEMENT_FOUND, this.element.is().present());
-        if( clazz != null ) {
+        if (clazz != null) {
             assertFalse("Class Mismatch: class of '" + clazz + CONTAINS + unexpectedClass + "'", clazz.contains(unexpectedClass));
         }
     }
@@ -88,7 +86,7 @@ public class AssertExcludes extends Excludes {
     public void attribute(String expectedAttribute) {
         Set<String> attributes = checkAttribute(expectedAttribute, 0, 0);
         assertTrue(NO_ELEMENT_FOUND, this.element.is().present());
-        if( attributes != null ) {
+        if (attributes != null) {
             assertFalse("Attribute found: element attributes of '" + String.join(",", attributes) +
                     CONTAINS + expectedAttribute + "'", attributes.contains(expectedAttribute));
         }

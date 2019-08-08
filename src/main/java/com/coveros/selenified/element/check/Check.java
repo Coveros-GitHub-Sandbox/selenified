@@ -38,7 +38,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 abstract class Check {
     static final String AVAILABLE_TO_BE_SELECTED = "</b> available to be selected on the page";

@@ -34,7 +34,7 @@ import com.coveros.selenified.utilities.Reporter;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 public class VerifyContains extends Contains {
 
