@@ -63,7 +63,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/28/2019
+ * @lastupdate 8/07/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
@@ -487,9 +487,7 @@ public class Selenified {
      * errors were encountered
      */
     protected void finish() {
-        Reporter reporter = this.reporterThreadLocal.get();
-        assertEquals("Detailed results found at: " + reporter.getFileName(), "0 errors",
-                Integer.toString(reporter.getFails()) + ERRORS_CHECK);
+        finish(0);
     }
 
     /**
@@ -502,7 +500,7 @@ public class Selenified {
      */
     protected void finish(int errors) {
         Reporter reporter = this.reporterThreadLocal.get();
-        assertEquals("Detailed results found at: " + reporter.getFileName(), errors + ERRORS_CHECK,
+        assertEquals("Test Step Errors Mismatch", errors + ERRORS_CHECK,
                 Integer.toString(reporter.getFails()) + ERRORS_CHECK);
     }
 

@@ -50,7 +50,7 @@ import static com.coveros.selenified.utilities.Property.BROWSER;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 4/4/2019
+ * @lastupdate 8/07/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
@@ -113,9 +113,9 @@ public class Listener extends TestListenerAdapter {
             String[] groups = result.getMethod().getGroups();
             for (String group : groups) {
                 if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
-                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + browser.getName());
+                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString()));
                     result.setStatus(ITestResult.SKIP);
-                    throw new SkipException("Skipping test case");
+                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString()));
                 }
             }
         }
