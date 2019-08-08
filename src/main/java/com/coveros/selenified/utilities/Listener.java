@@ -50,7 +50,7 @@ import static com.coveros.selenified.utilities.Property.BROWSER;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 4/4/2019
+ * @lastupdate 8/07/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);

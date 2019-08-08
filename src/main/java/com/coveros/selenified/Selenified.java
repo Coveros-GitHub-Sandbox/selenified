@@ -63,7 +63,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/28/2019
+ * @lastupdate 8/07/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
