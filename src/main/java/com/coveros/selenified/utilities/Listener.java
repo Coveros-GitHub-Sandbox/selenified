@@ -113,9 +113,10 @@ public class Listener extends TestListenerAdapter {
             String[] groups = result.getMethod().getGroups();
             for (String group : groups) {
                 if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
-                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString()));
+                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " +
+                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
                     result.setStatus(ITestResult.SKIP);
-                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString()));
+                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
                 }
             }
         }

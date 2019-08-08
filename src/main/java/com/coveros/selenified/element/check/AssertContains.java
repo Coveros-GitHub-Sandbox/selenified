@@ -69,7 +69,8 @@ public class AssertContains extends Contains {
      */
     public void clazz(String expectedClass) {
         String clazz = checkClazz(expectedClass, 0, 0);
-        assertNotNull(NO_ELEMENT_FOUND, clazz);
+        assertTrue(NO_ELEMENT_FOUND, this.element.is().present());
+        assertNotNull("No Class Attribute Exists", clazz);
         assertTrue("Class Mismatch: class of '" + clazz + DOES_NOT_CONTAIN + expectedClass + "'", clazz.contains(expectedClass));
     }
 
@@ -83,7 +84,8 @@ public class AssertContains extends Contains {
      */
     public void attribute(String expectedAttribute) {
         Set<String> attributes = checkAttribute(expectedAttribute, 0, 0);
-        assertNotNull(NO_ELEMENT_FOUND, attributes);
+        assertTrue(NO_ELEMENT_FOUND, this.element.is().present());
+        assertNotNull("No Attributes Retrievable", attributes);
         assertTrue("Attribute not found: element attributes of '" + String.join(",", attributes) +
                 DOES_NOT_CONTAIN + expectedAttribute + "'", attributes.contains(expectedAttribute));
     }
