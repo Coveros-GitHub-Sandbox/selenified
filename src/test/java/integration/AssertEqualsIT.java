@@ -1,6 +1,5 @@
 package integration;
 
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import org.openqa.selenium.Dimension;

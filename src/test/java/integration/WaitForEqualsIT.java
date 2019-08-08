@@ -1,6 +1,5 @@
 package integration;
 
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
@@ -718,7 +717,7 @@ public class WaitForEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "blur_box").waitForEquals().location(new Point(5, 5));
+        app.newElement(Locator.NAME, "blur_box").waitForEquals().location(new Point(10, 10));
         // verify one issue
         finish(1);
     }

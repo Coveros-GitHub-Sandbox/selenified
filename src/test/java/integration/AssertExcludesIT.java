@@ -204,13 +204,13 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "verify", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration test to check the compareTableCellText method")
     public void compareTableCellTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "table").verifyExcludes().text(2, 2, "Bad-Value");
+        app.newElement(Locator.ID, "table").assertExcludes().text(2, 2, "Bad-Value");
         // verify no issues
         finish();
     }
@@ -226,24 +226,24 @@ public class AssertExcludesIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "verify", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration negative test to check the compareTableCellText method")
     public void negativeCompareTableCellTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "table", 0).verifyExcludes().text(1, 1, "Alfreds Futterkiste");
+        app.newElement(Locator.ID, "table", 0).assertExcludes().text(1, 1, "Alfreds Futterkiste");
         // verify 1 issue
         finish(1);
     }
 
-    @Test(groups = {"integration", "verify", "excludes"},
+    @Test(groups = {"integration", "assert", "excludes"},
             description = "An integration negative test to check the compareTableCellText method")
     public void negativeCompareTableCellTextNotPresetTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.ID, "non-existent-element").verifyExcludes().text(0, 0, "");
+        app.newElement(Locator.ID, "non-existent-element").assertExcludes().text(0, 0, "");
         // verify 1 issue
         finish(1);
     }

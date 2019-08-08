@@ -1,6 +1,5 @@
 package integration;
 
-import com.coveros.selenified.Browser.BrowserName;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import org.openqa.selenium.Dimension;
@@ -253,7 +252,7 @@ public class VerifyEqualsIT extends WebBase {
         finish(1);
     }
 
-      @Test(groups = {"integration", "verify", "equals"},
+    @Test(groups = {"integration", "verify", "equals"},
             description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedTest() {
         // use this object to manipulate the app
@@ -579,7 +578,7 @@ public class VerifyEqualsIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.newElement(Locator.NAME, "blur_box").verifyEquals().location(new Point(5, 5));
+        app.newElement(Locator.NAME, "blur_box").verifyEquals().location(new Point(10, 10));
         // verify one issue
         finish(1);
     }
