@@ -233,17 +233,6 @@ public class VerifyEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "verify", "equals"},
             description = "An integration negative test to check the checkElementHasClass method")
-    public void negativeCheckElementHasClassNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).verifyEquals().clazz(null);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "verify", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -264,22 +253,7 @@ public class VerifyEqualsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "verify", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
-    public void negativeCheckElementHasClassNoClassNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        if (app.getBrowser().getName() == BrowserName.HTMLUNIT) {
-            app.newElement(Locator.ID, "prompt_button").verifyEquals().clazz(null);
-        } else {
-            app.newElement(Locator.ID, "prompt_button").verifyEquals().clazz("");
-        }
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "verify", "equals"},
+      @Test(groups = {"integration", "verify", "equals"},
             description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedTest() {
         // use this object to manipulate the app
@@ -288,17 +262,6 @@ public class VerifyEqualsIT extends WebBase {
         app.newElement(Locator.ID, "check").verifyEquals().clazz("wrong_class");
         // verify 1 issue
         finish(1);
-    }
-
-    @Test(groups = {"integration", "verify", "equals", "browser", "local"},
-            description = "An integration negative test to check the checkElementHasClass method")
-    public void negativeCheckElementHasClassDelayedNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").verifyEquals().clazz(null);
-        // verify no issues
-        finish();
     }
 
     @Test(groups = {"integration", "verify", "equals"},

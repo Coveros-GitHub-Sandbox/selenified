@@ -21,7 +21,6 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.State;
 import com.coveros.selenified.utilities.Reporter;
 
 /**
@@ -41,7 +40,7 @@ public class VerifyState extends State {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public VerifyState(Element element, Reporter reporter) {

@@ -21,7 +21,6 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Excludes;
 import com.coveros.selenified.utilities.Reporter;
 
 import java.util.Arrays;
@@ -49,7 +48,7 @@ public class AssertExcludes extends Excludes {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public AssertExcludes(Element element, Reporter reporter) {

@@ -21,7 +21,6 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Matches;
 import com.coveros.selenified.utilities.Reporter;
 
 /**
@@ -42,7 +41,7 @@ public class VerifyMatches extends Matches {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public VerifyMatches(Element element, Reporter reporter) {

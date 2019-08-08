@@ -49,7 +49,7 @@ public class AssertEquals extends Equals {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public AssertEquals(Element element, Reporter reporter) {

@@ -304,7 +304,7 @@ public class WaitForEquals extends Equals {
      * the issue with a screenshot for traceability and added debugging support.
      *
      * @param expectedTagName - the expected tag name of the passed element
-     * @param seconds       - how many seconds to wait for
+     * @param seconds         - how many seconds to wait for
      */
     public void tagName(String expectedTagName, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -331,7 +331,7 @@ public class WaitForEquals extends Equals {
      * the issue with a screenshot for traceability and added debugging support.
      *
      * @param expectedLocation - the expected location of the passed element
-     * @param seconds       - how many seconds to wait for
+     * @param seconds          - how many seconds to wait for
      */
     public void location(Point expectedLocation, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -358,7 +358,7 @@ public class WaitForEquals extends Equals {
      * the issue with a screenshot for traceability and added debugging support.
      *
      * @param expectedSize - the expected size of the passed element
-     * @param seconds       - how many seconds to wait for
+     * @param seconds      - how many seconds to wait for
      */
     public void size(Dimension expectedSize, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -385,7 +385,7 @@ public class WaitForEquals extends Equals {
      * the issue with a screenshot for traceability and added debugging support.
      *
      * @param expectedRectangle - the expected rectangle of the passed element
-     * @param seconds       - how many seconds to wait for
+     * @param seconds           - how many seconds to wait for
      */
     public void rectangle(Rectangle expectedRectangle, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);

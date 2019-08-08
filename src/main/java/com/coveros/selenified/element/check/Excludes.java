@@ -74,7 +74,7 @@ abstract class Excludes extends Check {
         // record the result
         if (!this.element.is().present()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
-        } else if (actualClass != null && !actualClass.contains(unexpectedClass)) {
+        } else if (actualClass == null || !actualClass.contains(unexpectedClass)) {
             this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " does not contain a class value of <b>" + unexpectedClass + ENDB,
                     timeTook);
         } else {
@@ -122,7 +122,7 @@ abstract class Excludes extends Check {
                     timeTook);
         } else {
             this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " does not contain the attribute of <b>" + attribute + ENDB +
-                    ONLY_VALUE + String.join(", ", allAttributes) + ENDB, timeTook);
+                    " only the attributes " + String.join(", ", allAttributes) + ENDB, timeTook);
         }
         if (atts == null) {
             return null;
@@ -244,11 +244,12 @@ abstract class Excludes extends Check {
      */
     String checkValue(String expectedValue, double waitFor, double timeTook) {
         String check = this.element.prettyOutput() + EXCLUDES_VALUE + expectedValue + ENDB;
+        if (isNotPresentInput(check, waitFor)) {
+            return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
+        }
         // record the action and get our value
         String actualValue = this.element.get().value();
-        if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
-        } else if (actualValue.contains(expectedValue)) {
+        if (actualValue.contains(expectedValue)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + actualValue + ENDB, timeTook);
         } else {
             this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + actualValue + ENDB, timeTook);

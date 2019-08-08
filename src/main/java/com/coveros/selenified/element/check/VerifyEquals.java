@@ -21,7 +21,6 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Equals;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -45,7 +44,7 @@ public class VerifyEquals extends Equals {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public VerifyEquals(Element element, Reporter reporter) {

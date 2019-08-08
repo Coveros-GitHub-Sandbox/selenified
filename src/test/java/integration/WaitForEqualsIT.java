@@ -349,17 +349,6 @@ public class WaitForEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "wait", "equals"},
             description = "An integration negative test to check the checkElementHasClass method")
-    public void negativeCheckElementHasClassNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "hidden_div", 0).waitForEquals().clazz(null, 1);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "wait", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassNotPresentTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -382,38 +371,12 @@ public class WaitForEqualsIT extends WebBase {
 
     @Test(groups = {"integration", "wait", "equals"},
             description = "An integration negative test to check the checkElementHasClass method")
-    public void negativeCheckElementHasClassNoClassNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        if (app.getBrowser().getName() == BrowserName.HTMLUNIT) {
-            app.newElement(Locator.ID, "prompt_button").waitForEquals().clazz(null);
-        } else {
-            app.newElement(Locator.ID, "prompt_button").waitForEquals().clazz("");
-        }
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "wait", "equals"},
-            description = "An integration negative test to check the checkElementHasClass method")
     public void negativeCheckElementHasClassDelayedTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "check").waitForEquals().clazz("wrong_class", 1);
         // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "wait", "equals", "browser"},
-            description = "An integration negative test to check the checkElementHasClass method")
-    public void negativeCheckElementHasClassDelayedNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "check").waitForEquals().clazz(null);
-        // verify one issue
         finish(1);
     }
 
@@ -748,16 +711,6 @@ public class WaitForEqualsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "wait", "equals"},
-            description = "A negative integration test to check the location method")
-    public void negativeCompareLocationNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.NAME, "blur_box").waitForEquals().location(null);
-        // verify one issue
-        finish(1);
-    }
 
     @Test(groups = {"integration", "wait", "equals"},
             description = "A negative integration test to check the location method")
@@ -781,16 +734,6 @@ public class WaitForEqualsIT extends WebBase {
         finish(1);
     }
 
-    @Test(groups = {"integration", "wait", "equals"},
-            description = "An integration test to check the location method")
-    public void compareLocationNonExistantTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "non-existant-id").waitForEquals().location(null);
-        // verify no issues
-        finish();
-    }
 
     @Test(groups = {"integration", "wait", "equals"},
             description = "An integration test to check the wait size method")
@@ -803,16 +746,6 @@ public class WaitForEqualsIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "wait", "equals"},
-            description = "A negative integration test to check the size method")
-    public void negativeCompareSizeNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.NAME, "blur_box").waitForEquals().size(null);
-        // verify one issue
-        finish(1);
-    }
 
     @Test(groups = {"integration", "wait", "equals"},
             description = "A negative integration test to check the size method")
@@ -837,17 +770,6 @@ public class WaitForEqualsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "wait", "equals"},
-            description = "An integration test to check the size method")
-    public void compareSizeNonExistantTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "non-existant-id").waitForEquals().size(null);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "wait", "equals"},
             description = "An integration test to check the wait tag name method")
     public void compareRectangleTest() {
         // use this object to manipulate the app
@@ -856,17 +778,6 @@ public class WaitForEqualsIT extends WebBase {
         app.newElement(Locator.ID, "fixed_element").waitForEquals().rectangle(new Rectangle(5, 5, 5, 5));
         // verify no issues
         finish();
-    }
-
-    @Test(groups = {"integration", "wait", "equals"},
-            description = "A negative integration test to check the rectangle method")
-    public void negativeCompareRectangleNullTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.NAME, "blur_box").waitForEquals().rectangle(null);
-        // verify one issue
-        finish(1);
     }
 
     @Test(groups = {"integration", "wait", "equals"},
@@ -889,16 +800,5 @@ public class WaitForEqualsIT extends WebBase {
         app.newElement(Locator.ID, "non-existant-id").waitForEquals().rectangle(new Rectangle(5, 5, 5, 5));
         // verify one issue
         finish(1);
-    }
-
-    @Test(groups = {"integration", "wait", "equals"},
-            description = "An integration test to check the rectangle method")
-    public void compareRectangleNonExistantTest() {
-        // use this object to manipulate the app
-        App app = this.apps.get();
-        // perform some actions
-        app.newElement(Locator.ID, "non-existant-id").waitForEquals().rectangle(null);
-        // verify no issues
-        finish();
     }
 }

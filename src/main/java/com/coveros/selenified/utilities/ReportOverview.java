@@ -47,7 +47,7 @@ import static java.nio.file.Files.newBufferedWriter;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/28/2019
+ * @lastupdate 8/08/2019
  */
 public class ReportOverview extends EmailableReporter2 {
 
@@ -268,7 +268,7 @@ public class ReportOverview extends EmailableReporter2 {
             failure += "<div style='padding-left:20px; font-size:small;' class='collapse' id='" + messageId + "'>" + StringUtils.join(iTestResult.getThrowable().getStackTrace(), "<br/>") + "</div>";
         }
         writer.print("<tr class='" + cssClass + "'>");
-        cell(browser.getDetails());
+        cell(getBrowser(browser));
         cell(Utils.escapeHtml(className));
         cell(Utils.escapeHtml(Reporter.capitalizeFirstLetters(iTestResult.getName())));
         cell(status + failure);
@@ -276,16 +276,37 @@ public class ReportOverview extends EmailableReporter2 {
         writer.println(TR);
     }
 
+    /**
+     * Retrieves the high level error message from the thrown exception. If message exists, use that,
+     * if not, and localized message exists, use that, if not, but cause exists, use that, if not,
+     * returns "Unknown Error"
+     *
+     * @param threw the thrown exception
+     * @return String: the high level error message
+     */
     private String getErrorMessage(Throwable threw) {
         String errorMessage = "Unknown Error";
-        if( threw.getMessage() != null ) {
+        if (threw.getMessage() != null) {
             errorMessage = threw.getMessage();
-        } else if (threw.getLocalizedMessage() != null ) {
+        } else if (threw.getLocalizedMessage() != null) {
             errorMessage = threw.getLocalizedMessage();
-        } else if ( threw.getCause() != null ) {
+        } else if (threw.getCause() != null) {
             errorMessage = threw.getCause().toString();
         }
         return errorMessage;
+    }
+
+    /**
+     * Gets the browser details. If browser is null, returns unknown browser
+     *
+     * @param browser the browser the tests were run against
+     * @return String: the html friendly, human readable browser details
+     */
+    private String getBrowser(Browser browser) {
+        if (browser == null) {
+            return "Unknown";
+        }
+        return browser.getDetails();
     }
 
     /**

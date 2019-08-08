@@ -21,7 +21,6 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Matches;
 import com.coveros.selenified.utilities.Reporter;
 
 import static com.coveros.selenified.utilities.Constants.*;
@@ -46,14 +45,14 @@ public class AssertMatches extends Matches {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public AssertMatches(Element element, Reporter reporter) {
         this.element = element;
         this.reporter = reporter;
     }
-    
+
     // ///////////////////////////////////////
     // assessing functionality
     // ///////////////////////////////////////

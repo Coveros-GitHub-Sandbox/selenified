@@ -382,6 +382,51 @@ public class AssertContainsIT extends WebBase {
         finish(1);
     }
 
+    @Test(groups = {"integration", "verify", "contains"},
+            description = "An integration test to check the compareTableCellText method")
+    public void compareTableCellTextTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table").verifyContains().text(2, 2, "Francisco Chang");
+        // verify no issues
+        finish();
+    }
+
+
+    @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellTextOutOfBoundsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table", 0).assertContains().text(99, 99, "Bad-Value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "contains"},
+            description = "An integration negative test to check the compareTableCellText method")
+    public void negativeCompareTableCellTextTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table", 0).verifyContains().text(1, 1, "Bad-Value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "contains"},
+            description = "An integration negative test to check the compareTableCellText method")
+    public void negativeCompareTableCellTextNotPresetTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").verifyContains().text(0, 0, "");
+        // verify 1 issue
+        finish(1);
+    }
+
     @Test(groups = {"integration", "assert", "contains"},
             description = "An integration test to check the compareTextValueContains method")
     public void compareValueContainsTest() {
