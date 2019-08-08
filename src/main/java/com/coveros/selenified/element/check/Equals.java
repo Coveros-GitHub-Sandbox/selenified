@@ -174,16 +174,16 @@ abstract class Equals extends Check {
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     Dimension checkSize(Dimension expectedSize, double waitFor, double timeTook) {
-        String check = this.element.prettyOutput() + " with location <b>" + expectedSize.toString() + ENDB;
+        String check = this.element.prettyOutput() + " with size <b>" + expectedSize.toString() + ENDB;
         // get the actual location value
         Dimension actualSize = this.element.get().size();
         // record the result
         if (!this.element.is().present()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!expectedSize.equals(actualSize)) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + actualSize.toString() + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a size of <b>" + actualSize.toString() + ENDB, timeTook);
         } else {
-            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + expectedSize.toString() + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has a size of <b>" + expectedSize.toString() + ENDB, timeTook);
         }
         return actualSize;
     }
@@ -208,16 +208,16 @@ abstract class Equals extends Check {
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     Rectangle checkRectangle(Rectangle expectedRectangle, double waitFor, double timeTook) {
-        String check = this.element.prettyOutput() + " with location <b>" + expectedRectangle.toString() + ENDB;
+        String check = this.element.prettyOutput() + " with rectangle <b>" + expectedRectangle.toString() + ENDB;
         // get the actual location value
         Rectangle actualRectangle = this.element.get().rectangle();
         // record the result
         if (!this.element.is().present()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!expectedRectangle.equals(actualRectangle)) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + actualRectangle.toString() + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a rectangle of <b>" + actualRectangle.toString() + ENDB, timeTook);
         } else {
-            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + expectedRectangle.toString() + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has a rectangle of <b>" + expectedRectangle.toString() + ENDB, timeTook);
         }
         return actualRectangle;
     }
