@@ -423,7 +423,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> (expectedValue == null ? element.get().css(attribute) == null : expectedValue.equals(element.get().css(attribute))));
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedValue.equals(element.get().css(attribute))));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkCssValue(attribute, expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -449,7 +449,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> (expectedClass == null ? element.get().attribute(CLASS) == null : expectedClass.equals(element.get().attribute(CLASS))));
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedClass.equals(element.get().attribute(CLASS))));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkClazz(expectedClass, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -477,7 +477,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> (expectedValue == null ? element.get().attribute(attribute) == null : expectedValue.equals(element.get().attribute(attribute))));
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedValue.equals(element.get().attribute(attribute))));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkAttribute(attribute, expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {

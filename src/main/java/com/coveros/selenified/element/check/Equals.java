@@ -113,13 +113,16 @@ abstract class Equals extends Check {
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     String checkTagName(String expectedTagName, double waitFor, double timeTook) {
+        String check = this.element.prettyOutput() + " with tag name <b>" + expectedTagName + ENDB;
         // get the actual tag name value
         String actualTagName = this.element.get().tagName();
         // record the result
-        if (expectedTagName == null ? actualTagName != null : !expectedTagName.equals(actualTagName)) {
-            this.reporter.fail(this.element.prettyOutput() + " with tag name <b>" + expectedTagName + ENDB, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + actualTagName + ENDB, timeTook);
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+        } else if (!expectedTagName.equals(actualTagName)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + actualTagName + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " with tag name <b>" + expectedTagName + ENDB, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + expectedTagName + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + expectedTagName + ENDB, timeTook);
         }
         return actualTagName;
     }
@@ -144,13 +147,16 @@ abstract class Equals extends Check {
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     Point checkLocation(Point expectedLocation, double waitFor, double timeTook) {
+        String check = this.element.prettyOutput() + " with location <b>" + getString(expectedLocation) + ENDB;
         // get the actual location value
         Point actualLocation = this.element.get().location();
         // record the result
-        if (expectedLocation == null ? actualLocation != null : !expectedLocation.equals(actualLocation)) {
-            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + getString(expectedLocation) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualLocation) + ENDB, timeTook);
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+        } else if (!expectedLocation.equals(actualLocation)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualLocation) + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + getString(expectedLocation) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedLocation) + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedLocation) + ENDB, timeTook);
         }
         return actualLocation;
     }
@@ -175,13 +181,16 @@ abstract class Equals extends Check {
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     Dimension checkSize(Dimension expectedSize, double waitFor, double timeTook) {
+        String check = this.element.prettyOutput() + " with location <b>" + getString(expectedSize) + ENDB;
         // get the actual location value
         Dimension actualSize = this.element.get().size();
         // record the result
-        if (expectedSize == null ? actualSize != null : !expectedSize.equals(actualSize)) {
-            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + getString(expectedSize) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualSize) + ENDB, timeTook);
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+        } else if (!expectedSize.equals(actualSize)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualSize) + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + getString(expectedSize) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedSize) + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedSize) + ENDB, timeTook);
         }
         return actualSize;
     }
@@ -206,13 +215,16 @@ abstract class Equals extends Check {
      * @return String: the actual tag name of the element. null will be returned if the element isn't present
      */
     Rectangle checkRectangle(Rectangle expectedRectangle, double waitFor, double timeTook) {
+        String check = this.element.prettyOutput() + " with location <b>" + getString(expectedRectangle) + ENDB;
         // get the actual location value
         Rectangle actualRectangle = this.element.get().rectangle();
         // record the result
-        if (expectedRectangle == null ? actualRectangle != null : !expectedRectangle.equals(actualRectangle)) {
-            this.reporter.fail(this.element.prettyOutput() + " with location <b>" + getString(expectedRectangle) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualRectangle) + ENDB, timeTook);
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+        } else if (!expectedRectangle.equals(actualRectangle)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualRectangle) + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " with location <b>" + getString(expectedRectangle) + ENDB, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedRectangle) + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(expectedRectangle) + ENDB, timeTook);
         }
         return actualRectangle;
     }
@@ -243,21 +255,21 @@ abstract class Equals extends Check {
      * @return String: the css value of the attribute passed in. null will be returned if the element's css isn't accessible
      */
     String checkCssValue(String attribute, String expectedCssValue, double waitFor, double timeTook) {
-        String havingCssAttribute = " having a css attribute of <i>";
+        String check = this.element.prettyOutput() + " having a css attribute of <i>" + attribute +
+                "</i>" + WITH_VALUE + expectedCssValue + ENDB;
         // get the actual css element value
         String actualCssValue = this.element.get().css(attribute);
         // record the result
-        if (actualCssValue == null && this.element.is().present()) {
-            this.reporter.fail(this.element.prettyOutput() + havingCssAttribute + attribute +
-                    "</i>" + WITH_VALUE + expectedCssValue + ENDB, waitFor, "Unable to assess the css of " + this.element.prettyOutputEnd().trim(), timeTook);
-        } else if (expectedCssValue == null ? actualCssValue != null : !expectedCssValue.equals(actualCssValue)) {
-            this.reporter.fail(this.element.prettyOutput() + havingCssAttribute + attribute +
-                            "</i>" + WITH_VALUE + expectedCssValue + ENDB, waitFor,
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+        } else if (actualCssValue == null) {
+            this.reporter.fail(check, waitFor, "Unable to assess the css of " + this.element.prettyOutputEnd().trim(), timeTook);
+        } else if (!expectedCssValue.equals(actualCssValue)) {
+            this.reporter.fail(check, waitFor,
                     this.element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + actualCssValue +
                             ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + havingCssAttribute + attribute +
-                            "</i>" + WITH_VALUE + expectedCssValue + ENDB, waitFor,
+            this.reporter.pass(check, waitFor,
                     this.element.prettyOutputStart() + " has a css attribute of <i>" + attribute + WITH + actualCssValue +
                             ENDB, timeTook);
         }
@@ -286,16 +298,18 @@ abstract class Equals extends Check {
      * @return String: the actual class of the element. null will be returned if the element isn't present
      */
     String checkClazz(String expectedClass, double waitFor, double timeTook) {
+        String check = this.element.prettyOutput() + " with class <b>" + expectedClass + ENDB;
         // get the actual class value
         String actualClass = this.element.get().attribute(CLASS);
         // record the result
-        if (actualClass == null && this.element.is().present()) {
-            this.reporter.fail(this.element.prettyOutput() + "has the class of <i>" +
-                    "</i>" + WITH_VALUE + expectedClass + ENDB, waitFor, "Unable to assess the class of " + this.element.prettyOutputEnd().trim(), timeTook);
-        } else if (expectedClass == null ? actualClass != null : !expectedClass.equals(actualClass)) {
-            this.reporter.fail(this.element.prettyOutput() + " with class <b>" + expectedClass + ENDB, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + ENDB, timeTook);
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+        } else if (actualClass == null) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " does not have a class attribute", timeTook);
+        } else if (!expectedClass.equals(actualClass)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " with class <b>" + expectedClass + ENDB, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + expectedClass + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + expectedClass + ENDB, timeTook);
         }
         return actualClass;
     }
@@ -326,21 +340,19 @@ abstract class Equals extends Check {
      * @return String: the attribute value of the attribute specified from the element. null will be returned if the element isn't present
      */
     String checkAttribute(String attribute, String expectedValue, double waitFor, double timeTook) {
-        String havingAttribute = " having an attribute of <i>";
+        String check = this.element.prettyOutput() + " having an attribute of <i>" + attribute + WITH_VALUE +
+                expectedValue + ENDB;
         // get the actual attribute value
         String elementValue = this.element.get().attribute(attribute);
         // record the result
-        if (elementValue == null && this.element.is().present()) {
-            this.reporter.fail(this.element.prettyOutput() + havingAttribute + attribute + WITH_VALUE +
-                    expectedValue + ENDB, waitFor, this.element.prettyOutputStart() + " does not have an attribute of <i>" + attribute + "</i>", timeTook);
-        } else if (elementValue == null ? elementValue != null : !elementValue.equals(expectedValue)) {
-            this.reporter.fail(this.element.prettyOutput() + havingAttribute + attribute + WITH_VALUE +
-                            expectedValue + ENDB, waitFor,
-                    this.element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + ENDB, timeTook);
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+        } else if (elementValue == null) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " does not have an attribute of <i>" + attribute + "</i>", timeTook);
+        } else if (!elementValue.equals(expectedValue)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + havingAttribute + attribute + WITH_VALUE +
-                            expectedValue + ENDB, waitFor,
-                    this.element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + " has an attribute of <i>" + attribute + WITH + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -367,13 +379,16 @@ abstract class Equals extends Check {
      * @return String: the actual text of the element. null will be returned if the element isn't present
      */
     String checkText(String expectedText, double waitFor, double timeTook) {
+        String check = this.element.prettyOutput() + " having text of <b>" + expectedText + ENDB;
         // check for the object to the present on the page
         String elementText = this.element.get().text();
         // record the result
-        if (expectedText == null ? elementText != null : !expectedText.equals(elementText)) {
-            this.reporter.fail(this.element.prettyOutput() + " having text of <b>" + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementText + ENDB, timeTook);
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+        } else if (!expectedText.equals(elementText)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementText + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + " having text of <b>" + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementText + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementText + ENDB, timeTook);
         }
         return elementText;
     }
@@ -411,28 +426,23 @@ abstract class Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     String checkText(int row, int col, String expectedText, double waitFor, double timeTook) {
-        String cellRow = "cell at row ";
-        String haveTextValue = " to have the text value of <b>";
         String column = " and column ";
         String within = " within element ";
+        String check = "cell at row " + row + column + col + within + this.element.prettyOutput() +
+                " to have the text of <b>" + expectedText + ENDB;
         // record the action, and check for table
-        if (!isPresentTable(cellRow + row + column + col + within + this.element.prettyOutput() +
-                haveTextValue + expectedText + ENDB, waitFor) || !doesCellExist(row, col, cellRow + row + column +
-                col + within + this.element.prettyOutput() + haveTextValue + expectedText + ENDB, waitFor)) {
+        if (isNotPresentTable(check, waitFor) || !doesCellExist(row, col, check, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the table cell text
         String actualText = this.element.get().tableCell(row, col).get().text();
         // record the result
         if (!actualText.equals(expectedText)) {
-            this.reporter.fail(cellRow + row + column + col + within + this.element.prettyOutput() +
-                    haveTextValue + expectedText + ENDB, waitFor, cellRow.substring(0, 1).toUpperCase() + cellRow.substring(1) + row + column + col + within + this.element.prettyOutput() +
-                    " has the text value of <b>" + actualText + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, "Cell at row " + row + column + col + within + this.element.prettyOutput() +
+                    HAS_TEXT + actualText + ENDB, timeTook);
         } else {
-            this.reporter.pass(cellRow + row + column + col + within + this.element.prettyOutput() +
-                            haveTextValue + expectedText + ENDB, waitFor,
-                    cellRow.substring(0, 1).toUpperCase() + cellRow.substring(1) + row + column + col + within + this.element.prettyOutput() + " has the text value of <b>" +
-                            actualText + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, "Cell at row " + row + column + col + within + this.element.prettyOutput() +
+                    HAS_TEXT + actualText + ENDB, timeTook);
         }
         return actualText;
     }
@@ -460,17 +470,18 @@ abstract class Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     String checkValue(String expectedValue, double waitFor, double timeTook) {
+        String check = this.element.prettyOutputStart() + " having value of <b>" + expectedValue + ENDB;
         // record the action and check this is an input element
-        if (!isPresentInput(this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor)) {
+        if (isNotPresentInput(check, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the element value
         String elementValue = this.element.get().value();
         // record the result
         if (!elementValue.equals(expectedValue)) {
-            this.reporter.fail(this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -498,19 +509,18 @@ abstract class Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     String checkSelectedOption(String expectedText, double waitFor, double timeTook) {
-        String selectedOption = " having a selected option of <b>";
+        String check = this.element.prettyOutput() + " having a selected option of <b>" + expectedText + ENDB;
         // record the action and check it's a select
-        if (!isPresentSelect(
-                this.element.prettyOutput() + selectedOption + expectedText + ENDB, waitFor)) {
+        if (isNotPresentSelect(check, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the selected text
         String elementText = this.element.get().selectedOption();
         // record the result
         if (!elementText.equals(expectedText)) {
-            this.reporter.fail(this.element.prettyOutput() + selectedOption + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_OPTION + elementText + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_OPTION + elementText + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + selectedOption + expectedText + ENDB, waitFor, this.element.prettyOutputStart() + HAS_OPTION + elementText + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_OPTION + elementText + ENDB, timeTook);
         }
         return elementText;
     }
@@ -538,19 +548,18 @@ abstract class Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     String checkSelectedValue(String expectedValue, double waitFor, double timeTook) {
-        String selectedValue = " having a selected value of <b>";
+        String check = this.element.prettyOutput() + " having a selected value of <b>" + expectedValue + ENDB;
         // record the action and check it's a select
-        if (!isPresentSelect(
-                this.element.prettyOutput() + selectedValue + expectedValue + ENDB, waitFor)) {
+        if (isNotPresentSelect(check, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the selected value
         String elementValue = this.element.get().selectedValue();
         // record the result
         if (!elementValue.equals(expectedValue)) {
-            this.reporter.fail(this.element.prettyOutput() + selectedValue + expectedValue + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + selectedValue + expectedValue + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }
@@ -578,20 +587,18 @@ abstract class Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     String[] checkSelectOptions(String[] expectedOptions, double waitFor, double timeTook) {
-        String boldSeparator = "</b>, <b>";
-        String selectOptions = " with select options of <b>";
+        String check = this.element.prettyOutput() + " with select options of <b>" + String.join("</b>, <b>" + expectedOptions) + ENDB;
         // record the action, and check it's a select
-        if (!isPresentSelect(
-                this.element.prettyOutput() + selectOptions + String.join(boldSeparator + expectedOptions) + ENDB, waitFor)) {
+        if (isNotPresentSelect(check, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the actual select options
         String[] elementOptions = this.element.get().selectOptions();
         // record the result
         if (!Arrays.toString(elementOptions).equals(Arrays.toString(expectedOptions))) {
-            this.reporter.fail(this.element.prettyOutput() + selectOptions + String.join(boldSeparator + expectedOptions) + ENDB, waitFor, this.element.prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + selectOptions + String.join(boldSeparator + expectedOptions) + ENDB, waitFor, this.element.prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + OPTIONS + Arrays.toString(elementOptions) + ENDB, timeTook);
         }
         return elementOptions;
     }
@@ -619,22 +626,18 @@ abstract class Equals extends Check {
      */
     @SuppressWarnings("squid:S1168")
     String[] checkSelectValues(String[] expectedValues, double waitFor, double timeTook) {
-        String selectValues = " with select values of <b>";
+        String check = this.element.prettyOutput() + " with select values of <b>" + Arrays.toString(expectedValues) + ENDB;
         // record the action, and check it's a select
-        if (!isPresentSelect(
-                this.element.prettyOutput() + selectValues + Arrays.toString(expectedValues) +
-                        ENDB, waitFor)) {
+        if (isNotPresentSelect(check, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the actual select values
         String[] elementValues = this.element.get().selectValues();
         // record the result
         if (!Arrays.toString(elementValues).equals(Arrays.toString(expectedValues))) {
-            this.reporter.fail(this.element.prettyOutput() + selectValues + Arrays.toString(expectedValues) +
-                    ENDB, waitFor, this.element.prettyOutputStart() + VALUES + Arrays.toString(elementValues) + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + VALUES + Arrays.toString(elementValues) + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + selectValues + Arrays.toString(expectedValues) +
-                    ENDB, waitFor, this.element.prettyOutputStart() + VALUES + Arrays.toString(elementValues) + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + VALUES + Arrays.toString(elementValues) + ENDB, timeTook);
         }
         return elementValues;
     }

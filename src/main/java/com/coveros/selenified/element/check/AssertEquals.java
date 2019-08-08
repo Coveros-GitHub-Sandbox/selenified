@@ -21,7 +21,6 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Equals;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;

@@ -42,6 +42,8 @@ import static com.coveros.selenified.utilities.Constants.*;
  */
 abstract class Excludes extends Check {
 
+    //TODO - need to realign this one as well
+
     // ///////////////////////////////////////
     // assessing functionality
     // ///////////////////////////////////////
@@ -216,7 +218,7 @@ abstract class Excludes extends Check {
     String[] checkSelectOption(String option, double waitFor, double timeTook) {
         String withoutOption = " without the option <b>";
         // record the action, and check for select
-        if (!isPresentSelect(this.element.prettyOutput() + withoutOption + option +
+        if (isNotPresentSelect(this.element.prettyOutput() + withoutOption + option +
                 AVAILABLE_TO_BE_SELECTED, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
@@ -262,7 +264,7 @@ abstract class Excludes extends Check {
     String[] checkSelectValue(String selectValue, double waitFor, double timeTook) {
         String withoutSelectValue = " without a select value of <b>";
         // record the action, and check for select
-        if (!isPresentSelect(this.element.prettyOutput() + withoutSelectValue + selectValue +
+        if (isNotPresentSelect(this.element.prettyOutput() + withoutSelectValue + selectValue +
                 AVAILABLE_TO_BE_SELECTED, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }

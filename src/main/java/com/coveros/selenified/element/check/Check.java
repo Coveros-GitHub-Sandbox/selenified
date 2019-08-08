@@ -86,12 +86,12 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is present or not
      */
-    boolean isPresent(String check, double waitFor) {
+    boolean isNotPresent(String check, double waitFor) {
         if (!this.element.is().present()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, waitFor);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -148,9 +148,9 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
-    boolean isPresentInput(String check, double waitFor) {
+    boolean isNotPresentInput(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(check, waitFor) && isInput(check, waitFor));
+        return (isNotPresent(check, waitFor) || !isInput(check, waitFor));
     }
 
     /**
@@ -162,9 +162,9 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
-    boolean isPresentSelect(String check, double waitFor) {
+    boolean isNotPresentSelect(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(check, waitFor) && isSelect(check, waitFor));
+        return (isNotPresent(check, waitFor) || !isSelect(check, waitFor));
     }
 
     /**
@@ -176,9 +176,9 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */
-    boolean isPresentTable(String check, double waitFor) {
+    boolean isNotPresentTable(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(check, waitFor) && isTable(check, waitFor));
+        return (isNotPresent(check, waitFor) || !isTable(check, waitFor));
     }
 
     boolean doesCellExist(int row, int col, String check, double waitFor) {

@@ -32,6 +32,7 @@ import com.google.gson.GsonBuilder;
  */
 public class Constants {
 
+    public static final String OF = "of <b>";
     public static final String ON_PAGE = "</b> on the page";
     public static final String NO_ALERT = "An alert is not present on the page";
     public static final String ALERT_TEXT = "An alert with text <b>";
@@ -68,7 +69,7 @@ public class Constants {
     public static final String IS_NOT_EDITABLE = " is not editable on the page";
     public static final String IS_ENABLED = " is enabled on the page";
     public static final String IS_NOT_ENABLED = " is not enabled on the page";
-    public static final String MATCH_PATTERN = " to match a pattern of <b>";
+    public static final String MATCH_PATTERN = " text to match a pattern of <b>";
     public static final String OPTIONS = " has options of <b>";
     public static final String VALUES = " has values of <b>";
     public static final String WITH = "</i> with the value of <b>";
