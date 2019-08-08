@@ -90,6 +90,22 @@ public class VerifyContains extends Contains {
     }
 
     /**
+     * Verifies that the element's text contains the provided expected text. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param row          - the number of the row in the table - note, row numbering
+     *                     starts at 0
+     * @param col          - the number of the column in the table - note, column
+     *                     numbering starts at 0
+     * @param expectedText the expected value of the element
+     */
+    public void text(int row, int col, String expectedText) {
+        checkText(row, col, expectedText, 0, 0);
+    }
+
+    /**
      * Verifies that the element's value contains the provided expected value.
      * If the element isn't present or an input, this will constitute a failure,
      * same as a mismatch. This information will be logged and recorded, with a

@@ -21,7 +21,6 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Excludes;
 import com.coveros.selenified.utilities.Reporter;
 
 /**
@@ -42,7 +41,7 @@ public class VerifyExcludes extends Excludes {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public VerifyExcludes(Element element, Reporter reporter) {
@@ -88,6 +87,22 @@ public class VerifyExcludes extends Excludes {
      */
     public void text(String expectedText) {
         checkText(expectedText, 0, 0);
+    }
+
+    /**
+     * Verifies that the element's text does not contain the provided expected
+     * text. If the element isn't present, this will constitute a failure, same
+     * as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param row          - the number of the row in the table - note, row numbering
+     *                     starts at 0
+     * @param col          - the number of the column in the table - note, column
+     *                     numbering starts at 0
+     * @param expectedText the expected text of the element
+     */
+    public void text(int row, int col, String expectedText) {
+        checkText(row, col, expectedText, 0, 0);
     }
 
     /**

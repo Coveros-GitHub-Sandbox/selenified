@@ -105,6 +105,24 @@ public class AssertExcludes extends Excludes {
     }
 
     /**
+     * Asserts that the element's text does not contain the provided expected
+     * text. If the element isn't present, this will constitute a failure, same
+     * as a mismatch. This information will be logged and recorded, with a
+     * screenshot for traceability and added debugging support.
+     *
+     * @param row          - the number of the row in the table - note, row numbering
+     *                     starts at 0
+     * @param col          - the number of the column in the table - note, column
+     *                     numbering starts at 0
+     * @param expectedText the expected text of the element
+     */
+    public void text(int row, int col, String expectedText) {
+        String text = checkText(row, col, expectedText, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, text);
+        assertFalse("Text found: element text of '" + text + CONTAINS + expectedText + "'", text.contains(expectedText));
+    }
+
+    /**
      * Asserts that the element's value does not contain the provided expected
      * value. If the element isn't present or an input, this will constitute a
      * failure, same as a mismatch. This information will be logged and

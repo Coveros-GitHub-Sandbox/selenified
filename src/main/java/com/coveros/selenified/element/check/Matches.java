@@ -68,7 +68,7 @@ abstract class Matches extends Check {
         String elementText = this.element.get().text();
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!elementText.matches(expectedPattern)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementText + ENDB, timeTook);
         } else {

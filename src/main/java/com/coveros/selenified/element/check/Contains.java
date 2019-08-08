@@ -73,7 +73,7 @@ abstract class Contains extends Check {
         String actualClass = this.element.get().attribute(CLASS);
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (actualClass == null || !actualClass.contains(expectedClass)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + CLASS_VALUE + actualClass + ENDB, timeTook);
         } else {
@@ -114,7 +114,7 @@ abstract class Contains extends Check {
         }
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (atts == null || !allAttributes.contains(expectedAttribute)) {
             this.reporter.fail(check, waitFor,
                     this.element.prettyOutputStart() + " does not contain the attribute of <b>" + expectedAttribute + ENDB +
@@ -153,7 +153,7 @@ abstract class Contains extends Check {
         String actualText = this.element.get().text();
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!actualText.contains(expectedText)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_TEXT + actualText + ENDB, timeTook);
         } else {

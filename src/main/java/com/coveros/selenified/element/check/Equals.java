@@ -118,7 +118,7 @@ abstract class Equals extends Check {
         String actualTagName = this.element.get().tagName();
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!expectedTagName.equals(actualTagName)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a tag name of <b>" + actualTagName + ENDB, timeTook);
         } else {
@@ -152,7 +152,7 @@ abstract class Equals extends Check {
         Point actualLocation = this.element.get().location();
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!expectedLocation.equals(actualLocation)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualLocation) + ENDB, timeTook);
         } else {
@@ -186,7 +186,7 @@ abstract class Equals extends Check {
         Dimension actualSize = this.element.get().size();
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!expectedSize.equals(actualSize)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualSize) + ENDB, timeTook);
         } else {
@@ -220,7 +220,7 @@ abstract class Equals extends Check {
         Rectangle actualRectangle = this.element.get().rectangle();
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!expectedRectangle.equals(actualRectangle)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " has a location of <b>" + getString(actualRectangle) + ENDB, timeTook);
         } else {
@@ -261,7 +261,7 @@ abstract class Equals extends Check {
         String actualCssValue = this.element.get().css(attribute);
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (actualCssValue == null) {
             this.reporter.fail(check, waitFor, "Unable to assess the css of " + this.element.prettyOutputEnd().trim(), timeTook);
         } else if (!expectedCssValue.equals(actualCssValue)) {
@@ -303,7 +303,7 @@ abstract class Equals extends Check {
         String actualClass = this.element.get().attribute(CLASS);
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (actualClass == null) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " does not have a class attribute", timeTook);
         } else if (!expectedClass.equals(actualClass)) {
@@ -346,7 +346,7 @@ abstract class Equals extends Check {
         String elementValue = this.element.get().attribute(attribute);
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (elementValue == null) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " does not have an attribute of <i>" + attribute + "</i>", timeTook);
         } else if (!elementValue.equals(expectedValue)) {
@@ -384,7 +384,7 @@ abstract class Equals extends Check {
         String elementText = this.element.get().text();
         // record the result
         if (!this.element.is().present()) {
-            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " is not present", timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
         } else if (!expectedText.equals(elementText)) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementText + ENDB, timeTook);
         } else {

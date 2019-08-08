@@ -21,7 +21,6 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Contains;
 import com.coveros.selenified.utilities.Reporter;
 
 import java.util.Arrays;
@@ -48,7 +47,7 @@ public class AssertContains extends Contains {
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public AssertContains(Element element, Reporter reporter) {
@@ -99,6 +98,24 @@ public class AssertContains extends Contains {
      */
     public void text(String expectedText) {
         String text = checkText(expectedText, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, text);
+        assertTrue("Text not found: element text of '" + text + DOES_NOT_CONTAIN + expectedText + "'", text.contains(expectedText));
+    }
+
+    /**
+     * Asserts that the element's text contains the provided expected text. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     *
+     * @param row          - the number of the row in the table - note, row numbering
+     *                     starts at 0
+     * @param col          - the number of the column in the table - note, column
+     *                     numbering starts at 0
+     * @param expectedText the expected value of the element
+     */
+    public void text(int row, int col, String expectedText) {
+        String text = checkText(row, col, expectedText, 0, 0);
         assertNotNull(NO_ELEMENT_FOUND, text);
         assertTrue("Text not found: element text of '" + text + DOES_NOT_CONTAIN + expectedText + "'", text.contains(expectedText));
     }
