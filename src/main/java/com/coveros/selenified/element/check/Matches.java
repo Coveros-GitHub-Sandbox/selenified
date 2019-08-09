@@ -152,7 +152,7 @@ abstract class Matches extends Check {
      * @return String: the actual value of the element. null will be returned if the element isn't present or an input
      */
     String checkValue(String expectedPattern, double waitFor, double timeTook) {
-        String check = this.element.prettyOutputStart() + " text to match a pattern of <b>" + expectedPattern + ENDB;
+        String check = this.element.prettyOutputStart() + " having a value to match a pattern of <b>" + expectedPattern + ENDB;
         // record the action and check this is an input element
         if (isNotPresentInput(check, waitFor)) {
             return null;
