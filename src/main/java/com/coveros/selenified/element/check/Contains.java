@@ -200,7 +200,7 @@ abstract class Contains extends Check {
         String check = "cell at row " + row + column + col + within + this.element.prettyOutput() +
                 CONTAINS_TEXT + expectedText + ENDB;
         // record the action, and check for table
-        if (isNotPresentTable(check, waitFor) || !doesCellExist(row, col, check, waitFor)) {
+        if (isNotPresentTable(check, waitFor) || doesCellNotExist(row, col, check, waitFor)) {
             return null;    // returning null to indicate that element isn't present/select, instead of indicating no options exist
         }
         // get the table cell text

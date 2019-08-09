@@ -174,19 +174,30 @@ abstract class Check {
      *
      * @param check   - the check being performed
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @return Boolean: whether the element is an table or not
+     * @return Boolean: whether the element is present and a table or not
      */
     boolean isNotPresentTable(String check, double waitFor) {
         // verify this is a select element
         return (isNotPresent(check, waitFor) || !isTable(check, waitFor));
     }
 
-    boolean doesCellExist(int row, int col, String check, double waitFor) {
+    /**
+     * Determines if an element has the provided table cells or not. Writes
+     * out the action and expected outcome to the detailed log. Action is only
+     * logged if waitFor is greater than 0 (implying we are waiting)
+     *
+     * @param row     - what row are we looking for (index starting at 0)
+     * @param col     - what column are we looking for (index starting at 0)
+     * @param check   - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @return Boolean: whether the table cell exists or not
+     */
+    boolean doesCellNotExist(int row, int col, String check, double waitFor) {
         if (this.element.get().tableCell(row, col) == null) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " doesn't exist. These cell coordinates are out of bounds", waitFor);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**

@@ -114,7 +114,7 @@ abstract class Matches extends Check {
         String check = "Expected to find cell at row " + row + column + col + within + this.element.prettyOutput() +
                 MATCH_PATTERN + pattern + ENDB;
         // record the action
-        if (isNotPresentTable(check, waitFor) || !doesCellExist(row, col, check, waitFor)) {
+        if (isNotPresentTable(check, waitFor) || doesCellNotExist(row, col, check, waitFor)) {
             return null;
         }
         // get the table cell pattern
