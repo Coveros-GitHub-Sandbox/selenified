@@ -18,6 +18,17 @@ public class AssertMatchesIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "matches"},
+            description = "An integration test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellTextOutOfBoundsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table").assertMatches().text(99, 99, "([\\w\\s]*)");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "matches"},
             description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
     public void negativeCompareTableCellTextTest() {
         // use this object to manipulate the app

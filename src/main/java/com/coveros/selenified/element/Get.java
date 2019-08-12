@@ -22,9 +22,7 @@ package com.coveros.selenified.element;
 
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.log4testng.Logger;
 
@@ -37,7 +35,7 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 3/7/2019
+ * @lastupdate 8/08/2019
  */
 public class Get {
     private static final Logger log = Logger.getLogger(Get.class);
@@ -57,8 +55,17 @@ public class Get {
         this.element = element;
     }
 
+    /**
+     * Determines if the element is both present and a select.
+     *
+     * @return Boolean: is the element present AND an input
+     */
+    private boolean isNotPresentSelect() {
+        return !element.is().present() || !element.is().select();
+    }
+
     // ////////////////////////////////////
-    // checking element availability
+    // checking element information
     // ////////////////////////////////////
 
     /**
@@ -69,15 +76,6 @@ public class Get {
      */
     public int matchCount() {
         return element.getWebElements().size();
-    }
-
-    /**
-     * Determines if the element is both present and a select.
-     *
-     * @return Boolean: is the element present AND an input
-     */
-    private boolean isNotPresentSelect() {
-        return !element.is().present() || !element.is().select();
     }
 
     /**
@@ -445,5 +443,48 @@ public class Get {
     public String xPath() {
         return (String) eval(
                 "gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();");
+    }
+
+    /**
+     * Retrieves the location associted with the particular element. If the
+     * element doesn't exist, a null value will be returned
+     *
+     * @return Point: the element's absolute location (x and y coordinates) on the page
+     */
+    public Point location() {
+        if (!element.is().present()) {
+            return null;    // returning an empty array could be confused with no rows
+        }
+        WebElement webElement = element.getWebElement();
+        return webElement.getLocation();
+    }
+
+    /**
+     * Retrieves the size associted with the particular element. If the
+     * element doesn't exist, a null value will be returned
+     *
+     * @return Dimension: the element's size (height and width)
+     */
+    public Dimension size() {
+        if (!element.is().present()) {
+            return null;    // returning an empty array could be confused with no rows
+        }
+        WebElement webElement = element.getWebElement();
+        return webElement.getSize();
+    }
+
+    /**
+     * Retrieves the shape associted with the particular element. If the
+     * element doesn't exist, a null value will be returned
+     *
+     * @return Rectangle: the element's shape (x and y coordinates from
+     * absolute location on the page, along with height and width)
+     */
+    public Rectangle rectangle() {
+        if (!element.is().present()) {
+            return null;    // returning an empty array could be confused with no rows
+        }
+        WebElement webElement = element.getWebElement();
+        return webElement.getRect();
     }
 }

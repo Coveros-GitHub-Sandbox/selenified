@@ -262,6 +262,17 @@ public class AssertContainsIT extends WebBase {
     }
 
     @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration test to check the checkElementDoesntContainClass method", expectedExceptions = AssertionError.class)
+    public void checkElementDoesntContainAnyClassTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "focus_box").assertContains().clazz("wrong_class");
+        // verify one issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "contains"},
             description = "An integration negative test to check the checkElementContainsClass method", expectedExceptions = AssertionError.class)
     public void negativeCheckElementContainsClassTest() {
         // use this object to manipulate the app
@@ -378,6 +389,51 @@ public class AssertContainsIT extends WebBase {
         App app = this.apps.get();
         // perform some actions
         app.newElement(Locator.ID, "non-existent-element").assertContains().text("Anders");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration test to check the compareTableCellText method")
+    public void compareTableCellTextTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table").assertContains().text(2, 2, "Francisco Chang");
+        // verify no issues
+        finish();
+    }
+
+
+    @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellTextOutOfBoundsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table", 0).assertContains().text(99, 99, "Bad-Value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellTextTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table", 0).assertContains().text(1, 1, "Bad-Value");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "assert", "contains"},
+            description = "An integration negative test to check the compareTableCellText method", expectedExceptions = AssertionError.class)
+    public void negativeCompareTableCellTextNotPresetTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "non-existent-element").assertContains().text(0, 0, "");
         // verify 1 issue
         finish(1);
     }

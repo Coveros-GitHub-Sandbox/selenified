@@ -38,7 +38,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 abstract class Check {
     static final String AVAILABLE_TO_BE_SELECTED = "</b> available to be selected on the page";
@@ -86,12 +86,12 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is present or not
      */
-    boolean isPresent(String check, double waitFor) {
+    boolean isNotPresent(String check, double waitFor) {
         if (!this.element.is().present()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, waitFor);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an input or not
      */
-    boolean isInput(String check, double waitFor) {
+    private boolean isInput(String check, double waitFor) {
         if (!this.element.is().input()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor);
             return false;
@@ -116,7 +116,7 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an select or not
      */
-    boolean isSelect(String check, double waitFor) {
+    private boolean isSelect(String check, double waitFor) {
         if (!this.element.is().select()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_SELECT, waitFor);
             return false;
@@ -131,7 +131,7 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is an table or not
      */
-    boolean isTable(String check, double waitFor) {
+    private boolean isTable(String check, double waitFor) {
         if (!this.element.is().table()) {
             this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_TABLE, waitFor);
             return false;
@@ -148,9 +148,9 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
-    boolean isPresentInput(String check, double waitFor) {
+    boolean isNotPresentInput(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(check, waitFor) && isInput(check, waitFor));
+        return (isNotPresent(check, waitFor) || !isInput(check, waitFor));
     }
 
     /**
@@ -162,9 +162,9 @@ abstract class Check {
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
      * @return Boolean: whether the element is a select or not
      */
-    boolean isPresentSelect(String check, double waitFor) {
+    boolean isNotPresentSelect(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(check, waitFor) && isSelect(check, waitFor));
+        return (isNotPresent(check, waitFor) || !isSelect(check, waitFor));
     }
 
     /**
@@ -174,11 +174,30 @@ abstract class Check {
      *
      * @param check   - the check being performed
      * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
-     * @return Boolean: whether the element is an table or not
+     * @return Boolean: whether the element is present and a table or not
      */
-    boolean isPresentTable(String check, double waitFor) {
+    boolean isNotPresentTable(String check, double waitFor) {
         // verify this is a select element
-        return (isPresent(check, waitFor) && isTable(check, waitFor));
+        return (isNotPresent(check, waitFor) || !isTable(check, waitFor));
+    }
+
+    /**
+     * Determines if an element has the provided table cells or not. Writes
+     * out the action and expected outcome to the detailed log. Action is only
+     * logged if waitFor is greater than 0 (implying we are waiting)
+     *
+     * @param row     - what row are we looking for (index starting at 0)
+     * @param col     - what column are we looking for (index starting at 0)
+     * @param check   - the check being performed
+     * @param waitFor - if waiting, how long to wait for (set to 0 if no wait is desired)
+     * @return Boolean: whether the table cell exists or not
+     */
+    boolean doesCellNotExist(int row, int col, String check, double waitFor) {
+        if (this.element.get().tableCell(row, col) == null) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + " doesn't exist. These cell coordinates are out of bounds", waitFor);
+            return true;
+        }
+        return false;
     }
 
     /**

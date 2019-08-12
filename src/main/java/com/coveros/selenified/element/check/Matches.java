@@ -33,10 +33,9 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 abstract class Matches extends Check {
-    public static final String OF = "of <b>";
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -64,13 +63,16 @@ abstract class Matches extends Check {
      * @return String: the actual text of the element. null will be returned if the element isn't present
      */
     String checkText(String expectedPattern, double waitFor, double timeTook) {
+        String check = this.element.prettyOutput() + MATCH_PATTERN + expectedPattern + ENDB;
         // check for the object to the present on the page
         String elementText = this.element.get().text();
         // record the result
-        if (elementText == null || !elementText.matches(expectedPattern)) {
-            this.reporter.fail(this.element.prettyOutput() + MATCH_PATTERN + expectedPattern + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementText + ENDB, timeTook);
+        if (!this.element.is().present()) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + IS_NOT_PRESENT, timeTook);
+        } else if (!elementText.matches(expectedPattern)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementText + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + MATCH_PATTERN + expectedPattern + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementText + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_TEXT + elementText + ENDB, timeTook);
         }
         return elementText;
     }
@@ -107,26 +109,23 @@ abstract class Matches extends Check {
      * @return String: the actual text of the table cell. null will be returned if the element isn't present or a table, or table cell doesn't exist
      */
     String checkText(int row, int col, String pattern, double waitFor, double timeTook) {
-        String cellRow = "Expected to find cell at row ";
         String column = " and column ";
         String within = " within element ";
+        String check = "Expected to find cell at row " + row + column + col + within + this.element.prettyOutput() +
+                MATCH_PATTERN + pattern + ENDB;
         // record the action
-        if (!isPresentTable(cellRow + row + column + col + within + this.element.prettyOutput() +
-                MATCH_PATTERN + pattern + ENDB, waitFor)) {
+        if (isNotPresentTable(check, waitFor) || doesCellNotExist(row, col, check, waitFor)) {
             return null;
         }
         // get the table cell pattern
         String actualText = this.element.get().tableCell(row, col).get().text();
         // record the result
         if (!actualText.matches(pattern)) {
-            this.reporter.fail(cellRow + row + column + col + within + this.element.prettyOutput() +
-                    MATCH_PATTERN + pattern + ENDB, waitFor, "Cell at row " + row + column + col + within + this.element.prettyOutput() +
-                    " has the value of <b>" + actualText + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, "Cell at row " + row + column + col + within + this.element.prettyOutput() +
+                    HAS_TEXT + actualText + ENDB, timeTook);
         } else {
-            this.reporter.pass(cellRow + row + column + col + within + this.element.prettyOutput() +
-                            MATCH_PATTERN + pattern + ENDB, waitFor,
-                    "Cell at row " + row + column + col + within + this.element.prettyOutput() + " has the text of <b>" +
-                            actualText + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, "Cell at row " + row + column + col + within + this.element.prettyOutput() +
+                    HAS_TEXT + actualText + ENDB, timeTook);
         }
         return actualText;
     }
@@ -153,19 +152,20 @@ abstract class Matches extends Check {
      * @return String: the actual value of the element. null will be returned if the element isn't present or an input
      */
     String checkValue(String expectedPattern, double waitFor, double timeTook) {
+        String check = this.element.prettyOutputStart() + " having a value to match a pattern of <b>" + expectedPattern + ENDB;
         // record the action and check this is an input element
-        if (!isPresentInput(this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor)) {
+        if (isNotPresentInput(check, waitFor)) {
             return null;
         }
         // get the element value
-        String elementValue = this.element.get().value();
+        String actualValue = this.element.get().value();
         // record the result
-        if (!elementValue.matches(expectedPattern)) {
-            this.reporter.fail(this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
+        if (!actualValue.matches(expectedPattern)) {
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + actualValue + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutputStart() + IS_NOT_INPUT, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + actualValue + ENDB, timeTook);
         }
-        return elementValue;
+        return actualValue;
     }
 
     /**
@@ -190,22 +190,19 @@ abstract class Matches extends Check {
      * @return String: the actual selected option of the element. null will be returned if the element isn't present or a select
      */
     String checkSelectedOption(String expectedPattern, double waitFor, double timeTook) {
-        String optionMatchingPattern = " having a selected option to match a pattern ";
+        String check = this.element.prettyOutput() + " having a selected option to match a pattern " +
+                OF + expectedPattern + ENDB;
         // record the action, and check it's a select
-        if (!isPresentSelect(
-                this.element.prettyOutput() + optionMatchingPattern +
-                        OF + expectedPattern + ENDB, waitFor)) {
+        if (isNotPresentSelect(check, waitFor)) {
             return null;
         }
         // get the selected text
         String elementText = this.element.get().selectedOption();
         // record the result
         if (!elementText.matches(expectedPattern)) {
-            this.reporter.fail(this.element.prettyOutput() + optionMatchingPattern +
-                    OF + expectedPattern + ENDB, waitFor, this.element.prettyOutputStart() + HAS_OPTION + elementText + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_OPTION + elementText + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + optionMatchingPattern +
-                    OF + expectedPattern + ENDB, waitFor, this.element.prettyOutputStart() + HAS_OPTION + elementText + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_OPTION + elementText + ENDB, timeTook);
         }
         return elementText;
     }
@@ -232,22 +229,19 @@ abstract class Matches extends Check {
      * @return String: the actual selected value of the element. null will be returned if the element isn't present or a select
      */
     String checkSelectedValue(String expectedPattern, double waitFor, double timeTook) {
-        String selectValueMatchesPattern = " having a selected value to match a pattern ";
+        String check = this.element.prettyOutput() + " having a selected value to match a pattern " +
+                OF + expectedPattern + ENDB;
         // record the action, and check it's a select
-        if (!isPresentSelect(
-                this.element.prettyOutput() + selectValueMatchesPattern +
-                        OF + expectedPattern + ENDB, waitFor)) {
+        if (isNotPresentSelect(check, waitFor)) {
             return null;
         }
         // get the selected value
         String elementValue = this.element.get().selectedValue();
         // record the result
         if (!elementValue.matches(expectedPattern)) {
-            this.reporter.fail(this.element.prettyOutput() + selectValueMatchesPattern +
-                    OF + expectedPattern + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
+            this.reporter.fail(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         } else {
-            this.reporter.pass(this.element.prettyOutput() + selectValueMatchesPattern +
-                    OF + expectedPattern + ENDB, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
+            this.reporter.pass(check, waitFor, this.element.prettyOutputStart() + HAS_VALUE + elementValue + ENDB, timeTook);
         }
         return elementValue;
     }

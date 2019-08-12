@@ -32,7 +32,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 abstract class State extends Check {
 
@@ -110,7 +110,7 @@ abstract class State extends Check {
      */
     boolean checkDisplayed(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(this.element.prettyOutput() + IS_DISPLAYED, waitFor)) {
+        if (isNotPresent(this.element.prettyOutput() + IS_DISPLAYED, waitFor)) {
             return false;
         }
         // perform the check
@@ -142,7 +142,7 @@ abstract class State extends Check {
      */
     boolean checkNotDisplayed(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(this.element.prettyOutput() + IS_NOT_DISPLAYED, waitFor)) {
+        if (isNotPresent(this.element.prettyOutput() + IS_NOT_DISPLAYED, waitFor)) {
             return false;
         }
         // perform the check
@@ -174,7 +174,7 @@ abstract class State extends Check {
      */
     boolean checkChecked(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(this.element.prettyOutput() + IS_CHECKED, waitFor)) {
+        if (isNotPresent(this.element.prettyOutput() + IS_CHECKED, waitFor)) {
             return false;
         }
         // perform the check
@@ -206,7 +206,7 @@ abstract class State extends Check {
      */
     boolean checkNotChecked(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(this.element.prettyOutput() + IS_NOT_CHECKED, waitFor)) {
+        if (isNotPresent(this.element.prettyOutput() + IS_NOT_CHECKED, waitFor)) {
             return false;
         }
         // perform the check
@@ -241,7 +241,7 @@ abstract class State extends Check {
      */
     boolean checkEditable(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(this.element.prettyOutput() + IS_EDITABLE, waitFor)) {
+        if (isNotPresent(this.element.prettyOutput() + IS_EDITABLE, waitFor)) {
             return false;
         }
         // perform the check
@@ -277,7 +277,7 @@ abstract class State extends Check {
      */
     boolean checkNotEditable(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(this.element.prettyOutput() + IS_NOT_EDITABLE, waitFor)) {
+        if (isNotPresent(this.element.prettyOutput() + IS_NOT_EDITABLE, waitFor)) {
             return false;
         }
         // perform the check
@@ -307,7 +307,7 @@ abstract class State extends Check {
      */
     boolean checkEnabled(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(this.element.prettyOutput() + IS_ENABLED, waitFor)) {
+        if (isNotPresent(this.element.prettyOutput() + IS_ENABLED, waitFor)) {
             return false;
         }
         // perform the check
@@ -337,7 +337,7 @@ abstract class State extends Check {
      */
     boolean checkNotEnabled(double waitFor, double timeTook) {
         // check the element is present
-        if (!isPresent(this.element.prettyOutput() + IS_NOT_ENABLED, waitFor)) {
+        if (isNotPresent(this.element.prettyOutput() + IS_NOT_ENABLED, waitFor)) {
             return false;
         }
         // perform the check

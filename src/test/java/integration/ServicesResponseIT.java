@@ -172,7 +172,6 @@ public class ServicesResponseIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("posts/?id=4");
-//        response.setMessage(null);
         response.verify().equals("Something");
         // verify 1 issue
         finish(1);
@@ -318,7 +317,6 @@ public class ServicesResponseIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("null/");
-//        response.setMessage(null);
         response.verify().contains("Something");
         // verify 1 issue
         finish(1);

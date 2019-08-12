@@ -23,7 +23,6 @@ package com.coveros.selenified.element;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.check.*;
-import com.coveros.selenified.utilities.Point;
 import com.coveros.selenified.utilities.Reporter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
@@ -48,7 +47,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 public class Element {
 
@@ -1106,8 +1105,7 @@ public class Element {
      * @param expected - what is the expected outcome of said action
      */
     private void isScrolledTo(String action, String expected) {
-        WebElement webElement = getWebElement();
-        long elementPosition = webElement.getLocation().getY();
+        long elementPosition = get().location().getY();
         JavascriptExecutor js = (JavascriptExecutor) driver;
         int scrollHeight = ((Number) js.executeScript("return document.documentElement.scrollTop || document.body.scrollTop;")).intValue();
         int viewportHeight = ((Number) js.executeScript("return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);")).intValue();
@@ -1162,8 +1160,7 @@ public class Element {
             }
             // perform the move action
             JavascriptExecutor jse = (JavascriptExecutor) driver;
-            WebElement webElement = getWebElement();
-            long elementPosition = webElement.getLocation().getY();
+            long elementPosition = get().location().getY();
             long newPosition = elementPosition - position;
             jse.executeScript("window.scrollBy(0, " + newPosition + ")");
         } catch (Exception e) {
@@ -1180,7 +1177,7 @@ public class Element {
      * @param points - a list of points to connect. At least one point must be
      *               provided in the list
      */
-    public void draw(List<Point<Integer, Integer>> points) {
+    public void draw(List<Point> points) {
         if (points.isEmpty()) {
             reporter.fail("Drawing object in " + prettyOutput(), "Drew object in " + prettyOutput(),
                     "Unable to draw in " + prettyOutput() + " as no points were supplied");
@@ -1188,7 +1185,7 @@ public class Element {
         }
         StringBuilder pointString = new StringBuilder();
         String prefix = "";
-        for (Point<Integer, Integer> point : points) {
+        for (Point point : points) {
             pointString.append(prefix);
             prefix = " to ";
             pointString.append("<i>").append(point.getX()).append("x").append(point.getY()).append("</i>");
@@ -1203,10 +1200,10 @@ public class Element {
             WebElement webElement = getWebElement();
             // do our actions
             Actions builder = new Actions(driver);
-            Point<Integer, Integer> firstPoint = points.get(0);
+            Point firstPoint = points.get(0);
             points.remove(0);
             builder.moveToElement(webElement, firstPoint.getX(), firstPoint.getY()).clickAndHold();
-            for (Point<Integer, Integer> point : points) {
+            for (Point point : points) {
                 builder.moveByOffset(point.getX(), point.getY());
             }
             Action drawAction = builder.release().build();
@@ -1256,20 +1253,15 @@ public class Element {
      * @return String the location of the screenshot
      */
     private String getScreenshot() {
-        WebElement webElement = getWebElement();
         String imageLink = "<b><font class='fail'>No Image Preview</font></b>";
         // capture an image of it
         try {
             imageLink = reporter.captureEntirePageScreenshot();
             File image = new File(reporter.getDirectory(), imageLink.split("\"")[1]);
             BufferedImage fullImg = ImageIO.read(image);
-            // Get the location of element on the page
-            org.openqa.selenium.Point point = webElement.getLocation();
-            // Get width and height of the element
-            int eleWidth = webElement.getSize().getWidth();
-            int eleHeight = webElement.getSize().getHeight();
+            Rectangle rectangle = get().rectangle();
             // Crop the entire page screenshot to get only element screenshot
-            BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
+            BufferedImage eleScreenshot = fullImg.getSubimage(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
             ImageIO.write(eleScreenshot, "png", image);
         } catch (WebDriverException | RasterFormatException | IOException e) {
             log.error(e);

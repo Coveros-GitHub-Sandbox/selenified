@@ -21,13 +21,14 @@
 package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
-import com.coveros.selenified.element.check.Equals;
 import com.coveros.selenified.utilities.Reporter;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 
 import java.util.Arrays;
 
-import static com.coveros.selenified.utilities.Constants.ELEMENT_NOT_SELECT;
-import static com.coveros.selenified.utilities.Constants.NO_ELEMENT_FOUND;
+import static com.coveros.selenified.utilities.Constants.*;
 import static org.testng.AssertJUnit.*;
 
 /**
@@ -41,14 +42,14 @@ import static org.testng.AssertJUnit.*;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 public class AssertEquals extends Equals {
 
     /**
      * The default constructor passing in the element and output file
      *
-     * @param element      - the element under test
+     * @param element  - the element under test
      * @param reporter - the file to write all logging out to
      */
     public AssertEquals(Element element, Reporter reporter) {
@@ -82,6 +83,42 @@ public class AssertEquals extends Equals {
         String tagName = checkTagName(expectedTagName, 0, 0);
         assertNotNull(NO_ELEMENT_FOUND, tagName);
         assertEquals("Tag Name Mismatch", expectedTagName, tagName);
+    }
+
+    /**
+     * Asserts that the element's location equals the provided expected location. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void location(Point expectedLocation) {
+        Point point = checkLocation(expectedLocation, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, point);
+        assertEquals("Point Mismatch", expectedLocation, point);
+    }
+
+    /**
+     * Asserts that the element's size equals the provided expected size. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void size(Dimension expectedSize) {
+        Dimension size = checkSize(expectedSize, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, size);
+        assertEquals("Size Mismatch", expectedSize, size);
+    }
+
+    /**
+     * Asserts that the element's rectangle equals the provided expected rectangle. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. This information will be logged and recorded, with a screenshot
+     * for traceability and added debugging support.
+     */
+    public void rectangle(Rectangle expectedRectangle) {
+        Rectangle rectangle = checkRectangle(expectedRectangle, 0, 0);
+        assertNotNull(NO_ELEMENT_FOUND, rectangle);
+        assertEquals("Rectangle Mismatch", expectedRectangle, rectangle);
     }
 
     /**
@@ -166,8 +203,10 @@ public class AssertEquals extends Equals {
     public void text(int row, int col, String expectedText) {
         String text = checkText(row, col, expectedText, 0, 0);
         String reason = NO_ELEMENT_FOUND;
-        if (text == null && this.element.is().present()) {
-            reason = "Element not table";
+        if (text == null && this.element.is().present() && this.element.is().table()) {
+            reason = CELL_OUT_OF_BOUNDS;
+        } else if (text == null && this.element.is().present()) {
+            reason = ELEMENT_NOT_TABLE;
         }
         assertNotNull(reason, text);
         assertEquals("Text Mismatch", expectedText, text);

@@ -32,6 +32,7 @@ import com.google.gson.GsonBuilder;
  */
 public class Constants {
 
+    public static final String OF = "of <b>";
     public static final String ON_PAGE = "</b> on the page";
     public static final String NO_ALERT = "An alert is not present on the page";
     public static final String ALERT_TEXT = "An alert with text <b>";
@@ -68,7 +69,7 @@ public class Constants {
     public static final String IS_NOT_EDITABLE = " is not editable on the page";
     public static final String IS_ENABLED = " is enabled on the page";
     public static final String IS_NOT_ENABLED = " is not enabled on the page";
-    public static final String MATCH_PATTERN = " to match a pattern of <b>";
+    public static final String MATCH_PATTERN = " text to match a pattern of <b>";
     public static final String OPTIONS = " has options of <b>";
     public static final String VALUES = " has values of <b>";
     public static final String WITH = "</i> with the value of <b>";
@@ -76,7 +77,9 @@ public class Constants {
     public static final String ELEMENT_NOT_PRESENT = "Element not present";
     public static final String ELEMENT_NOT_SELECT = "Element not select";
     public static final String ELEMENT_NOT_TABLE = "Element not table";
+    public static final String CELL_OUT_OF_BOUNDS = "Cell out of bounds";
     public static final String CONTAINS = "' contains '";
+    public static final String HAS_ATTRIBUTE = " has the attribute of <i>";
     public static final String DOES_NOT_MATCH_PATTERN = "' doesn't match pattern '";
     public static final String DOES_NOT_CONTAIN = "' doesn't contain '";
     public static final String EXPECTED_ELEMENT_NOT_PRESENT = "Expected Element Not Present";

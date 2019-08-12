@@ -22,6 +22,9 @@ package com.coveros.selenified.element.check;
 
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.utilities.Reporter;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -42,7 +45,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @lastupdate 8/08/2019
  */
 public class WaitForEquals extends Equals {
 
@@ -83,6 +86,39 @@ public class WaitForEquals extends Equals {
      */
     public void tagName(String expectedTagName) {
         tagName(expectedTagName, defaultWait);
+    }
+
+    /**
+     * Waits for the element's location equals the provided expected location. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. The default wait time will be used and if the element doesn't
+     * have the desired match count at that time, it will fail, and log
+     * the issue with a screenshot for traceability and added debugging support.
+     */
+    public void location(Point expectedPoint) {
+        location(expectedPoint, defaultWait);
+    }
+
+    /**
+     * Waits for the element's size equals the provided expected size. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. The default wait time will be used and if the element doesn't
+     * have the desired match count at that time, it will fail, and log
+     * the issue with a screenshot for traceability and added debugging support.
+     */
+    public void size(Dimension expectedSize) {
+        size(expectedSize, defaultWait);
+    }
+
+    /**
+     * Waits for the element's rectangle equals the provided expected rectangle. If
+     * the element isn't present, this will constitute a failure, same as a
+     * mismatch. The default wait time will be used and if the element doesn't
+     * have the desired match count at that time, it will fail, and log
+     * the issue with a screenshot for traceability and added debugging support.
+     */
+    public void rectangle(Rectangle expectedRectangle) {
+        rectangle(expectedRectangle, defaultWait);
     }
 
     /**
@@ -261,14 +297,14 @@ public class WaitForEquals extends Equals {
 
     /**
      * Waits for the element has a tag name with a value equal to the
-     * value provided. If the element isn't present, or the css doesn't contain
-     * the desired attribute, this will constitute a failure, same as a
+     * value provided. If the element isn't present, or the tag name doesn't
+     * match, this will constitute a failure, same as a
      * mismatch. The provided wait time will be used and if the element doesn't
      * have the desired match count at that time, it will fail, and log
      * the issue with a screenshot for traceability and added debugging support.
      *
-     * @param expectedTagName - the expected tag name of the passed attribute of the element
-     * @param seconds       - how many seconds to wait for
+     * @param expectedTagName - the expected tag name of the passed element
+     * @param seconds         - how many seconds to wait for
      */
     public void tagName(String expectedTagName, double seconds) {
         double end = System.currentTimeMillis() + (seconds * 1000);
@@ -278,11 +314,92 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedTagName.equals(element.get().tagName()));
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().tagName().equals(expectedTagName));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkTagName(expectedTagName, seconds, timeTook);
         } catch (TimeoutException e) {
             checkTagName(expectedTagName, seconds, seconds);
+        }
+    }
+
+    /**
+     * Waits for the element has a location with a value equal to the
+     * value provided. If the element isn't present, or the location doesn't
+     * match the expected point, this will constitute a failure, same as a
+     * mismatch. The provided wait time will be used and if the element doesn't
+     * have the desired match count at that time, it will fail, and log
+     * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedLocation - the expected location of the passed element
+     * @param seconds          - how many seconds to wait for
+     */
+    public void location(Point expectedLocation, double seconds) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        try {
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().location().equals(expectedLocation));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            checkLocation(expectedLocation, seconds, timeTook);
+        } catch (TimeoutException e) {
+            checkLocation(expectedLocation, seconds, seconds);
+        }
+    }
+
+    /**
+     * Waits for the element has a size with a value equal to the
+     * value provided. If the element isn't present, or the size doesn't
+     * match the expected dimension, this will constitute a failure, same as a
+     * mismatch. The provided wait time will be used and if the element doesn't
+     * have the desired match count at that time, it will fail, and log
+     * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedSize - the expected size of the passed element
+     * @param seconds      - how many seconds to wait for
+     */
+    public void size(Dimension expectedSize, double seconds) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        try {
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().size().equals(expectedSize));
+            checkSize(expectedSize, seconds, timeTook);
+        } catch (TimeoutException e) {
+            checkSize(expectedSize, seconds, seconds);
+        }
+    }
+
+    /**
+     * Waits for the element has a rectangle with a value equal to the
+     * value provided. If the element isn't present, or the doesn't match
+     * the expected rectagnle, this will constitute a failure, same as a
+     * mismatch. The provided wait time will be used and if the element doesn't
+     * have the desired match count at that time, it will fail, and log
+     * the issue with a screenshot for traceability and added debugging support.
+     *
+     * @param expectedRectangle - the expected rectangle of the passed element
+     * @param seconds           - how many seconds to wait for
+     */
+    public void rectangle(Rectangle expectedRectangle, double seconds) {
+        double end = System.currentTimeMillis() + (seconds * 1000);
+        try {
+            double timeTook = elementPresent(seconds);
+            if (timeTook >= seconds) {
+                throw new TimeoutException(ELEMENT_NOT_PRESENT);
+            }
+            WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
+            wait.until((ExpectedCondition<Boolean>) d -> element.get().rectangle().equals(expectedRectangle));
+            timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
+            checkRectangle(expectedRectangle, seconds, timeTook);
+        } catch (TimeoutException e) {
+            checkRectangle(expectedRectangle, seconds, seconds);
         }
     }
 
@@ -306,7 +423,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedValue.equals(element.get().css(attribute)));
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedValue.equals(element.get().css(attribute))));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkCssValue(attribute, expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -332,7 +449,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> (expectedClass == null ? element.get().attribute(CLASS) == null : expectedClass.equals(element.get().attribute(CLASS))));
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedClass.equals(element.get().attribute(CLASS))));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkClazz(expectedClass, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -360,7 +477,7 @@ public class WaitForEquals extends Equals {
                 throw new TimeoutException(ELEMENT_NOT_PRESENT);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
-            wait.until((ExpectedCondition<Boolean>) d -> expectedValue.equals(element.get().attribute(attribute)));
+            wait.until((ExpectedCondition<Boolean>) d -> (expectedValue.equals(element.get().attribute(attribute))));
             timeTook = Math.min((seconds * 1000) - (end - System.currentTimeMillis()), seconds * 1000) / 1000;
             checkAttribute(attribute, expectedValue, seconds, timeTook);
         } catch (TimeoutException e) {
@@ -418,6 +535,9 @@ public class WaitForEquals extends Equals {
             }
             if (!element.is().table()) {
                 throw new TimeoutException(ELEMENT_NOT_TABLE);
+            }
+            if (element.get().tableCell(row, col) == null) {
+                throw new TimeoutException(CELL_OUT_OF_BOUNDS);
             }
             WebDriverWait wait = new WebDriverWait(element.getDriver(), (long) (seconds - timeTook), defaultPoll);
             wait.until((ExpectedCondition<Boolean>) d -> element.get().tableCell(row, col).get().text().equals(expectedText));

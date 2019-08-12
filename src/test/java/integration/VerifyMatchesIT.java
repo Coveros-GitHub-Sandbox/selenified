@@ -19,6 +19,17 @@ public class VerifyMatchesIT extends WebBase {
 
     @Test(groups = {"integration", "verify", "matches"},
             description = "An integration negative test to check the compareTableCellText method")
+    public void negativeCompareTableCellTextOutOfBoundsTest() {
+        // use this object to manipulate the app
+        App app = this.apps.get();
+        // perform some actions
+        app.newElement(Locator.ID, "table", 0).verifyMatches().text(99, 99, "([\\d\\s]*)");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "verify", "matches"},
+            description = "An integration negative test to check the compareTableCellText method")
     public void negativeCompareTableCellTextTest() {
         // use this object to manipulate the app
         App app = this.apps.get();

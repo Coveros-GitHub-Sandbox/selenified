@@ -230,7 +230,7 @@ public class WaitForIT extends WebBase {
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
-        app.waitFor().confirmationEquals(2,"Enabled!");
+        app.waitFor().confirmationEquals(2, "Enabled!");
         // verify no issues
         finish(1);
     }
