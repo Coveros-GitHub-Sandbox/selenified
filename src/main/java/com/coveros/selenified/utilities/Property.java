@@ -41,7 +41,7 @@ import java.util.Properties;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 5/13/2019
+ * @lastupdate 8/16/2019
  */
 public class Property {
 

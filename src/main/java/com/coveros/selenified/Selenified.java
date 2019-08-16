@@ -53,7 +53,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * system variables are gathered, to set the browser, test site, proxy, hub,
  * etc. This class should be extended by each test class to allow for simple
  * execution of tests.
- * <p>
+ *
  * By default each test run will launch a selenium browser, and open the defined
  * test site. If no browser is needed for the test, override the startTest
  * method. Similarly, if you don't want a URL to initially load, override the
@@ -61,7 +61,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/07/2019
+ * @lastupdate 8/16/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
@@ -71,7 +71,7 @@ public class Selenified {
     private static final String SERVICES_PASS = "ServicesPass";
 
     // some passed in system browser capabilities
-    private static final List<Capabilities> capabilities = new ArrayList<>();
+    private static final List<Capabilities> CAPABILITIES_LIST = new ArrayList<>();
     private static String buildName;
 
     // for individual tests
@@ -200,7 +200,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, Object> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, Object>) context.getAttribute(clazz + "Headers");
@@ -379,7 +379,7 @@ public class Selenified {
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
-        Capabilities capabilities = Selenified.capabilities.get(invocationCount);
+        Capabilities capabilities = Selenified.CAPABILITIES_LIST.get(invocationCount);
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
         } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
@@ -584,7 +584,7 @@ public class Selenified {
             StringBuilder buildNameSB = new StringBuilder(dateFormat.format(date));
             List<Browser> browsers = getBrowserInput();
             for (Browser browser : browsers) {
-                Selenified.capabilities.add(new Capabilities(browser));
+                Selenified.CAPABILITIES_LIST.add(new Capabilities(browser));
                 buildNameSB.append(browser.getDetails() + ", ");
             }
             if (isBuildNameSet()) {
