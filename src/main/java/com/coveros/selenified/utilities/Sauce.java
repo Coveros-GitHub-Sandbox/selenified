@@ -22,7 +22,6 @@ package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidSauceException;
-import com.saucelabs.saucerest.SauceREST;
 import org.testng.log4testng.Logger;
 
 /**
@@ -47,13 +46,6 @@ public class Sauce {
             return false;
         }
         return hub.contains("ondemand.saucelabs.com");
-    }
-
-    public static SauceREST getSauceConnection() throws InvalidHubException {
-        if (!isSauce()) {
-            throw new InvalidSauceException("Sauce hub isn't set");
-        }
-        return new SauceREST(Sauce.getSauceUser(), Sauce.getSauceKey());
     }
 
     private static String getSauceCreds(String hub) throws InvalidSauceException {
