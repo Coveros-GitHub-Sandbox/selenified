@@ -11,6 +11,8 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.Test;
 
+import static com.coveros.selenified.utilities.Property.HUB;
+import static com.coveros.selenified.utilities.Property.PROXY;
 import static org.testng.Assert.*;
 
 public class CapabilitiesTest extends SaveProperties {
