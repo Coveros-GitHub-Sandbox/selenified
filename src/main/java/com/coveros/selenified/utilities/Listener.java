@@ -100,6 +100,20 @@ public class Listener extends TestListenerAdapter {
     }
 
     /**
+     * Provides ability to skip a test, based on the browser selected
+     *
+     * @param result - the testng itestresult object
+     */
+    @Override
+    public void onTestStart(ITestResult result) {
+        super.onTestStart(result);
+        Browser browser = (Browser) result.getAttribute(BROWSER);
+        if (skipTest(browser, result)) {
+            throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
+        }
+    }
+
+    /**
      * Runs the default TestNG onTestFailure, and adds additional information
      * into the testng reporter
      *
@@ -199,5 +213,28 @@ public class Listener extends TestListenerAdapter {
                 log.error(e);
             }
         }
+    }
+
+    /**
+     * Checks if a test should be skipped, based on the browser, and groups provided. If the test contains the groups 'no-[BROWSER]'
+     * and the browser is that browser, then the test will be skipped
+     *
+     * @param browser - the browser currently under test
+     * @param result  - the testng itestresult object
+     * @return Boolean: should the test be skipped or not
+     */
+    public static boolean skipTest(Browser browser, ITestResult result) {
+        if (browser != null) {
+            String[] groups = result.getMethod().getGroups();
+            for (String group : groups) {
+                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
+                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " +
+                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
+                    result.setStatus(ITestResult.SKIP);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

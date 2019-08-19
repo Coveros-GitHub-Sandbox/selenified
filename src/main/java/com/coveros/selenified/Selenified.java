@@ -385,16 +385,8 @@ public class Selenified {
         Capabilities capabilities = Selenified.CAPABILITIES_LIST.get(invocationCount);
         // if a group indicates an invalid browser, skip the test
         Browser browser = capabilities.getBrowser();
-        if (browser != null) {
-            String[] groups = result.getMethod().getGroups();
-            for (String group : groups) {
-                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
-                    log.warn("Skipping test case " + testName + ", as it is not intended for browser " +
-                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                    result.setStatus(ITestResult.SKIP);
-                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                }
-            }
+        if( Listener.skipTest(browser, result)) {
+            return;
         }
         // setup our browser instance
         if (!selenium.useBrowser()) {
