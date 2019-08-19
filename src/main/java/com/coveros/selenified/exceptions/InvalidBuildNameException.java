@@ -20,9 +20,9 @@
 
 package com.coveros.selenified.exceptions;
 
-public class InvalidBrowserOptionsException extends InvalidBrowserException {
+public class InvalidBuildNameException extends InvalidBrowserException {
 
-    public InvalidBrowserOptionsException(String msg) {
+    public InvalidBuildNameException(String msg) {
         super(msg);
     }
 }

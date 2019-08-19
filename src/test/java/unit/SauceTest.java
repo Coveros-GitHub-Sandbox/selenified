@@ -5,6 +5,7 @@ import com.coveros.selenified.exceptions.InvalidSauceException;
 import com.coveros.selenified.utilities.Sauce;
 import org.testng.annotations.Test;
 
+import static com.coveros.selenified.utilities.Property.HUB;
 import static org.testng.Assert.*;
 
 public class SauceTest extends SaveProperties {

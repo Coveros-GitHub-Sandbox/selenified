@@ -1,4 +1,8 @@
 # Selenified Testing Framework
+[![Build Status](https://app.saucelabs.com/buildstatus/msaperstone)](https://app.saucelabs.com/builds/4ccb6e442f354daf9d92868a82a7e378)
+
+[![Build Status](https://app.saucelabs.com/browser-matrix/msaperstone.svg)](https://app.saucelabs.com/builds/71fa66acf289468bb3739068dc285c87)
+
 The Selenified Test Framework provides mechanisms for simply testing applications at multiple tiers 
 while easily integrating into DevOps build environments. Selenified provides traceable reporting for 
 both web and API testing, wraps and extends Selenium calls to more appropriately handle testing errors, 
@@ -600,9 +604,10 @@ implemented.
 ### Parameters
 The testing framework requires no parameters, but takes several optional input parameters. Each of these paramters
 can be passed in either via commandline (through System Properties), or they can be set in a properties file. The
-Selenified framework looks for a properties file named `selenified.properties` in the `src/test/resources` directory.
-Any of the below value can be set in either. If they are set in both location, the System Properties will override
-anything set in the properties file.
+Selenified framework looks for a properties file named 
+[`selenified.properties`](https://github.com/Coveros/selenified/blob/develop/src/test/resources/selenified.properties) 
+in the `src/test/resources` directory. Any of the below value can be set in either. If they are set in both location, 
+the System Properties will override anything set in the properties file.
 
 #### Application URL
 This is the default URL that all tests should run against. As mentioned above, this value can be provided in each test, class, or 
@@ -664,6 +669,14 @@ Each build tool has specific instructions for modifying what and how tests are r
  * [Maven](https://github.com/Coveros/selenified/wiki/Maven)
  * [Ant](https://github.com/Coveros/selenified/wiki/Ant)
  * [Gradle](https://github.com/Coveros/selenified/wiki/Gradle)
+
+#### Build Name
+Several tools, including Sauce Labs, have the ability to group your tests, and assign them builds.
+By default, a build attribute will be assigned to each test run, which will have the datetime stamp,
+and the browsers executed. You can override this, by passing in the `buildName` parameter.
+```
+-DbuildName='Jenkins Run 123'
+```
 
 ### Eclipse
 Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
