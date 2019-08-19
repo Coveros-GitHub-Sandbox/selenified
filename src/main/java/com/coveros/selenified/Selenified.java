@@ -386,6 +386,8 @@ public class Selenified {
             capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
         Browser browser = capabilities.getBrowser();
+        this.browserThreadLocal.set(browser);
+        result.setAttribute(BROWSER, browser);
         // if a group indicates an invalid browser, skip the test
         if (Listener.skipTest(browser, result)) {
             return;
@@ -401,6 +403,8 @@ public class Selenified {
                 new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test),
                         test.getName(), Arrays.asList(result.getMethod().getGroups()),
                         getAuthor(extClass, test), getVersion(extClass, test), description);
+        this.reporterThreadLocal.set(reporter);
+        result.setAttribute(REPORTER, reporter);
         // start creating instances of our app to use for testing
         if (selenium.useBrowser()) {
             App app = new App(capabilities, reporter);
@@ -424,11 +428,6 @@ public class Selenified {
             call.setContentType(getContentType(extClass, test));
         }
         this.calls.set(call);
-        // store everything for later use
-        this.browserThreadLocal.set(browser);
-        result.setAttribute(BROWSER, browser);
-        this.reporterThreadLocal.set(reporter);
-        result.setAttribute(REPORTER, reporter);
     }
 
     /**
