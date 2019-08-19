@@ -26,7 +26,6 @@ import com.coveros.selenified.utilities.Reporter.Success;
 import com.saucelabs.saucerest.SauceException;
 import com.saucelabs.saucerest.SauceREST;
 import org.testng.ITestResult;
-import org.testng.SkipException;
 import org.testng.TestListenerAdapter;
 import org.testng.log4testng.Logger;
 
