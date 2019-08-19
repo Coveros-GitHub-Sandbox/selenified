@@ -33,6 +33,7 @@ import org.testng.xml.XmlSuite;
 
 import java.io.*;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -285,7 +286,7 @@ public class ReportOverview extends EmailableReporter2 {
         try (
             FileWriter fw = new FileWriter(logFile); BufferedWriter out = new BufferedWriter(fw)) {
             for (LogEntry entry : logEntriesEntry.getValue()) {
-                out.write(entry + "<br/>");
+                out.write(new Date(entry.getTimestamp()) + " " + entry.getLevel() + " " + entry.getMessage() + "<br/>");
             }
         } catch (IOException e) {
             log.error(e);

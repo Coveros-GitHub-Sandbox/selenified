@@ -495,7 +495,7 @@ public class Selenified {
                 this.reporterThreadLocal.get().addLogs(logType, logEntries);
             }
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
-            log.debug(e);
+//            log.info(e);
         }
     }
 
