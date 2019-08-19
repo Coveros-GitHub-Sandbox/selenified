@@ -22,10 +22,13 @@ package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.services.HTTP;
+import com.coveros.selenified.services.Request;
 import com.coveros.selenified.utilities.Reporter.Success;
-import com.saucelabs.saucerest.SauceException;
-import com.saucelabs.saucerest.SauceREST;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.testng.ITestResult;
+import org.testng.SkipException;
 import org.testng.TestListenerAdapter;
 import org.testng.log4testng.Logger;
 
@@ -47,7 +50,7 @@ import static com.coveros.selenified.utilities.Property.BROWSER;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/18/2019
+ * @lastupdate 8/08/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
@@ -94,16 +97,6 @@ public class Listener extends TestListenerAdapter {
             className = testClass;
         }
         return TestCase.getTestName(packageName, className, result.getName(), result.getParameters());
-    }
-
-    /**
-     * Provides ability to skip a test, based on the browser selected
-     *
-     * @param result - the testng itestresult object
-     */
-    @Override
-    public void onTestStart(ITestResult result) {
-        super.onTestStart(result);
     }
 
     /**
@@ -189,15 +182,21 @@ public class Listener extends TestListenerAdapter {
         // update sauce labs
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();
+            JsonObject json = new JsonObject();
+            json.addProperty("passed", result.getStatus() == 1);
+            JsonArray tags = new JsonArray();
+            for (String tag : result.getMethod().getGroups()) {
+                tags.add(tag);
+            }
+            json.add("tags", tags);
             try {
-                SauceREST sauce = Sauce.getSauceConnection();
-                if (result.getStatus() == 1) {
-                    sauce.jobPassed(sessionId);
-                } else {
-                    sauce.jobFailed(sessionId);
-                }
-            } catch (SauceException | InvalidHubException e) {
+                HTTP http = new HTTP(null, "https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
+                        Sauce.getSauceKey());
+                http.put(sessionId, new Request().setJsonPayload(json), null);
+            } catch (InvalidHubException e) {
                 log.error("Unable to connect to sauce, due to credential problems");
+            } catch (IOException e) {
+                log.error(e);
             }
         }
     }

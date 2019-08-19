@@ -151,12 +151,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.saucelabs</groupId>
-            <artifactId>saucerest</artifactId>
-            <version>1.0.42</version>
-        </dependency>
-
-        <dependency>
             <!-- ALWAYS required. -->
             <groupId>com.openhtmltopdf</groupId>
             <artifactId>openhtmltopdf-core</artifactId>

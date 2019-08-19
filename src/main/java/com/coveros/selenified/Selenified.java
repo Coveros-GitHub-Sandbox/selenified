@@ -404,7 +404,6 @@ public class Selenified {
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
-        desiredCapabilities.setCapability("tags", Arrays.asList(result.getMethod().getGroups()));
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
 
         Reporter reporter =
