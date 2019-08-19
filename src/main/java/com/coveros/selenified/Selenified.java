@@ -53,7 +53,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * system variables are gathered, to set the browser, test site, proxy, hub,
  * etc. This class should be extended by each test class to allow for simple
  * execution of tests.
- *
+ * <p>
  * By default each test run will launch a selenium browser, and open the defined
  * test site. If no browser is needed for the test, override the startTest
  * method. Similarly, if you don't want a URL to initially load, override the
@@ -200,7 +200,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
+     * @return Map<String ,   String>: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, Object> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, Object>) context.getAttribute(clazz + "Headers");
@@ -387,19 +387,21 @@ public class Selenified {
         }
         Browser browser = capabilities.getBrowser();
         // if a group indicates an invalid browser, skip the test
-        if( Listener.skipTest(browser, testName, result)) {
+        if (Listener.skipTest(browser, testName, result)) {
             return;
         }
+        // setup the rest of the browser details
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
         desiredCapabilities.setCapability("build", buildName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
-
+        // setup the reporter
         Reporter reporter =
                 new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test),
                         test.getName(), Arrays.asList(result.getMethod().getGroups()),
                         getAuthor(extClass, test), getVersion(extClass, test), description);
+        // start creating instances of our app to use for testing
         if (selenium.useBrowser()) {
             App app = new App(capabilities, reporter);
             this.apps.set(app);
@@ -414,6 +416,7 @@ public class Selenified {
         } else {
             this.apps.set(null);
         }
+        // start creating instance of our api to use for testing
         HTTP http = new HTTP(reporter, Property.getAppURL(extClass, test), getServiceUserCredential(extClass, test),
                 getServicePassCredential(extClass, test));
         Call call = new Call(http, getExtraHeaders(extClass, test));
@@ -421,7 +424,7 @@ public class Selenified {
             call.setContentType(getContentType(extClass, test));
         }
         this.calls.set(call);
-
+        // store everything for later use
         this.browserThreadLocal.set(browser);
         result.setAttribute(BROWSER, browser);
         this.reporterThreadLocal.set(reporter);
