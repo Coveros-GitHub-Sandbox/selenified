@@ -32,7 +32,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.SkipException;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
@@ -62,11 +61,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.1
-<<<<<<< HEAD
  * @lastupdate 8/18/2019
-=======
- * @lastupdate 8/16/2019
->>>>>>> develop
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
@@ -383,11 +378,6 @@ public class Selenified {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Capabilities capabilities = Selenified.CAPABILITIES_LIST.get(invocationCount);
-        // if a group indicates an invalid browser, skip the test
-        Browser browser = capabilities.getBrowser();
-        if( Listener.skipTest(browser, result)) {
-            return;
-        }
         // setup our browser instance
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
@@ -395,7 +385,11 @@ public class Selenified {
             capabilities = new Capabilities(capabilities.getBrowser());
             capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
-        browser = capabilities.getBrowser();
+        Browser browser = capabilities.getBrowser();
+        // if a group indicates an invalid browser, skip the test
+        if( Listener.skipTest(browser, result)) {
+            return;
+        }
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
