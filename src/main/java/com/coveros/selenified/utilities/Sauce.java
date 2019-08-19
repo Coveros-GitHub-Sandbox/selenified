@@ -34,6 +34,7 @@ import org.testng.log4testng.Logger;
  */
 public class Sauce {
     private static final Logger log = Logger.getLogger(Sauce.class);
+    private static final String SAUCE_HUB_ISN_T_SET = "Sauce hub isn't set";
 
     private Sauce() {
     }
@@ -63,7 +64,7 @@ public class Sauce {
      */
     public static SauceREST getSauceConnection() throws InvalidHubException {
         if (!isSauce()) {
-            throw new InvalidSauceException("Sauce hub isn't set");
+            throw new InvalidSauceException(SAUCE_HUB_ISN_T_SET);
         }
         return new SauceREST(Sauce.getSauceUser(), Sauce.getSauceKey());
     }
@@ -98,7 +99,7 @@ public class Sauce {
      */
     public static String getSauceUser() throws InvalidHubException {
         if (!isSauce()) {
-            throw new InvalidSauceException("Sauce hub isn't set");
+            throw new InvalidSauceException(SAUCE_HUB_ISN_T_SET);
         }
         if (System.getenv("SAUCE_USER") != null) {
             return System.getenv("SAUCE_USER");
@@ -121,7 +122,7 @@ public class Sauce {
      */
     public static String getSauceKey() throws InvalidHubException {
         if (!isSauce()) {
-            throw new InvalidSauceException("Sauce hub isn't set");
+            throw new InvalidSauceException(SAUCE_HUB_ISN_T_SET);
         }
         if (System.getenv("SAUCE_KEY") != null) {
             return System.getenv("SAUCE_KEY");
