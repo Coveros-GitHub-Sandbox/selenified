@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,7 +102,7 @@ public class ReporterTest {
 
     @Test
     public void createOutputHeaderGroupTest() throws IOException {
-        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, "My Group", null, null,
+        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, Arrays.asList("My Group"), null, null,
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
