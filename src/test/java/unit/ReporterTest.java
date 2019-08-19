@@ -22,9 +22,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.coveros.selenified.utilities.Property.GENERATE_PDF;
+import static com.coveros.selenified.utilities.Property.PACKAGE_RESULTS;
 import static org.testng.Assert.*;
-import static unit.PropertyTest.GENERATE_PDF;
-import static unit.PropertyTest.PACKAGE_RESULTS;
 
 public class ReporterTest {
 

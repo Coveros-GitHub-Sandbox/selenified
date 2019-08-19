@@ -37,14 +37,12 @@ import org.testng.log4testng.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Level;
 
-import static com.coveros.selenified.utilities.Property.APP_URL;
-import static com.coveros.selenified.utilities.Property.BROWSER;
+import static com.coveros.selenified.utilities.Property.*;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
@@ -63,7 +61,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/07/2019
+ * @lastupdate 8/16/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
@@ -73,8 +71,8 @@ public class Selenified {
     private static final String SERVICES_PASS = "ServicesPass";
 
     // some passed in system browser capabilities
-    private static final List<Capabilities> CAPABILITIES = new ArrayList<>();
-    private static final String DESIRED_CAPABILITIES = "DesiredCapabilities";
+    private static final List<Capabilities> CAPABILITIES_LIST = new ArrayList<>();
+    private static String buildName;
 
     // for individual tests
     private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
@@ -88,6 +86,7 @@ public class Selenified {
     public static final String REPORTER = "reporter";
     private static final String INVOCATION_COUNT = "InvocationCount";
     private static final String ERRORS_CHECK = " errors";
+    private static final String DESIRED_CAPABILITIES = "DesiredCapabilities";
 
     /**
      * Sets the URL of the application under test. If the site was provided as a
@@ -380,7 +379,7 @@ public class Selenified {
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
-        Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
+        Capabilities capabilities = Selenified.CAPABILITIES_LIST.get(invocationCount);
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
         } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
@@ -391,6 +390,7 @@ public class Selenified {
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
+        desiredCapabilities.setCapability("build", buildName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
 
         Reporter reporter =
@@ -579,9 +579,18 @@ public class Selenified {
          *                                 thrown
          */
         private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss - ");
+            Date date = new Date();
+            StringBuilder buildNameSB = new StringBuilder(dateFormat.format(date));
             List<Browser> browsers = getBrowserInput();
             for (Browser browser : browsers) {
-                Selenified.CAPABILITIES.add(new Capabilities(browser));
+                Selenified.CAPABILITIES_LIST.add(new Capabilities(browser));
+                buildNameSB.append(browser.getDetails() + ", ");
+            }
+            if (isBuildNameSet()) {
+                buildName = getBuildName();
+            } else {
+                buildName = buildNameSB.toString().substring(0, buildNameSB.length() - 2);
             }
         }
 
