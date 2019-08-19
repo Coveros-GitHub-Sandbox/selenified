@@ -154,8 +154,6 @@
             <groupId>com.saucelabs</groupId>
             <artifactId>saucerest</artifactId>
             <version>1.0.42</version>
-            <scope>system</scope>
-            <systemPath>/home/max/workspace/saucerest-java/target/saucerest-1.0.43-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>

@@ -5,6 +5,7 @@ import com.coveros.selenified.application.App;
 import com.coveros.selenified.element.Element;
 import org.testng.annotations.Test;
 
+@Test(groups = {"conflict full"})
 public class ConflictIT extends WebBase {
 
     @Test(groups = {"integration", "conflict"},

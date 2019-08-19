@@ -63,7 +63,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/07/2019
+ * @lastupdate 8/18/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
@@ -372,8 +372,6 @@ public class Selenified {
         // get annotation information
         Test annotation = method.getAnnotation(Test.class);
         String description = annotation.description();
-        String group = Arrays.toString(annotation.groups());
-        group = group.substring(1, group.length() - 1);
 
         while (test.getAttribute(testName + INVOCATION_COUNT) == null) {
             test.setAttribute(testName + INVOCATION_COUNT, 0);
@@ -391,10 +389,12 @@ public class Selenified {
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
+        desiredCapabilities.setCapability("tags", Arrays.asList(result.getMethod().getGroups()));
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
 
         Reporter reporter =
-                new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test), test.getName(), group,
+                new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test),
+                        test.getName(), Arrays.asList(result.getMethod().getGroups()),
                         getAuthor(extClass, test), getVersion(extClass, test), description);
         if (selenium.useBrowser()) {
             App app = new App(capabilities, reporter);

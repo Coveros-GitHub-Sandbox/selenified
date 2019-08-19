@@ -59,7 +59,7 @@ import static com.coveros.selenified.utilities.Constants.END_IDIV;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 6/28/2019
+ * @lastupdate 8/18/2019
  */
 public class Reporter {
 
@@ -82,7 +82,7 @@ public class Reporter {
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
     private final String url;
     private final String suite;
-    private final String group;
+    private final List<String> groups;
     private final String version;
     private final String author;
     private final String objectives;
@@ -112,29 +112,21 @@ public class Reporter {
      * @param capabilities - the capabilities of the tests that are running
      * @param url          - the url all of the tests are running against
      * @param suite        - the test suite associated with the particular test
-     * @param group        - any testng groups associated with the particular test
+     * @param groups       - any testng groups associated with the particular test
      * @param author       - the author associated with the particular test
      * @param version      - the version of the test suite associated with the particular
      *                     test
      * @param objectives   - the test objectives, taken from the testng description
      */
     @SuppressWarnings("squid:S00107")
-    public Reporter(String directory, String test, Capabilities capabilities, String url, String suite, String group,
+    public Reporter(String directory, String test, Capabilities capabilities, String url, String suite, List<String> groups,
                     String author, String version, String objectives) throws InvalidBrowserException, InvalidProxyException {
-        if (directory == null) {
-            this.directory = ".";
-        } else {
-            this.directory = directory;
-        }
+        this.directory = directory == null ? "." : directory;
         this.test = test;
-        if (capabilities == null) {
-            this.capabilities = new Capabilities(new Browser("None"));
-        } else {
-            this.capabilities = capabilities;
-        }
+        this.capabilities = capabilities == null ? new Capabilities(new Browser("None")) : capabilities;
         this.url = url;
         this.suite = suite;
-        this.group = group;
+        this.groups = groups == null ? new ArrayList<>() : groups;
         this.author = author;
         this.version = version;
         this.objectives = objectives;
@@ -620,7 +612,7 @@ public class Reporter {
             out.write(START_CELL + capabilities.getBrowser().getDetails() + END_CELL);
             out.write(swapRow);
             out.write("    <th>Testing Group</th>\n");
-            out.write(START_CELL + group + END_CELL);
+            out.write(START_CELL + String.join(", ", groups) + END_CELL);
             out.write("    <th>Testing Suite</th>\n");
             out.write(START_CELL + suite + END_CELL);
             out.write(swapRow);
