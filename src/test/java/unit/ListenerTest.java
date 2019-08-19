@@ -5186,8 +5186,8 @@ public class ListenerTest extends SaveProperties {
 
     @Test
     public void skipTestTest() throws InvalidBrowserException {
-        assertFalse(Listener.skipTest(null, resultPass));
-        assertFalse(Listener.skipTest(new Browser("Chrome"), resultChromeNoSkip));
-        assertTrue(Listener.skipTest(new Browser("Chrome"), resultChromeSkip));
+        assertFalse(Listener.skipTest(null, null, resultPass));
+        assertFalse(Listener.skipTest(new Browser("Chrome"), null, resultChromeNoSkip));
+        assertTrue(Listener.skipTest(new Browser("Chrome"), null, resultChromeSkip));
     }
 }
