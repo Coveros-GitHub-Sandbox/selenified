@@ -387,7 +387,7 @@ public class Selenified {
         }
         Browser browser = capabilities.getBrowser();
         // if a group indicates an invalid browser, skip the test
-        if( Listener.skipTest(browser, result)) {
+        if( Listener.skipTest(browser, testName, result)) {
             return;
         }
         capabilities.setInstance(invocationCount);

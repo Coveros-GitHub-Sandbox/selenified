@@ -108,7 +108,7 @@ public class Listener extends TestListenerAdapter {
     public void onTestStart(ITestResult result) {
         super.onTestStart(result);
         Browser browser = (Browser) result.getAttribute(BROWSER);
-        if (skipTest(browser, result)) {
+        if (skipTest(browser, getTestName(result), result)) {
             throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
         }
     }
@@ -223,13 +223,14 @@ public class Listener extends TestListenerAdapter {
      * @param result  - the testng itestresult object
      * @return Boolean: should the test be skipped or not
      */
-    public static boolean skipTest(Browser browser, ITestResult result) {
+    public static boolean skipTest(Browser browser, String testName, ITestResult result) {
         if (browser != null) {
+            String browserName = browser.getName().toString().toLowerCase();
             String[] groups = result.getMethod().getGroups();
             for (String group : groups) {
-                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
-                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " +
-                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
+                if (group.equalsIgnoreCase("no-" + browserName)) {
+                    log.warn("Skipping test case " + testName + ", as it is not intended for browser " +
+                            Reporter.capitalizeFirstLetters(browserName));
                     result.setStatus(ITestResult.SKIP);
                     return true;
                 }
