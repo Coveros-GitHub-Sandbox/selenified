@@ -32,6 +32,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
+import org.testng.SkipException;
 import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
@@ -379,13 +380,27 @@ public class Selenified {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
+        // if a group indicates an invalid browser, skip the test
+        Browser browser = capabilities.getBrowser();
+        if (browser != null) {
+            String[] groups = result.getMethod().getGroups();
+            for (String group : groups) {
+                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
+                    log.warn("Skipping test case " + testName + ", as it is not intended for browser " +
+                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
+                    result.setStatus(ITestResult.SKIP);
+                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
+                }
+            }
+        }
+        // setup our browser instance
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
         } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
             capabilities = new Capabilities(capabilities.getBrowser());
             capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
-        Browser browser = capabilities.getBrowser();
+        browser = capabilities.getBrowser();
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);

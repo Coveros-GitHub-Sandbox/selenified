@@ -105,19 +105,6 @@ public class Listener extends TestListenerAdapter {
     @Override
     public void onTestStart(ITestResult result) {
         super.onTestStart(result);
-        // if a group indicates an invalid browser, skip the test
-        Browser browser = (Browser) result.getAttribute(BROWSER);
-        if (browser != null) {
-            String[] groups = result.getMethod().getGroups();
-            for (String group : groups) {
-                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
-                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " +
-                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                    result.setStatus(ITestResult.SKIP);
-                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                }
-            }
-        }
     }
 
     /**
