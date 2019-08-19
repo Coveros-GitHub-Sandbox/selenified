@@ -677,6 +677,7 @@ and the browsers executed. You can override this, by passing in the `buildName` 
 ```
 -DbuildName='Jenkins Run 123'
 ```
+Be sure to make it something unique each time, or new tests might get associated with old test runs.
 
 ### Eclipse
 Expand the project in the left side navigational panel. Right-click on the Java package, class, or method containing 
