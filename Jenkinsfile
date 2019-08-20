@@ -158,8 +158,8 @@ node {
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
-                            usernameVariable: 'sauceusername',
-                            passwordVariable: 'saucekey'
+                            usernameVariable: 'SAUCE_USER',
+                            passwordVariable: 'SAUCE_KEY'
                     )
             ]) {
                 stage('Update Test Site') {
