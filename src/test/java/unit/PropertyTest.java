@@ -1,9 +1,6 @@
 package unit;
 
-import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
-import com.coveros.selenified.exceptions.InvalidHTTPException;
-import com.coveros.selenified.exceptions.InvalidHubException;
-import com.coveros.selenified.exceptions.InvalidProxyException;
+import com.coveros.selenified.exceptions.*;
 import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
@@ -1120,6 +1117,116 @@ public class PropertyTest extends SaveProperties {
         System.setProperty(DEFAULT_POLL, "1");
         createPropertiesFile("");
         assertEquals(Property.getDefaultPoll(), 1);
+    }
+
+    @Test
+    public void defaultIsBuildNameTest() {
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameSystemEmptyTest() {
+        System.setProperty(BUILD_NAME, "");
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameSystemTest() {
+        System.setProperty(BUILD_NAME, "someoptions");
+        assertTrue(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameFilePartialTest() throws IOException {
+        createPropertiesFile(BUILD_NAME);
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameFileUnsetTest() throws IOException {
+        createPropertiesFile(BUILD_NAME + "=");
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameFileTrueTest() throws IOException {
+        createPropertiesFile(BUILD_NAME + "=someoptions");
+        assertTrue(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameOverrideEmptyTest() throws IOException {
+        System.setProperty(BUILD_NAME, "");
+        createPropertiesFile(BUILD_NAME + "=someoptions");
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameOverrideTrueTest() throws IOException {
+        System.setProperty(BUILD_NAME, "someoptions");
+        createPropertiesFile(BUILD_NAME + "=");
+        assertTrue(Property.isBuildNameSet());
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameTest() throws InvalidBuildNameException {
+        Property.getBuildName();
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameSystemEmptyTest() throws InvalidBuildNameException {
+        System.setProperty(BUILD_NAME, "");
+        Property.getBuildName();
+    }
+
+    @Test
+    public void defaultGetBuildNameSystemTest() throws InvalidBuildNameException {
+        System.setProperty(BUILD_NAME, "someoptions");
+        assertEquals(Property.getBuildName(), "someoptions");
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        Property.getBuildName();
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameFilePartialTest() throws IOException {
+        createPropertiesFile(BUILD_NAME);
+        Property.getBuildName();
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameFileUnsetTest() throws IOException {
+        createPropertiesFile(BUILD_NAME + "=");
+        Property.getBuildName();
+    }
+
+    @Test
+    public void defaultGetBuildNameFileTrueTest() throws IOException {
+        createPropertiesFile(BUILD_NAME + "=someoptions");
+        assertEquals(Property.getBuildName(), "someoptions");
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameOverrideEmptyTest() throws IOException {
+        System.setProperty(BUILD_NAME, "");
+        createPropertiesFile(BUILD_NAME + "=someoptions");
+        Property.getBuildName();
+    }
+
+    @Test
+    public void defaultGetBuildNameOverrideTrueTest() throws IOException {
+        System.setProperty(BUILD_NAME, "someoptions");
+        createPropertiesFile(BUILD_NAME + "=");
+        assertEquals(Property.getBuildName(), "someoptions");
     }
 
     private void createPropertiesFile(String content) throws IOException {

@@ -38,14 +38,12 @@ import org.testng.log4testng.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Level;
 
-import static com.coveros.selenified.utilities.Property.APP_URL;
-import static com.coveros.selenified.utilities.Property.BROWSER;
+import static com.coveros.selenified.utilities.Property.*;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
@@ -64,7 +62,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/18/2019
+ * @lastupdate 8/19/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
@@ -74,8 +72,8 @@ public class Selenified {
     private static final String SERVICES_PASS = "ServicesPass";
 
     // some passed in system browser capabilities
-    private static final List<Capabilities> CAPABILITIES = new ArrayList<>();
-    private static final String DESIRED_CAPABILITIES = "DesiredCapabilities";
+    private static final List<Capabilities> CAPABILITIES_LIST = new ArrayList<>();
+    private static String buildName;
 
     // for individual tests
     private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
@@ -89,6 +87,7 @@ public class Selenified {
     public static final String REPORTER = "reporter";
     private static final String INVOCATION_COUNT = "InvocationCount";
     private static final String ERRORS_CHECK = " errors";
+    private static final String DESIRED_CAPABILITIES = "DesiredCapabilities";
 
     /**
      * Sets the URL of the application under test. If the site was provided as a
@@ -378,21 +377,7 @@ public class Selenified {
             test.setAttribute(testName + INVOCATION_COUNT, 0);
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
-
-        Capabilities capabilities = Selenified.CAPABILITIES.get(invocationCount);
-        // if a group indicates an invalid browser, skip the test
-        Browser browser = capabilities.getBrowser();
-        if (browser != null) {
-            String[] groups = result.getMethod().getGroups();
-            for (String group : groups) {
-                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
-                    log.warn("Skipping test case " + testName + ", as it is not intended for browser " +
-                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                    result.setStatus(ITestResult.SKIP);
-                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                }
-            }
-        }
+        Capabilities capabilities = Selenified.CAPABILITIES_LIST.get(invocationCount);
         // setup our browser instance
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
@@ -400,17 +385,28 @@ public class Selenified {
             capabilities = new Capabilities(capabilities.getBrowser());
             capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
-        browser = capabilities.getBrowser();
+        Browser browser = capabilities.getBrowser();
+        this.browserThreadLocal.set(browser);
+        result.setAttribute(BROWSER, browser);
+        // if a group indicates an invalid browser, skip the test
+        if (Listener.skipTest(browser, result)) {
+            return;
+        }
+        // setup the rest of the browser details
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
         desiredCapabilities.setCapability("tags", Arrays.asList(result.getMethod().getGroups()));
+        desiredCapabilities.setCapability("build", buildName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
-
+        // setup the reporter
         Reporter reporter =
                 new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test),
                         test.getName(), Arrays.asList(result.getMethod().getGroups()),
                         getAuthor(extClass, test), getVersion(extClass, test), description);
+        this.reporterThreadLocal.set(reporter);
+        result.setAttribute(REPORTER, reporter);
+        // start creating instances of our app to use for testing
         if (selenium.useBrowser()) {
             App app = new App(capabilities, reporter);
             this.apps.set(app);
@@ -425,6 +421,7 @@ public class Selenified {
         } else {
             this.apps.set(null);
         }
+        // start creating instance of our api to use for testing
         HTTP http = new HTTP(reporter, Property.getAppURL(extClass, test), getServiceUserCredential(extClass, test),
                 getServicePassCredential(extClass, test));
         Call call = new Call(http, getExtraHeaders(extClass, test));
@@ -432,11 +429,6 @@ public class Selenified {
             call.setContentType(getContentType(extClass, test));
         }
         this.calls.set(call);
-
-        this.browserThreadLocal.set(browser);
-        result.setAttribute(BROWSER, browser);
-        this.reporterThreadLocal.set(reporter);
-        result.setAttribute(REPORTER, reporter);
     }
 
     /**
@@ -594,9 +586,18 @@ public class Selenified {
          *                                 thrown
          */
         private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss - ");
+            Date date = new Date();
+            StringBuilder buildNameSB = new StringBuilder(dateFormat.format(date));
             List<Browser> browsers = getBrowserInput();
             for (Browser browser : browsers) {
-                Selenified.CAPABILITIES.add(new Capabilities(browser));
+                Selenified.CAPABILITIES_LIST.add(new Capabilities(browser));
+                buildNameSB.append(browser.getDetails() + ", ");
+            }
+            if (isBuildNameSet()) {
+                buildName = getBuildName();
+            } else {
+                buildName = buildNameSB.toString().substring(0, buildNameSB.length() - 2);
             }
         }
 
