@@ -4,8 +4,6 @@ import org.testng.annotations.Test;
 
 public class SelenifiedIT extends WebBase {
 
-    private String setScreensize = null;
-
     @Test
     public void noAnnotationDetailsTest() {
         // verify no issues
@@ -30,7 +28,7 @@ public class SelenifiedIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "no-htmlunit", "no-chrome", "no-edge", "no-firefox", "no-safari", "no-internetexplorer"},
+    @Test(groups = {"integration", "selenified", "no-htmlunit", "no-chrome", "no-edge", "no-firefox", "no-safari", "no-internetexplorer"},
             description = "A test to verify a skip is thrown")
     public void skipThisTest() {
         this.apps.get().getReporter().fail("", "", "");

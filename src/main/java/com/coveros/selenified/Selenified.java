@@ -61,7 +61,7 @@ import static org.testng.AssertJUnit.assertEquals;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/16/2019
+ * @lastupdate 8/19/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
 public class Selenified {
@@ -371,8 +371,6 @@ public class Selenified {
         // get annotation information
         Test annotation = method.getAnnotation(Test.class);
         String description = annotation.description();
-        String group = Arrays.toString(annotation.groups());
-        group = group.substring(1, group.length() - 1);
 
         while (test.getAttribute(testName + INVOCATION_COUNT) == null) {
             test.setAttribute(testName + INVOCATION_COUNT, 0);
@@ -380,6 +378,7 @@ public class Selenified {
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
 
         Capabilities capabilities = Selenified.CAPABILITIES_LIST.get(invocationCount);
+        // setup our browser instance
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
         } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
@@ -387,15 +386,26 @@ public class Selenified {
             capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
         }
         Browser browser = capabilities.getBrowser();
+        this.browserThreadLocal.set(browser);
+        result.setAttribute(BROWSER, browser);
+        // if a group indicates an invalid browser, skip the test
+        if (Listener.skipTest(browser, result)) {
+            return;
+        }
+        // setup the rest of the browser details
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
         desiredCapabilities.setCapability("build", buildName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
-
+        // setup the reporter
         Reporter reporter =
-                new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test), test.getName(), group,
+                new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test),
+                        test.getName(), Arrays.asList(result.getMethod().getGroups()),
                         getAuthor(extClass, test), getVersion(extClass, test), description);
+        this.reporterThreadLocal.set(reporter);
+        result.setAttribute(REPORTER, reporter);
+        // start creating instances of our app to use for testing
         if (selenium.useBrowser()) {
             App app = new App(capabilities, reporter);
             this.apps.set(app);
@@ -410,6 +420,7 @@ public class Selenified {
         } else {
             this.apps.set(null);
         }
+        // start creating instance of our api to use for testing
         HTTP http = new HTTP(reporter, Property.getAppURL(extClass, test), getServiceUserCredential(extClass, test),
                 getServicePassCredential(extClass, test));
         Call call = new Call(http, getExtraHeaders(extClass, test));
@@ -417,11 +428,6 @@ public class Selenified {
             call.setContentType(getContentType(extClass, test));
         }
         this.calls.set(call);
-
-        this.browserThreadLocal.set(browser);
-        result.setAttribute(BROWSER, browser);
-        this.reporterThreadLocal.set(reporter);
-        result.setAttribute(REPORTER, reporter);
     }
 
     /**

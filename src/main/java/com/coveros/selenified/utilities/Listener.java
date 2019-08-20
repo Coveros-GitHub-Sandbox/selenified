@@ -50,7 +50,7 @@ import static com.coveros.selenified.utilities.Property.BROWSER;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/08/2019
+ * @lastupdate 8/19/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
@@ -107,18 +107,12 @@ public class Listener extends TestListenerAdapter {
     @Override
     public void onTestStart(ITestResult result) {
         super.onTestStart(result);
-        // if a group indicates an invalid browser, skip the test
         Browser browser = (Browser) result.getAttribute(BROWSER);
-        if (browser != null) {
-            String[] groups = result.getMethod().getGroups();
-            for (String group : groups) {
-                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
-                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " +
-                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                    result.setStatus(ITestResult.SKIP);
-                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                }
-            }
+        if (skipTest(browser, result)) {
+            String browserName = Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase());
+            log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + browserName);
+            result.setStatus(ITestResult.SKIP);
+            throw new SkipException("This test is not intended for browser " + browserName);
         }
     }
 
@@ -222,5 +216,25 @@ public class Listener extends TestListenerAdapter {
                 log.error(e);
             }
         }
+    }
+
+    /**
+     * Checks if a test should be skipped, based on the browser, and groups provided. If the test contains the groups 'no-[BROWSER]'
+     * and the browser is that browser, then the test will be skipped
+     *
+     * @param browser - the browser currently under test
+     * @param result  - the testng itestresult object
+     * @return Boolean: should the test be skipped or not
+     */
+    public static boolean skipTest(Browser browser, ITestResult result) {
+        if (browser != null) {
+            String[] groups = result.getMethod().getGroups();
+            for (String group : groups) {
+                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
