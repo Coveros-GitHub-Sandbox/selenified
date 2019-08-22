@@ -26,9 +26,8 @@ import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
-import com.coveros.selenified.utilities.Property;
+import com.coveros.selenified.utilities.Hub;
 import com.coveros.selenified.utilities.Reporter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -39,7 +38,6 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 
 import static com.coveros.selenified.utilities.Constants.ENDB;
@@ -107,7 +105,7 @@ public class App {
      *                                 be thrown
      */
     public App(Capabilities capabilities,
-               Reporter reporter) throws InvalidBrowserException, MalformedURLException, InvalidProxyException, InvalidHubException {
+               Reporter reporter) throws InvalidBrowserException, MalformedURLException, InvalidProxyException {
         if (capabilities == null) {
             capabilities = new Capabilities(new Browser("None"));
         }
@@ -115,8 +113,8 @@ public class App {
         this.desiredCapabilities = capabilities.getDesiredCapabilities();
         this.reporter = reporter;
         // if we want to test remotely
-        if (Property.isHubSet()) {
-            driver = new RemoteWebDriver(new URL(Property.getHub() + "/wd/hub"), this.desiredCapabilities);
+        if (Hub.isHubSet()) {
+            driver = new RemoteWebDriver(new Hub().getHub(), this.desiredCapabilities);
         } else {
             driver = capabilities.setupDriver();
         }
@@ -348,7 +346,7 @@ public class App {
         try {
             // take a screenshot
             File srcFile;
-            if (Property.isHubSet()) {
+            if (Hub.isHubSet()) {
                 WebDriver augmented = new Augmenter().augment(driver);
                 srcFile = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.FILE);
             } else {

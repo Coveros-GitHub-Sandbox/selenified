@@ -20,10 +20,13 @@
 
 package com.coveros.selenified.utilities;
 
-import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.exceptions.InvalidSauceException;
 import com.saucelabs.saucerest.SauceREST;
-import org.testng.log4testng.Logger;
+
+import java.net.MalformedURLException;
+
+import static com.coveros.selenified.utilities.Property.HUB;
+import static com.coveros.selenified.utilities.Property.getProgramProperty;
 
 /**
  * Utilities class to interact with sauce labs, retrieving information such as username, key, and test status
@@ -32,106 +35,34 @@ import org.testng.log4testng.Logger;
  * @version 3.2.1
  * @lastupdate 8/18/2019
  */
-public class Sauce {
-    private static final Logger log = Logger.getLogger(Sauce.class);
+public class Sauce extends Hub {
     private static final String SAUCE_HUB_ISN_T_SET = "Sauce hub isn't set";
 
-    private Sauce() {
+    public Sauce() throws MalformedURLException {
+        super();
     }
 
     /**
-     * Determione whether the hub parameter is set, and if it is, is it set to sauce labs? Iff, then will return true,
+     * Determine whether the hub parameter is set, and if it is, is it set to sauce labs? Iff, then will return true,
      * otherwise, returns false
      *
      * @return Boolean: whether sauce labs is specified as the hub
      */
     public static Boolean isSauce() {
-        String hub;
-        try {
-            hub = Property.getHub();
-        } catch (InvalidHubException e) {
-            log.info(e);
-            return false;
-        }
-        return hub.contains("ondemand.saucelabs.com");
+        String hub = getProgramProperty(HUB);
+        return hub != null && hub.contains("ondemand.saucelabs.com");
     }
 
     /**
      * Creates a new connection to sauce labs
      *
      * @return SauceREST: an object with information to connect to/update sauce labs
-     * @throws InvalidHubException if no sauce connection is set, invalid hub will be thrown
+     * @throws MalformedURLException if no sauce connection is set, invalid hub will be thrown
      */
-    public static SauceREST getSauceConnection() throws InvalidHubException {
+    public SauceREST getSauceConnection() throws MalformedURLException {
         if (!isSauce()) {
             throw new InvalidSauceException(SAUCE_HUB_ISN_T_SET);
         }
-        return new SauceREST(Sauce.getSauceUser(), Sauce.getSauceKey());
-    }
-
-    /**
-     * Retrieves sauce labs credentials, both username, and secret key
-     *
-     * @param hub - the hub parameter
-     * @return String: the string version of the credentials `[username]:[secret key]`
-     * @throws InvalidSauceException if invalid sauce connection is set (i.e. needs protocol, credentials, and
-     *                               endpoint), invalid sauce will be thrown
-     */
-    private static String getSauceCreds(String hub) throws InvalidSauceException {
-        String[] parts = hub.split("@");
-        if (parts.length != 2) {
-            throw new InvalidSauceException("Sauce labs hub '" + hub + "' isn't valid. Must contain protocol, credentials, and location");
-        }
-        String[] startParts = parts[0].split("/");
-        if (startParts.length != 3) {
-            throw new InvalidSauceException("Sauce labs hub '" + hub + "' isn't valid. Must contain protocol, credentials and location");
-        }
-        return startParts[2];
-    }
-
-    /**
-     * Retrieves the sauce labs username. If it is set via environment variables, it will be returned. Otherwise, the
-     * Hub address will be analyzed, and the information will be extracted from it
-     *
-     * @return String: the sauce labs username
-     * @throws InvalidHubException if hub isn't set, or invalid sauce connection is set (i.e. needs protocol,
-     *                             credentials, and endpoint), invalid sauce will be thrown
-     */
-    public static String getSauceUser() throws InvalidHubException {
-        if (!isSauce()) {
-            throw new InvalidSauceException(SAUCE_HUB_ISN_T_SET);
-        }
-        if (System.getenv("SAUCE_USER") != null) {
-            return System.getenv("SAUCE_USER");
-        }
-        String credentials = getSauceCreds(Property.getHub());
-        String[] parts = credentials.split(":");
-        if (parts.length != 2) {
-            throw new InvalidSauceException("Sauce labs hub isn't valid. Credentials '" + credentials + "' must contain both username and password");
-        }
-        return parts[0];
-    }
-
-    /**
-     * Retrieves the sauce labs secret key. If it is set via environment variables, it will be returned. Otherwise, the
-     * Hub address will be analyzed, and the information will be extracted from it
-     *
-     * @return String: the sauce labs secret key
-     * @throws InvalidHubException if hub isn't set, or invalid sauce connection is set (i.e. needs protocol,
-     *                             credentials, and endpoint), invalid sauce will be thrown
-     */
-    public static String getSauceKey() throws InvalidHubException {
-        if (!isSauce()) {
-            throw new InvalidSauceException(SAUCE_HUB_ISN_T_SET);
-        }
-        if (System.getenv("SAUCE_KEY") != null) {
-            return System.getenv("SAUCE_KEY");
-        }
-        String credentials = getSauceCreds(Property.getHub());
-        String[] parts = credentials.split(":");
-        if (parts.length != 2) {
-            throw new InvalidSauceException("Sauce labs hub isn't valid. Credentials '" + credentials + "' must contain both username and password");
-        }
-        return parts[1];
+        return new SauceREST(getUsername(), getPassword());
     }
 }

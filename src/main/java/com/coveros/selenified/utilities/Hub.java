@@ -1,0 +1,121 @@
+/*
+ * Copyright 2019 Coveros, Inc.
+ *
+ * This file is part of Selenified.
+ *
+ * Selenified is licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy
+ * of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+package com.coveros.selenified.utilities;
+
+import com.coveros.selenified.exceptions.InvalidHubException;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static com.coveros.selenified.utilities.Property.HUB;
+import static com.coveros.selenified.utilities.Property.getProgramProperty;
+
+/**
+ * Utilities class to interact with some remote hub driver, retrieving information such as username, key, and test status
+ *
+ * @author Max Saperstone
+ * @version 3.2.1
+ * @lastupdate 8/23/2019
+ */
+public class Hub {
+
+    private static final String HUB_ISN_T_SET = "Hub isn't set";
+    protected URL hub;
+    private String protocol = null;
+    private String username = null;
+    private String password = null;
+    private String authority = null;
+
+    public Hub() throws MalformedURLException {
+        if( !isHubSet() ) {
+            throw new InvalidHubException(HUB_ISN_T_SET);
+        }
+        String hubProperty = getProgramProperty(HUB);
+        try {
+            this.hub = new URL(hubProperty);
+        } catch (MalformedURLException e) {
+            throw new InvalidHubException("Hub '" + hub + "' isn't valid. Must contain protocol, optionally credentials, and endpoint");
+        }
+        setProtocol();
+        setUserInfo();
+        setAuthority();
+        String credentials = "";
+        if( username != null && password != null ) {
+            credentials = username + ":" + password + "@";
+        }
+        this.hub = new URL(protocol + "://" + credentials + authority + "/wd/hub");
+    }
+
+    /**
+     * Determines if a hub property is set. This could be to sauce, grid, or any other cloud tool.
+     * This should be provided with the protocol and address, but leaving out the /wd/hub
+     *
+     * @return boolean: is a hub location set
+     */
+    public static boolean isHubSet() {
+        String hub = getProgramProperty(HUB);
+        return hub != null && !"".equals(hub);
+    }
+
+    private void setProtocol() {
+        this.protocol = hub.getProtocol();
+    }
+
+    private void setUserInfo() throws InvalidHubException {
+        String userInfo = hub.getUserInfo();
+        if( userInfo != null) {
+            int split = userInfo.indexOf(':');
+            if (split >= 0 && split <= userInfo.length()) {
+                this.username = userInfo.substring(0, split);
+                this.password = userInfo.substring(split + 1);
+            } else {
+                throw new InvalidHubException("Hub isn't valid. Credentials '" + userInfo + "' must contain both username and password");
+            }
+            return;
+        }
+        if (System.getenv("HUB_USER") != null && System.getenv("HUB_PASS") != null) {
+            this.username = System.getenv("HUB_USER");
+            this.password = System.getenv("HUB_PASS");
+        }
+    }
+
+    private void setAuthority() {
+        this.authority = hub.getAuthority();
+    }
+
+    /**
+     * Retrieves the hub property if it is set. This could be to sauce, grid, or any other cloud tool.
+     * This should be provided with the protocol and address, but leaving out the /wd/hub
+     *
+     * @return String: the set hub address, null if none are set
+     */
+    public URL getHub() throws InvalidHubException {
+        return hub;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}

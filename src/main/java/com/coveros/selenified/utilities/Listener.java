@@ -21,7 +21,6 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.utilities.Reporter.Success;
 import com.saucelabs.saucerest.SauceException;
 import com.saucelabs.saucerest.SauceREST;
@@ -32,6 +31,7 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -198,13 +198,13 @@ public class Listener extends TestListenerAdapter {
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();
             try {
-                SauceREST sauce = Sauce.getSauceConnection();
+                SauceREST sauce = new Sauce().getSauceConnection();
                 if (result.getStatus() == 1) {
                     sauce.jobPassed(sessionId);
                 } else {
                     sauce.jobFailed(sessionId);
                 }
-            } catch (SauceException | InvalidHubException e) {
+            } catch (SauceException | MalformedURLException e) {
                 log.error("Unable to connect to sauce, due to credential problems");
             }
         }

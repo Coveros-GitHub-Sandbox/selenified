@@ -74,7 +74,7 @@ public class Property {
      * @param property - what property value to return
      * @return String: the property value, null if unset
      */
-    private static String getProgramProperty(String property) {
+    static String getProgramProperty(String property) {
         if (System.getProperty(property) != null) {
             return System.getProperty(property).trim();
         }
@@ -121,31 +121,6 @@ public class Property {
             return true;
         }
         return "true".equalsIgnoreCase(packageResults);
-    }
-
-    /**
-     * Determines if a hub property is set. This could be to sauce, grid, or any other cloud tool.
-     * This should be provided with the protocol and address, but leaving out the /wd/hub
-     *
-     * @return boolean: is a hub location set
-     */
-    public static boolean isHubSet() {
-        String hub = getProgramProperty(HUB);
-        return hub != null && !"".equals(hub);
-    }
-
-    /**
-     * Retrieves the hub property if it is set. This could be to sauce, grid, or any other cloud tool.
-     * This should be provided with the protocol and address, but leaving out the /wd/hub
-     *
-     * @return String: the set hub address, null if none are set
-     */
-    public static String getHub() throws InvalidHubException {
-        String hub = getProgramProperty(HUB);
-        if (hub == null || "".equals(hub)) {
-            throw new InvalidHubException("Hub isn't set");
-        }
-        return hub;
     }
 
     /**

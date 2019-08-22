@@ -158,14 +158,10 @@ node {
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
-                            usernameVariable: 'SAUCE_USER',
-                            passwordVariable: 'SAUCE_KEY'
+                            usernameVariable: 'HUB_USER',
+                            passwordVariable: 'HUB_PASS'
                     )
             ]) {
-                environment {
-                    SAUCE_USER = SAUCE_USER
-                    SAUCE_KEY  = SAUCE_KEY
-                }
                 stage('Update Test Site') {
                     sh "ssh -oStrictHostKeyChecking=no ec2-user@${publicIp} 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
                     sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
@@ -174,7 +170,7 @@ node {
                 stage('Execute Some Hub Tests') {
                     try {
                         String buildName = branchCheckout.replaceAll(/\//, " ") + " build " + env.BUILD_NUMBER + " Compatibility Tests"
-                        sh "mvn clean verify -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://${SAUCE_USER}:${SAUCE_KEY}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
