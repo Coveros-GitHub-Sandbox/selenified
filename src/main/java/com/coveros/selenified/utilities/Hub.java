@@ -47,7 +47,7 @@ public class Hub {
     private String authority = null;
 
     public Hub() throws MalformedURLException {
-        if( !isHubSet() ) {
+        if (!isHubSet()) {
             throw new InvalidHubException(HUB_ISN_T_SET);
         }
         String hubProperty = getProgramProperty(HUB);
@@ -60,7 +60,7 @@ public class Hub {
         setUserInfo();
         setAuthority();
         String credentials = "";
-        if( username != null && password != null ) {
+        if (username != null && password != null) {
             credentials = username + ":" + password + "@";
         }
         this.hubURL = new URL(protocol + "://" + credentials + authority + "/wd/hub");
@@ -83,7 +83,10 @@ public class Hub {
 
     private void setUserInfo() throws InvalidHubException {
         String userInfo = hubURL.getUserInfo();
-        if( userInfo != null) {
+        if (System.getenv(HUB_USER) != null && System.getenv(HUB_PASS) != null) {
+            this.username = System.getenv(HUB_USER);
+            this.password = System.getenv(HUB_PASS);
+        } else if (userInfo != null) {
             int split = userInfo.indexOf(':');
             if (split >= 0 && split <= userInfo.length()) {
                 this.username = userInfo.substring(0, split);
@@ -91,11 +94,6 @@ public class Hub {
             } else {
                 throw new InvalidHubException("Hub isn't valid. Credentials '" + userInfo + "' must contain both username and password");
             }
-            return;
-        }
-        if (System.getenv(HUB_USER) != null && System.getenv(HUB_PASS) != null) {
-            this.username = System.getenv(HUB_USER);
-            this.password = System.getenv(HUB_PASS);
         }
     }
 
