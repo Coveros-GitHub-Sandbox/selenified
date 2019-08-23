@@ -114,7 +114,7 @@ public class App {
         this.reporter = reporter;
         // if we want to test remotely
         if (Hub.isHubSet()) {
-            driver = new RemoteWebDriver(new Hub().getHub(), this.desiredCapabilities);
+            driver = new RemoteWebDriver(new Hub().getHubURL(), this.desiredCapabilities);
         } else {
             driver = capabilities.setupDriver();
         }

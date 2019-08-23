@@ -38,7 +38,9 @@ import static com.coveros.selenified.utilities.Property.getProgramProperty;
 public class Hub {
 
     private static final String HUB_ISN_T_SET = "Hub isn't set";
-    protected URL hub;
+    public static final String HUB_USER = "HUB_USER";
+    public static final String HUB_PASS = "HUB_PASS";
+    private URL hubURL;
     private String protocol = null;
     private String username = null;
     private String password = null;
@@ -50,9 +52,9 @@ public class Hub {
         }
         String hubProperty = getProgramProperty(HUB);
         try {
-            this.hub = new URL(hubProperty);
+            this.hubURL = new URL(hubProperty);
         } catch (MalformedURLException e) {
-            throw new InvalidHubException("Hub '" + hub + "' isn't valid. Must contain protocol, optionally credentials, and endpoint");
+            throw new InvalidHubException("Hub '" + hubProperty + "' isn't valid. Must contain protocol, optionally credentials, and endpoint");
         }
         setProtocol();
         setUserInfo();
@@ -61,7 +63,7 @@ public class Hub {
         if( username != null && password != null ) {
             credentials = username + ":" + password + "@";
         }
-        this.hub = new URL(protocol + "://" + credentials + authority + "/wd/hub");
+        this.hubURL = new URL(protocol + "://" + credentials + authority + "/wd/hub");
     }
 
     /**
@@ -76,11 +78,11 @@ public class Hub {
     }
 
     private void setProtocol() {
-        this.protocol = hub.getProtocol();
+        this.protocol = hubURL.getProtocol();
     }
 
     private void setUserInfo() throws InvalidHubException {
-        String userInfo = hub.getUserInfo();
+        String userInfo = hubURL.getUserInfo();
         if( userInfo != null) {
             int split = userInfo.indexOf(':');
             if (split >= 0 && split <= userInfo.length()) {
@@ -91,14 +93,14 @@ public class Hub {
             }
             return;
         }
-        if (System.getenv("HUB_USER") != null && System.getenv("HUB_PASS") != null) {
-            this.username = System.getenv("HUB_USER");
-            this.password = System.getenv("HUB_PASS");
+        if (System.getenv(HUB_USER) != null && System.getenv(HUB_PASS) != null) {
+            this.username = System.getenv(HUB_USER);
+            this.password = System.getenv(HUB_PASS);
         }
     }
 
     private void setAuthority() {
-        this.authority = hub.getAuthority();
+        this.authority = hubURL.getAuthority();
     }
 
     /**
@@ -107,8 +109,8 @@ public class Hub {
      *
      * @return String: the set hub address, null if none are set
      */
-    public URL getHub() throws InvalidHubException {
-        return hub;
+    public URL getHubURL() {
+        return hubURL;
     }
 
     public String getUsername() {

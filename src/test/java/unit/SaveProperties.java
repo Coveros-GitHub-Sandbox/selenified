@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static com.coveros.selenified.utilities.Hub.HUB_PASS;
+import static com.coveros.selenified.utilities.Hub.HUB_USER;
 import static com.coveros.selenified.utilities.Property.*;
 
 public class SaveProperties {
