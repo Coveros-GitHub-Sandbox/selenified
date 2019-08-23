@@ -2,7 +2,6 @@ package unit;
 
 import com.coveros.selenified.exceptions.InvalidHubException;
 import com.coveros.selenified.utilities.Hub;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -13,7 +12,6 @@ import static com.coveros.selenified.utilities.Property.HUB;
 import static org.testng.Assert.*;
 import static org.testng.AssertJUnit.assertNull;
 
-@PrepareForTest({System.class})
 public class HubTest extends SaveProperties {
 
     @Test
