@@ -56,7 +56,7 @@ public class Hub {
         }
         setUserInfo();
         String credentials = username == null ? "" : username + ":" + password + "@";
-        String port = hubURL.getPort() == -1 ? "" : ":" + String.valueOf(hubURL.getPort());
+        String port = hubURL.getPort() == -1 ? "" : ":" + hubURL.getPort();
         this.hubURL = new URL(hubURL.getProtocol() + "://" + credentials + hubURL.getHost() + port + hubURL.getFile() + "/wd/hub");
     }
 
