@@ -163,12 +163,6 @@ public class HubTest extends SaveProperties {
         new Hub().getUsername();
     }
 
-    @Test
-    public void getUserBadURLTest() throws MalformedURLException {
-        System.setProperty(HUB, "https:///sauceaccesskey@ondemand.saucelabs.com:443");
-        assertEquals(new Hub().getHubURL(), new URL("https:/wd/hub"));
-    }
-
     @Test(expectedExceptions = InvalidHubException.class)
     public void getKeyNoHubTest() throws MalformedURLException {
         new Hub().getPassword();

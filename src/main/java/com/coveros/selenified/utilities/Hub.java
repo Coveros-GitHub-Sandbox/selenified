@@ -38,13 +38,11 @@ import static com.coveros.selenified.utilities.Property.getProgramProperty;
 public class Hub {
 
     private static final String HUB_ISN_T_SET = "Hub isn't set";
-    public static final String HUB_USER = "HUB_USER";
-    public static final String HUB_PASS = "HUB_PASS";
+    private static final String HUB_USER = "HUB_USER";
+    private static final String HUB_PASS = "HUB_PASS";
     private URL hubURL;
-    private String protocol = null;
     private String username = null;
     private String password = null;
-    private String authority = null;
 
     public Hub() throws MalformedURLException {
         if (!isHubSet()) {
@@ -56,14 +54,12 @@ public class Hub {
         } catch (MalformedURLException e) {
             throw new InvalidHubException("Hub '" + hubProperty + "' isn't valid. Must contain protocol, optionally credentials, and endpoint");
         }
-        setProtocol();
         setUserInfo();
-        setAuthority();
         String credentials = "";
         if (username != null && password != null) {
             credentials = username + ":" + password + "@";
         }
-        this.hubURL = new URL(protocol + "://" + credentials + authority + "/wd/hub");
+        this.hubURL = new URL(hubURL.getProtocol() + "://" + credentials + hubURL.getHost() + ":" + hubURL.getPort() + hubURL.getFile() + "/wd/hub");
     }
 
     /**
@@ -75,10 +71,6 @@ public class Hub {
     public static boolean isHubSet() {
         String hub = getProgramProperty(HUB);
         return hub != null && !"".equals(hub);
-    }
-
-    private void setProtocol() {
-        this.protocol = hubURL.getProtocol();
     }
 
     private void setUserInfo() throws InvalidHubException {
@@ -95,10 +87,6 @@ public class Hub {
                 throw new InvalidHubException("Hub isn't valid. Credentials '" + userInfo + "' must contain both username and password");
             }
         }
-    }
-
-    private void setAuthority() {
-        this.authority = hubURL.getAuthority();
     }
 
     /**
