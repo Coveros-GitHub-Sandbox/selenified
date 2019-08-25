@@ -55,11 +55,9 @@ public class Hub {
             throw new InvalidHubException("Hub '" + hubProperty + "' isn't valid. Must contain protocol, optionally credentials, and endpoint");
         }
         setUserInfo();
-        String credentials = "";
-        if (username != null && password != null) {
-            credentials = username + ":" + password + "@";
-        }
-        this.hubURL = new URL(hubURL.getProtocol() + "://" + credentials + hubURL.getHost() + ":" + hubURL.getPort() + hubURL.getFile() + "/wd/hub");
+        String credentials = username == null ? "" : username + ":" + password + "@";
+        String port = hubURL.getPort() == -1 ? "" : ":" + String.valueOf(hubURL.getPort());
+        this.hubURL = new URL(hubURL.getProtocol() + "://" + credentials + hubURL.getHost() + port + hubURL.getFile() + "/wd/hub");
     }
 
     /**
