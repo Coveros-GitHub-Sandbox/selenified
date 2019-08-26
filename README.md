@@ -640,6 +640,11 @@ hub, either via Selenium Grid or SauceLabs. Specify the protocol, IP or DNS, and
 -Dhub=http://localhost:4444
 -Dhub=https://sauceusername:sauceaccesskey@ondemand.saucelabs.com:443
 ``` 
+Alternatively, your credentials can be set as environment variables. Set them as:
+```
+export HUB_USER='somesauceusername'
+export HUB_PASS='somesaucekey'
+```
 #### Proxy
 If this is specified, then the tests will be run through a proxy server at the specified address. Include the 
 address and port in the parameter

@@ -376,7 +376,6 @@ public class Selenified {
             test.setAttribute(testName + INVOCATION_COUNT, 0);
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
-
         Capabilities capabilities = Selenified.CAPABILITIES_LIST.get(invocationCount);
         // setup our browser instance
         if (!selenium.useBrowser()) {
@@ -396,6 +395,7 @@ public class Selenified {
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
         desiredCapabilities.setCapability("name", testName);
+        desiredCapabilities.setCapability("tags", Arrays.asList(result.getMethod().getGroups()));
         desiredCapabilities.setCapability("build", buildName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
         // setup the reporter

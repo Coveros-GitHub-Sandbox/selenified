@@ -5,8 +5,11 @@ import com.coveros.selenified.exceptions.InvalidSauceException;
 import com.coveros.selenified.utilities.Sauce;
 import org.testng.annotations.Test;
 
+import java.net.MalformedURLException;
+
 import static com.coveros.selenified.utilities.Property.HUB;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class SauceTest extends SaveProperties {
 
@@ -33,55 +36,20 @@ public class SauceTest extends SaveProperties {
         assertTrue(Sauce.isSauce());
     }
 
-    @Test(expectedExceptions = InvalidSauceException.class)
-    public void getUserNoHubTest() throws InvalidHubException {
-        Sauce.getSauceUser();
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void getSauceConnectionEmptyTest() throws MalformedURLException {
+        new Sauce().getSauceConnection();
     }
 
     @Test(expectedExceptions = InvalidSauceException.class)
-    public void getUserNoUserTest() throws InvalidHubException {
-        System.setProperty(HUB, "https://ondemand.saucelabs.com:443");
-        Sauce.getSauceUser();
-    }
-
-    @Test(expectedExceptions = InvalidSauceException.class)
-    public void getUserOnlyUserTest() throws InvalidHubException {
-        System.setProperty(HUB, "https://sauceusername@ondemand.saucelabs.com:443");
-        Sauce.getSauceUser();
-    }
-
-    @Test(expectedExceptions = InvalidSauceException.class)
-    public void getUserBadURLTest() throws InvalidHubException {
-        System.setProperty(HUB, "https:///sauceaccesskey@ondemand.saucelabs.com:443");
-        Sauce.getSauceUser();
+    public void getSauceConnectionBadTest() throws MalformedURLException {
+        System.setProperty(HUB, "https://saucelabs.com:443");
+        new Sauce().getSauceConnection();
     }
 
     @Test
-    public void getUserSauceTest() throws InvalidHubException {
+    public void getSauceConnectionTest() throws MalformedURLException {
         System.setProperty(HUB, "https://sauceusername:sauceaccesskey@ondemand.saucelabs.com:443");
-        assertEquals(Sauce.getSauceUser(), "sauceusername");
-    }
-
-    @Test(expectedExceptions = InvalidSauceException.class)
-    public void getKeyNoHubTest() throws InvalidHubException {
-        Sauce.getSauceKey();
-    }
-
-    @Test(expectedExceptions = InvalidSauceException.class)
-    public void getKeyNoKeyTest() throws InvalidHubException {
-        System.setProperty(HUB, "https://ondemand.saucelabs.com:443");
-        Sauce.getSauceKey();
-    }
-
-    @Test(expectedExceptions = InvalidSauceException.class)
-    public void getKeyOnlyKeyTest() throws InvalidHubException {
-        System.setProperty(HUB, "https://sauceaccesskey@ondemand.saucelabs.com:443");
-        Sauce.getSauceKey();
-    }
-
-    @Test
-    public void getKeySauceTest() throws InvalidHubException {
-        System.setProperty(HUB, "https://sauceusername:sauceaccesskey@ondemand.saucelabs.com:443");
-        assertEquals(Sauce.getSauceKey(), "sauceaccesskey");
+        new Sauce().getSauceConnection();
     }
 }

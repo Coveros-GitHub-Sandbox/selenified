@@ -6,7 +6,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import static com.coveros.selenified.utilities.Property.*;
 
@@ -123,5 +126,11 @@ public class SaveProperties {
         if (new File(SELENIFIED).exists()) {
             new File(SELENIFIED).delete();
         }
+    }
+
+    void createPropertiesFile(String content) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));
+        writer.write(content);
+        writer.close();
     }
 }

@@ -21,12 +21,9 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.exceptions.InvalidHubException;
-import com.coveros.selenified.services.HTTP;
-import com.coveros.selenified.services.Request;
 import com.coveros.selenified.utilities.Reporter.Success;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.saucelabs.saucerest.SauceException;
+import com.saucelabs.saucerest.SauceREST;
 import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.TestListenerAdapter;
@@ -34,6 +31,7 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -199,21 +197,15 @@ public class Listener extends TestListenerAdapter {
         // update sauce labs
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();
-            JsonObject json = new JsonObject();
-            json.addProperty("passed", result.getStatus() == 1);
-            JsonArray tags = new JsonArray();
-            for (String tag : result.getMethod().getGroups()) {
-                tags.add(tag);
-            }
-            json.add("tags", tags);
             try {
-                HTTP http = new HTTP(null, "https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
-                        Sauce.getSauceKey());
-                http.put(sessionId, new Request().setJsonPayload(json), null);
-            } catch (InvalidHubException e) {
+                SauceREST sauce = new Sauce().getSauceConnection();
+                if (result.getStatus() == 1) {
+                    sauce.jobPassed(sessionId);
+                } else {
+                    sauce.jobFailed(sessionId);
+                }
+            } catch (SauceException | MalformedURLException e) {
                 log.error("Unable to connect to sauce, due to credential problems");
-            } catch (IOException e) {
-                log.error(e);
             }
         }
     }
