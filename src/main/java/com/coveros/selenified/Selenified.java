@@ -28,8 +28,6 @@ import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.HTTP.ContentType;
 import com.coveros.selenified.utilities.*;
-import org.openqa.selenium.InvalidArgumentException;
-import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -499,8 +497,8 @@ public class Selenified {
             if (logEntries != null && !logEntries.getAll().isEmpty()) {
                 this.reporterThreadLocal.get().addLogs(logType, logEntries);
             }
-        } catch (UnsupportedCommandException | InvalidArgumentException e) {
-//            log.info(e);
+        } catch (Exception e) {
+            log.debug(e);
         }
     }
 
