@@ -31,7 +31,6 @@ import com.coveros.selenified.utilities.*;
 import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
@@ -46,8 +45,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 
-import static com.coveros.selenified.utilities.Property.APP_URL;
-import static com.coveros.selenified.utilities.Property.BROWSER;
+import static com.coveros.selenified.utilities.Property.*;
+import static com.coveros.selenified.utilities.Reporter.ENABLED_LOGS;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
@@ -58,7 +57,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * system variables are gathered, to set the browser, test site, proxy, hub,
  * etc. This class should be extended by each test class to allow for simple
  * execution of tests.
- * <p>
+ *
  * By default each test run will launch a selenium browser, and open the defined
  * test site. If no browser is needed for the test, override the startTest
  * method. Similarly, if you don't want a URL to initially load, override the
@@ -205,7 +204,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String       ,               String>: the key-pair values of the headers of the current test being executed
+     * @return Map: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, Object> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, Object>) context.getAttribute(clazz + "Headers");
@@ -487,14 +486,14 @@ public class Selenified {
         }
         if (this.apps.get() != null) {
             for (String logType : ENABLED_LOGS) {
-                getLog(test, testName, logType);
+                getLog(logType);
             }
             this.apps.get().killDriver();
         }
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
     }
 
-    private void getLog(ITestContext test, String testName, String logType) {
+    private void getLog(String logType) {
         try {
             LogEntries logEntries = this.apps.get().getDriver().manage().logs().get(logType);
             if (logEntries != null && !logEntries.getAll().isEmpty()) {
@@ -610,7 +609,7 @@ public class Selenified {
             List<Browser> browsers = getBrowserInput();
             for (Browser browser : browsers) {
                 Selenified.CAPABILITIES_LIST.add(new Capabilities(browser));
-                buildNameSB.append(browser.getDetails() + ", ");
+                buildNameSB.append(browser.getDetails()).append(", ");
             }
             if (isBuildNameSet()) {
                 buildName = getBuildName();
