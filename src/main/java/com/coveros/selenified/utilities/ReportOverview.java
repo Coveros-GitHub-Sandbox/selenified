@@ -260,8 +260,8 @@ public class ReportOverview extends EmailableReporter2 {
                 String pdfFilename = reporter.getFileName() + ".pdf";
                 link.append(" " + LINK_START).append(getReportDir(iTestResult)).append("/").append(pdfFilename).append(LINK_MIDDLE).append("PDF").append(LINK_END);
             }
-            for(Map.Entry<String, LogEntries> log : reporter.getLogs().entrySet()) {
-                link.append(recordLog(iTestResult, log));
+            for(Map.Entry<String, LogEntries> logEntry : reporter.getLogs().entrySet()) {
+                link.append(recordLog(iTestResult, logEntry));
             }
         }
         String failure = "";

@@ -78,7 +78,7 @@ public class Reporter {
 
 
     // the image width for reporting
-    public static final String[] ENABLED_LOGS = new String[]{LogType.BROWSER, LogType.CLIENT, LogType.DRIVER, LogType.PERFORMANCE, LogType.PROFILER, LogType.SERVER};
+    protected static final String[] ENABLED_LOGS = new String[]{LogType.BROWSER, LogType.CLIENT, LogType.DRIVER, LogType.PERFORMANCE, LogType.PROFILER, LogType.SERVER};
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
     private final String url;
     private final String suite;
