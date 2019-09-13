@@ -20,9 +20,9 @@
 
 package com.coveros.selenified.exceptions;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
 
-public class InvalidHubException extends IOException {
+public class InvalidHubException extends MalformedURLException {
 
     public InvalidHubException(String msg) {
         super(msg);

@@ -6,19 +6,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import static com.coveros.selenified.utilities.Property.*;
 
 public class SaveProperties {
     protected static final String SELENIFIED = "src/test/resources/selenified.properties";
-
-    static final String DEFAULT_WAIT = "defaultWait";
-    static final String DEFAULT_POLL = "defaultPoll";
-    static final String GENERATE_PDF = "generatePDF";
-    static final String PACKAGE_RESULTS = "packageResults";
-    static final String HUB = "hub";
-    static final String PROXY = "proxy";
 
     private String setDefaultWait = null;
     private String setDefaultPoll = null;
@@ -30,6 +26,7 @@ public class SaveProperties {
     private String setBrowser = null;
     private String setHeadless = null;
     private String setOptions = null;
+    private String setBuildName = null;
 
     File propertiesFile = new File(SELENIFIED);
     File savePropertiesFile = new File(SELENIFIED + ".tmp");
@@ -66,6 +63,9 @@ public class SaveProperties {
         if (System.getProperty(OPTIONS) != null) {
             setOptions = System.getProperty(OPTIONS);
         }
+        if (System.getProperty(BUILD_NAME) != null) {
+            setBuildName = System.getProperty(BUILD_NAME);
+        }
         propertiesFile.renameTo(savePropertiesFile);
     }
 
@@ -101,6 +101,9 @@ public class SaveProperties {
         if (setOptions != null) {
             System.setProperty(OPTIONS, setOptions);
         }
+        if (setBuildName != null) {
+            System.setProperty(BUILD_NAME, setBuildName);
+        }
         savePropertiesFile.renameTo(propertiesFile);
     }
 
@@ -118,9 +121,16 @@ public class SaveProperties {
         System.clearProperty(BROWSER);
         System.clearProperty(HEADLESS);
         System.clearProperty(OPTIONS);
+        System.clearProperty(BUILD_NAME);
 
         if (new File(SELENIFIED).exists()) {
             new File(SELENIFIED).delete();
         }
+    }
+
+    void createPropertiesFile(String content) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));
+        writer.write(content);
+        writer.close();
     }
 }

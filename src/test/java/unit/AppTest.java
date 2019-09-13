@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 
+import static com.coveros.selenified.utilities.Property.HUB;
 import static org.testng.Assert.fail;
 
 public class AppTest extends SaveProperties {

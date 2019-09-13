@@ -21,10 +21,7 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
-import com.coveros.selenified.exceptions.InvalidHTTPException;
-import com.coveros.selenified.exceptions.InvalidHubException;
-import com.coveros.selenified.exceptions.InvalidProxyException;
+import com.coveros.selenified.exceptions.*;
 import org.testng.ITestContext;
 import org.testng.log4testng.Logger;
 
@@ -44,7 +41,7 @@ import java.util.Properties;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 5/13/2019
+ * @lastupdate 8/16/2019
  */
 public class Property {
 
@@ -58,16 +55,17 @@ public class Property {
     private static final Logger log = Logger.getLogger(Property.class);
     private static final String SELENIFIED = "src/test/resources/selenified.properties";
 
-    private static final String DEFAULT_WAIT = "defaultWait";
-    private static final String DEFAULT_POLL = "defaultPoll";
-    private static final String GENERATE_PDF = "generatePDF";
-    private static final String PACKAGE_RESULTS = "packageResults";
-    private static final String HUB = "hub";
-    private static final String PROXY = "proxy";
+    public static final String DEFAULT_WAIT = "defaultWait";
+    public static final String DEFAULT_POLL = "defaultPoll";
+    public static final String GENERATE_PDF = "generatePDF";
+    public static final String PACKAGE_RESULTS = "packageResults";
+    public static final String HUB = "hub";
+    public static final String PROXY = "proxy";
     public static final String APP_URL = "appURL";
     public static final String BROWSER = "browser";
     public static final String HEADLESS = "headless";
     public static final String OPTIONS = "options";
+    public static final String BUILD_NAME = "buildName";
 
     /**
      * Retrieves the specified program property. if it exists from the system properties, that is returned, overridding
@@ -76,7 +74,7 @@ public class Property {
      * @param property - what property value to return
      * @return String: the property value, null if unset
      */
-    private static String getProgramProperty(String property) {
+    static String getProgramProperty(String property) {
         if (System.getProperty(property) != null) {
             return System.getProperty(property).trim();
         }
@@ -123,31 +121,6 @@ public class Property {
             return true;
         }
         return "true".equalsIgnoreCase(packageResults);
-    }
-
-    /**
-     * Determines if a hub property is set. This could be to sauce, grid, or any other cloud tool.
-     * This should be provided with the protocol and address, but leaving out the /wd/hub
-     *
-     * @return boolean: is a hub location set
-     */
-    public static boolean isHubSet() {
-        String hub = getProgramProperty(HUB);
-        return hub != null && !"".equals(hub);
-    }
-
-    /**
-     * Retrieves the hub property if it is set. This could be to sauce, grid, or any other cloud tool.
-     * This should be provided with the protocol and address, but leaving out the /wd/hub
-     *
-     * @return String: the set hub address, null if none are set
-     */
-    public static String getHub() throws InvalidHubException {
-        String hub = getProgramProperty(HUB);
-        if (hub == null || "".equals(hub)) {
-            throw new InvalidHubException("Hub isn't set");
-        }
-        return hub;
     }
 
     /**
@@ -300,6 +273,12 @@ public class Property {
         return options;
     }
 
+    /**
+     * Retrieves the default poll. if it is set via a system property, that is used, if it is set via program property,
+     * that is used, otherwise, it uses the default
+     *
+     * @return Long: the number of seconds to wait before polling
+     */
     public static long getDefaultPoll() {
         String defaultPoll = getProgramProperty(DEFAULT_POLL);
         if (defaultPoll == null || "".equals(defaultPoll)) {
@@ -313,6 +292,12 @@ public class Property {
         }
     }
 
+    /**
+     * Retrieves the default wait. if it is set via a system property, that is used, if it is set via program property,
+     * that is used, otherwise, it uses the default
+     *
+     * @return Double: the maximum number of seconds to wait for an element/app event
+     */
     public static double getDefaultWait() {
         String defaultWait = getProgramProperty(DEFAULT_WAIT);
         if (defaultWait == null || "".equals(defaultWait)) {
@@ -324,5 +309,28 @@ public class Property {
             log.error("Provided default wait needs to be a double. " + e);
             return WAIT;
         }
+    }
+
+    /**
+     * Determines if build name is set.
+     *
+     * @return boolean: are options set or not
+     */
+    public static boolean isBuildNameSet() {
+        String buildName = getProgramProperty(BUILD_NAME);
+        return buildName != null && !"".equals(buildName);
+    }
+
+    /**
+     * Retrieves the build name
+     *
+     * @return String: the options, null if none are set
+     */
+    public static String getBuildName() throws InvalidBuildNameException {
+        String buildName = getProgramProperty(BUILD_NAME);
+        if (buildName == null || "".equals(buildName)) {
+            throw new InvalidBuildNameException("Build name isn't set");
+        }
+        return buildName;
     }
 }

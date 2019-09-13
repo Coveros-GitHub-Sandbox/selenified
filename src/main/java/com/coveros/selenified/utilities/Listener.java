@@ -21,12 +21,9 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.exceptions.InvalidHubException;
-import com.coveros.selenified.services.HTTP;
-import com.coveros.selenified.services.Request;
 import com.coveros.selenified.utilities.Reporter.Success;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.saucelabs.saucerest.SauceException;
+import com.saucelabs.saucerest.SauceREST;
 import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.TestListenerAdapter;
@@ -34,6 +31,7 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -50,7 +48,7 @@ import static com.coveros.selenified.utilities.Property.BROWSER;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/08/2019
+ * @lastupdate 8/19/2019
  */
 public class Listener extends TestListenerAdapter {
     private static final Logger log = Logger.getLogger(Listener.class);
@@ -107,18 +105,12 @@ public class Listener extends TestListenerAdapter {
     @Override
     public void onTestStart(ITestResult result) {
         super.onTestStart(result);
-        // if a group indicates an invalid browser, skip the test
         Browser browser = (Browser) result.getAttribute(BROWSER);
-        if (browser != null) {
-            String[] groups = result.getMethod().getGroups();
-            for (String group : groups) {
-                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
-                    log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " +
-                            Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                    result.setStatus(ITestResult.SKIP);
-                    throw new SkipException("This test is not intended for browser " + Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase()));
-                }
-            }
+        if (skipTest(browser, result)) {
+            String browserName = Reporter.capitalizeFirstLetters(browser.getName().toString().toLowerCase());
+            log.warn("Skipping test case " + getTestName(result) + ", as it is not intended for browser " + browserName);
+            result.setStatus(ITestResult.SKIP);
+            throw new SkipException("This test is not intended for browser " + browserName);
         }
     }
 
@@ -205,22 +197,36 @@ public class Listener extends TestListenerAdapter {
         // update sauce labs
         if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();
-            JsonObject json = new JsonObject();
-            json.addProperty("passed", result.getStatus() == 1);
-            JsonArray tags = new JsonArray();
-            for (String tag : result.getMethod().getGroups()) {
-                tags.add(tag);
-            }
-            json.add("tags", tags);
             try {
-                HTTP http = new HTTP(null, "https://saucelabs.com/rest/v1/" + Sauce.getSauceUser() + "/jobs/", Sauce.getSauceUser(),
-                        Sauce.getSauceKey());
-                http.put(sessionId, new Request().setJsonPayload(json), null);
-            } catch (InvalidHubException e) {
+                SauceREST sauce = new Sauce().getSauceConnection();
+                if (result.getStatus() == 1) {
+                    sauce.jobPassed(sessionId);
+                } else {
+                    sauce.jobFailed(sessionId);
+                }
+            } catch (SauceException | MalformedURLException e) {
                 log.error("Unable to connect to sauce, due to credential problems");
-            } catch (IOException e) {
-                log.error(e);
             }
         }
+    }
+
+    /**
+     * Checks if a test should be skipped, based on the browser, and groups provided. If the test contains the groups 'no-[BROWSER]'
+     * and the browser is that browser, then the test will be skipped
+     *
+     * @param browser - the browser currently under test
+     * @param result  - the testng itestresult object
+     * @return Boolean: should the test be skipped or not
+     */
+    public static boolean skipTest(Browser browser, ITestResult result) {
+        if (browser != null) {
+            String[] groups = result.getMethod().getGroups();
+            for (String group : groups) {
+                if (group.equalsIgnoreCase("no-" + browser.getName().toString())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

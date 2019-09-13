@@ -1,9 +1,6 @@
 package unit;
 
-import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
-import com.coveros.selenified.exceptions.InvalidHTTPException;
-import com.coveros.selenified.exceptions.InvalidHubException;
-import com.coveros.selenified.exceptions.InvalidProxyException;
+import com.coveros.selenified.exceptions.*;
 import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
@@ -217,116 +214,6 @@ public class PropertyTest extends SaveProperties {
         System.setProperty(PACKAGE_RESULTS, "true");
         createPropertiesFile(PACKAGE_RESULTS + "=hello");
         assertTrue(Property.packageResults());
-    }
-
-    @Test
-    public void defaultIsHubTest() {
-        assertFalse(Property.isHubSet());
-    }
-
-    @Test
-    public void defaultIsHubSystemEmptyTest() {
-        System.setProperty(HUB, "");
-        assertFalse(Property.isHubSet());
-    }
-
-    @Test
-    public void defaultIsHubSystemTest() {
-        System.setProperty(HUB, "somehub");
-        assertTrue(Property.isHubSet());
-    }
-
-    @Test
-    public void defaultIsHubFileEmptyTest() throws IOException {
-        createPropertiesFile("");
-        assertFalse(Property.isHubSet());
-    }
-
-    @Test
-    public void defaultIsHubFilePartialTest() throws IOException {
-        createPropertiesFile(HUB);
-        assertFalse(Property.isHubSet());
-    }
-
-    @Test
-    public void defaultIsHubFileUnsetTest() throws IOException {
-        createPropertiesFile(HUB + "=");
-        assertFalse(Property.isHubSet());
-    }
-
-    @Test
-    public void defaultIsHubFileTrueTest() throws IOException {
-        createPropertiesFile(HUB + "=somehub");
-        assertTrue(Property.isHubSet());
-    }
-
-    @Test
-    public void defaultIsHubOverrideEmptyTest() throws IOException {
-        System.setProperty(HUB, "");
-        createPropertiesFile(HUB + "=somehub");
-        assertFalse(Property.isHubSet());
-    }
-
-    @Test
-    public void defaultIsHubOverrideTrueTest() throws IOException {
-        System.setProperty(HUB, "somehub");
-        createPropertiesFile(HUB + "=");
-        assertTrue(Property.isHubSet());
-    }
-
-    @Test(expectedExceptions = InvalidHubException.class)
-    public void defaultGetHubTest() throws InvalidHubException {
-        Property.getHub();
-    }
-
-    @Test(expectedExceptions = InvalidHubException.class)
-    public void defaultGetHubSystemEmptyTest() throws InvalidHubException {
-        System.setProperty(HUB, "");
-        Property.getHub();
-    }
-
-    @Test
-    public void defaultGetHubSystemTest() throws InvalidHubException {
-        System.setProperty(HUB, "somehub");
-        assertEquals(Property.getHub(),"somehub");
-    }
-
-    @Test(expectedExceptions = InvalidHubException.class)
-    public void defaultGetHubFileEmptyTest() throws IOException {
-        createPropertiesFile("");
-        Property.getHub();
-    }
-
-    @Test(expectedExceptions = InvalidHubException.class)
-    public void defaultGetHubFilePartialTest() throws IOException {
-        createPropertiesFile(HUB);
-        Property.getHub();
-    }
-
-    @Test(expectedExceptions = InvalidHubException.class)
-    public void defaultGetHubFileUnsetTest() throws IOException {
-        createPropertiesFile(HUB + "=");
-        Property.getHub();
-    }
-
-    @Test
-    public void defaultGetHubFileTrueTest() throws IOException {
-        createPropertiesFile(HUB + "=somehub");
-        assertEquals(Property.getHub(), "somehub");
-    }
-
-    @Test(expectedExceptions = InvalidHubException.class)
-    public void defaultGetHubOverrideEmptyTest() throws IOException {
-        System.setProperty(HUB, "");
-        createPropertiesFile(HUB + "=somehub");
-        Property.getHub();
-    }
-
-    @Test
-    public void defaultGetHubOverrideTrueTest() throws IOException {
-        System.setProperty(HUB, "somehub");
-        createPropertiesFile(HUB + "=");
-        assertEquals(Property.getHub(), "somehub");
     }
 
     @Test
@@ -1122,9 +1009,113 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getDefaultPoll(), 1);
     }
 
-    private void createPropertiesFile(String content) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));
-        writer.write(content);
-        writer.close();
+    @Test
+    public void defaultIsBuildNameTest() {
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameSystemEmptyTest() {
+        System.setProperty(BUILD_NAME, "");
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameSystemTest() {
+        System.setProperty(BUILD_NAME, "someoptions");
+        assertTrue(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameFilePartialTest() throws IOException {
+        createPropertiesFile(BUILD_NAME);
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameFileUnsetTest() throws IOException {
+        createPropertiesFile(BUILD_NAME + "=");
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameFileTrueTest() throws IOException {
+        createPropertiesFile(BUILD_NAME + "=someoptions");
+        assertTrue(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameOverrideEmptyTest() throws IOException {
+        System.setProperty(BUILD_NAME, "");
+        createPropertiesFile(BUILD_NAME + "=someoptions");
+        assertFalse(Property.isBuildNameSet());
+    }
+
+    @Test
+    public void defaultIsBuildNameOverrideTrueTest() throws IOException {
+        System.setProperty(BUILD_NAME, "someoptions");
+        createPropertiesFile(BUILD_NAME + "=");
+        assertTrue(Property.isBuildNameSet());
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameTest() throws InvalidBuildNameException {
+        Property.getBuildName();
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameSystemEmptyTest() throws InvalidBuildNameException {
+        System.setProperty(BUILD_NAME, "");
+        Property.getBuildName();
+    }
+
+    @Test
+    public void defaultGetBuildNameSystemTest() throws InvalidBuildNameException {
+        System.setProperty(BUILD_NAME, "someoptions");
+        assertEquals(Property.getBuildName(), "someoptions");
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        Property.getBuildName();
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameFilePartialTest() throws IOException {
+        createPropertiesFile(BUILD_NAME);
+        Property.getBuildName();
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameFileUnsetTest() throws IOException {
+        createPropertiesFile(BUILD_NAME + "=");
+        Property.getBuildName();
+    }
+
+    @Test
+    public void defaultGetBuildNameFileTrueTest() throws IOException {
+        createPropertiesFile(BUILD_NAME + "=someoptions");
+        assertEquals(Property.getBuildName(), "someoptions");
+    }
+
+    @Test(expectedExceptions = InvalidBuildNameException.class)
+    public void defaultGetBuildNameOverrideEmptyTest() throws IOException {
+        System.setProperty(BUILD_NAME, "");
+        createPropertiesFile(BUILD_NAME + "=someoptions");
+        Property.getBuildName();
+    }
+
+    @Test
+    public void defaultGetBuildNameOverrideTrueTest() throws IOException {
+        System.setProperty(BUILD_NAME, "someoptions");
+        createPropertiesFile(BUILD_NAME + "=");
+        assertEquals(Property.getBuildName(), "someoptions");
     }
 }

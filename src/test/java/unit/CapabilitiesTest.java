@@ -11,9 +11,6 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.Test;
 
-import java.util.logging.Level;
-
-import static com.coveros.selenified.utilities.Reporter.ENABLED_LOGS;
 import static org.testng.Assert.*;
 
 public class CapabilitiesTest extends SaveProperties {

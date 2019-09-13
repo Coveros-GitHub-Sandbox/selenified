@@ -19,12 +19,13 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.coveros.selenified.utilities.Property.GENERATE_PDF;
+import static com.coveros.selenified.utilities.Property.PACKAGE_RESULTS;
 import static org.testng.Assert.*;
-import static unit.PropertyTest.GENERATE_PDF;
-import static unit.PropertyTest.PACKAGE_RESULTS;
 
 public class ReporterTest {
 
@@ -34,7 +35,7 @@ public class ReporterTest {
     private HTTP http;
 
     @BeforeMethod
-    public void createFile() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+    public void createFile() throws InvalidBrowserException, InvalidProxyException {
         reporter = new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                 null);
         directory = new File("directory");
@@ -49,13 +50,13 @@ public class ReporterTest {
     }
 
     @Test
-    public void constructorNullTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+    public void constructorNullTest() throws InvalidBrowserException, InvalidProxyException {
         // just verify no errors are thrown
         new Reporter(null, null, null, null, null, null, null, null, null);
     }
 
     @Test
-    public void setupFileFreshTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+    public void setupFileFreshTest() throws InvalidBrowserException, InvalidProxyException {
         new Reporter("somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File file = new File("somenewdir", "file.html");
         assertTrue(file.exists());
@@ -64,7 +65,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void setupFileTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+    public void setupFileTest() throws InvalidBrowserException, InvalidProxyException {
         assertNotEquals(file.length(), 0);
         assertTrue(directory.exists());
         assertTrue(file.exists());
@@ -101,7 +102,7 @@ public class ReporterTest {
 
     @Test
     public void createOutputHeaderGroupTest() throws IOException {
-        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, "My Group", null, null,
+        new Reporter("newdirectory", "file", new Capabilities(new Browser("Chrome")), null, null, Arrays.asList("My Group"), null, null,
                 null);
         File file = new File("newdirectory", "file.html");
         assertTrue(file.exists());
@@ -227,7 +228,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void recordActionBadFile() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+    public void recordActionBadFile() throws InvalidBrowserException, InvalidProxyException {
         Reporter reporter =
                 new Reporter("/somenewdir", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                         null);
@@ -295,7 +296,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void packageResultsTest() throws IOException {
+    public void packageResultsTest() {
         reporter.finalizeReporter(1);
         assertFalse(new File(directory, file.getName() + "_RESULTS.zip").exists());
     }
@@ -605,7 +606,7 @@ public class ReporterTest {
     }
 
     @Test
-    public void generatePDFTest() throws InvalidBrowserException, InvalidProxyException, InvalidHubException {
+    public void generatePDFTest() throws InvalidBrowserException, InvalidProxyException {
         Reporter reporter =
                 new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
         File directory = new File("results");
