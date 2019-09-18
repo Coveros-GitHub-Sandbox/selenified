@@ -5,8 +5,6 @@ import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import static com.coveros.selenified.utilities.Property.*;
