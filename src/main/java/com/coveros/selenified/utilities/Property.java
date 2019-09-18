@@ -53,7 +53,7 @@ public class Property {
     }
 
     private static final Logger log = Logger.getLogger(Property.class);
-    private static final String SELENIFIED = "src/test/resources/selenified.properties";
+    private static final String SELENIFIED = "selenified.properties";
 
     public static final String DEFAULT_WAIT = "defaultWait";
     public static final String DEFAULT_POLL = "defaultPoll";
@@ -79,7 +79,7 @@ public class Property {
             return System.getProperty(property).trim();
         }
         Properties prop = new Properties();
-        try (InputStream input = new FileInputStream(SELENIFIED)) {
+        try (InputStream input = Property.class.getClassLoader().getResourceAsStream(SELENIFIED)) {
             prop.load(input);
         } catch (IOException e) {
             log.info(e);
