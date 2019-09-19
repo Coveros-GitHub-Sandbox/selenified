@@ -38,9 +38,24 @@ node {
                     throw e
                 } finally {
                     sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec"
-                    sh "mkdir -p results/unit; mv target results/unit/"
-                    archiveArtifacts artifacts: 'results/unit/target/surefire-reports/**'
-                    junit 'results/unit/target/surefire-reports/TEST-*.xml'
+                    sh "mkdir -p results/unit; cp -r target results/unit/"
+                    junit 'target/surefire-reports/TEST-*.xml'
+                    publishHTML([
+                            allowMissing         : false,
+                            alwaysLinkToLastBuild: true,
+                            keepAll              : true,
+                            reportDir            : 'target/site/jacoco-ut',
+                            reportFiles          : 'index.html',
+                            reportName           : 'Unit Test Coverage'
+                    ])
+                    publishHTML([
+                            allowMissing         : false,
+                            alwaysLinkToLastBuild: true,
+                            keepAll              : true,
+                            reportDir            : 'target/surefire-reports',
+                            reportFiles          : 'index.html',
+                            reportName           : 'Unit Test Report'
+                    ])
                 }
             }
             parallel(
@@ -48,21 +63,28 @@ node {
                         stage('Execute HTMLUnit Tests') {
                             try {
                                 // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser"'
+                                sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros"'
                             } catch (e) {
                                 throw e
                             } finally {
                                 sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                                sh "mkdir -p results/htmlunit; mv target results/htmlunit/"
-                                archiveArtifacts artifacts: 'results/htmlunit/target/failsafe-reports/**'
-                                junit 'results/htmlunit/target/failsafe-reports/TEST-*.xml'
+                                sh "mkdir -p results/htmlunit; cp -r target results/htmlunit/"
+                                junit 'target/failsafe-reports/TEST-*.xml'
                                 publishHTML([
                                         allowMissing         : false,
                                         alwaysLinkToLastBuild: true,
                                         keepAll              : true,
-                                        reportDir            : 'results/htmlunit/target/failsafe-reports',
+                                        reportDir            : 'target/site/jacoco-it',
+                                        reportFiles          : 'index.html',
+                                        reportName           : 'HTMLUnit Test Coverage'
+                                ])
+                                publishHTML([
+                                        allowMissing         : false,
+                                        alwaysLinkToLastBuild: true,
+                                        keepAll              : true,
+                                        reportDir            : 'target/failsafe-reports',
                                         reportFiles          : 'report.html',
-                                        reportName           : 'HTMLUnit Report'
+                                        reportName           : 'HTMLUnit Test Report'
                                 ])
                             }
                         }
@@ -99,16 +121,23 @@ node {
                                     throw e
                                 } finally {
                                     sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                                    sh "mkdir -p results/chrome; mv target results/chrome/"
-                                    archiveArtifacts artifacts: 'results/chrome/target/failsafe-reports/**'
-                                    junit 'results/chrome/target/failsafe-reports/TEST-*.xml'
+                                    sh "mkdir -p results/chrome; cp -r target results/chrome/"
+                                    junit 'target/failsafe-reports/TEST-*.xml'
                                     publishHTML([
                                             allowMissing         : false,
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
-                                            reportDir            : 'results/chrome/target/failsafe-reports',
+                                            reportDir            : 'target/site/jacoco-it',
+                                            reportFiles          : 'index.html',
+                                            reportName           : 'Chrome Test Coverage'
+                                    ])
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'target/failsafe-reports',
                                             reportFiles          : 'report.html',
-                                            reportName           : 'Chrome Report'
+                                            reportName           : 'Chrome Test Report'
                                     ])
                                 }
                             }
@@ -117,7 +146,6 @@ node {
                                 sh 'mkdir -p results/zap'
                                 sh 'wget -q -O results/zap/report.html http://localhost:9092/OTHER/core/other/htmlreport'
                                 sh 'wget -q -O results/zap/report.xml http://localhost:9092/OTHER/core/other/xmlreport'
-                                archiveArtifacts artifacts: 'results/zap/**'
                                 publishHTML([
                                         allowMissing         : false,
                                         alwaysLinkToLastBuild: true,
@@ -175,16 +203,23 @@ node {
                         throw e
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                        sh "mkdir -p results/compatibility; mv target results/compatibility/"
-                        archiveArtifacts artifacts: 'results/compatibility/target/failsafe-reports/**'
-                        junit 'results/compatibility/target/failsafe-reports/TEST-*.xml'
+                        sh "mkdir -p results/compatibility; cp -r target results/compatibility/"
+                        junit 'target/failsafe-reports/TEST-*.xml'
                         publishHTML([
                                 allowMissing         : false,
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
-                                reportDir            : 'results/compatibility/target/failsafe-reports',
+                                reportDir            : 'target/site/jacoco-it',
+                                reportFiles          : 'index.html',
+                                reportName           : 'Compatibility Test Coverage'
+                        ])
+                        publishHTML([
+                                allowMissing         : false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll              : true,
+                                reportDir            : 'target/failsafe-reports',
                                 reportFiles          : 'report.html',
-                                reportName           : 'Compatibility Report'
+                                reportName           : 'Compatibility Test Report'
                         ])
                     }
                 }
@@ -196,16 +231,23 @@ node {
                         throw e
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                        sh "mkdir -p results/sauce; mv target results/sauce/"
-                        archiveArtifacts artifacts: 'results/sauce/target/failsafe-reports/**'
-                        junit 'results/sauce/target/failsafe-reports/TEST-*.xml'
+                        sh "mkdir -p results/sauce; cp -r target results/sauce/"
+                        junit 'target/failsafe-reports/TEST-*.xml'
                         publishHTML([
                                 allowMissing         : false,
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
-                                reportDir            : 'results/sauce/target/failsafe-reports',
+                                reportDir            : 'target/site/jacoco-it',
+                                reportFiles          : 'index.html',
+                                reportName           : 'Sauce Test Coverage'
+                        ])
+                        publishHTML([
+                                allowMissing         : false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll              : true,
+                                reportDir            : 'target/failsafe-reports',
                                 reportFiles          : 'report.html',
-                                reportName           : 'Sauce Report'
+                                reportName           : 'Sauce Test Report'
                         ])
                     }
                 }
