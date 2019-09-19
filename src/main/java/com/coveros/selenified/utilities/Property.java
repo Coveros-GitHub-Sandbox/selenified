@@ -25,7 +25,6 @@ import com.coveros.selenified.exceptions.*;
 import org.testng.ITestContext;
 import org.testng.log4testng.Logger;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -41,7 +40,7 @@ import java.util.Properties;
  *
  * @author Max Saperstone
  * @version 3.2.1
- * @lastupdate 8/16/2019
+ * @lastupdate 9/18/2019
  */
 public class Property {
 
@@ -53,7 +52,7 @@ public class Property {
     }
 
     private static final Logger log = Logger.getLogger(Property.class);
-    private static final String SELENIFIED = "src/test/resources/selenified.properties";
+    private static final String SELENIFIED = "selenified.properties";
 
     public static final String DEFAULT_WAIT = "defaultWait";
     public static final String DEFAULT_POLL = "defaultPoll";
@@ -79,9 +78,9 @@ public class Property {
             return System.getProperty(property).trim();
         }
         Properties prop = new Properties();
-        try (InputStream input = new FileInputStream(SELENIFIED)) {
+        try (InputStream input = Property.class.getClassLoader().getResourceAsStream(SELENIFIED)) {
             prop.load(input);
-        } catch (IOException e) {
+        } catch (NullPointerException | IOException e) {
             log.info(e);
         }
         String fullProperty = prop.getProperty(property);
@@ -182,9 +181,9 @@ public class Property {
     public static String getAppURL(String clazz, ITestContext context) throws InvalidHTTPException {
         String appURL = checkAppURL(null, (String) context.getAttribute(clazz + APP_URL), "The provided app via test case setup '");
         Properties prop = new Properties();
-        try (InputStream input = new FileInputStream(SELENIFIED)) {
+        try (InputStream input = Property.class.getClassLoader().getResourceAsStream(SELENIFIED)) {
             prop.load(input);
-        } catch (IOException e) {
+        } catch (NullPointerException | IOException e) {
             log.info(e);
         }
         appURL = checkAppURL(appURL, prop.getProperty(APP_URL), "The provided app via Properties file '");
