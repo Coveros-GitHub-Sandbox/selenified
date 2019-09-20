@@ -39,6 +39,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -53,6 +54,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static com.coveros.selenified.utilities.Property.HEADLESS;
+import static com.coveros.selenified.utilities.Reporter.ENABLED_LOGS;
 
 /**
  * Assists with Selenified class in setting up proxy, hub, and browser details
@@ -84,6 +86,13 @@ public class Capabilities {
         if (browser.getName() == BrowserName.NONE) {
             return;
         }
+        //turn on browser logging
+        LoggingPreferences logPrefs = new LoggingPreferences();
+        for( String logType : ENABLED_LOGS) {
+            logPrefs.enable(logType, Level.ALL);
+        }
+        this.desiredCapabilities.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+        System.setProperty("webdriver." + browser.getName().toString().toLowerCase() + ".verboseLogging", "true");
         // by default, accept insecure sites - there are some exceptions for browsers
         this.desiredCapabilities.setAcceptInsecureCerts(true);
         // setup our browser name based on the enum provided - there are a few special cases

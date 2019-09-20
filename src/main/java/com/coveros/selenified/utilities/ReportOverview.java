@@ -22,6 +22,8 @@ package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
 import org.testng.ISuite;
 import org.testng.ITestResult;
 import org.testng.internal.Utils;
@@ -29,11 +31,11 @@ import org.testng.log4testng.Logger;
 import org.testng.reporters.EmailableReporter2;
 import org.testng.xml.XmlSuite;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.utilities.Constants.*;
@@ -251,13 +253,15 @@ public class ReportOverview extends EmailableReporter2 {
     private void writeTestResult(String status, String cssClass, String className, ITestResult iTestResult) {
         Browser browser = (Browser) iTestResult.getAttribute(BROWSER);
         Reporter reporter = (Reporter) iTestResult.getAttribute(REPORTER);
-        String link = "--";
+        StringBuilder link = new StringBuilder("--");
         if (reporter != null && !"Skip".equals(status)) {
-            String htmlFilename = reporter.getFileName() + ".html";
-            link = LINK_START + getReportDir(iTestResult) + "/" + htmlFilename + LINK_MIDDLE + "HTML Report" + LINK_END;
+            link = new StringBuilder(LINK_START + getReportDir(iTestResult) + "/" + reporter.getFileName() + ".html" + LINK_MIDDLE + "HTML" + LINK_END);
             if (Property.generatePDF()) {
                 String pdfFilename = reporter.getFileName() + ".pdf";
-                link += " " + LINK_START + getReportDir(iTestResult) + "/" + pdfFilename + LINK_MIDDLE + "PDF Report" + LINK_END;
+                link.append(" " + LINK_START).append(getReportDir(iTestResult)).append("/").append(pdfFilename).append(LINK_MIDDLE).append("PDF").append(LINK_END);
+            }
+            for(Map.Entry<String, LogEntries> logEntry : reporter.getLogs().entrySet()) {
+                link.append(recordLog(iTestResult, logEntry));
             }
         }
         String failure = "";
@@ -272,8 +276,22 @@ public class ReportOverview extends EmailableReporter2 {
         cell(Utils.escapeHtml(className));
         cell(Utils.escapeHtml(Reporter.capitalizeFirstLetters(iTestResult.getName())));
         cell(status + failure);
-        cell(link);
+        cell(link.toString());
         writer.println(TR);
+    }
+
+    private String recordLog(ITestResult iTestResult, Map.Entry<String, LogEntries> logEntriesEntry) {
+        Reporter reporter = (Reporter) iTestResult.getAttribute(REPORTER);
+        File logFile = new File( reporter.getDirectory(), reporter.getFileName() + "_" + logEntriesEntry.getKey() + ".html" );
+        try (
+            FileWriter fw = new FileWriter(logFile); BufferedWriter out = new BufferedWriter(fw)) {
+            for (LogEntry entry : logEntriesEntry.getValue()) {
+                out.write(new Date(entry.getTimestamp()) + " " + entry.getLevel() + " " + entry.getMessage() + "<br/>");
+            }
+        } catch (IOException e) {
+            log.error(e);
+        }
+        return " " + LINK_START + getReportDir(iTestResult) + "/" + logFile.getName() + LINK_MIDDLE + Reporter.capitalizeFirstLetters(logEntriesEntry.getKey()) + "" + LINK_END;
     }
 
     /**

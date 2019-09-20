@@ -32,6 +32,8 @@ import com.coveros.selenified.services.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogType;
 import org.testng.log4testng.Logger;
 
 import java.io.*;
@@ -39,10 +41,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -79,6 +78,7 @@ public class Reporter {
 
 
     // the image width for reporting
+    public static final String[] ENABLED_LOGS = new String[]{LogType.BROWSER, LogType.CLIENT, LogType.DRIVER, LogType.PERFORMANCE, LogType.PROFILER, LogType.SERVER};
     private static final int EMBEDDED_IMAGE_WIDTH = 300;
     private final String url;
     private final String suite;
@@ -91,6 +91,7 @@ public class Reporter {
     private final File file;
     private final String filename;
     private final List<String> screenshots = new ArrayList<>();
+    private final Map<String, LogEntries> logs = new HashMap<>();
     private final Capabilities capabilities;
     private App app = null;
     // timing of the test
@@ -163,6 +164,14 @@ public class Reporter {
      */
     public int getFails() {
         return fails;
+    }
+
+    public void addLogs(String logName, LogEntries logEntries) {
+        logs.put(logName, logEntries);
+    }
+
+    public Map<String, LogEntries> getLogs() {
+        return logs;
     }
 
     //////////////////////////////////////

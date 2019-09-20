@@ -28,6 +28,7 @@ import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.HTTP.ContentType;
 import com.coveros.selenified.utilities.*;
+import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
@@ -43,6 +44,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static com.coveros.selenified.utilities.Property.*;
+import static com.coveros.selenified.utilities.Reporter.ENABLED_LOGS;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
@@ -200,7 +202,7 @@ public class Selenified {
      *                under test, run at the same time
      * @param context - the TestNG context associated with the test suite, used for
      *                storing app url information
-     * @return Map<String, String>: the key-pair values of the headers of the current test being executed
+     * @return Map: the key-pair values of the headers of the current test being executed
      */
     private static Map<String, Object> getExtraHeaders(String clazz, ITestContext context) {
         return (Map<String, Object>) context.getAttribute(clazz + "Headers");
@@ -476,14 +478,28 @@ public class Selenified {
     @AfterMethod(alwaysRun = true)
     protected void endTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         String testName = TestCase.getTestName(method, dataProvider);
-        if (this.apps.get() != null) {
-            this.apps.get().killDriver();
-        }
         int invocationCount = 0;
         if (test.getAttributeNames().contains(testName + INVOCATION_COUNT)) {
             invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
         }
+        if (this.apps.get() != null) {
+            for (String logType : ENABLED_LOGS) {
+                getLog(logType);
+            }
+            this.apps.get().killDriver();
+        }
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
+    }
+
+    private void getLog(String logType) {
+        try {
+            LogEntries logEntries = this.apps.get().getDriver().manage().logs().get(logType);
+            if (logEntries != null && !logEntries.getAll().isEmpty()) {
+                this.reporterThreadLocal.get().addLogs(logType, logEntries);
+            }
+        } catch (Exception e) {
+            log.debug(e);
+        }
     }
 
     /**
@@ -591,7 +607,7 @@ public class Selenified {
             List<Browser> browsers = getBrowserInput();
             for (Browser browser : browsers) {
                 Selenified.CAPABILITIES_LIST.add(new Capabilities(browser));
-                buildNameSB.append(browser.getDetails() + ", ");
+                buildNameSB.append(browser.getDetails()).append(", ");
             }
             if (isBuildNameSet()) {
                 buildName = getBuildName();
