@@ -21,10 +21,15 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.exceptions.InvalidSauceException;
+import com.saucelabs.saucerest.SauceException;
 import com.saucelabs.saucerest.SauceREST;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestResult;
+import org.testng.log4testng.Logger;
 
 import java.net.MalformedURLException;
 
+import static com.coveros.selenified.Selenified.SESSION_ID;
 import static com.coveros.selenified.utilities.Property.HUB;
 import static com.coveros.selenified.utilities.Property.getProgramProperty;
 
@@ -36,6 +41,7 @@ import static com.coveros.selenified.utilities.Property.getProgramProperty;
  * @lastupdate 8/18/2019
  */
 public class Sauce extends Hub {
+    private static final Logger log = Logger.getLogger(Sauce.class);
     private static final String SAUCE_HUB_ISN_T_SET = "Sauce hub isn't set";
 
     public Sauce() throws MalformedURLException {
@@ -51,6 +57,44 @@ public class Sauce extends Hub {
     public static Boolean isSauce() {
         String hub = getProgramProperty(HUB);
         return hub != null && hub.contains("ondemand.saucelabs.com");
+    }
+
+    /**
+     * TODO
+     * @param result
+     */
+    static void updateStatus(ITestResult result) {
+        if (isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
+            String sessionId = result.getAttribute(SESSION_ID).toString();
+            try {
+                SauceREST sauce = new Sauce().getSauceConnection();
+                if (result.getStatus() == 1) {
+                    sauce.jobPassed(sessionId);
+                } else {
+                    sauce.jobFailed(sessionId);
+                }
+            } catch (SauceException | MalformedURLException e) {
+                log.error("Unable to connect to sauce, due to credential problems");
+            }
+        }
+    }
+
+    /**
+     * Sauce labs has specific capabilities to manage the selenium version used. The version is obtained from the
+     * POM (or could be passed in via CMD to override) and then set so that Sauce sets the specific selenium version,
+     * instead of their default: https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options#TestConfigurationOptions-SeleniumVersion
+     * Additionally, the iedriverVersion is set to match the selenium version as suggested, if ie is the chosen browser
+     * Finally, the default platform for edge is set to windows 10
+     */
+    public static void setupSauceCapabilities(DesiredCapabilities desiredCapabilities) {
+        if (Sauce.isSauce()) {
+            // set the selenium version
+            desiredCapabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
+            // set the ie driver if needed
+            if (desiredCapabilities.getBrowserName().equals("internet explorer")) {
+                desiredCapabilities.setCapability("iedriverVersion", System.getProperty("selenium.version"));
+            }
+        }
     }
 
     /**

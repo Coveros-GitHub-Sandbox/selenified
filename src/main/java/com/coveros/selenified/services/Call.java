@@ -44,7 +44,7 @@ public class Call {
     // what services will we be interacting with
     private final HTTP http;
 
-    protected enum Method {GET, POST, PUT, DELETE}
+    protected enum Method {GET, POST, PUT, PATCH, DELETE}
 
     public Call(HTTP http, Map<String, Object> headers) throws InvalidHTTPException, InvalidReporterException {
         if (http == null) {
@@ -180,6 +180,33 @@ public class Call {
      */
     public Response put(String endpoint, Request params, File file) {
         return call(Method.PUT, endpoint, params, file);
+    }
+
+    /**
+     * Performs a patch http call and writes the call and response information to
+     * the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
+     * @return Response: the response provided from the http call
+     */
+    public Response patch(String endpoint, Request params) {
+        return call(Method.PATCH, endpoint, params, null);
+    }
+
+    /**
+     * Performs a patch http call and writes the call and response information to
+     * the output file
+     *
+     * @param endpoint - the endpoint of the service under test
+     * @param params   - the parameters to be passed to the endpoint for the service
+     *                 call
+     * @param file     - an input file to be provided with the call
+     * @return Response: the response provided from the http call
+     */
+    public Response patch(String endpoint, Request params, File file) {
+        return call(Method.PATCH, endpoint, params, file);
     }
 
     /**

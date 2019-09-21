@@ -88,7 +88,7 @@ public class Capabilities {
         }
         //turn on browser logging
         LoggingPreferences logPrefs = new LoggingPreferences();
-        for( String logType : ENABLED_LOGS) {
+        for (String logType : ENABLED_LOGS) {
             logPrefs.enable(logType, Level.ALL);
         }
         this.desiredCapabilities.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
@@ -135,7 +135,7 @@ public class Capabilities {
         this.desiredCapabilities.setCapability("ensureCleanSession", true);
         // setup additional non-browser capabilities
         setupProxy();
-        setupSauceCapabilities();
+        Sauce.setupSauceCapabilities(desiredCapabilities);
     }
 
     /**
@@ -187,24 +187,6 @@ public class Capabilities {
             Proxy proxy = new Proxy();
             proxy.setHttpProxy(Property.getProxy());
             desiredCapabilities.setCapability(CapabilityType.PROXY, proxy);
-        }
-    }
-
-    /**
-     * Sauce labs has specific capabilities to manage the selenium version used. The version is obtained from the
-     * POM (or could be passed in via CMD to override) and then set so that Sauce sets the specific selenium version,
-     * instead of their default: https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options#TestConfigurationOptions-SeleniumVersion
-     * Additionally, the iedriverVersion is set to match the selenium version as suggested, if ie is the chosen browser
-     * Finally, the default platform for edge is set to windows 10
-     */
-    public void setupSauceCapabilities() {
-        if (Sauce.isSauce()) {
-            // set the selenium version
-            desiredCapabilities.setCapability("seleniumVersion", System.getProperty("selenium.version"));
-            // set the ie driver if needed
-            if (desiredCapabilities.getBrowserName().equals("internet explorer")) {
-                desiredCapabilities.setCapability("iedriverVersion", System.getProperty("selenium.version"));
-            }
         }
     }
 

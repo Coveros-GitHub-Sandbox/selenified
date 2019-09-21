@@ -32,10 +32,11 @@ import org.apache.commons.codec.binary.Base64;
 import org.testng.log4testng.Logger;
 
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.*;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A class designed to make HTTP calls. This is wrapped by the Action and Assert
@@ -89,6 +90,7 @@ public class HTTP {
     public HTTP(Reporter reporter, String serviceBaseUrl) {
         this.reporter = reporter;
         this.serviceBaseUrl = serviceBaseUrl;
+        allowMethods("PATCH");
     }
 
     /**
@@ -105,6 +107,7 @@ public class HTTP {
         this.serviceBaseUrl = serviceBaseUrl;
         this.user = user;
         this.pass = pass;
+        allowMethods("PATCH");
     }
 
     /**
@@ -248,6 +251,20 @@ public class HTTP {
         return call(Method.PUT, service, request, file);
     }
 
+
+    /**
+     * A basic http put call
+     *
+     * @param service - the endpoint of the service under test
+     * @param request - the parameters to be passed to the endpoint for the service
+     *                call
+     * @param file    - a file to upload, accompanied with the post
+     * @return Response: the response provided from the http call
+     */
+    public Response patch(String service, Request request, File file) throws IOException {
+        return call(Method.PATCH, service, request, file);
+    }
+
     /**
      * A basic http delete call
      *
@@ -331,6 +348,33 @@ public class HTTP {
             }
         }
         return getResponse(connection);
+    }
+
+    /**
+     * Provides ability to add an HTTP method to HTTPUrlConnection via reflection. Use
+     * with caution
+     *
+     * @param methods - what HTTP method(s) do you want to add
+     */
+    private static void allowMethods(String... methods) {
+        try {
+            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
+
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
+
+            methodsField.setAccessible(true);
+
+            String[] oldMethods = (String[]) methodsField.get(null);
+            Set<String> methodsSet = new LinkedHashSet<>(Arrays.asList(oldMethods));
+            methodsSet.addAll(Arrays.asList(methods));
+            String[] newMethods = methodsSet.toArray(new String[0]);
+
+            methodsField.set(null/*static field*/, newMethods);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**

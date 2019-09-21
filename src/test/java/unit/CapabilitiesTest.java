@@ -38,7 +38,7 @@ public class CapabilitiesTest extends SaveProperties {
         fail("Expected an InvalidBrowserException");
     }
 
-    private DesiredCapabilities getBasicDesiredCapabilities(String browserName) {
+    static DesiredCapabilities getBasicDesiredCapabilities(String browserName) {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setBrowserName(browserName);
         desiredCapabilities.setPlatform(Platform.ANY);
@@ -186,43 +186,6 @@ public class CapabilitiesTest extends SaveProperties {
         capability = capabilities.getDesiredCapabilities();
         Proxy export = (Proxy) capability.getCapability(CapabilityType.PROXY);
         assertEquals(export.getHttpProxy(), "localhost:8080");
-    }
-
-    @Test
-    public void setupSauceCapabilitiesNoSauceTest() throws InvalidProxyException, InvalidBrowserException {
-        // what we expect
-        DesiredCapabilities expectedDesiredCapabilities = getBasicDesiredCapabilities("chrome");
-        // what we're getting
-        Capabilities capabilities = new Capabilities(new Browser("Chrome"));
-        capabilities.setupSauceCapabilities();
-        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
-    }
-
-    @Test
-    public void setupSauceCapabilitiesChromeTest() throws InvalidProxyException, InvalidBrowserException {
-        System.setProperty(HUB, "ondemand.saucelabs.com");
-        // what we expect
-        DesiredCapabilities expectedDesiredCapabilities = getBasicDesiredCapabilities("chrome");
-        expectedDesiredCapabilities.setCapability("seleniumVersion", "3.141.59");
-        // what we're getting
-        Capabilities capabilities = new Capabilities(new Browser("Chrome"));
-        capabilities.setupSauceCapabilities();
-        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
-    }
-
-    @Test
-    public void setupSauceCapabilitiesIETest() throws InvalidProxyException, InvalidBrowserException {
-        System.setProperty(HUB, "ondemand.saucelabs.com");
-        // what we expect
-        DesiredCapabilities expectedDesiredCapabilities = getBasicDesiredCapabilities("internet explorer");
-        expectedDesiredCapabilities.setPlatform(Platform.WINDOWS);
-        expectedDesiredCapabilities.setAcceptInsecureCerts(false);
-        expectedDesiredCapabilities.setCapability("seleniumVersion", "3.141.59");
-        expectedDesiredCapabilities.setCapability("iedriverVersion", "3.141.59");
-        // what we're getting
-        Capabilities capabilities = new Capabilities(new Browser("internetExplorer"));
-        capabilities.setupSauceCapabilities();
-        assertEquals(capabilities.getDesiredCapabilities(), expectedDesiredCapabilities);
     }
 
     @Test

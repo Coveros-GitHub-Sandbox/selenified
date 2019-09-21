@@ -396,7 +396,7 @@ public class Selenified {
         // setup the rest of the browser details
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
-        desiredCapabilities.setCapability("name", testName);
+        desiredCapabilities.setCapability("name", testName);    //TODO, this isn't coming out as unique for the coveros tests...need to fix this
         desiredCapabilities.setCapability("tags", Arrays.asList(result.getMethod().getGroups()));
         desiredCapabilities.setCapability("build", buildName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
@@ -416,9 +416,7 @@ public class Selenified {
             if (selenium.loadPage()) {
                 loadInitialPage(app, Property.getAppURL(extClass, test), reporter);
             }
-            if (Sauce.isSauce()) {
-                result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
-            }
+            result.setAttribute(SESSION_ID, ((RemoteWebDriver) app.getDriver()).getSessionId());
         } else {
             this.apps.set(null);
         }
