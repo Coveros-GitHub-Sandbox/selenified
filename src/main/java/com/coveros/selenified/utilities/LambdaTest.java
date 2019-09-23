@@ -34,7 +34,7 @@ import static com.coveros.selenified.utilities.Property.HUB;
 import static com.coveros.selenified.utilities.Property.getProgramProperty;
 
 /**
- * Utilities class to interact with sauce labs, retrieving information such as username, key, and test status
+ * Utilities class to interact with lambda test, retrieving information such as username, key, and test status
  *
  * @author Max Saperstone
  * @version 3.2.1

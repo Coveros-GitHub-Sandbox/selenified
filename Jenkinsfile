@@ -277,7 +277,9 @@ node {
                             }
                         },
                         "Terminate Selenified Test Server": {
-                            sh "aws ec2 terminate-instances --instance-ids ${instanceId}"
+                            stage('Terminate Selenified Test Servier') {
+                                sh "aws ec2 terminate-instances --instance-ids ${instanceId}"
+                            }
                         },
                 )
             }

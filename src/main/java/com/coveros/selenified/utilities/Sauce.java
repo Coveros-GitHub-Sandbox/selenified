@@ -61,6 +61,7 @@ public class Sauce extends Hub {
 
     /**
      * TODO
+     *
      * @param result
      */
     static void updateStatus(ITestResult result) {

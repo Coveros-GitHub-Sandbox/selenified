@@ -282,6 +282,9 @@ public class Call {
                 case PUT:
                     response = http.put(endpoint, params, inputFile);
                     break;
+                case PATCH:
+                    response = http.patch(endpoint, params, inputFile);
+                    break;
                 case DELETE:
                     response = http.delete(endpoint, params, inputFile);
                     break;
