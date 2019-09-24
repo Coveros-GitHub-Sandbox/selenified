@@ -60,9 +60,10 @@ public class Sauce extends Hub {
     }
 
     /**
-     * TODO
+     * Connects with SauceLabs and updates the status in their system to the test result
+     * status
      *
-     * @param result
+     * @param result - the testng itestresult object
      */
     static void updateStatus(ITestResult result) {
         if (isSauce() && result.getAttributeNames().contains(SESSION_ID)) {

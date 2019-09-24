@@ -59,9 +59,10 @@ public class LambdaTest extends Hub {
     }
 
     /**
-     * TODO
+     * Connects with Lambda Test and updates the status in their system to the test result
+     * status
      *
-     * @param result
+     * @param result - the testng itestresult object
      */
     static void updateStatus(ITestResult result) {
         if (isLambdaTest() && result.getAttributeNames().contains(SESSION_ID)) {

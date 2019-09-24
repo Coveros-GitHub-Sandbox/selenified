@@ -396,7 +396,7 @@ public class Selenified {
         // setup the rest of the browser details
         capabilities.setInstance(invocationCount);
         DesiredCapabilities desiredCapabilities = capabilities.getDesiredCapabilities();
-        desiredCapabilities.setCapability("name", testName);    //TODO, this isn't coming out as unique for the coveros tests...need to fix this
+        desiredCapabilities.setCapability("name", testName);
         desiredCapabilities.setCapability("tags", Arrays.asList(result.getMethod().getGroups()));
         desiredCapabilities.setCapability("build", buildName);
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);

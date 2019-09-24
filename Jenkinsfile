@@ -63,7 +63,7 @@ node {
                         stage('Execute HTMLUnit Tests') {
                             try {
                                 // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros"'
+                                sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros,hub"'
                             } catch (e) {
                                 throw e
                             } finally {
@@ -116,7 +116,7 @@ node {
                             }
                             stage('Execute Chrome Tests Through Proxy') {
                                 try {
-                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https" -DgeneratePDF'
+                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub" -DgeneratePDF'
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -194,6 +194,42 @@ node {
                     sh "ssh -oStrictHostKeyChecking=no ec2-user@${publicIp} 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
                     sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
                 }
+                parallel(
+                        "Sauce Labs" {
+                            stage('Verify Sauce Reporting') {
+                                try {
+                                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='sauce' -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    sh "mkdir -p results/sauce; cp -r target results/sauce/"
+                                    junit 'target/failsafe-reports/TEST-*.xml'
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'target/site/jacoco-it',
+                                            reportFiles          : 'index.html',
+                                            reportName           : 'Sauce Test Coverage'
+                                    ])
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'target/failsafe-reports',
+                                            reportFiles          : 'report.html',
+                                            reportName           : 'Sauce Test Report'
+                                    ])
+                                }
+                            }
+                        },
+                        "Lambda Test" {
+                            stage('Verify Sauce Reporting') {
+                                //TODO
+                            }
+                        }
+                )
                 // this will be replaced by 'Execute Hub Tests' once #103 is completed. This is temporary to ensure all browser types can in fact run successfully
                 stage('Execute Some Hub Tests') {
                     try {
@@ -231,7 +267,7 @@ node {
                         throw e
                     } finally {
                         sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                        sh "mkdir -p results/sauce; cp -r target results/sauce/"
+                        sh "mkdir -p results/hub; cp -r target results/hub/"
                         junit 'target/failsafe-reports/TEST-*.xml'
                         publishHTML([
                                 allowMissing         : false,
@@ -239,7 +275,7 @@ node {
                                 keepAll              : true,
                                 reportDir            : 'target/site/jacoco-it',
                                 reportFiles          : 'index.html',
-                                reportName           : 'Sauce Test Coverage'
+                                reportName           : 'Hub Test Coverage'
                         ])
                         publishHTML([
                                 allowMissing         : false,
@@ -247,7 +283,7 @@ node {
                                 keepAll              : true,
                                 reportDir            : 'target/failsafe-reports',
                                 reportFiles          : 'report.html',
-                                reportName           : 'Sauce Test Report'
+                                reportName           : 'Hub Test Report'
                         ])
                     }
                 }

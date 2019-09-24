@@ -81,33 +81,12 @@ public class TestCase {
      * @return String: a unique name
      */
     public static String getTestName(Method method, Object... dataProvider) {
-        String className;
-        String packageName = "";
-        if (method.getDeclaringClass().getPackage() != null) {
-            className = method.getDeclaringClass().toString().substring(6).split("\\.")[1];
-            packageName = method.getDeclaringClass().toString().substring(6).split("\\.")[0];
-        } else {
-            className = method.getDeclaringClass().toString().substring(6);
-        }
-        return getTestName(packageName, className, method.getName(), dataProvider);
-    }
-
-    /**
-     * Determines if a dataProvider was actually provided, or just ITestContext
-     * or method data is present
-     *
-     * @param dataProvider - the object array to check - is it truly a data provider?
-     * @return Boolean: is the provided object array a data provider?
-     */
-    private static boolean isRealDataProvider(Object... dataProvider) {
-        return dataProvider != null && dataProvider.length > 0 && dataProvider[0] != null &&
-                !dataProvider[0].toString().startsWith(PUBLIC);
+        return getTestName(method.getDeclaringClass().getName(), method.getName(), dataProvider);
     }
 
     /**
      * Determines the unique test name, based on the parameters passed in
      *
-     * @param packageName  - the package name of the test method as a string
      * @param className    - the class name of the test method as a string
      * @param methodName   - the method name of the test as a string
      * @param dataProvider - an array of objects being passed to the test as data
@@ -115,34 +94,32 @@ public class TestCase {
      * @return String: a unique name
      */
     @SuppressWarnings("squid:S2116")
-    public static String getTestName(String packageName, String className, String methodName, Object... dataProvider) {
-        StringBuilder testName;
-        if ("".equals(packageName)) {
-            testName = new StringBuilder(className + "_" + methodName);
-        } else {
-            testName = new StringBuilder(packageName + "_" + className + "_" + methodName);
-        }
-        String currentName = testName.toString();
-        if (isRealDataProvider(dataProvider)) {
-            testName.append("WithOption");
-            for (Object data : dataProvider) {
-                if (data == null || data.toString().startsWith(PUBLIC)) {
-                    break;
-                }
-                testName.append(Reporter.capitalizeFirstLetters(removeNonWordCharacters(data.toString())));
-            }
-            currentName = testName.toString();
-            if (currentName.length() > MAXFILENAMELENGTH) {
-                if ("".equals(packageName)) {
-                    currentName = className + "_" + methodName + dataProvider.toString().split(";")[1];
-                    // purposefully using toString on object to obtain unique random hash
-                } else {
-                    currentName =
-                            packageName + "_" + className + "_" + methodName + dataProvider.toString().split(";")[1];
-                    // purposefully using toString on object to obtain unique random hash
-                }
+    public static String getTestName(String className, String methodName, Object... dataProvider) {
+        StringBuilder testName = new StringBuilder(className + "." + methodName);
+        if (dataProvider != null && dataProvider.length > 0) {
+            addParameters(testName, dataProvider);
+            if (testName.toString().length() > MAXFILENAMELENGTH) {
+                testName = new StringBuilder(className + "_" + methodName + dataProvider.toString().split(";")[1]);
+                // purposefully using toString on object to obtain unique random hash
             }
         }
-        return currentName;
+        return testName.toString();
+    }
+
+    /**
+     * Loops through dataProviders, and adds string value of each one to test case name
+     *
+     * @param testName     - StringBuilder containing the test case name
+     * @param dataProvider - an array of objects being passed to the test as data
+     *                     providers
+     */
+    static void addParameters(StringBuilder testName, Object[] dataProvider) {
+        testName.append("WithOption");
+        for (Object data : dataProvider) {
+            if (data == null) {
+                break;
+            }
+            testName.append(Reporter.capitalizeFirstLetters(removeNonWordCharacters(data.toString())));
+        }
     }
 }
