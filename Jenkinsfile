@@ -198,7 +198,7 @@ node {
                         "Sauce Labs" {
                             stage('Verify Sauce Reporting') {
                                 try {
-                                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='sauce' -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
+                                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
                                 } catch (e) {
                                     throw e
                                 } finally {

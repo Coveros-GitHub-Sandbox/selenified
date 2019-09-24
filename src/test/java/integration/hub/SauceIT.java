@@ -79,6 +79,7 @@ public class SauceIT extends HubIT {
         JsonArray tags = new JsonArray();
         tags.add("hub");
         tags.add("integration");
+        tags.add("sauce");
         expectedResults.put("tags", tags);
         response.azzert().contains(expectedResults);
         finish();

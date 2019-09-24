@@ -8,7 +8,7 @@ import static org.testng.Assert.assertEquals;
 public class TestCaseTest {
     @Test
     public void getTestNameTest(Method method) {
-        assertEquals(TestCase.getTestName(method), "TestCaseTest_getTestNameTest");
+        assertEquals(TestCase.getTestName(method), "TestCaseTest.getTestNameTest");
     }
 
 }

@@ -37,7 +37,6 @@ public class TestCase {
 
     //constants
     private static final int MAXFILENAMELENGTH = 200;
-    private static final String PUBLIC = "public";
 
     /**
      * Generates a random string of alpha-numeric characters
@@ -99,7 +98,7 @@ public class TestCase {
         if (dataProvider != null && dataProvider.length > 0) {
             addParameters(testName, dataProvider);
             if (testName.toString().length() > MAXFILENAMELENGTH) {
-                testName = new StringBuilder(className + "_" + methodName + dataProvider.toString().split(";")[1]);
+                testName = new StringBuilder(className + "." + methodName + dataProvider.toString().split(";")[1]);
                 // purposefully using toString on object to obtain unique random hash
             }
         }
@@ -114,12 +113,15 @@ public class TestCase {
      *                     providers
      */
     static void addParameters(StringBuilder testName, Object[] dataProvider) {
-        testName.append("WithOption");
+        StringBuilder stringBuilder = new StringBuilder();
         for (Object data : dataProvider) {
             if (data == null) {
-                break;
+                continue;
             }
-            testName.append(Reporter.capitalizeFirstLetters(removeNonWordCharacters(data.toString())));
+            stringBuilder.append(Reporter.capitalizeFirstLetters(removeNonWordCharacters(data.toString())));
+        }
+        if(stringBuilder.length() > 0) {
+            testName.append("WithOption").append(stringBuilder);
         }
     }
 }

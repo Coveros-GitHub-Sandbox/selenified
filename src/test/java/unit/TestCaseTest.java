@@ -33,49 +33,42 @@ public class TestCaseTest {
 
     @Test
     public void getTestNameNullTest(Method method) {
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld"), "UnitTests_helloWorld");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", null), "UnitTests_helloWorld");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", new Object[]{}), "UnitTests_helloWorld");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", new Object[]{null}), "UnitTests_helloWorld");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", new Object[]{"public"}), "UnitTests_helloWorld");
+        assertEquals(TestCase.getTestName("UnitTests", "helloWorld"), "UnitTests.helloWorld");
+        assertEquals(TestCase.getTestName("UnitTests", "helloWorld", null), "UnitTests.helloWorld");
+        assertTrue(TestCase.getTestName("UnitTests", "helloWorld", new Object[]{}).startsWith("UnitTests.helloWorld"));
+        assertTrue(TestCase.getTestName( "UnitTests", "helloWorld", new Object[]{null}).startsWith("UnitTests.helloWorld"));
 
     }
 
     @Test
     public void getTestNameTest(Method method) {
-        assertEquals(TestCase.getTestName(method), "unit_TestCaseTest_getTestNameTest");
+        assertEquals(TestCase.getTestName(method), "unit.TestCaseTest.getTestNameTest");
         Object[] options = new Object[]{"Python", "public"};
         assertEquals(TestCase.getTestName(method, options),
-                "unit_TestCaseTest_getTestNameTestWithOptionPython");
+                "unit.TestCaseTest.getTestNameTestWithOptionPythonPublic");
         options = new Object[]{"Python", null};
         assertEquals(TestCase.getTestName(method, options),
-                "unit_TestCaseTest_getTestNameTestWithOptionPython");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", "python"),
-                "UnitTests_helloWorldWithOptionPython");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", "visual basic"),
-                "UnitTests_helloWorldWithOptionVisualbasic");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", "Python"),
-                "UnitTests_helloWorldWithOptionPython");
-        assertEquals(TestCase.getTestName("", "UnitTests", "helloWorld", "Python", "Perl"),
-                "UnitTests_helloWorldWithOptionPythonPerl");
+                "unit.TestCaseTest.getTestNameTestWithOptionPython");
+        assertEquals(TestCase.getTestName("UnitTests", "helloWorld", "python"),
+                "UnitTests.helloWorldWithOptionPython");
+        assertEquals(TestCase.getTestName("UnitTests", "helloWorld", "visual basic"),
+                "UnitTests.helloWorldWithOptionVisualbasic");
+        assertEquals(TestCase.getTestName("UnitTests", "helloWorld", "Python"),
+                "UnitTests.helloWorldWithOptionPython");
+        assertEquals(TestCase.getTestName("UnitTests", "helloWorld", "Python", "Perl"),
+                "UnitTests.helloWorldWithOptionPythonPerl");
         assertEquals(TestCase
-                        .getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+                        .getTestName("UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
                                 "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
                                 "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
                                 "Gosu", "Powershell", "Squeak", "Gambas"),
-                "UnitTests_helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
+                "UnitTests.helloWorldWithOptionPythonPerlBashJavaRubyGroovyJavascriptPHPScalaFortanLispCOBOLErlangPacalHaskellSwiftElixirBASICTclRustVisualBasicCeylonCobraForthCurryCOMOLGosuPowershellSqueakGambas");
         String testName = TestCase
-                .getTestName("", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
+                .getTestName("UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
                         "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
                         "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
                         "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
-        assertTrue(testName.matches("^UnitTests_helloWorld@[0-9a-f]+$"));
-        testName = TestCase
-                .getTestName("unit", "UnitTests", "helloWorld", "Python", "Perl", "Bash", "Java", "Ruby", "Groovy",
-                        "Javascript", "PHP", "Scala", "Fortan", "Lisp", "COBOL", "Erlang", "Pacal", "Haskell", "Swift",
-                        "Elixir", "BASIC", "Tcl", "Rust", "Visual Basic", "Ceylon", "Cobra", "Forth", "Curry", "COMOL",
-                        "Gosu", "Powershell", "Squeak", "Gambas", "Euphoria", "Fantom", "Assembly");
-        assertTrue(testName.matches("^unit_UnitTests_helloWorld@[0-9a-f]+$"));
+        assertTrue(testName.matches("^UnitTests\\.helloWorld@[0-9a-f]+$"));
     }
 
 }

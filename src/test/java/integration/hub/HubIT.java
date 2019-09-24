@@ -38,7 +38,7 @@ public class HubIT extends Selenified {
         return new Object[][]{new Object[]{"selenified"}};
     }
 
-    @Test(groups = {"integration", "hub"}, description = "An integration test to check that sauce gets all expected information")
+    @Test(groups = {"integration", "hub", "sauce"}, description = "An integration test to check that sauce gets all expected information")
     public void hubTitleTest() {
         // use this object to manipulate the app
         App app = this.apps.get();
@@ -52,7 +52,7 @@ public class HubIT extends Selenified {
         finish();
     }
 
-    @Test(dataProvider = "coveros search terms", groups = {"integration", "hub"},
+    @Test(dataProvider = "coveros search terms", groups = {"integration", "hub", "sauce"},
             description = "An integration test to check that sauce gets all expected information")
     public void hubSearchTest(String searchTerm) {
         // use this object to manipulate the app
