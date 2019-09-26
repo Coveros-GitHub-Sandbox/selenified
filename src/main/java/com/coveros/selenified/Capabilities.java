@@ -281,7 +281,9 @@ public class Capabilities {
      */
     public void addExtraCapabilities(DesiredCapabilities extraCapabilities) {
         if (extraCapabilities != null && browser.getName() != BrowserName.NONE) {
-            desiredCapabilities = desiredCapabilities.merge(extraCapabilities);
+            for (String capabilityName : extraCapabilities.getCapabilityNames()) {
+                desiredCapabilities.setCapability(capabilityName, extraCapabilities.getCapability(capabilityName));
+            }
         }
     }
 }
