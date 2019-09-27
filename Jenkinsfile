@@ -188,6 +188,11 @@ node {
                             credentialsId: 'saucelabs',
                             usernameVariable: 'HUB_USER',
                             passwordVariable: 'HUB_PASS'
+                    ),
+                    usernamePassword(
+                            credentialsId: 'lambdatest',
+                            usernameVariable: 'LAMBDA_USER',
+                            passwordVariable: 'LAMBDA_PASS'
                     )
             ]) {
                 stage('Update Test Site') {
@@ -225,8 +230,32 @@ node {
                             }
                         },
                         "Lambda Test" {
-                            stage('Verify Sauce Reporting') {
-                                //TODO
+                            stage('Verify Lambda Reporting') {
+                                try {
+                                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    sh "mkdir -p results/lamdba; cp -r target results/lamdba/"
+                                    junit 'target/failsafe-reports/TEST-*.xml'
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'target/site/jacoco-it',
+                                            reportFiles          : 'index.html',
+                                            reportName           : 'Lamdba Test Coverage'
+                                    ])
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'target/failsafe-reports',
+                                            reportFiles          : 'report.html',
+                                            reportName           : 'Lamdba Test Report'
+                                    ])
+                                }
                             }
                         }
                 )

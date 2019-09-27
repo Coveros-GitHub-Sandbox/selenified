@@ -53,7 +53,7 @@
         <sonar.host.url>http://localhost:9000/sonar</sonar.host.url>
         <sonar.sources>src/main/java</sonar.sources>
         <sonar.test>src/test/java</sonar.test>
-        <sonar.junit.reportPaths>results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/chrome/target/failsafe-reports,results/compatibility/sauce/failsafe-reports,results/compatibility/target/failsafe-reports,results/hub/target/failsafe-reports</sonar.junit.reportPaths>
+        <sonar.junit.reportPaths>results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/chrome/target/failsafe-reports,results/compatibility/sauce/failsafe-reports,results/compatibility/lambda/failsafe-reports,results/compatibility/target/failsafe-reports,results/hub/target/failsafe-reports</sonar.junit.reportPaths>
         <sonar.jacoco.reportPaths>jacoco-ut.exec,jacoco-it.exec</sonar.jacoco.reportPaths>
         <sonar.dependencyCheck.reportPath>dependency-check-report.xml</sonar.dependencyCheck.reportPath>
         <sonar.dependencyCheck.htmlReportPath>dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
