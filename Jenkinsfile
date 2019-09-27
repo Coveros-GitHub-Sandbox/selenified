@@ -33,18 +33,17 @@ node {
         try {
             stage('Run Unit Tests') {
                 try {
-                    sh "mvn clean test"
+                    sh "mvn clean test -Dalt.build.dir=results/unit"
                 } catch (e) {
                     throw e
                 } finally {
-                    sh "cat target/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec"
-                    sh "mkdir -p results/unit; cp -r target results/unit/"
-                    junit 'target/surefire-reports/TEST-*.xml'
+                    sh "cat results/unit/coverage-reports/jacoco-ut.exec >> jacoco-ut.exec"
+                    junit 'results/unit/surefire-reports/TEST-*.xml'
                     publishHTML([
                             allowMissing         : false,
                             alwaysLinkToLastBuild: true,
                             keepAll              : true,
-                            reportDir            : 'target/site/jacoco-ut',
+                            reportDir            : 'results/unit/site/jacoco-ut',
                             reportFiles          : 'index.html',
                             reportName           : 'Unit Test Coverage'
                     ])
@@ -52,7 +51,7 @@ node {
                             allowMissing         : false,
                             alwaysLinkToLastBuild: true,
                             keepAll              : true,
-                            reportDir            : 'target/surefire-reports',
+                            reportDir            : 'results/unit/surefire-reports',
                             reportFiles          : 'index.html',
                             reportName           : 'Unit Test Report'
                     ])
@@ -63,18 +62,17 @@ node {
                         stage('Execute HTMLUnit Tests') {
                             try {
                                 // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros,hub"'
+                                sh 'mvn clean verify -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros,hub"'
                             } catch (e) {
                                 throw e
                             } finally {
-                                sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                                sh "mkdir -p results/htmlunit; cp -r target results/htmlunit/"
-                                junit 'target/failsafe-reports/TEST-*.xml'
+                                sh "cat results/htmlunit/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                junit 'results/htmlunit/failsafe-reports/TEST-*.xml'
                                 publishHTML([
                                         allowMissing         : false,
                                         alwaysLinkToLastBuild: true,
                                         keepAll              : true,
-                                        reportDir            : 'target/site/jacoco-it',
+                                        reportDir            : 'results/htmlunit/site/jacoco-it',
                                         reportFiles          : 'index.html',
                                         reportName           : 'HTMLUnit Test Coverage'
                                 ])
@@ -82,7 +80,7 @@ node {
                                         allowMissing         : false,
                                         alwaysLinkToLastBuild: true,
                                         keepAll              : true,
-                                        reportDir            : 'target/failsafe-reports',
+                                        reportDir            : 'results/htmlunit/failsafe-reports',
                                         reportFiles          : 'report.html',
                                         reportName           : 'HTMLUnit Test Report'
                                 ])
@@ -92,12 +90,11 @@ node {
                     "Execute Dependency Check": {
                         stage('Execute Dependency Check') {
                             try {
-                                sh 'sleep 60'
-                                sh 'mvn verify -Dskip.unit.tests -Dskip.integration.tests'
+                                sh 'mvn verify -Dalt.build.dir=depcheck -Dskip.unit.tests -Dskip.integration.tests'
                             } catch (e) {
                                 throw e
                             } finally {
-                                sh "mv target/dependency-check-report.* ."
+                                sh "mv depcheck/dependency-check-report.* ."
                                 archiveArtifacts artifacts: 'dependency-check-report.html'
                                 dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'dependency-check-report.xml', unHealthy: ''
                             }
@@ -116,18 +113,17 @@ node {
                             }
                             stage('Execute Chrome Tests Through Proxy') {
                                 try {
-                                    sh 'mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub" -DgeneratePDF'
+                                    sh 'mvn clean verify -Dalt.build.dir=results/chrome -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub" -DgeneratePDF'
                                 } catch (e) {
                                     throw e
                                 } finally {
-                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                                    sh "mkdir -p results/chrome; cp -r target results/chrome/"
-                                    junit 'target/failsafe-reports/TEST-*.xml'
+                                    sh "cat results/chrome/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    junit 'results/chrome/failsafe-reports/TEST-*.xml'
                                     publishHTML([
                                             allowMissing         : false,
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
-                                            reportDir            : 'target/site/jacoco-it',
+                                            reportDir            : 'results/chrome/site/jacoco-it',
                                             reportFiles          : 'index.html',
                                             reportName           : 'Chrome Test Coverage'
                                     ])
@@ -135,7 +131,7 @@ node {
                                             allowMissing         : false,
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
-                                            reportDir            : 'target/failsafe-reports',
+                                            reportDir            : 'results/chrome/failsafe-reports',
                                             reportFiles          : 'report.html',
                                             reportName           : 'Chrome Test Report'
                                     ])
@@ -200,21 +196,20 @@ node {
                     sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
                 }
                 parallel(
-                        "Sauce Labs" {
+                        "Sauce Labs": {
                             stage('Verify Sauce Reporting') {
                                 try {
-                                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
+                                    sh "mvn clean verify -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dbrowser='name=Chrome' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
-                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                                    sh "mkdir -p results/sauce; cp -r target results/sauce/"
-                                    junit 'target/failsafe-reports/TEST-*.xml'
+                                    sh "cat results/sauce/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    junit 'results/sauce/failsafe-reports/TEST-*.xml'
                                     publishHTML([
                                             allowMissing         : false,
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
-                                            reportDir            : 'target/site/jacoco-it',
+                                            reportDir            : 'results/sauce/site/jacoco-it',
                                             reportFiles          : 'index.html',
                                             reportName           : 'Sauce Test Coverage'
                                     ])
@@ -222,28 +217,27 @@ node {
                                             allowMissing         : false,
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
-                                            reportDir            : 'target/failsafe-reports',
+                                            reportDir            : 'results/sauce/failsafe-reports',
                                             reportFiles          : 'report.html',
                                             reportName           : 'Sauce Test Report'
                                     ])
                                 }
                             }
                         },
-                        "Lambda Test" {
+                        "Lambda Test": {
                             stage('Verify Lambda Reporting') {
                                 try {
-                                    sh "mvn clean verify -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                    sh "mvn clean verify -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
-                                    sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                                    sh "mkdir -p results/lamdba; cp -r target results/lamdba/"
-                                    junit 'target/failsafe-reports/TEST-*.xml'
+                                    sh "cat results/lambda/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    junit 'results/lambda/failsafe-reports/TEST-*.xml'
                                     publishHTML([
                                             allowMissing         : false,
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
-                                            reportDir            : 'target/site/jacoco-it',
+                                            reportDir            : 'results/lambda/site/jacoco-it',
                                             reportFiles          : 'index.html',
                                             reportName           : 'Lamdba Test Coverage'
                                     ])
@@ -251,7 +245,7 @@ node {
                                             allowMissing         : false,
                                             alwaysLinkToLastBuild: true,
                                             keepAll              : true,
-                                            reportDir            : 'target/failsafe-reports',
+                                            reportDir            : 'results/lambda/failsafe-reports',
                                             reportFiles          : 'report.html',
                                             reportName           : 'Lamdba Test Report'
                                     ])
@@ -260,21 +254,20 @@ node {
                         }
                 )
                 // this will be replaced by 'Execute Hub Tests' once #103 is completed. This is temporary to ensure all browser types can in fact run successfully
-                stage('Execute Some Hub Tests') {
+                stage('Execute Compatibility Tests') {
                     try {
                         String buildName = branchCheckout.replaceAll(/\//, " ") + " build " + env.BUILD_NUMBER + " Compatibility Tests"
-                        sh "mvn clean verify -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                        sh "mkdir -p results/compatibility; cp -r target results/compatibility/"
-                        junit 'target/failsafe-reports/TEST-*.xml'
+                        sh "cat results/compatibility/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                        junit 'results/compatibility/failsafe-reports/TEST-*.xml'
                         publishHTML([
                                 allowMissing         : false,
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
-                                reportDir            : 'target/site/jacoco-it',
+                                reportDir            : 'results/compatibility/site/jacoco-it',
                                 reportFiles          : 'index.html',
                                 reportName           : 'Compatibility Test Coverage'
                         ])
@@ -282,7 +275,7 @@ node {
                                 allowMissing         : false,
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
-                                reportDir            : 'target/failsafe-reports',
+                                reportDir            : 'results/compatibility/failsafe-reports',
                                 reportFiles          : 'report.html',
                                 reportName           : 'Compatibility Test Report'
                         ])
@@ -291,18 +284,17 @@ node {
                 stage('Execute Hub Tests') {
                     try {
 //                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://${publicIp}/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-                        sh "mvn clean verify -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros,wait' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/hub -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros,wait' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
-                        sh "cat target/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-                        sh "mkdir -p results/hub; cp -r target results/hub/"
-                        junit 'target/failsafe-reports/TEST-*.xml'
+                        sh "cat results/hub/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                        junit 'results/hub/failsafe-reports/TEST-*.xml'
                         publishHTML([
                                 allowMissing         : false,
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
-                                reportDir            : 'target/site/jacoco-it',
+                                reportDir            : 'results/hub/site/jacoco-it',
                                 reportFiles          : 'index.html',
                                 reportName           : 'Hub Test Coverage'
                         ])
@@ -310,7 +302,7 @@ node {
                                 allowMissing         : false,
                                 alwaysLinkToLastBuild: true,
                                 keepAll              : true,
-                                reportDir            : 'target/failsafe-reports',
+                                reportDir            : 'results/hub/failsafe-reports',
                                 reportFiles          : 'report.html',
                                 reportName           : 'Hub Test Report'
                         ])
