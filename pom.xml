@@ -25,6 +25,7 @@
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
+        <alt.build.dir>target</alt.build.dir>
 
         <!-- General Selenium run versions -->
         <selenium.version>3.141.59</selenium.version>
@@ -217,6 +218,7 @@
                     </excludes>
                     <systemPropertyVariables>
                         <selenium.version>${selenium.version}</selenium.version>
+                        <alt.build.dir>${alt.build.dir}</alt.build.dir>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
