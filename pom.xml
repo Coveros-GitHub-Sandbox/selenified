@@ -100,17 +100,19 @@
         <url>https://github.com/Coveros/selenified/tree/master</url>
     </scm>
 
-    <profile>
-        <id>alternateBuildDir</id>
-        <activation>
-            <property>
-                <name>alt.build.dir</name>
-            </property>
-        </activation>
-        <build>
-            <directory>${alt.build.dir}</directory>
-        </build>
-    </profile>
+    <profiles>
+        <profile>
+            <id>alternateBuildDir</id>
+            <activation>
+                <property>
+                    <name>alt.build.dir</name>
+                </property>
+            </activation>
+            <build>
+                <directory>${alt.build.dir}</directory>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
