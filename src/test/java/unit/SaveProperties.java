@@ -11,7 +11,7 @@ import java.io.*;
 import static com.coveros.selenified.utilities.Property.*;
 
 public class SaveProperties {
-    protected static final String SELENIFIED = "target/test-classes/selenified.properties";
+    protected static final String SELENIFIED = System.getProperty("alt.build.dir") + "/test-classes/selenified.properties";
 
     private String setDefaultWait = null;
     private String setDefaultPoll = null;
