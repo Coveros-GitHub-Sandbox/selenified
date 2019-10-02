@@ -65,7 +65,7 @@ public class ServicesBase extends Selenified {
     @BeforeSuite(alwaysRun = true)
     public void startMockServer() throws IOException {
         if( System.getProperty("mockPort") != null) {
-            mockPort = 1080 + Integer.getInteger(System.getProperty("mockPort"));
+            mockPort += Integer.valueOf(System.getProperty("mockPort"));
         }
         mockServer = startClientAndServer(mockPort);
         mockServer.when(request().withPath("/null/"))
