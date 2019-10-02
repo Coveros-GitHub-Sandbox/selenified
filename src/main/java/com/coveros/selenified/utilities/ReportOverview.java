@@ -40,6 +40,8 @@ import java.util.Map;
 import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.utilities.Constants.*;
 import static com.coveros.selenified.utilities.Property.BROWSER;
+import static com.coveros.selenified.utilities.TestCase.addParameters;
+import static com.coveros.selenified.utilities.TestCase.removeNonWordCharacters;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.newBufferedWriter;
 
@@ -260,9 +262,13 @@ public class ReportOverview extends EmailableReporter2 {
                 String pdfFilename = reporter.getFileName() + ".pdf";
                 link.append(" " + LINK_START).append(getReportDir(iTestResult)).append("/").append(pdfFilename).append(LINK_MIDDLE).append("PDF").append(LINK_END);
             }
-            for(Map.Entry<String, LogEntries> logEntry : reporter.getLogs().entrySet()) {
+            for (Map.Entry<String, LogEntries> logEntry : reporter.getLogs().entrySet()) {
                 link.append(recordLog(iTestResult, logEntry));
             }
+        }
+        StringBuilder testCaseName = new StringBuilder(Reporter.capitalizeFirstLetters(iTestResult.getName()));
+        if (iTestResult.getParameters() != null && iTestResult.getParameters().length > 0) {
+            addParameters(testCaseName, iTestResult.getParameters());
         }
         String failure = "";
         if (!"Pass".equals(status) && iTestResult.getThrowable() != null) {
@@ -274,7 +280,7 @@ public class ReportOverview extends EmailableReporter2 {
         writer.print("<tr class='" + cssClass + "'>");
         cell(getBrowser(browser));
         cell(Utils.escapeHtml(className));
-        cell(Utils.escapeHtml(Reporter.capitalizeFirstLetters(iTestResult.getName())));
+        cell(Utils.escapeHtml(testCaseName.toString()));
         cell(status + failure);
         cell(link.toString());
         writer.println(TR);
@@ -282,9 +288,9 @@ public class ReportOverview extends EmailableReporter2 {
 
     private String recordLog(ITestResult iTestResult, Map.Entry<String, LogEntries> logEntriesEntry) {
         Reporter reporter = (Reporter) iTestResult.getAttribute(REPORTER);
-        File logFile = new File( reporter.getDirectory(), reporter.getFileName() + "_" + logEntriesEntry.getKey() + ".html" );
+        File logFile = new File(reporter.getDirectory(), reporter.getFileName() + "_" + logEntriesEntry.getKey() + ".html");
         try (
-            FileWriter fw = new FileWriter(logFile); BufferedWriter out = new BufferedWriter(fw)) {
+                FileWriter fw = new FileWriter(logFile); BufferedWriter out = new BufferedWriter(fw)) {
             for (LogEntry entry : logEntriesEntry.getValue()) {
                 out.write(new Date(entry.getTimestamp()) + " " + entry.getLevel() + " " + entry.getMessage() + "<br/>");
             }

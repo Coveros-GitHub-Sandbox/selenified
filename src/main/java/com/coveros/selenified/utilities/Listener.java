@@ -73,8 +73,6 @@ public class Listener extends TestListenerAdapter {
      * @return String: a string version of the test name
      */
     private static String getTestName(ITestResult result) {
-        String className;
-        String packageName = "";
         String testClass = result.getTestClass().toString();
         // cleanup the class name
         if (testClass.startsWith("[")) {
@@ -87,14 +85,7 @@ public class Listener extends TestListenerAdapter {
             String[] parts = testClass.split(" ");
             testClass = parts[parts.length - 1];
         }
-        // finally split into package and class
-        if (testClass.contains(".")) {
-            packageName = testClass.split("\\.")[0];
-            className = testClass.split("\\.")[1];
-        } else {
-            className = testClass;
-        }
-        return TestCase.getTestName(packageName, className, result.getName(), result.getParameters());
+        return TestCase.getTestName(testClass, result.getName(), result.getParameters());
     }
 
     /**
