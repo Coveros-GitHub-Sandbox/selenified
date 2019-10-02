@@ -90,7 +90,7 @@ node {
                     "Execute Services Tests": {
                         stage('Execute Service Tests') {
                             try {
-                                sh 'mvn clean verify -DmockPort=1 -Dalt.build.dir=results/service -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.include="service"'
+                                sh 'mvn clean verify -DmockPort=1 -Dalt.build.dir=results/service -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.include="service" -Dfailsafe.groups.exclude=""'
                             } catch (e) {
                                 throw e
                             } finally {
