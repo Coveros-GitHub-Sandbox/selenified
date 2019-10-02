@@ -28,7 +28,7 @@ public class ServicesBase extends Selenified {
     final JsonObject json4 = new JsonObject();
     final JsonObject simJson4 = new JsonObject();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
         setAppURL(this, test, "http://localhost:1080/");
@@ -61,7 +61,7 @@ public class ServicesBase extends Selenified {
         simJson4.addProperty("id", 4);
     }
 
-    @BeforeSuite(alwaysRun = true)
+    @BeforeSuite
     public void startMockServer() throws IOException {
         mockServer = startClientAndServer(1080);
         mockServer.when(request().withPath("/null/"))
@@ -78,7 +78,7 @@ public class ServicesBase extends Selenified {
         mockServer.when(request().withPath("/post/4")).respond(response().withBody("{\"id\":4}"));
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }

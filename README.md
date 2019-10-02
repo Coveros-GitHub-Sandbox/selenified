@@ -68,7 +68,7 @@ import java.util.HashMap;
 
 public class ReadmeSampleIT extends Selenified {
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
         setAppURL(this, test, "https://www.coveros.com/");
@@ -210,7 +210,7 @@ the commandline or properties file, even this can be excluded. Additional option
 the author of the tests, and the version of tests or software under test. 
 See below for an example:
 ```java
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
         setAppURL(this, test, "http://172.31.2.65/");
@@ -229,7 +229,7 @@ Since we do not need a Selenium driver, the last value passed into startTest sho
 See below for an example:
 
 ```java
-    @BeforeMethod (alwaysRun = true)
+    @BeforeMethod
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
@@ -242,7 +242,7 @@ startTest should be set to 'OPEN'.
 See below for an example:
 
 ```java
-    @BeforeMethod (alwaysRun = true)
+    @BeforeMethod
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
@@ -256,7 +256,7 @@ method. An example is
 shown below
 
 ```java
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void beforeClass(ITestContext test) {
         addAdditionalDesiredCapabilities(this, test, "javascriptEnabled", false);
     }
@@ -484,7 +484,7 @@ most simply in a @BeforeMethod call.
 ```java
     ThreadLocal<MainPage> main = new ThreadLocal<>();;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod
     public void setupApp() {
         main.set(new MainPage(this.apps.get()));
     }

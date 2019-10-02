@@ -13,7 +13,7 @@ import static org.testng.Assert.assertFalse;
 
 public class OverrideIT extends WebBase {
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void beforeClass(ITestContext test) {
         addAdditionalDesiredCapabilities(this, test, "javascriptEnabled", false);
         super.beforeClass(test);

@@ -87,6 +87,34 @@ node {
                             }
                         }
                     },
+                    "Execute Services Tests": {
+                        stage('Execute Service Tests') {
+                            try {
+                                sh 'mvn clean verify -Dalt.build.dir=results/service -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.include="service"'
+                            } catch (e) {
+                                throw e
+                            } finally {
+                                sh "cat results/service/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                junit 'results/service/failsafe-reports/TEST-*.xml'
+                                publishHTML([
+                                        allowMissing         : false,
+                                        alwaysLinkToLastBuild: true,
+                                        keepAll              : true,
+                                        reportDir            : 'results/service/site/jacoco-it',
+                                        reportFiles          : 'index.html',
+                                        reportName           : 'Service Test Coverage'
+                                ])
+                                publishHTML([
+                                        allowMissing         : false,
+                                        alwaysLinkToLastBuild: true,
+                                        keepAll              : true,
+                                        reportDir            : 'results/service/failsafe-reports',
+                                        reportFiles          : 'report.html',
+                                        reportName           : 'Service Test Report'
+                                ])
+                            }
+                        }
+                    },
                     "Execute Dependency Check": {
                         stage('Execute Dependency Check') {
                             try {
@@ -221,7 +249,7 @@ node {
                 stage('Execute Hub Tests') {
                     try {
 //                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://${publicIp}/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-                        sh "mvn clean verify -Dalt.build.dir=results/hub -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros,wait' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/hub -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='local,coveros,wait' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {

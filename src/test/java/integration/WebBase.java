@@ -18,7 +18,7 @@ import static org.mockserver.model.HttpResponse.response;
 public class WebBase extends Selenified {
     private ClientAndServer mockServer;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
         setAppURL(this, test, "http://localhost:1070/");
@@ -33,7 +33,7 @@ public class WebBase extends Selenified {
         return new String(encoded);
     }
 
-    @BeforeSuite(alwaysRun = true)
+    @BeforeSuite
     public void startMockServer() throws IOException {
         mockServer = startClientAndServer(1070);
         mockServer.when(request().withMethod("GET").withPath("/"))

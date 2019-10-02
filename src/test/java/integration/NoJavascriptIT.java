@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 public class NoJavascriptIT extends WebBase {
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void beforeClass(ITestContext test) {
         addAdditionalDesiredCapabilities(this, test, "javascriptEnabled", false);
         super.beforeClass(test);

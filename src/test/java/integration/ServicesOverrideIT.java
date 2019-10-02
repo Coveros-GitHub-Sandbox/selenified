@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ServicesOverrideIT extends ServicesBase {
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void setupHeaders(ITestContext test) {
         // for this test, we want to change the default headers for each call
         Map<String, Object> headers = new HashMap<>();

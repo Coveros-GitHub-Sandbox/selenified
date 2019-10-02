@@ -28,7 +28,7 @@ public class SaveProperties {
     File propertiesFile = new File(SELENIFIED);
     File savePropertiesFile = new File(SELENIFIED + ".tmp");
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void saveProperties() {
         if (System.getProperty(DEFAULT_WAIT) != null) {
             setDefaultWait = System.getProperty(DEFAULT_WAIT);

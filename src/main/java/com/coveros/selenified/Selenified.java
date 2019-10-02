@@ -345,7 +345,7 @@ public class Selenified {
      * @param result       - where are the test results stored. browser information will
      *                     be kept here
      */
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         startTest(dataProvider, method, test, result, BrowserUse.LOAD);
     }
