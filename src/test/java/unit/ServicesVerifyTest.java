@@ -27,7 +27,7 @@ public class ServicesVerifyTest {
     private File directory;
     private File file;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void createFile() throws InvalidBrowserException, InvalidProxyException {
         reporter =
                 new Reporter("directory", "file", new Capabilities(new Browser("None")), null, null, null, null, null, null);

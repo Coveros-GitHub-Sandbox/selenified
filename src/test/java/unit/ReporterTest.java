@@ -34,7 +34,7 @@ public class ReporterTest {
     private File file;
     private HTTP http;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void createFile() throws InvalidBrowserException, InvalidProxyException {
         reporter = new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null,
                 null);

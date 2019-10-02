@@ -15,7 +15,7 @@ public class POMSampleIT extends WebBase {
 
     private final ThreadLocal<MainPage> main = new ThreadLocal<>();
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupApp() {
         main.set(new MainPage(this.apps.get()));
     }

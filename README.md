@@ -68,7 +68,7 @@ import java.util.HashMap;
 
 public class ReadmeSampleIT extends Selenified {
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
         setAppURL(this, test, "https://www.coveros.com/");
@@ -210,7 +210,7 @@ the commandline or properties file, even this can be excluded. Additional option
 the author of the tests, and the version of tests or software under test. 
 See below for an example:
 ```java
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
         setAppURL(this, test, "http://172.31.2.65/");
@@ -224,12 +224,12 @@ See below for an example:
 
 If the suite of tests do not require a selenium instance to run the test (e.g. API test), the suite
 should also contain a method to override the default startTest method. This needs to be annotated 
-with @BeforeMethod. This method will just call the super method of startTest and initialize everything needed. 
+with `@BeforeMethod(alwaysRun = true)`. This method will just call the super method of startTest and initialize everything needed. 
 Since we do not need a Selenium driver, the last value passed into startTest should be set to 'FALSE'. 
 See below for an example:
 
 ```java
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.FALSE);
     }
@@ -242,7 +242,7 @@ startTest should be set to 'OPEN'.
 See below for an example:
 
 ```java
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) {
         super.startTest(dataProvider, method, test, result, DriverSetup.OPEN);
     }
@@ -256,7 +256,7 @@ method. An example is
 shown below
 
 ```java
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         addAdditionalDesiredCapabilities(this, test, "javascriptEnabled", false);
     }
@@ -484,7 +484,7 @@ most simply in a @BeforeMethod call.
 ```java
     ThreadLocal<MainPage> main = new ThreadLocal<>();;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupApp() {
         main.set(new MainPage(this.apps.get()));
     }

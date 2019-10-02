@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class ReadmeSampleIT extends Selenified {
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
         setAppURL(this, test, "https://www.coveros.com/");

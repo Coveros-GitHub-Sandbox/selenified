@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 
 public class ServicesErrorIT extends Selenified {
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
         setAppURL(this, test, "https://bad.url.com/");
@@ -26,7 +26,7 @@ public class ServicesErrorIT extends Selenified {
         setVersion(this, test, "3.2.1");
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }

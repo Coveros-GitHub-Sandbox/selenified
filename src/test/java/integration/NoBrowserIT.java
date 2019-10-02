@@ -14,7 +14,7 @@ import static org.testng.Assert.assertNull;
 
 public class NoBrowserIT extends WebBase {
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void startTest(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
         super.startTest(dataProvider, method, test, result, BrowserUse.FALSE);
     }

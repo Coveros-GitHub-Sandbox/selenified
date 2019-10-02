@@ -62,7 +62,7 @@ node {
                         stage('Execute HTMLUnit Tests') {
                             try {
                                 // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                sh 'mvn clean verify -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros,hub"'
+                                sh 'mvn clean verify -DmockPort=0 -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros,hub"'
                             } catch (e) {
                                 throw e
                             } finally {
@@ -90,7 +90,7 @@ node {
                     "Execute Services Tests": {
                         stage('Execute Service Tests') {
                             try {
-                                sh 'mvn clean verify -Dalt.build.dir=results/service -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.include="service"'
+                                sh 'mvn clean verify -DmockPort=1 -Dalt.build.dir=results/service -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.include="service"'
                             } catch (e) {
                                 throw e
                             } finally {
