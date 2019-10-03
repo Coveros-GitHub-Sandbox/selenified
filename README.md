@@ -6,7 +6,7 @@
 The Selenified Test Framework provides mechanisms for simply testing applications at multiple tiers 
 while easily integrating into DevOps build environments. Selenified provides traceable reporting for 
 both web and API testing, wraps and extends Selenium calls to more appropriately handle testing errors, 
-and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or SauceLabs) in 
+and supports testing over multiple browsers locally, or in the cloud (Selenium Grid or Cloud Tooling) in 
 parallel. It can be a great starting point for building or improving test automation in your organization.
 
 ## Getting Started
@@ -635,15 +635,16 @@ before even loading the initial URL.
 ```
 #### Hub
 If unspecified the tests will run in standalone mode. If a hub address is specified, then tests will run on a remove 
-hub, either via Selenium Grid or SauceLabs. Specify the protocol, IP or DNS, and include the ports if needed.
+hub, either via Selenium Grid or any cloud tool. Specify the protocol, IP or DNS, and include the ports if needed.
 ```
 -Dhub=http://localhost:4444
--Dhub=https://sauceusername:sauceaccesskey@ondemand.saucelabs.com:443
+-Dhub=https://sauceusername:sauceaccesskey@ondemand.saucelabs.com
+-Dhub=https://lambdausername:lambdaaccesskey@hub.lambdatest.com
 ``` 
 Alternatively, your credentials can be set as environment variables. Set them as:
 ```
-export HUB_USER='somesauceusername'
-export HUB_PASS='somesaucekey'
+export HUB_USER='someusername'
+export HUB_PASS='somekey'
 ```
 #### Proxy
 If this is specified, then the tests will be run through a proxy server at the specified address. Include the 
@@ -676,7 +677,7 @@ Each build tool has specific instructions for modifying what and how tests are r
  * [Gradle](https://github.com/Coveros/selenified/wiki/Gradle)
 
 #### Build Name
-Several tools, including Sauce Labs, have the ability to group your tests, and assign them builds.
+Several tools, including Sauce Labs and Lambda Test, have the ability to group your tests, and assign them builds.
 By default, a build attribute will be assigned to each test run, which will have the datetime stamp,
 and the browsers executed. You can override this, by passing in the `buildName` parameter.
 ```
