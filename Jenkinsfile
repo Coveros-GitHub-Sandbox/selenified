@@ -229,7 +229,7 @@ node {
                         "Sauce Labs": {
                             stage('Verify Sauce Reporting') {
                                 try {
-                                    sh "mvn clean verify -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dbrowser='name=Chrome' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
+                                    sh "mvn clean verify -DmockPort=0 -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dbrowser='name=Chrome' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -257,7 +257,7 @@ node {
                         "Lambda Test": {
                             stage('Verify Lambda Reporting') {
                                 try {
-                                    sh "mvn clean verify -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
