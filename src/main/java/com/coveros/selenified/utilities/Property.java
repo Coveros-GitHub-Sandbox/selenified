@@ -73,7 +73,7 @@ public class Property {
      * @param property - what property value to return
      * @return String: the property value, null if unset
      */
-    static String getProgramProperty(String property) {
+    protected static String getProgramProperty(String property) {
         if (System.getProperty(property) != null) {
             return System.getProperty(property).trim();
         }

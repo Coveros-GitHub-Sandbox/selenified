@@ -22,8 +22,6 @@ package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
 import com.coveros.selenified.utilities.Reporter.Success;
-import com.saucelabs.saucerest.SauceException;
-import com.saucelabs.saucerest.SauceREST;
 import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.TestListenerAdapter;
@@ -31,12 +29,10 @@ import org.testng.log4testng.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static com.coveros.selenified.Selenified.REPORTER;
-import static com.coveros.selenified.Selenified.SESSION_ID;
 import static com.coveros.selenified.utilities.Constants.*;
 import static com.coveros.selenified.utilities.Property.BROWSER;
 
@@ -185,20 +181,9 @@ public class Listener extends TestListenerAdapter {
             }
             org.testng.Reporter.log(OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
-        // update sauce labs
-        if (Sauce.isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
-            String sessionId = result.getAttribute(SESSION_ID).toString();
-            try {
-                SauceREST sauce = new Sauce().getSauceConnection();
-                if (result.getStatus() == 1) {
-                    sauce.jobPassed(sessionId);
-                } else {
-                    sauce.jobFailed(sessionId);
-                }
-            } catch (SauceException | MalformedURLException e) {
-                log.error("Unable to connect to sauce, due to credential problems");
-            }
-        }
+        // update hub tests
+        Sauce.updateStatus(result);
+        LambdaTest.updateStatus(result);
     }
 
     /**

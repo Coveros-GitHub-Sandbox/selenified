@@ -62,7 +62,7 @@ node {
                         stage('Execute HTMLUnit Tests') {
                             try {
                                 // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                sh 'mvn clean verify -DmockPort=0 -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros,hub"'
+                                sh 'mvn clean verify -DmockPort=0 -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="service,browser,coveros,hub"'
                             } catch (e) {
                                 throw e
                             } finally {
@@ -141,7 +141,7 @@ node {
                             }
                             stage('Execute Chrome Tests Through Proxy') {
                                 try {
-                                    sh 'mvn clean verify -Dalt.build.dir=results/chrome -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub" -DgeneratePDF'
+                                    sh 'mvn clean verify -Dalt.build.dir=results/chrome -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub,service" -DgeneratePDF'
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -210,19 +210,92 @@ node {
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
-                            usernameVariable: 'HUB_USER',
-                            passwordVariable: 'HUB_PASS'
+                            usernameVariable: 'SAUCE_USER',
+                            passwordVariable: 'SAUCE_PASS'
+                    ),
+                    usernamePassword(
+                            credentialsId: 'lambdatest',
+                            usernameVariable: 'LAMBDA_USER',
+                            passwordVariable: 'LAMBDA_PASS'
                     )
             ]) {
-                stage('Update Test Site') {
-                    sh "ssh -oStrictHostKeyChecking=no ec2-user@${publicIp} 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
-                    sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
-                }
+                parallel(
+                        "Test Site": {
+                            stage('Update Test Site') {
+                                sh "ssh -oStrictHostKeyChecking=no ec2-user@${publicIp} 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
+                                sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
+                            }
+                        },
+                        "Sauce Labs": {
+                            stage('Verify Sauce Reporting') {
+                                try {
+                                    sh "mvn clean verify -DmockPort=0 -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${SAUCE_USER}:${SAUCE_PASS}@ondemand.saucelabs.com"
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat results/sauce/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    junit 'results/sauce/failsafe-reports/TEST-*.xml'
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'results/sauce/site/jacoco-it',
+                                            reportFiles          : 'index.html',
+                                            reportName           : 'Sauce Test Coverage'
+                                    ])
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'results/sauce/failsafe-reports',
+                                            reportFiles          : 'report.html',
+                                            reportName           : 'Sauce Test Report'
+                                    ])
+                                }
+                            }
+                        },
+                        "Lambda Test": {
+                            stage('Verify Lambda Reporting') {
+                                try {
+                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat results/lambda/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    junit 'results/lambda/failsafe-reports/TEST-*.xml'
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'results/lambda/site/jacoco-it',
+                                            reportFiles          : 'index.html',
+                                            reportName           : 'Lamdba Test Coverage'
+                                    ])
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'results/lambda/failsafe-reports',
+                                            reportFiles          : 'report.html',
+                                            reportName           : 'Lamdba Test Report'
+                                    ])
+                                }
+                            }
+                        }
+                )
+            }
+            withCredentials([
+                    usernamePassword(
+                            credentialsId: 'saucelabs',
+                            usernameVariable: 'HUB_USER',
+                            passwordVariable: 'HUB_PASS'
+                    ),
+            ]) {
                 // this will be replaced by 'Execute Hub Tests' once #103 is completed. This is temporary to ensure all browser types can in fact run successfully
                 stage('Execute Compatibility Tests') {
                     try {
                         String buildName = branchCheckout.replaceAll(/\//, " ") + " build " + env.BUILD_NUMBER + " Compatibility Tests"
-                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
@@ -249,7 +322,7 @@ node {
                 stage('Execute Hub Tests') {
                     try {
 //                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://${publicIp}/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-                        sh "mvn clean verify -Dalt.build.dir=results/hub -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros,wait' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/hub -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros,wait,hub' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
