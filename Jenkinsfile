@@ -219,11 +219,13 @@ node {
                             passwordVariable: 'LAMBDA_PASS'
                     )
             ]) {
-                stage('Update Test Site') {
-                    sh "ssh -oStrictHostKeyChecking=no ec2-user@${publicIp} 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
-                    sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
-                }
                 parallel(
+                        "Test Site:" {
+                            stage('Update Test Site') {
+                                sh "ssh -oStrictHostKeyChecking=no ec2-user@${publicIp} 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
+                                sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
+                            }
+                        },
                         "Sauce Labs": {
                             stage('Verify Sauce Reporting') {
                                 try {
@@ -255,7 +257,7 @@ node {
                         "Lambda Test": {
                             stage('Verify Lambda Reporting') {
                                 try {
-                                    sh "mvn clean verify -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                    sh "mvn clean verify -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
                                 } catch (e) {
                                     throw e
                                 } finally {

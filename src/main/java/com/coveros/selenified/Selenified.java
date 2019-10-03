@@ -399,7 +399,6 @@ public class Selenified {
         desiredCapabilities.setCapability("name", testName);
         desiredCapabilities.setCapability("tags", Arrays.asList(result.getMethod().getGroups()));
         desiredCapabilities.setCapability("build", buildName);
-        capabilities.addExtraCapabilities(desiredCapabilities);     // TODO - looks like this merge isn't doing it
         this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
         // setup the reporter
         Reporter reporter =
