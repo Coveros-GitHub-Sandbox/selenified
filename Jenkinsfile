@@ -210,8 +210,8 @@ node {
             withCredentials([
                     usernamePassword(
                             credentialsId: 'saucelabs',
-                            usernameVariable: 'HUB_USER',
-                            passwordVariable: 'HUB_PASS'
+                            usernameVariable: 'SAUCE_USER',
+                            passwordVariable: 'SAUCE_PASS'
                     ),
                     usernamePassword(
                             credentialsId: 'lambdatest',
@@ -229,7 +229,7 @@ node {
                         "Sauce Labs": {
                             stage('Verify Sauce Reporting') {
                                 try {
-                                    sh "mvn clean verify -DmockPort=0 -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
+                                    sh "mvn clean verify -DmockPort=0 -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${SAUCE_USER}:${SAUCE_PASS}@ondemand.saucelabs.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -283,11 +283,19 @@ node {
                             }
                         }
                 )
+            }
+            withCredentials([
+                    usernamePassword(
+                            credentialsId: 'saucelabs',
+                            usernameVariable: 'HUB_USER',
+                            passwordVariable: 'HUB_PASS'
+                    ),
+            ]) {
                 // this will be replaced by 'Execute Hub Tests' once #103 is completed. This is temporary to ensure all browser types can in fact run successfully
                 stage('Execute Compatibility Tests') {
                     try {
                         String buildName = branchCheckout.replaceAll(/\//, " ") + " build " + env.BUILD_NUMBER + " Compatibility Tests"
-                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://${HUB_USER}:${HUB_PASS}@ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
