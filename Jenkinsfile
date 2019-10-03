@@ -62,7 +62,7 @@ node {
                         stage('Execute HTMLUnit Tests') {
                             try {
                                 // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                sh 'mvn clean verify -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="browser,coveros,hub"'
+                                sh 'mvn clean verify -DmockPort=0 -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="service,browser,coveros,hub"'
                             } catch (e) {
                                 throw e
                             } finally {
@@ -83,6 +83,34 @@ node {
                                         reportDir            : 'results/htmlunit/failsafe-reports',
                                         reportFiles          : 'report.html',
                                         reportName           : 'HTMLUnit Test Report'
+                                ])
+                            }
+                        }
+                    },
+                    "Execute Services Tests": {
+                        stage('Execute Service Tests') {
+                            try {
+                                sh 'mvn clean verify -DmockPort=1 -Dalt.build.dir=results/service -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.include="service" -Dfailsafe.groups.exclude=""'
+                            } catch (e) {
+                                throw e
+                            } finally {
+                                sh "cat results/service/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                junit 'results/service/failsafe-reports/TEST-*.xml'
+                                publishHTML([
+                                        allowMissing         : false,
+                                        alwaysLinkToLastBuild: true,
+                                        keepAll              : true,
+                                        reportDir            : 'results/service/site/jacoco-it',
+                                        reportFiles          : 'index.html',
+                                        reportName           : 'Service Test Coverage'
+                                ])
+                                publishHTML([
+                                        allowMissing         : false,
+                                        alwaysLinkToLastBuild: true,
+                                        keepAll              : true,
+                                        reportDir            : 'results/service/failsafe-reports',
+                                        reportFiles          : 'report.html',
+                                        reportName           : 'Service Test Report'
                                 ])
                             }
                         }
