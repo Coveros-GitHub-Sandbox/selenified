@@ -141,7 +141,7 @@ node {
                             }
                             stage('Execute Chrome Tests Through Proxy') {
                                 try {
-                                    sh 'mvn clean verify -Dalt.build.dir=results/chrome -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub" -DgeneratePDF'
+                                    sh 'mvn clean verify -Dalt.build.dir=results/chrome -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub,service" -DgeneratePDF'
                                 } catch (e) {
                                     throw e
                                 } finally {
