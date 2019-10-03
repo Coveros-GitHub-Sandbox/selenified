@@ -220,7 +220,7 @@ node {
                     )
             ]) {
                 parallel(
-                        "Test Site:" {
+                        "Test Site": {
                             stage('Update Test Site') {
                                 sh "ssh -oStrictHostKeyChecking=no ec2-user@${publicIp} 'sudo rm /var/www/noindex/*; sudo chown ec2-user.ec2-user /var/www/noindex/'"
                                 sh "scp -oStrictHostKeyChecking=no public/* ec2-user@${publicIp}:/var/www/noindex/"
