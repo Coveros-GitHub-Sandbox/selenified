@@ -19,12 +19,13 @@
         <failsafe.threads>5</failsafe.threads>
         <failsafe.verbosity>0</failsafe.verbosity>
         <failsafe.groups.include/>
-        <failsafe.groups.exclude>browser</failsafe.groups.exclude>
+        <failsafe.groups.exclude>browser,service</failsafe.groups.exclude>
         <failsafe.files.include>**/*IT.java</failsafe.files.include>
         <failsafe.files.exclude/>
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
+        <alt.build.dir>target</alt.build.dir>
 
         <!-- General Selenium run versions -->
         <selenium.version>3.141.59</selenium.version>
@@ -53,7 +54,7 @@
         <sonar.host.url>http://localhost:9000/sonar</sonar.host.url>
         <sonar.sources>src/main/java</sonar.sources>
         <sonar.test>src/test/java</sonar.test>
-        <sonar.junit.reportPaths>results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/chrome/target/failsafe-reports,results/compatibility/target/failsafe-reports,results/sauce/target/failsafe-reports</sonar.junit.reportPaths>
+        <sonar.junit.reportPaths>results/unit/target/surefire-reports,results/htmlunit/target/failsafe-reports,results/chrome/target/failsafe-reports,results/compatibility/target/failsafe-reports,results/hub/target/failsafe-reports</sonar.junit.reportPaths>
         <sonar.jacoco.reportPaths>jacoco-ut.exec,jacoco-it.exec</sonar.jacoco.reportPaths>
         <sonar.dependencyCheck.reportPath>dependency-check-report.xml</sonar.dependencyCheck.reportPath>
         <sonar.dependencyCheck.htmlReportPath>dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
@@ -99,6 +100,20 @@
         <developerConnection>scm:git:ssh://github.com:Coveros/selenified.git</developerConnection>
         <url>https://github.com/Coveros/selenified/tree/master</url>
     </scm>
+
+    <profiles>
+        <profile>
+            <id>alternateBuildDir</id>
+            <activation>
+                <property>
+                    <name>alt.build.dir</name>
+                </property>
+            </activation>
+            <build>
+                <directory>${alt.build.dir}</directory>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
@@ -203,6 +218,7 @@
                     </excludes>
                     <systemPropertyVariables>
                         <selenium.version>${selenium.version}</selenium.version>
+                        <alt.build.dir>${alt.build.dir}</alt.build.dir>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

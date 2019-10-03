@@ -17,11 +17,13 @@ import static org.mockserver.model.HttpResponse.response;
 
 public class WebBase extends Selenified {
     private ClientAndServer mockServer;
+    private int mockPort = 1070;
+
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setAppURL(this, test, "http://localhost:1070/");
+        setAppURL(this, test, "http://localhost:" + mockPort + "/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
@@ -35,7 +37,12 @@ public class WebBase extends Selenified {
 
     @BeforeSuite(alwaysRun = true)
     public void startMockServer() throws IOException {
-        mockServer = startClientAndServer(1070);
+        if( System.getProperty("mockPort") != null) {
+            String x = System.getProperty("mockPort");
+            int y = Integer.valueOf(x);
+            mockPort += Integer.valueOf(System.getProperty("mockPort"));
+        }
+        mockServer = startClientAndServer(mockPort);
         mockServer.when(request().withMethod("GET").withPath("/"))
                 .respond(response().withBody(readFile("public/index.html")));
         mockServer.when(request().withMethod("GET").withPath("/next_page.html"))

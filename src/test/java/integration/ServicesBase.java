@@ -27,11 +27,12 @@ public class ServicesBase extends Selenified {
     final JsonObject json3 = new JsonObject();
     final JsonObject json4 = new JsonObject();
     final JsonObject simJson4 = new JsonObject();
+    private int mockPort = 1080;
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setAppURL(this, test, "http://localhost:1080/");
+        setAppURL(this, test, "http://localhost:" + mockPort + "/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
@@ -63,7 +64,10 @@ public class ServicesBase extends Selenified {
 
     @BeforeSuite(alwaysRun = true)
     public void startMockServer() throws IOException {
-        mockServer = startClientAndServer(1080);
+        if( System.getProperty("mockPort") != null) {
+            mockPort += Integer.valueOf(System.getProperty("mockPort"));
+        }
+        mockServer = startClientAndServer(mockPort);
         mockServer.when(request().withPath("/null/"))
                 .respond(response().withStatusCode(404).withBody("We encountered an error, no page was found"));
         mockServer.when(request().withMethod("GET").withPath("/sample/")).respond(response().withBody("{}"));

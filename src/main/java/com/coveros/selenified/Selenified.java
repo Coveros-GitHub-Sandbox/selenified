@@ -50,7 +50,7 @@ import static org.testng.AssertJUnit.assertEquals;
 /**
  * Selenified contains all of the elements to setup the test suite, and to start
  * and finish your tests. The site under test should either be set in
- * the @BeforeClass, as there is no default site set for testing. If not, this
+ * the @BeforeClass(alwaysRun = true), as there is no default site set for testing. If not, this
  * site can be passed in as a system parameter. Before each suite is run, the
  * system variables are gathered, to set the browser, test site, proxy, hub,
  * etc. This class should be extended by each test class to allow for simple
