@@ -52,7 +52,7 @@ public class AssertMatches extends Matches {
         this.element = element;
         this.reporter = reporter;
     }
-
+    
     // ///////////////////////////////////////
     // assessing functionality
     // ///////////////////////////////////////

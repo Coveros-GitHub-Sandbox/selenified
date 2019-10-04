@@ -21,7 +21,10 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.Browser;
-import com.coveros.selenified.exceptions.*;
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
+import com.coveros.selenified.exceptions.InvalidBuildNameException;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import org.testng.ITestContext;
 import org.testng.log4testng.Logger;
 

@@ -6,12 +6,27 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+<<<<<<< HEAD
 import java.io.*;
+=======
+import java.io.File;
+>>>>>>> master
 
 import static com.coveros.selenified.utilities.Property.*;
 
 public class SaveProperties {
+<<<<<<< HEAD
     protected static final String SELENIFIED = System.getProperty("alt.build.dir") + "/test-classes/selenified.properties";
+=======
+    protected static final String SELENIFIED = "src/test/resources/selenified.properties";
+
+    static final String DEFAULT_WAIT = "defaultWait";
+    static final String DEFAULT_POLL = "defaultPoll";
+    static final String GENERATE_PDF = "generatePDF";
+    static final String PACKAGE_RESULTS = "packageResults";
+    static final String HUB = "hub";
+    static final String PROXY = "proxy";
+>>>>>>> master
 
     private String setDefaultWait = null;
     private String setDefaultPoll = null;
@@ -23,7 +38,10 @@ public class SaveProperties {
     private String setBrowser = null;
     private String setHeadless = null;
     private String setOptions = null;
+<<<<<<< HEAD
     private String setBuildName = null;
+=======
+>>>>>>> master
 
     File propertiesFile = new File(SELENIFIED);
     File savePropertiesFile = new File(SELENIFIED + ".tmp");
@@ -60,9 +78,12 @@ public class SaveProperties {
         if (System.getProperty(OPTIONS) != null) {
             setOptions = System.getProperty(OPTIONS);
         }
+<<<<<<< HEAD
         if (System.getProperty(BUILD_NAME) != null) {
             setBuildName = System.getProperty(BUILD_NAME);
         }
+=======
+>>>>>>> master
         propertiesFile.renameTo(savePropertiesFile);
     }
 
@@ -98,9 +119,12 @@ public class SaveProperties {
         if (setOptions != null) {
             System.setProperty(OPTIONS, setOptions);
         }
+<<<<<<< HEAD
         if (setBuildName != null) {
             System.setProperty(BUILD_NAME, setBuildName);
         }
+=======
+>>>>>>> master
         savePropertiesFile.renameTo(propertiesFile);
     }
 
@@ -118,16 +142,22 @@ public class SaveProperties {
         System.clearProperty(BROWSER);
         System.clearProperty(HEADLESS);
         System.clearProperty(OPTIONS);
+<<<<<<< HEAD
         System.clearProperty(BUILD_NAME);
+=======
+>>>>>>> master
 
         if (new File(SELENIFIED).exists()) {
             new File(SELENIFIED).delete();
         }
     }
+<<<<<<< HEAD
 
     void createPropertiesFile(String content) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));
         writer.write(content);
         writer.close();
     }
+=======
+>>>>>>> master
 }

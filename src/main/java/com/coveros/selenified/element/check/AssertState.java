@@ -50,7 +50,7 @@ public class AssertState extends State {
         this.element = element;
         this.reporter = reporter;
     }
-
+    
     // ///////////////////////////////////////
     // assessing functionality
     // ///////////////////////////////////////

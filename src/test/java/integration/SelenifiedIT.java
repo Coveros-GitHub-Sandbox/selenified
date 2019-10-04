@@ -4,6 +4,11 @@ import org.testng.annotations.Test;
 
 public class SelenifiedIT extends WebBase {
 
+<<<<<<< HEAD
+=======
+    private String setScreensize = null;
+
+>>>>>>> master
     @Test
     public void noAnnotationDetailsTest() {
         // verify no issues

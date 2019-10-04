@@ -1,10 +1,22 @@
 package unit;
 
+<<<<<<< HEAD
 import com.coveros.selenified.exceptions.*;
+=======
+import com.coveros.selenified.exceptions.InvalidBrowserOptionsException;
+import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
+>>>>>>> master
 import com.coveros.selenified.utilities.Property;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
+<<<<<<< HEAD
+=======
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+>>>>>>> master
 import java.io.IOException;
 
 import static com.coveros.selenified.utilities.Property.*;
@@ -215,6 +227,119 @@ public class PropertyTest extends SaveProperties {
     }
 
     @Test
+<<<<<<< HEAD
+=======
+    public void defaultIsHubTest() {
+        assertFalse(Property.isHubSet());
+    }
+
+    @Test
+    public void defaultIsHubSystemEmptyTest() {
+        System.setProperty(HUB, "");
+        assertFalse(Property.isHubSet());
+    }
+
+    @Test
+    public void defaultIsHubSystemTest() {
+        System.setProperty(HUB, "somehub");
+        assertTrue(Property.isHubSet());
+    }
+
+    @Test
+    public void defaultIsHubFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        assertFalse(Property.isHubSet());
+    }
+
+    @Test
+    public void defaultIsHubFilePartialTest() throws IOException {
+        createPropertiesFile(HUB);
+        assertFalse(Property.isHubSet());
+    }
+
+    @Test
+    public void defaultIsHubFileUnsetTest() throws IOException {
+        createPropertiesFile(HUB + "=");
+        assertFalse(Property.isHubSet());
+    }
+
+    @Test
+    public void defaultIsHubFileTrueTest() throws IOException {
+        createPropertiesFile(HUB + "=somehub");
+        assertTrue(Property.isHubSet());
+    }
+
+    @Test
+    public void defaultIsHubOverrideEmptyTest() throws IOException {
+        System.setProperty(HUB, "");
+        createPropertiesFile(HUB + "=somehub");
+        assertFalse(Property.isHubSet());
+    }
+
+    @Test
+    public void defaultIsHubOverrideTrueTest() throws IOException {
+        System.setProperty(HUB, "somehub");
+        createPropertiesFile(HUB + "=");
+        assertTrue(Property.isHubSet());
+    }
+
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubTest() throws InvalidHubException {
+        Property.getHub();
+    }
+
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubSystemEmptyTest() throws InvalidHubException {
+        System.setProperty(HUB, "");
+        Property.getHub();
+    }
+
+    @Test
+    public void defaultGetHubSystemTest() throws InvalidHubException {
+        System.setProperty(HUB, "somehub");
+        assertEquals(Property.getHub(),"somehub");
+    }
+
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubFileEmptyTest() throws IOException {
+        createPropertiesFile("");
+        Property.getHub();
+    }
+
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubFilePartialTest() throws IOException {
+        createPropertiesFile(HUB);
+        Property.getHub();
+    }
+
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubFileUnsetTest() throws IOException {
+        createPropertiesFile(HUB + "=");
+        Property.getHub();
+    }
+
+    @Test
+    public void defaultGetHubFileTrueTest() throws IOException {
+        createPropertiesFile(HUB + "=somehub");
+        assertEquals(Property.getHub(), "somehub");
+    }
+
+    @Test(expectedExceptions = InvalidHubException.class)
+    public void defaultGetHubOverrideEmptyTest() throws IOException {
+        System.setProperty(HUB, "");
+        createPropertiesFile(HUB + "=somehub");
+        Property.getHub();
+    }
+
+    @Test
+    public void defaultGetHubOverrideTrueTest() throws IOException {
+        System.setProperty(HUB, "somehub");
+        createPropertiesFile(HUB + "=");
+        assertEquals(Property.getHub(), "somehub");
+    }
+
+    @Test
+>>>>>>> master
     public void defaultIsProxyTest() {
         assertFalse(Property.isProxySet());
     }
@@ -1007,6 +1132,7 @@ public class PropertyTest extends SaveProperties {
         assertEquals(Property.getDefaultPoll(), 1);
     }
 
+<<<<<<< HEAD
     @Test
     public void defaultIsBuildNameTest() {
         assertFalse(Property.isBuildNameSet());
@@ -1115,5 +1241,11 @@ public class PropertyTest extends SaveProperties {
         System.setProperty(BUILD_NAME, "someoptions");
         createPropertiesFile(BUILD_NAME + "=");
         assertEquals(Property.getBuildName(), "someoptions");
+=======
+    private void createPropertiesFile(String content) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));
+        writer.write(content);
+        writer.close();
+>>>>>>> master
     }
 }

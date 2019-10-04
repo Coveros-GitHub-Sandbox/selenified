@@ -41,7 +41,6 @@ import static com.coveros.selenified.Selenified.REPORTER;
 import static com.coveros.selenified.utilities.Constants.*;
 import static com.coveros.selenified.utilities.Property.BROWSER;
 import static com.coveros.selenified.utilities.TestCase.addParameters;
-import static com.coveros.selenified.utilities.TestCase.removeNonWordCharacters;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.newBufferedWriter;
 
