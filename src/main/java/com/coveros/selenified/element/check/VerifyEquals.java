@@ -36,7 +36,7 @@ import org.openqa.selenium.Rectangle;
  * to them.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.2.2
  * @lastupdate 8/08/2019
  */
 public class VerifyEquals extends Equals {

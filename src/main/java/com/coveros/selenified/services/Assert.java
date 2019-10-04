@@ -39,7 +39,7 @@ import static com.coveros.selenified.utilities.Constants.GSON;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.2.2
  * @lastupdate 6/25/2019
  */
 public class Assert extends Check {

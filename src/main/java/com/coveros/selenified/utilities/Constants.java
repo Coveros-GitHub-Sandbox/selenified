@@ -27,7 +27,7 @@ import com.google.gson.GsonBuilder;
  * Constants simply holds constant variables to be used through out the application for checks
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.2.2
  * @lastupdate 6/25/2019
  */
 public class Constants {

@@ -44,7 +44,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  * to them.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.2.2
  * @lastupdate 8/08/2019
  */
 public class WaitForEquals extends Equals {

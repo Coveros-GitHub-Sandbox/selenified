@@ -54,7 +54,7 @@ import static com.coveros.selenified.utilities.Constants.ENDB;
  * elements directly out of your app.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.2.2
  * @lastupdate 3/29/2019
  */
 public class App {

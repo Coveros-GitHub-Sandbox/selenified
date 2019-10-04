@@ -62,7 +62,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.2.2
  * @lastupdate 8/19/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})

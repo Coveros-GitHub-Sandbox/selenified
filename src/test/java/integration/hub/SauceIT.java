@@ -35,7 +35,7 @@ public class SauceIT extends Selenified {
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
-        setVersion(this, test, "3.2.1");
+        setVersion(this, test, "3.2.2");
 
         this.test = test;
     }

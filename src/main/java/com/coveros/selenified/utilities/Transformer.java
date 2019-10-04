@@ -37,7 +37,7 @@ import static com.coveros.selenified.utilities.Property.getBrowser;
  * Selenified class, and/or in the TestNG xml file.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.2.2
  * @lastupdate 8/29/2018
  */
 public class Transformer implements IAnnotationTransformer {

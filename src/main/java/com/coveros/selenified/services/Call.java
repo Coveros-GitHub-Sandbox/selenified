@@ -33,7 +33,7 @@ import java.util.Map;
  * to the HTTP class
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.2.2
  * @lastupdate 4/4/2019
  */
 public class Call {
