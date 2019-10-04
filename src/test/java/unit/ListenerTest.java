@@ -5183,7 +5183,6 @@ public class ListenerTest extends SaveProperties {
         file.delete();
         new File("directory").delete();
     }
-<<<<<<< HEAD
 
     @Test
     public void skipTestTest() throws InvalidBrowserException {
@@ -5191,6 +5190,4 @@ public class ListenerTest extends SaveProperties {
         assertFalse(Listener.skipTest(new Browser("Chrome"), resultChromeNoSkip));
         assertTrue(Listener.skipTest(new Browser("Chrome"), resultChromeSkip));
     }
-=======
->>>>>>> master
 }
