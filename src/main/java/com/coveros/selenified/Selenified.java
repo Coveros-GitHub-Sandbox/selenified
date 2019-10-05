@@ -382,9 +382,11 @@ public class Selenified {
         // setup our browser instance
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
-        } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
+        } else {
             capabilities = new Capabilities(capabilities.getBrowser());
-            capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
+            if (getAdditionalDesiredCapabilities(extClass, test) != null) {
+                capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
+            }
         }
         Browser browser = capabilities.getBrowser();
         this.browserThreadLocal.set(browser);
