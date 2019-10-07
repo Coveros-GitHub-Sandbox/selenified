@@ -18,7 +18,7 @@ public class ServicesErrorIT extends Selenified {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext test) {
         // set the base URL for the tests here
-        setAppURL(this, test, "https://bad.url.com/");
+        setAppURL(this, test, "https://google.com/");
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
