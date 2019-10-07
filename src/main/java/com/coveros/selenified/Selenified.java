@@ -598,7 +598,7 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException {
+        private static void setupTestParameters() throws InvalidBrowserException {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss - ");
             Date date = new Date();
             StringBuilder buildNameSB = new StringBuilder(dateFormat.format(date));
