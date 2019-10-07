@@ -254,35 +254,34 @@ node {
                                 }
                             }
                         },
-                        // Commenting out until Lambda approves our minutes
-//                        "Lambda Test": {
-//                            stage('Verify Lambda Reporting') {
-//                                try {
-//                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
-//                                } catch (e) {
-//                                    throw e
-//                                } finally {
-//                                    sh "cat results/lambda/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
-//                                    junit 'results/lambda/failsafe-reports/TEST-*.xml'
-//                                    publishHTML([
-//                                            allowMissing         : false,
-//                                            alwaysLinkToLastBuild: true,
-//                                            keepAll              : true,
-//                                            reportDir            : 'results/lambda/site/jacoco-it',
-//                                            reportFiles          : 'index.html',
-//                                            reportName           : 'Lamdba Test Coverage'
-//                                    ])
-//                                    publishHTML([
-//                                            allowMissing         : false,
-//                                            alwaysLinkToLastBuild: true,
-//                                            keepAll              : true,
-//                                            reportDir            : 'results/lambda/failsafe-reports',
-//                                            reportFiles          : 'report.html',
-//                                            reportName           : 'Lamdba Test Report'
-//                                    ])
-//                                }
-//                            }
-//                        }
+                        "Lambda Test": {
+                            stage('Verify Lambda Reporting') {
+                                try {
+                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                } catch (e) {
+                                    throw e
+                                } finally {
+                                    sh "cat results/lambda/coverage-reports/jacoco-it.exec >> jacoco-it.exec"
+                                    junit 'results/lambda/failsafe-reports/TEST-*.xml'
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'results/lambda/site/jacoco-it',
+                                            reportFiles          : 'index.html',
+                                            reportName           : 'Lamdba Test Coverage'
+                                    ])
+                                    publishHTML([
+                                            allowMissing         : false,
+                                            alwaysLinkToLastBuild: true,
+                                            keepAll              : true,
+                                            reportDir            : 'results/lambda/failsafe-reports',
+                                            reportFiles          : 'report.html',
+                                            reportName           : 'Lamdba Test Report'
+                                    ])
+                                }
+                            }
+                        }
                 )
             }
             withCredentials([
