@@ -117,7 +117,7 @@ public class LambdaTestIT extends Selenified {
         Map expectedResults = new HashMap<>();
         expectedResults.put("name", "integration.hub.lambdaIT.hubTitleTest");
 //        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as bug in test name. Issue 219 created to address it: https://github.com/Coveros/selenified/issues/219
+        //TODO - commenting out assertion as feature doesn't yet exist. Issue 102 created to address it: https://github.com/Coveros/selenified/issues/102
         finish();
     }
 
@@ -132,7 +132,7 @@ public class LambdaTestIT extends Selenified {
         Map expectedResults = new HashMap<>();
         expectedResults.put("name", "integration.hub.lambdaIT.hubSearchTestWithOptionSelenifiedcoveroscom");
 //        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as bug in test name. Issue 219 created to address it: https://github.com/Coveros/selenified/issues/219
+        //TODO - commenting out assertion as feature doesn't yet exist. Issue 102 created to address it: https://github.com/Coveros/selenified/issues/102
         finish();
     }
 }
