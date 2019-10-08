@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -88,6 +89,20 @@ public class Verify extends Check {
     @SuppressWarnings("squid:S1201")
     public void equals(JsonArray expectedJson) {
         checkEquals(expectedJson);
+    }
+
+    /**
+     * Verifies the actual response json payload contains a key with a value equal to the expected
+     * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedValue - the expected value
+     */
+    @Override
+    @SuppressWarnings("squid:S1201")
+    public void equals(List<String> jsonKeys, Object expectedValue) {
+        checkEquals(jsonKeys, expectedValue);
     }
 
     /**

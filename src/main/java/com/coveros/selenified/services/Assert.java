@@ -25,12 +25,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
+import static com.coveros.selenified.utilities.Constants.GSON;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-
-import static com.coveros.selenified.utilities.Constants.GSON;
 
 /**
  * Assert will handle all verifications performed on the actual web services
@@ -96,6 +96,21 @@ public class Assert extends Check {
     @SuppressWarnings("squid:S1201")
     public void equals(JsonArray expectedJson) {
         assertEquals("JsonArray Response Mismatch", expectedJson, checkEquals(expectedJson));
+    }
+
+    /**
+     * Asserts the actual response json payload contains a key with a value equal to the expected
+     * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedValue - the expected value
+     */
+    @Override
+    @SuppressWarnings("squid:S1201")
+    public void equals(List<String> jsonKeys, Object expectedValue) {
+        assertEquals("JsonElement Response Mismatch", expectedValue, checkEquals(jsonKeys, expectedValue));
     }
 
     /**

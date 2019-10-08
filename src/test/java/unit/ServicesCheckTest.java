@@ -6,9 +6,7 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -42,6 +40,12 @@ public class ServicesCheckTest {
     public void castObjectNullNullTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         assertNull(response.azzert().castObject(null, null));
+    }
+
+    @Test
+    public void castObjectNotNullTest() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertNull(response.azzert().castObject("Hi", null));
     }
 
     @Test

@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.coveros.selenified.utilities.Constants.*;
@@ -55,6 +56,9 @@ abstract class Check {
      * @return Object - the expected object, properly cast
      */
     public Object castObject(Object known, JsonElement unknown) {
+        if( unknown == null ) {
+            return null;
+        }
         Object objectVal;
         try {
             if (known instanceof String) {
@@ -131,13 +135,11 @@ abstract class Check {
      * @param expectedJson - the expected response json object
      */
     JsonObject checkEquals(JsonObject expectedJson) {
-        boolean pass = false;
         JsonObject actualJson = null;
         if (this.response.getObjectData() != null) {
             actualJson = this.response.getObjectData();
-            pass = actualJson.equals(expectedJson);
         }
-        if (pass) {
+        if (expectedJson.equals(actualJson)) {
             this.reporter.pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
             this.reporter.fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
@@ -161,18 +163,59 @@ abstract class Check {
      * @param expectedJson - the expected response json array
      */
     JsonArray checkEquals(JsonArray expectedJson) {
-        boolean pass = false;
         JsonArray actualJson = null;
         if (this.response.getArrayData() != null) {
             actualJson = this.response.getArrayData();
-            pass = actualJson.equals(expectedJson);
         }
-        if (pass) {
+        if (expectedJson.equals(actualJson)) {
             this.reporter.pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
             this.reporter.fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         }
         return actualJson;
+    }
+
+    /**
+     * Checks the actual response json payload contains a key with a value equal to the expected
+     * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedValue - the expected value
+     */
+    @SuppressWarnings("squid:S1201")
+    abstract void equals(List<String> jsonKeys, Object expectedValue);
+
+    /**
+     * Checks the actual response json payload contains a key with a value equal to the expected
+     * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedValue - the expected value
+     */
+    Object checkEquals(List<String> jsonKeys, Object expectedValue) {
+        JsonElement actualValue = null;
+        if (this.response.getObjectData() != null) {
+            actualValue = this.response.getObjectData();
+        }
+        for(String jsonKey : jsonKeys) {
+            if(actualValue == null) {
+                break;
+            }
+            if(!(actualValue instanceof JsonObject)) {
+                actualValue = null;
+                break;
+            }
+            actualValue = actualValue.getAsJsonObject().get(jsonKey);
+        }
+        Object objectVal = castObject(expectedValue, actualValue);
+        if(expectedValue.equals(objectVal)) {
+            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonKeys)) + ENDI + " with value of " + STARTI + Reporter.formatHTML(GSON.toJson(expectedValue)) + ENDI, FOUND + Reporter.formatHTML(GSON.toJson(objectVal)));
+        } else {
+            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonKeys)) + ENDI + " with value of " + STARTI + Reporter.formatHTML(GSON.toJson(expectedValue)) + ENDI, FOUND + Reporter.formatHTML(GSON.toJson(objectVal)));
+        }
+        return objectVal;
     }
 
     /**
@@ -191,19 +234,20 @@ abstract class Check {
      * @param expectedMessage - the expected response message
      */
     String checkEquals(String expectedMessage) {
-        boolean pass = false;
         String actualMessage = null;
         if (this.response.getMessage() != null) {
             actualMessage = this.response.getMessage();
-            pass = actualMessage.equals(expectedMessage);
         }
-        if (pass) {
+        if (expectedMessage.equals(actualMessage)) {
             this.reporter.pass("", EXPECTED_TO_FIND + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
         } else {
             this.reporter.fail("", EXPECTED_TO_FIND + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
         }
         return actualMessage;
     }
+
+    //TODO
+    //json structure contains (pass in json structure, ensure either json array or object contains provided value)
 
     /**
      * Checks the actual response json payload contains each of the pair
