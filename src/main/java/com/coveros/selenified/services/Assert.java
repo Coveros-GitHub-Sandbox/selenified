@@ -141,6 +141,34 @@ public class Assert extends Check {
     }
 
     /**
+     * Asserts the actual response json payload contains a key containing a JsonObject
+     * containing each of the pair values provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedPairs a hashmap with string key value pairs expected in the json
+     *                      response
+     */
+    public void contains(List<String> jsonKeys, Map<String, Object> expectedPairs) {
+        assertTrue("Expected to find " + Reporter.formatKeyPair(expectedPairs), checkContains(jsonKeys, expectedPairs));
+    }
+
+    /**
+     * Asserts the actual response json payload contains a key containing a JsonElement.
+     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedJson - the expected response json array
+     */
+    public void contains(List<String> jsonKeys, JsonElement expectedJson) {
+        assertTrue("Expected to find " + GSON.toJson(expectedJson), checkContains(jsonKeys, expectedJson));
+    }
+
+    /**
      * Asserts the actual response json payload contains to the expected json
      * element, and writes that out to the output file. If this fails, the code will
      * immediately exit, and record the error.

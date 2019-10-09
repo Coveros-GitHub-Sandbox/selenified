@@ -90,6 +90,22 @@ abstract class Check {
         }
     }
 
+    //TODO needs javadocs and UTs (make private and extend
+    public boolean doesJsonObjectContainPair(Map<String, Object> expectedPairs, JsonObject actualValue) {
+        boolean pass = (actualValue != null);
+        for (Map.Entry<String, Object> entry : expectedPairs.entrySet()) {
+            if (actualValue != null && actualValue.has(entry.getKey())) {
+                Object objectVal = castObject(entry.getValue(), actualValue.get(entry.getKey()));
+                if (!entry.getValue().equals(objectVal)) {
+                    pass = false;
+                }
+            } else {
+                pass = false;
+            }
+        }
+        return pass;
+    }
+
     ///////////////////////////////////////////////////////////////////
     // checks for our services
     ///////////////////////////////////////////////////////////////////
@@ -188,18 +204,15 @@ abstract class Check {
 
     /**
      * Checks the actual response json payload contains a key with a value equal to the expected
-     * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * value. The jsonCrumbs should be passed in as crumbs of the keys leading to the field with
      * the expected value. This result will be written out to the output file.
      *
-     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param jsonCrumbs      - the crumbs of json object keys leading to the field with the expected value
      * @param expectedValue - the expected value
      */
-    Object checkEquals(List<String> jsonKeys, Object expectedValue) {
-        JsonElement actualValue = null;
-        if (this.response.getObjectData() != null) {
-            actualValue = this.response.getObjectData();
-        }
-        for(String jsonKey : jsonKeys) {
+    Object checkEquals(List<String> jsonCrumbs, Object expectedValue) {
+        JsonElement actualValue = this.response.getObjectData();
+        for(String jsonCrumb : jsonCrumbs) {
             if(actualValue == null) {
                 break;
             }
@@ -207,13 +220,13 @@ abstract class Check {
                 actualValue = null;
                 break;
             }
-            actualValue = actualValue.getAsJsonObject().get(jsonKey);
+            actualValue = actualValue.getAsJsonObject().get(jsonCrumb);
         }
         Object objectVal = castObject(expectedValue, actualValue);
         if(expectedValue.equals(objectVal)) {
-            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonKeys)) + ENDI + " with value of " + STARTI + Reporter.formatHTML(GSON.toJson(expectedValue)) + ENDI, FOUND + Reporter.formatHTML(GSON.toJson(objectVal)));
+            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " with value of " + STARTI + Reporter.formatHTML(GSON.toJson(expectedValue)) + ENDI, FOUND + Reporter.formatHTML(GSON.toJson(objectVal)));
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonKeys)) + ENDI + " with value of " + STARTI + Reporter.formatHTML(GSON.toJson(expectedValue)) + ENDI, FOUND + Reporter.formatHTML(GSON.toJson(objectVal)));
+            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " with value of " + STARTI + Reporter.formatHTML(GSON.toJson(expectedValue)) + ENDI, FOUND + Reporter.formatHTML(GSON.toJson(objectVal)));
         }
         return objectVal;
     }
@@ -246,9 +259,6 @@ abstract class Check {
         return actualMessage;
     }
 
-    //TODO
-    //json structure contains (pass in json structure, ensure either json array or object contains provided value)
-
     /**
      * Checks the actual response json payload contains each of the pair
      * values provided, and writes that to the output file
@@ -266,17 +276,7 @@ abstract class Check {
      *                      response
      */
     boolean checkContains(Map<String, Object> expectedPairs) {
-        boolean pass = (this.response.getObjectData() != null);
-        for (Map.Entry<String, Object> entry : expectedPairs.entrySet()) {
-            if (this.response.getObjectData() != null && this.response.getObjectData().has(entry.getKey())) {
-                Object objectVal = castObject(entry.getValue(), this.response.getObjectData().get(entry.getKey()));
-                if (!entry.getValue().equals(objectVal)) {
-                    pass = false;
-                }
-            } else {
-                pass = false;
-            }
-        }
+        boolean pass = doesJsonObjectContainPair(expectedPairs, this.response.getObjectData());
         if (pass) {
             this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
@@ -310,6 +310,95 @@ abstract class Check {
         } else {
             this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
                     DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
+        }
+        return pass;
+    }
+
+    /**
+     * Checks the actual response json payload contains a key containing a JsonObject
+     * containing each of the pair values provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedPairs a hashmap with string key value pairs expected in the json
+     *                            response
+     */
+    @SuppressWarnings("squid:S1201")
+    abstract void contains(List<String> jsonKeys, Map<String, Object> expectedPairs);
+
+    /**
+     * Checks the actual response json payload contains a key containing a JsonObject
+     * containing each of the pair values provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonCrumbs      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedPairs a hashmap with string key value pairs expected in the json
+     *                           response
+     */
+    boolean checkContains(List<String> jsonCrumbs, Map<String, Object> expectedPairs) {
+        JsonObject actualValue = this.response.getObjectData();
+        for(String jsonCrumb : jsonCrumbs) {
+            if(actualValue == null) {
+                break;
+            }
+            if( actualValue.get(jsonCrumb) instanceof JsonObject ) {
+                actualValue = actualValue.get(jsonCrumb).getAsJsonObject();
+            } else {
+                actualValue = null;
+                break;
+            }
+        }
+        boolean pass = doesJsonObjectContainPair(expectedPairs, actualValue);
+        if (pass) {
+            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " containing: " + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatHTML(GSON.toJson(actualValue)));
+        } else {
+            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " containing: " + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatHTML(GSON.toJson(actualValue)));
+        }
+        return pass;
+    }
+
+    /**
+     * Checks the actual response json payload contains a key containing a JsonElement.
+     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonCrumbs      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedJson - the expected response json array
+     */
+    @SuppressWarnings("squid:S1201")
+    abstract void contains(List<String> jsonCrumbs, JsonElement expectedJson);
+
+    /**
+     * Checks the actual response json payload contains a key containing a JsonElement.
+     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonCrumbs      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedJson - the expected response json array
+     */
+    boolean checkContains(List<String> jsonCrumbs, JsonElement expectedJson) {
+        JsonElement actualValue = this.response.getObjectData();
+        for(String jsonCrumb : jsonCrumbs) {
+            if(actualValue == null) {
+                break;
+            }
+            if(!(actualValue instanceof JsonObject)) {
+                actualValue = null;
+                break;
+            }
+            actualValue = actualValue.getAsJsonObject().get(jsonCrumb);
+        }
+
+        boolean pass = false;
+        if (actualValue instanceof JsonArray) {
+            pass = actualValue.getAsJsonArray().contains(expectedJson);
+        }
+        if (pass) {
+            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " containing: " + DIV_I +  Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatHTML(GSON.toJson(actualValue)));
+        } else {
+            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " containing: " + DIV_I +  Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatHTML(GSON.toJson(actualValue)));
         }
         return pass;
     }

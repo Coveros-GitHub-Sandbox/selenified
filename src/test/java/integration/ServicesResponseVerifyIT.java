@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServicesVerifyResponseIT extends ServicesBase {
+public class ServicesResponseVerifyIT extends ServicesBase {
 
     //negative checks for assert equals
 
@@ -114,7 +114,7 @@ public class ServicesVerifyResponseIT extends ServicesBase {
     @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonCrumbsSingle() {
-        List crumbs = new ArrayList();
+        List<String> crumbs = new ArrayList<>();
         crumbs.add("userId");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -127,7 +127,7 @@ public class ServicesVerifyResponseIT extends ServicesBase {
     @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonCrumbsDouble() {
-        List crumbs = new ArrayList();
+        List<String> crumbs = new ArrayList<>();
         crumbs.add("userId");
         crumbs.add("user");
         // use this object to verify the app looks as expected
@@ -141,7 +141,7 @@ public class ServicesVerifyResponseIT extends ServicesBase {
     @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonCrumbsNoObject() {
-        List crumbs = new ArrayList();
+        List<String> crumbs = new ArrayList<>();
         crumbs.add("userId");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -154,7 +154,7 @@ public class ServicesVerifyResponseIT extends ServicesBase {
     @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonCrumbsBadCrumb() {
-        List crumbs = new ArrayList();
+        List<String> crumbs = new ArrayList<>();
         crumbs.add("user");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -167,7 +167,7 @@ public class ServicesVerifyResponseIT extends ServicesBase {
     @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
     public void verifyJsonCrumbsMisMatch() {
-        List crumbs = new ArrayList();
+        List<String> crumbs = new ArrayList<>();
         crumbs.add("userId");
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -212,6 +212,18 @@ public class ServicesVerifyResponseIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("posts/?id=4");
+        response.verify().equals("Something");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonMessageMessageNull() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("/null/");
         response.verify().equals("Something");
         // verify 1 issue
         finish(1);
@@ -312,6 +324,172 @@ public class ServicesVerifyResponseIT extends ServicesBase {
 
     @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsEmptyContain() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("id", 4);
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("posts/?id=4").verify().contains(new ArrayList<>(), values);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsSingleContain() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("userId", 4);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("users");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("users/").verify().contains(crumbs, values);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsDoubleContain() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("id", 4);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("users");
+        crumbs.add("userId");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("users/").verify().contains(crumbs, values);
+        // verify 1 issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsNoObjectContain() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("id", 4);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("userId");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("posts/").verify().contains(crumbs, values);
+        // verify 1 issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsBadCrumbContain() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("id", 4);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("user");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("posts/?id=4").verify().contains(crumbs, values);
+        // verify 1 issues
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsMisMatchContain() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("id", 4);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("userId");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("posts/?id=4").verify().contains(crumbs, values);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsEmptyContains() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("posts/").verify().contains(new ArrayList<>(), json1);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsSingleContains() {
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("ids");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("ids/").verify().contains(crumbs, json1);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsDoubleContains() {
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("ids");
+        crumbs.add("id");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("ids/").verify().contains(crumbs, json1);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsNoArrayContains() {
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("users");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("users").verify().contains(crumbs, json1);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsBadCrumbContains() {
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("userId");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("posts/?id=4").verify().contains(crumbs, json1);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonCrumbsMisMatchContains() {
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("ids");
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.get("ids").verify().contains(crumbs, simJson4);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
     public void verifyJsonMessageDoesntContain() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
@@ -357,6 +535,18 @@ public class ServicesVerifyResponseIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("null/");
+        response.verify().contains("Something");
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void verifyJsonMessageDoesntContainNull() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("/null/");
         response.verify().contains("Something");
         // verify 1 issue
         finish(1);

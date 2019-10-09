@@ -259,4 +259,7 @@ public class ServicesCheckTest {
         json.add("name", new JsonArray());
         assertEquals(response.azzert().castObject("Hello", json.get("name")), new JsonArray());
     }
+
+    //TODO need UTs around doesJsonObjectContainPair
+
 }

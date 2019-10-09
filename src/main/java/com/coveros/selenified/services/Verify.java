@@ -141,6 +141,32 @@ public class Verify extends Check {
     }
 
     /**
+     * Verifies the actual response json payload contains a key containing a JsonObject
+     * containing each of the pair values provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedPairs - a hashmap with string key value pairs expected in the json
+     *                      response
+     */
+    public void contains(List<String> jsonKeys, Map<String, Object> expectedPairs) {
+        checkContains(jsonKeys, expectedPairs);
+    }
+
+    /**
+     * Verifies the actual response json payload contains a key containing a JsonElement.
+     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedJson - the expected response json array
+     */
+    public void contains(List<String> jsonKeys, JsonElement expectedJson) {
+        checkContains(jsonKeys, expectedJson);
+    }
+
+    /**
      * Verifies the actual response json payload contains to the expected json
      * element, and writes that out to the output file.
      *
