@@ -682,6 +682,234 @@ public class ServicesIT extends ServicesBase {
         finish();
     }
 
+    // for patch calls
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCall() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request()).verify().equals(200);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchParamCallNoData() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", 4);
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setUrlParams(params)).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallNoData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request()).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonObjectData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonObject())).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonArrayData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonArray())).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallEmptyMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", "world");
+        call.patch("post/4", new Request().setMultipartData(map)).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonObjectMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonArrayMultipartData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.patch("post/4", new Request().setMultipartData(new HashMap<>())).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonObjectMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.patch("post/4", new Request().setJsonPayload(new JsonObject()).setMultipartData(new HashMap<>()))
+                .verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonArrayMultipartTrueData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data;");
+        call.addHeaders(headers);
+        call.patch("post/4", new Request().setJsonPayload(new JsonArray()).setMultipartData(new HashMap<>()))
+                .verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallUrlParamsData() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setUrlParams(new HashMap<>())).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallNoDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request(), new File("Jenkinsfile")).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonObjectDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonObject()), new File("Jenkinsfile")).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallJsonArrayDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setJsonPayload(new JsonArray()), new File("Jenkinsfile")).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallMultipartDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setMultipartData(new HashMap<>()), new File("Jenkinsfile")).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters")
+    public void verifySuccessfulPatchCallUrlParamsDataWithFile() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("post/4", new Request().setUrlParams(new HashMap<>()), new File("Jenkinsfile")).verify().equals("");
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httppatch", "response"},
+            description = "An integration test to verify a successful patch call with parameters in url")
+    public void verifySuccessfulBadPatchCall() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        call.patch("null/", new Request()).verify().equals("We encountered an error, no page was found");
+        // verify no issues
+        finish();
+    }
+
     // for delete calls
 
     @Test(groups = {"integration", "service", "httpdelete", "response"},
@@ -924,6 +1152,4 @@ public class ServicesIT extends ServicesBase {
         // verify no issues
         finish();
     }
-
-    //TODO - need tests around PATCH
 }
