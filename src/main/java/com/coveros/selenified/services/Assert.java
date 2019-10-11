@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.Map;
 
+import static com.coveros.selenified.utilities.Constants.EXPECTED_TO_FIND;
 import static com.coveros.selenified.utilities.Constants.GSON;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -137,7 +138,7 @@ public class Assert extends Check {
      */
     @Override
     public void contains(Map<String, Object> expectedPairs) {
-        assertTrue("Expected to find " + Reporter.formatKeyPair(expectedPairs), checkContains(expectedPairs));
+        assertTrue(EXPECTED_TO_FIND + Reporter.formatKeyPair(expectedPairs), checkContains(expectedPairs));
     }
 
     /**
@@ -152,7 +153,7 @@ public class Assert extends Check {
      *                      response
      */
     public void contains(List<String> jsonKeys, Map<String, Object> expectedPairs) {
-        assertTrue("Expected to find " + Reporter.formatKeyPair(expectedPairs), checkContains(jsonKeys, expectedPairs));
+        assertTrue(EXPECTED_TO_FIND + Reporter.formatKeyPair(expectedPairs), checkContains(jsonKeys, expectedPairs));
     }
 
     /**
@@ -165,7 +166,7 @@ public class Assert extends Check {
      * @param expectedJson - the expected response json array
      */
     public void contains(List<String> jsonKeys, JsonElement expectedJson) {
-        assertTrue("Expected to find " + GSON.toJson(expectedJson), checkContains(jsonKeys, expectedJson));
+        assertTrue(EXPECTED_TO_FIND + GSON.toJson(expectedJson), checkContains(jsonKeys, expectedJson));
     }
 
     /**
@@ -177,7 +178,7 @@ public class Assert extends Check {
      */
     @Override
     public void contains(JsonElement expectedJson) {
-        assertTrue("Expected to find " + GSON.toJson(expectedJson), checkContains(expectedJson));
+        assertTrue(EXPECTED_TO_FIND + GSON.toJson(expectedJson), checkContains(expectedJson));
     }
 
     /**

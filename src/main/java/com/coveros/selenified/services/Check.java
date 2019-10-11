@@ -42,8 +42,8 @@ import static com.coveros.selenified.utilities.Constants.*;
  */
 abstract class Check {
 
-    public static final String ARROW = " \uD83E\uDC1A ";
-    public static final String CONTAINING = " containing: ";
+    private static final String ARROW = " \uD83E\uDC1A ";
+
     // this will be the name of the file we write all commands out to
     Reporter reporter;
 
@@ -165,9 +165,9 @@ abstract class Check {
             actualJson = this.response.getObjectData();
         }
         if (expectedJson.equals(actualJson)) {
-            this.reporter.pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         }
         return actualJson;
     }
@@ -193,9 +193,9 @@ abstract class Check {
             actualJson = this.response.getArrayData();
         }
         if (expectedJson.equals(actualJson)) {
-            this.reporter.pass("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
         }
         return actualJson;
     }
@@ -230,9 +230,9 @@ abstract class Check {
         }
         Object objectVal = castObject(expectedValue, actualValue);
         if (expectedValue.equals(objectVal)) {
-            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
         }
         return objectVal;
     }
@@ -258,9 +258,9 @@ abstract class Check {
             actualMessage = this.response.getMessage();
         }
         if (expectedMessage.equals(actualMessage)) {
-            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
         }
         return actualMessage;
     }
@@ -355,9 +355,9 @@ abstract class Check {
         }
         boolean pass = doesJsonObjectContainPair(expectedPairs, actualValue);
         if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
         }
         return pass;
     }
@@ -396,9 +396,9 @@ abstract class Check {
             pass = actualValue.getAsJsonArray().contains(expectedJson);
         }
         if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
         }
         return pass;
     }
