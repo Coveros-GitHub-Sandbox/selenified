@@ -568,7 +568,7 @@ public class ServicesVerifyTest {
         child.addProperty("last", "smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().contains(map);
@@ -592,7 +592,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
         response.verify().contains(map);
         String content = Files.toString(file, Charsets.UTF_8);
@@ -612,7 +612,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.add("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
         response.verify().contains(map);
         String content = Files.toString(file, Charsets.UTF_8);
@@ -632,7 +632,7 @@ public class ServicesVerifyTest {
         child.add("smith");
         JsonObject json = new JsonObject();
         json.add("name", child);
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
         response.verify().contains(map);
@@ -655,7 +655,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         JsonArray badChild = new JsonArray();
         badChild.add("john");
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
         response.verify().contains(map);
         String content = Files.toString(file, Charsets.UTF_8);
@@ -676,7 +676,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.add("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
         response.verify().contains(map);
         String content = Files.toString(file, Charsets.UTF_8);

@@ -285,10 +285,10 @@ public class ServicesAssertTest {
         response.azzert().contains(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected to find a " +
-                        "response containing: <div><i><div>name : true</div></i></div></td>\n    <td>Found a response" +
-                        " of: <div><i>\\{<br/>\\&nbsp;\\&nbsp;\"name\":\\&nbsp;true<br/>\\}</i></div></td>\n    " +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response containing: <div><i><div>name : true</div></i></div></td>\n {4}<td>Found a response" +
+                        " of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;true<br/>}</i></div></td>\n {4}" +
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test(expectedExceptions = AssertionError.class)

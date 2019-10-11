@@ -42,6 +42,8 @@ import static com.coveros.selenified.utilities.Constants.*;
  */
 abstract class Check {
 
+    public static final String ARROW = " \uD83E\uDC1A ";
+    public static final String CONTAINING = " containing: ";
     // this will be the name of the file we write all commands out to
     Reporter reporter;
 
@@ -220,9 +222,6 @@ abstract class Check {
     Object checkEquals(List<String> jsonCrumbs, Object expectedValue) {
         JsonElement actualValue = this.response.getObjectData();
         for (String jsonCrumb : jsonCrumbs) {
-            if (actualValue == null) {
-                break;
-            }
             if (!(actualValue instanceof JsonObject)) {
                 actualValue = null;
                 break;
@@ -231,9 +230,9 @@ abstract class Check {
         }
         Object objectVal = castObject(expectedValue, actualValue);
         if (expectedValue.equals(objectVal)) {
-            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
+            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
+            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
         }
         return objectVal;
     }
@@ -347,10 +346,7 @@ abstract class Check {
     boolean checkContains(List<String> jsonCrumbs, Map<String, Object> expectedPairs) {
         JsonObject actualValue = this.response.getObjectData();
         for (String jsonCrumb : jsonCrumbs) {
-            if (actualValue == null) {
-                break;
-            }
-            if (actualValue.get(jsonCrumb) instanceof JsonObject) {
+            if (actualValue != null && actualValue.get(jsonCrumb) instanceof JsonObject) {
                 actualValue = actualValue.get(jsonCrumb).getAsJsonObject();
             } else {
                 actualValue = null;
@@ -359,9 +355,9 @@ abstract class Check {
         }
         boolean pass = doesJsonObjectContainPair(expectedPairs, actualValue);
         if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " containing: " + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
+            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " containing: " + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
+            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
         }
         return pass;
     }
@@ -388,9 +384,6 @@ abstract class Check {
     boolean checkContains(List<String> jsonCrumbs, JsonElement expectedJson) {
         JsonElement actualValue = this.response.getObjectData();
         for (String jsonCrumb : jsonCrumbs) {
-            if (actualValue == null) {
-                break;
-            }
             if (!(actualValue instanceof JsonObject)) {
                 actualValue = null;
                 break;
@@ -403,9 +396,9 @@ abstract class Check {
             pass = actualValue.getAsJsonArray().contains(expectedJson);
         }
         if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " containing: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
+            this.reporter.pass("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(" \uD83E\uDC1A ", jsonCrumbs)) + ENDI + " containing: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
+            this.reporter.fail("", EXPECTED_TO_FIND + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
         }
         return pass;
     }
