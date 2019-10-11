@@ -85,7 +85,7 @@ public class ReporterTest {
     @Test
     public void captureEntirePageScreenshotTest() {
         assertEquals(reporter.captureEntirePageScreenshot(),
-                "<br/><b><font class='fail'>No Screenshot Available</font></b>");
+                "<br/><b><font class='fail'>No Screenshot Available. java.lang.NullPointerException</font></b>");
     }
 
     @Test
@@ -161,7 +161,7 @@ public class ReporterTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td></td>\n    <td><br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>CHECK</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td></td>\n    <td><br/><b><font class='fail'>No Screenshot Available. java.lang.NullPointerException</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>CHECK</td>\n   </tr>\n"));
     }
 
     @Test
@@ -170,7 +170,7 @@ public class ReporterTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected my check</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected my check</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available. java.lang.NullPointerException</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -179,7 +179,7 @@ public class ReporterTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>Waiting up to 5.0 seconds my check</td>\n    <td>Expected my check</td>\n    <td>After waiting for 2.0 seconds, actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n    <td>Waiting up to 5.0 seconds my check</td>\n    <td>Expected my check</td>\n    <td>After waiting for 2.0 seconds, actual<br/><b><font class='fail'>No Screenshot Available. java.lang.NullPointerException</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='pass'>PASS</td>\n   </tr>\n"));
     }
 
     @Test
@@ -188,7 +188,7 @@ public class ReporterTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected my check</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td></td>\n    <td>Expected my check</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available. java.lang.NullPointerException</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -197,7 +197,7 @@ public class ReporterTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>Waiting up to 5.0 seconds my check</td>\n    <td>Expected my check</td>\n    <td>After waiting for 2.0 seconds, actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>Waiting up to 5.0 seconds my check</td>\n    <td>Expected my check</td>\n    <td>After waiting for 2.0 seconds, actual<br/><b><font class='fail'>No Screenshot Available. java.lang.NullPointerException</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -215,7 +215,7 @@ public class ReporterTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available. java.lang.NullPointerException</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='fail'>FAIL</td>\n   </tr>\n"));
     }
 
     @Test
@@ -224,7 +224,7 @@ public class ReporterTest {
         assertNotEquals(file.length(), 0);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>CHECK</td>\n   </tr>\n"));
+                "[.\\s\\S]+   <tr>\n    <td align='center'>1.</td>\n    <td>my action</td>\n    <td>expected</td>\n    <td>actual<br/><b><font class='fail'>No Screenshot Available. java.lang.NullPointerException</font></b></td>\n    <td>[0-9]+ms / [0-9]+ms</td>\n    <td class='check'>CHECK</td>\n   </tr>\n"));
     }
 
     @Test
