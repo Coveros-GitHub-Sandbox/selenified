@@ -4,10 +4,14 @@ import com.coveros.selenified.Browser;
 import com.coveros.selenified.Capabilities;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.application.App;
+import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidHTTPException;
+import com.coveros.selenified.exceptions.InvalidHubException;
+import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Sauce;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.Point;
 import org.testng.ITestContext;
@@ -16,8 +20,10 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ActionDoIT extends WebBase {
 
@@ -1472,7 +1478,8 @@ public class ActionDoIT extends WebBase {
     }
 
     @Test(groups = {"integration", "action", "screenshot", "do", "local"},
-            description = "An integration negative test to check the takeScreenshot method")
+            description = "An integration negative test to check the takeScreenshot method",
+    expectedExceptions = NoSuchSessionException.class)
     public void takeScreenshotBadDriverTest() throws IOException {
         // use this object to manipulate the app
         App app = new App(new Capabilities(new Browser("Firefox")), null);
