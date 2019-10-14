@@ -28,8 +28,6 @@ import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Hub;
-import com.coveros.selenified.exceptions.InvalidHubException;
-import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;

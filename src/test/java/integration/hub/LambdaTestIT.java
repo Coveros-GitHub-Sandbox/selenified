@@ -17,9 +17,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class LambdaTestIT extends Selenified {
 
@@ -83,10 +81,10 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
-        expectedResults.put("status_ind", "passed");
-//        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as feature doesn't yet exist. Issue 102 created to address it: https://github.com/Coveros/selenified/issues/102
+        List jsonDataSets = new ArrayList<>();
+        jsonDataSets.add("data");
+        jsonDataSets.add("status_ind");
+        response.azzert().equals(jsonDataSets, "passed");
         finish();
     }
 
@@ -99,10 +97,10 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
-        expectedResults.put("build_name", buildName);
-//        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as feature doesn't yet exist. Issue 102 created to address it: https://github.com/Coveros/selenified/issues/102
+        List jsonDataSets = new ArrayList<>();
+        jsonDataSets.add("data");
+        jsonDataSets.add("build_name");
+        response.azzert().equals(jsonDataSets, buildName);
         finish();
     }
 
@@ -114,10 +112,10 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
-        expectedResults.put("name", "integration.hub.lambdaIT.hubTitleTest");
-//        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as feature doesn't yet exist. Issue 102 created to address it: https://github.com/Coveros/selenified/issues/102
+        List jsonDataSets = new ArrayList<>();
+        jsonDataSets.add("data");
+        jsonDataSets.add("name");
+        response.azzert().equals(jsonDataSets, "integration.hub.LambdaTestIT.hubTitleTest");
         finish();
     }
 
@@ -129,10 +127,10 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + paramSessionId.toString());
-        Map expectedResults = new HashMap<>();
-        expectedResults.put("name", "integration.hub.lambdaIT.hubSearchTestWithOptionSelenifiedcoveroscom");
-//        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as feature doesn't yet exist. Issue 102 created to address it: https://github.com/Coveros/selenified/issues/102
+        List jsonDataSets = new ArrayList<>();
+        jsonDataSets.add("data");
+        jsonDataSets.add("name");
+        response.azzert().equals(jsonDataSets, "integration.hub.LambdaTestIT.hubSearchTestWithOptionHi");
         finish();
     }
 }

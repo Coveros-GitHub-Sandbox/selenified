@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -91,6 +92,20 @@ public class Verify extends Check {
     }
 
     /**
+     * Verifies the actual response json payload contains a key with a value equal to the expected
+     * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedValue - the expected value
+     */
+    @Override
+    @SuppressWarnings("squid:S1201")
+    public void equals(List<String> jsonKeys, Object expectedValue) {
+        checkEquals(jsonKeys, expectedValue);
+    }
+
+    /**
      * Verifies the actual response payload is equal to the expected
      * response payload, and writes that out to the output file.
      *
@@ -123,6 +138,32 @@ public class Verify extends Check {
     @Override
     public void contains(JsonElement expectedJson) {
         checkContains(expectedJson);
+    }
+
+    /**
+     * Verifies the actual response json payload contains a key containing a JsonObject
+     * containing each of the pair values provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedPairs - a hashmap with string key value pairs expected in the json
+     *                      response
+     */
+    public void contains(List<String> jsonKeys, Map<String, Object> expectedPairs) {
+        checkContains(jsonKeys, expectedPairs);
+    }
+
+    /**
+     * Verifies the actual response json payload contains a key containing a JsonElement.
+     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedJson - the expected response json array
+     */
+    public void contains(List<String> jsonKeys, JsonElement expectedJson) {
+        checkContains(jsonKeys, expectedJson);
     }
 
     /**

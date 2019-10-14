@@ -751,7 +751,7 @@ public class ReporterTest {
 
     @Test
     public void getResponseHeadersOutputTest() {
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("", "Response");
         map.put("hello", "world");
         Response response = new Response(reporter, map, 200, null, null, null);

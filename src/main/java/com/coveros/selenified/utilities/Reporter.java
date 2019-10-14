@@ -170,7 +170,7 @@ public class Reporter {
         logs.put(logName, logEntries);
     }
 
-    public Map<String, LogEntries> getLogs() {
+    Map<String, LogEntries> getLogs() {
         return logs;
     }
 

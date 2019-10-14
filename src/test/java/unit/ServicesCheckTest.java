@@ -6,17 +6,19 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
+import static org.testng.AssertJUnit.assertFalse;
 
 public class ServicesCheckTest {
 
@@ -42,6 +44,12 @@ public class ServicesCheckTest {
     public void castObjectNullNullTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         assertNull(response.azzert().castObject(null, null));
+    }
+
+    @Test
+    public void castObjectNotNullTest() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertNull(response.azzert().castObject("Hi", null));
     }
 
     @Test
@@ -254,5 +262,67 @@ public class ServicesCheckTest {
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
         assertEquals(response.azzert().castObject("Hello", json.get("name")), new JsonArray());
+    }
+
+    @Test
+    public void doesJsonObjectContainPairNullActualTest() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertFalse(response.azzert().doesJsonObjectContainPair(new HashMap<>(), null));
+    }
+
+    @Test
+    public void doesJsonObjectContainPairEmptyMapTest() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.add("name", new JsonArray());
+        assertTrue(response.azzert().doesJsonObjectContainPair(new HashMap<>(), json));
+    }
+
+    @Test
+    public void doesJsonObjectContainPairSinglePairContains() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        Map<String,Object> map = new HashMap<>();
+        map.put("name", 1);
+        assertTrue(response.azzert().doesJsonObjectContainPair(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectContainPairDoublePairContains() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        json.addProperty("email", "someemail@123.com");
+        json.addProperty("phone", "(123) 456-7890");
+        Map<String,Object> map = new HashMap<>();
+        map.put("name", 1);
+        map.put("email", "someemail@123.com");
+        assertTrue(response.azzert().doesJsonObjectContainPair(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectContainPairSinglePairNotContain() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        json.addProperty("email", "someemail@123.com");
+        json.addProperty("phone", "(123) 456-7890");
+        Map<String,Object> map = new HashMap<>();
+        map.put("name", 2);
+        assertFalse(response.azzert().doesJsonObjectContainPair(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectContainPairDoublePairConainsOne() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        json.addProperty("email", "someemail@123.com");
+        json.addProperty("phone", "(123) 456-7890");
+        Map<String,Object> map = new HashMap<>();
+        map.put("name", 2);
+        map.put("email", "someemail@123.com");
+        assertFalse(response.azzert().doesJsonObjectContainPair(map, json));
     }
 }
