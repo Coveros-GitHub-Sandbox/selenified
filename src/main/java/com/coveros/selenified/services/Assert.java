@@ -25,12 +25,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
+import static com.coveros.selenified.utilities.Constants.EXPECTED_TO_FIND;
+import static com.coveros.selenified.utilities.Constants.GSON;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-
-import static com.coveros.selenified.utilities.Constants.GSON;
 
 /**
  * Assert will handle all verifications performed on the actual web services
@@ -99,6 +100,21 @@ public class Assert extends Check {
     }
 
     /**
+     * Asserts the actual response json payload contains a key with a value equal to the expected
+     * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedValue - the expected value
+     */
+    @Override
+    @SuppressWarnings("squid:S1201")
+    public void equals(List<String> jsonKeys, Object expectedValue) {
+        assertEquals("JsonElement Response Mismatch", expectedValue, checkEquals(jsonKeys, expectedValue));
+    }
+
+    /**
      * Asserts the actual response payload is equal to the expected
      * response payload, and writes that out to the output file. If this fails, the code will
      * immediately exit, and record the error.
@@ -122,7 +138,35 @@ public class Assert extends Check {
      */
     @Override
     public void contains(Map<String, Object> expectedPairs) {
-        assertTrue("Expected to find " + Reporter.formatKeyPair(expectedPairs), checkContains(expectedPairs));
+        assertTrue(EXPECTED_TO_FIND + Reporter.formatKeyPair(expectedPairs), checkContains(expectedPairs));
+    }
+
+    /**
+     * Asserts the actual response json payload contains a key containing a JsonObject
+     * containing each of the pair values provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedPairs a hashmap with string key value pairs expected in the json
+     *                      response
+     */
+    public void contains(List<String> jsonKeys, Map<String, Object> expectedPairs) {
+        assertTrue(EXPECTED_TO_FIND + Reporter.formatKeyPair(expectedPairs), checkContains(jsonKeys, expectedPairs));
+    }
+
+    /**
+     * Asserts the actual response json payload contains a key containing a JsonElement.
+     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedJson - the expected response json array
+     */
+    public void contains(List<String> jsonKeys, JsonElement expectedJson) {
+        assertTrue(EXPECTED_TO_FIND + GSON.toJson(expectedJson), checkContains(jsonKeys, expectedJson));
     }
 
     /**
@@ -134,7 +178,7 @@ public class Assert extends Check {
      */
     @Override
     public void contains(JsonElement expectedJson) {
-        assertTrue("Expected to find " + GSON.toJson(expectedJson), checkContains(expectedJson));
+        assertTrue(EXPECTED_TO_FIND + GSON.toJson(expectedJson), checkContains(expectedJson));
     }
 
     /**

@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class Response {
 
-    private final Map headers;
+    private final Map<String, Object> headers;
     private final int code;
     private final JsonObject object;
     private final JsonArray array;
@@ -47,7 +47,7 @@ public class Response {
     // the verify class to check information about the response
     private final Verify verify;
 
-    public Response(Reporter reporter, Map headers, int code, JsonObject object, JsonArray array, String message) {
+    public Response(Reporter reporter, Map<String, Object> headers, int code, JsonObject object, JsonArray array, String message) {
         this.headers = headers;
         this.code = code;
         this.object = object;
@@ -79,10 +79,10 @@ public class Response {
         return verify;
     }
 
-    public Map getHeaders() {
+    public Map<String, Object> getHeaders() {
         return headers;
     }
-    
+
     public int getCode() {
         return code;
     }
