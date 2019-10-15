@@ -37,6 +37,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
 
@@ -339,24 +340,24 @@ public class App {
      * @param imageName - the name of the image typically generated via functions from
      *                  TestOutput.generateImageName
      */
-    public void takeScreenshot(String imageName) {
+    public String takeScreenshot(String imageName) throws IOException {
+        String encodedImage = null;
         if (browser.getName() == BrowserName.HTMLUNIT) {
-            return;
+            return encodedImage;
         }
-        try {
-            // take a screenshot
-            File srcFile;
-            if (Hub.isHubSet()) {
-                WebDriver augmented = new Augmenter().augment(driver);
-                srcFile = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.FILE);
-            } else {
-                srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            }
-            // now we need to save the file
-            FileUtils.copyFile(srcFile, new File(imageName));
-        } catch (Exception e) {
-            log.error("IO Error taking screenshot: " + e);
+        // take a screenshot
+        File srcFile;
+        if (Hub.isHubSet()) {
+            WebDriver augmented = new Augmenter().augment(driver);
+            encodedImage = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.BASE64);
+            srcFile = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.FILE);
+        } else {
+            encodedImage = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+            srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         }
+        // now we need to save the file
+        FileUtils.copyFile(srcFile, new File(imageName));
+        return encodedImage;
     }
 
     /**
