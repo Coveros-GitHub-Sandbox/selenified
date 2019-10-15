@@ -485,6 +485,9 @@ public class Selenified {
             }
             this.apps.get().killDriver();
         }
+        // update hub tests
+        Hub.updateStatus(result);
+        // update test loop count
         test.setAttribute(testName + INVOCATION_COUNT, invocationCount + 1);
     }
 

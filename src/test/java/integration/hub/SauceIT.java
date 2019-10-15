@@ -88,7 +88,7 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String,Object> expectedResults = new HashMap<>();
         expectedResults.put("selenium_version", System.getProperty("selenium.version"));
         response.azzert().contains(expectedResults);
         finish();
@@ -102,7 +102,7 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String,Object> expectedResults = new HashMap<>();
         expectedResults.put("passed", true);
         response.azzert().contains(expectedResults);
         finish();
@@ -116,7 +116,7 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String,Object> expectedResults = new HashMap<>();
         JsonArray tags = new JsonArray();
         tags.add("hub");
         tags.add("integration");
@@ -135,7 +135,7 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String,Object> expectedResults = new HashMap<>();
         expectedResults.put("build", buildName);
         response.azzert().contains(expectedResults);
         finish();
@@ -149,7 +149,7 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String,Object> expectedResults = new HashMap<>();
         expectedResults.put("name", "integration.hub.SauceIT.hubTitleTest");
         response.azzert().contains(expectedResults);
         finish();
@@ -163,7 +163,7 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + paramSessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String,Object> expectedResults = new HashMap<>();
         expectedResults.put("name", "integration.hub.SauceIT.hubSearchTestWithOptionSelenifiedcoveroscom");
         response.azzert().contains(expectedResults);
         finish();

@@ -81,7 +81,7 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        List jsonDataSets = new ArrayList<>();
+        List<String> jsonDataSets = new ArrayList<>();
         jsonDataSets.add("data");
         jsonDataSets.add("status_ind");
         response.azzert().equals(jsonDataSets, "passed");
@@ -97,7 +97,7 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        List jsonDataSets = new ArrayList<>();
+        List<String> jsonDataSets = new ArrayList<>();
         jsonDataSets.add("data");
         jsonDataSets.add("build_name");
         response.azzert().equals(jsonDataSets, buildName);
@@ -112,7 +112,7 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        List jsonDataSets = new ArrayList<>();
+        List<String> jsonDataSets = new ArrayList<>();
         jsonDataSets.add("data");
         jsonDataSets.add("name");
         response.azzert().equals(jsonDataSets, "integration.hub.LambdaTestIT.hubTitleTest");
@@ -127,7 +127,7 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + paramSessionId.toString());
-        List jsonDataSets = new ArrayList<>();
+        List<String> jsonDataSets = new ArrayList<>();
         jsonDataSets.add("data");
         jsonDataSets.add("name");
         response.azzert().equals(jsonDataSets, "integration.hub.LambdaTestIT.hubSearchTestWithOptionHi");

@@ -257,7 +257,7 @@ node {
                         "Lambda Test": {
                             stage('Verify Lambda Reporting') {
                                 try {
-                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=1 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
                                 } catch (e) {
                                     throw e
                                 } finally {

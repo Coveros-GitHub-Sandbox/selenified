@@ -181,9 +181,6 @@ public class Listener extends TestListenerAdapter {
             }
             org.testng.Reporter.log(OUTPUT_BREAK + (result.getEndMillis() - result.getStartMillis()) / 1000 + TIME_UNIT);
         }
-        // update hub tests
-        Sauce.updateStatus(result);
-        LambdaTest.updateStatus(result);
     }
 
     /**

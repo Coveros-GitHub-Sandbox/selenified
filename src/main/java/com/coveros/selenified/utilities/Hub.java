@@ -21,6 +21,7 @@
 package com.coveros.selenified.utilities;
 
 import com.coveros.selenified.exceptions.InvalidHubException;
+import org.testng.ITestResult;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -85,6 +86,11 @@ public class Hub {
                 throw new InvalidHubException("Hub isn't valid. Credentials '" + userInfo + "' must contain both username and password");
             }
         }
+    }
+
+    public static void updateStatus(ITestResult result) {
+        Sauce.updateStatus(result);
+        LambdaTest.updateStatus(result);
     }
 
     /**

@@ -64,7 +64,7 @@ public class LambdaTest extends Hub {
      *
      * @param result - the testng itestresult object
      */
-    static void updateStatus(ITestResult result) {
+    public static void updateStatus(ITestResult result) {
         if (isLambdaTest() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();
             JsonObject json = new JsonObject();

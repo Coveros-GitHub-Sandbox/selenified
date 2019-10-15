@@ -65,7 +65,7 @@ public class Sauce extends Hub {
      *
      * @param result - the testng itestresult object
      */
-    static void updateStatus(ITestResult result) {
+    public static void updateStatus(ITestResult result) {
         if (isSauce() && result.getAttributeNames().contains(SESSION_ID)) {
             String sessionId = result.getAttribute(SESSION_ID).toString();
             try {
