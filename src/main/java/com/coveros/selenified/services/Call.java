@@ -62,6 +62,10 @@ public class Call {
         }
     }
 
+    public Reporter getReporter() {
+        return this.reporter;
+    }
+
     /**
      * Sets the content type. Currently only application/json and multipart/form-data are supported, but we
      * are looking to add support for several other forms in the future

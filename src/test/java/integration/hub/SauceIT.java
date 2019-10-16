@@ -73,13 +73,6 @@ public class SauceIT extends Selenified {
         finish();
     }
 
-    @BeforeMethod(alwaysRun = true)
-    protected void noBrowser(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
-        if (Arrays.asList(result.getMethod().getGroups()).contains("sauceAPI")) {
-            super.startTest(dataProvider, method, test, result, Browser.BrowserUse.FALSE);
-        }
-    }
-
     @Test(groups = {"integration", "hub", "sauce", "sauceAPI"}, dependsOnMethods = {"hubTitleTest"},
             description = "An integration test to check that sauce get all expected information")
     public void sauceSeleniumVersionTest(ITestContext iTestContext) throws IOException {
