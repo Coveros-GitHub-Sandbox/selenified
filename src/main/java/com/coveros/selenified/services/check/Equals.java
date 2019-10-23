@@ -163,11 +163,18 @@ abstract class Equals extends Check {
      * @param expectedSize - the expected array size
      */
     int checkArraySize(int expectedSize) {
-        int actualSize = this.response.getArrayData().size();
+        int actualSize = -1;
+        if (this.response.getArrayData() != null) {
+            actualSize = this.response.getArrayData().size();
+        }
+        String size = " which has a size of " + STARTI + actualSize + ENDI;
+        if( actualSize == -1 ) {
+            size = " which isn't an array";
+        }
         if (actualSize == expectedSize) {
-            this.reporter.pass("", "Expected JsonArray to have size '" + expectedSize + "'", FOUND + Reporter.formatResponse(this.response) + " which has a size '" + actualSize + "'");
+            this.reporter.pass("", "Expected to find a response to be an array with size of " + STARTI + expectedSize + ENDI, FOUND + Reporter.formatResponse(this.response) + size);
         } else {
-            this.reporter.fail("", "Expected JsonArray to have size '" + expectedSize + "'", FOUND + Reporter.formatResponse(this.response) + " which has a size '" + actualSize + "'");
+            this.reporter.fail("", "Expected to find a response to be an array with size of " + STARTI + expectedSize + ENDI, FOUND + Reporter.formatResponse(this.response) + size);
         }
         return actualSize;
     }
@@ -200,10 +207,14 @@ abstract class Equals extends Check {
         if (actualValue instanceof JsonArray) {
             actualSize = actualValue.getAsJsonArray().size();
         }
+        String size = " which has a size of " + STARTI + actualSize + ENDI;
+        if( actualSize == -1 ) {
+            size = " which isn't an array";
+        }
         if (actualSize == expectedSize) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + "to be a JsonArray with size of '" + expectedSize + "'", FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV + " which has a size '" + actualSize + "'");
+            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " to be an array with size of " + STARTI + expectedSize + ENDI, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV + size);
         } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + "to be a JsonArray with size of '" + expectedSize + "'", FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV + " which has a size '" + actualSize + "'");
+            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " to be an array with size of " + STARTI + expectedSize + ENDI, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV + size);
         }
         return actualSize;
     }

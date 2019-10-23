@@ -786,4 +786,105 @@ public class ServicesAssertTest {
         john.addProperty("first", "john");
         response.assertContains().nestedValue(crumbs, expected);
     }
+
+    @Test
+    public void confirmEqualsArraySizeNotArray() {
+        Response response = new Response(reporter, null, 5, null, null, null);
+        response.assertEquals().arraySize(-1);
+    }
+
+    @Test
+    public void confirmEqualsArraySizeEmptyMatch() {
+        Response response = new Response(reporter, null, 5, null, new JsonArray(), null);
+        response.assertEquals().arraySize(0);
+    }
+
+    @Test
+    public void confirmEqualsArraySizeMatch() {
+        JsonArray array = new JsonArray();
+        array.add("5");
+        Response response = new Response(reporter, null, 5, null, array, null);
+        response.assertEquals().arraySize(1);
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmEqualsArraySizeMisMatch() {
+        JsonArray array = new JsonArray();
+        array.add("5");
+        Response response = new Response(reporter, null, 5, null, array, null);
+        response.assertEquals().arraySize(2);
+    }
+
+    @Test
+    public void confirmEqualsCrumbsNotObject() {
+        Response response = new Response(reporter, null, 5, null, null, null);
+        response.assertEquals().nestedArraySize(new ArrayList<>(), -1);
+    }
+
+    @Test
+    public void confirmEqualsCrumbsEmptyCrumbs() {
+        JsonArray array = new JsonArray();
+        array.add("5");
+        Response response = new Response(reporter, null, 5, null, array, null);
+        response.assertEquals().nestedArraySize(new ArrayList<>(), -1);
+    }
+
+    @Test
+    public void confirmEqualsCrumbsOneCrumb() {
+        JsonArray array = new JsonArray();
+        JsonObject john = new JsonObject();
+        john.addProperty("first", "john");
+        john.addProperty("last", "doe");
+        array.add(john);
+        JsonObject jon = new JsonObject();
+        jon.addProperty("first", "jon");
+        jon.addProperty("last", "doe");
+        array.add(jon);
+        JsonObject json = new JsonObject();
+        json.add("name", array);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("name");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertEquals().nestedArraySize(crumbs, 2);
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmEqualsCrumbsTwoCrumbs() {
+        JsonArray array = new JsonArray();
+        JsonObject john = new JsonObject();
+        john.addProperty("first", "john");
+        john.addProperty("last", "doe");
+        array.add(john);
+        JsonObject jon = new JsonObject();
+        jon.addProperty("first", "jon");
+        jon.addProperty("last", "doe");
+        array.add(jon);
+        JsonObject json = new JsonObject();
+        json.add("name", array);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("name");
+        crumbs.add("first");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertEquals().nestedArraySize(crumbs, 2);
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmEqualsCrumbsArraySizeMisMatch() {
+        JsonArray array = new JsonArray();
+        JsonObject john = new JsonObject();
+        john.addProperty("first", "john");
+        john.addProperty("last", "doe");
+        array.add(john);
+        JsonObject jon = new JsonObject();
+        jon.addProperty("first", "jon");
+        jon.addProperty("last", "doe");
+        array.add(jon);
+        JsonObject json = new JsonObject();
+        json.add("name", array);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("name");
+        crumbs.add("first");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertEquals().nestedArraySize(crumbs, 3);
+    }
 }

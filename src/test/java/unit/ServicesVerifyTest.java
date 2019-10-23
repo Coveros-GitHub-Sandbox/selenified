@@ -1157,4 +1157,167 @@ public class ServicesVerifyTest {
                         "\"doe\"<br/>&nbsp;&nbsp;}<br/>]</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
                         "class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
+
+
+    @Test
+    public void confirmEqualsArraySizeNotArray() throws IOException {
+        Response response = new Response(reporter, null, 5, null, null, null);
+        response.verifyEquals().arraySize(-1);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response to be an array with size of '<i>-1</i>'</td>\n {4}<td>Found a response of: " +
+                        " which isn't an array</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsArraySizeEmptyMatch() throws IOException {
+        Response response = new Response(reporter, null, 5, null, new JsonArray(), null);
+        response.verifyEquals().arraySize(0);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response to be an array with size of '<i>0</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\[]</i></div> which has a size of '<i>0</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsArraySizeMatch() throws IOException {
+        JsonArray array = new JsonArray();
+        array.add("5");
+        Response response = new Response(reporter, null, 5, null, array, null);
+        response.verifyEquals().arraySize(1);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response to be an array with size of '<i>1</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\[<br/>&nbsp;&nbsp;\"5\"<br/>]</i></div> which has a size of '<i>1</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsArraySizeMisMatch() throws IOException {
+        JsonArray array = new JsonArray();
+        array.add("5");
+        Response response = new Response(reporter, null, 5, null, array, null);
+        response.verifyEquals().arraySize(2);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response to be an array with size of '<i>2</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\[<br/>&nbsp;&nbsp;\"5\"<br/>]</i></div> which has a size of '<i>1</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsCrumbsNotObject() throws IOException {
+        Response response = new Response(reporter, null, 5, null, null, null);
+        response.verifyEquals().nestedArraySize(new ArrayList<>(), -1);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response of: '<i></i>' to be an array with size of '<i>-1</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>null</i></div> which isn't an array</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsCrumbsEmptyCrumbs() throws IOException {
+        JsonArray array = new JsonArray();
+        array.add("5");
+        JsonObject json = new JsonObject();
+        json.add("numbers", array);
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.verifyEquals().nestedArraySize(new ArrayList<>(), -1);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response of: '<i></i>' to be an array with size of '<i>-1</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\{<br/>&nbsp;&nbsp;\"numbers\":&nbsp;\\[<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"5\"<br/>&nbsp;&nbsp;]<br/>}</i></div> which isn't an array</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsCrumbsOneCrumb() throws IOException {
+        JsonArray array = new JsonArray();
+        JsonObject john = new JsonObject();
+        john.addProperty("first", "john");
+        john.addProperty("last", "doe");
+        array.add(john);
+        JsonObject jon = new JsonObject();
+        jon.addProperty("first", "jon");
+        jon.addProperty("last", "doe");
+        array.add(jon);
+        JsonObject json = new JsonObject();
+        json.add("name", array);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("name");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.verifyEquals().nestedArraySize(crumbs, 2);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response of: '<i>name</i>' to be an array with size of '<i>2</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                        "\"last\":&nbsp;\"doe\"<br/>&nbsp;&nbsp;},<br/>&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"jon\"," +
+                        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"doe\"<br/>&nbsp;&nbsp;}<br/>]" +
+                        "</i></div> which has a size of '<i>2</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsCrumbsTwoCrumbs() throws IOException {
+        JsonArray array = new JsonArray();
+        JsonObject john = new JsonObject();
+        john.addProperty("first", "john");
+        john.addProperty("last", "doe");
+        array.add(john);
+        JsonObject jon = new JsonObject();
+        jon.addProperty("first", "jon");
+        jon.addProperty("last", "doe");
+        array.add(jon);
+        JsonObject json = new JsonObject();
+        json.add("name", array);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("name");
+        crumbs.add("first");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.verifyEquals().nestedArraySize(crumbs, 2);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response of: '<i>name&nbsp;\uD83E\uDC1A&nbsp;first</i>' to be an array with size of '<i>2</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>null</i></div> which isn't an array</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmEqualsCrumbsArraySizeMisMatch() throws IOException {
+        JsonArray array = new JsonArray();
+        JsonObject john = new JsonObject();
+        john.addProperty("first", "john");
+        john.addProperty("last", "doe");
+        array.add(john);
+        JsonObject jon = new JsonObject();
+        jon.addProperty("first", "jon");
+        jon.addProperty("last", "doe");
+        array.add(jon);
+        JsonObject json = new JsonObject();
+        json.add("name", array);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("name");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.verifyEquals().nestedArraySize(crumbs, 3);
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response of: '<i>name</i>' to be an array with size of '<i>3</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                        "\"last\":&nbsp;\"doe\"<br/>&nbsp;&nbsp;},<br/>&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"jon\"," +
+                        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"doe\"<br/>&nbsp;&nbsp;}<br/>]" +
+                        "</i></div> which has a size of '<i>2</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+    }
 }
