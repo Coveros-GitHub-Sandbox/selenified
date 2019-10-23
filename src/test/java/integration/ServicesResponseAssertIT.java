@@ -21,7 +21,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(201);
+        call.get("posts/").assertEquals().code(201);
         // verify 1 issue
         finish(1);
     }
@@ -32,7 +32,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(200);
+        call.get("posts/").assertEquals().code(200);
         // verify no issues
         finish();
     }
@@ -43,7 +43,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(json4);
+        call.get("posts/?id=4").assertEquals().objectData(json4);
         // verify no issues
         finish();
     }
@@ -54,7 +54,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json1);
+        call.get("posts/").assertEquals().objectData(json1);
         // verify 1 issue
         finish(1);
     }
@@ -65,7 +65,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(json1);
+        call.get("posts/?id=4").assertEquals().objectData(json1);
         // verify 1 issue
         finish(1);
     }
@@ -76,7 +76,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("null/").azzert().equals(json1);
+        call.get("null/").assertEquals().objectData(json1);
         // verify 1 issue
         finish(1);
     }
@@ -92,7 +92,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json);
+        call.get("posts/").assertEquals().arrayData(json);
         // verify no issues
         finish();
     }
@@ -107,7 +107,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json);
+        call.get("posts/").assertEquals().arrayData(json);
         // verify 1 issue
         finish(1);
     }
@@ -120,7 +120,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(json);
+        call.get("posts/?id=4").assertEquals().arrayData(json);
         // verify 1 issue
         finish(1);
     }
@@ -133,7 +133,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("null/").azzert().equals(json);
+        call.get("null/").assertEquals().arrayData(json);
         // verify 1 issue
         finish(1);
     }
@@ -144,7 +144,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(new ArrayList<>(), json4);
+        call.get("posts/?id=4").assertEquals().nestedValue(new ArrayList<>(), json4);
         // verify no issues
         finish();
     }
@@ -157,7 +157,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(crumbs, 1);
+        call.get("posts/?id=4").assertEquals().nestedValue(crumbs, 1);
         // verify no issues
         finish();
     }
@@ -171,7 +171,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(crumbs, 1);
+        call.get("posts/?id=4").assertEquals().nestedValue(crumbs, 1);
         // verify no issues
         finish(1);
     }
@@ -184,7 +184,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(crumbs, 1);
+        call.get("posts/").assertEquals().nestedValue(crumbs, 1);
         // verify no issues
         finish(1);
     }
@@ -197,7 +197,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(crumbs, 1);
+        call.get("posts/?id=4").assertEquals().nestedValue(crumbs, 1);
         // verify no issues
         finish(1);
     }
@@ -210,7 +210,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(crumbs, "hi");
+        call.get("posts/?id=4").assertEquals().nestedValue(crumbs, "hi");
         // verify no issues
         finish(1);
     }
@@ -226,7 +226,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json.toString());
+        call.get("posts/").assertEquals().message(json.toString());
         // verify no issues
         finish();
     }
@@ -241,7 +241,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json.toString());
+        call.get("posts/").assertEquals().message(json.toString());
         // verify 1 issue
         finish(1);
     }
@@ -254,7 +254,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(json.toString());
+        call.get("posts/?id=4").assertEquals().message(json.toString());
         // verify 1 issue
         finish(1);
     }
@@ -266,7 +266,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("posts/?id=4");
-        response.azzert().equals("Something");
+        response.assertEquals().message("Something");
         // verify 1 issue
         finish(1);
     }
@@ -278,7 +278,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("/null/");
-        response.azzert().equals("Something");
+        response.assertEquals().message("Something");
         // verify 1 issue
         finish(1);
     }
@@ -291,7 +291,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().contains(json1);
+        call.get("posts/").assertContains().value(json1);
         // verify no issues
         finish();
     }
@@ -304,7 +304,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(values);
+        call.get("posts/?id=4").assertContains().keyValues(values);
         // verify no issues
         finish();
     }
@@ -317,7 +317,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(values);
+        call.get("posts/?id=4").assertContains().keyValues(values);
         // verify no issues
         finish();
     }
@@ -331,7 +331,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(values);
+        call.get("posts/?id=4").assertContains().keyValues(values);
         // verify no issues
         finish();
     }
@@ -342,7 +342,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("null/").azzert().contains("We encountered an error");
+        call.get("null/").assertContains().message("We encountered an error");
         // verify no issues
         finish();
     }
@@ -358,7 +358,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().contains(json);
+        call.get("posts/").assertContains().value(json);
         // verify 1 issue
         finish(1);
     }
@@ -371,7 +371,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(values);
+        call.get("posts/?id=4").assertContains().keyValues(values);
         // verify 1 issue
         finish(1);
     }
@@ -384,7 +384,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(new ArrayList<>(), values);
+        call.get("posts/?id=4").assertContains().nestedKeyValues(new ArrayList<>(), values);
         // verify no issues
         finish();
     }
@@ -399,7 +399,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("users/").azzert().contains(crumbs, values);
+        call.get("users/").assertContains().nestedKeyValues(crumbs, values);
         // verify no issues
         finish();
     }
@@ -415,7 +415,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("users/").azzert().contains(crumbs, values);
+        call.get("users/").assertContains().nestedKeyValues(crumbs, values);
         // verify 1 issues
         finish(1);
     }
@@ -430,7 +430,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().contains(crumbs, values);
+        call.get("posts/").assertContains().nestedKeyValues(crumbs, values);
         // verify 1 issues
         finish(1);
     }
@@ -445,7 +445,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(crumbs, values);
+        call.get("posts/?id=4").assertContains().nestedKeyValues(crumbs, values);
         // verify 1 issues
         finish(1);
     }
@@ -460,7 +460,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(crumbs, values);
+        call.get("posts/?id=4").assertContains().nestedKeyValues(crumbs, values);
         // verify 1 issue
         finish(1);
     }
@@ -471,7 +471,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().contains(new ArrayList<>(), json1);
+        call.get("posts/").assertContains().nestedValue(new ArrayList<>(), json1);
         // verify 1 issue
         finish(1);
     }
@@ -484,7 +484,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("ids/").azzert().contains(crumbs, json1);
+        call.get("ids/").assertContains().nestedValue(crumbs, json1);
         // verify no issues
         finish();
     }
@@ -498,7 +498,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("ids/").azzert().contains(crumbs, json1);
+        call.get("ids/").assertContains().nestedValue(crumbs, json1);
         // verify 1 issue
         finish(1);
     }
@@ -511,7 +511,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("users").azzert().contains(crumbs, json1);
+        call.get("users").assertContains().nestedValue(crumbs, json1);
         // verify 1 issue
         finish(1);
     }
@@ -524,7 +524,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(crumbs, json1);
+        call.get("posts/?id=4").assertContains().nestedValue(crumbs, json1);
         // verify 1 issue
         finish(1);
     }
@@ -537,7 +537,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("ids").azzert().contains(crumbs, simJson4);
+        call.get("ids").assertContains().nestedValue(crumbs, simJson4);
         // verify 1 issue
         finish(1);
     }
@@ -548,7 +548,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("null/").azzert().contains("We found an error");
+        call.get("null/").assertContains().message("We found an error");
         // verify 1 issue
         finish(1);
     }
@@ -561,7 +561,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().contains(values);
+        call.get("posts/").assertContains().keyValues(values);
         // verify 1 issue
         finish(1);
     }
@@ -577,7 +577,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().contains(json);
+        call.get("posts/?id=4").assertContains().value(json);
         // verify 1 issue
         finish(1);
     }
@@ -589,7 +589,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("null/");
-        response.azzert().contains("Something");
+        response.assertContains().message("Something");
         // verify 1 issue
         finish(1);
     }
@@ -601,7 +601,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("/null/");
-        response.azzert().contains("Something");
+        response.assertContains().message("Something");
         // verify 1 issue
         finish(1);
     }

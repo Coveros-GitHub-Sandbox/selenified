@@ -6,7 +6,9 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -43,25 +45,25 @@ public class ServicesCheckTest {
     @Test
     public void castObjectNullNullTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        assertNull(response.azzert().castObject(null, null));
+        assertNull(response.assertContains().castObject(null, null));
     }
 
     @Test
     public void castObjectNotNullTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        assertNull(response.azzert().castObject("Hi", null));
+        assertNull(response.assertContains().castObject("Hi", null));
     }
 
     @Test
     public void castObjectNullTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        assertEquals(response.azzert().castObject(null, new JsonObject()), new JsonObject());
+        assertEquals(response.assertContains().castObject(null, new JsonObject()), new JsonObject());
     }
 
     @Test
     public void castObjectMismatchTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        assertEquals(response.azzert().castObject("Hello", new JsonObject()), new JsonObject());
+        assertEquals(response.assertContains().castObject("Hello", new JsonObject()), new JsonObject());
     }
 
     @Test
@@ -69,7 +71,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", "World");
-        assertEquals(response.azzert().castObject("Hello", json.get("name")), "World");
+        assertEquals(response.assertContains().castObject("Hello", json.get("name")), "World");
     }
 
     @Test
@@ -77,7 +79,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
-        assertEquals(response.azzert().castObject(6, json.get("name")), 5);
+        assertEquals(response.assertContains().castObject(6, json.get("name")), 5);
     }
 
     @Test
@@ -85,7 +87,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5d);
-        assertEquals(response.azzert().castObject(6d, json.get("name")), 5d);
+        assertEquals(response.assertContains().castObject(6d, json.get("name")), 5d);
     }
 
     @Test
@@ -93,7 +95,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5f);
-        assertEquals(response.azzert().castObject(6f, json.get("name")), 5f);
+        assertEquals(response.assertContains().castObject(6f, json.get("name")), 5f);
     }
 
     @Test
@@ -101,7 +103,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        assertEquals(response.azzert().castObject(6L, json.get("name")), 5L);
+        assertEquals(response.assertContains().castObject(6L, json.get("name")), 5L);
     }
 
     @Test
@@ -109,7 +111,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.0);
-        assertEquals(response.azzert().castObject(6L, json.get("name")), 5L);
+        assertEquals(response.assertContains().castObject(6L, json.get("name")), 5L);
     }
 
     @Test
@@ -117,7 +119,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        assertEquals(response.azzert().castObject(6, json.get("name")), 5);
+        assertEquals(response.assertContains().castObject(6, json.get("name")), 5);
     }
 
     @Test
@@ -125,7 +127,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        assertEquals(response.azzert().castObject(6.0, json.get("name")), 5.0);
+        assertEquals(response.assertContains().castObject(6.0, json.get("name")), 5.0);
     }
 
     @Test
@@ -133,7 +135,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
-        assertEquals(response.azzert().castObject("Hello", json.get("name")), "5");
+        assertEquals(response.assertContains().castObject("Hello", json.get("name")), "5");
     }
 
     @Test
@@ -141,7 +143,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        assertEquals(response.azzert().castObject(false, json.get("name")), true);
+        assertEquals(response.assertContains().castObject(false, json.get("name")), true);
     }
 
     @Test
@@ -149,7 +151,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        assertEquals(response.azzert().castObject("Hello", json.get("name")), "true");
+        assertEquals(response.assertContains().castObject("Hello", json.get("name")), "true");
     }
 
     @Test
@@ -157,7 +159,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
-        assertEquals(response.azzert().castObject(5, json.get("name")), new JsonPrimitive(true));
+        assertEquals(response.assertContains().castObject(5, json.get("name")), new JsonPrimitive(true));
     }
 
     @Test
@@ -165,7 +167,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
-        assertEquals(response.azzert().castObject((byte) 0, json.get("name")), (byte) 9);
+        assertEquals(response.assertContains().castObject((byte) 0, json.get("name")), (byte) 9);
     }
 
     @Test
@@ -173,7 +175,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
-        assertEquals(response.azzert().castObject("Hello", json.get("name")), "9");
+        assertEquals(response.assertContains().castObject("Hello", json.get("name")), "9");
     }
 
     @Test
@@ -181,7 +183,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 9);
-        assertEquals(response.azzert().castObject(3, json.get("name")), 9);
+        assertEquals(response.assertContains().castObject(3, json.get("name")), 9);
     }
 
     @Test
@@ -189,7 +191,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        assertEquals(response.azzert().castObject('b', json.get("name")), 'a');
+        assertEquals(response.assertContains().castObject('b', json.get("name")), 'a');
     }
 
     @Test
@@ -197,7 +199,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
-        assertEquals(response.azzert().castObject("b", json.get("name")), "a");
+        assertEquals(response.assertContains().castObject("b", json.get("name")), "a");
     }
 
     @Test
@@ -205,7 +207,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", '5');
-        assertEquals(response.azzert().castObject(2, json.get("name")), 5);
+        assertEquals(response.assertContains().castObject(2, json.get("name")), 5);
     }
 
     @Test
@@ -213,7 +215,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", '5');
-        assertEquals(response.azzert().castObject(2.0, json.get("name")), 5.0);
+        assertEquals(response.assertContains().castObject(2.0, json.get("name")), 5.0);
     }
 
     @Test
@@ -221,7 +223,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
-        assertEquals(response.azzert().castObject(new JsonObject(), json.get("name")), new JsonObject());
+        assertEquals(response.assertContains().castObject(new JsonObject(), json.get("name")), new JsonObject());
     }
 
     @Test
@@ -229,7 +231,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
-        assertEquals(response.azzert().castObject(new JsonArray(), json.get("name")), new JsonObject());
+        assertEquals(response.assertContains().castObject(new JsonArray(), json.get("name")), new JsonObject());
     }
 
     @Test
@@ -237,7 +239,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonObject());
-        assertEquals(response.azzert().castObject("Hello", json.get("name")), new JsonObject());
+        assertEquals(response.assertContains().castObject("Hello", json.get("name")), new JsonObject());
     }
 
     @Test
@@ -245,7 +247,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
-        assertEquals(response.azzert().castObject(new JsonArray(), json.get("name")), new JsonArray());
+        assertEquals(response.assertContains().castObject(new JsonArray(), json.get("name")), new JsonArray());
     }
 
     @Test
@@ -253,7 +255,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
-        assertEquals(response.azzert().castObject(new JsonObject(), json.get("name")), new JsonArray());
+        assertEquals(response.assertContains().castObject(new JsonObject(), json.get("name")), new JsonArray());
     }
 
     @Test
@@ -261,13 +263,13 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
-        assertEquals(response.azzert().castObject("Hello", json.get("name")), new JsonArray());
+        assertEquals(response.assertContains().castObject("Hello", json.get("name")), new JsonArray());
     }
 
     @Test
     public void doesJsonObjectContainPairNullActualTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        assertFalse(response.azzert().doesJsonObjectContainPair(new HashMap<>(), null));
+        assertFalse(response.assertContains().doesJsonObjectContainPair(new HashMap<>(), null));
     }
 
     @Test
@@ -275,7 +277,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
-        assertTrue(response.azzert().doesJsonObjectContainPair(new HashMap<>(), json));
+        assertTrue(response.assertContains().doesJsonObjectContainPair(new HashMap<>(), json));
     }
 
     @Test
@@ -283,9 +285,9 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.addProperty("name", 1);
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", 1);
-        assertTrue(response.azzert().doesJsonObjectContainPair(map, json));
+        assertTrue(response.assertContains().doesJsonObjectContainPair(map, json));
     }
 
     @Test
@@ -295,10 +297,10 @@ public class ServicesCheckTest {
         json.addProperty("name", 1);
         json.addProperty("email", "someemail@123.com");
         json.addProperty("phone", "(123) 456-7890");
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", 1);
         map.put("email", "someemail@123.com");
-        assertTrue(response.azzert().doesJsonObjectContainPair(map, json));
+        assertTrue(response.assertContains().doesJsonObjectContainPair(map, json));
     }
 
     @Test
@@ -308,9 +310,9 @@ public class ServicesCheckTest {
         json.addProperty("name", 1);
         json.addProperty("email", "someemail@123.com");
         json.addProperty("phone", "(123) 456-7890");
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", 2);
-        assertFalse(response.azzert().doesJsonObjectContainPair(map, json));
+        assertFalse(response.assertContains().doesJsonObjectContainPair(map, json));
     }
 
     @Test
@@ -320,9 +322,9 @@ public class ServicesCheckTest {
         json.addProperty("name", 1);
         json.addProperty("email", "someemail@123.com");
         json.addProperty("phone", "(123) 456-7890");
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", 2);
         map.put("email", "someemail@123.com");
-        assertFalse(response.azzert().doesJsonObjectContainPair(map, json));
+        assertFalse(response.assertContains().doesJsonObjectContainPair(map, json));
     }
 }

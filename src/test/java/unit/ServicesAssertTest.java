@@ -48,7 +48,7 @@ public class ServicesAssertTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().equals(5);
+        response.assertEquals().code(5);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -56,7 +56,7 @@ public class ServicesAssertTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().equals(6);
+        response.assertEquals().code(6);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ServicesAssertTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().equals(json);
+        response.assertEquals().objectData(json);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -72,7 +72,7 @@ public class ServicesAssertTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().equals(new JsonObject());
+        response.assertEquals().objectData(new JsonObject());
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -80,7 +80,7 @@ public class ServicesAssertTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.azzert().equals(new JsonObject());
+        response.assertEquals().objectData(new JsonObject());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class ServicesAssertTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.azzert().equals(json);
+        response.assertEquals().arrayData(json);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -96,7 +96,7 @@ public class ServicesAssertTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.azzert().equals(new JsonArray());
+        response.assertEquals().arrayData(new JsonArray());
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -104,25 +104,25 @@ public class ServicesAssertTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().equals(new JsonArray());
+        response.assertEquals().arrayData(new JsonArray());
     }
 
     @Test
     public void confirmEqualsMessagePassTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.azzert().equals("Some message");
+        response.assertEquals().message("Some message");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmEqualsMessageFailTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "SOME MESSAGE");
-        response.azzert().equals("Some message");
+        response.assertEquals().message("Some message");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmEqualsMessageNullTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.azzert().equals("");
+        response.assertEquals().message("");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john");
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -142,7 +142,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -152,7 +152,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john1");
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -162,7 +162,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -172,7 +172,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -182,7 +182,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -192,7 +192,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -202,7 +202,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -212,7 +212,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -222,7 +222,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5f);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -232,7 +232,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5f);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -242,7 +242,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5f);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -252,7 +252,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5L);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -262,7 +262,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5L);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -272,7 +272,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6L);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -282,7 +282,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", true);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -298,7 +298,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", true);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -308,7 +308,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", false);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -318,7 +318,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 0);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -328,7 +328,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", (byte) 0);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -338,7 +338,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 1);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -348,7 +348,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'a');
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -358,7 +358,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 'a');
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -368,7 +368,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'b');
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -381,7 +381,7 @@ public class ServicesAssertTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().contains(map);
+        response.assertContains().keyValues(map);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -396,7 +396,7 @@ public class ServicesAssertTest {
         badChild.addProperty("first", "john");
         Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
-        response.azzert().contains(map);
+        response.assertContains().keyValues(map);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -409,7 +409,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
-        response.azzert().contains(map);
+        response.assertContains().keyValues(map);
     }
 
     @Test
@@ -422,7 +422,7 @@ public class ServicesAssertTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().contains(map);
+        response.assertContains().keyValues(map);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -437,7 +437,7 @@ public class ServicesAssertTest {
         badChild.add("john");
         Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
-        response.azzert().contains(map);
+        response.assertContains().keyValues(map);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -450,7 +450,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
-        response.azzert().contains(map);
+        response.assertContains().keyValues(map);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -460,7 +460,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, null, json, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -470,7 +470,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
-        response.azzert().contains(pairs);
+        response.assertContains().keyValues(pairs);
     }
 
     @Test
@@ -481,7 +481,7 @@ public class ServicesAssertTest {
         JsonArray json = new JsonArray();
         json.add(child);
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.azzert().contains(child);
+        response.assertContains().value(child);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -494,7 +494,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, null, json, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
-        response.azzert().contains(badChild);
+        response.assertContains().value(badChild);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -503,49 +503,49 @@ public class ServicesAssertTest {
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().contains(json);
+        response.assertContains().value(json);
     }
 
     @Test
     public void confirmContainsMessagePassTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.azzert().contains("message");
+        response.assertContains().message("message");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmContainsMessageFailTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.azzert().contains("message ");
+        response.assertContains().message("message ");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmContainsMessageNullTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.azzert().contains("");
+        response.assertContains().message("");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmContainsMessageNull2Test() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.azzert().contains("null");
+        response.assertContains().message("null");
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void confirmEqualsCrumbsNothing() {
         Response response = new Response(reporter, null, 5, null, null, null);
-        response.azzert().equals(null, "name");
+        response.assertEquals().nestedValue(null, "name");
     }
 
     @Test(expectedExceptions = AssertionError.class)
     public void confirmEqualsCrumbsNoJsonObject() {
         Response response = new Response(reporter, null, 5, null, null, null);
-        response.azzert().equals(new ArrayList<>(), "name");
+        response.assertEquals().nestedValue(new ArrayList<>(), "name");
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void confirmEqualsCrumbsNoCrumbs() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.azzert().equals(null, "name");
+        response.assertEquals().nestedValue(null, "name");
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -558,7 +558,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, null, json, null);
         List<String> list = new ArrayList<>();
         list.add("name");
-        response.azzert().equals(list, "john");
+        response.assertEquals().nestedValue(list, "john");
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -573,7 +573,7 @@ public class ServicesAssertTest {
         List<String> list = new ArrayList<>();
         list.add("first");
         list.add("last");
-        response.azzert().equals(list, "john");
+        response.assertEquals().nestedValue(list, "john");
     }
 
     @Test
@@ -584,7 +584,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> list = new ArrayList<>();
         list.add("first");
-        response.azzert().equals(list, "john");
+        response.assertEquals().nestedValue(list, "john");
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -595,19 +595,19 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> list = new ArrayList<>();
         list.add("first");
-        response.azzert().equals(list, "janice");
+        response.assertEquals().nestedValue(list, "janice");
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void confirmContainsCrumbsPairNothing() {
         Response response = new Response(reporter, null, 5, null, null, null);
-        response.azzert().contains(null, new HashMap<>());
+        response.assertContains().nestedKeyValues(null, new HashMap<>());
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void confirmContainsCrumbsPairNullCrumbs() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.azzert().contains(null, new HashMap<>());
+        response.assertContains().nestedKeyValues(null, new HashMap<>());
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -615,7 +615,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.azzert().contains(crumbs, new HashMap<>());
+        response.assertContains().nestedKeyValues(crumbs, new HashMap<>());
     }
 
     @Test
@@ -626,7 +626,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.azzert().contains(new ArrayList<>(), map);
+        response.assertContains().nestedKeyValues(new ArrayList<>(), map);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -639,7 +639,7 @@ public class ServicesAssertTest {
         crumbs.add("last");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.azzert().contains(crumbs, map);
+        response.assertContains().nestedKeyValues(crumbs, map);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -652,7 +652,7 @@ public class ServicesAssertTest {
         crumbs.add("first");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.azzert().contains(crumbs, map);
+        response.assertContains().nestedKeyValues(crumbs, map);
     }
 
     @Test
@@ -667,7 +667,7 @@ public class ServicesAssertTest {
         crumbs.add("name");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.azzert().contains(crumbs, map);
+        response.assertContains().nestedKeyValues(crumbs, map);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -682,19 +682,19 @@ public class ServicesAssertTest {
         crumbs.add("name");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "janice");
-        response.azzert().contains(crumbs, map);
+        response.assertContains().nestedKeyValues(crumbs, map);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void confirmContainsCrumbsJsonElementNothing() {
         Response response = new Response(reporter, null, 5, null, null, null);
-        response.azzert().contains(null, new JsonObject());
+        response.assertContains().nestedValue(null, new JsonObject());
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void confirmContainsCrumbsJsonElementNullCrumbs() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.azzert().contains(null, new JsonObject());
+        response.assertContains().nestedValue(null, new JsonObject());
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -702,7 +702,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.azzert().contains(crumbs, new JsonObject());
+        response.assertContains().nestedValue(crumbs, new JsonObject());
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -719,7 +719,7 @@ public class ServicesAssertTest {
         JsonObject json = new JsonObject();
         json.add("name", array);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.azzert().contains(new ArrayList<>(), john);
+        response.assertContains().nestedValue(new ArrayList<>(), john);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -730,7 +730,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         JsonObject expected = new JsonObject();
         expected.addProperty("name", "john");
-        response.azzert().contains(new ArrayList<>(), expected);
+        response.assertContains().nestedValue(new ArrayList<>(), expected);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -744,7 +744,7 @@ public class ServicesAssertTest {
         crumbs.add("name");
         JsonObject expected = new JsonObject();
         expected.addProperty("name", "john");
-        response.azzert().contains(crumbs, expected);
+        response.assertContains().nestedValue(crumbs, expected);
     }
 
     @Test()
@@ -763,7 +763,7 @@ public class ServicesAssertTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.azzert().contains(crumbs, john);
+        response.assertContains().nestedValue(crumbs, john);
     }
 
     @Test(expectedExceptions = AssertionError.class)
@@ -784,6 +784,6 @@ public class ServicesAssertTest {
         crumbs.add("name");
         JsonObject expected = new JsonObject();
         john.addProperty("first", "john");
-        response.azzert().contains(crumbs, expected);
+        response.assertContains().nestedValue(crumbs, expected);
     }
 }

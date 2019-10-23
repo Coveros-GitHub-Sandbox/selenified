@@ -20,6 +20,7 @@
 
 package com.coveros.selenified.services;
 
+import com.coveros.selenified.services.check.*;
 import com.coveros.selenified.utilities.Reporter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -42,10 +43,14 @@ public class Response {
     private final String message;
 
     // the assert class to check information about the response
-    private final Assert azzert;
+    private final AssertContains assertContains;
+    private final AssertEquals assertEquals;
+    private final AssertExcludes assertExcludes;
 
     // the verify class to check information about the response
-    private final Verify verify;
+    private final VerifyContains verifyContains;
+    private final VerifyEquals verifyEquals;
+    private final VerifyExcludes verifyExcludes;
 
     public Response(Reporter reporter, Map<String, Object> headers, int code, JsonObject object, JsonArray array, String message) {
         this.headers = headers;
@@ -53,30 +58,79 @@ public class Response {
         this.object = object;
         this.array = array;
         this.message = message;
-        this.azzert = new Assert(this, reporter);
-        this.verify = new Verify(this, reporter);
+        this.assertContains = new AssertContains(this, reporter);
+        this.assertEquals = new AssertEquals(this, reporter);
+        this.assertExcludes = new AssertExcludes(this, reporter);
+        this.verifyContains = new VerifyContains(this, reporter);
+        this.verifyEquals = new VerifyEquals(this, reporter);
+        this.verifyExcludes = new VerifyExcludes(this, reporter);
     }
 
     /**
-     * Will handle all assertions performed on the actual response itself.
+     * Asserts that the services response will contain expected data.
      * These asserts are custom to the framework, and in addition to providing
      * easy object oriented they provide additional traceability, and assist in
      * troubleshooting and debugging failing tests. A failed assert will cause
      * the test to immediately stop on the error.
      */
-    public Assert azzert() {
-        return azzert;
+    public AssertContains assertContains() {
+        return assertContains;
     }
 
     /**
-     * Will handle all verifications performed on the actual response itself.
+     * Asserts that the services response will equals expected data.
      * These asserts are custom to the framework, and in addition to providing
      * easy object oriented they provide additional traceability, and assist in
      * troubleshooting and debugging failing tests. A failed assert will cause
      * the test to immediately stop on the error.
      */
-    public Verify verify() {
-        return verify;
+    public AssertEquals assertEquals() {
+        return assertEquals;
+    }
+
+    /**
+     * Asserts that the services response will not contain expected data.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented they provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests. A failed assert will cause
+     * the test to immediately stop on the error.
+     */
+    public AssertExcludes assertExcludes() {
+        return assertExcludes;
+    }
+
+    /**
+     * Verifies that the services response will contain expected data.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented they provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests. A failed assert will cause
+     * the test to immediately stop on the error.
+     */
+    public VerifyContains verifyContains() {
+        return verifyContains;
+    }
+
+    /**
+     * Verifies that the services response will equals expected data.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented they provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests. A failed assert will cause
+     * the test to immediately stop on the error.
+     */
+    public VerifyEquals verifyEquals() {
+        return verifyEquals;
+    }
+
+
+    /**
+     * Verifies that the services response will not contain expected data.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented they provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests. A failed assert will cause
+     * the test to immediately stop on the error.
+     */
+    public VerifyExcludes verifyExcludes() {
+        return verifyExcludes;
     }
 
     public Map<String, Object> getHeaders() {

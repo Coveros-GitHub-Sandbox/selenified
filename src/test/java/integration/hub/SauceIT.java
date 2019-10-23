@@ -1,6 +1,5 @@
 package integration.hub;
 
-import com.coveros.selenified.Browser;
 import com.coveros.selenified.Locator;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
@@ -12,15 +11,11 @@ import com.google.gson.JsonArray;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,9 +76,9 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String, Object> expectedResults = new HashMap<>();
         expectedResults.put("selenium_version", System.getProperty("selenium.version"));
-        response.azzert().contains(expectedResults);
+        response.assertContains().keyValues(expectedResults);
         finish();
     }
 
@@ -95,9 +90,9 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String, Object> expectedResults = new HashMap<>();
         expectedResults.put("passed", true);
-        response.azzert().contains(expectedResults);
+        response.assertContains().keyValues(expectedResults);
         finish();
     }
 
@@ -109,13 +104,13 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String, Object> expectedResults = new HashMap<>();
         JsonArray tags = new JsonArray();
         tags.add("hub");
         tags.add("integration");
         tags.add("sauce");
         expectedResults.put("tags", tags);
-        response.azzert().contains(expectedResults);
+        response.assertContains().keyValues(expectedResults);
         finish();
     }
 
@@ -128,9 +123,9 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String, Object> expectedResults = new HashMap<>();
         expectedResults.put("build", buildName);
-        response.azzert().contains(expectedResults);
+        response.assertContains().keyValues(expectedResults);
         finish();
     }
 
@@ -142,9 +137,9 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String, Object> expectedResults = new HashMap<>();
         expectedResults.put("name", "integration.hub.SauceIT.hubTitleTest");
-        response.azzert().contains(expectedResults);
+        response.assertContains().keyValues(expectedResults);
         finish();
     }
 
@@ -156,9 +151,9 @@ public class SauceIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("rest/v1/" + hub.getUsername() + "/jobs/" + paramSessionId.toString());
-        Map expectedResults = new HashMap<>();
+        Map<String, Object> expectedResults = new HashMap<>();
         expectedResults.put("name", "integration.hub.SauceIT.hubSearchTestWithOptionSelenifiedcoveroscom");
-        response.azzert().contains(expectedResults);
+        response.assertContains().keyValues(expectedResults);
         finish();
     }
 }

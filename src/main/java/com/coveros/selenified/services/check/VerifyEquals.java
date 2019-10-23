@@ -18,15 +18,14 @@
  * under the License.
  */
 
-package com.coveros.selenified.services;
+package com.coveros.selenified.services.check;
 
+import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Verify will handle all verifications performed on the actual web services
@@ -38,7 +37,7 @@ import java.util.Map;
  * @version 3.2.2
  * @lastupdate 6/25/2019
  */
-public class Verify extends Check {
+public class VerifyEquals extends Equals {
 
     /**
      * The default constructor passing in the app and output file
@@ -46,7 +45,7 @@ public class Verify extends Check {
      * @param response - the response from the web services call
      * @param reporter - the file to write all logging out to
      */
-    public Verify(Response response, Reporter reporter) {
+    public VerifyEquals(Response response, Reporter reporter) {
         this.response = response;
         this.reporter = reporter;
     }
@@ -63,8 +62,8 @@ public class Verify extends Check {
      */
     @Override
     @SuppressWarnings("squid:S1201")
-    public void equals(int expectedCode) {
-        checkEquals(expectedCode);
+    public void code(int expectedCode) {
+        checkCode(expectedCode);
     }
 
     /**
@@ -75,8 +74,8 @@ public class Verify extends Check {
      */
     @Override
     @SuppressWarnings("squid:S1201")
-    public void equals(JsonObject expectedJson) {
-        checkEquals(expectedJson);
+    public void objectData(JsonObject expectedJson) {
+        checkObjectData(expectedJson);
     }
 
     /**
@@ -87,8 +86,8 @@ public class Verify extends Check {
      */
     @Override
     @SuppressWarnings("squid:S1201")
-    public void equals(JsonArray expectedJson) {
-        checkEquals(expectedJson);
+    public void arrayData(JsonArray expectedJson) {
+        checkArrayData(expectedJson);
     }
 
     /**
@@ -101,8 +100,8 @@ public class Verify extends Check {
      */
     @Override
     @SuppressWarnings("squid:S1201")
-    public void equals(List<String> jsonKeys, Object expectedValue) {
-        checkEquals(jsonKeys, expectedValue);
+    public void nestedValue(List<String> jsonKeys, Object expectedValue) {
+        checkNestedValue(jsonKeys, expectedValue);
     }
 
     /**
@@ -113,67 +112,29 @@ public class Verify extends Check {
      */
     @Override
     @SuppressWarnings("squid:S1201")
-    public void equals(String expectedMessage) {
-        checkEquals(expectedMessage);
+    public void message(String expectedMessage) {
+        checkMessage(expectedMessage);
     }
 
     /**
-     * Verifies the actual response json payload contains each of the pair
-     * values provided, and writes that to the output file.
+     * Verifies the actual response payload contains the number of elements
+     * in an array as expected, and writes that out to the output file.
      *
-     * @param expectedPairs a hashmap with string key value pairs expected in the json
-     *                      response
+     * @param expectedSize - the expected array size
      */
     @Override
-    public void contains(Map<String, Object> expectedPairs) {
-        checkContains(expectedPairs);
+    public void arraySize(int expectedSize) {
+        checkArraySize(expectedSize);
     }
 
     /**
-     * Verifies the actual response json payload contains to the expected json
-     * element, and writes that out to the output file.
+     * Verifies the actual response payload contains a key with a value of the number of elements
+     * in an array as expected, and writes that out to the output file.
      *
-     * @param expectedJson - the expected response json array
+     * @param expectedSize - the expected array size
      */
     @Override
-    public void contains(JsonElement expectedJson) {
-        checkContains(expectedJson);
-    }
-
-    /**
-     * Verifies the actual response json payload contains a key containing a JsonObject
-     * containing each of the pair values provided. The jsonKeys should be passed in
-     * as crumbs of the keys leading to the field with
-     * the expected value. This result will be written out to the output file.
-     *
-     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
-     * @param expectedPairs - a hashmap with string key value pairs expected in the json
-     *                      response
-     */
-    public void contains(List<String> jsonKeys, Map<String, Object> expectedPairs) {
-        checkContains(jsonKeys, expectedPairs);
-    }
-
-    /**
-     * Verifies the actual response json payload contains a key containing a JsonElement.
-     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
-     * the expected value. This result will be written out to the output file.
-     *
-     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
-     * @param expectedJson - the expected response json array
-     */
-    public void contains(List<String> jsonKeys, JsonElement expectedJson) {
-        checkContains(jsonKeys, expectedJson);
-    }
-
-    /**
-     * Verifies the actual response json payload contains to the expected json
-     * element, and writes that out to the output file.
-     *
-     * @param expectedMessage - the expected response json array
-     */
-    @Override
-    public void contains(String expectedMessage) {
-        checkContains(expectedMessage);
+    public void nestedArraySize(List<String> jsonKeys, int expectedSize) {
+        checkNestedArraySize(jsonKeys, expectedSize);
     }
 }

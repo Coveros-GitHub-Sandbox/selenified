@@ -48,7 +48,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().equals(5);
+        response.verifyEquals().code(5);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a response code of <b>5</b></td>\n {4}<td>Found a response code of <b>5</b></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
@@ -59,7 +59,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().equals(6);
+        response.verifyEquals().code(6);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a response code of <b>6</b></td>\n {4}<td>Found a response code of <b>5</b></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
@@ -70,7 +70,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().equals(json);
+        response.verifyEquals().objectData(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -83,7 +83,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().equals(new JsonObject());
+        response.verifyEquals().objectData(new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -96,7 +96,7 @@ public class ServicesVerifyTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.verify().equals(new JsonObject());
+        response.verifyEquals().objectData(new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -109,7 +109,7 @@ public class ServicesVerifyTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.verify().equals(json);
+        response.verifyEquals().arrayData(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -122,7 +122,7 @@ public class ServicesVerifyTest {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.verify().equals(new JsonArray());
+        response.verifyEquals().arrayData(new JsonArray());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -135,7 +135,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().equals(new JsonArray());
+        response.verifyEquals().arrayData(new JsonArray());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -146,7 +146,7 @@ public class ServicesVerifyTest {
     @Test
     public void confirmEqualsMessagePassTest() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.verify().equals("Some message");
+        response.verifyEquals().message("Some message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -158,7 +158,7 @@ public class ServicesVerifyTest {
     @Test
     public void confirmEqualsMessageFailTest() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "SOME MESSAGE");
-        response.verify().equals("Some message");
+        response.verifyEquals().message("Some message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -170,7 +170,7 @@ public class ServicesVerifyTest {
     @Test
     public void confirmEqualsMessageNullTest() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.verify().equals("");
+        response.verifyEquals().message("");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -186,7 +186,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john");
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -201,7 +201,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -216,7 +216,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john1");
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -232,7 +232,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -248,7 +248,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -264,7 +264,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -280,7 +280,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -296,7 +296,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -312,7 +312,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -328,7 +328,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5f);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -344,7 +344,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5f);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -360,7 +360,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5f);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -376,7 +376,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5L);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -392,7 +392,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5L);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -408,7 +408,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6L);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -424,7 +424,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", true);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -440,7 +440,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", true);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -456,7 +456,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", false);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -472,7 +472,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 0);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -488,7 +488,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", (byte) 0);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -504,7 +504,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 1);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -520,7 +520,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'a');
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -536,7 +536,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 'a');
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -552,7 +552,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'b');
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -571,7 +571,7 @@ public class ServicesVerifyTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().contains(map);
+        response.verifyContains().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -594,7 +594,7 @@ public class ServicesVerifyTest {
         badChild.addProperty("first", "john");
         Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
-        response.verify().contains(map);
+        response.verifyContains().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -614,7 +614,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
-        response.verify().contains(map);
+        response.verifyContains().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -635,7 +635,7 @@ public class ServicesVerifyTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().contains(map);
+        response.verifyContains().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -657,7 +657,7 @@ public class ServicesVerifyTest {
         badChild.add("john");
         Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
-        response.verify().contains(map);
+        response.verifyContains().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -678,7 +678,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
-        response.verify().contains(map);
+        response.verifyContains().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -697,7 +697,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, null, json, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -713,7 +713,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
-        response.verify().contains(pairs);
+        response.verifyContains().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches("[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}" +
                 "<td>Expected to find a response containing: <div><i><div>name : 5</div></i></div></td>\n {4}" +
@@ -730,7 +730,7 @@ public class ServicesVerifyTest {
         JsonArray json = new JsonArray();
         json.add(child);
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.verify().contains(child);
+        response.verifyContains().value(child);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -750,7 +750,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, null, json, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
-        response.verify().contains(badChild);
+        response.verifyContains().value(badChild);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -766,7 +766,7 @@ public class ServicesVerifyTest {
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().contains(json);
+        response.verifyContains().value(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -779,7 +779,7 @@ public class ServicesVerifyTest {
     @Test
     public void confirmContainsMessagePassTest() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.verify().contains("message");
+        response.verifyContains().message("message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -791,7 +791,7 @@ public class ServicesVerifyTest {
     @Test
     public void confirmContainsMessageFailTest() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.verify().contains("message ");
+        response.verifyContains().message("message ");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -803,7 +803,7 @@ public class ServicesVerifyTest {
     @Test
     public void confirmContainsMessageNullTest() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.verify().contains("");
+        response.verifyContains().message("");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -815,7 +815,7 @@ public class ServicesVerifyTest {
     @Test
     public void confirmContainsMessageNull2Test() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.verify().contains("null");
+        response.verifyContains().message("null");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -827,7 +827,7 @@ public class ServicesVerifyTest {
     @Test
     public void confirmEqualsCrumbsNoJsonObject() throws IOException {
         Response response = new Response(reporter, null, 5, null, null, null);
-        response.verify().equals(new ArrayList<>(), "name");
+        response.verifyEquals().nestedValue(new ArrayList<>(), "name");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -846,7 +846,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, null, json, null);
         List<String> list = new ArrayList<>();
         list.add("name");
-        response.verify().equals(list, "john");
+        response.verifyEquals().nestedValue(list, "john");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -867,7 +867,7 @@ public class ServicesVerifyTest {
         List<String> list = new ArrayList<>();
         list.add("first");
         list.add("last");
-        response.verify().equals(list, "john");
+        response.verifyEquals().nestedValue(list, "john");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -884,7 +884,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> list = new ArrayList<>();
         list.add("first");
-        response.verify().equals(list, "john");
+        response.verifyEquals().nestedValue(list, "john");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -901,7 +901,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> list = new ArrayList<>();
         list.add("first");
-        response.verify().equals(list, "janice");
+        response.verifyEquals().nestedValue(list, "janice");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -915,7 +915,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verify().contains(crumbs, new HashMap<>());
+        response.verifyContains().nestedKeyValues(crumbs, new HashMap<>());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -932,7 +932,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.verify().contains(new ArrayList<>(), map);
+        response.verifyContains().nestedKeyValues(new ArrayList<>(), map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -951,7 +951,7 @@ public class ServicesVerifyTest {
         crumbs.add("last");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.verify().contains(crumbs, map);
+        response.verifyContains().nestedKeyValues(crumbs, map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -970,7 +970,7 @@ public class ServicesVerifyTest {
         crumbs.add("first");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.verify().contains(crumbs, map);
+        response.verifyContains().nestedKeyValues(crumbs, map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -991,7 +991,7 @@ public class ServicesVerifyTest {
         crumbs.add("name");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.verify().contains(crumbs, map);
+        response.verifyContains().nestedKeyValues(crumbs, map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -1012,7 +1012,7 @@ public class ServicesVerifyTest {
         crumbs.add("name");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "janice");
-        response.verify().contains(crumbs, map);
+        response.verifyContains().nestedKeyValues(crumbs, map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -1026,7 +1026,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verify().contains(crumbs, new JsonObject());
+        response.verifyContains().nestedValue(crumbs, new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -1049,7 +1049,7 @@ public class ServicesVerifyTest {
         JsonObject json = new JsonObject();
         json.add("name", array);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verify().contains(new ArrayList<>(), john);
+        response.verifyContains().nestedValue(new ArrayList<>(), john);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -1070,7 +1070,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         JsonObject expected = new JsonObject();
         expected.addProperty("name", "john");
-        response.verify().contains(new ArrayList<>(), expected);
+        response.verifyContains().nestedValue(new ArrayList<>(), expected);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -1091,7 +1091,7 @@ public class ServicesVerifyTest {
         crumbs.add("name");
         JsonObject expected = new JsonObject();
         expected.addProperty("name", "john");
-        response.verify().contains(crumbs, expected);
+        response.verifyContains().nestedValue(crumbs, expected);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
@@ -1117,7 +1117,7 @@ public class ServicesVerifyTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verify().contains(crumbs, john);
+        response.verifyContains().nestedValue(crumbs, john);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a response of: '<i>name</i>' " +
@@ -1147,7 +1147,7 @@ public class ServicesVerifyTest {
         crumbs.add("name");
         JsonObject expected = new JsonObject();
         john.addProperty("first", "john");
-        response.verify().contains(crumbs, expected);
+        response.verifyContains().nestedValue(crumbs, expected);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
