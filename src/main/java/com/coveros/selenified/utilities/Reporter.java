@@ -57,7 +57,7 @@ import static com.coveros.selenified.utilities.Constants.END_IDIV;
  * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
- * @version 3.2.2
+ * @version 3.3.0
  * @lastupdate 8/18/2019
  */
 public class Reporter {

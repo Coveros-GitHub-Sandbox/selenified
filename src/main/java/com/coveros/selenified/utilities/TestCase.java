@@ -27,7 +27,7 @@ import java.util.Random;
  * Manages the test cases, including naming conventions and formatting
  *
  * @author Max Saperstone
- * @version 3.2.2
+ * @version 3.3.0
  * @lastupdate 6/28/2019
  */
 public class TestCase {

@@ -36,7 +36,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.2.2
+ * @version 3.3.0
  * @lastupdate 6/25/2019
  */
 public class AssertEquals extends Equals {

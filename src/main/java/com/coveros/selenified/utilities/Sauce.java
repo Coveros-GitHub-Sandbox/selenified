@@ -37,7 +37,7 @@ import static com.coveros.selenified.utilities.Property.getProgramProperty;
  * Utilities class to interact with sauce labs, retrieving information such as username, key, and test status
  *
  * @author Max Saperstone
- * @version 3.2.2
+ * @version 3.3.0
  * @lastupdate 8/18/2019
  */
 public class Sauce extends Hub {

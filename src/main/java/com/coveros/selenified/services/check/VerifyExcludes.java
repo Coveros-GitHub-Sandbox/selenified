@@ -30,7 +30,7 @@ import com.coveros.selenified.utilities.Reporter;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.2.2
+ * @version 3.3.0
  * @lastupdate 6/25/2019
  */
 public class VerifyExcludes extends Excludes {
