@@ -61,7 +61,6 @@ public class VerifyEquals extends Equals {
      * @param expectedCode - the expected response code
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void code(int expectedCode) {
         checkCode(expectedCode);
     }
@@ -73,7 +72,6 @@ public class VerifyEquals extends Equals {
      * @param expectedJson - the expected response json object
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void objectData(JsonObject expectedJson) {
         checkObjectData(expectedJson);
     }
@@ -85,7 +83,6 @@ public class VerifyEquals extends Equals {
      * @param expectedJson - the expected response json array
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void arrayData(JsonArray expectedJson) {
         checkArrayData(expectedJson);
     }
@@ -99,7 +96,6 @@ public class VerifyEquals extends Equals {
      * @param expectedValue - the expected value
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void nestedValue(List<String> jsonKeys, Object expectedValue) {
         checkNestedValue(jsonKeys, expectedValue);
     }
@@ -111,7 +107,6 @@ public class VerifyEquals extends Equals {
      * @param expectedMessage - the expected response message
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void message(String expectedMessage) {
         checkMessage(expectedMessage);
     }

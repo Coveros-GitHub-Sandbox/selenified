@@ -64,7 +64,6 @@ public class AssertEquals extends Equals {
      * @param expectedCode - the expected response code
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void code(int expectedCode) {
         assertEquals("Code Mismatch", expectedCode, checkCode(expectedCode));
     }
@@ -77,7 +76,6 @@ public class AssertEquals extends Equals {
      * @param expectedJson - the expected response json object
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void objectData(JsonObject expectedJson) {
         assertEquals("JsonObject Response Mismatch", expectedJson, checkObjectData(expectedJson));
     }
@@ -90,7 +88,6 @@ public class AssertEquals extends Equals {
      * @param expectedJson - the expected response json array
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void arrayData(JsonArray expectedJson) {
         assertEquals("JsonArray Response Mismatch", expectedJson, checkArrayData(expectedJson));
     }
@@ -105,7 +102,6 @@ public class AssertEquals extends Equals {
      * @param expectedValue - the expected value
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void nestedValue(List<String> jsonKeys, Object expectedValue) {
         assertEquals("JsonElement Response Mismatch", expectedValue, checkNestedValue(jsonKeys, expectedValue));
     }
@@ -118,7 +114,6 @@ public class AssertEquals extends Equals {
      * @param expectedMessage - the expected response message
      */
     @Override
-    @SuppressWarnings("squid:S1201")
     public void message(String expectedMessage) {
         assertEquals("Response Message Mismatch", expectedMessage, checkMessage(expectedMessage));
     }

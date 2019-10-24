@@ -20,7 +20,7 @@ import java.util.*;
 
 import static org.testng.Assert.assertTrue;
 
-public class ServicesVerifyContainsTest {
+public class ServicesVerifyExcludesTest {
 
     private Reporter reporter;
     private File directory;
@@ -42,389 +42,389 @@ public class ServicesVerifyContainsTest {
     }
 
     @Test
-    public void confirmContainsPairsStringPassTest() throws IOException {
+    public void confirmExcludesPairsStringPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john");
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : john</div></i></div></td>\n {4}<td>Found a response of: " +
-                        "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "response excluding: <div><i><div>name : john</div></i></div></td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsStringFailsTest() throws IOException {
+    public void confirmExcludesPairsStringFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : john</div></i></div></td>\n {4}<td>Found a response of: " +
-                        "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "response excluding: <div><i><div>name1 : john</div></i></div></td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsStringFails2Test() throws IOException {
+    public void confirmExcludesPairsStringFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john1");
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : john1</div></i></div></td>\n {4}<td>Found a " +
+                        "response excluding: <div><i><div>name : john1</div></i></div></td>\n {4}<td>Found a " +
                         "response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div>" +
-                        "</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsIntegerPassTest() throws IOException {
+    public void confirmExcludesPairsIntegerPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 5</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : 5</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsIntegerFailsTest() throws IOException {
+    public void confirmExcludesPairsIntegerFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : 5</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name1 : 5</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsIntegerFails2Test() throws IOException {
+    public void confirmExcludesPairsIntegerFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 6</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : 6</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsDoublePassTest() throws IOException {
+    public void confirmExcludesPairsDoublePassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 5.5</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : 5.5</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5.5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsDoubleFailsTest() throws IOException {
+    public void confirmExcludesPairsDoubleFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : 5.5</div></i></div></td>\n {4}<td>Found a response" +
+                        "response excluding: <div><i><div>name1 : 5.5</div></i></div></td>\n {4}<td>Found a response" +
                         " of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5.5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsDoubleFails2Test() throws IOException {
+    public void confirmExcludesPairsDoubleFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 6.5</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : 6.5</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5.5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsFloatPassTest() throws IOException {
+    public void confirmExcludesPairsFloatPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5f);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 5.5</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : 5.5</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5.5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsFloatFailsTest() throws IOException {
+    public void confirmExcludesPairsFloatFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5f);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : 5.5</div></i></div></td>\n {4}<td>Found a response" +
+                        "response excluding: <div><i><div>name1 : 5.5</div></i></div></td>\n {4}<td>Found a response" +
                         " of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5.5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsFloatFails2Test() throws IOException {
+    public void confirmExcludesPairsFloatFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5f);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 6.5</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : 6.5</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5.5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsLongPassTest() throws IOException {
+    public void confirmExcludesPairsLongPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5L);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 5</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : 5</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsLongFailsTest() throws IOException {
+    public void confirmExcludesPairsLongFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5L);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : 5</div></i></div></td>\n {4}<td>Found a response" +
+                        "response excluding: <div><i><div>name1 : 5</div></i></div></td>\n {4}<td>Found a response" +
                         " of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsLongFails2Test() throws IOException {
+    public void confirmExcludesPairsLongFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6L);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 6</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : 6</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;5<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsBooleanPassTest() throws IOException {
+    public void confirmExcludesPairsBooleanPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", true);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : true</div></i></div></td>\n {4}<td>Found a response" +
+                        "response excluding: <div><i><div>name : true</div></i></div></td>\n {4}<td>Found a response" +
                         " of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;true<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsBooleanFailsTest() throws IOException {
+    public void confirmExcludesPairsBooleanFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", true);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : true</div></i></div></td>\n {4}<td>Found a " +
+                        "response excluding: <div><i><div>name1 : true</div></i></div></td>\n {4}<td>Found a " +
                         "response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;true<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsBooleanFails2Test() throws IOException {
+    public void confirmExcludesPairsBooleanFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", false);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : false</div></i></div></td>\n {4}<td>Found a " +
+                        "response excluding: <div><i><div>name : false</div></i></div></td>\n {4}<td>Found a " +
                         "response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;true<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsBytePassTest() throws IOException {
+    public void confirmExcludesPairsBytePassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 0);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 0</div></i></div></td>\n {4}<td>Found a response" +
+                        "response excluding: <div><i><div>name : 0</div></i></div></td>\n {4}<td>Found a response" +
                         " of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;0<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsByteFailsTest() throws IOException {
+    public void confirmExcludesPairsByteFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", (byte) 0);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : 0</div></i></div></td>\n {4}<td>Found a " +
+                        "response excluding: <div><i><div>name1 : 0</div></i></div></td>\n {4}<td>Found a " +
                         "response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;0<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsByteFails2Test() throws IOException {
+    public void confirmExcludesPairsByteFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 1);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : 1</div></i></div></td>\n {4}<td>Found a " +
+                        "response excluding: <div><i><div>name : 1</div></i></div></td>\n {4}<td>Found a " +
                         "response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;0<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsCharacterPassTest() throws IOException {
+    public void confirmExcludesPairsCharacterPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'a');
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : a</div></i></div></td>\n {4}<td>Found a response" +
+                        "response excluding: <div><i><div>name : a</div></i></div></td>\n {4}<td>Found a response" +
                         " of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"a\"<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsCharacterFailsTest() throws IOException {
+    public void confirmExcludesPairsCharacterFailsTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 'a');
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : a</div></i></div></td>\n {4}<td>Found a " +
+                        "response excluding: <div><i><div>name1 : a</div></i></div></td>\n {4}<td>Found a " +
                         "response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"a\"<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsCharacterFails2Test() throws IOException {
+    public void confirmExcludesPairsCharacterFails2Test() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'b');
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : b</div></i></div></td>\n {4}<td>Found a " +
+                        "response excluding: <div><i><div>name : b</div></i></div></td>\n {4}<td>Found a " +
                         "response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"a\"<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsJsonObjectPassTest() throws IOException {
+    public void confirmExcludesPairsJsonObjectPassTest() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -433,19 +433,19 @@ public class ServicesVerifyContainsTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verifyContains().keyValues(map);
+        response.verifyExcludes().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : \\{\"first\":\"john\"," +
+                        "response excluding: <div><i><div>name : \\{\"first\":\"john\"," +
                         "\"last\":\"smith\"}</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;" +
                         "&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>&nbsp;&nbsp;}<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsJsonObjectFailTest() throws IOException {
+    public void confirmExcludesPairsJsonObjectFailTest() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -456,18 +456,18 @@ public class ServicesVerifyContainsTest {
         badChild.addProperty("first", "john");
         Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
-        response.verifyContains().keyValues(map);
+        response.verifyExcludes().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : \\{\"first\":\"john\"}</div></i></div></td>\n {4}" +
+                        "response excluding: <div><i><div>name : \\{\"first\":\"john\"}</div></i></div></td>\n {4}" +
                         "<td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;" +
                         "\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>&nbsp;&nbsp;}<br/>}" +
-                        "</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsJsonObjectFail2Test() throws IOException {
+    public void confirmExcludesPairsJsonObjectFail2Test() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -476,19 +476,19 @@ public class ServicesVerifyContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
-        response.verifyContains().keyValues(map);
+        response.verifyExcludes().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : \\{\"first\":\"john\"," +
+                        "response excluding: <div><i><div>name1 : \\{\"first\":\"john\"," +
                         "\"last\":\"smith\"}</div></i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"john\"," +
                         "<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>&nbsp;&nbsp;}<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsJsonArrayPassTest() throws IOException {
+    public void confirmExcludesPairsJsonArrayPassTest() throws IOException {
         JsonArray child = new JsonArray();
         child.add("john");
         child.add("smith");
@@ -497,18 +497,18 @@ public class ServicesVerifyContainsTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verifyContains().keyValues(map);
+        response.verifyExcludes().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : \\[\"john\",\"smith\"]</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : \\[\"john\",\"smith\"]</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\\[<br/>&nbsp;&nbsp;&nbsp;" +
                         "&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"smith\"<br/>&nbsp;&nbsp;" +
-                        "]<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "]<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsJsonArrayFailTest() throws IOException {
+    public void confirmExcludesPairsJsonArrayFailTest() throws IOException {
         JsonArray child = new JsonArray();
         child.add("john");
         child.add("smith");
@@ -519,19 +519,19 @@ public class ServicesVerifyContainsTest {
         badChild.add("john");
         Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
-        response.verifyContains().keyValues(map);
+        response.verifyExcludes().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : \\[\"john\"]</div></i></div></td>\n {4}<td>Found a response " +
+                        "response excluding: <div><i><div>name : \\[\"john\"]</div></i></div></td>\n {4}<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\\[<br/>&nbsp;&nbsp;&nbsp;" +
                         "&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"smith\"<br/>&nbsp;&nbsp;" +
-                        "]<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}" +
+                        "]<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}" +
                         "</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsJsonArrayFail2Test() throws IOException {
+    public void confirmExcludesPairsJsonArrayFail2Test() throws IOException {
         JsonArray child = new JsonArray();
         child.add("john");
         child.add("smith");
@@ -540,70 +540,70 @@ public class ServicesVerifyContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
-        response.verifyContains().keyValues(map);
+        response.verifyExcludes().keyValues(map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : \\[\"john\",\"smith\"]</div></i></div></td>\n {4}" +
+                        "response excluding: <div><i><div>name1 : \\[\"john\",\"smith\"]</div></i></div></td>\n {4}" +
                         "<td>Found a response " +
                         "of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\\[<br/>&nbsp;&nbsp;&nbsp;" +
                         "&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"smith\"<br/>&nbsp;&nbsp;" +
-                        "]<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}" +
+                        "]<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}" +
                         "</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsNullTest() throws IOException {
+    public void confirmExcludesPairsNullTest() throws IOException {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(reporter, null, 5, null, json, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name1 : john</div></i></div></td>\n {4}<td>Found a response of: " +
+                        "response excluding: <div><i><div>name1 : john</div></i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>\\[<br/>&nbsp;&nbsp;\"name\"<br/>]</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}" +
-                        "<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsPairsMismatchTest() throws IOException {
+    public void confirmExcludesPairsMismatchTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
-        response.verifyContains().keyValues(pairs);
+        response.verifyExcludes().keyValues(pairs);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches("[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}" +
-                "<td>Expected to find a response containing: <div><i><div>name : 5</div></i></div></td>\n {4}" +
+                "<td>Expected to find a response excluding: <div><i><div>name : 5</div></i></div></td>\n {4}" +
                 "<td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;" +
                 "5<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}" +
-                "<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                "<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsArrayPassTest() throws IOException {
+    public void confirmExcludesArrayPassTest() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
         JsonArray json = new JsonArray();
         json.add(child);
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.verifyContains().value(child);
+        response.verifyExcludes().value(child);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":" +
+                        "response excluding: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":" +
                         "&nbsp;\"smith\"<br/>}</i></div></td>\n {4}<td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{" +
                         "<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"smith\"" +
-                        "<br/>&nbsp;&nbsp;}<br/>]</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "<br/>&nbsp;&nbsp;}<br/>]</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsArrayFailTest() throws IOException {
+    public void confirmExcludesArrayFailTest() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -612,113 +612,113 @@ public class ServicesVerifyContainsTest {
         Response response = new Response(reporter, null, 5, null, json, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
-        response.verifyContains().value(badChild);
+        response.verifyExcludes().value(badChild);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}" +
+                        "response excluding: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}" +
                         "<td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;" +
                         "\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>&nbsp;&nbsp;}<br/>]</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsArrayNullTest() throws IOException {
+    public void confirmExcludesArrayNullTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verifyContains().value(json);
+        response.verifyExcludes().value(json);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\"" +
+                        "response excluding: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\"" +
                         ":&nbsp;\"smith\"<br/>}</i></div></td>\n {4}<td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;" +
                         "\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}</i></div></td>\n {4}<td>" +
-                        "[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsMessagePassTest() throws IOException {
+    public void confirmExcludesMessagePassTest() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.verifyContains().message("message");
+        response.verifyExcludes().message("message");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: '<i>message</i>'</td>\n {4}<td>Found a response of: " +
+                        "response excluding: '<i>message</i>'</td>\n {4}<td>Found a response of: " +
+                        "'<i>Some message</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmExcludesMessageFailTest() throws IOException {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
+        response.verifyExcludes().message("message ");
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response excluding: '<i>message </i>'</td>\n {4}<td>Found a response of: " +
                         "'<i>Some message</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
                         "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsMessageFailTest() throws IOException {
-        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.verifyContains().message("message ");
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.matches(
-                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: '<i>message </i>'</td>\n {4}<td>Found a response of: " +
-                        "'<i>Some message</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
-    }
-
-    @Test
-    public void confirmContainsMessageNullTest() throws IOException {
+    public void confirmExcludesMessageNullTest() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.verifyContains().message("");
+        response.verifyExcludes().message("");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: '<i></i>'</td>\n {4}<td>Found a response of: " +
+                        "response excluding: '<i></i>'</td>\n {4}<td>Found a response of: " +
                         "'<i>null</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsMessageNull2Test() throws IOException {
+    public void confirmExcludesMessageNull2Test() throws IOException {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.verifyContains().message("null");
+        response.verifyExcludes().message("null");
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: '<i>null</i>'</td>\n {4}<td>Found a response of: " +
+                        "response excluding: '<i>null</i>'</td>\n {4}<td>Found a response of: " +
                         "'<i>null</i>'</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsPairNullObject() throws IOException {
+    public void confirmExcludesCrumbsPairNullObject() throws IOException {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verifyContains().nestedKeyValues(crumbs, new HashMap<>());
+        response.verifyExcludes().nestedKeyValues(crumbs, new HashMap<>());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>name</i>' containing: <div><i></i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>name</i>' excluding: <div><i></i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>null</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsPairEmptyCrumbs() throws IOException {
+    public void confirmExcludesCrumbsPairEmptyCrumbs() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.verifyContains().nestedKeyValues(new ArrayList<>(), map);
+        response.verifyExcludes().nestedKeyValues(new ArrayList<>(), map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i></i>' containing: <div><i><div>first : john</div></i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i></i>' excluding: <div><i><div>first : john</div></i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}</i></div>" +
-                        "</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsPairCrumbsNotExist() throws IOException {
+    public void confirmExcludesCrumbsPairCrumbsNotExist() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
@@ -727,17 +727,17 @@ public class ServicesVerifyContainsTest {
         crumbs.add("last");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.verifyContains().nestedKeyValues(crumbs, map);
+        response.verifyExcludes().nestedKeyValues(crumbs, map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>last</i>' containing: <div><i><div>first : john</div></i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>last</i>' excluding: <div><i><div>first : john</div></i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>null</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsPairNotJsonObject() throws IOException {
+    public void confirmExcludesCrumbsPairNotJsonObject() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
@@ -746,17 +746,17 @@ public class ServicesVerifyContainsTest {
         crumbs.add("first");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.verifyContains().nestedKeyValues(crumbs, map);
+        response.verifyExcludes().nestedKeyValues(crumbs, map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>first</i>' containing: <div><i><div>first : john</div></i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>first</i>' excluding: <div><i><div>first : john</div></i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>null</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsPairMatch() throws IOException {
+    public void confirmExcludesCrumbsPairMatch() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -767,17 +767,17 @@ public class ServicesVerifyContainsTest {
         crumbs.add("name");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.verifyContains().nestedKeyValues(crumbs, map);
+        response.verifyExcludes().nestedKeyValues(crumbs, map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>name</i>' containing: <div><i><div>first : john</div></i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>name</i>' excluding: <div><i><div>first : john</div></i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}" +
-                        "</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsPairMismatch() throws IOException {
+    public void confirmExcludesCrumbsPairMismatch() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -788,31 +788,31 @@ public class ServicesVerifyContainsTest {
         crumbs.add("name");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "janice");
-        response.verifyContains().nestedKeyValues(crumbs, map);
+        response.verifyExcludes().nestedKeyValues(crumbs, map);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>name</i>' containing: <div><i><div>first : janice</div></i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>name</i>' excluding: <div><i><div>first : janice</div></i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}</i>" +
-                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsJsonElementNullObject() throws IOException {
+    public void confirmExcludesCrumbsJsonElementNullObject() throws IOException {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verifyContains().nestedValue(crumbs, new JsonObject());
+        response.verifyExcludes().nestedValue(crumbs, new JsonObject());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>name</i>' containing: <div><i>\\{}</i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>name</i>' excluding: <div><i>\\{}</i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>null</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsJsonElementEmptyCrumbs() throws IOException {
+    public void confirmExcludesCrumbsJsonElementEmptyCrumbs() throws IOException {
         JsonArray array = new JsonArray();
         JsonObject john = new JsonObject();
         john.addProperty("first", "john");
@@ -825,39 +825,39 @@ public class ServicesVerifyContainsTest {
         JsonObject json = new JsonObject();
         json.add("name", array);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verifyContains().nestedValue(new ArrayList<>(), john);
+        response.verifyExcludes().nestedValue(new ArrayList<>(), john);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i></i>' containing: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;" +
+                        "response of: '<i></i>' excluding: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;" +
                         "\"last\":&nbsp;\"doe\"<br/>}</i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\\[<br/>&nbsp;&nbsp;&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                         "\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"doe\"<br/>&nbsp;&nbsp;&nbsp;&nbsp;}," +
                         "<br/>&nbsp;&nbsp;&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"jon\"," +
                         "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"doe\"<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/>&nbsp;&nbsp;]<br/>}" +
-                        "</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsJsonElementCrumbsNotExist() throws IOException {
+    public void confirmExcludesCrumbsJsonElementCrumbsNotExist() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
         JsonObject expected = new JsonObject();
         expected.addProperty("name", "john");
-        response.verifyContains().nestedValue(new ArrayList<>(), expected);
+        response.verifyExcludes().nestedValue(new ArrayList<>(), expected);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i></i>' containing: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i></i>' excluding: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}</i></div></td>\n {4}" +
                         "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsJsonElementNotJsonObject() throws IOException {
+    public void confirmExcludesCrumbsJsonElementNotJsonObject() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
@@ -867,18 +867,18 @@ public class ServicesVerifyContainsTest {
         crumbs.add("name");
         JsonObject expected = new JsonObject();
         expected.addProperty("name", "john");
-        response.verifyContains().nestedValue(crumbs, expected);
+        response.verifyExcludes().nestedValue(crumbs, expected);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>first&nbsp;\uD83E\uDC1A&nbsp;name</i>' containing: <div><i>\\{<br/>&nbsp;&nbsp;" +
+                        "response of: '<i>first&nbsp;\uD83E\uDC1A&nbsp;name</i>' excluding: <div><i>\\{<br/>&nbsp;&nbsp;" +
                         "\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>null</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test()
-    public void confirmContainsCrumbsJsonElementMatch() throws IOException {
+    public void confirmExcludesCrumbsJsonElementMatch() throws IOException {
         JsonArray array = new JsonArray();
         JsonObject john = new JsonObject();
         john.addProperty("first", "john");
@@ -893,20 +893,20 @@ public class ServicesVerifyContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verifyContains().nestedValue(crumbs, john);
+        response.verifyExcludes().nestedValue(crumbs, john);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a response of: '<i>name</i>' " +
-                        "containing: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":" +
+                        "excluding: <div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":" +
                         "&nbsp;\"doe\"<br/>}</i></div></td>\n {4}<td>Found a response of: <div><i>\\[<br/>&nbsp;&nbsp;\\{" +
                         "<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"doe\"<br/>&nbsp;&nbsp;}," +
                         "<br/>&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"jon\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":" +
                         "&nbsp;\"doe\"<br/>&nbsp;&nbsp;}<br/>]</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsJsonElementMismatch() throws IOException {
+    public void confirmExcludesCrumbsJsonElementMismatch() throws IOException {
         JsonArray array = new JsonArray();
         JsonObject john = new JsonObject();
         john.addProperty("first", "john");
@@ -923,127 +923,127 @@ public class ServicesVerifyContainsTest {
         crumbs.add("name");
         JsonObject expected = new JsonObject();
         john.addProperty("first", "john");
-        response.verifyContains().nestedValue(crumbs, expected);
+        response.verifyExcludes().nestedValue(crumbs, expected);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>name</i>' containing: <div><i>\\{}</i></div></td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>name</i>' excluding: <div><i>\\{}</i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>\\[<br/>&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;\"doe\"" +
                         "<br/>&nbsp;&nbsp;},<br/>&nbsp;&nbsp;\\{<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"first\":&nbsp;\"jon\",<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"last\":&nbsp;" +
                         "\"doe\"<br/>&nbsp;&nbsp;}<br/>]</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+    }
+
+    @Test
+    public void confirmExcludesKeysStringPassTest() throws IOException {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "john");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.verifyExcludes().keys(Collections.singletonList("name"));
+        String content = Files.toString(file, Charsets.UTF_8);
+        assertTrue(content.matches(
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response excluding keys: '<i>name</i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i>" +
+                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
                         "class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsKeysStringPassTest() throws IOException {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", "john");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.verifyContains().keys(Collections.singletonList("name"));
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.matches(
-                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing keys: '<i>name</i>'</td>\n {4}<td>Found a response of: " +
-                        "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i>" +
-                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='pass'>PASS</td>\n {3}</tr>\n"));
-    }
-
-    @Test
-    public void confirmContainsKeysMultipleStringPassTest() throws IOException {
+    public void confirmExcludesKeysMultipleStringPassTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verifyContains().keys(Arrays.asList("first", "last"));
+        response.verifyExcludes().keys(Arrays.asList("first", "last"));
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing keys: '<i>first</i>', '<i>last</i>'</td>\n {4}<td>Found a response of: " +
+                        "response excluding keys: '<i>first</i>', '<i>last</i>'</td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"john\"<br/>}</i>" +
                         "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
-                        "class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsKeysMultipleStringFailTest() throws IOException {
+    public void confirmExcludesKeysMultipleStringFailTest() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verifyContains().keys(Arrays.asList("first", "name"));
+        response.verifyExcludes().keys(Arrays.asList("first", "name"));
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing keys: '<i>first</i>', '<i>name</i>'</td>\n {4}<td>Found a response of: " +
+                        "response excluding keys: '<i>first</i>', '<i>name</i>'</td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"john\"<br/>}</i>" +
                         "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsKeyNullObject() throws IOException {
+    public void confirmExcludesCrumbsKeyNullObject() throws IOException {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verifyContains().nestedKeys(crumbs, new ArrayList<>());
+        response.verifyExcludes().nestedKeys(crumbs, new ArrayList<>());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>name</i>' containing keys: '<i></i>'</td>\n {4}<td>Found a response of: " +
-                        "<div><i>null</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "response of: '<i>name</i>' excluding keys: '<i></i>'</td>\n {4}<td>Found a response of: " +
+                        "<div><i>null</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsKeyEmptyCrumbs() throws IOException {
+    public void confirmExcludesCrumbsKeyEmptyCrumbs() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.verifyContains().nestedKeys(new ArrayList<>(), Collections.emptyList());
+        response.verifyExcludes().nestedKeys(new ArrayList<>(), Collections.emptyList());
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i></i>' containing keys: '<i></i>'</td>\n {4}<td>Found a response of: " +
+                        "response of: '<i></i>' excluding keys: '<i></i>'</td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}</i>" +
-                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsKeyCrumbsNotExist() throws IOException {
+    public void confirmExcludesCrumbsKeyCrumbsNotExist() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("last");
-        response.verifyContains().nestedKeys(crumbs, Collections.singletonList("first"));
+        response.verifyExcludes().nestedKeys(crumbs, Collections.singletonList("first"));
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i></i>' containing keys: '<i></i>'</td>\n {4}<td>Found a response of: " +
+                        "response of: '<i></i>' excluding keys: '<i></i>'</td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}</i>" +
-                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsKeyNotJsonObject() throws IOException {
+    public void confirmExcludesCrumbsKeyNotJsonObject() throws IOException {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("first");
-        response.verifyContains().nestedKeys(crumbs, Collections.singletonList("first"));
+        response.verifyExcludes().nestedKeys(crumbs, Collections.singletonList("first"));
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i></i>' containing keys: '<i></i>'</td>\n {4}<td>Found a response of: " +
+                        "response of: '<i></i>' excluding keys: '<i></i>'</td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}</i>" +
-                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsKeyMatch() throws IOException {
+    public void confirmExcludesCrumbsKeyMatch() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -1052,17 +1052,17 @@ public class ServicesVerifyContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verifyContains().nestedKeys(crumbs, Collections.singletonList("first"));
+        response.verifyExcludes().nestedKeys(crumbs, Collections.singletonList("first"));
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>name</i>' containing keys: '<i>first</i>'</td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>name</i>' excluding keys: '<i>first</i>'</td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}</i>" +
-                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "</div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
-    public void confirmContainsCrumbsKeyMismatch() throws IOException {
+    public void confirmExcludesCrumbsKeyMismatch() throws IOException {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -1071,12 +1071,12 @@ public class ServicesVerifyContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.verifyContains().nestedKeys(crumbs, Collections.singletonList("first"));
+        response.verifyExcludes().nestedKeys(crumbs, Collections.singletonList("first"));
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>name</i>' containing keys: '<i>first</i>'</td>\n {4}<td>Found a response of: " +
+                        "response of: '<i>name</i>' excluding keys: '<i>first</i>'</td>\n {4}<td>Found a response of: " +
                         "<div><i>\\{<br/>&nbsp;&nbsp;\"first\":&nbsp;\"john\",<br/>&nbsp;&nbsp;\"last\":&nbsp;\"smith\"<br/>}" +
-                        "</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 }

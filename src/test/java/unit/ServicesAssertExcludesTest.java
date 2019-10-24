@@ -6,8 +6,6 @@ import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.testng.annotations.AfterMethod;
@@ -15,12 +13,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
-import static org.testng.Assert.assertTrue;
-
-public class ServicesAssertContainsTest {
+public class ServicesAssertExcludesTest {
 
     private Reporter reporter;
     private File directory;
@@ -40,254 +35,238 @@ public class ServicesAssertContainsTest {
         directory.delete();
     }
 
-    @Test
-    public void confirmContainsPairsStringPassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsStringPassTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john");
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsStringFailsTest() {
+    @Test
+    public void confirmExcludesPairsStringFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsStringFails2Test() {
+    @Test
+    public void confirmExcludesPairsStringFails2Test() {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", "john1");
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsPairsIntegerPassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsIntegerPassTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsIntegerFailsTest() {
+    @Test
+    public void confirmExcludesPairsIntegerFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsIntegerFails2Test() {
+    @Test
+    public void confirmExcludesPairsIntegerFails2Test() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsPairsDoublePassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsDoublePassTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsDoubleFailsTest() {
+    @Test
+    public void confirmExcludesPairsDoubleFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsDoubleFails2Test() {
+    @Test
+    public void confirmExcludesPairsDoubleFails2Test() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsPairsFloatPassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsFloatPassTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5.5f);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsFloatFailsTest() {
+    @Test
+    public void confirmExcludesPairsFloatFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5.5f);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsFloatFails2Test() {
+    @Test
+    public void confirmExcludesPairsFloatFails2Test() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5.5f);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6.5f);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsPairsLongPassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsLongPassTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5L);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsLongFailsTest() {
+    @Test
+    public void confirmExcludesPairsLongFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 5L);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsLongFails2Test() {
+    @Test
+    public void confirmExcludesPairsLongFails2Test() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 6L);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
     @Test
-    public void confirmContainsPairsBooleanPassTest() throws IOException {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", true);
-        Response response = new Response(reporter, null, 5, json, null, null);
-        Map<String, Object> pairs = new HashMap<>();
-        pairs.put("name", true);
-        response.assertContains().keyValues(pairs);
-        String content = Files.toString(file, Charsets.UTF_8);
-        assertTrue(content.matches(
-                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response containing: <div><i><div>name : true</div></i></div></td>\n {4}<td>Found a response" +
-                        " of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;true<br/>}</i></div></td>\n {4}" +
-                        "<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsBooleanFailsTest() {
+    public void confirmExcludesPairsBooleanFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", true);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsBooleanFails2Test() {
+    @Test
+    public void confirmExcludesPairsBooleanFails2Test() {
         JsonObject json = new JsonObject();
         json.addProperty("name", true);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", false);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsPairsBytePassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsBytePassTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 0);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsByteFailsTest() {
+    @Test
+    public void confirmExcludesPairsByteFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", (byte) 0);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsByteFails2Test() {
+    @Test
+    public void confirmExcludesPairsByteFails2Test() {
         JsonObject json = new JsonObject();
         json.addProperty("name", (byte) 0);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", (byte) 1);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsPairsCharacterPassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsCharacterPassTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'a');
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsCharacterFailsTest() {
+    @Test
+    public void confirmExcludesPairsCharacterFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", 'a');
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsCharacterFails2Test() {
+    @Test
+    public void confirmExcludesPairsCharacterFails2Test() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 'a');
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 'b');
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsPairsJsonObjectPassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsJsonObjectPassTest() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -296,11 +275,11 @@ public class ServicesAssertContainsTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertContains().keyValues(map);
+        response.assertExcludes().keyValues(map);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsJsonObjectFailTest() {
+    @Test
+    public void confirmExcludesPairsJsonObjectFailTest() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -311,11 +290,11 @@ public class ServicesAssertContainsTest {
         badChild.addProperty("first", "john");
         Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
-        response.assertContains().keyValues(map);
+        response.assertExcludes().keyValues(map);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsJsonObjectFail2Test() {
+    @Test
+    public void confirmExcludesPairsJsonObjectFail2Test() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -324,11 +303,11 @@ public class ServicesAssertContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
-        response.assertContains().keyValues(map);
+        response.assertExcludes().keyValues(map);
     }
 
-    @Test
-    public void confirmContainsPairsJsonArrayPassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsJsonArrayPassTest() {
         JsonArray child = new JsonArray();
         child.add("john");
         child.add("smith");
@@ -337,11 +316,11 @@ public class ServicesAssertContainsTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", child);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertContains().keyValues(map);
+        response.assertExcludes().keyValues(map);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsJsonArrayFailTest() {
+    @Test
+    public void confirmExcludesPairsJsonArrayFailTest() {
         JsonArray child = new JsonArray();
         child.add("john");
         child.add("smith");
@@ -352,11 +331,11 @@ public class ServicesAssertContainsTest {
         badChild.add("john");
         Map<String, Object> map = new HashMap<>();
         map.put("name", badChild);
-        response.assertContains().keyValues(map);
+        response.assertExcludes().keyValues(map);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsJsonArrayFail2Test() {
+    @Test
+    public void confirmExcludesPairsJsonArrayFail2Test() {
         JsonArray child = new JsonArray();
         child.add("john");
         child.add("smith");
@@ -365,42 +344,42 @@ public class ServicesAssertContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("name1", child);
-        response.assertContains().keyValues(map);
+        response.assertExcludes().keyValues(map);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsPairsNullTest() {
+    @Test
+    public void confirmExcludesPairsNullTest() {
         JsonArray json = new JsonArray();
         json.add("name");
         Response response = new Response(reporter, null, 5, null, json, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsPairsMismatchTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesPairsMismatchTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", 5L);
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name", 5);
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test
-    public void confirmContainsArrayPassTest() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesArrayPassTest() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
         JsonArray json = new JsonArray();
         json.add(child);
         Response response = new Response(reporter, null, 5, null, json, null);
-        response.assertContains().value(child);
+        response.assertExcludes().value(child);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsArrayFailTest() {
+    @Test
+    public void confirmExcludesArrayFailTest() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -409,75 +388,63 @@ public class ServicesAssertContainsTest {
         Response response = new Response(reporter, null, 5, null, json, null);
         JsonObject badChild = new JsonObject();
         badChild.addProperty("first", "john");
-        response.assertContains().value(badChild);
+        response.assertExcludes().value(badChild);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsArrayNullTest() {
+    @Test
+    public void confirmExcludesArrayNullTest() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertContains().value(json);
+        response.assertExcludes().value(json);
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesMessagePassTest() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
+        response.assertExcludes().message("message");
     }
 
     @Test
-    public void confirmContainsMessagePassTest() {
+    public void confirmExcludesMessageFailTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.assertContains().message("message");
+        response.assertExcludes().message("message ");
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsMessageFailTest() {
-        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.assertContains().message("message ");
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsMessageNullTest() {
+    @Test
+    public void confirmExcludesMessageNullTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.assertContains().message("");
+        response.assertExcludes().message("");
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsMessageNull2Test() {
+    @Test
+    public void confirmExcludesMessageNull2Test() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.assertContains().message("null");
+        response.assertExcludes().message("null");
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
-    public void confirmContainsCrumbsPairNothing() {
-        Response response = new Response(reporter, null, 5, null, null, null);
-        response.assertContains().nestedKeyValues(null, new HashMap<>());
-    }
-
-    @Test(expectedExceptions = NullPointerException.class)
-    public void confirmContainsCrumbsPairNullCrumbs() {
-        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.assertContains().nestedKeyValues(null, new HashMap<>());
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsPairNullObject() {
+    @Test
+    public void confirmExcludesCrumbsPairNullObject() {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.assertContains().nestedKeyValues(crumbs, new HashMap<>());
+        response.assertExcludes().nestedKeyValues(crumbs, new HashMap<>());
     }
 
-    @Test
-    public void confirmContainsCrumbsPairEmptyCrumbs() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesCrumbsPairEmptyCrumbs() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.assertContains().nestedKeyValues(new ArrayList<>(), map);
+        response.assertExcludes().nestedKeyValues(new ArrayList<>(), map);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsPairCrumbsNotExist() {
+    @Test
+    public void confirmExcludesCrumbsPairCrumbsNotExist() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
@@ -486,11 +453,11 @@ public class ServicesAssertContainsTest {
         crumbs.add("last");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.assertContains().nestedKeyValues(crumbs, map);
+        response.assertExcludes().nestedKeyValues(crumbs, map);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsPairNotJsonObject() {
+    @Test
+    public void confirmExcludesCrumbsPairNotJsonObject() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
@@ -499,11 +466,11 @@ public class ServicesAssertContainsTest {
         crumbs.add("first");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.assertContains().nestedKeyValues(crumbs, map);
+        response.assertExcludes().nestedKeyValues(crumbs, map);
     }
 
-    @Test
-    public void confirmContainsCrumbsPairMatch() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesCrumbsPairMatch() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -514,11 +481,11 @@ public class ServicesAssertContainsTest {
         crumbs.add("name");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "john");
-        response.assertContains().nestedKeyValues(crumbs, map);
+        response.assertExcludes().nestedKeyValues(crumbs, map);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsPairMismatch() {
+    @Test
+    public void confirmExcludesCrumbsPairMismatch() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -529,31 +496,31 @@ public class ServicesAssertContainsTest {
         crumbs.add("name");
         Map<String, Object> map = new HashMap<>();
         map.put("first", "janice");
-        response.assertContains().nestedKeyValues(crumbs, map);
+        response.assertExcludes().nestedKeyValues(crumbs, map);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
-    public void confirmContainsCrumbsJsonElementNothing() {
+    public void confirmExcludesCrumbsJsonElementNothing() {
         Response response = new Response(reporter, null, 5, null, null, null);
-        response.assertContains().nestedValue(null, new JsonObject());
+        response.assertExcludes().nestedValue(null, new JsonObject());
     }
 
     @Test(expectedExceptions = NullPointerException.class)
-    public void confirmContainsCrumbsJsonElementNullCrumbs() {
+    public void confirmExcludesCrumbsJsonElementNullCrumbs() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.assertContains().nestedValue(null, new JsonObject());
+        response.assertExcludes().nestedValue(null, new JsonObject());
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsJsonElementNullObject() {
+    @Test
+    public void confirmExcludesCrumbsJsonElementNullObject() {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.assertContains().nestedValue(crumbs, new JsonObject());
+        response.assertExcludes().nestedValue(crumbs, new JsonObject());
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsJsonElementEmptyCrumbs() {
+    @Test
+    public void confirmExcludesCrumbsJsonElementEmptyCrumbs() {
         JsonArray array = new JsonArray();
         JsonObject john = new JsonObject();
         john.addProperty("first", "john");
@@ -566,22 +533,22 @@ public class ServicesAssertContainsTest {
         JsonObject json = new JsonObject();
         json.add("name", array);
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertContains().nestedValue(new ArrayList<>(), john);
+        response.assertExcludes().nestedValue(new ArrayList<>(), john);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsJsonElementCrumbsNotExist() {
+    @Test
+    public void confirmExcludesCrumbsJsonElementCrumbsNotExist() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
         JsonObject expected = new JsonObject();
         expected.addProperty("name", "john");
-        response.assertContains().nestedValue(new ArrayList<>(), expected);
+        response.assertExcludes().nestedValue(new ArrayList<>(), expected);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsJsonElementNotJsonObject() {
+    @Test
+    public void confirmExcludesCrumbsJsonElementNotJsonObject() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
@@ -591,11 +558,11 @@ public class ServicesAssertContainsTest {
         crumbs.add("name");
         JsonObject expected = new JsonObject();
         expected.addProperty("name", "john");
-        response.assertContains().nestedValue(crumbs, expected);
+        response.assertExcludes().nestedValue(crumbs, expected);
     }
 
-    @Test()
-    public void confirmContainsCrumbsJsonElementMatch() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesCrumbsJsonElementMatch() {
         JsonArray array = new JsonArray();
         JsonObject john = new JsonObject();
         john.addProperty("first", "john");
@@ -610,11 +577,11 @@ public class ServicesAssertContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.assertContains().nestedValue(crumbs, john);
+        response.assertExcludes().nestedValue(crumbs, john);
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsJsonElementMismatch() {
+    @Test
+    public void confirmExcludesCrumbsJsonElementMismatch() {
         JsonArray array = new JsonArray();
         JsonObject john = new JsonObject();
         john.addProperty("first", "john");
@@ -631,98 +598,94 @@ public class ServicesAssertContainsTest {
         crumbs.add("name");
         JsonObject expected = new JsonObject();
         john.addProperty("first", "john");
-        response.assertContains().nestedValue(crumbs, expected);
+        response.assertExcludes().nestedValue(crumbs, expected);
     }
 
     @Test
-    public void confirmContainsKeysStringPassTest() {
+    public void confirmExcludesKeysStringFailTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertContains().keys(Collections.singletonList("name"));
+        response.assertExcludes().keys(Collections.singletonList("first"));
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesKeysStringPassTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "john");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertExcludes().keys(Collections.singletonList("name"));
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesKeysMultipleStringPassTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "john");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertExcludes().keys(Arrays.asList("first", "last"));
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesKeysMultipleStringFailTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "john");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertExcludes().keys(Arrays.asList("first", "name"));
     }
 
     @Test
-    public void confirmContainsKeysMultipleStringPassTest() {
-        JsonObject json = new JsonObject();
-        json.addProperty("first", "john");
-        json.addProperty("last", "john");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertContains().keys(Arrays.asList("first", "last"));
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsKeysMultipleStringFailTest() {
-        JsonObject json = new JsonObject();
-        json.addProperty("first", "john");
-        json.addProperty("last", "john");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertContains().keys(Arrays.asList("first", "name"));
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsKeysStringFailsTest() {
+    public void confirmExcludesKeysStringFailsTest() {
         JsonObject json = new JsonObject();
         json.addProperty("name", "john");
         Response response = new Response(reporter, null, 5, json, null, null);
         Map<String, Object> pairs = new HashMap<>();
         pairs.put("name1", "john");
-        response.assertContains().keyValues(pairs);
+        response.assertExcludes().keyValues(pairs);
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
-    public void confirmContainsCrumbsKeyNothing() {
-        Response response = new Response(reporter, null, 5, null, null, null);
-        response.assertContains().nestedKeys(null, new ArrayList<>());
-    }
-
-    @Test(expectedExceptions = NullPointerException.class)
-    public void confirmContainsCrumbsKeyNullCrumbs() {
-        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.assertContains().nestedKeys(null, new ArrayList<>());
-    }
-
-    @Test
-    public void confirmContainsCrumbsKeyNullObject() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesCrumbsKeyNullObject() {
         Response response = new Response(reporter, null, 5, null, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.assertContains().nestedKeys(crumbs, new ArrayList<>());
+        response.assertExcludes().nestedKeys(crumbs, new ArrayList<>());
     }
 
-    @Test
-    public void confirmContainsCrumbsKeyEmptyCrumbs() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesCrumbsKeyEmptyCrumbs() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertContains().nestedKeys(new ArrayList<>(), Collections.emptyList());
+        response.assertExcludes().nestedKeys(new ArrayList<>(), Collections.emptyList());
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsKeyCrumbsNotExist() {
+    @Test
+    public void confirmExcludesCrumbsKeyCrumbsNotExist() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("last");
-        response.assertContains().nestedKeys(crumbs, Collections.singletonList("first"));
+        response.assertExcludes().nestedKeys(crumbs, Collections.singletonList("first"));
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmContainsCrumbsKeyNotJsonObject() {
+    @Test
+    public void confirmExcludesCrumbsKeyNotJsonObject() {
         JsonObject json = new JsonObject();
         json.addProperty("first", "john");
         json.addProperty("last", "smith");
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("first");
-        response.assertContains().nestedKeys(crumbs, Collections.singletonList("first"));
+        response.assertExcludes().nestedKeys(crumbs, Collections.singletonList("first"));
     }
 
-    @Test
-    public void confirmContainsCrumbsKeyMatch() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesCrumbsKeyMatch() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -731,11 +694,11 @@ public class ServicesAssertContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.assertContains().nestedKeys(crumbs, Collections.singletonList("first"));
+        response.assertExcludes().nestedKeys(crumbs, Collections.singletonList("first"));
     }
 
-    @Test
-    public void confirmContainsCrumbsKeyMismatch() {
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmExcludesCrumbsKeyMismatch() {
         JsonObject child = new JsonObject();
         child.addProperty("first", "john");
         child.addProperty("last", "smith");
@@ -744,6 +707,6 @@ public class ServicesAssertContainsTest {
         Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        response.assertContains().nestedKeys(crumbs, Collections.singletonList("first"));
+        response.assertExcludes().nestedKeys(crumbs, Collections.singletonList("first"));
     }
 }

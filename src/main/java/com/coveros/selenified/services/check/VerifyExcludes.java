@@ -91,6 +91,21 @@ public class VerifyExcludes extends Excludes {
 
     /**
      * Verifies the actual response json payload contains a key containing a JsonObject
+     * excluding each of the keys provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedKeys - a list with string keys expected in the json
+     *                     response
+     */
+    @Override
+    public void nestedKeys(List<String> jsonKeys, List<String> expectedKeys) {
+        checkNestedKeys(jsonKeys, expectedKeys);
+    }
+
+    /**
+     * Verifies the actual response json payload contains a key containing a JsonObject
      * containing each of the pair values provided. The jsonKeys should be passed in
      * as crumbs of the keys leading to the field with
      * the expected value. This result will be written out to the output file.
@@ -99,6 +114,7 @@ public class VerifyExcludes extends Excludes {
      * @param expectedPairs - a hashmap with string key value pairs expected in the json
      *                      response
      */
+    @Override
     public void nestedKeyValues(List<String> jsonKeys, Map<String, Object> expectedPairs) {
         checkNestedKeyValues(jsonKeys, expectedPairs);
     }
@@ -111,6 +127,7 @@ public class VerifyExcludes extends Excludes {
      * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
      * @param expectedJson - the expected response json array
      */
+    @Override
     public void nestedValue(List<String> jsonKeys, JsonElement expectedJson) {
         checkNestedValue(jsonKeys, expectedJson);
     }

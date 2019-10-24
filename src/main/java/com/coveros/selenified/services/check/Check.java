@@ -100,7 +100,7 @@ abstract class Check {
      * @return boolean - does the provided jsonObject contain all of the key value pairs
      */
     public boolean doesJsonObjectContainKeys(List<String> expectedkeys, JsonObject actualValue) {
-        boolean pass = true;
+        boolean pass = (actualValue != null || expectedkeys.isEmpty());
         for (String key : expectedkeys) {
             if (actualValue == null || !actualValue.has(key)) {
                 pass = false;

@@ -29,7 +29,8 @@ abstract class Contains extends Check {
      *                     response
      */
     boolean checkKeys(List<String> expectedKeys) {
-        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTB + String.join(" ", expectedKeys) + ENDB,
+        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_CONTAINING.substring(0, EXPECTED_TO_FIND_A_RESPONSE_CONTAINING.length() - 2) +
+                        " keys: " + STARTI + String.join("</i>', '<i>", expectedKeys) + ENDI,
                 FOUND + Reporter.formatResponse(this.response), doesJsonObjectContainKeys(expectedKeys, this.response.getObjectData()));
     }
 
@@ -79,6 +80,44 @@ abstract class Contains extends Check {
 
     /**
      * Checks the actual response json payload contains a key containing a JsonObject
+     * containing each of the keys provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedKeys - a list with string keys expected in the json
+     *                     response
+     */
+    abstract void nestedKeys(List<String> jsonKeys, List<String> expectedKeys);
+
+    /**
+     * Checks the actual response json payload contains a key containing a JsonObject
+     * containing each of the keys provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonCrumbs   - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedKeys - a list with string keys expected in the json
+     *                     response
+     */
+    boolean checkNestedKeys(List<String> jsonCrumbs, List<String> expectedKeys) {
+        JsonObject actualValue = this.response.getObjectData();
+        for (String jsonCrumb : jsonCrumbs) {
+            if (actualValue != null && actualValue.get(jsonCrumb) instanceof JsonObject) {
+                actualValue = actualValue.get(jsonCrumb).getAsJsonObject();
+            } else {
+                actualValue = null;
+                break;
+            }
+        }
+        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) +
+                        ENDI + CONTAINING.substring(0, CONTAINING.length() - 2) + " keys: " + STARTI + String.join("</i>', '<i>", expectedKeys) + ENDI,
+                FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV,
+                doesJsonObjectContainKeys(expectedKeys, actualValue));
+    }
+
+    /**
+     * Checks the actual response json payload contains a key containing a JsonObject
      * containing each of the pair values provided. The jsonKeys should be passed in
      * as crumbs of the keys leading to the field with
      * the expected value. This result will be written out to the output file.
@@ -87,7 +126,6 @@ abstract class Contains extends Check {
      * @param expectedPairs a hashmap with string key value pairs expected in the json
      *                      response
      */
-    @SuppressWarnings("squid:S1201")
     abstract void nestedKeyValues(List<String> jsonKeys, Map<String, Object> expectedPairs);
 
     /**
@@ -124,7 +162,6 @@ abstract class Contains extends Check {
      * @param jsonCrumbs   - the crumbs of json object keys leading to the field with the expected value
      * @param expectedJson - the expected response json array
      */
-    @SuppressWarnings("squid:S1201")
     abstract void nestedValue(List<String> jsonCrumbs, JsonElement expectedJson);
 
     /**

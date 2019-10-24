@@ -17,7 +17,6 @@ abstract class Equals extends Check {
      *
      * @param expectedCode - the expected response code
      */
-    @SuppressWarnings("squid:S1201")
     abstract void code(int expectedCode);
 
     /**
@@ -39,7 +38,6 @@ abstract class Equals extends Check {
      *
      * @param expectedJson - the expected response json object
      */
-    @SuppressWarnings("squid:S1201")
     abstract void objectData(JsonObject expectedJson);
 
     /**
@@ -61,7 +59,6 @@ abstract class Equals extends Check {
      *
      * @param expectedJson - the expected response json array
      */
-    @SuppressWarnings("squid:S1201")
     abstract void arrayData(JsonArray expectedJson);
 
     /**
@@ -85,7 +82,6 @@ abstract class Equals extends Check {
      * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
      * @param expectedValue - the expected value
      */
-    @SuppressWarnings("squid:S1201")
     abstract void nestedValue(List<String> jsonKeys, Object expectedValue);
 
     /**
@@ -118,7 +114,6 @@ abstract class Equals extends Check {
      *
      * @param expectedMessage - the expected response message
      */
-    @SuppressWarnings("squid:S1201")
     abstract void message(String expectedMessage);
 
     /**

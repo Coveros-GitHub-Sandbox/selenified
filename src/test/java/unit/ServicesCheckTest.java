@@ -445,11 +445,11 @@ public class ServicesCheckTest {
 
     @Test
     public void doesJsonObjectContainKeysActualHasTwoKeys() {
-            JsonObject json = new JsonObject();
-            json.addProperty("first", "john");
-            json.addProperty("last", "smith");
-            Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-            assertTrue(response.assertContains().doesJsonObjectContainKeys(Arrays.asList("first", "last"), json));
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertContains().doesJsonObjectContainKeys(Arrays.asList("first", "last"), json));
     }
 
     @Test
