@@ -16,14 +16,11 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.testng.Assert.assertTrue;
 
-public class ServicesAssertTest {
+public class ServicesAssertContainsTest {
 
     private Reporter reporter;
     private File directory;
@@ -41,88 +38,6 @@ public class ServicesAssertTest {
     public void deleteFile() {
         file.delete();
         directory.delete();
-    }
-
-    @Test
-    public void confirmEqualsCodePassTest() {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", "john");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertEquals().code(5);
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsCodeFailTest() {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", "john");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertEquals().code(6);
-    }
-
-    @Test
-    public void confirmEqualsObjectPassTest() {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", "john");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertEquals().objectData(json);
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsObjectFailTest() {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", "john");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertEquals().objectData(new JsonObject());
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsObjectNullTest() {
-        JsonArray json = new JsonArray();
-        json.add("name");
-        Response response = new Response(reporter, null, 5, null, json, null);
-        response.assertEquals().objectData(new JsonObject());
-    }
-
-    @Test
-    public void confirmEqualsArrayPassTest() {
-        JsonArray json = new JsonArray();
-        json.add("name");
-        Response response = new Response(reporter, null, 5, null, json, null);
-        response.assertEquals().arrayData(json);
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsArrayFailTest() {
-        JsonArray json = new JsonArray();
-        json.add("name");
-        Response response = new Response(reporter, null, 5, null, json, null);
-        response.assertEquals().arrayData(new JsonArray());
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsArrayNullTest() {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", "john");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertEquals().arrayData(new JsonArray());
-    }
-
-    @Test
-    public void confirmEqualsMessagePassTest() {
-        Response response = new Response(reporter, null, 5, new JsonObject(), null, "Some message");
-        response.assertEquals().message("Some message");
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsMessageFailTest() {
-        Response response = new Response(reporter, null, 5, new JsonObject(), null, "SOME MESSAGE");
-        response.assertEquals().message("Some message");
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsMessageNullTest() {
-        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.assertEquals().message("");
     }
 
     @Test
@@ -531,74 +446,6 @@ public class ServicesAssertTest {
     }
 
     @Test(expectedExceptions = NullPointerException.class)
-    public void confirmEqualsCrumbsNothing() {
-        Response response = new Response(reporter, null, 5, null, null, null);
-        response.assertEquals().nestedValue(null, "name");
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsCrumbsNoJsonObject() {
-        Response response = new Response(reporter, null, 5, null, null, null);
-        response.assertEquals().nestedValue(new ArrayList<>(), "name");
-    }
-
-    @Test(expectedExceptions = NullPointerException.class)
-    public void confirmEqualsCrumbsNoCrumbs() {
-        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        response.assertEquals().nestedValue(null, "name");
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsCrumbsCrumbsNotExist() {
-        JsonObject child = new JsonObject();
-        child.addProperty("first", "john");
-        child.addProperty("last", "smith");
-        JsonArray json = new JsonArray();
-        json.add(child);
-        Response response = new Response(reporter, null, 5, null, json, null);
-        List<String> list = new ArrayList<>();
-        list.add("name");
-        response.assertEquals().nestedValue(list, "john");
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsCrumbsCrumbsNotJsonObject() {
-        JsonArray array = new JsonArray();
-        array.add("john");
-        array.add("jon");
-        JsonObject json = new JsonObject();
-        json.add("first", array);
-        json.addProperty("last", "smith");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        List<String> list = new ArrayList<>();
-        list.add("first");
-        list.add("last");
-        response.assertEquals().nestedValue(list, "john");
-    }
-
-    @Test
-    public void confirmEqualsCrumbsMatch() {
-        JsonObject json = new JsonObject();
-        json.addProperty("first", "john");
-        json.addProperty("last", "smith");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        List<String> list = new ArrayList<>();
-        list.add("first");
-        response.assertEquals().nestedValue(list, "john");
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsCrumbsNoMatch() {
-        JsonObject json = new JsonObject();
-        json.addProperty("first", "john");
-        json.addProperty("last", "smith");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        List<String> list = new ArrayList<>();
-        list.add("first");
-        response.assertEquals().nestedValue(list, "janice");
-    }
-
-    @Test(expectedExceptions = NullPointerException.class)
     public void confirmContainsCrumbsPairNothing() {
         Response response = new Response(reporter, null, 5, null, null, null);
         response.assertContains().nestedKeyValues(null, new HashMap<>());
@@ -788,103 +635,115 @@ public class ServicesAssertTest {
     }
 
     @Test
-    public void confirmEqualsArraySizeNotArray() {
+    public void confirmContainsKeysStringPassTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "john");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertContains().keys(Collections.singletonList("name"));
+    }
+
+    @Test
+    public void confirmContainsKeysMultipleStringPassTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "john");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertContains().keys(Arrays.asList("first", "last"));
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmContainsKeysMultipleStringFailTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "john");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertContains().keys(Arrays.asList("first", "name"));
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmContainsKeysStringFailsTest() {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "john");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        Map<String, Object> pairs = new HashMap<>();
+        pairs.put("name1", "john");
+        response.assertContains().keyValues(pairs);
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void confirmContainsCrumbsKeyNothing() {
         Response response = new Response(reporter, null, 5, null, null, null);
-        response.assertEquals().arraySize(-1);
+        response.assertContains().nestedKeys(null, new ArrayList<>());
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void confirmContainsCrumbsKeyNullCrumbs() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        response.assertContains().nestedKeys(null, new ArrayList<>());
     }
 
     @Test
-    public void confirmEqualsArraySizeEmptyMatch() {
-        Response response = new Response(reporter, null, 5, null, new JsonArray(), null);
-        response.assertEquals().arraySize(0);
-    }
-
-    @Test
-    public void confirmEqualsArraySizeMatch() {
-        JsonArray array = new JsonArray();
-        array.add("5");
-        Response response = new Response(reporter, null, 5, null, array, null);
-        response.assertEquals().arraySize(1);
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsArraySizeMisMatch() {
-        JsonArray array = new JsonArray();
-        array.add("5");
-        Response response = new Response(reporter, null, 5, null, array, null);
-        response.assertEquals().arraySize(2);
-    }
-
-    @Test
-    public void confirmEqualsCrumbsNotObject() {
+    public void confirmContainsCrumbsKeyNullObject() {
         Response response = new Response(reporter, null, 5, null, null, null);
-        response.assertEquals().nestedArraySize(new ArrayList<>(), -1);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("name");
+        response.assertContains().nestedKeys(crumbs, new ArrayList<>());
     }
 
     @Test
-    public void confirmEqualsCrumbsEmptyCrumbs() {
-        JsonArray array = new JsonArray();
-        array.add("5");
-        Response response = new Response(reporter, null, 5, null, array, null);
-        response.assertEquals().nestedArraySize(new ArrayList<>(), -1);
+    public void confirmContainsCrumbsKeyEmptyCrumbs() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        response.assertContains().nestedKeys(new ArrayList<>(), Collections.emptyList());
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmContainsCrumbsKeyCrumbsNotExist() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("last");
+        response.assertContains().nestedKeys(crumbs, Collections.singletonList("first"));
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void confirmContainsCrumbsKeyNotJsonObject() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, json, null, null);
+        List<String> crumbs = new ArrayList<>();
+        crumbs.add("first");
+        response.assertContains().nestedKeys(crumbs, Collections.singletonList("first"));
     }
 
     @Test
-    public void confirmEqualsCrumbsOneCrumb() {
-        JsonArray array = new JsonArray();
-        JsonObject john = new JsonObject();
-        john.addProperty("first", "john");
-        john.addProperty("last", "doe");
-        array.add(john);
-        JsonObject jon = new JsonObject();
-        jon.addProperty("first", "jon");
-        jon.addProperty("last", "doe");
-        array.add(jon);
+    public void confirmContainsCrumbsKeyMatch() {
+        JsonObject child = new JsonObject();
+        child.addProperty("first", "john");
+        child.addProperty("last", "smith");
         JsonObject json = new JsonObject();
-        json.add("name", array);
+        json.add("name", child);
+        Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertEquals().nestedArraySize(crumbs, 2);
+        response.assertContains().nestedKeys(crumbs, Collections.singletonList("first"));
     }
 
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsCrumbsTwoCrumbs() {
-        JsonArray array = new JsonArray();
-        JsonObject john = new JsonObject();
-        john.addProperty("first", "john");
-        john.addProperty("last", "doe");
-        array.add(john);
-        JsonObject jon = new JsonObject();
-        jon.addProperty("first", "jon");
-        jon.addProperty("last", "doe");
-        array.add(jon);
+    @Test
+    public void confirmContainsCrumbsKeyMismatch() {
+        JsonObject child = new JsonObject();
+        child.addProperty("first", "john");
+        child.addProperty("last", "smith");
         JsonObject json = new JsonObject();
-        json.add("name", array);
+        json.add("name", child);
+        Response response = new Response(reporter, null, 5, json, null, null);
         List<String> crumbs = new ArrayList<>();
         crumbs.add("name");
-        crumbs.add("first");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertEquals().nestedArraySize(crumbs, 2);
-    }
-
-    @Test(expectedExceptions = AssertionError.class)
-    public void confirmEqualsCrumbsArraySizeMisMatch() {
-        JsonArray array = new JsonArray();
-        JsonObject john = new JsonObject();
-        john.addProperty("first", "john");
-        john.addProperty("last", "doe");
-        array.add(john);
-        JsonObject jon = new JsonObject();
-        jon.addProperty("first", "jon");
-        jon.addProperty("last", "doe");
-        array.add(jon);
-        JsonObject json = new JsonObject();
-        json.add("name", array);
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("name");
-        crumbs.add("first");
-        Response response = new Response(reporter, null, 5, json, null, null);
-        response.assertEquals().nestedArraySize(crumbs, 3);
+        response.assertContains().nestedKeys(crumbs, Collections.singletonList("first"));
     }
 }
