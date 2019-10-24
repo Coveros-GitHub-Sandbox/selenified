@@ -30,14 +30,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Check will handle all verifications performed on the actual web services
- * calls themselves. These asserts are custom to the framework, and in addition to
+ * Check will handle all checks performed on the actual web services
+ * calls themselves. These checks are custom to the framework, and in addition to
  * providing easy object oriented capabilities, they assist in
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
  * @version 3.3.0
- * @lastupdate 6/25/2019
+ * @lastupdate 10/24/2019
  */
 abstract class Check {
 
