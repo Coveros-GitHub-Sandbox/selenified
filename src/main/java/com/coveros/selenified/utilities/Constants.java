@@ -85,11 +85,15 @@ public class Constants {
 
     public static final String EXPECTED_TO_FIND_A_RESPONSE_OF = "Expected to find a response of: ";
     public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
+    public static final String EXPECTED_TO_FIND_A_RESPONSE_EXCLUDING = "Expected to find a response excluding: ";
     public static final String EXPECTED_TO_FIND = "Expected to find ";
+    public static final String EXPECTED_NOT_TO_FIND = "Expected not to find ";
     public static final String CONTAINING = " containing: ";
+    public static final String EXCLUDING = " excluding: ";
     public static final String FOUND = "Found a response of: ";
     public static final String STARTI = "'<i>";
     public static final String ENDI = "</i>'";
+    public static final String STARTB = "<b>";
     public static final String ENDB = "</b>";
     public static final String DIV_I = "<div><i>";
     public static final String END_IDIV = "</i></div>";

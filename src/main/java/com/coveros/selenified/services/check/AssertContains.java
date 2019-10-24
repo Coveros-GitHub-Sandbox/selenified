@@ -59,6 +59,19 @@ public class AssertContains extends Contains {
     ///////////////////////////////////////////////////////
 
     /**
+     * Asserts the actual response json payload contains each key provided,
+     * and writes that to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param expectedKeys a list with string keys expected in the json
+     *                     response
+     */
+    @Override
+    public void keys(List<String> expectedKeys) {
+        assertTrue(EXPECTED_TO_FIND + String.join(" ", expectedKeys), checkKeys(expectedKeys));
+    }
+
+    /**
      * Asserts the actual response json payload contains each of the pair
      * values provided, and writes that to the output file. If this fails, the code will
      * immediately exit, and record the error.

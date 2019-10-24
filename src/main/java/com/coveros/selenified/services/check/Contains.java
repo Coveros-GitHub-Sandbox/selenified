@@ -13,6 +13,27 @@ import static com.coveros.selenified.utilities.Constants.*;
 abstract class Contains extends Check {
 
     /**
+     * Checks the actual response json payload contains each key provided,
+     * and writes that to the output file
+     *
+     * @param expectedKeys a list with string keys expected in the json
+     *                     response
+     */
+    abstract void keys(List<String> expectedKeys);
+
+    /**
+     * Checks the actual response json payload contains each key provided,
+     * and writes that to the output file
+     *
+     * @param expectedKeys a list with string keys expected in the json
+     *                     response
+     */
+    boolean checkKeys(List<String> expectedKeys) {
+        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTB + String.join(" ", expectedKeys) + ENDB,
+                FOUND + Reporter.formatResponse(this.response), doesJsonObjectContainKeys(expectedKeys, this.response.getObjectData()));
+    }
+
+    /**
      * Checks the actual response json payload contains each of the pair
      * values provided, and writes that to the output file
      *
@@ -29,13 +50,8 @@ abstract class Contains extends Check {
      *                      response
      */
     boolean checkKeyValues(Map<String, Object> expectedPairs) {
-        boolean pass = doesJsonObjectContainPair(expectedPairs, this.response.getObjectData());
-        if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
-        }
-        return pass;
+        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV,
+                FOUND + Reporter.formatResponse(this.response), doesJsonObjectContainPairs(expectedPairs, this.response.getObjectData()));
     }
 
     /**
@@ -57,14 +73,8 @@ abstract class Contains extends Check {
         if (this.response.getArrayData() != null) {
             pass = this.response.getArrayData().contains(expectedJson);
         }
-        if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
-                    DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING +
-                    DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
-        }
-        return pass;
+        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV,
+                FOUND + Reporter.formatResponse(this.response), pass);
     }
 
     /**
@@ -100,13 +110,10 @@ abstract class Contains extends Check {
                 break;
             }
         }
-        boolean pass = doesJsonObjectContainPair(expectedPairs, actualValue);
-        if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
-        }
-        return pass;
+        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) +
+                        ENDI + CONTAINING + DIV_I + Reporter.formatKeyPair(expectedPairs) + END_IDIV,
+                FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV,
+                doesJsonObjectContainPairs(expectedPairs, actualValue));
     }
 
     /**
@@ -142,12 +149,9 @@ abstract class Contains extends Check {
         if (actualValue instanceof JsonArray) {
             pass = actualValue.getAsJsonArray().contains(expectedJson);
         }
-        if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV);
-        }
-        return pass;
+        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) +
+                        ENDI + CONTAINING + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV,
+                FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV, pass);
     }
 
     /**
@@ -169,11 +173,7 @@ abstract class Contains extends Check {
         if (this.response.getMessage() != null) {
             pass = this.response.getMessage().contains(expectedMessage);
         }
-        if (pass) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
-        }
-        return pass;
+        return recordResult(EXPECTED_TO_FIND_A_RESPONSE_CONTAINING + STARTI + expectedMessage + ENDI,
+                FOUND + STARTI + this.response.getMessage() + ENDI, pass);
     }
 }

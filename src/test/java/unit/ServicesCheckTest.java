@@ -14,8 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.testng.Assert.assertEquals;
@@ -269,7 +268,7 @@ public class ServicesCheckTest {
     @Test
     public void doesJsonObjectContainPairNullActualTest() {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
-        assertFalse(response.assertContains().doesJsonObjectContainPair(new HashMap<>(), null));
+        assertFalse(response.assertContains().doesJsonObjectContainPairs(new HashMap<>(), null));
     }
 
     @Test
@@ -277,7 +276,7 @@ public class ServicesCheckTest {
         Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
         JsonObject json = new JsonObject();
         json.add("name", new JsonArray());
-        assertTrue(response.assertContains().doesJsonObjectContainPair(new HashMap<>(), json));
+        assertTrue(response.assertContains().doesJsonObjectContainPairs(new HashMap<>(), json));
     }
 
     @Test
@@ -287,7 +286,7 @@ public class ServicesCheckTest {
         json.addProperty("name", 1);
         Map<String, Object> map = new HashMap<>();
         map.put("name", 1);
-        assertTrue(response.assertContains().doesJsonObjectContainPair(map, json));
+        assertTrue(response.assertContains().doesJsonObjectContainPairs(map, json));
     }
 
     @Test
@@ -300,7 +299,7 @@ public class ServicesCheckTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", 1);
         map.put("email", "someemail@123.com");
-        assertTrue(response.assertContains().doesJsonObjectContainPair(map, json));
+        assertTrue(response.assertContains().doesJsonObjectContainPairs(map, json));
     }
 
     @Test
@@ -312,7 +311,7 @@ public class ServicesCheckTest {
         json.addProperty("phone", "(123) 456-7890");
         Map<String, Object> map = new HashMap<>();
         map.put("name", 2);
-        assertFalse(response.assertContains().doesJsonObjectContainPair(map, json));
+        assertFalse(response.assertContains().doesJsonObjectContainPairs(map, json));
     }
 
     @Test
@@ -325,6 +324,210 @@ public class ServicesCheckTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", 2);
         map.put("email", "someemail@123.com");
-        assertFalse(response.assertContains().doesJsonObjectContainPair(map, json));
+        assertFalse(response.assertContains().doesJsonObjectContainPairs(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludePairNullActualTest() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludePairs(new HashMap<>(), null));
+    }
+
+    @Test
+    public void doesJsonObjectExcludePairNullNoneActualTest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "john");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludePairs(map, null));
+    }
+
+    @Test
+    public void doesJsonObjectExcludePairEmptyMapTest() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.add("name", new JsonArray());
+        assertTrue(response.assertExcludes().doesJsonObjectExcludePairs(new HashMap<>(), json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludePairSinglePairExcludes() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", 1);
+        assertFalse(response.assertExcludes().doesJsonObjectExcludePairs(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludePairDoublePairExcludes() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        json.addProperty("email", "someemail@123.com");
+        json.addProperty("phone", "(123) 456-7890");
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", 1);
+        map.put("email", "someemail@123.com");
+        assertFalse(response.assertExcludes().doesJsonObjectExcludePairs(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludePairSinglePairNotExclude() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        json.addProperty("email", "someemail@123.com");
+        json.addProperty("phone", "(123) 456-7890");
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", 2);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludePairs(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludePairSinglePairExclude() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        json.addProperty("email", "someemail@123.com");
+        json.addProperty("phone", "(123) 456-7890");
+        Map<String, Object> map = new HashMap<>();
+        map.put("number", 2);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludePairs(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludePairDoublePairConainsOne() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", 1);
+        json.addProperty("email", "someemail@123.com");
+        json.addProperty("phone", "(123) 456-7890");
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", 2);
+        map.put("email", "someemail@123.com");
+        assertFalse(response.assertExcludes().doesJsonObjectExcludePairs(map, json));
+    }
+
+    @Test
+    public void doesJsonObjectContainKeysEmptyKeys() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertContains().doesJsonObjectContainKeys(new ArrayList<>(), null));
+    }
+
+    @Test
+    public void doesJsonObjectContainKeyKeys() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertFalse(response.assertContains().doesJsonObjectContainKeys(Collections.singletonList("name"), null));
+    }
+
+    @Test
+    public void doesJsonObjectContainKeysEmptyActualEmptyObjectKeys() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertContains().doesJsonObjectContainKeys(new ArrayList<>(), new JsonObject()));
+    }
+
+    @Test
+    public void doesJsonObjectContainKeysEmptyActualKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "john");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertContains().doesJsonObjectContainKeys(new ArrayList<>(), json));
+    }
+
+    @Test
+    public void doesJsonObjectContainKeysActualHasOneKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "john");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertContains().doesJsonObjectContainKeys(Collections.singletonList("name"), json));
+    }
+
+    @Test
+    public void doesJsonObjectContainKeysActualHasTwoKeys() {
+            JsonObject json = new JsonObject();
+            json.addProperty("first", "john");
+            json.addProperty("last", "smith");
+            Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+            assertTrue(response.assertContains().doesJsonObjectContainKeys(Arrays.asList("first", "last"), json));
+    }
+
+    @Test
+    public void doesJsonObjectContainKeysActualHasOnlyOneKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertFalse(response.assertContains().doesJsonObjectContainKeys(Arrays.asList("first", "john"), json));
+    }
+
+    @Test
+    public void doesJsonObjectContainKeysActualHasNeitherKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertFalse(response.assertContains().doesJsonObjectContainKeys(Arrays.asList("smith", "john"), json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludeKeysEmptyKeys() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludeKeys(new ArrayList<>(), null));
+    }
+
+    @Test
+    public void doesJsonObjectExcludeKeyEmptyKeys() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludeKeys(Collections.singletonList("name"), null));
+    }
+
+    @Test
+    public void doesJsonObjectExcludeKeysEmptyActualEmptyObjectKeys() {
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludeKeys(new ArrayList<>(), new JsonObject()));
+    }
+
+    @Test
+    public void doesJsonObjectExcludeKeysEmptyActualKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "john");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludeKeys(new ArrayList<>(), json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludeKeysActualHasOneKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "john");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertFalse(response.assertExcludes().doesJsonObjectExcludeKeys(Collections.singletonList("name"), json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludeKeysActualHasTwoKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertFalse(response.assertExcludes().doesJsonObjectExcludeKeys(Arrays.asList("first", "last"), json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludeKeysActualHasOnlyOneKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertFalse(response.assertExcludes().doesJsonObjectExcludeKeys(Arrays.asList("first", "john"), json));
+    }
+
+    @Test
+    public void doesJsonObjectExcludeKeysActualHasNeitherKeys() {
+        JsonObject json = new JsonObject();
+        json.addProperty("first", "john");
+        json.addProperty("last", "smith");
+        Response response = new Response(reporter, null, 5, new JsonObject(), null, null);
+        assertTrue(response.assertExcludes().doesJsonObjectExcludeKeys(Arrays.asList("smith", "john"), json));
     }
 }

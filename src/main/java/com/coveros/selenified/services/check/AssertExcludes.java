@@ -22,6 +22,14 @@ package com.coveros.selenified.services.check;
 
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
+import com.google.gson.JsonElement;
+
+import java.util.List;
+import java.util.Map;
+
+import static com.coveros.selenified.utilities.Constants.EXPECTED_NOT_TO_FIND;
+import static com.coveros.selenified.utilities.Constants.GSON;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * Assert will handle all verifications performed on the actual web services
@@ -50,4 +58,81 @@ public class AssertExcludes extends Excludes {
     // assertions about the page in general
     ///////////////////////////////////////////////////////
 
+    /**
+     * Asserts the actual response json payload contains each key provided,
+     * and writes that to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param expectedKeys a list with string keys expected in the json
+     *                     response
+     */
+    @Override
+    public void keys(List<String> expectedKeys) {
+        assertTrue(EXPECTED_NOT_TO_FIND + String.join(" ", expectedKeys), checkKeys(expectedKeys));
+    }
+
+    /**
+     * Asserts the actual response json payload contains each of the pair
+     * values provided, and writes that to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param expectedPairs a hashmap with string key value pairs expected in the json
+     *                      response
+     */
+    @Override
+    public void keyValues(Map<String, Object> expectedPairs) {
+        assertTrue(EXPECTED_NOT_TO_FIND + Reporter.formatKeyPair(expectedPairs), checkKeyValues(expectedPairs));
+    }
+
+    /**
+     * Asserts the actual response json payload contains a key containing a JsonObject
+     * containing each of the pair values provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedPairs a hashmap with string key value pairs expected in the json
+     *                      response
+     */
+    public void nestedKeyValues(List<String> jsonKeys, Map<String, Object> expectedPairs) {
+        assertTrue(EXPECTED_NOT_TO_FIND + Reporter.formatKeyPair(expectedPairs), checkNestedKeyValues(jsonKeys, expectedPairs));
+    }
+
+    /**
+     * Asserts the actual response json payload contains a key containing a JsonElement.
+     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedJson - the expected response json array
+     */
+    public void nestedValue(List<String> jsonKeys, JsonElement expectedJson) {
+        assertTrue(EXPECTED_NOT_TO_FIND + GSON.toJson(expectedJson), checkNestedValue(jsonKeys, expectedJson));
+    }
+
+    /**
+     * Asserts the actual response json payload contains to the expected json
+     * element, and writes that out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param expectedJson - the expected response json array
+     */
+    @Override
+    public void value(JsonElement expectedJson) {
+        assertTrue(EXPECTED_NOT_TO_FIND + GSON.toJson(expectedJson), checkValue(expectedJson));
+    }
+
+    /**
+     * Asserts the actual response json payload contains to the expected json
+     * element, and writes that out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param expectedMessage - the expected response json array
+     */
+    @Override
+    public void message(String expectedMessage) {
+        assertTrue(EXPECTED_NOT_TO_FIND + "'" + expectedMessage + "'", checkMessage(expectedMessage));
+    }
 }

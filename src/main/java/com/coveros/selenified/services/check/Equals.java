@@ -28,11 +28,8 @@ abstract class Equals extends Check {
      */
     int checkCode(int expectedCode) {
         int actualCode = this.response.getCode();
-        if (actualCode == expectedCode) {
-            this.reporter.pass("", "Expected to find a response code of <b>" + expectedCode + ENDB, "Found a response code of <b>" + actualCode + ENDB);
-        } else {
-            this.reporter.fail("", "Expected to find a response code of <b>" + expectedCode + ENDB, "Found a response code of <b>" + actualCode + ENDB);
-        }
+        recordResult("Expected to find a response code of <b>" + expectedCode + ENDB,
+                "Found a response code of <b>" + actualCode + ENDB, actualCode == expectedCode);
         return actualCode;
     }
 
@@ -53,11 +50,8 @@ abstract class Equals extends Check {
      */
     JsonObject checkObjectData(JsonObject expectedJson) {
         JsonObject actualJson = this.response.getObjectData();
-        if (expectedJson.equals(actualJson)) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
-        }
+        recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV,
+                FOUND + Reporter.formatResponse(this.response), expectedJson.equals(actualJson));
         return actualJson;
     }
 
@@ -78,11 +72,8 @@ abstract class Equals extends Check {
      */
     JsonArray checkArrayData(JsonArray expectedJson) {
         JsonArray actualJson = this.response.getArrayData();
-        if (expectedJson.equals(actualJson)) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV, FOUND + Reporter.formatResponse(this.response));
-        }
+        recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + DIV_I + Reporter.formatHTML(GSON.toJson(expectedJson)) + END_IDIV,
+                FOUND + Reporter.formatResponse(this.response), expectedJson.equals(actualJson));
         return actualJson;
     }
 
@@ -115,11 +106,9 @@ abstract class Equals extends Check {
             actualValue = actualValue.getAsJsonObject().get(jsonCrumb);
         }
         Object objectVal = castObject(expectedValue, actualValue);
-        if (expectedValue.equals(objectVal)) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV);
-        }
+        recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI +
+                        " with value of: " + DIV_I + Reporter.formatHTML(GSON.toJson(expectedValue)) + END_IDIV,
+                FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(objectVal)) + END_IDIV, expectedValue.equals(objectVal));
         return objectVal;
     }
 
@@ -140,11 +129,8 @@ abstract class Equals extends Check {
      */
     String checkMessage(String expectedMessage) {
         String actualMessage = this.response.getMessage();
-        if (expectedMessage.equals(actualMessage)) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + expectedMessage + ENDI, FOUND + STARTI + this.response.getMessage() + ENDI);
-        }
+        recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + expectedMessage + ENDI,
+                FOUND + STARTI + this.response.getMessage() + ENDI, expectedMessage.equals(actualMessage));
         return actualMessage;
     }
 
@@ -168,14 +154,11 @@ abstract class Equals extends Check {
             actualSize = this.response.getArrayData().size();
         }
         String size = " which has a size of " + STARTI + actualSize + ENDI;
-        if( actualSize == -1 ) {
+        if (actualSize == -1) {
             size = " which isn't an array";
         }
-        if (actualSize == expectedSize) {
-            this.reporter.pass("", "Expected to find a response to be an array with size of " + STARTI + expectedSize + ENDI, FOUND + Reporter.formatResponse(this.response) + size);
-        } else {
-            this.reporter.fail("", "Expected to find a response to be an array with size of " + STARTI + expectedSize + ENDI, FOUND + Reporter.formatResponse(this.response) + size);
-        }
+        recordResult("Expected to find a response to be an array with size of " + STARTI + expectedSize + ENDI,
+                FOUND + Reporter.formatResponse(this.response) + size, actualSize == expectedSize);
         return actualSize;
     }
 
@@ -208,14 +191,13 @@ abstract class Equals extends Check {
             actualSize = actualValue.getAsJsonArray().size();
         }
         String size = " which has a size of " + STARTI + actualSize + ENDI;
-        if( actualSize == -1 ) {
+        if (actualSize == -1) {
             size = " which isn't an array";
         }
-        if (actualSize == expectedSize) {
-            this.reporter.pass("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " to be an array with size of " + STARTI + expectedSize + ENDI, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV + size);
-        } else {
-            this.reporter.fail("", EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI + " to be an array with size of " + STARTI + expectedSize + ENDI, FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV + size);
-        }
+        recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) +
+                        ENDI + " to be an array with size of " + STARTI + expectedSize + ENDI,
+                FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV + size,
+                actualSize == expectedSize);
         return actualSize;
     }
 }

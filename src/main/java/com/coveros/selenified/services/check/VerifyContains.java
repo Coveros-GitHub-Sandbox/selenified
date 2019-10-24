@@ -27,6 +27,9 @@ import com.google.gson.JsonElement;
 import java.util.List;
 import java.util.Map;
 
+import static com.coveros.selenified.utilities.Constants.EXPECTED_TO_FIND;
+import static org.testng.AssertJUnit.assertTrue;
+
 /**
  * Verify will handle all verifications performed on the actual web services
  * calls themselves. These asserts are custom to the framework, and in addition to
@@ -53,6 +56,18 @@ public class VerifyContains extends Contains {
     ///////////////////////////////////////////////////////
     // assertions about the page in general
     ///////////////////////////////////////////////////////
+
+    /**
+     * Verifies the actual response json payload contains each key provided,
+     * and writes that to the output file.
+     *
+     * @param expectedKeys a list with string keys expected in the json
+     *                     response
+     */
+    @Override
+    public void keys(List<String> expectedKeys) {
+        checkKeys(expectedKeys);
+    }
 
     /**
      * Verifies the actual response json payload contains each of the pair

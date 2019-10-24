@@ -26,6 +26,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -91,6 +92,42 @@ abstract class Check {
     }
 
     /**
+     * Checks whether the provided jsonObject contains each of the provided keys
+     *
+     * @param expectedkeys - a list with string keys expected in the json
+     *                     response
+     * @param actualValue  - the JsonObject that is being checked for jsonvalues
+     * @return boolean - does the provided jsonObject contain all of the key value pairs
+     */
+    public boolean doesJsonObjectContainKeys(List<String> expectedkeys, JsonObject actualValue) {
+        boolean pass = true;
+        for (String key : expectedkeys) {
+            if (actualValue == null || !actualValue.has(key)) {
+                pass = false;
+            }
+        }
+        return pass;
+    }
+
+    /**
+     * Checks whether the provided jsonObject excludes each of the provided keys
+     *
+     * @param expectedkeys - a list with string keys expected in the json
+     *                     response
+     * @param actualValue  - the JsonObject that is being checked for jsonvalues
+     * @return boolean - does the provided jsonObject contain all of the key value pairs
+     */
+    public boolean doesJsonObjectExcludeKeys(List<String> expectedkeys, JsonObject actualValue) {
+        boolean pass = true;
+        for (String key : expectedkeys) {
+            if (actualValue != null && actualValue.has(key)) {
+                pass = false;
+            }
+        }
+        return pass;
+    }
+
+    /**
      * Checks whether the provided jsonObject contains each of the provided key value pairs
      *
      * @param expectedPairs - a hashmap with string key value pairs expected in the json
@@ -98,7 +135,7 @@ abstract class Check {
      * @param actualValue   - the JsonObject that is being checked for jsonvalues
      * @return boolean - does the provided jsonObject contain all of the key value pairs
      */
-    public boolean doesJsonObjectContainPair(Map<String, Object> expectedPairs, JsonObject actualValue) {
+    public boolean doesJsonObjectContainPairs(Map<String, Object> expectedPairs, JsonObject actualValue) {
         boolean pass = (actualValue != null);
         for (Map.Entry<String, Object> entry : expectedPairs.entrySet()) {
             if (actualValue != null && actualValue.has(entry.getKey())) {
@@ -111,6 +148,33 @@ abstract class Check {
             }
         }
         return pass;
+    }
+
+    /**
+     * Checks whether the provided jsonObject contains each of the provided key value pairs
+     *
+     * @param expectedPairs - a hashmap with string key value pairs expected in the json
+     *                      response
+     * @param actualValue   - the JsonObject that is being checked for jsonvalues
+     * @return boolean - does the provided jsonObject contain all of the key value pairs
+     */
+    public boolean doesJsonObjectExcludePairs(Map<String, Object> expectedPairs, JsonObject actualValue) {
+        boolean pass = true;
+        for (Map.Entry<String, Object> entry : expectedPairs.entrySet()) {
+            if (actualValue != null && actualValue.has(entry.getKey()) && entry.getValue().equals(castObject(entry.getValue(), actualValue.get(entry.getKey())))) {
+                pass = false;
+            }
+        }
+        return pass;
+    }
+
+    boolean recordResult(String expected, String actual, boolean success) {
+        if (success) {
+            this.reporter.pass("", expected, actual);
+        } else {
+            this.reporter.fail("", expected, actual);
+        }
+        return success;
     }
 
     //TODO needs matching, does not contain - consider breaking this into assertEquals, assertConains, assertExcludes (to match web)

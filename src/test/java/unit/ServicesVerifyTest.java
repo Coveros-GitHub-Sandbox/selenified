@@ -32,7 +32,8 @@ public class ServicesVerifyTest {
     @BeforeMethod(alwaysRun = true)
     public void createFile() throws InvalidBrowserException, InvalidProxyException {
         reporter =
-                new Reporter("directory", "file", new Capabilities(new Browser("None")), null, null, null, null, null, null);
+                new Reporter("directory", "file", new Capabilities(new Browser("None")),
+                        null, null, null, null, null, null);
         directory = new File("directory");
         file = new File("directory", "file.html");
     }
@@ -51,7 +52,9 @@ public class ServicesVerifyTest {
         response.verifyEquals().code(5);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a response code of <b>5</b></td>\n {4}<td>Found a response code of <b>5</b></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response code of <b>5</b></td>\n {4}<td>Found a response code of <b>5</b></td>\n {4}<td>[0-9]+ms / " +
+                        "[0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
@@ -62,7 +65,9 @@ public class ServicesVerifyTest {
         response.verifyEquals().code(6);
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
-                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a response code of <b>6</b></td>\n {4}<td>Found a response code of <b>5</b></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
+                        "response code of <b>6</b></td>\n {4}<td>Found a response code of <b>5</b></td>\n {4}<td>[0-9]+ms / " +
+                        "[0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
@@ -75,7 +80,8 @@ public class ServicesVerifyTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
                         "response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;" +
-                        "\"john\"<br/>}</i></div></td>\n {4}<td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
+                        "\"john\"<br/>}</i></div></td>\n {4}<td>Found a response of: <div><i>\\{<br/>&nbsp;&nbsp;\"name\"" +
+                        ":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 
     @Test
@@ -88,7 +94,8 @@ public class ServicesVerifyTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
                         "response of: <div><i>\\{}</i></div></td>\n {4}<td>Found a response of: " +
-                        "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
+                        "<div><i>\\{<br/>&nbsp;&nbsp;\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>[0-9]+ms / " +
+                        "[0-9]+ms</td>\n {4}<td class='fail'>FAIL</td>\n {3}</tr>\n"));
     }
 
     @Test
@@ -1235,7 +1242,8 @@ public class ServicesVerifyTest {
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
                         "response of: '<i></i>' to be an array with size of '<i>-1</i>'</td>\n {4}<td>Found a response of: " +
-                        "<div><i>\\{<br/>&nbsp;&nbsp;\"numbers\":&nbsp;\\[<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"5\"<br/>&nbsp;&nbsp;]<br/>}</i></div> which isn't an array</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
+                        "<div><i>\\{<br/>&nbsp;&nbsp;\"numbers\":&nbsp;\\[<br/>&nbsp;&nbsp;&nbsp;&nbsp;\"5\"<br/>&nbsp;&nbsp;]" +
+                        "<br/>}</i></div> which isn't an array</td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
                         "class='pass'>PASS</td>\n {3}</tr>\n"));
     }
 

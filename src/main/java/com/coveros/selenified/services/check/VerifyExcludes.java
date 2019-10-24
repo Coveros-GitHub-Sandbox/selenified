@@ -22,6 +22,10 @@ package com.coveros.selenified.services.check;
 
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
+import com.google.gson.JsonElement;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Verify will handle all verifications performed on the actual web services
@@ -50,4 +54,75 @@ public class VerifyExcludes extends Excludes {
     // assertions about the page in general
     ///////////////////////////////////////////////////////
 
+    /**
+     * Verifies the actual response json payload contains each key provided,
+     * and writes that to the output file.
+     *
+     * @param expectedKeys a list with string keys expected in the json
+     *                     response
+     */
+    @Override
+    public void keys(List<String> expectedKeys) {
+        checkKeys(expectedKeys);
+    }
+
+    /**
+     * Verifies the actual response json payload contains each of the pair
+     * values provided, and writes that to the output file.
+     *
+     * @param expectedPairs a hashmap with string key value pairs expected in the json
+     *                      response
+     */
+    @Override
+    public void keyValues(Map<String, Object> expectedPairs) {
+        checkKeyValues(expectedPairs);
+    }
+
+    /**
+     * Verifies the actual response json payload contains to the expected json
+     * element, and writes that out to the output file.
+     *
+     * @param expectedJson - the expected response json array
+     */
+    @Override
+    public void value(JsonElement expectedJson) {
+        checkValue(expectedJson);
+    }
+
+    /**
+     * Verifies the actual response json payload contains a key containing a JsonObject
+     * containing each of the pair values provided. The jsonKeys should be passed in
+     * as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedPairs - a hashmap with string key value pairs expected in the json
+     *                      response
+     */
+    public void nestedKeyValues(List<String> jsonKeys, Map<String, Object> expectedPairs) {
+        checkNestedKeyValues(jsonKeys, expectedPairs);
+    }
+
+    /**
+     * Verifies the actual response json payload contains a key containing a JsonElement.
+     * The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file.
+     *
+     * @param jsonKeys     - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedJson - the expected response json array
+     */
+    public void nestedValue(List<String> jsonKeys, JsonElement expectedJson) {
+        checkNestedValue(jsonKeys, expectedJson);
+    }
+
+    /**
+     * Verifies the actual response json payload contains to the expected json
+     * element, and writes that out to the output file.
+     *
+     * @param expectedMessage - the expected response json array
+     */
+    @Override
+    public void message(String expectedMessage) {
+        checkMessage(expectedMessage);
+    }
 }
