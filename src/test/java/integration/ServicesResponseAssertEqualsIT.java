@@ -3,15 +3,13 @@ package integration;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.Response;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-public class ServicesResponseAssertIT extends ServicesBase {
+public class ServicesResponseAssertEqualsIT extends ServicesBase {
 
     //negative checks for assert equals
 
@@ -21,7 +19,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(201);
+        call.get("posts/").assertEquals().code(201);
         // verify 1 issue
         finish(1);
     }
@@ -32,7 +30,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(200);
+        call.get("posts/").assertEquals().code(200);
         // verify no issues
         finish();
     }
@@ -43,7 +41,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(json4);
+        call.get("posts/?id=4").assertEquals().objectData(json4);
         // verify no issues
         finish();
     }
@@ -54,7 +52,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json1);
+        call.get("posts/").assertEquals().objectData(json1);
         // verify 1 issue
         finish(1);
     }
@@ -65,7 +63,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(json1);
+        call.get("posts/?id=4").assertEquals().objectData(json1);
         // verify 1 issue
         finish(1);
     }
@@ -76,7 +74,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("null/").azzert().equals(json1);
+        call.get("null/").assertEquals().objectData(json1);
         // verify 1 issue
         finish(1);
     }
@@ -92,7 +90,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json);
+        call.get("posts/").assertEquals().arrayData(json);
         // verify no issues
         finish();
     }
@@ -107,7 +105,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json);
+        call.get("posts/").assertEquals().arrayData(json);
         // verify 1 issue
         finish(1);
     }
@@ -120,7 +118,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(json);
+        call.get("posts/?id=4").assertEquals().arrayData(json);
         // verify 1 issue
         finish(1);
     }
@@ -133,7 +131,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("null/").azzert().equals(json);
+        call.get("null/").assertEquals().arrayData(json);
         // verify 1 issue
         finish(1);
     }
@@ -144,7 +142,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(new ArrayList<>(), json4);
+        call.get("posts/?id=4").assertEquals().nestedValue(new ArrayList<>(), json4);
         // verify no issues
         finish();
     }
@@ -157,7 +155,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(crumbs, 1);
+        call.get("posts/?id=4").assertEquals().nestedValue(crumbs, 1);
         // verify no issues
         finish();
     }
@@ -171,7 +169,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(crumbs, 1);
+        call.get("posts/?id=4").assertEquals().nestedValue(crumbs, 1);
         // verify no issues
         finish(1);
     }
@@ -184,7 +182,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(crumbs, 1);
+        call.get("posts/").assertEquals().nestedValue(crumbs, 1);
         // verify no issues
         finish(1);
     }
@@ -197,7 +195,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(crumbs, 1);
+        call.get("posts/?id=4").assertEquals().nestedValue(crumbs, 1);
         // verify no issues
         finish(1);
     }
@@ -210,7 +208,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(crumbs, "hi");
+        call.get("posts/?id=4").assertEquals().nestedValue(crumbs, "hi");
         // verify no issues
         finish(1);
     }
@@ -226,7 +224,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json.toString());
+        call.get("posts/").assertEquals().message(json.toString());
         // verify no issues
         finish();
     }
@@ -241,7 +239,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/").azzert().equals(json.toString());
+        call.get("posts/").assertEquals().message(json.toString());
         // verify 1 issue
         finish(1);
     }
@@ -254,7 +252,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/?id=4").azzert().equals(json.toString());
+        call.get("posts/?id=4").assertEquals().message(json.toString());
         // verify 1 issue
         finish(1);
     }
@@ -266,7 +264,7 @@ public class ServicesResponseAssertIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("posts/?id=4");
-        response.azzert().equals("Something");
+        response.assertEquals().message("Something");
         // verify 1 issue
         finish(1);
     }
@@ -278,330 +276,115 @@ public class ServicesResponseAssertIT extends ServicesBase {
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("/null/");
-        response.azzert().equals("Something");
-        // verify 1 issue
-        finish(1);
-    }
-
-    // checks for assert contains
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response")
-    public void assertJsonArrayContains() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/").azzert().contains(json1);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response")
-    public void assertJsonObjectContainsInteger() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 4);
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(values);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response")
-    public void assertJsonObjectContainsString() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("title", "eum et est occaecati");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(values);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response")
-    public void assertJsonObjectContainsMultiple() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 4);
-        values.put("title", "eum et est occaecati");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(values);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response")
-    public void assertJsonMessageContains() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("null/").azzert().contains("We encountered an error");
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonArrayDoesntContain() {
-        JsonObject json = new JsonObject();
-        json.addProperty("id", 1);
-        json.addProperty("title", "sunt aut facere repellat provident occaecati excepturi optio reprehenderit");
-        json.addProperty("body",
-                "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/").azzert().contains(json);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonObjectDoesntContain() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 3);
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(values);
+        response.assertEquals().message("Something");
         // verify 1 issue
         finish(1);
     }
 
     @Test(groups = {"integration", "service", "httpget", "response"},
             description = "An integration test to verify json data response")
-    public void assertJsonCrumbsEmptyContain() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 4);
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(new ArrayList<>(), values);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response")
-    public void assertJsonCrumbsSingleContain() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("userId", 4);
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("users");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("users/").azzert().contains(crumbs, values);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsDoubleContain() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 4);
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("users");
-        crumbs.add("userId");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("users/").azzert().contains(crumbs, values);
-        // verify 1 issues
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsNoObjectContain() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 4);
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("userId");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/").azzert().contains(crumbs, values);
-        // verify 1 issues
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsBadCrumbContain() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 4);
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("user");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(crumbs, values);
-        // verify 1 issues
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsMisMatchContain() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 4);
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("userId");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(crumbs, values);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsEmptyContains() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/").azzert().contains(new ArrayList<>(), json1);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response")
-    public void assertJsonCrumbsSingleContains() {
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("ids");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("ids/").azzert().contains(crumbs, json1);
-        // verify no issues
-        finish();
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsDoubleContains() {
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("ids");
-        crumbs.add("id");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("ids/").azzert().contains(crumbs, json1);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsNoArrayContains() {
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("users");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("users").azzert().contains(crumbs, json1);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsBadCrumbContains() {
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("userId");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(crumbs, json1);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonCrumbsMisMatchContains() {
-        List<String> crumbs = new ArrayList<>();
-        crumbs.add("ids");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("ids").azzert().contains(crumbs, simJson4);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonMessageDoesntContain() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("null/").azzert().contains("We found an error");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonArrayDoesntContainMismatch() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("id", 3);
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/").azzert().contains(values);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonObjectDoesntContainMismatch() {
-        JsonObject json = new JsonObject();
-        json.addProperty("id", 1);
-        json.addProperty("title", "sunt aut facere repellat provident occaecati excepturi optio reprehenderit");
-        json.addProperty("body",
-                "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto");
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        call.get("posts/?id=4").azzert().contains(json);
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonMessageDoesntContainMismatch() {
-        // use this object to verify the app looks as expected
-        Call call = this.calls.get();
-        // perform some actions
-        Response response = call.get("null/");
-        response.azzert().contains("Something");
-        // verify 1 issue
-        finish(1);
-    }
-
-    @Test(groups = {"integration", "service", "httpget", "response"},
-            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
-    public void assertJsonMessageDoesntContainNull() {
+    public void assertArraySizeNull() {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
         Response response = call.get("/null/");
-        response.azzert().contains("Something");
+        response.assertEquals().arraySize(-1);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void assertArraySizeEmpty() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("empty/");
+        response.assertEquals().arraySize(0);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void assertArraySizeGood() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("posts/");
+        response.assertEquals().arraySize(4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
+    public void assertArraySizeBad() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("posts/");
+        response.assertEquals().arraySize(3);
+        // verify 1 issue
+        finish(1);
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void assertNestArraySizeNotArray() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("/null/");
+        response.assertEquals().nestedArraySize(Collections.singletonList("name"), -1);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void assertNestArraySizeNotExist() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("posts/4");
+        response.assertEquals().nestedArraySize(Collections.singletonList("name"), -1);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void assertNestArraySizeEmtpy() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("ids/5");
+        response.assertEquals().nestedArraySize(Collections.singletonList("ids"), 0);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response")
+    public void assertNestArraySizeGood() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("ids/");
+        response.assertEquals().nestedArraySize(Collections.singletonList("ids"), 4);
+        // verify no issues
+        finish();
+    }
+
+    @Test(groups = {"integration", "service", "httpget", "response"},
+            description = "An integration test to verify json data response", expectedExceptions = AssertionError.class)
+    public void assertNestArraySizeBad() {
+        // use this object to verify the app looks as expected
+        Call call = this.calls.get();
+        // perform some actions
+        Response response = call.get("ids/");
+        response.assertEquals().nestedArraySize(Collections.singletonList("ids"), 3);
         // verify 1 issue
         finish(1);
     }

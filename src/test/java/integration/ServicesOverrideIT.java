@@ -34,7 +34,7 @@ public class ServicesOverrideIT extends ServicesBase {
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions
-        call.get("posts/", new Request()).verify().equals(200);
+        call.get("posts/", new Request()).verifyEquals().code(200);
         // verify no issues
         finish();
     }
@@ -49,7 +49,7 @@ public class ServicesOverrideIT extends ServicesBase {
         headers.put("X-Atlassian-Token", "no-check");
         call.addHeaders(headers);
         // perform some actions - this will fail as application/xml isn't supported
-        call.post("posts/", new Request().setJsonPayload(new JsonObject())).verify().equals(201);
+        call.post("posts/", new Request().setJsonPayload(new JsonObject())).verifyEquals().code(201);
         // verify one issue
         finish(1);
     }
@@ -65,7 +65,7 @@ public class ServicesOverrideIT extends ServicesBase {
         call.resetHeaders();
         call.addHeaders(headers);
         // perform some actions
-        call.get("posts/").verify().equals(200);
+        call.get("posts/").verifyEquals().code(200);
         // verify no issues
         finish();
     }
@@ -78,7 +78,7 @@ public class ServicesOverrideIT extends ServicesBase {
         //set some custom credentials
         call.addCredentials("hello", "world");
         // perform some actions
-        call.get("posts/").verify().equals(200);
+        call.get("posts/").verifyEquals().code(200);
         // verify no issues
         finish();
     }

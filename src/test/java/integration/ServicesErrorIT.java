@@ -23,7 +23,7 @@ public class ServicesErrorIT extends Selenified {
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "3.2.2");
+        setVersion(this, test, "3.3.0");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -37,7 +37,7 @@ public class ServicesErrorIT extends Selenified {
         // use this object to make calls
         Call call = this.calls.get();
         // perform some actions
-        call.get("posts/4").verify().equals(200);
+        call.get("posts/4").verifyEquals().code(200);
         // verify 1 issue
         finish(1);
     }
@@ -48,7 +48,7 @@ public class ServicesErrorIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.post("posts/", new Request()).verify().equals(201);
+        call.post("posts/", new Request()).verifyEquals().code(201);
         // verify 1 issue
         finish(1);
     }
@@ -59,7 +59,7 @@ public class ServicesErrorIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.put("posts/3", new Request()).verify().equals(200);
+        call.put("posts/3", new Request()).verifyEquals().code(200);
         // verify 1 issue
         finish(1);
     }
@@ -70,7 +70,7 @@ public class ServicesErrorIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // perform some actions
-        call.delete("posts/5", new Request()).verify().equals(200);
+        call.delete("posts/5", new Request()).verifyEquals().code(200);
         // verify 1 issue
         finish(1);
     }
