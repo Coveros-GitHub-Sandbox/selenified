@@ -399,8 +399,24 @@ node {
             }
         }
         if (branch == 'develop' || branch == 'master') {
-            stage('Deploy to Maven Central') {
-                sh "mvn clean deploy -Dskip.unit.tests -Ddependency-check.skip -Dskip.integration.tests"
+            withCredentials([
+                    string(
+                            credentialsId: 'sonar-github',
+                            variable: 'SONAR_GITHUB_TOKEN'
+                    )
+            ]) {
+                parallel(
+                        "GitHub Package Registry": {
+                            stage('Deploy to GitHub Package Registry') {
+                                sh "mvn clean deploy -Dalt.build.dir=github -Dskip.unit.tests -Ddependency-check.skip -Dskip.integration.tests -Dregistry=https://maven.pkg.github.com/Coveros -Dtoken=${SONAR_GITHUB_TOKEN}"
+                            }
+                        },
+                        "Maven Central": {
+                            stage('Deploy to Maven Central') {
+                                sh "mvn clean deploy -Dalt.build.dir=maven -Dskip.unit.tests -Ddependency-check.skip -Dskip.integration.tests"
+                            }
+                        }
+                )
             }
         }
     }
