@@ -373,7 +373,7 @@ public class HTTP {
 
             methodsField.set(null/*static field*/, newMethods);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            log.warn("Your version of Java doesn't support the PATCH method, be warned! " + e);
+            log.info("Your version of Java doesn't support the PATCH method, be warned! " + e);
         }
     }
 
