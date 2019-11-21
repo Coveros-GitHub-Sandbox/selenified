@@ -41,7 +41,7 @@ import java.util.Map;
  */
 abstract class Check {
 
-    static final String ARROW = " \uD83E\uDC1A ";
+    static final String ARROW = " &#8594; ";
 
     // this will be the name of the file we write all commands out to
     Reporter reporter;

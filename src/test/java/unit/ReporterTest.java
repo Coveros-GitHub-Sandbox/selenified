@@ -339,13 +339,13 @@ public class ReporterTest {
     @Test
     public void outputRequestPropertiesNullNullFileTest() {
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(null, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
     public void outputRequestPropertiesNullNullBadFileTest() {
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(null, new File("Jenkinsfi"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfi'>Jenkinsfi</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfi'>Jenkinsfi</a></div></span>"));
     }
 
     @Test
@@ -395,7 +395,7 @@ public class ReporterTest {
         map.put("hello", "world");
         Request request = new Request().setMultipartData(map);
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>hello : world</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>hello : world</div><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
@@ -441,7 +441,7 @@ public class ReporterTest {
     public void outputRequestPropertiesEmptyJsonObjectAndFileTest() {
         Request request = new Request().setJsonPayload(new JsonObject());
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\{\\}</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\{\\}</div><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
@@ -450,14 +450,14 @@ public class ReporterTest {
         json.addProperty("hello", "world");
         Request request = new Request().setJsonPayload(json);
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>\\}</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>\\}</div><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
     public void outputRequestPropertiesEmptyJsonArrayAndFileTest() {
         Request request = new Request().setJsonPayload(new JsonArray());
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\[\\]</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\[\\]</div><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
@@ -467,14 +467,14 @@ public class ReporterTest {
         json.add("world");
         Request request = new Request().setJsonPayload(json);
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;\"world\"<br/>\\]</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;\"world\"<br/>\\]</div><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
     public void outputRequestPropertiesEmptyMultipartAndFileTest() {
         Request request = new Request().setMultipartData(new HashMap<>());
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
@@ -483,14 +483,14 @@ public class ReporterTest {
         map.put("hello", "world");
         Request request = new Request().setMultipartData(map);
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>hello : world</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>hello : world</div><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
     public void outputRequestPropertiesEmptyParamsAndFileTest() {
         Request request = new Request().setUrlParams(new HashMap<>());
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
@@ -499,7 +499,7 @@ public class ReporterTest {
         map.put("hello", "world");
         Request request = new Request().setUrlParams(map);
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
@@ -511,7 +511,7 @@ public class ReporterTest {
         json.addProperty("hello", "world");
         request.setJsonPayload(json);
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>\\}</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\{<br/>&nbsp;&nbsp;\"hello\":&nbsp;\"world\"<br/>\\}</div><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
@@ -524,7 +524,7 @@ public class ReporterTest {
         json.add("world");
         request.setJsonPayload(json);
         String requestPayloadOutput = Reporter.getRequestPayloadOutput(request, new File("Jenkinsfile"));
-        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;\"world\"<br/>\\]</div><div> with file: <a href='file:///" + System.getProperty("user.dir") + "/Jenkinsfile'>Jenkinsfile</a></div></span>"));
+        assertTrue(requestPayloadOutput.matches("<a href='javascript:void\\(0\\)' onclick='toggle\\(\"[0-9]{13}_[a-zA-Z0-9]{10}\"\\)'>Toggle Payload</a> <span id='[0-9]{13}_[a-zA-Z0-9]{10}' style='display:none;'><div>\\[<br/>&nbsp;&nbsp;\"hello\",<br/>&nbsp;&nbsp;\"world\"<br/>\\]</div><div> with file: <a href='file:///" + System.getProperty("user.dir").replace("\\", "\\\\") + File.separator.replace("\\", "\\\\") + "Jenkinsfile'>Jenkinsfile</a></div></span>"));
     }
 
     @Test
