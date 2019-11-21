@@ -871,7 +871,7 @@ public class ServicesVerifyContainsTest {
         String content = Files.toString(file, Charsets.UTF_8);
         assertTrue(content.matches(
                 "[.\\s\\S]+ {3}<tr>\n {4}<td align='center'>1.</td>\n {4}<td></td>\n {4}<td>Expected to find a " +
-                        "response of: '<i>first&nbsp;\uD83E\uDC1A&nbsp;name</i>' containing: <div><i>\\{<br/>&nbsp;&nbsp;" +
+                        "response of: '<i>first&nbsp;&#8594;&nbsp;name</i>' containing: <div><i>\\{<br/>&nbsp;&nbsp;" +
                         "\"name\":&nbsp;\"john\"<br/>}</i></div></td>\n {4}<td>Found a response of: " +
                         "<div><i>null</i></div></td>\n {4}<td>[0-9]+ms / [0-9]+ms</td>\n {4}<td " +
                         "class='fail'>FAIL</td>\n {3}</tr>\n"));
