@@ -43,7 +43,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  */
 abstract class Equals extends Check {
 
-    private static final String WITH_VALUE = " with a value of <b>";
+    private static final String WITH_VALUE = "</i> with a value of <b>";
 
     // ///////////////////////////////////////
     // assessing functionality
@@ -248,8 +248,7 @@ abstract class Equals extends Check {
      * @return String: the css value of the attribute passed in. null will be returned if the element's css isn't accessible
      */
     String checkCssValue(String attribute, String expectedCssValue, double waitFor, double timeTook) {
-        String check = this.element.prettyOutput() + " having a css attribute of <i>" + attribute +
-                "</i>" + WITH_VALUE + expectedCssValue + ENDB;
+        String check = this.element.prettyOutput() + " having a css attribute of <i>" + attribute + WITH_VALUE + expectedCssValue + ENDB;
         // get the actual css element value
         String actualCssValue = this.element.get().css(attribute);
         // record the result

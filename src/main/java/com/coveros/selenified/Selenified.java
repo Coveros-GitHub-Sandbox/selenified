@@ -64,7 +64,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * @version 3.3.0
  * @lastupdate 8/19/2019
  */
-@Listeners({Listener.class, ReportOverview.class, Transformer.class})
+@Listeners({Listener.class, ReportOverview.class, CombinedPDFReport.class, Transformer.class})
 public class Selenified {
 
     private static final Logger log = Logger.getLogger(Selenified.class);
