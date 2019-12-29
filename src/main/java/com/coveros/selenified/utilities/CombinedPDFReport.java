@@ -49,6 +49,7 @@ public class CombinedPDFReport implements IReporter {
                 pdfMerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
                 PDDocument document = PDDocument.load(new File(testReportDirectory + FILE_NAME));
                 PDPage tableOfContents;
+                // Create larger page size if there are more than 48 tests
                 if (testReports.length > 48) {
                     tableOfContents = new PDPage(new PDRectangle(1000, testReports.length * 17f));
                 } else {
