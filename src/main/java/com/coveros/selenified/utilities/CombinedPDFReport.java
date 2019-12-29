@@ -17,6 +17,7 @@ import org.apache.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPa
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPageFitWidthDestination;
 import org.testng.IReporter;
 import org.testng.ISuite;
+import org.testng.log4testng.Logger;
 import org.testng.xml.XmlSuite;
 
 import java.io.File;
@@ -27,23 +28,32 @@ import java.util.regex.Pattern;
 public class CombinedPDFReport implements IReporter {
 
     static final float INCH = 72;
+    static final String FILE_NAME= "/AllPDFReports.pdf";
+    private static final Logger log = Logger.getLogger(CombinedPDFReport.class);
 
     @Override
     public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
         if (Property.generatePDF()) {
             try {
-                File folder = new File(outputDirectory + "/Surefire suite");
+                String testReportDirectory = suites.get(0).getOutputDirectory();
+                File folder = new File(testReportDirectory);
 
                 PDFMergerUtility pdfMerger = new PDFMergerUtility();
-                pdfMerger.setDestinationFileName(outputDirectory + "/Surefire suite/merged.pdf");
+                pdfMerger.setDestinationFileName(testReportDirectory + FILE_NAME);
                 File[] testReports = listFilesMatching(folder, ".*\\.pdf");
+
                 for (File file : testReports) {
                     pdfMerger.addSource(file);
                 }
-                pdfMerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
-                PDDocument document = PDDocument.load(new File(outputDirectory + "/Surefire suite/merged.pdf"));
 
-                PDPage tableOfContents = new PDPage(new PDRectangle(1000, testReports.length * 17));
+                pdfMerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
+                PDDocument document = PDDocument.load(new File(testReportDirectory + FILE_NAME));
+                PDPage tableOfContents;
+                if (testReports.length > 48) {
+                    tableOfContents = new PDPage(new PDRectangle(1000, testReports.length * 17f));
+                } else {
+                    tableOfContents = new PDPage();
+                }
 
                 float ph = tableOfContents.getMediaBox().getUpperRightY();
 
@@ -62,26 +72,41 @@ public class CombinedPDFReport implements IReporter {
 
                 // Now add the link annotation, so the click on "Jump to page three" works
                 for (int reportIndex = 1; reportIndex <= testReports.length; reportIndex++) {
-                    setLink(document, ph, tableOfContents, font, fontSize, reportIndex-1, "Go to " + testReports[reportIndex-1], reportIndex);
+                    int pageIndex = reportIndex - 1;
+                    PDAnnotationLink pageLink = createLink(ph, font, fontSize, "Go to " + testReports[pageIndex], reportIndex);
+                    addLink(document, tableOfContents, pageLink, pageIndex);
                 }
 
-                PDDocument newDoc = new PDDocument();
-                PDPageTree allPages = document.getDocumentCatalog().getPages();
+                try (PDDocument newDoc = new PDDocument()) {
+                    PDPageTree allPages = document.getDocumentCatalog().getPages();
 
-                allPages.insertBefore(tableOfContents, allPages.get(0));
-                for (PDPage page : allPages) {
-                    newDoc.addPage(page);
+                    allPages.insertBefore(tableOfContents, allPages.get(0));
+                    for (PDPage page : allPages) {
+                        newDoc.addPage(page);
+                    }
+                    newDoc.save(testReportDirectory + FILE_NAME);
                 }
-                newDoc.save(outputDirectory + "/Surefire suite/merged.pdf");
             }
             catch (Exception e) {
-                e.printStackTrace();
+                log.debug(e);
             }
         }
     }
 
-    private void setLink(PDDocument document, float ph, PDPage tableOfContents, PDFont font, int fontSize, int pageIndex, String linkText, int linkIndex) throws IOException {
+    private void addLink(PDDocument document, PDPage tableOfContents, PDAnnotationLink pageLink, int pageIndex) throws IOException {
         List<PDAnnotation> annotations = tableOfContents.getAnnotations();
+        // add the GoTo action
+        PDActionGoTo actionGoto = new PDActionGoTo();
+        // see javadoc for other types of PDPageDestination
+        PDPageDestination dest = new PDPageFitWidthDestination();
+        // do not use setPageNumber(), this is for external destinations only
+        dest.setPage(document.getPage(pageIndex));
+        actionGoto.setDestination(dest);
+        pageLink.setAction(actionGoto);
+        annotations.add(pageLink);
+    }
+
+    private PDAnnotationLink createLink(float ph, PDFont font, int fontSize, String linkText, int linkIndex) throws IOException {
         PDBorderStyleDictionary borderULine = new PDBorderStyleDictionary();
         borderULine.setStyle(PDBorderStyleDictionary.STYLE_UNDERLINE);
         borderULine.setWidth(0); // 1 point
@@ -97,15 +122,7 @@ public class CombinedPDFReport implements IReporter {
         position.setUpperRightY(linkY + 10);
         pageLink.setRectangle(position);
 
-        // add the GoTo action
-        PDActionGoTo actionGoto = new PDActionGoTo();
-        // see javadoc for other types of PDPageDestination
-        PDPageDestination dest = new PDPageFitWidthDestination();
-        // do not use setPageNumber(), this is for external destinations only
-        dest.setPage(document.getPage(pageIndex));
-        actionGoto.setDestination(dest);
-        pageLink.setAction(actionGoto);
-        annotations.add(pageLink);
+        return pageLink;
     }
 
     public static File[] listFilesMatching(File root, String regex) {
