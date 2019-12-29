@@ -38,10 +38,9 @@ public class WebBase extends Selenified {
     @BeforeSuite(alwaysRun = true)
     public void startMockServer() throws IOException {
         if( System.getProperty("mockPort") != null) {
-            String x = System.getProperty("mockPort");
-            int y = Integer.valueOf(x);
             mockPort += Integer.valueOf(System.getProperty("mockPort"));
         }
+        System.setProperty("mockserver.logLevel", "OFF");
         mockServer = startClientAndServer(mockPort);
         mockServer.when(request().withMethod("GET").withPath("/"))
                 .respond(response().withBody(readFile("public/index.html")));
