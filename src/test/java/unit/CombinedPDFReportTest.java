@@ -3,15 +3,18 @@ package unit;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.CombinedPDFReport;
-import org.testng.ISuite;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import org.testng.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.xml.XmlTest;
+
 import static org.testng.Assert.*;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 
 public class CombinedPDFReportTest extends CombinedPDFReport {
 
@@ -31,43 +34,253 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
     }
 
     @Test
-    public void listFilesMatchingTest() throws IOException {
-        File file = new File("directory", "file.html");
-        File anotherFile = new File("directory", "anotherFile.html");
-
-        File[] fileArray = new File[2];
-        fileArray[0] = anotherFile;
-        anotherFile.createNewFile();
-        fileArray[1] = file;
-        file.createNewFile();
-
-        assertEquals(fileArray,CombinedPDFReport.listFilesMatching(directory, ".*"));
-    }
-
-    @Test
-    public void listFilesMatchingTest2() throws IOException {
-        File file = new File("directory", "file.pdf");
-        File anotherFile = new File("directory", "anotherFile.pdf");
-        File nonPdfFile = new File("directory", "nonPDFFile.html");
-
-        anotherFile.createNewFile();
-        file.createNewFile();
-        nonPdfFile.createNewFile();
-
-        File[] fileArray = new File[2];
-        fileArray[0] = anotherFile;
-        fileArray[1] = file;
-
-        assertEquals(fileArray,CombinedPDFReport.listFilesMatching(directory, ".*\\.pdf"));
-    }
-
-    @Test
-    public void listFilesMatchingTest3() throws IOException {
-        assertEquals(new File[0], CombinedPDFReport.listFilesMatching(directory, ".*"));
-    }
-
-    @Test
     public void generateCombinedReportTest() {
-        generateReport(null, new ArrayList<ISuite>(), "myDir");
+        ITestResult iTestResult = new ITestResult() {
+            @Override
+            public int getStatus() {
+                return 0;
+            }
+
+            @Override
+            public void setStatus(int status) {
+
+            }
+
+            @Override
+            public ITestNGMethod getMethod() {
+                return null;
+            }
+
+            @Override
+            public Object[] getParameters() {
+                return new Object[0];
+            }
+
+            @Override
+            public void setParameters(Object[] parameters) {
+
+            }
+
+            @Override
+            public IClass getTestClass() {
+                return null;
+            }
+
+            @Override
+            public Throwable getThrowable() {
+                return null;
+            }
+
+            @Override
+            public void setThrowable(Throwable throwable) {
+
+            }
+
+            @Override
+            public long getStartMillis() {
+                return 0;
+            }
+
+            @Override
+            public long getEndMillis() {
+                return 0;
+            }
+
+            @Override
+            public void setEndMillis(long millis) {
+
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public boolean isSuccess() {
+                return false;
+            }
+
+            @Override
+            public String getHost() {
+                return null;
+            }
+
+            @Override
+            public Object getInstance() {
+                return null;
+            }
+
+            @Override
+            public String getTestName() {
+                return null;
+            }
+
+            @Override
+            public String getInstanceName() {
+                return null;
+            }
+
+            @Override
+            public ITestContext getTestContext() {
+                return new ITestContext() {
+                    @Override
+                    public String getName() {
+                        return null;
+                    }
+
+                    @Override
+                    public Date getStartDate() {
+                        return null;
+                    }
+
+                    @Override
+                    public Date getEndDate() {
+                        return null;
+                    }
+
+                    @Override
+                    public IResultMap getPassedTests() {
+                        return null;
+                    }
+
+                    @Override
+                    public IResultMap getSkippedTests() {
+                        return null;
+                    }
+
+                    @Override
+                    public IResultMap getFailedButWithinSuccessPercentageTests() {
+                        return null;
+                    }
+
+                    @Override
+                    public IResultMap getFailedTests() {
+                        return null;
+                    }
+
+                    @Override
+                    public String[] getIncludedGroups() {
+                        return new String[0];
+                    }
+
+                    @Override
+                    public String[] getExcludedGroups() {
+                        return new String[0];
+                    }
+
+                    @Override
+                    public String getOutputDirectory() {
+                        return "myDir/otherDir";
+                    }
+
+                    @Override
+                    public ISuite getSuite() {
+                        return null;
+                    }
+
+                    @Override
+                    public ITestNGMethod[] getAllTestMethods() {
+                        return new ITestNGMethod[0];
+                    }
+
+                    @Override
+                    public String getHost() {
+                        return null;
+                    }
+
+                    @Override
+                    public Collection<ITestNGMethod> getExcludedMethods() {
+                        return null;
+                    }
+
+                    @Override
+                    public IResultMap getPassedConfigurations() {
+                        return null;
+                    }
+
+                    @Override
+                    public IResultMap getSkippedConfigurations() {
+                        return null;
+                    }
+
+                    @Override
+                    public IResultMap getFailedConfigurations() {
+                        return null;
+                    }
+
+                    @Override
+                    public XmlTest getCurrentXmlTest() {
+                        return null;
+                    }
+
+                    @Override
+                    public List<Module> getGuiceModules(Class<? extends Module> cls) {
+                        return null;
+                    }
+
+                    @Override
+                    public Injector getInjector(List<Module> moduleInstances) {
+                        return null;
+                    }
+
+                    @Override
+                    public Injector getInjector(IClass iClass) {
+                        return null;
+                    }
+
+                    @Override
+                    public void addInjector(List<Module> moduleInstances, Injector injector) {
+
+                    }
+
+                    @Override
+                    public Object getAttribute(String name) {
+                        return null;
+                    }
+
+                    @Override
+                    public void setAttribute(String name, Object value) {
+
+                    }
+
+                    @Override
+                    public Set<String> getAttributeNames() {
+                        return null;
+                    }
+
+                    @Override
+                    public Object removeAttribute(String name) {
+                        return null;
+                    }
+                };
+            }
+
+            @Override
+            public int compareTo(ITestResult o) {
+                return 0;
+            }
+
+            @Override
+            public Object getAttribute(String name) {
+                return null;
+            }
+
+            @Override
+            public void setAttribute(String name, Object value) {
+
+            }
+
+            @Override
+            public Set<String> getAttributeNames() {
+                return null;
+            }
+
+            @Override
+            public Object removeAttribute(String name) {
+                return null;
+            }
+        };
+        generateReport(null, new ArrayList<>(), "myDir");
     }
 }

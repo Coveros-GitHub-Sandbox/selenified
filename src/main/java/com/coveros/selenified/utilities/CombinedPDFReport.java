@@ -17,13 +17,14 @@ import org.apache.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPa
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPageFitWidthDestination;
 import org.testng.IReporter;
 import org.testng.ISuite;
+import org.testng.ITestNGMethod;
 import org.testng.log4testng.Logger;
 import org.testng.xml.XmlSuite;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class CombinedPDFReport implements IReporter {
 
@@ -36,22 +37,22 @@ public class CombinedPDFReport implements IReporter {
         if (Property.generatePDF()) {
             try {
                 String testReportDirectory = suites.get(0).getOutputDirectory();
-                File folder = new File(testReportDirectory);
-
+                List<ITestNGMethod> iTestNGMethods = suites.get(0).getAllMethods();
                 PDFMergerUtility pdfMerger = new PDFMergerUtility();
                 pdfMerger.setDestinationFileName(testReportDirectory + FILE_NAME);
-                File[] testReports = listFilesMatching(folder, ".*\\.pdf");
-
-                for (File file : testReports) {
-                    pdfMerger.addSource(file);
+                List<File> testReports = new ArrayList<>();
+                for (ITestNGMethod iTestNGMethod : iTestNGMethods) {
+                    File testReport = new File(testReportDirectory, iTestNGMethod.getTestClass().getName() + "." + iTestNGMethod.getMethodName() + ".pdf");
+                    testReports.add(testReport);
+                    pdfMerger.addSource(testReport);
                 }
 
                 pdfMerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
                 PDDocument document = PDDocument.load(new File(testReportDirectory + FILE_NAME));
                 PDPage tableOfContents;
                 // Create larger page size if there are more than 48 tests
-                if (testReports.length > 48) {
-                    tableOfContents = new PDPage(new PDRectangle(1000, testReports.length * 17f));
+                if (suites.get(0).getAllMethods().size() > 48) {
+                    tableOfContents = new PDPage(new PDRectangle(1000, testReports.size() * 17f));
                 } else {
                     tableOfContents = new PDPage();
                 }
@@ -72,9 +73,9 @@ public class CombinedPDFReport implements IReporter {
                 contents.close();
 
                 // Now add the link annotation, so the click on "Jump to page three" works
-                for (int reportIndex = 1; reportIndex <= testReports.length; reportIndex++) {
+                for (int reportIndex = 1; reportIndex <= testReports.size(); reportIndex++) {
                     int pageIndex = reportIndex - 1;
-                    PDAnnotationLink pageLink = createLink(ph, font, fontSize, "Go to " + testReports[pageIndex], reportIndex);
+                    PDAnnotationLink pageLink = createLink(ph, font, fontSize, "Go to " + testReports.get(pageIndex), reportIndex);
                     addLink(document, tableOfContents, pageLink, pageIndex);
                 }
 
@@ -124,13 +125,5 @@ public class CombinedPDFReport implements IReporter {
         pageLink.setRectangle(position);
 
         return pageLink;
-    }
-
-    public static File[] listFilesMatching(File root, String regex) {
-        if (!root.isDirectory()) {
-            throw new IllegalArgumentException(root + " is no directory.");
-        }
-        final Pattern p = Pattern.compile(regex);
-        return root.listFiles(file -> p.matcher(file.getName()).matches());
     }
 }
