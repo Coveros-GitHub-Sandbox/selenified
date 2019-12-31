@@ -19,7 +19,7 @@
         <failsafe.threads>5</failsafe.threads>
         <failsafe.verbosity>0</failsafe.verbosity>
         <failsafe.groups.include/>
-        <failsafe.groups.exclude>browser,service,hub</failsafe.groups.exclude>
+        <failsafe.groups.exclude>cookie,browser,service,hub</failsafe.groups.exclude>
         <failsafe.files.include>**/*IT.java</failsafe.files.include>
         <failsafe.files.exclude/>
 
