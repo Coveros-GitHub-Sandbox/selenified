@@ -36,7 +36,7 @@ import java.util.Map;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.3.0
+ * @version 3.3.1
  * @lastupdate 10/24/2019
  */
 abstract class Check {

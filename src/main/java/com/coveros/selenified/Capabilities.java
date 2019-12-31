@@ -60,7 +60,7 @@ import static com.coveros.selenified.utilities.Reporter.ENABLED_LOGS;
  * Assists with Selenified class in setting up proxy, hub, and browser details
  *
  * @author Max Saperstone
- * @version 3.3.0
+ * @version 3.3.1
  * @lastupdate 3/29/2019
  */
 public class Capabilities {
