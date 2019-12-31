@@ -60,7 +60,7 @@ import static com.coveros.selenified.utilities.Reporter.ENABLED_LOGS;
  * Assists with Selenified class in setting up proxy, hub, and browser details
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 3/29/2019
  */
 public class Capabilities {
@@ -86,13 +86,15 @@ public class Capabilities {
         if (browser.getName() == BrowserName.NONE) {
             return;
         }
+        //clean up console logging
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
+        System.setProperty("webdriver." + browser.getName().toString().toLowerCase() + ".silentOutput", "true");
         //turn on browser logging
         LoggingPreferences logPrefs = new LoggingPreferences();
         for (String logType : ENABLED_LOGS) {
             logPrefs.enable(logType, Level.ALL);
         }
         this.desiredCapabilities.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
-        System.setProperty("webdriver." + browser.getName().toString().toLowerCase() + ".verboseLogging", "true");
         // by default, accept insecure sites - there are some exceptions for browsers
         this.desiredCapabilities.setAcceptInsecureCerts(true);
         // setup our browser name based on the enum provided - there are a few special cases

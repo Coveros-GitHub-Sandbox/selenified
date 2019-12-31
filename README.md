@@ -26,7 +26,7 @@ Update your `pom.xml` file to include (or add the `dependency` block to your cur
     <dependency>
         <groupId>com.coveros</groupId>
         <artifactId>selenified</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.0</version>
         <scope>test</scope>
     </dependency>
 </dependencies>
@@ -36,7 +36,7 @@ Update your `pom.xml` file to include (or add the `dependency` block to your cur
 Update your `ivy.xml` file to include (or add the `dependency` block to your current dependencies)
 ```xml
 <dependencies>
-    <dependency org="com.coveros" name="selenified" rev="3.2.0" />
+    <dependency org="com.coveros" name="selenified" rev="3.3.0" />
 </dependencies>
 ```
 
@@ -44,7 +44,7 @@ Update your `ivy.xml` file to include (or add the `dependency` block to your cur
 Update your `build.gradle` file to include (or add the `testCompile` line to your current dependencies)
 ```groovy
 dependencies {
-    testCompile group: 'com.coveros', name: 'selenified', version: '3.2.0'
+    testCompile group: 'com.coveros', name: 'selenified', version: '3.3.0'
 }
 ```
 
@@ -218,7 +218,7 @@ See below for an example:
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a
         // dynamic check
-        setVersion(this, test, "3.2.0");
+        setVersion(this, test, "3.3.0");
     }
 ```
 

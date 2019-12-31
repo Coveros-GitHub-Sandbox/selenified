@@ -32,7 +32,7 @@ import static com.coveros.selenified.utilities.Property.getProgramProperty;
  * Utilities class to interact with some remote hub driver, retrieving information such as username, key, and test status
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 8/23/2019
  */
 public class Hub {

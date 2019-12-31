@@ -18,19 +18,16 @@
  * under the License.
  */
 
-package com.coveros.selenified.services;
+package com.coveros.selenified.services.check;
 
+import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.Map;
+import java.util.List;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
-import static com.coveros.selenified.utilities.Constants.GSON;
 
 /**
  * Assert will handle all verifications performed on the actual web services
@@ -39,10 +36,10 @@ import static com.coveros.selenified.utilities.Constants.GSON;
  * troubleshooting and debugging failing tests.
  *
  * @author Max Saperstone
- * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @version 3.3.0
+ * @lastupdate 10/24/2019
  */
-public class Assert extends Check {
+public class AssertEquals extends Equals {
 
     /**
      * The default constructor passing in the app and output file
@@ -50,7 +47,7 @@ public class Assert extends Check {
      * @param response - the response from the web services call
      * @param reporter - the file to write all logging out to
      */
-    public Assert(Response response, Reporter reporter) {
+    public AssertEquals(Response response, Reporter reporter) {
         this.response = response;
         this.reporter = reporter;
     }
@@ -67,9 +64,8 @@ public class Assert extends Check {
      * @param expectedCode - the expected response code
      */
     @Override
-    @SuppressWarnings("squid:S1201")
-    public void equals(int expectedCode) {
-        assertEquals("Code Mismatch", expectedCode, checkEquals(expectedCode));
+    public void code(int expectedCode) {
+        assertEquals("Code Mismatch", expectedCode, checkCode(expectedCode));
     }
 
     /**
@@ -80,9 +76,8 @@ public class Assert extends Check {
      * @param expectedJson - the expected response json object
      */
     @Override
-    @SuppressWarnings("squid:S1201")
-    public void equals(JsonObject expectedJson) {
-        assertEquals("JsonObject Response Mismatch", expectedJson, checkEquals(expectedJson));
+    public void objectData(JsonObject expectedJson) {
+        assertEquals("JsonObject Response Mismatch", expectedJson, checkObjectData(expectedJson));
     }
 
     /**
@@ -93,9 +88,22 @@ public class Assert extends Check {
      * @param expectedJson - the expected response json array
      */
     @Override
-    @SuppressWarnings("squid:S1201")
-    public void equals(JsonArray expectedJson) {
-        assertEquals("JsonArray Response Mismatch", expectedJson, checkEquals(expectedJson));
+    public void arrayData(JsonArray expectedJson) {
+        assertEquals("JsonArray Response Mismatch", expectedJson, checkArrayData(expectedJson));
+    }
+
+    /**
+     * Asserts the actual response json payload contains a key with a value equal to the expected
+     * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
+     * the expected value. This result will be written out to the output file. If this fails, the code will
+     * immediately exit, and record the error.
+     *
+     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param expectedValue - the expected value
+     */
+    @Override
+    public void nestedValue(List<String> jsonKeys, Object expectedValue) {
+        assertEquals("JsonElement Response Mismatch", expectedValue, checkNestedValue(jsonKeys, expectedValue));
     }
 
     /**
@@ -105,47 +113,32 @@ public class Assert extends Check {
      *
      * @param expectedMessage - the expected response message
      */
-
     @Override
-    @SuppressWarnings("squid:S1201")
-    public void equals(String expectedMessage) {
-        assertEquals("Response Message Mismatch", expectedMessage, checkEquals(expectedMessage));
+    public void message(String expectedMessage) {
+        assertEquals("Response Message Mismatch", expectedMessage, checkMessage(expectedMessage));
     }
 
     /**
-     * Asserts the actual response json payload contains each of the pair
-     * values provided, and writes that to the output file. If this fails, the code will
+     * Asserts the actual response payload contains the number of elements
+     * in an array as expected, and writes that out to the output file. If this fails, the code will
      * immediately exit, and record the error.
      *
-     * @param expectedPairs a hashmap with string key value pairs expected in the json
-     *                      response
+     * @param expectedSize - the expected array size
      */
     @Override
-    public void contains(Map<String, Object> expectedPairs) {
-        assertTrue("Expected to find " + Reporter.formatKeyPair(expectedPairs), checkContains(expectedPairs));
+    public void arraySize(int expectedSize) {
+        assertEquals("Response Array Size Mismatch", expectedSize, checkArraySize(expectedSize));
     }
 
     /**
-     * Asserts the actual response json payload contains to the expected json
-     * element, and writes that out to the output file. If this fails, the code will
+     * Asserts the actual response payload contains a key with a value of the number of elements
+     * in an array as expected, and writes that out to the output file. If this fails, the code will
      * immediately exit, and record the error.
      *
-     * @param expectedJson - the expected response json array
+     * @param expectedSize - the expected array size
      */
     @Override
-    public void contains(JsonElement expectedJson) {
-        assertTrue("Expected to find " + GSON.toJson(expectedJson), checkContains(expectedJson));
-    }
-
-    /**
-     * Asserts the actual response json payload contains to the expected json
-     * element, and writes that out to the output file. If this fails, the code will
-     * immediately exit, and record the error.
-     *
-     * @param expectedMessage - the expected response json array
-     */
-    @Override
-    public void contains(String expectedMessage) {
-        assertTrue("Expected to find '" + expectedMessage + "'", checkContains(expectedMessage));
+    public void nestedArraySize(List<String> jsonKeys, int expectedSize) {
+        assertEquals("Response Array Size Mismatch", expectedSize, checkNestedArraySize(jsonKeys, expectedSize));
     }
 }

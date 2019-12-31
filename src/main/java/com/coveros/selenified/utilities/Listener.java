@@ -43,7 +43,7 @@ import static com.coveros.selenified.utilities.Property.BROWSER;
  * the TestNG xml file.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 8/19/2019
  */
 public class Listener extends TestListenerAdapter {

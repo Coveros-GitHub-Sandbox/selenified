@@ -23,7 +23,6 @@ package com.coveros.selenified;
 import com.coveros.selenified.Browser.BrowserUse;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
-import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.services.HTTP.ContentType;
@@ -62,7 +61,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * startTest method.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 8/19/2019
  */
 @Listeners({Listener.class, ReportOverview.class, Transformer.class})
@@ -73,12 +72,10 @@ public class Selenified {
     private static final String SERVICES_PASS = "ServicesPass";
 
     // some passed in system browser capabilities
-    private static final List<Capabilities> CAPABILITIES_LIST = new ArrayList<>();
+    private static final List<Browser> BROWSER_LIST = new ArrayList<>();
     private static String buildName;
 
     // for individual tests
-    private final ThreadLocal<Browser> browserThreadLocal = new ThreadLocal<>();
-    private final ThreadLocal<DesiredCapabilities> desiredCapabilitiesThreadLocal = new ThreadLocal<>();
     private final ThreadLocal<Reporter> reporterThreadLocal = new ThreadLocal<>();
     protected final ThreadLocal<App> apps = new ThreadLocal<>();
     protected final ThreadLocal<Call> calls = new ThreadLocal<>();
@@ -328,7 +325,7 @@ public class Selenified {
      *                                 Selenium.Browser class is used, this exception will be thrown
      */
     @BeforeSuite(alwaysRun = true)
-    protected void beforeSuite() throws InvalidBrowserException, InvalidProxyException {
+    protected void beforeSuite() throws InvalidBrowserException {
         MasterSuiteSetupConfigurator.getInstance().doSetup();
     }
 
@@ -378,16 +375,17 @@ public class Selenified {
             test.setAttribute(testName + INVOCATION_COUNT, 0);
         }
         int invocationCount = (int) test.getAttribute(testName + INVOCATION_COUNT);
-        Capabilities capabilities = Selenified.CAPABILITIES_LIST.get(invocationCount);
+        Capabilities capabilities;
         // setup our browser instance
         if (!selenium.useBrowser()) {
             capabilities = new Capabilities(new Browser("None"));
-        } else if (getAdditionalDesiredCapabilities(extClass, test) != null) {
-            capabilities = new Capabilities(capabilities.getBrowser());
-            capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
+        } else {
+            capabilities = new Capabilities(Selenified.BROWSER_LIST.get(invocationCount));
+            if (getAdditionalDesiredCapabilities(extClass, test) != null) {
+                capabilities.addExtraCapabilities(getAdditionalDesiredCapabilities(extClass, test));
+            }
         }
         Browser browser = capabilities.getBrowser();
-        this.browserThreadLocal.set(browser);
         result.setAttribute(BROWSER, browser);
         // if a group indicates an invalid browser, skip the test
         if (Listener.skipTest(browser, result)) {
@@ -399,7 +397,6 @@ public class Selenified {
         desiredCapabilities.setCapability("name", testName);
         desiredCapabilities.setCapability("tags", Arrays.asList(result.getMethod().getGroups()));
         desiredCapabilities.setCapability("build", buildName);
-        this.desiredCapabilitiesThreadLocal.set(desiredCapabilities);
         // setup the reporter
         Reporter reporter =
                 new Reporter(outputDir, testName, capabilities, Property.getAppURL(extClass, test),
@@ -582,7 +579,7 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        void doSetup() throws InvalidBrowserException, InvalidProxyException {
+        void doSetup() throws InvalidBrowserException {
             if (wasInvoked) {
                 return;
             }
@@ -600,13 +597,13 @@ public class Selenified {
          *                                 Selenium.Browser class is used, this exception will be
          *                                 thrown
          */
-        private static void setupTestParameters() throws InvalidBrowserException, InvalidProxyException {
+        private static void setupTestParameters() throws InvalidBrowserException {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss - ");
             Date date = new Date();
             StringBuilder buildNameSB = new StringBuilder(dateFormat.format(date));
             List<Browser> browsers = getBrowserInput();
             for (Browser browser : browsers) {
-                Selenified.CAPABILITIES_LIST.add(new Capabilities(browser));
+                Selenified.BROWSER_LIST.add(browser);
                 buildNameSB.append(browser.getDetails()).append(", ");
             }
             if (isBuildNameSet()) {

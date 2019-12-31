@@ -27,7 +27,7 @@ public class WebBase extends Selenified {
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
-        setVersion(this, test, "3.2.1");
+        setVersion(this, test, "3.3.0");
     }
 
     private static String readFile(String path) throws IOException {
@@ -38,10 +38,9 @@ public class WebBase extends Selenified {
     @BeforeSuite(alwaysRun = true)
     public void startMockServer() throws IOException {
         if( System.getProperty("mockPort") != null) {
-            String x = System.getProperty("mockPort");
-            int y = Integer.valueOf(x);
             mockPort += Integer.valueOf(System.getProperty("mockPort"));
         }
+        System.setProperty("mockserver.logLevel", "OFF");
         mockServer = startClientAndServer(mockPort);
         mockServer.when(request().withMethod("GET").withPath("/"))
                 .respond(response().withBody(readFile("public/index.html")));

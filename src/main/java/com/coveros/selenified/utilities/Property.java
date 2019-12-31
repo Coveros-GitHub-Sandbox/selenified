@@ -42,7 +42,7 @@ import java.util.Properties;
  * selenified.properties file.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 9/18/2019
  */
 public class Property {

@@ -36,7 +36,7 @@ import static com.coveros.selenified.utilities.Constants.ELEMENT_NOT_PRESENT;
  * in a particular state.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 6/25/2019
  */
 public class WaitForState extends State {

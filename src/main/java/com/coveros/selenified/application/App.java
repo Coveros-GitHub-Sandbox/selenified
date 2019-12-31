@@ -28,8 +28,6 @@ import com.coveros.selenified.element.Element;
 import com.coveros.selenified.exceptions.InvalidBrowserException;
 import com.coveros.selenified.exceptions.InvalidProxyException;
 import com.coveros.selenified.utilities.Hub;
-import com.coveros.selenified.exceptions.InvalidHubException;
-import com.coveros.selenified.utilities.Property;
 import com.coveros.selenified.utilities.Reporter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -39,6 +37,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.log4testng.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
 
@@ -54,7 +53,7 @@ import static com.coveros.selenified.utilities.Constants.ENDB;
  * elements directly out of your app.
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 3/29/2019
  */
 public class App {
@@ -341,24 +340,24 @@ public class App {
      * @param imageName - the name of the image typically generated via functions from
      *                  TestOutput.generateImageName
      */
-    public void takeScreenshot(String imageName) {
+    public String takeScreenshot(String imageName) throws IOException {
+        String encodedImage = null;
         if (browser.getName() == BrowserName.HTMLUNIT) {
-            return;
+            return encodedImage;
         }
-        try {
-            // take a screenshot
-            File srcFile;
-            if (Hub.isHubSet()) {
-                WebDriver augmented = new Augmenter().augment(driver);
-                srcFile = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.FILE);
-            } else {
-                srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            }
-            // now we need to save the file
-            FileUtils.copyFile(srcFile, new File(imageName));
-        } catch (Exception e) {
-            log.error("IO Error taking screenshot: " + e);
+        // take a screenshot
+        File srcFile;
+        if (Hub.isHubSet()) {
+            WebDriver augmented = new Augmenter().augment(driver);
+            encodedImage = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.BASE64);
+            srcFile = ((TakesScreenshot) augmented).getScreenshotAs(OutputType.FILE);
+        } else {
+            encodedImage = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+            srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         }
+        // now we need to save the file
+        FileUtils.copyFile(srcFile, new File(imageName));
+        return encodedImage;
     }
 
     /**

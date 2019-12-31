@@ -44,7 +44,7 @@ import java.util.*;
  * accessed
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 4/4/2019
  */
 public class HTTP {
@@ -373,7 +373,7 @@ public class HTTP {
 
             methodsField.set(null/*static field*/, newMethods);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new IllegalStateException(e);
+            log.info("Your version of Java doesn't support the PATCH method, be warned! " + e);
         }
     }
 

@@ -1,6 +1,5 @@
 package integration.hub;
 
-import com.coveros.selenified.Browser;
 import com.coveros.selenified.Selenified;
 import com.coveros.selenified.application.App;
 import com.coveros.selenified.services.Call;
@@ -9,17 +8,13 @@ import com.coveros.selenified.utilities.Hub;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LambdaTestIT extends Selenified {
 
@@ -32,7 +27,7 @@ public class LambdaTestIT extends Selenified {
         // set the author of the tests here
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
-        setVersion(this, test, "3.2.1");
+        setVersion(this, test, "3.3.0");
 
         this.test = test;
     }
@@ -68,13 +63,6 @@ public class LambdaTestIT extends Selenified {
         finish();
     }
 
-    @BeforeMethod(alwaysRun = true)
-    protected void noBrowser(Object[] dataProvider, Method method, ITestContext test, ITestResult result) throws IOException {
-        if (Arrays.asList(result.getMethod().getGroups()).contains("lambdaAPI")) {
-            super.startTest(dataProvider, method, test, result, Browser.BrowserUse.FALSE);
-        }
-    }
-
     @Test(groups = {"integration", "hub", "lambda", "lambdaAPI"}, dependsOnMethods = {"hubTitleTest"},
             description = "An integration test to check that lambda get all expected information")
     public void lambdaPassedTest(ITestContext iTestContext) throws IOException {
@@ -83,10 +71,10 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
-        expectedResults.put("status_ind", "passed");
-//        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as feature doesn't yet exist. Issue 102 created to address it: https://github.com/Coveros/selenified/issues/102
+        List<String> jsonDataSets = new ArrayList<>();
+        jsonDataSets.add("data");
+        jsonDataSets.add("status_ind");
+        response.assertEquals().nestedValue(jsonDataSets, "passed");
         finish();
     }
 
@@ -99,10 +87,10 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
-        expectedResults.put("build_name", buildName);
-//        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as feature doesn't yet exist. Issue 102 created to address it: https://github.com/Coveros/selenified/issues/102
+        List<String> jsonDataSets = new ArrayList<>();
+        jsonDataSets.add("data");
+        jsonDataSets.add("build_name");
+        response.assertEquals().nestedValue(jsonDataSets, buildName);
         finish();
     }
 
@@ -114,10 +102,10 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + sessionId.toString());
-        Map expectedResults = new HashMap<>();
-        expectedResults.put("name", "integration.hub.lambdaIT.hubTitleTest");
-//        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as bug in test name. Issue 219 created to address it: https://github.com/Coveros/selenified/issues/219
+        List<String> jsonDataSets = new ArrayList<>();
+        jsonDataSets.add("data");
+        jsonDataSets.add("name");
+        response.assertEquals().nestedValue(jsonDataSets, "integration.hub.LambdaTestIT.hubTitleTest");
         finish();
     }
 
@@ -129,10 +117,10 @@ public class LambdaTestIT extends Selenified {
         Call call = this.calls.get();
         call.addCredentials(hub.getUsername(), hub.getPassword());
         Response response = call.get("sessions/" + paramSessionId.toString());
-        Map expectedResults = new HashMap<>();
-        expectedResults.put("name", "integration.hub.lambdaIT.hubSearchTestWithOptionSelenifiedcoveroscom");
-//        response.azzert().contains(expectedResults);
-        //TODO - commenting out assertion as bug in test name. Issue 219 created to address it: https://github.com/Coveros/selenified/issues/219
+        List<String> jsonDataSets = new ArrayList<>();
+        jsonDataSets.add("data");
+        jsonDataSets.add("name");
+        response.assertEquals().nestedValue(jsonDataSets, "integration.hub.LambdaTestIT.hubSearchTestWithOptionHi");
         finish();
     }
 }

@@ -27,8 +27,8 @@ import com.google.gson.GsonBuilder;
  * Constants simply holds constant variables to be used through out the application for checks
  *
  * @author Max Saperstone
- * @version 3.2.1
- * @lastupdate 6/25/2019
+ * @version 3.3.0
+ * @lastupdate 10/24/2019
  */
 public class Constants {
 
@@ -79,23 +79,28 @@ public class Constants {
     public static final String ELEMENT_NOT_TABLE = "Element not table";
     public static final String CELL_OUT_OF_BOUNDS = "Cell out of bounds";
     public static final String CONTAINS = "' contains '";
-    public static final String HAS_ATTRIBUTE = " has the attribute of <i>";
     public static final String DOES_NOT_MATCH_PATTERN = "' doesn't match pattern '";
     public static final String DOES_NOT_CONTAIN = "' doesn't contain '";
     public static final String EXPECTED_ELEMENT_NOT_PRESENT = "Expected Element Not Present";
 
-    public static final String EXPECTED_TO_FIND = "Expected to find a response of: ";
+    public static final String EXPECTED_TO_FIND_A_RESPONSE_OF = "Expected to find a response of: ";
+    public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
+    public static final String EXPECTED_TO_FIND_A_RESPONSE_EXCLUDING = "Expected to find a response excluding: ";
+    public static final String EXPECTED_TO_FIND = "Expected to find ";
+    public static final String EXPECTED_NOT_TO_FIND = "Expected not to find ";
+    public static final String CONTAINING = " containing: ";
+    public static final String EXCLUDING = " excluding: ";
     public static final String FOUND = "Found a response of: ";
     public static final String STARTI = "'<i>";
     public static final String ENDI = "</i>'";
+    public static final String STARTB = "<b>";
     public static final String ENDB = "</b>";
     public static final String DIV_I = "<div><i>";
     public static final String END_IDIV = "</i></div>";
-    public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
 
-    public static final String LINK_START = "<a target='_blank' href='";
-    public static final String LINK_MIDDLE = "'>";
-    public static final String LINK_END = "</a>";
+    static final String LINK_START = "<a target='_blank' href='";
+    static final String LINK_MIDDLE = "'>";
+    static final String LINK_END = "</a>";
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 

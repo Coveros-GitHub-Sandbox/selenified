@@ -4,4 +4,5 @@ com.coveros.selenified.element
 com.coveros.selenified.element.check
 com.coveros.selenified.exceptions
 com.coveros.selenified.services
+com.coveros.selenified.services.check
 com.coveros.selenified.utilities

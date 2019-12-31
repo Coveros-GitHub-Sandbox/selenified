@@ -57,7 +57,7 @@ import static com.coveros.selenified.utilities.Constants.END_IDIV;
  * actions also have a screenshot taken to assist with debugging purposes
  *
  * @author Max Saperstone
- * @version 3.2.1
+ * @version 3.3.0
  * @lastupdate 8/18/2019
  */
 public class Reporter {
@@ -170,7 +170,7 @@ public class Reporter {
         logs.put(logName, logEntries);
     }
 
-    public Map<String, LogEntries> getLogs() {
+    Map<String, LogEntries> getLogs() {
         return logs;
     }
 
@@ -315,13 +315,14 @@ public class Reporter {
      */
     public String captureEntirePageScreenshot() {
         String imageName = generateImageName();
-        String imageLink = generateImageLink(imageName);
+        String imageLink;
         try {
-            app.takeScreenshot(imageName);
+            String encodedImage = app.takeScreenshot(imageName);
             screenshots.add(imageName);
+            imageLink = generateImageLink(encodedImage, imageName);
         } catch (Exception e) {
             log.error(e);
-            imageLink = "<br/><b><font class='fail'>No Screenshot Available</font></b>";
+            imageLink = "<br/><b><font class='fail'>No Screenshot Available. " + e + "</font></b>";
         }
         return imageLink;
     }
@@ -548,7 +549,6 @@ public class Reporter {
             out.write("  <script type='text/javascript'>\n");
             out.write("   function toggle( imageName ) {\n");
             out.write("    var element = document.getElementById( imageName );\n");
-            out.write("    element.src = location.href.match(/^.*\\//) + imageName;\n");
             out.write("    element.style.display = (element.style.display != 'none' ? 'none' : '' );\n");
             out.write(endBracket3);
             out.write("   function display( imageName ) {\n");
@@ -787,7 +787,7 @@ public class Reporter {
      * @return String: the link for the image which can be written out to the
      * html file
      */
-    private String generateImageLink(String imageName) {
+    private String generateImageLink(String encodedImage, String imageName) {
         StringBuilder imageLink = new StringBuilder("<br/>");
         if (imageName.length() >= directory.length() + 1) {
             imageLink.append(ONCLICK_TOGGLE).
@@ -798,8 +798,8 @@ public class Reporter {
                     append("\")'>View Screenshot Fullscreen</a>");
             imageLink.append("<br/><img id='").
                     append(imageName.substring(directory.length() + 1)).
-                    append("' border='1px' src='").
-                    append(imageName.substring(directory.length() + 1)).
+                    append("' border='1px' src='data:image/png;base64,").
+                    append(encodedImage).
                     append("' width='").
                     append(EMBEDDED_IMAGE_WIDTH).
                     append("px' style='display:none;'></img>");
