@@ -35,62 +35,63 @@ public class CombinedPDFReport implements IReporter {
     @Override
     public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
         if (Property.generatePDF()) {
-            try {
-                String testReportDirectory = suites.get(0).getOutputDirectory();
-                List<ITestNGMethod> iTestNGMethods = suites.get(0).getAllMethods();
-                PDFMergerUtility pdfMerger = new PDFMergerUtility();
-                pdfMerger.setDestinationFileName(testReportDirectory + FILE_NAME);
-                List<File> testReports = new ArrayList<>();
-                for (ITestNGMethod iTestNGMethod : iTestNGMethods) {
-                    File testReport = new File(testReportDirectory, iTestNGMethod.getTestClass().getName() + "." + iTestNGMethod.getMethodName() + ".pdf");
-                    testReports.add(testReport);
-                    pdfMerger.addSource(testReport);
-                }
-
-                pdfMerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
-                PDDocument document = PDDocument.load(new File(testReportDirectory + FILE_NAME));
-                PDPage tableOfContents;
-                // Create larger page size if there are more than 48 tests
-                if (suites.get(0).getAllMethods().size() > 48) {
-                    tableOfContents = new PDPage(new PDRectangle(1000, testReports.size() * 17f));
-                } else {
-                    tableOfContents = new PDPage();
-                }
-
-                float ph = tableOfContents.getMediaBox().getUpperRightY();
-
-                PDFont font = PDType1Font.HELVETICA_BOLD;
-                int fontSize = 12;
-                PDPageContentStream contents = new PDPageContentStream(document, tableOfContents);
-                contents.beginText();
-                contents.setFont(font, fontSize);
-                contents.newLineAtOffset(INCH, ph - INCH - fontSize);
-                for (File file : testReports) {
-                    contents.showText(file.getName());
-                    contents.newLineAtOffset(0, -15);
-                }
-                contents.endText();
-                contents.close();
-
-                // Now add the link annotation, so the click on "Jump to page three" works
-                for (int reportIndex = 1; reportIndex <= testReports.size(); reportIndex++) {
-                    int pageIndex = reportIndex - 1;
-                    PDAnnotationLink pageLink = createLink(ph, font, fontSize, "Go to " + testReports.get(pageIndex), reportIndex);
-                    addLink(document, tableOfContents, pageLink, pageIndex);
-                }
-
-                try (PDDocument newDoc = new PDDocument()) {
-                    PDPageTree allPages = document.getDocumentCatalog().getPages();
-
-                    allPages.insertBefore(tableOfContents, allPages.get(0));
-                    for (PDPage page : allPages) {
-                        newDoc.addPage(page);
+            for (ISuite iSuite : suites) {
+                try {
+                    String testReportDirectory = iSuite.getOutputDirectory();
+                    List<ITestNGMethod> iTestNGMethods = iSuite.getAllMethods();
+                    PDFMergerUtility pdfMerger = new PDFMergerUtility();
+                    pdfMerger.setDestinationFileName(testReportDirectory + FILE_NAME);
+                    List<File> testReports = new ArrayList<>();
+                    for (ITestNGMethod iTestNGMethod : iTestNGMethods) {
+                        File testReport = new File(testReportDirectory, iTestNGMethod.getTestClass().getName() + "." + iTestNGMethod.getMethodName() + ".pdf");
+                        testReports.add(testReport);
+                        pdfMerger.addSource(testReport);
                     }
-                    newDoc.save(testReportDirectory + FILE_NAME);
+
+                    pdfMerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
+                    PDDocument document = PDDocument.load(new File(testReportDirectory + FILE_NAME));
+                    PDPage tableOfContents;
+                    // Create larger page size if there are more than 48 tests
+                    if (suites.get(0).getAllMethods().size() > 48) {
+                        tableOfContents = new PDPage(new PDRectangle(1000, testReports.size() * 17f));
+                    } else {
+                        tableOfContents = new PDPage();
+                    }
+
+                    float ph = tableOfContents.getMediaBox().getUpperRightY();
+
+                    PDFont font = PDType1Font.HELVETICA_BOLD;
+                    int fontSize = 12;
+                    PDPageContentStream contents = new PDPageContentStream(document, tableOfContents);
+                    contents.beginText();
+                    contents.setFont(font, fontSize);
+                    contents.newLineAtOffset(INCH, ph - INCH - fontSize);
+                    for (File file : testReports) {
+                        contents.showText(file.getName());
+                        contents.newLineAtOffset(0, -15);
+                    }
+                    contents.endText();
+                    contents.close();
+
+                    // Now add the link annotation, so the click on "Jump to page three" works
+                    for (int reportIndex = 1; reportIndex <= testReports.size(); reportIndex++) {
+                        int pageIndex = reportIndex - 1;
+                        PDAnnotationLink pageLink = createLink(ph, font, fontSize, "Go to " + testReports.get(pageIndex), reportIndex);
+                        addLink(document, tableOfContents, pageLink, pageIndex);
+                    }
+
+                    try (PDDocument newDoc = new PDDocument()) {
+                        PDPageTree allPages = document.getDocumentCatalog().getPages();
+
+                        allPages.insertBefore(tableOfContents, allPages.get(0));
+                        for (PDPage page : allPages) {
+                            newDoc.addPage(page);
+                        }
+                        newDoc.save(testReportDirectory + FILE_NAME);
+                    }
+                } catch (Exception e) {
+                    log.debug(e);
                 }
-            }
-            catch (Exception e) {
-                log.debug(e);
             }
         }
     }
