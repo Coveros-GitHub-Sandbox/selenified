@@ -34,6 +34,13 @@ public class CombinedPDFReport implements IReporter {
     static final String FILE_NAME = "/AllPDFReports.pdf";
     private static final Logger log = Logger.getLogger(CombinedPDFReport.class);
 
+    /**
+     * Combines the PDFs created from test reports into one PDF
+     *
+     * @param xmlSuites       - the list of the xml suites
+     * @param suites          - the list of testng test suites
+     * @param outputDirectory - the output directory of tests being run
+     */
     @Override
     public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
         if (Property.generatePDF()) {
@@ -50,7 +57,7 @@ public class CombinedPDFReport implements IReporter {
                 PDDocument document = PDDocument.load(new File(outputDirectory + FILE_NAME));
                 PDPage tableOfContents;
                 // Create larger page size if there are more than 48 tests
-                if (suites.get(0).getAllMethods().size() > 48) {
+                if (testReportsList.size() > 48) {
                     tableOfContents = new PDPage(new PDRectangle(1000, testReportsList.size() * 17f));
                 } else {
                     tableOfContents = new PDPage();
@@ -89,12 +96,19 @@ public class CombinedPDFReport implements IReporter {
                     newDoc.save(outputDirectory + FILE_NAME);
                 }
             } catch (Exception e) {
-                log.debug(e);
+                log.error(e);
             }
         }
     }
 
-    private Map<String, List<ITestNGMethod>> getTestSuiteMap(List<ISuite> suites) {
+    /**
+     * Creates a map of the output directory of each suite paired with a list of all the ITestNGMethod objects
+     * in that suite
+     *
+     * @param suites the suites object from the TestNG tests executed
+     * @return Map<String, List<ITestNGMethod>>: a map of all output directories and their tests
+     */
+    protected Map<String, List<ITestNGMethod>> getTestSuiteMap(List<ISuite> suites) {
         Map<String, List<ITestNGMethod>> testReportsMap = new HashMap<>();
         for (ISuite iSuite : suites) {
             String testReportDirectory = iSuite.getOutputDirectory();
@@ -104,19 +118,34 @@ public class CombinedPDFReport implements IReporter {
         return testReportsMap;
     }
 
-    private List<File> getAllTestReportFiles(Map<String, List<ITestNGMethod>> testReportsMap) {
+    /**
+     * Creates a list of all test files, using the map to get the directory and test name
+     *
+     * @param testReportsMap the test report map object from getTestSuiteMap
+     * @return List<File>: a list of all test files in all suites
+     */
+    protected List<File> getAllTestReportFiles(Map<String, List<ITestNGMethod>> testReportsMap) {
         List<File> testReportsList = new ArrayList<>();
         for (Map.Entry<String, List<ITestNGMethod>> testReportsMapEntry : testReportsMap.entrySet()) {
             String testReportDirectory = testReportsMapEntry.getKey();
             for (ITestNGMethod iTestNGMethod : testReportsMapEntry.getValue()) {
                 File testReport = new File(testReportDirectory,
                         iTestNGMethod.getTestClass().getName() + "." + iTestNGMethod.getMethodName() + ".pdf");
-                testReportsList.add(testReport);
+                if (testReport.exists()) {
+                    testReportsList.add(testReport);
+                }
             }
         }
         return testReportsList;
     }
 
+    /**
+     * @param document PDDocument object of the final combined PDF
+     * @param tableOfContents PDPage object of the table of contents page
+     * @param pageLink PDAnnotations object of the link to each page from the table of contents
+     * @param pageIndex int of the index of the page in the final combined PDF to link to
+     * @throws IOException - if unable to get annotations, IOException will be thrown
+     */
     private void addLink(PDDocument document, PDPage tableOfContents, PDAnnotationLink pageLink, int pageIndex) throws IOException {
         List<PDAnnotation> annotations = tableOfContents.getAnnotations();
         // add the GoTo action
@@ -130,6 +159,15 @@ public class CombinedPDFReport implements IReporter {
         annotations.add(pageLink);
     }
 
+    /**
+     * @param ph float of the page height
+     * @param font PDFont object of the link to be created in the final combined PDF
+     * @param fontSize int of the size of the font of the link to be created in the final combined PDF
+     * @param linkText String object of the text for the link to be created in the final combined PDF
+     * @param linkIndex int of the index of the link in the list of all links in the final combined PDF
+     * @return PDAnnotationLink: the link object to add to the final combined pdf on the table of contents page
+     * @throws IOException - if unable to get string width, IOException will be thrown
+     */
     private PDAnnotationLink createLink(float ph, PDFont font, int fontSize, String linkText, int linkIndex) throws IOException {
         PDBorderStyleDictionary borderULine = new PDBorderStyleDictionary();
         borderULine.setStyle(PDBorderStyleDictionary.STYLE_UNDERLINE);
