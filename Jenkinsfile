@@ -229,7 +229,7 @@ node {
                         "Sauce Labs": {
                             stage('Verify Sauce Reporting') {
                                 try {
-                                    sh "mvn clean verify -DmockPort=0 -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${SAUCE_USER}:${SAUCE_PASS}@ondemand.saucelabs.com"
+                                    sh "mvn clean verify -DmockPort=0 -Dalt.build.dir=results/sauce -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${SAUCE_USER}:${SAUCE_PASS}@ondemand.saucelabs.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -257,7 +257,7 @@ node {
                         "Lambda Test": {
                             stage('Verify Lambda Reporting') {
                                 try {
-                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -295,7 +295,7 @@ node {
                 stage('Execute Compatibility Tests') {
                     try {
                         String buildName = branchCheckout.replaceAll(/\//, " ") + " build " + env.BUILD_NUMBER + " Compatibility Tests"
-                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -Ddependency-check.skip -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
