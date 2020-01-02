@@ -14,13 +14,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 import static org.testng.Assert.*;
 
@@ -55,16 +49,20 @@ public class ActionGetIT extends WebBase {
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
     @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
             description = "An integration test to check the getCookie method")
-    public void getCookieTest() throws ParseException {
+    public void getCookieTest() {
         // the cookie date
-        String dateval = "2029-12-18T12:00:00";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Calendar c = new GregorianCalendar();
+        c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        c.add(Calendar.HOUR_OF_DAY, 24);
+        Date tomorrowMidnight = c.getTime();
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         Cookie cookie = app.get().cookie("cookie");
-        assertEquals(cookie, new Cookie("cookie", "cookietest", "/", df.parse(dateval)));
+        assertEquals(cookie, new Cookie("cookie", "cookietest", "/", tomorrowMidnight));
         // verify no issues
         finish();
     }
@@ -172,16 +170,20 @@ public class ActionGetIT extends WebBase {
     // skipping edge as retrieving cookies isn't working: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
     @Test(groups = {"integration", "action", "get", "cookie", "no-edge"},
             description = "An integration test to check the getCookieExpiration method")
-    public void getCookieExpirationTest() throws ParseException {
+    public void getCookieExpirationTest() {
         // the cookie date
-        String dateval = "2029-12-18T12:00:00";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Calendar c = new GregorianCalendar();
+        c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        c.add(Calendar.HOUR_OF_DAY, 24);
+        Date tomorrowMidnight = c.getTime();
         // use this object to manipulate the app
         App app = this.apps.get();
         // perform some actions
         Date cookie = app.get().cookieExpiration("cookie");
-        assertEquals(cookie, df.parse(dateval));
+        assertEquals(cookie, tomorrowMidnight);
         // verify no issues
         finish();
     }
