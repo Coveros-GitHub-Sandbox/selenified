@@ -124,8 +124,6 @@ public class SaveProperties {
             new File(SELENIFIED).delete();
         }
         deleteDirectory(new File("directory"));
-        deleteDirectory(new File("results"));
-        deleteDirectory(new File("myDir"));
     }
 
     void createPropertiesFile(String content) throws IOException {
