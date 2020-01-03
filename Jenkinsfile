@@ -62,7 +62,7 @@ node {
                         stage('Execute HTMLUnit Tests') {
                             try {
                                 // commenting out coveros tests, as site is too slow to run properly in htmlunit
-                                sh 'mvn clean verify -DmockPort=0 -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.exclude="service,browser,coveros,hub"'
+                                sh 'mvn clean verify -DmockPort=0 -Dalt.build.dir=results/htmlunit -Dskip.unit.tests -Dskip.dependency.check -Dfailsafe.groups.exclude="service,browser,coveros,hub"'
                             } catch (e) {
                                 throw e
                             } finally {
@@ -90,7 +90,7 @@ node {
                     "Execute Services Tests": {
                         stage('Execute Service Tests') {
                             try {
-                                sh 'mvn clean verify -DmockPort=1 -Dalt.build.dir=results/service -Dskip.unit.tests -Ddependency-check.skip -Dfailsafe.groups.include="service" -Dfailsafe.groups.exclude=""'
+                                sh 'mvn clean verify -DmockPort=1 -Dalt.build.dir=results/service -Dskip.unit.tests -Dskip.dependency.check -Dfailsafe.groups.include="service" -Dfailsafe.groups.exclude=""'
                             } catch (e) {
                                 throw e
                             } finally {
@@ -141,7 +141,7 @@ node {
                             }
                             stage('Execute Chrome Tests Through Proxy') {
                                 try {
-                                    sh 'mvn clean verify -Dalt.build.dir=results/chrome -Dskip.unit.tests -Ddependency-check.skip -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub,service" -DgeneratePDF'
+                                    sh 'mvn clean verify -Dalt.build.dir=results/chrome -Dskip.unit.tests -Dskip.dependency.check -Dbrowser=chrome -Dproxy=localhost:9092 -Dfailsafe.groups.exclude="https,hub,service" -DgeneratePDF'
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -229,7 +229,7 @@ node {
                         "Sauce Labs": {
                             stage('Verify Sauce Reporting') {
                                 try {
-                                    sh "mvn clean verify -DmockPort=0 -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${SAUCE_USER}:${SAUCE_PASS}@ondemand.saucelabs.com"
+                                    sh "mvn clean verify -DmockPort=0 -Dalt.build.dir=results/sauce -Dskip.unit.tests -Dskip.dependency.check -Dbrowser='firefox' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='sauce' -Dhub=https://${SAUCE_USER}:${SAUCE_PASS}@ondemand.saucelabs.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -257,7 +257,7 @@ node {
                         "Lambda Test": {
                             stage('Verify Lambda Reporting') {
                                 try {
-                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
+                                    sh "mvn clean verify -DmockPort=1 -Dalt.build.dir=results/lambda -Dskip.unit.tests -Dskip.dependency.check -Dbrowser='chrome' -Dheadless=false -Dfailsafe.threads=2 -Dfailsafe.groups.exclude='' -Dfailsafe.groups.include='lambda' -Dhub=https://${LAMBDA_USER}:${LAMBDA_PASS}@hub.lambdatest.com"
                                 } catch (e) {
                                     throw e
                                 } finally {
@@ -295,7 +295,7 @@ node {
                 stage('Execute Compatibility Tests') {
                     try {
                         String buildName = branchCheckout.replaceAll(/\//, " ") + " build " + env.BUILD_NUMBER + " Compatibility Tests"
-                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/compatibility -Dskip.unit.tests -Dskip.dependency.check -DbuildName='${buildName}' -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,IE,Edge,Safari' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.include='is' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
@@ -322,7 +322,7 @@ node {
                 stage('Execute Hub Tests') {
                     try {
 //                      sh "mvn clean verify -Dskip.unit.tests -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac,name=Firefox&platform=Windows,name=Firefox&platform=Mac&screensize=1920x1440,InternetExplorer,Edge,Safari' -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local' -DappURL=http://${publicIp}/ -Dhub=https://${sauceusername}:${saucekey}@ondemand.saucelabs.com"
-                        sh "mvn clean verify -Dalt.build.dir=results/hub -Dskip.unit.tests -Ddependency-check.skip -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros,wait,hub' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
+                        sh "mvn clean verify -Dalt.build.dir=results/hub -Dskip.unit.tests -Dskip.dependency.check -Dbrowser='name=Chrome&platform=Windows&screensize=maximum,name=Chrome&platform=Mac' -Dheadless=false -Dfailsafe.threads=30 -Dfailsafe.groups.exclude='service,local,coveros,wait,hub' -DappURL=http://${publicIp}/ -Dhub=https://ondemand.saucelabs.com"
                     } catch (e) {
                         throw e
                     } finally {
@@ -400,7 +400,7 @@ node {
         }
         if (branch == 'develop' || branch == 'master') {
             stage('Deploy to Maven Central') {
-                sh "mvn clean deploy -Dskip.unit.tests -Ddependency-check.skip -Dskip.integration.tests"
+                sh "mvn clean deploy -Dskip.unit.tests -Dskip.dependency.check -Dskip.integration.tests"
             }
         }
     }
