@@ -304,13 +304,13 @@ public class ReporterTest {
     @Test
     public void packageResultsPositiveTest() throws IOException {
         Reporter reporter =
-                new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
-        File directory = new File("results");
-        File file = new File("results", "file");
+                new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
+        File directory = new File("directory");
+        File file = new File("directory", "file");
 
         System.setProperty(PACKAGE_RESULTS, "true");
         reporter.finalizeReporter(1);
-        File results = new File("results", file.getName() + "_RESULTS.zip");
+        File results = new File("directory", file.getName() + "_RESULTS.zip");
         assertTrue(results.exists());
 
         file.delete();
@@ -608,13 +608,13 @@ public class ReporterTest {
     @Test
     public void generatePDFTest() throws InvalidBrowserException, InvalidProxyException {
         Reporter reporter =
-                new Reporter("results", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
-        File directory = new File("results");
-        File file = new File("results", "file");
+                new Reporter("directory", "file", new Capabilities(new Browser("Chrome")), null, null, null, null, null, null);
+        File directory = new File("directory");
+        File file = new File("directory", "file");
 
         System.setProperty(GENERATE_PDF, "true");
         reporter.finalizeReporter(1);
-        File results = new File("results", file.getName() + ".pdf");
+        File results = new File("directory", file.getName() + ".pdf");
         assertTrue(results.exists());
 
         file.delete();

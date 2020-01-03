@@ -123,11 +123,22 @@ public class SaveProperties {
         if (new File(SELENIFIED).exists()) {
             new File(SELENIFIED).delete();
         }
+        deleteDirectory(new File("directory"));
     }
 
     void createPropertiesFile(String content) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(SELENIFIED));
         writer.write(content);
         writer.close();
+    }
+
+    boolean deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        return directoryToBeDeleted.delete();
     }
 }
