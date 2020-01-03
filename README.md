@@ -115,7 +115,7 @@ public class ReadmeSampleIT extends Selenified {
         // use this object to verify the app looks as expected
         Call call = this.calls.get();
         // retrieve the zip code and verify the return code
-        call.get("", new Request().setUrlParams(params)).assertEquals(403);
+        call.get("", new Request().setUrlParams(params)).assertEquals().code(403);
         // verify no issues
         finish();
     }
