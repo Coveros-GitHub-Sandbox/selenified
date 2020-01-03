@@ -28,6 +28,9 @@ public class WebBase extends Selenified {
         setAuthor(this, test, "Max Saperstone\n<br/>max.saperstone@coveros.com");
         // set the version of the tests or of the software, possibly with a dynamic check
         setVersion(this, test, "3.3.1");
+
+        // when running on sauce labs, timezones can mess with the cookie expiration date, so setting it here to EST
+        addAdditionalDesiredCapabilities(this, test, "timeZone", "New_York");
     }
 
     private static String readFile(String path) throws IOException {
