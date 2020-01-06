@@ -79,8 +79,8 @@ public class AssertMatches extends Matches {
      */
     @Override
     public void nestedValue(List<String> jsonKeys, String expectedPattern) {
-        Object nestedValue = checkNestedValue(jsonKeys, expectedPattern);
-        assertTrue("JsonElement Response Mismatch: nested value of '" + nestedValue + DOES_NOT_MATCH_PATTERN + expectedPattern + "'", String.valueOf(nestedValue).matches(expectedPattern));
+        String nestedValue = checkNestedValue(jsonKeys, expectedPattern);
+        assertTrue("JsonElement Response Mismatch: nested value of '" + nestedValue + DOES_NOT_MATCH_PATTERN + expectedPattern + "'", nestedValue.matches(expectedPattern));
     }
 
     /**
@@ -93,6 +93,6 @@ public class AssertMatches extends Matches {
     @Override
     public void message(String expectedPattern) {
         String message = checkMessage(expectedPattern);
-        assertTrue("Response Message Mismatch: message of '" + message + DOES_NOT_MATCH_PATTERN + expectedPattern, message.matches(expectedPattern));
+        assertTrue("Response Message Mismatch: message of '" + message + DOES_NOT_MATCH_PATTERN + expectedPattern, message!= null && message.matches(expectedPattern));
     }
 }

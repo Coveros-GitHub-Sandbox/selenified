@@ -58,7 +58,7 @@ abstract class Matches extends Check {
      */
     int checkCode(String expectedPattern) {
         int actualCode = this.response.getCode();
-        recordResult("Expected to find a response code matching a pattern of <i>" + expectedPattern + ENDI,
+        recordResult("Expected to find a response code matching a pattern of: '<i>" + expectedPattern + ENDI,
                 "Found a response code of <b>" + actualCode + ENDB, String.valueOf(actualCode).matches(expectedPattern));
         return actualCode;
     }
@@ -81,7 +81,7 @@ abstract class Matches extends Check {
      * @param jsonCrumbs    - the crumbs of json object keys leading to the field with the expected value
      * @param expectedPattern - the expected pattern of the value
      */
-    Object checkNestedValue(List<String> jsonCrumbs, String expectedPattern) {
+    String checkNestedValue(List<String> jsonCrumbs, String expectedPattern) {
         JsonElement actualValue = this.response.getObjectData();
         for (String jsonCrumb : jsonCrumbs) {
             if (!(actualValue instanceof JsonObject)) {
@@ -90,10 +90,14 @@ abstract class Matches extends Check {
             }
             actualValue = actualValue.getAsJsonObject().get(jsonCrumb);
         }
+        String stringValue = String.valueOf(actualValue);
+        if( actualValue != null) {
+            stringValue = actualValue.getAsString();
+        }
         recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI +
                         " matching a pattern of: " + DIV_I + expectedPattern + END_IDIV,
-                FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV, actualValue.getAsString().matches(expectedPattern));
-        return actualValue;
+                FOUND + DIV_I + Reporter.formatHTML(GSON.toJson(actualValue)) + END_IDIV, stringValue.matches(expectedPattern));
+        return stringValue;
     }
 
     /**
@@ -113,7 +117,7 @@ abstract class Matches extends Check {
     String checkMessage(String expectedPattern) {
         String actualMessage = this.response.getMessage();
         recordResult(EXPECTED_TO_FIND_A_RESPONSE_MATCHING + STARTI + expectedPattern + ENDI,
-                FOUND + STARTI + this.response.getMessage() + ENDI, actualMessage.matches(expectedPattern));
+                FOUND + STARTI + this.response.getMessage() + ENDI, actualMessage != null && actualMessage.matches(expectedPattern));
         return actualMessage;
     }
 }
