@@ -36,7 +36,7 @@ import static org.testng.AssertJUnit.assertTrue;
  *
  * @author Max Saperstone
  * @version 3.3.1
- * @lastupdate 10/24/2019
+ * @lastupdate 1/6/2020
  */
 public class AssertMatches extends Matches {
 

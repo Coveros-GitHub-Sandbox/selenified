@@ -20,7 +20,6 @@
 
 package com.coveros.selenified.services.check;
 
-import com.coveros.selenified.application.Get;
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
 import com.google.gson.JsonArray;
@@ -39,11 +38,11 @@ import java.util.Map;
  *
  * @author Max Saperstone
  * @version 3.3.1
- * @lastupdate 10/24/2019
+ * @lastupdate 1/6/2020
  */
 abstract class Check {
 
-    static final Logger log = Logger.getLogger(Get.class);
+    static final Logger log = Logger.getLogger(Check.class);
     static final String ARROW = " &#8594; ";
 
     // this will be the name of the file we write all commands out to

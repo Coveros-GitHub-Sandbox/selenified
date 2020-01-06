@@ -22,8 +22,6 @@ package com.coveros.selenified.services.check;
 
 import com.coveros.selenified.services.Response;
 import com.coveros.selenified.utilities.Reporter;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -35,7 +33,7 @@ import java.util.List;
  *
  * @author Max Saperstone
  * @version 3.3.1
- * @lastupdate 10/24/2019
+ * @lastupdate 1/6/2020
  */
 public class VerifyMatches extends Matches {
 
@@ -70,7 +68,7 @@ public class VerifyMatches extends Matches {
      * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
      * the expected value. This result will be written out to the output file.
      *
-     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param jsonKeys        - the crumbs of json object keys leading to the field with the expected value
      * @param expectedPattern - the expected pattern of the value
      */
     @Override

@@ -37,7 +37,7 @@ import static com.coveros.selenified.utilities.Constants.*;
  *
  * @author Max Saperstone
  * @version 3.3.1
- * @lastupdate 10/24/2019
+ * @lastupdate 1/6/2020
  */
 abstract class Matches extends Check {
 
