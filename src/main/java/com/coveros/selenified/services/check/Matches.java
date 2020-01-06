@@ -21,7 +21,6 @@
 package com.coveros.selenified.services.check;
 
 import com.coveros.selenified.utilities.Reporter;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -68,7 +67,7 @@ abstract class Matches extends Check {
      * value. The jsonKeys should be passed in as crumbs of the keys leading to the field with
      * the expected value. This result will be written out to the output file.
      *
-     * @param jsonKeys      - the crumbs of json object keys leading to the field with the expected value
+     * @param jsonKeys        - the crumbs of json object keys leading to the field with the expected value
      * @param expectedPattern - the expected pattern of the  value
      */
     abstract void nestedValue(List<String> jsonKeys, String expectedPattern);
@@ -78,7 +77,7 @@ abstract class Matches extends Check {
      * value. The jsonCrumbs should be passed in as crumbs of the keys leading to the field with
      * the expected value. This result will be written out to the output file.
      *
-     * @param jsonCrumbs    - the crumbs of json object keys leading to the field with the expected value
+     * @param jsonCrumbs      - the crumbs of json object keys leading to the field with the expected value
      * @param expectedPattern - the expected pattern of the value
      */
     String checkNestedValue(List<String> jsonCrumbs, String expectedPattern) {
@@ -91,8 +90,12 @@ abstract class Matches extends Check {
             actualValue = actualValue.getAsJsonObject().get(jsonCrumb);
         }
         String stringValue = String.valueOf(actualValue);
-        if( actualValue != null) {
-            stringValue = actualValue.getAsString();
+        if (actualValue != null) {
+            try {
+                stringValue = actualValue.getAsString();
+            } catch (UnsupportedOperationException e) {
+                log.info(e);
+            }
         }
         recordResult(EXPECTED_TO_FIND_A_RESPONSE_OF + STARTI + Reporter.formatHTML(String.join(ARROW, jsonCrumbs)) + ENDI +
                         " matching a pattern of: " + DIV_I + expectedPattern + END_IDIV,

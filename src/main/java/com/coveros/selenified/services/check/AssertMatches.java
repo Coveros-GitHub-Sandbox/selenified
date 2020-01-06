@@ -93,6 +93,6 @@ public class AssertMatches extends Matches {
     @Override
     public void message(String expectedPattern) {
         String message = checkMessage(expectedPattern);
-        assertTrue("Response Message Mismatch: message of '" + message + DOES_NOT_MATCH_PATTERN + expectedPattern, message!= null && message.matches(expectedPattern));
+        assertTrue("Response Message Mismatch: message of '" + message + DOES_NOT_MATCH_PATTERN + expectedPattern, message != null && message.matches(expectedPattern));
     }
 }
