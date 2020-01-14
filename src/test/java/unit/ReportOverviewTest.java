@@ -99,6 +99,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -111,6 +116,21 @@ public class ReportOverviewTest extends ReportOverview {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -221,6 +241,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -233,6 +258,21 @@ public class ReportOverviewTest extends ReportOverview {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -340,6 +380,11 @@ public class ReportOverviewTest extends ReportOverview {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -488,6 +533,21 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
+            }
+
+            @Override
             public int compareTo(ITestResult o) {
                 return 0;
             }
@@ -592,6 +652,11 @@ public class ReportOverviewTest extends ReportOverview {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -740,6 +805,21 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
+            }
+
+            @Override
             public int compareTo(ITestResult o) {
                 return 0;
             }
@@ -845,6 +925,11 @@ public class ReportOverviewTest extends ReportOverview {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -990,6 +1075,21 @@ public class ReportOverviewTest extends ReportOverview {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -1100,6 +1200,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -1242,6 +1347,21 @@ public class ReportOverviewTest extends ReportOverview {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
