@@ -80,6 +80,7 @@ public class TestCase {
      * @return String: a unique name
      */
     public static String getTestName(Method method, Object... dataProvider) {
+        //TODO - look at making use of new setTestName and getFactoryParameters
         return getTestName(method.getDeclaringClass().getName(), method.getName(), dataProvider);
     }
 

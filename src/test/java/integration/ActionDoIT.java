@@ -72,7 +72,7 @@ public class ActionDoIT extends WebBase {
         finish();
     }
 
-    @Test(groups = {"integration", "action", "do", "url"},
+    @Test(groups = {"integration", "action", "do", "url", "browser"},
             description = "An integration negative test to check the goToURL method")
     public void negativeGoToURLTest(ITestContext test) throws InvalidHTTPException {
         // use this object to manipulate the app
