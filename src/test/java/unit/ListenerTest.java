@@ -91,11 +91,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -153,6 +148,11 @@ public class ListenerTest extends SaveProperties {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -165,6 +165,21 @@ public class ListenerTest extends SaveProperties {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -229,18 +244,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -366,11 +371,6 @@ public class ListenerTest extends SaveProperties {
                     @Override
                     public void setInvocationCount(int i) {
 
-                    }
-
-                    @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
                     }
 
                     @Override
@@ -534,6 +534,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -599,11 +609,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -658,6 +663,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -806,6 +816,21 @@ public class ListenerTest extends SaveProperties {
             }
 
             @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
+            }
+
+            @Override
             public int compareTo(ITestResult o) {
                 return 0;
             }
@@ -879,18 +904,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -1019,11 +1034,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public int getSuccessPercentage() {
                         return 0;
                     }
@@ -1184,6 +1194,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -1249,11 +1269,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -1311,6 +1326,11 @@ public class ListenerTest extends SaveProperties {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -1323,6 +1343,21 @@ public class ListenerTest extends SaveProperties {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -1391,18 +1426,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -1531,11 +1556,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public int getSuccessPercentage() {
                         return 0;
                     }
@@ -1696,6 +1716,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -1761,11 +1791,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -1823,6 +1848,11 @@ public class ListenerTest extends SaveProperties {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -1835,6 +1865,21 @@ public class ListenerTest extends SaveProperties {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -1872,7 +1917,7 @@ public class ListenerTest extends SaveProperties {
     }
 
     @Test
-    public void onTestSuccessNullTest() throws InvalidBrowserException, InvalidProxyException {
+    public void onTestSuccessNullTest() {
         ITestResult resultP = new ITestResult() {
             @Override
             public int getStatus() {
@@ -1903,18 +1948,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -2043,11 +2078,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public int getSuccessPercentage() {
                         return 0;
                     }
@@ -2208,6 +2238,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -2273,11 +2313,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -2332,6 +2367,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -2477,6 +2517,21 @@ public class ListenerTest extends SaveProperties {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -2543,18 +2598,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -2680,11 +2725,6 @@ public class ListenerTest extends SaveProperties {
                     @Override
                     public void setInvocationCount(int i) {
 
-                    }
-
-                    @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
                     }
 
                     @Override
@@ -2848,6 +2888,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -2913,11 +2963,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -2972,6 +3017,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -3117,6 +3167,21 @@ public class ListenerTest extends SaveProperties {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -3193,18 +3258,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -3330,11 +3385,6 @@ public class ListenerTest extends SaveProperties {
                     @Override
                     public void setInvocationCount(int i) {
 
-                    }
-
-                    @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
                     }
 
                     @Override
@@ -3498,6 +3548,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -3563,11 +3623,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -3622,6 +3677,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -3767,6 +3827,21 @@ public class ListenerTest extends SaveProperties {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -3848,18 +3923,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -3985,11 +4050,6 @@ public class ListenerTest extends SaveProperties {
                     @Override
                     public void setInvocationCount(int i) {
 
-                    }
-
-                    @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
                     }
 
                     @Override
@@ -4153,6 +4213,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -4218,11 +4288,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -4277,6 +4342,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -4422,6 +4492,21 @@ public class ListenerTest extends SaveProperties {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -4506,18 +4591,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -4643,11 +4718,6 @@ public class ListenerTest extends SaveProperties {
                     @Override
                     public void setInvocationCount(int i) {
 
-                    }
-
-                    @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
                     }
 
                     @Override
@@ -4811,6 +4881,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -4876,11 +4956,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -4935,6 +5010,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -5080,6 +5160,21 @@ public class ListenerTest extends SaveProperties {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -5162,18 +5257,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -5299,11 +5384,6 @@ public class ListenerTest extends SaveProperties {
                     @Override
                     public void setInvocationCount(int i) {
 
-                    }
-
-                    @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
                     }
 
                     @Override
@@ -5467,6 +5547,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -5532,11 +5622,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -5591,6 +5676,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -5736,6 +5826,21 @@ public class ListenerTest extends SaveProperties {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -5818,18 +5923,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -5955,11 +6050,6 @@ public class ListenerTest extends SaveProperties {
                     @Override
                     public void setInvocationCount(int i) {
 
-                    }
-
-                    @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
                     }
 
                     @Override
@@ -6123,6 +6213,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -6188,11 +6288,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -6247,6 +6342,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -6392,6 +6492,21 @@ public class ListenerTest extends SaveProperties {
                         return null;
                     }
                 };
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -6478,18 +6593,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -6618,11 +6723,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public int getSuccessPercentage() {
                         return 0;
                     }
@@ -6783,6 +6883,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -6848,11 +6958,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -6907,6 +7012,11 @@ public class ListenerTest extends SaveProperties {
             @Override
             public Object getInstance() {
                 return null;
+            }
+
+            @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
             }
 
             @Override
@@ -7055,6 +7165,21 @@ public class ListenerTest extends SaveProperties {
             }
 
             @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
+            }
+
+            @Override
             public int compareTo(ITestResult o) {
                 return 0;
             }
@@ -7166,11 +7291,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -7228,6 +7348,11 @@ public class ListenerTest extends SaveProperties {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -7240,6 +7365,21 @@ public class ListenerTest extends SaveProperties {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -7297,18 +7437,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -7437,11 +7567,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public int getSuccessPercentage() {
                         return 0;
                     }
@@ -7602,6 +7727,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -7667,11 +7802,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -7729,6 +7859,11 @@ public class ListenerTest extends SaveProperties {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -7741,6 +7876,21 @@ public class ListenerTest extends SaveProperties {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -7803,18 +7953,8 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return null;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -7943,11 +8083,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public int getSuccessPercentage() {
                         return 0;
                     }
@@ -8108,6 +8243,16 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -8173,11 +8318,6 @@ public class ListenerTest extends SaveProperties {
                     }
 
                     @Override
-                    public int getInstanceCount() {
-                        return 0;
-                    }
-
-                    @Override
                     public long[] getInstanceHashCodes() {
                         return new long[0];
                     }
@@ -8235,6 +8375,11 @@ public class ListenerTest extends SaveProperties {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -8247,6 +8392,21 @@ public class ListenerTest extends SaveProperties {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
