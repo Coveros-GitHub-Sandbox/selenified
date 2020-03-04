@@ -33,7 +33,7 @@ import com.coveros.selenified.utilities.Reporter;
  * to them that fits the provided regular expression.
  *
  * @author Max Saperstone
- * @version 3.3.0
+ * @version 3.3.1
  * @lastupdate 8/08/2019
  */
 public class VerifyMatches extends Matches {

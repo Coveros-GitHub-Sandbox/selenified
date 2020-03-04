@@ -27,8 +27,8 @@ import com.google.gson.GsonBuilder;
  * Constants simply holds constant variables to be used through out the application for checks
  *
  * @author Max Saperstone
- * @version 3.3.0
- * @lastupdate 10/24/2019
+ * @version 3.3.1
+ * @lastupdate 1/6/2020
  */
 public class Constants {
 
@@ -86,6 +86,7 @@ public class Constants {
     public static final String EXPECTED_TO_FIND_A_RESPONSE_OF = "Expected to find a response of: ";
     public static final String EXPECTED_TO_FIND_A_RESPONSE_CONTAINING = "Expected to find a response containing: ";
     public static final String EXPECTED_TO_FIND_A_RESPONSE_EXCLUDING = "Expected to find a response excluding: ";
+    public static final String EXPECTED_TO_FIND_A_RESPONSE_MATCHING = "Expected to find a response matching a pattern of: ";
     public static final String EXPECTED_TO_FIND = "Expected to find ";
     public static final String EXPECTED_NOT_TO_FIND = "Expected not to find ";
     public static final String CONTAINING = " containing: ";

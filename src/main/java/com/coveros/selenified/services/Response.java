@@ -31,8 +31,8 @@ import java.util.Map;
  * A class designed to hold data provided from the HTTP calls.
  *
  * @author Max Saperstone
- * @version 3.3.0
- * @lastupdate 10/24/2019
+ * @version 3.3.1
+ * @lastupdate 1/6/2020
  */
 public class Response {
 
@@ -46,11 +46,13 @@ public class Response {
     private final AssertContains assertContains;
     private final AssertEquals assertEquals;
     private final AssertExcludes assertExcludes;
+    private final AssertMatches assertMatches;
 
     // the verify class to check information about the response
     private final VerifyContains verifyContains;
     private final VerifyEquals verifyEquals;
     private final VerifyExcludes verifyExcludes;
+    private final VerifyMatches verifyMatches;
 
     public Response(Reporter reporter, Map<String, Object> headers, int code, JsonObject object, JsonArray array, String message) {
         this.headers = headers;
@@ -61,9 +63,11 @@ public class Response {
         this.assertContains = new AssertContains(this, reporter);
         this.assertEquals = new AssertEquals(this, reporter);
         this.assertExcludes = new AssertExcludes(this, reporter);
+        this.assertMatches = new AssertMatches(this, reporter);
         this.verifyContains = new VerifyContains(this, reporter);
         this.verifyEquals = new VerifyEquals(this, reporter);
         this.verifyExcludes = new VerifyExcludes(this, reporter);
+        this.verifyMatches = new VerifyMatches(this, reporter);
     }
 
     /**
@@ -100,11 +104,21 @@ public class Response {
     }
 
     /**
-     * Verifies that the services response will contain expected data.
+     * Asserts that the services response will match the expected data.
      * These asserts are custom to the framework, and in addition to providing
      * easy object oriented they provide additional traceability, and assist in
      * troubleshooting and debugging failing tests. A failed assert will cause
      * the test to immediately stop on the error.
+     */
+    public AssertMatches assertMatches() {
+        return assertMatches;
+    }
+
+    /**
+     * Verifies that the services response will contain expected data.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented they provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
      */
     public VerifyContains verifyContains() {
         return verifyContains;
@@ -114,23 +128,30 @@ public class Response {
      * Verifies that the services response will equals expected data.
      * These asserts are custom to the framework, and in addition to providing
      * easy object oriented they provide additional traceability, and assist in
-     * troubleshooting and debugging failing tests. A failed assert will cause
-     * the test to immediately stop on the error.
+     * troubleshooting and debugging failing tests.
      */
     public VerifyEquals verifyEquals() {
         return verifyEquals;
     }
 
-
     /**
      * Verifies that the services response will not contain expected data.
      * These asserts are custom to the framework, and in addition to providing
      * easy object oriented they provide additional traceability, and assist in
-     * troubleshooting and debugging failing tests. A failed assert will cause
-     * the test to immediately stop on the error.
+     * troubleshooting and debugging failing tests.
      */
     public VerifyExcludes verifyExcludes() {
         return verifyExcludes;
+    }
+
+    /**
+     * Verifies that the services response will match the expected data.
+     * These asserts are custom to the framework, and in addition to providing
+     * easy object oriented they provide additional traceability, and assist in
+     * troubleshooting and debugging failing tests.
+     */
+    public VerifyMatches verifyMatches() {
+        return verifyMatches;
     }
 
     public Map<String, Object> getHeaders() {

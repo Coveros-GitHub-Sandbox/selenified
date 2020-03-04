@@ -49,7 +49,7 @@ import static java.nio.file.Files.newBufferedWriter;
  * out the high level results, and links to all of the detailed reports
  *
  * @author Max Saperstone
- * @version 3.3.0
+ * @version 3.3.1
  * @lastupdate 8/08/2019
  */
 public class ReportOverview extends EmailableReporter2 {

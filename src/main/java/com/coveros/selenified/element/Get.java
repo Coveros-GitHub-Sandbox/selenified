@@ -34,7 +34,7 @@ import java.util.Map;
  * present, null will be returned
  *
  * @author Max Saperstone
- * @version 3.3.0
+ * @version 3.3.1
  * @lastupdate 8/08/2019
  */
 public class Get {

@@ -39,7 +39,7 @@ import static org.testng.AssertJUnit.*;
  * don't have a particular value associated to them.
  *
  * @author Max Saperstone
- * @version 3.3.0
+ * @version 3.3.1
  * @lastupdate 8/08/2019
  */
 public class AssertExcludes extends Excludes {

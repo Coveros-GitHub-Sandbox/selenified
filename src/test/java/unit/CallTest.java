@@ -7,8 +7,10 @@ import com.coveros.selenified.exceptions.InvalidReporterException;
 import com.coveros.selenified.services.Call;
 import com.coveros.selenified.services.HTTP;
 import com.coveros.selenified.utilities.Reporter;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class CallTest {
@@ -17,6 +19,11 @@ public class CallTest {
     private HTTP http = new HTTP(reporter, "SomeURL");
 
     public CallTest() throws InvalidBrowserException, InvalidProxyException {
+    }
+
+    @AfterMethod
+    public void cleanup() {
+        new File("null.html").delete();
     }
 
     @Test(expectedExceptions = InvalidHTTPException.class)

@@ -44,7 +44,7 @@ import java.util.*;
  * accessed
  *
  * @author Max Saperstone
- * @version 3.3.0
+ * @version 3.3.1
  * @lastupdate 4/4/2019
  */
 public class HTTP {

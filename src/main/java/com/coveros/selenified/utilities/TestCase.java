@@ -27,7 +27,7 @@ import java.util.Random;
  * Manages the test cases, including naming conventions and formatting
  *
  * @author Max Saperstone
- * @version 3.3.0
+ * @version 3.3.1
  * @lastupdate 6/28/2019
  */
 public class TestCase {
@@ -80,6 +80,7 @@ public class TestCase {
      * @return String: a unique name
      */
     public static String getTestName(Method method, Object... dataProvider) {
+        //TODO - look at making use of new setTestName and getFactoryParameters
         return getTestName(method.getDeclaringClass().getName(), method.getName(), dataProvider);
     }
 

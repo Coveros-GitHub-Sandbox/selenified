@@ -16,8 +16,8 @@ public class ReportOverviewTest extends ReportOverview {
 
     @Test
     public void getReportDirNullSetTest() {
-        generateReport(null, new ArrayList<ISuite>(), "myDir");
-        assertEquals(getReportDir(null), "myDir");
+        generateReport(null, new ArrayList<ISuite>(), "directory");
+        assertEquals(getReportDir(null), "directory");
     }
 
     @Test
@@ -99,6 +99,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -111,6 +116,21 @@ public class ReportOverviewTest extends ReportOverview {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -138,8 +158,8 @@ public class ReportOverviewTest extends ReportOverview {
                 return null;
             }
         };
-        generateReport(null, new ArrayList<ISuite>(), "myDir");
-        assertEquals(getReportDir(iTestResult), "myDir");
+        generateReport(null, new ArrayList<ISuite>(), "directory");
+        assertEquals(getReportDir(iTestResult), "directory");
     }
 
     @Test
@@ -221,6 +241,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -233,6 +258,21 @@ public class ReportOverviewTest extends ReportOverview {
             @Override
             public ITestContext getTestContext() {
                 return null;
+            }
+
+            @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
             }
 
             @Override
@@ -260,8 +300,8 @@ public class ReportOverviewTest extends ReportOverview {
                 return null;
             }
         };
-        generateReport(null, new ArrayList<ISuite>(), "myDir");
-        assertEquals(getReportDir(iTestResult), "myDir");
+        generateReport(null, new ArrayList<ISuite>(), "directory");
+        assertEquals(getReportDir(iTestResult), "directory");
     }
 
     @Test
@@ -343,6 +383,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -488,6 +533,21 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
+            }
+
+            @Override
             public int compareTo(ITestResult o) {
                 return 0;
             }
@@ -512,8 +572,8 @@ public class ReportOverviewTest extends ReportOverview {
                 return null;
             }
         };
-        generateReport(null, new ArrayList<ISuite>(), "myDir");
-        assertEquals(getReportDir(iTestResult), "myDir");
+        generateReport(null, new ArrayList<ISuite>(), "directory");
+        assertEquals(getReportDir(iTestResult), "directory");
     }
 
     @Test
@@ -595,6 +655,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -654,7 +719,7 @@ public class ReportOverviewTest extends ReportOverview {
 
                     @Override
                     public String getOutputDirectory() {
-                        return "myDir";
+                        return "directory";
                     }
 
                     @Override
@@ -740,6 +805,21 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
+            }
+
+            @Override
             public int compareTo(ITestResult o) {
                 return 0;
             }
@@ -764,8 +844,8 @@ public class ReportOverviewTest extends ReportOverview {
                 return null;
             }
         };
-        generateReport(null, new ArrayList<ISuite>(), "myDir");
-        assertEquals(getReportDir(iTestResult), System.getProperty("user.dir") + File.separator + "myDir");
+        generateReport(null, new ArrayList<ISuite>(), "directory");
+        assertEquals(getReportDir(iTestResult), System.getProperty("user.dir") + File.separator + "directory");
     }
 
 
@@ -848,6 +928,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -907,7 +992,7 @@ public class ReportOverviewTest extends ReportOverview {
 
                     @Override
                     public String getOutputDirectory() {
-                        return "myDir/otherDir";
+                        return "directory/otherDir";
                     }
 
                     @Override
@@ -993,6 +1078,21 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
+            }
+
+            @Override
             public int compareTo(ITestResult o) {
                 return 0;
             }
@@ -1017,7 +1117,7 @@ public class ReportOverviewTest extends ReportOverview {
                 return null;
             }
         };
-        generateReport(null, new ArrayList<ISuite>(), "myDir");
+        generateReport(null, new ArrayList<ISuite>(), "directory");
         assertEquals(getReportDir(iTestResult), "otherDir");
     }
 
@@ -1100,6 +1200,11 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public Object[] getFactoryParameters() {
+                return new Object[0];
+            }
+
+            @Override
             public String getTestName() {
                 return null;
             }
@@ -1159,7 +1264,7 @@ public class ReportOverviewTest extends ReportOverview {
 
                     @Override
                     public String getOutputDirectory() {
-                        return "myDir/otherDir";
+                        return "directory/otherDir";
                     }
 
                     @Override
@@ -1245,6 +1350,21 @@ public class ReportOverviewTest extends ReportOverview {
             }
 
             @Override
+            public void setTestName(String s) {
+
+            }
+
+            @Override
+            public boolean wasRetried() {
+                return false;
+            }
+
+            @Override
+            public void setWasRetried(boolean b) {
+
+            }
+
+            @Override
             public int compareTo(ITestResult o) {
                 return 0;
             }
@@ -1269,7 +1389,7 @@ public class ReportOverviewTest extends ReportOverview {
                 return null;
             }
         };
-        generateReport(null, new ArrayList<ISuite>(), System.getProperty("user.dir") + File.separator + "myDir");
+        generateReport(null, new ArrayList<ISuite>(), System.getProperty("user.dir") + File.separator + "directory");
         assertEquals(getReportDir(iTestResult), "otherDir");
     }
 }
