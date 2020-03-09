@@ -11,9 +11,10 @@ import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 
 import java.io.File;
-import java.lang.reflect.Method;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
+
 import static org.testng.Assert.*;
 
 public class CombinedPDFReportTest extends CombinedPDFReport {
@@ -52,7 +53,7 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
     }
 
     @Test
-    public void getAllTestReportFilesTest() {
+    public void getAllTestReportFilesTest() throws IOException {
         Map<String, List<String>> tests = new HashMap<>();
         List<String> methodNames = new ArrayList<>();
         methodNames.add("methodName");
@@ -64,11 +65,13 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
         Map<String, List<ITestNGMethod>> map = getTestSuiteMap(iSuiteList);
         List<File> expectedPDFList = new ArrayList<>();
         expectedPDFList.add(new File("dir1/TestClass.methodName.pdf"));
+        createTestFileHelper(map);
         assertEquals(expectedPDFList, getAllTestReportFiles(map));
+        cleanupFileHelper(map);
     }
 
     @Test
-    public void getAllTestReportFilesTest2() {
+    public void getAllTestReportFilesTest2() throws IOException {
         Map<String, List<String>> tests = new HashMap<>();
         List<String> methodNames = new ArrayList<>();
         methodNames.add("methodName");
@@ -82,11 +85,13 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
         List<File> expectedPDFList = new ArrayList<>();
         expectedPDFList.add(new File("dir1/TestClass.methodName.pdf"));
         expectedPDFList.add(new File("dir1/TestClass.anotherMethodName.pdf"));
+        createTestFileHelper(map);
         assertEquals(expectedPDFList, getAllTestReportFiles(map));
+        cleanupFileHelper(map);
     }
 
     @Test
-    public void getAllTestReportFilesTest3() {
+    public void getAllTestReportFilesTest3() throws IOException {
         Map<String, List<String>> tests = new HashMap<>();
         List<String> methodNames = new ArrayList<>();
         methodNames.add("methodName");
@@ -103,11 +108,13 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
         expectedPDFList.add(new File("dir1/AnotherTestClass.anotherMethodName.pdf"));
         expectedPDFList.add(new File("dir1/TestClass.methodName.pdf"));
         expectedPDFList.add(new File("dir1/TestClass.anotherMethodName.pdf"));
+        createTestFileHelper(map);
         assertEquals(expectedPDFList, getAllTestReportFiles(map));
+        cleanupFileHelper(map);
     }
 
     @Test
-    public void getAllTestReportFilesTest4() {
+    public void getAllTestReportFilesTest4() throws IOException {
         Map<String, List<String>> tests = new HashMap<>();
         List<String> methodNames = new ArrayList<>();
         methodNames.add("methodName");
@@ -130,7 +137,23 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
         expectedPDFList.add(new File("dir1/AnotherTestClass.anotherMethodName.pdf"));
         expectedPDFList.add(new File("dir1/TestClass.methodName.pdf"));
         expectedPDFList.add(new File("dir1/TestClass.anotherMethodName.pdf"));
+        createTestFileHelper(map);
         assertEquals(expectedPDFList, getAllTestReportFiles(map));
+        cleanupFileHelper(map);
+    }
+
+    @Test
+    public void getAllTestReportFilesTestWithoutCreatingIndivPDF() throws IOException {
+        Map<String, List<String>> tests = new HashMap<>();
+        List<String> methodNames = new ArrayList<>();
+        methodNames.add("methodName");
+        tests.put("TestClass", methodNames);
+        List<ITestNGMethod> iTestNGMethods = getiTestNGMethodsTestObject(tests);
+        ISuite iSuite1 = getiSuiteTestObject(iTestNGMethods, "dir1");
+        List<ISuite> iSuiteList = new ArrayList<>();
+        iSuiteList.add(iSuite1);
+        Map<String, List<ITestNGMethod>> map = getTestSuiteMap(iSuiteList);
+        assertEquals(new ArrayList<>(), getAllTestReportFiles(map));
     }
 
     private ISuite getiSuiteTestObject(List<ITestNGMethod> iTestNGMethods, String outputDirectory) {
@@ -182,11 +205,6 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
 
             @Override
             public Map<String, Collection<ITestNGMethod>> getMethodsByGroups() {
-                return null;
-            }
-
-            @Override
-            public Collection<ITestNGMethod> getInvokedMethods() {
                 return null;
             }
 
@@ -366,11 +384,6 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
                             }
 
                             @Override
-                            public int getInstanceCount() {
-                                return 0;
-                            }
-
-                            @Override
                             public long[] getInstanceHashCodes() {
                                 return new long[0];
                             }
@@ -388,18 +401,8 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
                     }
 
                     @Override
-                    public Method getMethod() {
-                        return null;
-                    }
-
-                    @Override
                     public String getMethodName() {
                         return methodName;
-                    }
-
-                    @Override
-                    public Object[] getInstances() {
-                        return new Object[0];
                     }
 
                     @Override
@@ -525,11 +528,6 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
                     @Override
                     public void setInvocationCount(int i) {
 
-                    }
-
-                    @Override
-                    public int getTotalInvocationCount() {
-                        return 0;
                     }
 
                     @Override
@@ -693,6 +691,16 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
                     }
 
                     @Override
+                    public int getInterceptedPriority() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void setInterceptedPriority(int i) {
+
+                    }
+
+                    @Override
                     public XmlTest getXmlTest() {
                         return null;
                     }
@@ -716,5 +724,37 @@ public class CombinedPDFReportTest extends CombinedPDFReport {
             }
         }
         return list;
+    }
+
+    /**
+     * To facilitate testing, create the test file from the test reports map
+     * @param testReportsMap map of test reports
+     */
+    protected void createTestFileHelper(Map<String, List<ITestNGMethod>> testReportsMap) throws IOException {
+        for (Map.Entry<String, List<ITestNGMethod>> testReportsMapEntry : testReportsMap.entrySet()) {
+            String testReportDirectory = testReportsMapEntry.getKey();
+            for (ITestNGMethod iTestNGMethod : testReportsMapEntry.getValue()) {
+                File testReport = new File(testReportDirectory,
+                        iTestNGMethod.getTestClass().getName() + "." + iTestNGMethod.getMethodName() + ".pdf");
+                testReport.getParentFile().mkdirs();
+                testReport.createNewFile();
+            }
+        }
+    }
+
+    /**
+     * To facilitate testing, delete the test files from the test reports map
+     * @param testReportsMap map of test reports
+     */
+    protected void cleanupFileHelper(Map<String, List<ITestNGMethod>> testReportsMap) throws IOException {
+        for (Map.Entry<String, List<ITestNGMethod>> testReportsMapEntry : testReportsMap.entrySet()) {
+            String testReportDirectory = testReportsMapEntry.getKey();
+            for (ITestNGMethod iTestNGMethod : testReportsMapEntry.getValue()) {
+                File testReport = new File(testReportDirectory,
+                        iTestNGMethod.getTestClass().getName() + "." + iTestNGMethod.getMethodName() + ".pdf");
+                testReport.delete();
+            }
+            new File(testReportDirectory).delete();
+        }
     }
 }

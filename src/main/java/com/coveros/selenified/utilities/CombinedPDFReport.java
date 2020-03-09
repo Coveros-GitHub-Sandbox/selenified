@@ -131,12 +131,17 @@ public class CombinedPDFReport implements IReporter {
             for (ITestNGMethod iTestNGMethod : testReportsMapEntry.getValue()) {
                 File testReport = new File(testReportDirectory,
                         iTestNGMethod.getTestClass().getName() + "." + iTestNGMethod.getMethodName() + ".pdf");
-                if (testReport.exists()) {
-                    testReportsList.add(testReport);
-                }
+                addToReport(testReportsList, testReport);
             }
         }
         return testReportsList;
+    }
+
+    private void addToReport(List<File> testReportsList, File testReport) {
+        System.out.println(testReport.getAbsolutePath());
+        if (testReport.exists()) {
+            testReportsList.add(testReport);
+        }
     }
 
     /**

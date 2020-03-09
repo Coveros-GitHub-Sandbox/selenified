@@ -791,6 +791,8 @@ mvn clean verify -Dbrowser=Firefox -DgeneratePDF
 ```
 The PDF reports will be generated alongside the HTML reports
 
+A full report of all the tests as a PDF will be generated as well.
+
 ## Installation
 ### Building the jar
 If you want to compile the jar from the source code, use maven. Maven can be used to run unit tests, run
