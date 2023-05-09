@@ -34,7 +34,7 @@
         <webdrivermanager.version>3.7.1</webdrivermanager.version>
         <phantomjsdriver.version>2.0.0</phantomjsdriver.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <testng.version>7.1.0</testng.version>
+        <testng.version>7.5.1</testng.version>
         <openhtml.version>1.0.1</openhtml.version>
         <sauce.labs.version>1.0.43</sauce.labs.version>
 
